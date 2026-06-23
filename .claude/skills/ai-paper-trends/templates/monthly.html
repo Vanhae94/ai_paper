@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{TITLE}}</title>
+<script>try{var t=localStorage.getItem('aipw-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
+<link rel="stylesheet" href="{{ASSETS}}/style.css">
+</head>
+<body>
+
+<div class="topbar">
+  <a class="brand" href="{{ROOT}}/index.html"><span class="dot"></span>AI Papers Weekly <small>Observatory Log</small></a>
+  <nav class="topnav">
+    <a href="{{ROOT}}/index.html">전체</a>
+    <button id="themeToggle" class="icon-btn" aria-label="다크/라이트 테마 전환" title="테마 전환">◐</button>
+  </nav>
+</div>
+
+<header class="hero wrap">
+  <span class="eyebrow">{{EYEBROW}}</span>
+  <h1 class="hero__title">{{HERO_TITLE}}</h1>
+  <p class="hero__lede">{{LEDE}}</p>
+  <div class="hero__stats">{{STATS}}</div>
+</header>
+
+<main class="wrap">
+
+  {{SYNTHESIS}}
+
+  <section class="section">
+    <h2 class="section-title"><span class="ix">＃</span> 이 달의 주간 리포트</h2>
+    <div class="card-grid">
+      {{WEEK_CARDS}}
+    </div>
+  </section>
+
+  <footer class="foot">
+    <span>생성: {{GENERATED}}</span>
+    <span>출처: HuggingFace Daily Papers (trending) · 개인 학습용</span>
+  </footer>
+
+</main>
+<script src="{{ASSETS}}/app.js"></script>
+</body>
+</html>

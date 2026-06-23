@@ -1,0 +1,312 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-06-22T09:01:41+09:00",
+  "weeks_covered": [
+    "2026-W25",
+    "2026-W26"
+  ],
+  "category_timeseries": {
+    "LLM/Agents": {
+      "2026-W25": 3,
+      "2026-W26": 5
+    },
+    "Data": {
+      "2026-W25": 1,
+      "2026-W26": 1
+    },
+    "Multimodal": {
+      "2026-W25": 1
+    },
+    "Efficiency/Inference": {
+      "2026-W25": 1
+    }
+  },
+  "category_upvote_weighted": {
+    "LLM/Agents": {
+      "2026-W25": 405,
+      "2026-W26": 601
+    },
+    "Data": {
+      "2026-W25": 41,
+      "2026-W26": 34
+    },
+    "Multimodal": {
+      "2026-W25": 16
+    },
+    "Efficiency/Inference": {
+      "2026-W25": 5
+    }
+  },
+  "keyword_freq": {
+    "agentic-workflow": {
+      "count": 6,
+      "weeks": [
+        "2026-W25",
+        "2026-W26"
+      ],
+      "first_seen": "2026-W25"
+    },
+    "multi-agent": {
+      "count": 2,
+      "weeks": [
+        "2026-W25",
+        "2026-W26"
+      ],
+      "first_seen": "2026-W25"
+    },
+    "financial-ai": {
+      "count": 3,
+      "weeks": [
+        "2026-W25",
+        "2026-W26"
+      ],
+      "first_seen": "2026-W25"
+    },
+    "tool-use": {
+      "count": 4,
+      "weeks": [
+        "2026-W25",
+        "2026-W26"
+      ],
+      "first_seen": "2026-W25"
+    },
+    "agent-skills": {
+      "count": 2,
+      "weeks": [
+        "2026-W25",
+        "2026-W26"
+      ],
+      "first_seen": "2026-W25"
+    },
+    "self-refinement": {
+      "count": 2,
+      "weeks": [
+        "2026-W25",
+        "2026-W26"
+      ],
+      "first_seen": "2026-W25"
+    },
+    "text-space-optimizer": {
+      "count": 2,
+      "weeks": [
+        "2026-W25",
+        "2026-W26"
+      ],
+      "first_seen": "2026-W25"
+    },
+    "transfer-learning": {
+      "count": 2,
+      "weeks": [
+        "2026-W25",
+        "2026-W26"
+      ],
+      "first_seen": "2026-W25"
+    },
+    "time-series-foundation-model": {
+      "count": 2,
+      "weeks": [
+        "2026-W25",
+        "2026-W26"
+      ],
+      "first_seen": "2026-W25"
+    },
+    "synthetic-data": {
+      "count": 1,
+      "weeks": [
+        "2026-W25"
+      ],
+      "first_seen": "2026-W25"
+    },
+    "autoregressive-objective": {
+      "count": 2,
+      "weeks": [
+        "2026-W25",
+        "2026-W26"
+      ],
+      "first_seen": "2026-W25"
+    },
+    "ai-agents": {
+      "count": 2,
+      "weeks": [
+        "2026-W25",
+        "2026-W26"
+      ],
+      "first_seen": "2026-W25"
+    },
+    "code-execution": {
+      "count": 3,
+      "weeks": [
+        "2026-W25",
+        "2026-W26"
+      ],
+      "first_seen": "2026-W25"
+    },
+    "document-parsing": {
+      "count": 1,
+      "weeks": [
+        "2026-W25"
+      ],
+      "first_seen": "2026-W25"
+    },
+    "vision-language": {
+      "count": 1,
+      "weeks": [
+        "2026-W25"
+      ],
+      "first_seen": "2026-W25"
+    },
+    "post-training": {
+      "count": 1,
+      "weeks": [
+        "2026-W25"
+      ],
+      "first_seen": "2026-W25"
+    },
+    "reinforcement-learning": {
+      "count": 2,
+      "weeks": [
+        "2026-W25",
+        "2026-W26"
+      ],
+      "first_seen": "2026-W25"
+    },
+    "kv-cache": {
+      "count": 1,
+      "weeks": [
+        "2026-W25"
+      ],
+      "first_seen": "2026-W25"
+    },
+    "cache-offloading": {
+      "count": 1,
+      "weeks": [
+        "2026-W25"
+      ],
+      "first_seen": "2026-W25"
+    },
+    "large-language-models": {
+      "count": 1,
+      "weeks": [
+        "2026-W25"
+      ],
+      "first_seen": "2026-W25"
+    },
+    "prefill-decode-disaggregation": {
+      "count": 1,
+      "weeks": [
+        "2026-W25"
+      ],
+      "first_seen": "2026-W25"
+    },
+    "zero-shot": {
+      "count": 1,
+      "weeks": [
+        "2026-W26"
+      ],
+      "first_seen": "2026-W26"
+    },
+    "forecasting": {
+      "count": 1,
+      "weeks": [
+        "2026-W26"
+      ],
+      "first_seen": "2026-W26"
+    },
+    "agentic-engineering": {
+      "count": 1,
+      "weeks": [
+        "2026-W26"
+      ],
+      "first_seen": "2026-W26"
+    },
+    "vibe-coding": {
+      "count": 1,
+      "weeks": [
+        "2026-W26"
+      ],
+      "first_seen": "2026-W26"
+    },
+    "long-context": {
+      "count": 1,
+      "weeks": [
+        "2026-W26"
+      ],
+      "first_seen": "2026-W26"
+    },
+    "memory-systems": {
+      "count": 1,
+      "weeks": [
+        "2026-W26"
+      ],
+      "first_seen": "2026-W26"
+    },
+    "long-horizon-reasoning": {
+      "count": 1,
+      "weeks": [
+        "2026-W26"
+      ],
+      "first_seen": "2026-W26"
+    },
+    "agentic-retrieval": {
+      "count": 1,
+      "weeks": [
+        "2026-W26"
+      ],
+      "first_seen": "2026-W26"
+    },
+    "personalization": {
+      "count": 1,
+      "weeks": [
+        "2026-W26"
+      ],
+      "first_seen": "2026-W26"
+    }
+  },
+  "paper_week_map": {
+    "2412.20138": "2026-W25",
+    "2605.23904": "2026-W25",
+    "2508.02739": "2026-W25",
+    "2407.16741": "2026-W25",
+    "2606.03264": "2026-W25",
+    "2510.09665": "2026-W25",
+    "2310.10688": "2026-W26",
+    "2602.15763": "2026-W26",
+    "2601.02163": "2026-W26"
+  },
+  "per_week": {
+    "2026-W25": {
+      "month_folder": "2026.06",
+      "date_range_ko": "2026-06-15 ~ 06-21",
+      "paper_count": 6,
+      "total_upvotes": 467,
+      "top_tags": [
+        "agentic-workflow",
+        "financial-ai",
+        "tool-use",
+        "agent-skills",
+        "ai-agents"
+      ],
+      "headline_ko": "LLM 에이전트의 실전 적용(코딩·금융)과 '스킬 자기개선'이 동시에 부상한 한 주",
+      "analyzed": true
+    },
+    "2026-W26": {
+      "month_folder": "2026.06",
+      "date_range_ko": "2026-06-22 ~ 06-28",
+      "paper_count": 6,
+      "total_upvotes": 635,
+      "top_tags": [
+        "agentic-workflow",
+        "code-execution",
+        "tool-use",
+        "agent-skills",
+        "agentic-engineering"
+      ],
+      "headline_ko": "트렌딩 6편 중 5편이 '에이전트' — 코딩·금융·메모리·자기개선으로 확장, 시계열 파운데이션 모델은 2주 연속",
+      "analyzed": true
+    }
+  },
+  "totals": {
+    "papers": 12,
+    "weeks": 2
+  }
+}

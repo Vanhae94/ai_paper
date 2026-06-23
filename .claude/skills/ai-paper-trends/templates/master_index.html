@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Papers Weekly — 트렌드 관측 일지</title>
+<script>try{var t=localStorage.getItem('aipw-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
+<link rel="stylesheet" href="_assets/style.css">
+</head>
+<body>
+
+<div class="topbar">
+  <a class="brand" href="index.html"><span class="dot"></span>AI Papers Weekly <small>Observatory Log</small></a>
+  <nav class="topnav">
+    <button id="themeToggle" class="icon-btn" aria-label="다크/라이트 테마 전환" title="테마 전환">◐</button>
+  </nav>
+</div>
+
+<header class="hero wrap">
+  <span class="eyebrow">개인 학습용 · AI 연구 트렌드 관측</span>
+  <h1 class="hero__title">매주 <em>가장 주목받은</em> AI 논문을<br>읽고, 정리하고, 흐름을 읽다</h1>
+  <p class="hero__lede">HuggingFace 트렌딩 상위 논문을 매주 수집·분석하고, 누적 데이터로 AI 시장의 흐름을 추적하는 개인 연구 일지입니다.</p>
+  <div class="hero__stats">{{STATS}}</div>
+</header>
+
+<main class="wrap">
+
+  {{TOP_KEYWORDS}}
+
+  {{MONTH_SECTIONS}}
+
+  <footer class="foot">
+    <span>생성: {{GENERATED}}</span>
+    <span>출처: HuggingFace Daily Papers (trending) · 개인 학습용</span>
+  </footer>
+
+</main>
+<script src="_assets/app.js"></script>
+</body>
+</html>

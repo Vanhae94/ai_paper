@@ -1,0 +1,251 @@
+{
+  "week_id": "2026-W26",
+  "papers": {
+    "2310.10688": {
+      "classify": {
+        "categories": ["Data"],
+        "primary_category": "Data",
+        "topic_tags": ["time-series-foundation-model", "zero-shot", "autoregressive-objective", "forecasting"],
+        "method_tags": ["pretraining", "architecture"],
+        "modality": ["multi"],
+        "confidence": "medium"
+      },
+      "tier1": {
+        "one_liner": "패치드-디코더 어텐션으로 사전학습해, 추가 학습 없이도 다양한 시계열을 예측하는 파운데이션 모델.",
+        "problem": "NLP의 LLM 발전에 영감받아, 데이터셋마다 따로 학습하지 않고도 즉시(zero-shot) 쓸 수 있는 시계열 예측 파운데이션 모델이 필요했다. 기존엔 데이터셋별 지도학습 모델이 각각 최고 성능을 냈다.",
+        "approach": "대규모 시계열 코퍼스에 patched-decoder 스타일의 어텐션 모델을 사전학습한다. 다양한 관측 길이·예측 길이·시간 granularity에 두루 동작하도록 설계해, 공개 데이터셋에서 제로샷 성능이 데이터셋별 SOTA 지도학습 모델에 근접한다.",
+        "contributions": [
+          "시계열 예측용 디코더 전용(decoder-only) 파운데이션 모델 제안",
+          "여러 공개 데이터셋에서 제로샷 성능이 데이터셋별 SOTA 지도학습에 근접",
+          "관측·예측 길이와 시간 granularity 변화에 두루 일반화",
+          "코드 공개(Google, ★24.8k)"
+        ],
+        "why_now": "지난주 Kronos(금융 K-line)에 이어 '시계열 파운데이션 모델'이 2주 연속 트렌딩에 올랐다. LLM의 사전학습·제로샷 패러다임이 시계열 도메인으로 번지는 흐름을 보여준다.",
+        "difficulty": "중급",
+        "recommended_reader": "시계열 예측·파운데이션 모델에 관심 있는 학습자",
+        "field_tags": ["시계열", "파운데이션모델", "제로샷", "예측"],
+        "interest": { "upvotes": 34, "num_comments": 1, "github_stars": 24829 }
+      },
+      "learning": {
+        "key_terms": [
+          { "term": "Zero-shot", "gloss": "별도 추가 학습 없이 바로 새 데이터에 적용하는 능력" },
+          { "term": "Patched-decoder", "gloss": "시계열을 패치 단위로 묶어 디코더로 처리하는 구조" },
+          { "term": "Temporal Granularity", "gloss": "시·일·주 등 데이터의 시간 해상도" }
+        ],
+        "recall_quiz": {
+          "question": "TimesFM이 데이터셋마다 따로 학습하지 않고도 좋은 예측을 내는 학습 방식은?",
+          "answer": "대규모 시계열 코퍼스에 patched-decoder 어텐션 모델을 사전학습한 뒤 zero-shot으로 적용한다."
+        },
+        "spaced_review": { "flag": false, "review_due": null }
+      }
+    },
+
+    "2602.15763": {
+      "classify": {
+        "categories": ["LLM/Agents", "RL/Alignment"],
+        "primary_category": "LLM/Agents",
+        "topic_tags": ["agentic-engineering", "vibe-coding", "reinforcement-learning", "long-context", "code-execution"],
+        "method_tags": ["pretraining", "rl", "architecture"],
+        "modality": ["text"],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "'바이브 코딩'을 넘어 '에이전틱 엔지니어링'으로 — 비동기 RL과 DSA로 무장한 차세대 공개 파운데이션 모델.",
+        "problem": "코드를 즉흥적으로 짜는 '바이브 코딩'을 넘어 실제 엔드투엔드 소프트웨어 공학을 자율 수행하는 '에이전틱 엔지니어링'으로 가려면, 긴 호흡의 상호작용에서 학습하면서 학습·추론 비용은 낮추는 모델이 필요하다.",
+        "approach": "전작의 ARC(에이전트·추론·코딩) 능력 위에, DSA로 학습·추론 비용을 크게 낮추면서 롱컨텍스트 충실도를 유지한다. 생성과 학습을 분리(decouple)하는 비동기 강화학습 인프라로 사후학습 효율을 끌어올리고, 새로운 비동기 에이전트 RL 알고리즘으로 복잡한 장기(long-horizon) 상호작용에서 더 잘 학습하게 한다.",
+        "contributions": [
+          "DSA로 학습·추론 비용 절감 + 롱컨텍스트 충실도 유지",
+          "생성-학습 분리형 비동기 RL 인프라로 사후학습 효율 대폭 향상",
+          "비동기 에이전트 RL 알고리즘으로 장기 상호작용 학습 강화",
+          "주요 공개 벤치마크 SOTA + 실세계 엔드투엔드 코딩에서 베이스라인 능가, 코드·모델 공개"
+        ],
+        "why_now": "'코딩 에이전트'가 트렌드의 중심인 가운데, 모델 자체를 '에이전틱 엔지니어링'에 맞춰 설계·정렬한 플래그십 공개 모델이다. 비동기 RL로 장기 상호작용 학습을 푸는 접근이 특히 주목된다.",
+        "difficulty": "고급",
+        "recommended_reader": "파운데이션 모델 학습·RL 인프라·코딩 에이전트에 관심 있는 학습자",
+        "field_tags": ["에이전틱엔지니어링", "비동기RL", "코딩에이전트", "롱컨텍스트"],
+        "interest": { "upvotes": 171, "num_comments": 6, "github_stars": 4900 }
+      },
+      "learning": {
+        "key_terms": [
+          { "term": "Asynchronous RL", "gloss": "생성과 학습을 분리해 병렬로 돌리는 강화학습 방식" },
+          { "term": "Long-horizon Interaction", "gloss": "여러 단계에 걸친 긴 호흡의 상호작용" },
+          { "term": "Agentic Engineering", "gloss": "즉흥 코딩을 넘어 자율적으로 엔드투엔드 소프트웨어 공학을 수행하는 단계" }
+        ],
+        "recall_quiz": {
+          "question": "GLM-5가 사후학습(RL) 효율을 크게 높이기 위해 도입한 인프라의 핵심 아이디어는?",
+          "answer": "생성(generation)과 학습(training)을 분리(decouple)하는 비동기 강화학습 인프라."
+        },
+        "spaced_review": { "flag": false, "review_due": null }
+      }
+    },
+
+    "2412.20138": {
+      "classify": {
+        "categories": ["LLM/Agents"],
+        "primary_category": "LLM/Agents",
+        "topic_tags": ["agentic-workflow", "multi-agent", "financial-ai", "tool-use"],
+        "method_tags": ["prompting", "architecture"],
+        "modality": ["text"],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "트레이딩 회사 조직을 본떠 역할을 나눈 LLM 에이전트들이 토론으로 주식 매매를 결정한다.",
+        "problem": "금융 분야의 LLM 활용은 대개 단일 에이전트가 특정 작업을 처리하거나, 여러 에이전트가 따로 데이터만 수집하는 수준에 머물렀다. 실제 트레이딩 회사처럼 전문가들이 협업·토론하며 의사결정하는 구조는 거의 탐구되지 않았다.",
+        "approach": "펀더멘털·감성·기술 분석가, 강세(Bull)·약세(Bear) 리서처, 리스크 관리팀, 트레이더 등 실제 회사의 직무를 LLM 에이전트로 구현한다. 강세·약세 에이전트가 시장 상황을 두고 토론하고, 트레이더가 그 결과와 과거 데이터를 종합해 매매를 결정한다. 협업적이고 동적인 트레이딩 환경을 시뮬레이션하는 것이 핵심이다.",
+        "contributions": [
+          "다중 에이전트 협업·토론 구조를 금융 트레이딩에 적용한 신규 프레임워크 제안",
+          "베이스라인 대비 누적 수익률(cumulative returns) 향상",
+          "샤프 지수(Sharpe ratio)·최대 낙폭(MDD) 등 위험조정 지표 개선",
+          "코드 오픈소스(★87k)로 재현·확장 가능"
+        ],
+        "why_now": "멀티 에이전트 시스템이 2025~2026년 AI의 핵심 축으로 떠오른 가운데, 이를 '역할 분담 + 토론'이라는 실세계 조직 구조에 매핑한 대표 사례다. 지난주에 이어 이번 주에도 트렌딩에 남으며 꾸준한 관심을 보였다.",
+        "difficulty": "중급",
+        "recommended_reader": "LLM 에이전트 오케스트레이션·금융 AI에 관심 있는 학습자",
+        "field_tags": ["멀티에이전트", "금융AI", "에이전트토론", "리스크관리"],
+        "interest": { "upvotes": 101, "num_comments": 4, "github_stars": 87800 }
+      },
+      "learning": {
+        "key_terms": [
+          { "term": "Multi-Agent System", "gloss": "여러 LLM 에이전트가 역할을 나눠 협업하는 구조" },
+          { "term": "Sharpe Ratio", "gloss": "위험 대비 초과수익을 재는 투자 성과 지표" },
+          { "term": "Maximum Drawdown", "gloss": "고점 대비 최대 하락폭, 손실 위험의 척도" }
+        ],
+        "recall_quiz": {
+          "question": "TradingAgents에서 강세(Bull)·약세(Bear) 에이전트는 매매 결정에 어떻게 기여하는가?",
+          "answer": "시장 상황을 두고 서로 토론하며, 트레이더 에이전트가 그 토론 결과와 과거 데이터를 종합해 최종 매매를 결정한다."
+        },
+        "spaced_review": { "flag": false, "review_due": null }
+      }
+    },
+
+    "2605.23904": {
+      "classify": {
+        "categories": ["LLM/Agents"],
+        "primary_category": "LLM/Agents",
+        "topic_tags": ["agent-skills", "self-refinement", "text-space-optimizer", "agentic-workflow", "transfer-learning"],
+        "method_tags": ["inference-time", "data-centric"],
+        "modality": ["text"],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "에이전트의 '스킬 문서'를 딥러닝 옵티마이저처럼 체계적으로 학습시켜 성능을 끌어올린다.",
+        "problem": "오늘날 에이전트 스킬은 수작업, 일회성 생성, 느슨하게 통제된 자기수정으로 만들어져 시작점 대비 일관되게 개선되지 않는다. 가중치 최적화처럼 재현 가능하고, 피드백 하에서 확실히 향상되는 '스킬 학습' 방법이 없었다.",
+        "approach": "프리즈된(고정된) 에이전트의 외부 상태로서 스킬 문서를 학습한다. 별도의 옵티마이저 모델이 점수화된 롤아웃을 보고 단일 스킬 문서에 add/delete/replace 편집을 제안하되, 보류 검증 점수를 '엄격히 향상'시킬 때만 편집을 수용한다. 텍스트 학습률 예산·거부 편집 버퍼·에폭 단위 slow/meta 업데이트로 학습을 안정화하며, 배포 시 추가 추론 호출은 0이다.",
+        "contributions": [
+          "체계적이고 제어 가능한 최초의 텍스트 공간(text-space) 스킬 옵티마이저 제안",
+          "6개 벤치마크·7개 모델·3개 실행 환경(직접 대화·Codex·Claude Code)의 전 52개 셀에서 최고 또는 동률",
+          "GPT-5.5 기준 무스킬 대비 정확도 +23.5(대화)/+24.8(Codex)/+19.1(Claude Code)p 향상",
+          "최적화한 스킬이 모델 규모·실행 환경·인접 수학 벤치마크로 재최적화 없이 전이됨"
+        ],
+        "why_now": "'컨텍스트·스킬을 어떻게 학습시킬 것인가'가 에이전트 시대의 핵심 질문으로 부상했다. 지난주 최다 업보트에 이어 이번 주에도 상위권을 유지하며 꾸준한 관심을 받고 있다.",
+        "difficulty": "고급",
+        "recommended_reader": "에이전트·프롬프트 최적화, 자기개선 시스템 연구자",
+        "field_tags": ["에이전트스킬", "자기개선", "텍스트최적화", "전이학습"],
+        "interest": { "upvotes": 241, "num_comments": 4, "github_stars": 8600 }
+      },
+      "learning": {
+        "key_terms": [
+          { "term": "Rollout", "gloss": "에이전트가 작업을 수행한 실행 기록(궤적). 점수를 매겨 학습 신호로 쓴다" },
+          { "term": "Held-out Validation", "gloss": "학습에 쓰지 않은 검증셋. 편집 수용 여부를 판단하는 기준" },
+          { "term": "Text-space Optimization", "gloss": "가중치가 아닌 텍스트(스킬 문서)를 최적화 대상으로 삼는 기법" }
+        ],
+        "recall_quiz": {
+          "question": "SkillOpt가 제안한 편집(add/delete/replace)을 스킬 문서에 실제로 반영하는 기준은 무엇인가?",
+          "answer": "보류된(held-out) 검증 점수를 엄격히 향상시킬 때만 편집을 수용한다."
+        },
+        "spaced_review": { "flag": true, "review_due": "2026-W29" }
+      }
+    },
+
+    "2601.02163": {
+      "classify": {
+        "categories": ["LLM/Agents", "Reasoning"],
+        "primary_category": "LLM/Agents",
+        "topic_tags": ["memory-systems", "long-horizon-reasoning", "agentic-retrieval", "personalization"],
+        "method_tags": ["architecture", "inference-time"],
+        "modality": ["text"],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "대화 스트림을 '기억 세포(MemCell)'로 구조화해 장기 상호작용을 지탱하는 자기조직 메모리 OS.",
+        "problem": "LLM이 장기 상호작용 에이전트로 쓰이지만, 제한된 컨텍스트 윈도우 탓에 긴 대화에서 일관된 행동을 유지하기 어렵다. 기존 메모리 시스템은 고립된 기록을 저장하고 단편만 검색해, 변화하는 사용자 상태를 통합하거나 충돌을 해소하지 못한다.",
+        "approach": "엔그램(engram)에서 영감받은 기억 생애주기를 구현한다. ①Episodic Trace Formation이 대화 스트림을 일화 흔적·원자적 사실·시간한정 Foresight 신호를 담은 MemCell로 변환하고, ②Semantic Consolidation이 MemCell을 주제별 MemScene으로 묶어 안정적 의미 구조를 추출하며 사용자 프로필을 갱신하고, ③Reconstructive Recollection이 MemScene 기반 에이전트 검색으로 추론에 필요·충분한 맥락을 구성한다.",
+        "contributions": [
+          "엔그램 기반 기억 생애주기를 구현한 자기조직 메모리 OS 제안",
+          "MemCell → MemScene → 재구성적 회상(Reconstructive Recollection)의 3단계 구조",
+          "LoCoMo·LongMemEval에서 메모리 증강 추론 SOTA",
+          "PersonaMem v2 프로필 연구·사례연구로 사용자 프로파일링·Foresight 등 채팅 능력 입증, 코드 공개"
+        ],
+        "why_now": "에이전트가 '오래 기억하고 일관되게 행동'하는 능력은 장기 상호작용의 핵심 과제다. 컨텍스트 윈도우 한계를 구조화된 메모리 시스템으로 푸는 접근으로, '에이전트 메모리'가 새 화두로 떠오르고 있다.",
+        "difficulty": "고급",
+        "recommended_reader": "에이전트 메모리·장기 상호작용·개인화에 관심 있는 학습자",
+        "field_tags": ["에이전트메모리", "장기상호작용", "메모리OS", "개인화"],
+        "interest": { "upvotes": 7, "num_comments": 1, "github_stars": 8200 }
+      },
+      "learning": {
+        "key_terms": [
+          { "term": "Context Window", "gloss": "모델이 한 번에 볼 수 있는 입력 길이의 한계" },
+          { "term": "Engram", "gloss": "기억이 뇌에 저장된 물리적 흔적. 여기선 계산적 기억의 비유" },
+          { "term": "MemCell", "gloss": "대화에서 추출한 일화·사실·예측 신호를 담는 기억 단위" }
+        ],
+        "recall_quiz": {
+          "question": "EverMemOS가 대화 스트림을 처리하는 3단계는 무엇인가?",
+          "answer": "Episodic Trace Formation(MemCell 생성) → Semantic Consolidation(MemScene으로 묶기) → Reconstructive Recollection(맥락 재구성 검색)."
+        },
+        "spaced_review": { "flag": false, "review_due": null }
+      }
+    },
+
+    "2407.16741": {
+      "classify": {
+        "categories": ["LLM/Agents", "Evaluation/Benchmarks"],
+        "primary_category": "LLM/Agents",
+        "topic_tags": ["ai-agents", "tool-use", "code-execution", "agentic-workflow"],
+        "method_tags": ["prompting", "architecture"],
+        "modality": ["text"],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "코드 작성·터미널·웹 브라우징으로 인간 개발자처럼 일하는 AI 에이전트 오픈 플랫폼.",
+        "problem": "LLM 발전으로 환경과 상호작용하는 AI 에이전트가 빠르게 등장했지만, 새 에이전트를 구현하고 안전하게 코드를 실행하며 다중 에이전트를 조율하고 평가까지 아우르는 통합 개발 플랫폼이 부족했다.",
+        "approach": "인간 개발자처럼 코드를 쓰고 커맨드라인을 다루며 웹을 탐색하는 에이전트를 만들 수 있는 플랫폼을 제공한다. 샌드박스 환경에서의 안전한 코드 실행, 다중 에이전트 조율, 평가 벤치마크 통합을 지원한다.",
+        "contributions": [
+          "유연한 AI 개발자 에이전트 구축용 오픈 플랫폼(MIT 라이선스)",
+          "SWE-Bench(소프트웨어 공학)·WebArena(웹) 등 15개 도전 과제로 에이전트 평가",
+          "160명+ 기여자, 1.3K+ 기여의 커뮤니티 프로젝트",
+          "코드 오픈소스(★78k)"
+        ],
+        "why_now": "'AI 소프트웨어 개발자(코딩 에이전트)'는 현재 가장 뜨거운 응용 분야다. 이번 주 GLM-5의 '에이전틱 엔지니어링'과 함께, 코딩 에이전트 생태계가 트렌드의 중심임을 다시 보여준다.",
+        "difficulty": "입문",
+        "recommended_reader": "코딩 에이전트·에이전트 평가에 입문하려는 학습자",
+        "field_tags": ["코딩에이전트", "오픈플랫폼", "SWE-Bench", "에이전트평가"],
+        "interest": { "upvotes": 81, "num_comments": 7, "github_stars": 77900 }
+      },
+      "learning": {
+        "key_terms": [
+          { "term": "SWE-Bench", "gloss": "실제 GitHub 이슈 해결 능력을 재는 소프트웨어 공학 벤치마크" },
+          { "term": "Sandbox", "gloss": "코드를 안전하게 격리 실행하는 환경" },
+          { "term": "Generalist Agent", "gloss": "여러 종류의 작업을 두루 수행하는 범용 에이전트" }
+        ],
+        "recall_quiz": {
+          "question": "OpenDevin의 에이전트가 인간 개발자처럼 세상과 상호작용하는 세 가지 방식은?",
+          "answer": "코드 작성, 커맨드라인(터미널) 사용, 웹 브라우징."
+        },
+        "spaced_review": { "flag": false, "review_due": null }
+      }
+    }
+  },
+
+  "week_summary": {
+    "headline_ko": "트렌딩 6편 중 5편이 '에이전트' — 코딩·금융·메모리·자기개선으로 확장, 시계열 파운데이션 모델은 2주 연속",
+    "clusters": [
+      { "category": "LLM/Agents", "paper_ranks": [2, 3, 4, 5, 6], "theme_ko": "에이전트의 전방위 확장 — 에이전틱 엔지니어링(GLM-5)·금융(TradingAgents)·스킬 자기개선(SkillOpt)·장기 메모리(EverMemOS)·코딩 플랫폼(OpenDevin)" },
+      { "category": "Data", "paper_ranks": [1], "theme_ko": "시계열 파운데이션 모델(TimesFM) — 지난주 Kronos에 이어 2주 연속" }
+    ],
+    "emerging_keywords": [],
+    "narrative_ko": "이번 주 트렌딩 6편 중 5편(랭크 2~6)이 LLM '에이전트' 관련으로, 지난주(3편)보다 비중이 더 커졌다. 차세대 공개 모델 GLM-5는 '에이전틱 엔지니어링', EverMemOS는 '에이전트 메모리', SkillOpt는 '스킬 자기개선'으로 에이전트의 폭이 코딩·금융·메모리·자기개선까지 넓어졌다. 나머지 1편(TimesFM)은 시계열 파운데이션 모델로, 지난주 Kronos와 같은 흐름이다.",
+    "recent_trend_ko": "지난주(W25) 대비 단순 비교: TradingAgents·SkillOpt·OpenDevin 3편이 이번 주에도 트렌딩에 남아 연속 등장했고, '시계열 파운데이션 모델'은 지난주 Kronos에 이어 이번 주 TimesFM으로 2주 연속 나타났다. 새로 진입: GLM-5(에이전틱 엔지니어링), EverMemOS(에이전트 메모리). 다만 아직 누적 2주라 본격적인 '부상/지속' 추세 판정은 다음 주(3주차)부터 신뢰도 있게 가능하다.",
+    "caveats_ko": "주 6편 트렌딩 표본 기준이며 HuggingFace 커뮤니티의 인기·최신 편향이 있습니다. 업보트·스타는 중요도가 아닌 '관심도' 지표로만 해석하세요. 일부 논문은 과거 발표작이 이번 주 다시 트렌딩에 올랐을 수 있습니다(예: TradingAgents·OpenDevin·TimesFM).",
+    "review_reminders": []
+  }
+}

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026-W26 주간 AI 논문 리포트</title>
+<script>try{var t=localStorage.getItem('aipw-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
+<link rel="stylesheet" href="../_assets/style.css">
+</head>
+<body>
+
+<div class="topbar">
+  <a class="brand" href="../index.html"><span class="dot"></span>AI Papers Weekly <small>Observatory Log</small></a>
+  <nav class="topnav">
+    <a href="index.html">2026.06</a>
+    <a href="../index.html">전체</a>
+    <button id="themeToggle" class="icon-btn" aria-label="다크/라이트 테마 전환" title="테마 전환">◐</button>
+  </nav>
+</div>
+
+<header class="hero wrap">
+  <span class="eyebrow">2026-W26 · 2026-06-22 ~ 06-28</span>
+  <h1 class="hero__title">이번 주 가장 주목받은 <em>AI 논문 6편</em></h1>
+  <p class="hero__lede">이번 주 한 줄 트렌드: <b>트렌딩 6편 중 5편이 &#x27;에이전트&#x27; — 코딩·금융·메모리·자기개선으로 확장, 시계열 파운데이션 모델은 2주 연속</b></p>
+  <div class="hero__stats"><div class="stat"><span class="stat__num">6</span><span class="stat__label">논문</span></div><div class="stat"><span class="stat__num">635</span><span class="stat__label">총 업보트</span></div><div class="stat"><span class="stat__num">22</span><span class="stat__label">키워드</span></div></div>
+</header>
+
+<main class="wrap">
+
+  <section class="section">
+    <h2 class="section-title"><span class="ix">01</span> 트렌딩 논문 TOP 6</h2>
+    <div class="paper-grid">
+      <article class="paper-card" style="--i:1" data-tags="시계열 파운데이션모델 제로샷 예측 time-series-foundation-model zero-shot autoregressive-objective forecasting">
+  <span class="rank">1</span>
+  <span class="pc-cat">데이터</span>
+  <h3 class="paper-card__title"><a href="https://huggingface.co/papers/2310.10688" target="_blank" rel="noopener">A decoder-only foundation model for time-series forecasting</a><span class="deep-badge">🔬 심층</span></h3>
+  <p class="pc-authors">Abhimanyu Das, Weihao Kong, Rajat Sen 외 1명</p>
+
+  <div class="badges"><span class="badge badge--up">▲ 34</span><span class="badge badge--cm">💬 1</span><span class="badge badge--star">★ 24.8k</span></div>
+  <div class="chip-row"><span class="chip">time-series-foundation-model</span><span class="chip">zero-shot</span><span class="chip">autoregressive-objective</span><span class="chip">forecasting</span></div>
+
+  <p class="pc-oneliner">패치드-디코더 어텐션으로 사전학습해, 추가 학습 없이도 다양한 시계열을 예측하는 파운데이션 모델.</p>
+  <div class="pc-body"><p>NLP의 LLM 발전에 영감받아, 데이터셋마다 따로 학습하지 않고도 즉시(zero-shot) 쓸 수 있는 시계열 예측 파운데이션 모델이 필요했다. 기존엔 데이터셋별 지도학습 모델이 각각 최고 성능을 냈다.</p><p>대규모 시계열 코퍼스에 patched-decoder 스타일의 어텐션 모델을 사전학습한다. 다양한 관측 길이·예측 길이·시간 granularity에 두루 동작하도록 설계해, 공개 데이터셋에서 제로샷 성능이 데이터셋별 SOTA 지도학습 모델에 근접한다.</p></div>
+  <ul class="pc-contrib"><li>시계열 예측용 디코더 전용(decoder-only) 파운데이션 모델 제안</li><li>여러 공개 데이터셋에서 제로샷 성능이 데이터셋별 SOTA 지도학습에 근접</li><li>관측·예측 길이와 시간 granularity 변화에 두루 일반화</li><li>코드 공개(Google, ★24.8k)</li></ul>
+
+  <div class="pc-meta-row"><span class="pc-diff">중급</span> · <span>시계열 예측·파운데이션 모델에 관심 있는 학습자</span> · <span>📅 2023-10-14</span> · <span>arXiv:2310.10688</span></div>
+
+  <div class="terms"><span class="term"><b>Zero-shot</b> 별도 추가 학습 없이 바로 새 데이터에 적용하는 능력</span><span class="term"><b>Patched-decoder</b> 시계열을 패치 단위로 묶어 디코더로 처리하는 구조</span><span class="term"><b>Temporal Granularity</b> 시·일·주 등 데이터의 시간 해상도</span></div>
+
+  <div class="link-group"><a class="btn btn--primary" href="https://huggingface.co/papers/2310.10688" target="_blank" rel="noopener">HF 토론·요약</a><a class="btn" href="https://arxiv.org/abs/2310.10688" target="_blank" rel="noopener">arXiv 초록</a><a class="btn" href="https://arxiv.org/pdf/2310.10688" target="_blank" rel="noopener">PDF 원문</a><a class="btn btn--code" href="https://github.com/google-research/timesfm" target="_blank" rel="noopener">코드(GitHub)</a></div>
+
+  <div class="quiz"><p class="quiz__q"><b>RECALL ↺</b> TimesFM이 데이터셋마다 따로 학습하지 않고도 좋은 예측을 내는 학습 방식은?</p><details><summary>정답 보기</summary><p class="quiz__a">대규모 시계열 코퍼스에 patched-decoder 어텐션 모델을 사전학습한 뒤 zero-shot으로 적용한다.</p></details></div>
+  <details class="deep"><summary><span class="caret">▸</span> 🔬 심층 분석 보기</summary><div class="deep__body"><h4>방법 상세</h4><p>디코더 전용(decoder-only) 트랜스포머에 &#x27;패치드-디코더&#x27; 어텐션을 쓴다. 입력 시계열을 겹치지 않는 패치(입력 패치 32 timepoints)로 잘라 각 패치를 residual block으로 토큰화한 뒤 causal self-attention으로 처리한다. 핵심 설계는 출력 패치(128 timepoints)를 입력 패치보다 길게 둔 점 — 예: 256 구간 예측에 자기회귀 단계가 8회가 아닌 2회로 줄어 추론이 효율적이다. 모델 차원 1280, 20개 레이어·16 헤드, 약 200M 파라미터(17M·70M 어블레이션 포함).</p><h4>실험 셋업</h4><ul><li>제로샷 평가 3대 벤치마크군: Monash(18개 데이터셋), Darts(8개 단변량), ETT(4개, horizon 96/192)</li><li>비교군: DeepAR·PatchTST·FEDformer/Autoformer/Informer·ARIMA·llmtime(GPT-3 기반)</li><li>학습: 모든 패치에 대한 MSE 손실 + 가변 컨텍스트 노출용 랜덤 마스킹(매 스텝 0~p-1 만큼 앞부분 마스킹 → 1~최대 길이 모두 학습)</li></ul><h4>데이터셋</h4><ul><li>사전학습 코퍼스(실데이터+합성 약 50:50) — 약 1000억 timepoints (Google Trends(~22k 쿼리, 2007~2022) · Wikipedia 페이지뷰(2012~2023) · M4(~10만 시계열) · Traffic/Electricity · 합성 300만 시계열×2048)</li></ul><h4>한계 · 비판</h4><ul><li>원문에 명시적 &#x27;한계&#x27; 절은 두드러지지 않음 <small>(저자 인정)</small></li><li>점(point) 예측 위주 — 확률적(probabilistic) 예측은 &#x27;쉽다&#x27;고만 언급, 미검증 <small>(추가 의문)</small></li><li>OOD 제로샷이 왜 잘 되는지에 대한 이론적 근거는 부족 <small>(추가 의문)</small></li><li>평가가 3개 벤치마크군에 한정, 실패 모드·취약 도메인 분석 없음 <small>(추가 의문)</small></li></ul><h4>재현 가능성</h4><div class="repro"><span>코드 <b>공개</b></span><span>가중치 <b>공개</b></span><span>데이터 <b>부분</b></span><span>라이선스 <b>Apache-2.0(레포 기준)</b></span></div><p>원논문(2023)엔 공개 언급이 없었으나, 이후 google-research/timesfm로 코드·가중치 공개(★24.8k)</p><h4>📌 내 학습 포인트</h4><ul><li>출력 패치를 입력보다 길게 둬 자기회귀 단계 수를 줄이는 효율 트릭 — 다른 생성 과제에도 응용 가능</li><li>랜덤 마스킹으로 1~최대까지 모든 컨텍스트 길이를 학습 → 가변 입력 강건성 확보</li><li>200M로 GPT-3(llmtime) 대비 ~1/1000 규모에서 더 나은 제로샷 — &#x27;도메인 특화 사전학습 &gt; 범용 거대모델&#x27;의 사례</li></ul><h4>연결 연구</h4><ul><li>← llmtime (GPT-3로 시계열 예측): LLM을 직접 예측에 쓴 선행 — TimesFM이 능가</li><li>← PatchTST: 패치 기반 시계열 트랜스포머(지도학습 강baseline)</li><li>→ Kronos (지난주 W25): 같은 흐름의 금융 특화 시계열 파운데이션 모델</li></ul><h4>Claude 종합 코멘트</h4><p>출력&gt;입력 패치, 랜덤 마스킹, 100B 규모 실+합성 코퍼스라는 단순하지만 효과적인 설계로 &#x27;시계열의 GPT&#x27;를 만든 기념비적 연구다. 지난주 Kronos와 함께 보면 시계열 파운데이션 모델이 도메인(범용→금융)을 넓혀가는 흐름이 뚜렷하다. 다만 점 예측 한정·이론적 근거 부족은 남는 숙제.</p></div></details>
+</article>
+
+<article class="paper-card" style="--i:2" data-tags="에이전틱엔지니어링 비동기rl 코딩에이전트 롱컨텍스트 agentic-engineering vibe-coding reinforcement-learning long-context code-execution">
+  <span class="rank">2</span>
+  <span class="pc-cat">LLM·에이전트</span>
+  <h3 class="paper-card__title"><a href="https://huggingface.co/papers/2602.15763" target="_blank" rel="noopener">GLM-5: from Vibe Coding to Agentic Engineering</a><span class="deep-badge">🔬 심층</span></h3>
+  <p class="pc-authors">GLM-5 Team, Aohan Zeng, Xin Lv 외 183명</p>
+
+  <div class="badges"><span class="badge badge--up">▲ 171</span><span class="badge badge--cm">💬 6</span><span class="badge badge--star">★ 4.9k</span></div>
+  <div class="chip-row"><span class="chip">agentic-engineering</span><span class="chip">vibe-coding</span><span class="chip">reinforcement-learning</span><span class="chip">long-context</span><span class="chip">code-execution</span></div>
+
+  <p class="pc-oneliner">&#x27;바이브 코딩&#x27;을 넘어 &#x27;에이전틱 엔지니어링&#x27;으로 — 비동기 RL과 DSA로 무장한 차세대 공개 파운데이션 모델.</p>
+  <div class="pc-body"><p>코드를 즉흥적으로 짜는 &#x27;바이브 코딩&#x27;을 넘어 실제 엔드투엔드 소프트웨어 공학을 자율 수행하는 &#x27;에이전틱 엔지니어링&#x27;으로 가려면, 긴 호흡의 상호작용에서 학습하면서 학습·추론 비용은 낮추는 모델이 필요하다.</p><p>전작의 ARC(에이전트·추론·코딩) 능력 위에, DSA로 학습·추론 비용을 크게 낮추면서 롱컨텍스트 충실도를 유지한다. 생성과 학습을 분리(decouple)하는 비동기 강화학습 인프라로 사후학습 효율을 끌어올리고, 새로운 비동기 에이전트 RL 알고리즘으로 복잡한 장기(long-horizon) 상호작용에서 더 잘 학습하게 한다.</p></div>
+  <ul class="pc-contrib"><li>DSA로 학습·추론 비용 절감 + 롱컨텍스트 충실도 유지</li><li>생성-학습 분리형 비동기 RL 인프라로 사후학습 효율 대폭 향상</li><li>비동기 에이전트 RL 알고리즘으로 장기 상호작용 학습 강화</li><li>주요 공개 벤치마크 SOTA + 실세계 엔드투엔드 코딩에서 베이스라인 능가, 코드·모델 공개</li></ul>
+
+  <div class="pc-meta-row"><span class="pc-diff">고급</span> · <span>파운데이션 모델 학습·RL 인프라·코딩 에이전트에 관심 있는 학습자</span> · <span>📅 2026-02-17</span> · <span>arXiv:2602.15763</span></div>
+
+  <div class="terms"><span class="term"><b>Asynchronous RL</b> 생성과 학습을 분리해 병렬로 돌리는 강화학습 방식</span><span class="term"><b>Long-horizon Interaction</b> 여러 단계에 걸친 긴 호흡의 상호작용</span><span class="term"><b>Agentic Engineering</b> 즉흥 코딩을 넘어 자율적으로 엔드투엔드 소프트웨어 공학을 수행하는 단계</span></div>
+
+  <div class="link-group"><a class="btn btn--primary" href="https://huggingface.co/papers/2602.15763" target="_blank" rel="noopener">HF 토론·요약</a><a class="btn" href="https://arxiv.org/abs/2602.15763" target="_blank" rel="noopener">arXiv 초록</a><a class="btn" href="https://arxiv.org/pdf/2602.15763" target="_blank" rel="noopener">PDF 원문</a><a class="btn btn--code" href="https://github.com/zai-org/GLM-5" target="_blank" rel="noopener">코드(GitHub)</a></div>
+
+  <div class="quiz"><p class="quiz__q"><b>RECALL ↺</b> GLM-5가 사후학습(RL) 효율을 크게 높이기 위해 도입한 인프라의 핵심 아이디어는?</p><details><summary>정답 보기</summary><p class="quiz__a">생성(generation)과 학습(training)을 분리(decouple)하는 비동기 강화학습 인프라.</p></details></div>
+  <details class="deep"><summary><span class="caret">▸</span> 🔬 심층 분석 보기</summary><div class="deep__body"><h4>방법 상세</h4><p>초록 기준 핵심은 셋이다. ① 전작의 ARC(에이전트·추론·코딩) 능력을 계승하고 DSA로 학습·추론 비용을 크게 낮추면서 롱컨텍스트 충실도를 유지한다. ② 생성(generation)과 학습(training)을 분리(decouple)하는 비동기 강화학습 인프라로 사후학습 처리량·효율을 끌어올린다. ③ 복잡한 장기(long-horizon) 상호작용에서 더 잘 학습하도록 새로운 비동기 에이전트 RL 알고리즘을 제안한다. (DSA의 정확한 정의, 모델 규모·MoE 여부, 컨텍스트 길이는 본문 PDF 추출 실패로 미확보 — github 레포/본문 확인 필요.)</p><h4>실험 셋업</h4><ul><li>주요 공개 벤치마크에서 SOTA 주장 (구체 벤치마크명·수치는 본문 미확보)</li><li>실세계 엔드투엔드 소프트웨어 공학 과제에서 기존 베이스라인 능가 주장</li></ul><h4>한계 · 비판</h4><ul><li>초록에 명시적 한계 서술은 없음 <small>(저자 인정)</small></li><li>DSA 정의·모델 규모·정확한 벤치마크 수치가 초록만으로는 불명 — 본문/레포 확인 필요 <small>(추가 의문)</small></li><li>&#x27;SOTA·unprecedented&#x27; 등 강한 표현은 독립 검증 전까지 신중히 해석 <small>(추가 의문)</small></li><li>비동기 RL은 인프라 의존도가 커 재현 난이도가 있을 수 있음 <small>(추가 의문)</small></li></ul><h4>재현 가능성</h4><div class="repro"><span>코드 <b>공개</b></span><span>가중치 <b>공개</b></span><span>데이터 <b>불명</b></span><span>라이선스 <b>확인 필요</b></span></div><p>github.com/zai-org/GLM-5에 코드·모델 공개 명시(초록 기준). ★4.9k</p><h4>📌 내 학습 포인트</h4><ul><li>&#x27;생성-학습 분리&#x27; 비동기 RL은 사후학습 처리량을 높이는 실전 인프라 패턴 — 에이전트 RL의 병목이 &#x27;생성&#x27;임을 시사</li><li>&#x27;바이브 코딩 → 에이전틱 엔지니어링&#x27; 프레이밍: 모델을 코딩 &#x27;도우미&#x27;가 아니라 자율 &#x27;엔지니어&#x27;로 설계하는 방향</li><li>공개 가중치 플래그십이라 직접 돌려보며 검증 가능 — 관심 시 레포부터 확인</li></ul><h4>연결 연구</h4><ul><li>← GLM-4(전작): ARC(에이전트·추론·코딩) 능력의 기반</li><li>→ OpenDevin / SkillOpt: 코딩 에이전트 실행 환경·스킬 최적화와 상호보완</li></ul><h4>Claude 종합 코멘트</h4><p>초록 수준에서는 &#x27;비동기 RL로 장기 상호작용 학습&#x27;과 &#x27;DSA 비용 절감&#x27;이 핵심 셀링 포인트다. 코딩 에이전트 경쟁이 응용을 넘어 &#x27;모델 설계&#x27; 단계까지 내려왔음을 보여주는 플래그십이지만, DSA 정의·정량 결과는 본문 확인이 필요하다. 가중치가 공개돼 검증·활용이 쉬운 점이 실용적 장점. ⚠️ 본 심층은 초록 기반이며 일부 항목은 원문 미확보.</p></div></details>
+</article>
+
+<article class="paper-card" style="--i:3" data-tags="멀티에이전트 금융ai 에이전트토론 리스크관리 agentic-workflow multi-agent financial-ai tool-use">
+  <span class="rank">3</span>
+  <span class="pc-cat">LLM·에이전트</span>
+  <h3 class="paper-card__title"><a href="https://huggingface.co/papers/2412.20138" target="_blank" rel="noopener">TradingAgents: Multi-Agents LLM Financial Trading Framework</a></h3>
+  <p class="pc-authors">Yijia Xiao, Edward Sun, Di Luo 외 1명</p>
+
+  <div class="badges"><span class="badge badge--up">▲ 101</span><span class="badge badge--cm">💬 4</span><span class="badge badge--star">★ 87.8k</span></div>
+  <div class="chip-row"><span class="chip">agentic-workflow</span><span class="chip">multi-agent</span><span class="chip">financial-ai</span><span class="chip">tool-use</span></div>
+
+  <p class="pc-oneliner">트레이딩 회사 조직을 본떠 역할을 나눈 LLM 에이전트들이 토론으로 주식 매매를 결정한다.</p>
+  <div class="pc-body"><p>금융 분야의 LLM 활용은 대개 단일 에이전트가 특정 작업을 처리하거나, 여러 에이전트가 따로 데이터만 수집하는 수준에 머물렀다. 실제 트레이딩 회사처럼 전문가들이 협업·토론하며 의사결정하는 구조는 거의 탐구되지 않았다.</p><p>펀더멘털·감성·기술 분석가, 강세(Bull)·약세(Bear) 리서처, 리스크 관리팀, 트레이더 등 실제 회사의 직무를 LLM 에이전트로 구현한다. 강세·약세 에이전트가 시장 상황을 두고 토론하고, 트레이더가 그 결과와 과거 데이터를 종합해 매매를 결정한다. 협업적이고 동적인 트레이딩 환경을 시뮬레이션하는 것이 핵심이다.</p></div>
+  <ul class="pc-contrib"><li>다중 에이전트 협업·토론 구조를 금융 트레이딩에 적용한 신규 프레임워크 제안</li><li>베이스라인 대비 누적 수익률(cumulative returns) 향상</li><li>샤프 지수(Sharpe ratio)·최대 낙폭(MDD) 등 위험조정 지표 개선</li><li>코드 오픈소스(★87k)로 재현·확장 가능</li></ul>
+
+  <div class="pc-meta-row"><span class="pc-diff">중급</span> · <span>LLM 에이전트 오케스트레이션·금융 AI에 관심 있는 학습자</span> · <span>📅 2024-12-28</span> · <span>arXiv:2412.20138</span></div>
+
+  <div class="terms"><span class="term"><b>Multi-Agent System</b> 여러 LLM 에이전트가 역할을 나눠 협업하는 구조</span><span class="term"><b>Sharpe Ratio</b> 위험 대비 초과수익을 재는 투자 성과 지표</span><span class="term"><b>Maximum Drawdown</b> 고점 대비 최대 하락폭, 손실 위험의 척도</span></div>
+
+  <div class="link-group"><a class="btn btn--primary" href="https://huggingface.co/papers/2412.20138" target="_blank" rel="noopener">HF 토론·요약</a><a class="btn" href="https://arxiv.org/abs/2412.20138" target="_blank" rel="noopener">arXiv 초록</a><a class="btn" href="https://arxiv.org/pdf/2412.20138" target="_blank" rel="noopener">PDF 원문</a><a class="btn btn--code" href="https://github.com/tauricresearch/tradingagents" target="_blank" rel="noopener">코드(GitHub)</a></div>
+
+  <div class="quiz"><p class="quiz__q"><b>RECALL ↺</b> TradingAgents에서 강세(Bull)·약세(Bear) 에이전트는 매매 결정에 어떻게 기여하는가?</p><details><summary>정답 보기</summary><p class="quiz__a">시장 상황을 두고 서로 토론하며, 트레이더 에이전트가 그 토론 결과와 과거 데이터를 종합해 최종 매매를 결정한다.</p></details></div>
+  
+</article>
+
+<article class="paper-card" style="--i:4" data-tags="에이전트스킬 자기개선 텍스트최적화 전이학습 agent-skills self-refinement text-space-optimizer agentic-workflow transfer-learning">
+  <span class="rank">4</span>
+  <span class="pc-cat">LLM·에이전트</span>
+  <h3 class="paper-card__title"><a href="https://huggingface.co/papers/2605.23904" target="_blank" rel="noopener">SkillOpt: Executive Strategy for Self-Evolving Agent Skills</a><span class="deep-badge">🔬 심층</span></h3>
+  <p class="pc-authors">Yifan Yang, Ziyang Gong, Weiquan Huang 외 12명</p>
+
+  <div class="badges"><span class="badge badge--up">▲ 241</span><span class="badge badge--cm">💬 4</span><span class="badge badge--star">★ 8.6k</span></div>
+  <div class="chip-row"><span class="chip">agent-skills</span><span class="chip">self-refinement</span><span class="chip">text-space-optimizer</span><span class="chip">agentic-workflow</span><span class="chip">transfer-learning</span></div>
+
+  <p class="pc-oneliner">에이전트의 &#x27;스킬 문서&#x27;를 딥러닝 옵티마이저처럼 체계적으로 학습시켜 성능을 끌어올린다.</p>
+  <div class="pc-body"><p>오늘날 에이전트 스킬은 수작업, 일회성 생성, 느슨하게 통제된 자기수정으로 만들어져 시작점 대비 일관되게 개선되지 않는다. 가중치 최적화처럼 재현 가능하고, 피드백 하에서 확실히 향상되는 &#x27;스킬 학습&#x27; 방법이 없었다.</p><p>프리즈된(고정된) 에이전트의 외부 상태로서 스킬 문서를 학습한다. 별도의 옵티마이저 모델이 점수화된 롤아웃을 보고 단일 스킬 문서에 add/delete/replace 편집을 제안하되, 보류 검증 점수를 &#x27;엄격히 향상&#x27;시킬 때만 편집을 수용한다. 텍스트 학습률 예산·거부 편집 버퍼·에폭 단위 slow/meta 업데이트로 학습을 안정화하며, 배포 시 추가 추론 호출은 0이다.</p></div>
+  <ul class="pc-contrib"><li>체계적이고 제어 가능한 최초의 텍스트 공간(text-space) 스킬 옵티마이저 제안</li><li>6개 벤치마크·7개 모델·3개 실행 환경(직접 대화·Codex·Claude Code)의 전 52개 셀에서 최고 또는 동률</li><li>GPT-5.5 기준 무스킬 대비 정확도 +23.5(대화)/+24.8(Codex)/+19.1(Claude Code)p 향상</li><li>최적화한 스킬이 모델 규모·실행 환경·인접 수학 벤치마크로 재최적화 없이 전이됨</li></ul>
+
+  <div class="pc-meta-row"><span class="pc-diff">고급</span> · <span>에이전트·프롬프트 최적화, 자기개선 시스템 연구자</span> · <span>📅 2026-05-21</span> · <span>arXiv:2605.23904</span></div>
+
+  <div class="terms"><span class="term"><b>Rollout</b> 에이전트가 작업을 수행한 실행 기록(궤적). 점수를 매겨 학습 신호로 쓴다</span><span class="term"><b>Held-out Validation</b> 학습에 쓰지 않은 검증셋. 편집 수용 여부를 판단하는 기준</span><span class="term"><b>Text-space Optimization</b> 가중치가 아닌 텍스트(스킬 문서)를 최적화 대상으로 삼는 기법</span></div>
+
+  <div class="link-group"><a class="btn btn--primary" href="https://huggingface.co/papers/2605.23904" target="_blank" rel="noopener">HF 토론·요약</a><a class="btn" href="https://arxiv.org/abs/2605.23904" target="_blank" rel="noopener">arXiv 초록</a><a class="btn" href="https://arxiv.org/pdf/2605.23904" target="_blank" rel="noopener">PDF 원문</a><a class="btn btn--code" href="https://github.com/microsoft/SkillOpt" target="_blank" rel="noopener">코드(GitHub)</a><a class="btn" href="https://microsoft.github.io/SkillOpt/" target="_blank" rel="noopener">프로젝트 페이지</a></div>
+
+  <div class="quiz"><p class="quiz__q"><b>RECALL ↺</b> SkillOpt가 제안한 편집(add/delete/replace)을 스킬 문서에 실제로 반영하는 기준은 무엇인가?</p><details><summary>정답 보기</summary><p class="quiz__a">보류된(held-out) 검증 점수를 엄격히 향상시킬 때만 편집을 수용한다.</p></details></div>
+  <details class="deep"><summary><span class="caret">▸</span> 🔬 심층 분석 보기</summary><div class="deep__body"><h4>방법 상세</h4><p>옵티마이저 모델이 점수화된 롤아웃을 입력받아 단일 스킬 문서에 경계가 있는(bounded) add/delete/replace 편집을 생성한다. 각 편집은 보류(held-out) 검증 점수를 &#x27;엄격히 향상&#x27;시킬 때만 채택되어, 확률적·휴리스틱이 아닌 결정론적 수용 기준을 갖는다. 텍스트 학습률 예산이 단계별 편집 범위를 제한하고, 거부된 편집은 버퍼에 저장해 중복 탐색을 막으며, 에폭 단위 slow/meta 업데이트로 점진적·안정적으로 수렴한다. 최적화는 오프라인에서 일어나 배포 시 추가 모델 호출이 없다.</p><h4>실험 셋업</h4><ul><li>벤치마크 6종, 타깃 모델 7종(GPT-5.5 포함)</li><li>실행 환경 3종: 직접 대화 / Codex 에이전트 루프 / Claude Code</li><li>비교군: 인간 작성, 일회성 LLM 생성, Trace2Skill, TextGrad, GEPA, EvoSkill</li></ul><h4>데이터셋</h4><ul><li>6개 에이전트 벤치마크 + 인접 수학 벤치마크(전이 평가) — 52개 (모델,벤치,환경) 조합 (에이전트 태스크)</li></ul><h4>한계 · 비판</h4><ul><li>초록 수준에서는 명시적 한계 서술이 제시되지 않음 <small>(저자 인정)</small></li><li>옵티마이저 모델 자체의 품질·비용에 성능이 의존할 수 있음 <small>(추가 의문)</small></li><li>도메인마다 검증셋과 점수 함수를 설계해야 해 적용 부담이 있음 <small>(추가 의문)</small></li><li>공개 벤치마크 6종의 구체 명칭이 초록에 없어 일반화 범위는 본문 확인 필요 <small>(추가 의문)</small></li></ul><h4>재현 가능성</h4><div class="repro"><span>코드 <b>공개</b></span><span>가중치 <b>해당없음(고정 에이전트 + 텍스트 스킬)</b></span><span>데이터 <b>부분</b></span><span>라이선스 <b>확인 필요</b></span></div><p>Microsoft 공개 레포(aka.ms/skillopt) + 프로젝트 페이지 제공, ★8.6k</p><h4>📌 내 학습 포인트</h4><ul><li>&#x27;스킬 = 학습 대상&#x27;이라는 관점 — 이 논문정리 스킬도 검증 점수를 정의하면 체계적으로 개선 가능</li><li>결정론적 수용(검증 향상 시에만 채택)은 LLM 자기수정의 발산을 막는 실용적 장치</li><li>최적화를 오프라인으로 분리해 배포 추론 비용을 0으로 만드는 설계가 핵심</li></ul><h4>연결 연구</h4><ul><li>← TextGrad / GEPA: 텍스트 기반 최적화의 선행 기법(비교 베이스라인)</li><li>→ Trace2Skill / EvoSkill: 궤적에서 스킬을 추출·진화시키는 경쟁 접근</li></ul><h4>Claude 종합 코멘트</h4><p>가중치 최적화의 규율(재현성·검증 기반 수용·학습률)을 텍스트 스킬에 이식했다는 점이 신선하다. 모델을 바꾸지 않고 에이전트 성능을 끌어올리는 실용적 경로를 제시하며, 스킬·컨텍스트 엔지니어링이 &#x27;학습 문제&#x27;로 수렴하는 흐름을 잘 보여준다. 2주 연속 최상위권 — 커뮤니티 관심이 꾸준하다.</p></div></details>
+</article>
+
+<article class="paper-card" style="--i:5" data-tags="에이전트메모리 장기상호작용 메모리os 개인화 memory-systems long-horizon-reasoning agentic-retrieval personalization">
+  <span class="rank">5</span>
+  <span class="pc-cat">LLM·에이전트</span>
+  <h3 class="paper-card__title"><a href="https://huggingface.co/papers/2601.02163" target="_blank" rel="noopener">EverMemOS: A Self-Organizing Memory Operating System for Structured Long-Horizon Reasoning</a></h3>
+  <p class="pc-authors">Chuanrui Hu, Xingze Gao, Zuyi Zhou 외 8명</p>
+
+  <div class="badges"><span class="badge badge--up">▲ 7</span><span class="badge badge--cm">💬 1</span><span class="badge badge--star">★ 8.2k</span></div>
+  <div class="chip-row"><span class="chip">memory-systems</span><span class="chip">long-horizon-reasoning</span><span class="chip">agentic-retrieval</span><span class="chip">personalization</span></div>
+
+  <p class="pc-oneliner">대화 스트림을 &#x27;기억 세포(MemCell)&#x27;로 구조화해 장기 상호작용을 지탱하는 자기조직 메모리 OS.</p>
+  <div class="pc-body"><p>LLM이 장기 상호작용 에이전트로 쓰이지만, 제한된 컨텍스트 윈도우 탓에 긴 대화에서 일관된 행동을 유지하기 어렵다. 기존 메모리 시스템은 고립된 기록을 저장하고 단편만 검색해, 변화하는 사용자 상태를 통합하거나 충돌을 해소하지 못한다.</p><p>엔그램(engram)에서 영감받은 기억 생애주기를 구현한다. ①Episodic Trace Formation이 대화 스트림을 일화 흔적·원자적 사실·시간한정 Foresight 신호를 담은 MemCell로 변환하고, ②Semantic Consolidation이 MemCell을 주제별 MemScene으로 묶어 안정적 의미 구조를 추출하며 사용자 프로필을 갱신하고, ③Reconstructive Recollection이 MemScene 기반 에이전트 검색으로 추론에 필요·충분한 맥락을 구성한다.</p></div>
+  <ul class="pc-contrib"><li>엔그램 기반 기억 생애주기를 구현한 자기조직 메모리 OS 제안</li><li>MemCell → MemScene → 재구성적 회상(Reconstructive Recollection)의 3단계 구조</li><li>LoCoMo·LongMemEval에서 메모리 증강 추론 SOTA</li><li>PersonaMem v2 프로필 연구·사례연구로 사용자 프로파일링·Foresight 등 채팅 능력 입증, 코드 공개</li></ul>
+
+  <div class="pc-meta-row"><span class="pc-diff">고급</span> · <span>에이전트 메모리·장기 상호작용·개인화에 관심 있는 학습자</span> · <span>📅 2026-01-05</span> · <span>arXiv:2601.02163</span></div>
+
+  <div class="terms"><span class="term"><b>Context Window</b> 모델이 한 번에 볼 수 있는 입력 길이의 한계</span><span class="term"><b>Engram</b> 기억이 뇌에 저장된 물리적 흔적. 여기선 계산적 기억의 비유</span><span class="term"><b>MemCell</b> 대화에서 추출한 일화·사실·예측 신호를 담는 기억 단위</span></div>
+
+  <div class="link-group"><a class="btn btn--primary" href="https://huggingface.co/papers/2601.02163" target="_blank" rel="noopener">HF 토론·요약</a><a class="btn" href="https://arxiv.org/abs/2601.02163" target="_blank" rel="noopener">arXiv 초록</a><a class="btn" href="https://arxiv.org/pdf/2601.02163" target="_blank" rel="noopener">PDF 원문</a><a class="btn btn--code" href="https://github.com/EverMind-AI/EverMemOS" target="_blank" rel="noopener">코드(GitHub)</a></div>
+
+  <div class="quiz"><p class="quiz__q"><b>RECALL ↺</b> EverMemOS가 대화 스트림을 처리하는 3단계는 무엇인가?</p><details><summary>정답 보기</summary><p class="quiz__a">Episodic Trace Formation(MemCell 생성) → Semantic Consolidation(MemScene으로 묶기) → Reconstructive Recollection(맥락 재구성 검색).</p></details></div>
+  
+</article>
+
+<article class="paper-card" style="--i:6" data-tags="코딩에이전트 오픈플랫폼 swe-bench 에이전트평가 ai-agents tool-use code-execution agentic-workflow">
+  <span class="rank">6</span>
+  <span class="pc-cat">LLM·에이전트</span>
+  <h3 class="paper-card__title"><a href="https://huggingface.co/papers/2407.16741" target="_blank" rel="noopener">OpenDevin: An Open Platform for AI Software Developers as Generalist
+  Agents</a></h3>
+  <p class="pc-authors">Xingyao Wang, Boxuan Li, Yufan Song 외 21명</p>
+
+  <div class="badges"><span class="badge badge--up">▲ 81</span><span class="badge badge--cm">💬 7</span><span class="badge badge--star">★ 77.9k</span></div>
+  <div class="chip-row"><span class="chip">ai-agents</span><span class="chip">tool-use</span><span class="chip">code-execution</span><span class="chip">agentic-workflow</span></div>
+
+  <p class="pc-oneliner">코드 작성·터미널·웹 브라우징으로 인간 개발자처럼 일하는 AI 에이전트 오픈 플랫폼.</p>
+  <div class="pc-body"><p>LLM 발전으로 환경과 상호작용하는 AI 에이전트가 빠르게 등장했지만, 새 에이전트를 구현하고 안전하게 코드를 실행하며 다중 에이전트를 조율하고 평가까지 아우르는 통합 개발 플랫폼이 부족했다.</p><p>인간 개발자처럼 코드를 쓰고 커맨드라인을 다루며 웹을 탐색하는 에이전트를 만들 수 있는 플랫폼을 제공한다. 샌드박스 환경에서의 안전한 코드 실행, 다중 에이전트 조율, 평가 벤치마크 통합을 지원한다.</p></div>
+  <ul class="pc-contrib"><li>유연한 AI 개발자 에이전트 구축용 오픈 플랫폼(MIT 라이선스)</li><li>SWE-Bench(소프트웨어 공학)·WebArena(웹) 등 15개 도전 과제로 에이전트 평가</li><li>160명+ 기여자, 1.3K+ 기여의 커뮤니티 프로젝트</li><li>코드 오픈소스(★78k)</li></ul>
+
+  <div class="pc-meta-row"><span class="pc-diff">입문</span> · <span>코딩 에이전트·에이전트 평가에 입문하려는 학습자</span> · <span>📅 2024-07-23</span> · <span>arXiv:2407.16741</span></div>
+
+  <div class="terms"><span class="term"><b>SWE-Bench</b> 실제 GitHub 이슈 해결 능력을 재는 소프트웨어 공학 벤치마크</span><span class="term"><b>Sandbox</b> 코드를 안전하게 격리 실행하는 환경</span><span class="term"><b>Generalist Agent</b> 여러 종류의 작업을 두루 수행하는 범용 에이전트</span></div>
+
+  <div class="link-group"><a class="btn btn--primary" href="https://huggingface.co/papers/2407.16741" target="_blank" rel="noopener">HF 토론·요약</a><a class="btn" href="https://arxiv.org/abs/2407.16741" target="_blank" rel="noopener">arXiv 초록</a><a class="btn" href="https://arxiv.org/pdf/2407.16741" target="_blank" rel="noopener">PDF 원문</a><a class="btn btn--code" href="https://github.com/opendevin/opendevin" target="_blank" rel="noopener">코드(GitHub)</a></div>
+
+  <div class="quiz"><p class="quiz__q"><b>RECALL ↺</b> OpenDevin의 에이전트가 인간 개발자처럼 세상과 상호작용하는 세 가지 방식은?</p><details><summary>정답 보기</summary><p class="quiz__a">코드 작성, 커맨드라인(터미널) 사용, 웹 브라우징.</p></details></div>
+  
+</article>
+
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title"><span class="ix">02</span> 이번 주 동향 인사이트</h2>
+    <div class="insight"><div class="insight__grid"><div><div class="insight__note"><h3>📋 이번 주 요약</h3><p>이번 주 트렌딩 6편 중 5편(랭크 2~6)이 LLM &#x27;에이전트&#x27; 관련으로, 지난주(3편)보다 비중이 더 커졌다. 차세대 공개 모델 GLM-5는 &#x27;에이전틱 엔지니어링&#x27;, EverMemOS는 &#x27;에이전트 메모리&#x27;, SkillOpt는 &#x27;스킬 자기개선&#x27;으로 에이전트의 폭이 코딩·금융·메모리·자기개선까지 넓어졌다. 나머지 1편(TimesFM)은 시계열 파운데이션 모델로, 지난주 Kronos와 같은 흐름이다.</p></div><div class="insight__note"><h3>🌊 최근 동향</h3><p>지난주(W25) 대비 단순 비교: TradingAgents·SkillOpt·OpenDevin 3편이 이번 주에도 트렌딩에 남아 연속 등장했고, &#x27;시계열 파운데이션 모델&#x27;은 지난주 Kronos에 이어 이번 주 TimesFM으로 2주 연속 나타났다. 새로 진입: GLM-5(에이전틱 엔지니어링), EverMemOS(에이전트 메모리). 다만 아직 누적 2주라 본격적인 &#x27;부상/지속&#x27; 추세 판정은 다음 주(3주차)부터 신뢰도 있게 가능하다.</p></div></div><aside class="kwbar"><h4>이번 주 키워드 빈도</h4><div class="kwbar__row"><span title="agentic-workflow">agentic-workflow</span><div class="kwbar__track"><i style="--v:100%;--d:0.15s"></i></div><b>3</b></div><div class="kwbar__row"><span title="code-execution">code-execution</span><div class="kwbar__track"><i style="--v:67%;--d:0.23s"></i></div><b>2</b></div><div class="kwbar__row"><span title="tool-use">tool-use</span><div class="kwbar__track"><i style="--v:67%;--d:0.31s"></i></div><b>2</b></div><div class="kwbar__row"><span title="agent-skills">agent-skills</span><div class="kwbar__track"><i style="--v:33%;--d:0.39s"></i></div><b>1</b></div><div class="kwbar__row"><span title="agentic-engineering">agentic-engineering</span><div class="kwbar__track"><i style="--v:33%;--d:0.47s"></i></div><b>1</b></div><div class="kwbar__row"><span title="agentic-retrieval">agentic-retrieval</span><div class="kwbar__track"><i style="--v:33%;--d:0.55s"></i></div><b>1</b></div><h4 style="margin-top:1.4rem">주차별 관심도(업보트) 추이</h4><svg class="trend-svg" viewBox="0 0 300 90" role="img" aria-label="주차별 관심도(업보트) 추이"><defs><linearGradient id="auroraStroke" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#3DDC97"/><stop offset="1" stop-color="#2BB6C9"/></linearGradient><linearGradient id="auroraFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3DDC97"/><stop offset="1" stop-color="#3DDC97" stop-opacity="0"/></linearGradient></defs><path class="area" d="M 14.0,76 L 14.0,76.0 L 286.0,14.0 L 286.0,76 Z"/><polyline class="line" points="14.0,76.0 286.0,14.0"/><circle class="dot" cx="14.0" cy="76.0" r="2.6"/><circle class="dot" cx="286.0" cy="14.0" r="2.6"/><text x="14.0" y="88" text-anchor="start">W25</text><text x="286.0" y="88" text-anchor="end">W26</text></svg></aside></div></div>
+    <div class="caveat"><span>⚠️</span><p>주 6편 트렌딩 표본 기준이며 HuggingFace 커뮤니티의 인기·최신 편향이 있습니다. 업보트·스타는 중요도가 아닌 &#x27;관심도&#x27; 지표로만 해석하세요. 일부 논문은 과거 발표작이 이번 주 다시 트렌딩에 올랐을 수 있습니다(예: TradingAgents·OpenDevin·TimesFM).</p></div>
+  </section>
+
+  <footer class="foot">
+    <span>생성: 2026-06-22 10:09</span>
+    <span>출처: HuggingFace Daily Papers (trending) · 개인 학습용</span>
+  </footer>
+
+</main>
+<script src="../_assets/app.js"></script>
+</body>
+</html>

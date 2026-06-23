@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "description": "AI 논문 트렌드 분석용 폐쇄형 분류 체계. 주차 간 비교를 위해 카테고리는 고정 목록만 사용한다. keyword_aliases는 신규 키워드 등장 시 누적 관리.",
+  "primary_categories": [
+    { "key": "LLM/Agents",            "label_ko": "LLM·에이전트",        "scope_ko": "에이전트, 툴 사용, 멀티에이전트, 워크플로우, 자기개선" },
+    { "key": "Reasoning",             "label_ko": "추론",                "scope_ko": "CoT, 추론 강화, test-time compute, 수학·코드 추론" },
+    { "key": "Multimodal",            "label_ko": "멀티모달",            "scope_ko": "비전-언어, 오디오-언어, 통합 모달 이해·생성" },
+    { "key": "Vision",                "label_ko": "비전",                "scope_ko": "순수 이미지·비디오 생성·이해" },
+    { "key": "Efficiency/Inference",  "label_ko": "효율·추론최적화",     "scope_ko": "양자화, KV캐시, MoE, 추론 가속, 경량화" },
+    { "key": "RL/Alignment",          "label_ko": "강화학습·정렬",       "scope_ko": "RLHF, DPO, 선호 학습, 정렬" },
+    { "key": "Embodied/World Models", "label_ko": "임바디드·월드모델",   "scope_ko": "로보틱스, 월드모델, 물리 시뮬레이션" },
+    { "key": "Evaluation/Benchmarks", "label_ko": "평가·벤치마크",       "scope_ko": "벤치마크, 평가 방법론, LLM-as-judge" },
+    { "key": "Data",                  "label_ko": "데이터",              "scope_ko": "데이터셋, 합성데이터, 큐레이션" },
+    { "key": "Safety",                "label_ko": "안전",                "scope_ko": "안전, 레드팀, 탈옥, 워터마킹" }
+  ],
+  "category_rules": {
+    "max_categories_per_paper": 2,
+    "primary_category_count": 1,
+    "note_ko": "논문당 categories는 최대 2개, primary_category는 정확히 1개. 무제한 허용 시 모든 논문이 모든 카테고리에 걸려 신호가 죽는다."
+  },
+  "modality_axis": ["text", "image", "video", "audio", "3d", "multi"],
+  "method_tags_axis": [
+    "pretraining", "finetuning", "rl", "distillation",
+    "prompting", "architecture", "inference-time", "data-centric"
+  ],
+  "keyword_aliases": {
+    "agentic-workflow":  ["agentic workflow", "agent workflow", "agentic", "llm agent", "llm agents", "agents", "multi-agent", "multi agent", "multiagent"],
+    "test-time-compute": ["test time compute", "test-time scaling", "inference time scaling", "inference-time scaling", "ttc"],
+    "chain-of-thought":  ["chain of thought", "cot", "reasoning chain"],
+    "self-refinement":   ["self refinement", "self-refine", "self correction", "self-correction", "self-improvement", "self improving"],
+    "mixture-of-experts":["mixture of experts", "moe", "sparse moe"],
+    "retrieval-augmented":["retrieval augmented", "rag", "retrieval-augmented generation"],
+    "vision-language":   ["vision language", "vlm", "vision-language model", "multimodal llm"],
+    "reinforcement-learning":["reinforcement learning", "rl", "rlhf", "rlvr"],
+    "world-model":       ["world models", "world model"],
+    "kv-cache":          ["kv cache", "key-value cache"],
+    "tool-use":          ["tool use", "tool-calling", "function calling", "tool calling"],
+    "document-parsing":  ["document parsing", "ocr", "document understanding"]
+  }
+}

@@ -1,0 +1,968 @@
+[
+  {
+    "paper": {
+      "id": "2412.20138",
+      "authors": [
+        {
+          "_id": "6847673b3ec10bdd8ab4dd5e",
+          "name": "Yijia Xiao",
+          "hidden": false
+        },
+        {
+          "_id": "6847673b3ec10bdd8ab4dd5f",
+          "name": "Edward Sun",
+          "hidden": false
+        },
+        {
+          "_id": "6847673b3ec10bdd8ab4dd60",
+          "name": "Di Luo",
+          "hidden": false
+        },
+        {
+          "_id": "6847673b3ec10bdd8ab4dd61",
+          "name": "Wei Wang",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2024-12-28T12:54:06.000Z",
+      "title": "TradingAgents: Multi-Agents LLM Financial Trading Framework",
+      "summary": "Significant progress has been made in automated problem-solving using\nsocieties of agents powered by large language models (LLMs). In finance,\nefforts have largely focused on single-agent systems handling specific tasks or\nmulti-agent frameworks independently gathering data. However, the multi-agent\nsystems' potential to replicate real-world trading firms' collaborative\ndynamics remains underexplored. TradingAgents proposes a novel stock trading\nframework inspired by trading firms, featuring LLM-powered agents in\nspecialized roles such as fundamental analysts, sentiment analysts, technical\nanalysts, and traders with varied risk profiles. The framework includes Bull\nand Bear researcher agents assessing market conditions, a risk management team\nmonitoring exposure, and traders synthesizing insights from debates and\nhistorical data to make informed decisions. By simulating a dynamic,\ncollaborative trading environment, this framework aims to improve trading\nperformance. Detailed architecture and extensive experiments reveal its\nsuperiority over baseline models, with notable improvements in cumulative\nreturns, Sharpe ratio, and maximum drawdown, highlighting the potential of\nmulti-agent LLM frameworks in financial trading. TradingAgents is available at\nhttps://github.com/TauricResearch/TradingAgents.",
+      "upvotes": 96,
+      "discussionId": "6847673c3ec10bdd8ab4dd62",
+      "githubRepo": "https://github.com/tauricresearch/tradingagents",
+      "githubRepoAddedBy": "auto",
+      "ai_summary": "A multi-agent framework using large language models for stock trading simulates real-world trading firms, improving performance metrics like cumulative returns and Sharpe ratio.",
+      "ai_keywords": [
+        "large language models",
+        "LLM",
+        "multi-agent systems",
+        "fundamental analysts",
+        "sentiment analysts",
+        "technical analysts",
+        "traders",
+        "risk management",
+        "cumulative returns",
+        "Sharpe ratio",
+        "maximum drawdown"
+      ],
+      "ai_summary_model": "Qwen/Qwen2.5-Coder-32B-Instruct",
+      "githubStars": 86143
+    },
+    "publishedAt": "2024-12-28T07:54:06.000Z",
+    "title": "TradingAgents: Multi-Agents LLM Financial Trading Framework",
+    "summary": "Significant progress has been made in automated problem-solving using\nsocieties of agents powered by large language models (LLMs). In finance,\nefforts have largely focused on single-agent systems handling specific tasks or\nmulti-agent frameworks independently gathering data. However, the multi-agent\nsystems' potential to replicate real-world trading firms' collaborative\ndynamics remains underexplored. TradingAgents proposes a novel stock trading\nframework inspired by trading firms, featuring LLM-powered agents in\nspecialized roles such as fundamental analysts, sentiment analysts, technical\nanalysts, and traders with varied risk profiles. The framework includes Bull\nand Bear researcher agents assessing market conditions, a risk management team\nmonitoring exposure, and traders synthesizing insights from debates and\nhistorical data to make informed decisions. By simulating a dynamic,\ncollaborative trading environment, this framework aims to improve trading\nperformance. Detailed architecture and extensive experiments reveal its\nsuperiority over baseline models, with notable improvements in cumulative\nreturns, Sharpe ratio, and maximum drawdown, highlighting the potential of\nmulti-agent LLM frameworks in financial trading. TradingAgents is available at\nhttps://github.com/TauricResearch/TradingAgents.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2412.20138.png",
+    "numComments": 4,
+    "isAuthorParticipating": false
+  },
+  {
+    "paper": {
+      "id": "2605.23904",
+      "authors": [
+        {
+          "_id": "6a13aad74d9e8d8602d201a8",
+          "user": {
+            "_id": "62d18eb81e36881a57f29bf4",
+            "avatarUrl": "/avatars/104851421b4ee9641daaf15942fa7ea1.svg",
+            "isPro": false,
+            "fullname": "Yif Yang",
+            "user": "Yif29",
+            "type": "user",
+            "name": "Yif29"
+          },
+          "name": "Yifan Yang",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-05-25T15:12:31.312Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a13aad74d9e8d8602d201a9",
+          "user": {
+            "_id": "660691330be1fbe3b9e4c33d",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/660691330be1fbe3b9e4c33d/TxrDFH_cRu3AlpMC3xmhv.jpeg",
+            "isPro": false,
+            "fullname": "ZiYang Gong",
+            "user": "Cusyoung",
+            "type": "user",
+            "name": "Cusyoung"
+          },
+          "name": "Ziyang Gong",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-05-25T15:12:29.154Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a13aad74d9e8d8602d201aa",
+          "name": "Weiquan Huang",
+          "hidden": false
+        },
+        {
+          "_id": "6a13aad74d9e8d8602d201ab",
+          "name": "Qihao Yang",
+          "hidden": false
+        },
+        {
+          "_id": "6a13aad74d9e8d8602d201ac",
+          "name": "Ziwei Zhou",
+          "hidden": false
+        },
+        {
+          "_id": "6a13aad74d9e8d8602d201ad",
+          "user": {
+            "_id": "662b6a8f0b7f23f3c000559e",
+            "avatarUrl": "/avatars/0a5b4e09ac9a8e40342131319ff32b29.svg",
+            "isPro": false,
+            "fullname": "Zisu Huang",
+            "user": "zisuh",
+            "type": "user",
+            "name": "zisuh"
+          },
+          "name": "Zisu Huang",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-05-25T15:12:25.187Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a13aad74d9e8d8602d201ae",
+          "name": "Yan Li",
+          "hidden": false
+        },
+        {
+          "_id": "6a13aad74d9e8d8602d201af",
+          "name": "Xuemei Gao",
+          "hidden": false
+        },
+        {
+          "_id": "6a13aad74d9e8d8602d201b0",
+          "name": "Qi Dai",
+          "hidden": false
+        },
+        {
+          "_id": "6a13aad74d9e8d8602d201b1",
+          "name": "Bei Liu",
+          "hidden": false
+        },
+        {
+          "_id": "6a13aad74d9e8d8602d201b2",
+          "name": "Kai Qiu",
+          "hidden": false
+        },
+        {
+          "_id": "6a13aad74d9e8d8602d201b3",
+          "name": "Yuqing Yang",
+          "hidden": false
+        },
+        {
+          "_id": "6a13aad74d9e8d8602d201b4",
+          "name": "Dongdong Chen",
+          "hidden": false
+        },
+        {
+          "_id": "6a13aad74d9e8d8602d201b5",
+          "name": "Xue Yang",
+          "hidden": false
+        },
+        {
+          "_id": "6a13aad74d9e8d8602d201b6",
+          "name": "Chong Luo",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2026-05-22T00:00:00.000Z",
+      "submittedOnDailyAt": "2026-05-25T00:00:00.000Z",
+      "title": "SkillOpt: Executive Strategy for Self-Evolving Agent Skills",
+      "submittedOnDailyBy": {
+        "_id": "6039478ab3ecf716b1a5fd4d",
+        "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/6039478ab3ecf716b1a5fd4d/_Thy4E7taiSYBLKxEKJbT.jpeg",
+        "isPro": true,
+        "fullname": "taesiri",
+        "user": "taesiri",
+        "type": "user",
+        "name": "taesiri"
+      },
+      "summary": "Agent skills today are hand-crafted, generated one-shot, or evolved through loosely controlled self-revision, none of which behaves like a deep-learning optimizer for the skill, and none of which reliably improves over its starting point under feedback. We argue the skill should instead be trained as the external state of a frozen agent, with the same discipline that makes weight-space optimization reproducible. SkillOpt is, to our knowledge, the first systematic controllable text-space optimizer for agent skills: a separate optimizer model turns scored rollouts into bounded add/delete/replace edits on a single skill document, and an edit is accepted only when it strictly improves a held-out validation score. A textual learning-rate budget, rejected-edit buffer, and epoch-wise slow/meta update make skill training stable while adding zero inference-time model calls at deployment. Across six benchmarks, seven target models, and three execution harnesses (direct chat, Codex, Claude Code), SkillOpt is best or tied on all 52 evaluated (model, benchmark, harness) cells and beats every per-cell competitor among human, one-shot LLM, Trace2Skill, TextGrad, GEPA, and EvoSkill skills. On GPT-5.5 it lifts the average no-skill accuracy by +23.5 points in direct chat, by +24.8 inside the Codex agentic loop, and by +19.1 inside Claude Code. Transfer experiments further show that optimized skill artifacts retain value when moved across model scales, between Codex and Claude Code execution environments, and to a nearby math benchmark without further optimization.",
+      "upvotes": 229,
+      "discussionId": "6a13aad74d9e8d8602d201b7",
+      "projectPage": "https://microsoft.github.io/SkillOpt/",
+      "githubRepo": "https://github.com/microsoft/SkillOpt",
+      "githubRepoAddedBy": "user",
+      "ai_summary": "SkillOpt introduces a systematic text-space optimizer for agent skills that trains skills as external agent state with stable updates and zero deployment inference overhead, achieving superior performance across multiple benchmarks and execution environments.",
+      "ai_keywords": [
+        "agent skills",
+        "skill training",
+        "text-space optimizer",
+        "rollouts",
+        "add/delete/replace edits",
+        "validation score",
+        "textual learning-rate budget",
+        "rejected-edit buffer",
+        "epoch-wise slow/meta update",
+        "skill optimization",
+        "transfer experiments",
+        "agent state",
+        "reproducible optimization"
+      ],
+      "ai_summary_model": "Qwen/Qwen2.5-Coder-32B-Instruct",
+      "githubStars": 6711,
+      "organization": {
+        "_id": "68151d0f51add3813f3f7d1b",
+        "name": "MicrosoftResearch",
+        "fullname": "Microsoft Research",
+        "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/6529a4f2f1205983224fa513/PeuVr7jSuJflmDBBGxoDX.png"
+      }
+    },
+    "publishedAt": "2026-05-21T20:00:00.000Z",
+    "title": "SkillOpt: Executive Strategy for Self-Evolving Agent Skills",
+    "summary": "Agent skills today are hand-crafted, generated one-shot, or evolved through loosely controlled self-revision, none of which behaves like a deep-learning optimizer for the skill, and none of which reliably improves over its starting point under feedback. We argue the skill should instead be trained as the external state of a frozen agent, with the same discipline that makes weight-space optimization reproducible. SkillOpt is, to our knowledge, the first systematic controllable text-space optimizer for agent skills: a separate optimizer model turns scored rollouts into bounded add/delete/replace edits on a single skill document, and an edit is accepted only when it strictly improves a held-out validation score. A textual learning-rate budget, rejected-edit buffer, and epoch-wise slow/meta update make skill training stable while adding zero inference-time model calls at deployment. Across six benchmarks, seven target models, and three execution harnesses (direct chat, Codex, Claude Code), SkillOpt is best or tied on all 52 evaluated (model, benchmark, harness) cells and beats every per-cell competitor among human, one-shot LLM, Trace2Skill, TextGrad, GEPA, and EvoSkill skills. On GPT-5.5 it lifts the average no-skill accuracy by +23.5 points in direct chat, by +24.8 inside the Codex agentic loop, and by +19.1 inside Claude Code. Transfer experiments further show that optimized skill artifacts retain value when moved across model scales, between Codex and Claude Code execution environments, and to a nearby math benchmark without further optimization.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2605.23904.png",
+    "numComments": 3,
+    "submittedBy": {
+      "_id": "6039478ab3ecf716b1a5fd4d",
+      "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/6039478ab3ecf716b1a5fd4d/_Thy4E7taiSYBLKxEKJbT.jpeg",
+      "fullname": "taesiri",
+      "name": "taesiri",
+      "type": "user",
+      "isPro": true,
+      "isHf": false,
+      "isHfAdmin": false,
+      "isMod": false,
+      "followerCount": 317,
+      "isUserFollowing": false
+    },
+    "organization": {
+      "_id": "68151d0f51add3813f3f7d1b",
+      "name": "MicrosoftResearch",
+      "fullname": "Microsoft Research",
+      "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/6529a4f2f1205983224fa513/PeuVr7jSuJflmDBBGxoDX.png"
+    },
+    "isAuthorParticipating": true
+  },
+  {
+    "paper": {
+      "id": "2508.02739",
+      "authors": [
+        {
+          "_id": "68940073741a16f544fbce2f",
+          "name": "Yu Shi",
+          "hidden": false
+        },
+        {
+          "_id": "68940073741a16f544fbce30",
+          "name": "Zongliang Fu",
+          "hidden": false
+        },
+        {
+          "_id": "68940073741a16f544fbce31",
+          "name": "Shuo Chen",
+          "hidden": false
+        },
+        {
+          "_id": "68940073741a16f544fbce32",
+          "name": "Bohan Zhao",
+          "hidden": false
+        },
+        {
+          "_id": "68940073741a16f544fbce33",
+          "name": "Wei Xu",
+          "hidden": false
+        },
+        {
+          "_id": "68940073741a16f544fbce34",
+          "name": "Changshui Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "68940073741a16f544fbce35",
+          "name": "Jian Li",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2025-08-02T13:15:59.000Z",
+      "title": "Kronos: A Foundation Model for the Language of Financial Markets",
+      "summary": "The success of large-scale pre-training paradigm, exemplified by Large\nLanguage Models (LLMs), has inspired the development of Time Series Foundation\nModels (TSFMs). However, their application to financial candlestick (K-line)\ndata remains limited, often underperforming non-pre-trained architectures.\nMoreover, existing TSFMs often overlook crucial downstream tasks such as\nvolatility prediction and synthetic data generation. To address these\nlimitations, we propose Kronos, a unified, scalable pre-training framework\ntailored to financial K-line modeling. Kronos introduces a specialized\ntokenizer that discretizes continuous market information into token sequences,\npreserving both price dynamics and trade activity patterns. We pre-train Kronos\nusing an autoregressive objective on a massive, multi-market corpus of over 12\nbillion K-line records from 45 global exchanges, enabling it to learn nuanced\ntemporal and cross-asset representations. Kronos excels in a zero-shot setting\nacross a diverse set of financial tasks. On benchmark datasets, Kronos boosts\nprice series forecasting RankIC by 93% over the leading TSFM and 87% over the\nbest non-pre-trained baseline. It also achieves a 9% lower MAE in volatility\nforecasting and a 22% improvement in generative fidelity for synthetic K-line\nsequences. These results establish Kronos as a robust, versatile foundation\nmodel for end-to-end financial time series analysis. Our pre-trained model is\npublicly available at https://github.com/shiyu-coder/Kronos.",
+      "upvotes": 41,
+      "discussionId": "68940073741a16f544fbce36",
+      "githubRepo": "https://github.com/shiyu-coder/Kronos",
+      "githubRepoAddedBy": "auto",
+      "ai_summary": "Kronos, a specialized pre-training framework for financial K-line data, outperforms existing models in forecasting and synthetic data generation through a unique tokenizer and autoregressive pre-training on a large dataset.",
+      "ai_keywords": [
+        "Large Language Models",
+        "Time Series Foundation Models",
+        "financial candlestick",
+        "volatility prediction",
+        "synthetic data generation",
+        "autoregressive objective",
+        "token sequences",
+        "price dynamics",
+        "trade activity patterns",
+        "zero-shot setting",
+        "price series forecasting",
+        "RankIC",
+        "MAE",
+        "generative fidelity"
+      ],
+      "ai_summary_model": "Qwen/Qwen2.5-Coder-32B-Instruct",
+      "githubStars": 29871
+    },
+    "publishedAt": "2025-08-02T09:15:59.000Z",
+    "title": "Kronos: A Foundation Model for the Language of Financial Markets",
+    "summary": "The success of large-scale pre-training paradigm, exemplified by Large\nLanguage Models (LLMs), has inspired the development of Time Series Foundation\nModels (TSFMs). However, their application to financial candlestick (K-line)\ndata remains limited, often underperforming non-pre-trained architectures.\nMoreover, existing TSFMs often overlook crucial downstream tasks such as\nvolatility prediction and synthetic data generation. To address these\nlimitations, we propose Kronos, a unified, scalable pre-training framework\ntailored to financial K-line modeling. Kronos introduces a specialized\ntokenizer that discretizes continuous market information into token sequences,\npreserving both price dynamics and trade activity patterns. We pre-train Kronos\nusing an autoregressive objective on a massive, multi-market corpus of over 12\nbillion K-line records from 45 global exchanges, enabling it to learn nuanced\ntemporal and cross-asset representations. Kronos excels in a zero-shot setting\nacross a diverse set of financial tasks. On benchmark datasets, Kronos boosts\nprice series forecasting RankIC by 93% over the leading TSFM and 87% over the\nbest non-pre-trained baseline. It also achieves a 9% lower MAE in volatility\nforecasting and a 22% improvement in generative fidelity for synthetic K-line\nsequences. These results establish Kronos as a robust, versatile foundation\nmodel for end-to-end financial time series analysis. Our pre-trained model is\npublicly available at https://github.com/shiyu-coder/Kronos.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2508.02739.png",
+    "numComments": 4,
+    "isAuthorParticipating": false
+  },
+  {
+    "paper": {
+      "id": "2407.16741",
+      "authors": [
+        {
+          "_id": "66a1b11eca8ee359d60b5b99",
+          "user": {
+            "_id": "62c63f31031996c36c848504",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/62c63f31031996c36c848504/xZvH6jnozuFLXbtRSU-h1.jpeg",
+            "isPro": false,
+            "fullname": "Xingyao Wang",
+            "user": "xingyaoww",
+            "type": "user",
+            "name": "xingyaoww"
+          },
+          "name": "Xingyao Wang",
+          "status": "extracted_confirmed",
+          "statusLastChangedAt": "2024-07-25T02:51:45.594Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5b9a",
+          "user": {
+            "_id": "664aefb990135abe9ba9b8c9",
+            "avatarUrl": "/avatars/79658c23555deadcfb097b6ebccbe4a6.svg",
+            "isPro": false,
+            "fullname": "Boxuan Li",
+            "user": "liboxuanhk",
+            "type": "user",
+            "name": "liboxuanhk"
+          },
+          "name": "Boxuan Li",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2024-07-25T07:38:14.907Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5b9b",
+          "user": {
+            "_id": "65f89af419e43f235cca48f9",
+            "avatarUrl": "/avatars/d1ff695f9a8ee0aeeff324fb7f07a811.svg",
+            "isPro": false,
+            "fullname": "Yufan Song",
+            "user": "yufansong",
+            "type": "user",
+            "name": "yufansong"
+          },
+          "name": "Yufan Song",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2024-07-25T07:51:32.404Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5b9c",
+          "user": {
+            "_id": "61ac0a0f57307cf7ae3a35bb",
+            "avatarUrl": "/avatars/c3b00cf275b2805861f5b020c9d00639.svg",
+            "isPro": false,
+            "fullname": "Frank Xu",
+            "user": "frankxu",
+            "type": "user",
+            "name": "frankxu"
+          },
+          "name": "Frank F. Xu",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2024-07-25T07:51:55.018Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5b9d",
+          "user": {
+            "_id": "63357c608adfa81faf2ac180",
+            "avatarUrl": "/avatars/ae0314c644f882251baf59b9134fd36f.svg",
+            "isPro": false,
+            "fullname": "Xiangru Tang",
+            "user": "RTT1",
+            "type": "user",
+            "name": "RTT1"
+          },
+          "name": "Xiangru Tang",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2024-07-25T07:52:01.459Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5b9e",
+          "user": {
+            "_id": "64403daae44f30a72323e4ca",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/64403daae44f30a72323e4ca/skJ9h0pdNfmE4VbQL8xDR.png",
+            "isPro": false,
+            "fullname": "mingchen zhuge",
+            "user": "tjpxiaoming",
+            "type": "user",
+            "name": "tjpxiaoming"
+          },
+          "name": "Mingchen Zhuge",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2024-07-25T07:52:12.418Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5b9f",
+          "user": {
+            "_id": "61568f37272f2d87a99ba884",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/61568f37272f2d87a99ba884/lgvkl5f0rEyiQRVU5FE32.png",
+            "isPro": false,
+            "fullname": "Jiayi Pan",
+            "user": "Jiayi-Pan",
+            "type": "user",
+            "name": "Jiayi-Pan"
+          },
+          "name": "Jiayi Pan",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2024-07-25T07:52:19.380Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5ba0",
+          "user": {
+            "_id": "63e7bf7be02ee67e8e53f78d",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/63e7bf7be02ee67e8e53f78d/z9j1PWrurEyIA2JXzpz0i.png",
+            "isPro": false,
+            "fullname": "Yueqi Song",
+            "user": "yueqis",
+            "type": "user",
+            "name": "yueqis"
+          },
+          "name": "Yueqi Song",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2024-07-25T07:52:43.838Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5ba1",
+          "user": {
+            "_id": "664aefb990135abe9ba9b8c9",
+            "avatarUrl": "/avatars/79658c23555deadcfb097b6ebccbe4a6.svg",
+            "isPro": false,
+            "fullname": "Boxuan Li",
+            "user": "liboxuanhk",
+            "type": "user",
+            "name": "liboxuanhk"
+          },
+          "name": "Bowen Li",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2024-07-25T07:51:24.121Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5ba2",
+          "user": {
+            "_id": "60cc389a0844fb1605fef405",
+            "avatarUrl": "/avatars/ec11f85735e0525439e8821cf6d12e53.svg",
+            "isPro": false,
+            "fullname": "Jaskirat Singh",
+            "user": "jsingh",
+            "type": "user",
+            "name": "jsingh"
+          },
+          "name": "Jaskirat Singh",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2024-07-26T07:40:52.677Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5ba3",
+          "user": {
+            "_id": "65c19c3172fd754bba256112",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/65c19c3172fd754bba256112/cfgYvKfO36PSTFYKQottM.jpeg",
+            "isPro": false,
+            "fullname": "Ryan Tran",
+            "user": "ryanhoangt",
+            "type": "user",
+            "name": "ryanhoangt"
+          },
+          "name": "Hoang H. Tran",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2024-07-25T08:19:36.107Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5ba4",
+          "name": "Fuqiang Li",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5ba5",
+          "user": {
+            "_id": "62581ef5d47cce537ee25963",
+            "avatarUrl": "/avatars/d987c625791dc33c84bf9b51069bf2c8.svg",
+            "isPro": false,
+            "fullname": "Ren Ma",
+            "user": "renma",
+            "type": "user",
+            "name": "renma"
+          },
+          "name": "Ren Ma",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2025-06-11T08:40:40.377Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5ba6",
+          "name": "Mingzhang Zheng",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5ba7",
+          "user": {
+            "_id": "641fa2e0863b87326f4a7fd5",
+            "avatarUrl": "/avatars/7b29c20f942d83c08f63f04a85c15c13.svg",
+            "isPro": false,
+            "fullname": "Bill Qian",
+            "user": "lilbillbiscuit",
+            "type": "user",
+            "name": "lilbillbiscuit"
+          },
+          "name": "Bill Qian",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2024-07-25T07:54:51.696Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5ba8",
+          "user": {
+            "_id": "62970df979f193515da13dc0",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/62970df979f193515da13dc0/A-mgKIcgTXRJ54GCHswTq.jpeg",
+            "isPro": false,
+            "fullname": "Yanjun Shao",
+            "user": "super-dainiu",
+            "type": "user",
+            "name": "super-dainiu"
+          },
+          "name": "Yanjun Shao",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2024-07-25T07:55:10.708Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5ba9",
+          "user": {
+            "_id": "5f1eb362eec0ad2a071ad6e2",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/5f1eb362eec0ad2a071ad6e2/nDiBXdLrOTw67lJp_y_WA.jpeg",
+            "isPro": false,
+            "fullname": "Niklas Muennighoff",
+            "user": "Muennighoff",
+            "type": "user",
+            "name": "Muennighoff"
+          },
+          "name": "Niklas Muennighoff",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2024-07-25T07:55:16.299Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5baa",
+          "name": "Yizhe Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5bab",
+          "user": {
+            "_id": "61e4c4ca1ab24785ac11ba69",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/61e4c4ca1ab24785ac11ba69/1Q1zhhyGSJ9RJG9MzwxVv.jpeg",
+            "isPro": false,
+            "fullname": "Binyuan Hui",
+            "user": "huybery",
+            "type": "user",
+            "name": "huybery"
+          },
+          "name": "Binyuan Hui",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2024-07-25T07:55:45.961Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5bac",
+          "user": {
+            "_id": "620760a26e3b7210c2ff1943",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/620760a26e3b7210c2ff1943/VC-rKqimF6yxGESNVlPoR.jpeg",
+            "isPro": false,
+            "fullname": "Junyang Lin",
+            "user": "JustinLin610",
+            "type": "user",
+            "name": "JustinLin610"
+          },
+          "name": "Junyang Lin",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2024-07-25T07:56:17.993Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5bad",
+          "name": "Robert Brennan",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5bae",
+          "user": {
+            "_id": "660ec5a2509153ca49775a7c",
+            "avatarUrl": "/avatars/97570fc245cc8ec7628da9c13bd35b71.svg",
+            "isPro": false,
+            "fullname": "Hao Peng",
+            "user": "haopeng01",
+            "type": "user",
+            "name": "haopeng01"
+          },
+          "name": "Hao Peng",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2024-07-25T07:57:13.319Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5baf",
+          "name": "Heng Ji",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5bb0",
+          "user": {
+            "_id": "60de14638bedd2315529d43f",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/1625166923504-noauth.png",
+            "isPro": false,
+            "fullname": "Graham Neubig",
+            "user": "gneubig",
+            "type": "user",
+            "name": "gneubig"
+          },
+          "name": "Graham Neubig",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2024-07-25T07:57:35.957Z",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2024-07-23T17:50:43.000Z",
+      "submittedOnDailyAt": "2024-07-25T00:00:00.000Z",
+      "title": "OpenDevin: An Open Platform for AI Software Developers as Generalist\n  Agents",
+      "submittedOnDailyBy": {
+        "_id": "60f1abe7544c2adfd699860c",
+        "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/1674929746905-60f1abe7544c2adfd699860c.jpeg",
+        "isPro": false,
+        "fullname": "AK",
+        "user": "akhaliq",
+        "type": "user",
+        "name": "akhaliq"
+      },
+      "summary": "Software is one of the most powerful tools that we humans have at our\ndisposal; it allows a skilled programmer to interact with the world in complex\nand profound ways. At the same time, thanks to improvements in large language\nmodels (LLMs), there has also been a rapid development in AI agents that\ninteract with and affect change in their surrounding environments. In this\npaper, we introduce OpenDevin, a platform for the development of powerful and\nflexible AI agents that interact with the world in similar ways to those of a\nhuman developer: by writing code, interacting with a command line, and browsing\nthe web. We describe how the platform allows for the implementation of new\nagents, safe interaction with sandboxed environments for code execution,\ncoordination between multiple agents, and incorporation of evaluation\nbenchmarks. Based on our currently incorporated benchmarks, we perform an\nevaluation of agents over 15 challenging tasks, including software engineering\n(e.g., SWE-Bench) and web browsing (e.g., WebArena), among others. Released\nunder the permissive MIT license, OpenDevin is a community project spanning\nacademia and industry with more than 1.3K contributions from over 160\ncontributors and will improve going forward.",
+      "upvotes": 80,
+      "discussionId": "66a1b11fca8ee359d60b5bd5",
+      "githubRepo": "https://github.com/opendevin/opendevin",
+      "githubRepoAddedBy": "auto",
+      "ai_summary": "OpenDevin is a platform for developing AI agents that interact with the world by writing code, using command lines, and browsing the web, with support for multiple agents and evaluation benchmarks.",
+      "ai_keywords": [
+        "large language models",
+        "OpenDevin",
+        "AI agents",
+        "code execution",
+        "sandboxed environments",
+        "evaluation benchmarks",
+        "SWE-Bench",
+        "WebArena"
+      ],
+      "ai_summary_model": "Qwen/Qwen2.5-Coder-32B-Instruct",
+      "githubStars": 77084
+    },
+    "publishedAt": "2024-07-23T13:50:43.000Z",
+    "title": "OpenDevin: An Open Platform for AI Software Developers as Generalist\n  Agents",
+    "summary": "Software is one of the most powerful tools that we humans have at our\ndisposal; it allows a skilled programmer to interact with the world in complex\nand profound ways. At the same time, thanks to improvements in large language\nmodels (LLMs), there has also been a rapid development in AI agents that\ninteract with and affect change in their surrounding environments. In this\npaper, we introduce OpenDevin, a platform for the development of powerful and\nflexible AI agents that interact with the world in similar ways to those of a\nhuman developer: by writing code, interacting with a command line, and browsing\nthe web. We describe how the platform allows for the implementation of new\nagents, safe interaction with sandboxed environments for code execution,\ncoordination between multiple agents, and incorporation of evaluation\nbenchmarks. Based on our currently incorporated benchmarks, we perform an\nevaluation of agents over 15 challenging tasks, including software engineering\n(e.g., SWE-Bench) and web browsing (e.g., WebArena), among others. Released\nunder the permissive MIT license, OpenDevin is a community project spanning\nacademia and industry with more than 1.3K contributions from over 160\ncontributors and will improve going forward.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2407.16741.png",
+    "numComments": 7,
+    "submittedBy": {
+      "_id": "60f1abe7544c2adfd699860c",
+      "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/1674929746905-60f1abe7544c2adfd699860c.jpeg",
+      "fullname": "AK",
+      "name": "akhaliq",
+      "type": "user",
+      "isPro": false,
+      "isHf": true,
+      "isHfAdmin": false,
+      "isMod": false,
+      "followerCount": 9644,
+      "isUserFollowing": false
+    },
+    "isAuthorParticipating": true
+  },
+  {
+    "paper": {
+      "id": "2606.03264",
+      "authors": [
+        {
+          "_id": "6a1fc6bae292c1c78ecb1598",
+          "name": "Zelun Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "6a1fc6bae292c1c78ecb1599",
+          "name": "Hongen Liu",
+          "hidden": false
+        },
+        {
+          "_id": "6a1fc6bae292c1c78ecb159a",
+          "name": "Suyin Liang",
+          "hidden": false
+        },
+        {
+          "_id": "6a1fc6bae292c1c78ecb159b",
+          "name": "Yubo Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "6a1fc6bae292c1c78ecb159c",
+          "name": "Yiqing Xiang",
+          "hidden": false
+        },
+        {
+          "_id": "6a1fc6bae292c1c78ecb159d",
+          "name": "Jiaxuan Liu",
+          "hidden": false
+        },
+        {
+          "_id": "6a1fc6bae292c1c78ecb159e",
+          "name": "Ting Sun",
+          "hidden": false
+        },
+        {
+          "_id": "6a1fc6bae292c1c78ecb159f",
+          "name": "Manhui Lin",
+          "hidden": false
+        },
+        {
+          "_id": "6a1fc6bae292c1c78ecb15a0",
+          "name": "Yue Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "6a1fc6bae292c1c78ecb15a1",
+          "name": "Changda Zhou",
+          "hidden": false
+        },
+        {
+          "_id": "6a1fc6bae292c1c78ecb15a2",
+          "name": "Tingquan Gao",
+          "hidden": false
+        },
+        {
+          "_id": "6a1fc6bae292c1c78ecb15a3",
+          "user": {
+            "_id": "65a5231a087d8a2e9cc2414b",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/65a5231a087d8a2e9cc2414b/wj0l5R5LmBUG-E8XTMdBM.jpeg",
+            "isPro": false,
+            "fullname": "cuicheng",
+            "user": "ChengCui",
+            "type": "user",
+            "name": "ChengCui"
+          },
+          "name": "Cheng Cui",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-06-03T14:18:57.782Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a1fc6bae292c1c78ecb15a4",
+          "name": "Yi Liu",
+          "hidden": false
+        },
+        {
+          "_id": "6a1fc6bae292c1c78ecb15a5",
+          "name": "Dianhai Yu",
+          "hidden": false
+        },
+        {
+          "_id": "6a1fc6bae292c1c78ecb15a6",
+          "name": "Yanjun Ma",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2026-06-02T00:00:00.000Z",
+      "submittedOnDailyAt": "2026-06-03T00:00:00.000Z",
+      "title": "PaddleOCR-VL-1.6: Expanding the Frontier of Document Parsing with Under-Optimized Region Refinement and Progressive Post-Training",
+      "submittedOnDailyBy": {
+        "_id": "65a5231a087d8a2e9cc2414b",
+        "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/65a5231a087d8a2e9cc2414b/wj0l5R5LmBUG-E8XTMdBM.jpeg",
+        "isPro": false,
+        "fullname": "cuicheng",
+        "user": "ChengCui",
+        "type": "user",
+        "name": "ChengCui"
+      },
+      "summary": "We introduce PaddleOCR-VL-1.6, an upgraded compact document parsing model built upon PaddleOCR-VL-1.5. Although PaddleOCR-VL-1.5 establishes a strong 0.9B baseline, its remaining errors concentrate in under-optimized regions where model behavior is unstable, data coverage is sparse, or supervision is unreliable. Rather than expanding the training corpus indiscriminately, PaddleOCR-VL-1.6 introduces a region-aware data optimization framework that identifies weak regions from the previous model, applies targeted enhancement to these regions, and improves the reliability of supervision signals. It further adopts a progressive post-training recipe based on curated data selection and reinforcement learning, pushing model performance to a higher level through staged optimization. PaddleOCR-VL-1.6 achieves a new state-of-the-art score of 96.33% on OmniDocBench v1.6, demonstrates strong competitiveness against top-tier VLMs, and provides a practical post-training recipe for the PaddleOCR-VL series.",
+      "upvotes": 16,
+      "discussionId": "6a1fc6bbe292c1c78ecb15a7",
+      "projectPage": "https://www.paddleocr.com",
+      "githubRepo": "https://github.com/PaddlePaddle/PaddleOCR",
+      "githubRepoAddedBy": "user",
+      "ai_summary": "PaddleOCR-VL-1.6 enhances document parsing performance through targeted data optimization and progressive post-training techniques, achieving state-of-the-art results on OmniDocBench v1.6.",
+      "ai_keywords": [
+        "document parsing",
+        "data optimization",
+        "post-training",
+        "reinforcement learning",
+        "VLMs",
+        "OmniDocBench"
+      ],
+      "ai_summary_model": "Qwen/Qwen2.5-Coder-32B-Instruct",
+      "githubStars": 82208,
+      "organization": {
+        "_id": "62067d5d3906f102bc9658bd",
+        "name": "PaddlePaddle",
+        "fullname": "PaddlePaddle",
+        "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/1654942635336-5f3ff69679c1ba4c353d0c5a.png"
+      }
+    },
+    "publishedAt": "2026-06-01T20:00:00.000Z",
+    "title": "PaddleOCR-VL-1.6: Expanding the Frontier of Document Parsing with Under-Optimized Region Refinement and Progressive Post-Training",
+    "summary": "We introduce PaddleOCR-VL-1.6, an upgraded compact document parsing model built upon PaddleOCR-VL-1.5. Although PaddleOCR-VL-1.5 establishes a strong 0.9B baseline, its remaining errors concentrate in under-optimized regions where model behavior is unstable, data coverage is sparse, or supervision is unreliable. Rather than expanding the training corpus indiscriminately, PaddleOCR-VL-1.6 introduces a region-aware data optimization framework that identifies weak regions from the previous model, applies targeted enhancement to these regions, and improves the reliability of supervision signals. It further adopts a progressive post-training recipe based on curated data selection and reinforcement learning, pushing model performance to a higher level through staged optimization. PaddleOCR-VL-1.6 achieves a new state-of-the-art score of 96.33% on OmniDocBench v1.6, demonstrates strong competitiveness against top-tier VLMs, and provides a practical post-training recipe for the PaddleOCR-VL series.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2606.03264.png",
+    "numComments": 1,
+    "submittedBy": {
+      "_id": "65a5231a087d8a2e9cc2414b",
+      "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/65a5231a087d8a2e9cc2414b/wj0l5R5LmBUG-E8XTMdBM.jpeg",
+      "fullname": "cuicheng",
+      "name": "ChengCui",
+      "type": "user",
+      "isPro": false,
+      "isHf": false,
+      "isHfAdmin": false,
+      "isMod": false,
+      "followerCount": 28,
+      "isUserFollowing": false
+    },
+    "organization": {
+      "_id": "62067d5d3906f102bc9658bd",
+      "name": "PaddlePaddle",
+      "fullname": "PaddlePaddle",
+      "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/1654942635336-5f3ff69679c1ba4c353d0c5a.png"
+    },
+    "isAuthorParticipating": true
+  },
+  {
+    "paper": {
+      "id": "2510.09665",
+      "authors": [
+        {
+          "_id": "6940cad165f1e24a1177fc42",
+          "name": "Yuhan Liu",
+          "hidden": false
+        },
+        {
+          "_id": "6940cad165f1e24a1177fc43",
+          "name": "Yihua Cheng",
+          "hidden": false
+        },
+        {
+          "_id": "6940cad165f1e24a1177fc44",
+          "name": "Jiayi Yao",
+          "hidden": false
+        },
+        {
+          "_id": "6940cad165f1e24a1177fc45",
+          "name": "Yuwei An",
+          "hidden": false
+        },
+        {
+          "_id": "6940cad165f1e24a1177fc46",
+          "user": {
+            "_id": "6462bf90c9cc74e82e270cb6",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/6462bf90c9cc74e82e270cb6/usLDOUhyIfDXA2HZvXvps.jpeg",
+            "isPro": false,
+            "fullname": "Kobe Chen",
+            "user": "kobe0938",
+            "type": "user",
+            "name": "kobe0938"
+          },
+          "name": "Xiaokun Chen",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-02-18T09:06:23.142Z",
+          "hidden": false
+        },
+        {
+          "_id": "6940cad165f1e24a1177fc47",
+          "name": "Shaoting Feng",
+          "hidden": false
+        },
+        {
+          "_id": "6940cad165f1e24a1177fc48",
+          "name": "Yuyang Huang",
+          "hidden": false
+        },
+        {
+          "_id": "6940cad165f1e24a1177fc49",
+          "user": {
+            "_id": "67da6a71c42d3251c064755b",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/67da6a71c42d3251c064755b/yd-nEWBk8gfCJRgj1W9f9.png",
+            "isPro": false,
+            "fullname": "Samuel Shen",
+            "user": "sammshen",
+            "type": "user",
+            "name": "sammshen"
+          },
+          "name": "Samuel Shen",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-06-04T12:50:19.746Z",
+          "hidden": false
+        },
+        {
+          "_id": "6940cad165f1e24a1177fc4a",
+          "name": "Rui Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "6940cad165f1e24a1177fc4b",
+          "name": "Kuntai Du",
+          "hidden": false
+        },
+        {
+          "_id": "6940cad165f1e24a1177fc4c",
+          "name": "Junchen Jiang",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2025-10-08T00:15:04.000Z",
+      "title": "LMCache: An Efficient KV Cache Layer for Enterprise-Scale LLM Inference",
+      "summary": "KV cache has traditionally been stored in GPU memory to accelerate the decoding phase of large language model (LLM) inference. However, it is increasingly necessary to move KV caches outside GPU devices, to enable cache reuse across different queries and inference engines. Our real-world usage statistics confirm this trend: over time, the total KV cache stored by users has grown rapidly, far exceeding the capacity of GPU memory. Despite this need, there lacks an efficient solution for offloading and transferring KV caches. We present LMCACHE, the first and so far the most efficient open-source KV caching solution, which extracts and stores KV caches generated by modern LLM engines (vLLM and SGLang) out of the GPU memory and shares them across engines and queries. LMCACHE supports both cache offloading (prefix reuse across queries) and prefill-decode (PD) disaggregation (cross-engine/GPU cache transfer). LMCACHE's high performance and wide adoption stem from the following contributions: (1) highly optimized KV cache data movement powered by batched data movement operations, compute and I/O pipelining; (2) a modular KV cache connector component, decoupling LMCACHE from the rapid evolution of inference engines; (3) a first-class control API for flexible cache orchestration across GPU, CPU, storage, and network layers. Our evaluation shows that combining LMCACHE with vLLM achieves up to 15x improvement in throughput across workloads such as multi-round question answering and document analysis. Large-scale adoption of LMCACHE in enterprise settings provides us valuable insights, for example, fetching KV cache from remote storage has unsurprisingly benefits to prefill delay, and that context truncation, which is a widely applied technique in industry, can greatly reduce prefix cache hit ratio by half. The source code of LMCACHE is at: https://github.com/LMCache/LMCache.",
+      "upvotes": 5,
+      "discussionId": "6940cad165f1e24a1177fc4d",
+      "githubRepo": "https://github.com/LMCache/LMCache",
+      "githubRepoAddedBy": "auto",
+      "ai_summary": "LMCACHE enables efficient KV cache management for large language models by storing caches outside GPU memory, supporting cache reuse across queries and inference engines while achieving significant throughput improvements.",
+      "ai_keywords": [
+        "KV cache",
+        "large language model inference",
+        "GPU memory",
+        "cache offloading",
+        "prefill-decode disaggregation",
+        "vLLM",
+        "SGLang",
+        "batched data movement operations",
+        "compute and I/O pipelining",
+        "modular KV cache connector",
+        "control API",
+        "throughput improvement",
+        "context truncation",
+        "prefix cache hit ratio"
+      ],
+      "ai_summary_model": "Qwen/Qwen2.5-Coder-32B-Instruct",
+      "githubStars": 9063
+    },
+    "publishedAt": "2025-10-07T20:15:04.000Z",
+    "title": "LMCache: An Efficient KV Cache Layer for Enterprise-Scale LLM Inference",
+    "summary": "KV cache has traditionally been stored in GPU memory to accelerate the decoding phase of large language model (LLM) inference. However, it is increasingly necessary to move KV caches outside GPU devices, to enable cache reuse across different queries and inference engines. Our real-world usage statistics confirm this trend: over time, the total KV cache stored by users has grown rapidly, far exceeding the capacity of GPU memory. Despite this need, there lacks an efficient solution for offloading and transferring KV caches. We present LMCACHE, the first and so far the most efficient open-source KV caching solution, which extracts and stores KV caches generated by modern LLM engines (vLLM and SGLang) out of the GPU memory and shares them across engines and queries. LMCACHE supports both cache offloading (prefix reuse across queries) and prefill-decode (PD) disaggregation (cross-engine/GPU cache transfer). LMCACHE's high performance and wide adoption stem from the following contributions: (1) highly optimized KV cache data movement powered by batched data movement operations, compute and I/O pipelining; (2) a modular KV cache connector component, decoupling LMCACHE from the rapid evolution of inference engines; (3) a first-class control API for flexible cache orchestration across GPU, CPU, storage, and network layers. Our evaluation shows that combining LMCACHE with vLLM achieves up to 15x improvement in throughput across workloads such as multi-round question answering and document analysis. Large-scale adoption of LMCACHE in enterprise settings provides us valuable insights, for example, fetching KV cache from remote storage has unsurprisingly benefits to prefill delay, and that context truncation, which is a widely applied technique in industry, can greatly reduce prefix cache hit ratio by half. The source code of LMCACHE is at: https://github.com/LMCache/LMCache.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2510.09665.png",
+    "numComments": 0,
+    "isAuthorParticipating": false
+  }
+]
