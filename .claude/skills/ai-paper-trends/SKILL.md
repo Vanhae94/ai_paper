@@ -86,6 +86,7 @@ py "<ROOT>\.claude\skills\ai-paper-trends\scripts\rollup.py" --root "<ROOT>"
 py "<ROOT>\.claude\skills\ai-paper-trends\scripts\render.py" --root "<ROOT>" --week <week>
 ```
 - 주간 리포트 + 월간 index + 마스터 index를 멱등 재생성(중복 링크 없음).
+- 연속 등장 논문은 카드에 "🔁 N주 연속" 배지가 **자동 표시**된다(rollup의 `paper_weeks` 기반으로 render가 계산 — Claude 작업 불필요).
 - 끝나면 산출물 경로(`<ROOT>\<YYYY.MM>\<week>_주간리포트.html`)를 사용자에게 알리고,
   관심 논문 링크(HF/arxiv/GitHub)를 대화에도 함께 남긴다.
 

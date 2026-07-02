@@ -1,0 +1,1032 @@
+{
+  "schema_version": 1,
+  "week_id": "2026-W27",
+  "date_range_ko": "2026-06-29 ~ 2026-07-05",
+  "month_folder": "2026.06",
+  "collected_at": "2026-06-29T09:11:53+09:00",
+  "source": "huggingface daily_papers?sort=trending&limit=6",
+  "paper_count": 6,
+  "papers": [
+    {
+      "id": "2606.23050",
+      "title": "Unlimited OCR Works",
+      "title_ko": null,
+      "authors": [
+        "Youyang Yin",
+        "Huanhuan Liu",
+        "YY",
+        "Qunyi Xie",
+        "Chaorun Liu",
+        "Shiqi Yang",
+        "Shaohua Wang",
+        "Zhanlong Liu",
+        "Hao Zou",
+        "Jinyue Chen",
+        "Shu Wei",
+        "Jingjing Wu",
+        "Mingxin Huang",
+        "Zhen Wu",
+        "Guibin Wang",
+        "Tengyu Du",
+        "Lei Jia"
+      ],
+      "published_at": "2026-06-21T20:00:00.000Z",
+      "rank": 1,
+      "raw": {
+        "summary": "Recently, end-to-end OCR models, exemplified by DeepSeek OCR, have once again thrust OCR into the spotlight. A widely held view is that employing a large language model (LLM) as the decoder allows the model to leverage the prior distribution of language, leading to improved OCR performance. However, the downside is equally evident: as the output sequence lengthens, the accumulated KV cache drives up memory consumption and progressively slows down generation. This stands in stark contrast to humans, who exhibit no such decline in efficiency during long-horizon copying tasks. In this technical report, we propose Unlimited OCR, a model designed to emulate human parsing working memory. Taking DeepSeek OCR as the baseline, we replace all attention layers in the decoder with our proposed Reference Sliding Window Attention (R-SWA), which reduces attention computation costs while maintaining a constant KV cache throughout the entire decoding process. By combining the high compression rate of DeepSeek OCR's encoder with our constant KV cache design, Unlimited OCR can transcribe dozens of pages of documents in a single forward pass under a standard maximum length of 32K. More importantly, R-SWA is a general-purpose parsing attention mechanism - beyond OCR, it is equally applicable to tasks such as ASR, translation, etc. Codes and model weights are publicly available at http://github.com/baidu/Unlimited-OCR.",
+        "ai_summary": "Unlimited OCR introduces Reference Sliding Window Attention to eliminate growing memory consumption during long-sequence OCR tasks, enabling efficient transcription of multiple pages in a single forward pass.",
+        "ai_keywords": [
+          "end-to-end OCR",
+          "large language model",
+          "decoder",
+          "KV cache",
+          "attention layers",
+          "Reference Sliding Window Attention",
+          "document transcription",
+          "sequence length",
+          "memory consumption",
+          "working memory",
+          "parsing attention mechanism",
+          "ASR",
+          "translation"
+        ],
+        "upvotes": 38,
+        "num_comments": 5,
+        "github_repo": "https://github.com/baidu/Unlimited-OCR",
+        "github_stars": 11452,
+        "project_page": null
+      },
+      "links": [
+        {
+          "rank": 1,
+          "label": "HF 토론·요약",
+          "url": "https://huggingface.co/papers/2606.23050"
+        },
+        {
+          "rank": 2,
+          "label": "arXiv 초록",
+          "url": "https://arxiv.org/abs/2606.23050"
+        },
+        {
+          "rank": 3,
+          "label": "PDF 원문",
+          "url": "https://arxiv.org/pdf/2606.23050"
+        },
+        {
+          "rank": 4,
+          "label": "코드(GitHub)",
+          "url": "https://github.com/baidu/Unlimited-OCR"
+        }
+      ],
+      "classify": {
+        "categories": [
+          "Multimodal",
+          "Efficiency/Inference"
+        ],
+        "primary_category": "Multimodal",
+        "topic_tags": [
+          "end-to-end-ocr",
+          "kv-cache",
+          "sliding-window-attention",
+          "document-parsing"
+        ],
+        "method_tags": [
+          "architecture",
+          "inference-time"
+        ],
+        "modality": [
+          "image",
+          "text"
+        ],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "상수 KV 캐시(R-SWA)로 수십 페이지 문서를 한 번에 받아 적는, 인간 작업기억을 모사한 OCR 모델.",
+        "problem": "DeepSeek OCR처럼 LLM을 디코더로 쓰는 엔드투엔드 OCR은 언어의 사전분포를 활용해 성능이 좋지만, 출력이 길어질수록 KV 캐시가 누적돼 메모리가 늘고 생성이 느려진다. 긴 필사에도 효율이 떨어지지 않는 인간과 대조된다.",
+        "approach": "DeepSeek OCR을 베이스라인으로, 디코더의 모든 어텐션을 제안 기법 R-SWA(Reference Sliding Window Attention)로 교체한다. R-SWA는 어텐션 연산을 줄이면서 디코딩 내내 KV 캐시를 '상수'로 유지한다. 인코더의 높은 압축률과 결합해 32K 최대 길이에서 수십 페이지를 단일 forward로 전사한다. R-SWA는 OCR뿐 아니라 ASR·번역에도 쓰이는 범용 파싱 어텐션이다.",
+        "contributions": [
+          "디코딩 내내 일정한 KV 캐시를 유지하는 R-SWA 어텐션 제안",
+          "32K 길이에서 수십 페이지 문서를 단일 forward로 전사",
+          "OCR을 넘어 ASR·번역 등에 적용 가능한 범용 파싱 어텐션",
+          "코드·가중치 공개(Baidu, ★11.5k)"
+        ],
+        "why_now": "이번 주 문서 파싱/OCR이 2편 트렌딩에 오르며 다시 부상했다. 특히 '엔드투엔드 OCR + 추론 효율화(상수 KV캐시)'의 결합으로, 효율화가 분야를 가로질러 스며드는 흐름을 보여준다.",
+        "difficulty": "고급",
+        "recommended_reader": "OCR·문서 AI·추론 효율화(어텐션/KV캐시)에 관심 있는 학습자",
+        "field_tags": [
+          "OCR",
+          "상수KV캐시",
+          "슬라이딩윈도우어텐션",
+          "문서AI"
+        ],
+        "interest": {
+          "upvotes": 38,
+          "num_comments": 5,
+          "github_stars": 11500
+        }
+      },
+      "tier2": {
+        "analyzed_at": "2026-06-29",
+        "method_detail": "핵심은 R-SWA(Reference Sliding Window Attention). 디코딩 중 KV 캐시를 두 부분으로 유지한다 — 고정 프리픽스(시각+프롬프트 토큰, 길이 L_m)와 생성 텍스트에 대한 폭 n(기본 128)의 인과적 슬라이딩 윈도우. 캐시 크기는 C = L_m + min(n, T) ≤ L_m + n 으로, 윈도우 크기까지만 커지고 이후 '상수'다(표준 MHA는 L_m + T로 선형 증가). 시각(reference) 토큰은 상태 전이 없이 디코딩 내내 전역으로 접근 가능해, 일반 슬라이딩 윈도우와 달리 시각 특징이 '흐려지지' 않는다. 베이스라인 DeepSeek OCR의 인코더(DeepEncoder: SAM-ViT + CLIP-ViT, 16× 토큰 압축, 1024² → ~256 토큰)는 동결하고 디코더 어텐션만 R-SWA로 교체, LLM 파라미터만 학습한다. 디코더 3B(MoE로 ~500M 활성).",
+        "experiment_setup": [
+          "주 벤치마크: OmniDocBench v1.5/v1.6",
+          "비교: DeepSeek OCR(베이스라인)",
+          "장문 평가: 2~40+ 페이지 문서를 단일 forward로 전사"
+        ],
+        "datasets": [
+          {
+            "name": "문서 학습 샘플",
+            "scale": "약 200만(단일:다중 페이지 ≈ 9:1)",
+            "domain": "문서 OCR"
+          }
+        ],
+        "limitations": {
+          "by_authors": [
+            "프리필 32K 제한 — 페이지가 매우 많으면 한계(향후 128K 학습 예정)",
+            "다중페이지 모드는 Base 인코더(1024²)라 해상도 손실 → 20페이지 넘으면 edit distance 상승",
+            "학습 샘플 200만으로 제한적"
+          ],
+          "by_claude": [
+            "ASR·번역 일반화는 주장만 있고 실험 검증 없음(future work)",
+            "KV캐시 절감이 초장문에서 품질 저하와 트레이드오프"
+          ]
+        },
+        "reproducibility": {
+          "code": "공개",
+          "weights": "공개",
+          "data": "불명",
+          "license": "CC BY 4.0",
+          "note": "github.com/baidu/Unlimited-OCR, ★11.5k"
+        },
+        "my_learning_points": [
+          "'reference 토큰을 상태전이에서 제외'가 핵심 트릭 — 시각 충실도를 지키며 KV캐시를 상수화. 멀티모달 장문 디코딩에 일반 적용 가능",
+          "상수 KV캐시 = 장문 추론 비용의 근본 해법. W25 LMCache(캐시 외부 오프로딩)와 다른 각도(캐시 자체를 안 키움)",
+          "DeepSeek OCR 대비 OmniDocBench v1.5 +6.22%p, 6K 토큰 구간에서 ~35% 빠름 — 효율과 정확을 동시 개선"
+        ],
+        "related_work": {
+          "prior": [
+            {
+              "name": "DeepSeek OCR",
+              "relation": "베이스라인 — 인코더 재사용, 디코더 어텐션만 교체"
+            },
+            {
+              "name": "LMCache (W25)",
+              "relation": "KV캐시 효율화의 다른 접근(외부 오프로딩 vs 상수화)"
+            }
+          ],
+          "followup": [
+            {
+              "name": "R-SWA → ASR/번역",
+              "relation": "저자가 제시한 향후 확장(미검증)"
+            }
+          ]
+        },
+        "claude_note": "'인간은 이미 쓴 글을 다시 다 읽지 않는다'는 직관을 reference 토큰 전역 접근 + 출력 슬라이딩 윈도우로 구현해 KV캐시를 상수로 만든 영리한 설계다. 문서 파싱과 추론 효율화가 한 논문에서 만나는 점이 이번 주 '효율화가 분야를 가로지른다'는 흐름의 전형. 다만 초장문 해상도 손실·타도메인 미검증은 숙제."
+      },
+      "learning": {
+        "key_terms": [
+          {
+            "term": "KV Cache",
+            "gloss": "어텐션 키·값을 저장해 디코딩을 가속하는 캐시. 길어지면 메모리 부담"
+          },
+          {
+            "term": "Sliding Window Attention",
+            "gloss": "최근 일정 구간만 보는 어텐션으로 비용·캐시를 제한"
+          },
+          {
+            "term": "End-to-end OCR",
+            "gloss": "이미지→텍스트를 단일 모델로 직접 수행하는 OCR"
+          }
+        ],
+        "recall_quiz": {
+          "question": "Unlimited OCR이 긴 문서에서도 메모리·속도 저하 없이 작동하게 한 핵심 기법은?",
+          "answer": "디코더 어텐션을 R-SWA로 교체해 디코딩 내내 KV 캐시를 상수로 유지한다."
+        },
+        "spaced_review": {
+          "flag": false,
+          "review_due": null
+        }
+      }
+    },
+    {
+      "id": "2509.22186",
+      "title": "MinerU2.5: A Decoupled Vision-Language Model for Efficient\n  High-Resolution Document Parsing",
+      "title_ko": null,
+      "authors": [
+        "Junbo Niu",
+        "Zheng Liu",
+        "Zhuangcheng Gu",
+        "Bin Wang",
+        "Linke Ouyang",
+        "Zhiyuan Zhao",
+        "Tao Chu",
+        "Tianyao He",
+        "Fan Wu",
+        "Qintong Zhang",
+        "Zhenjiang Jin",
+        "Guang Liang",
+        "Rui Zhang",
+        "Wenzheng Zhang",
+        "Yuan Qu",
+        "Zhifei Ren",
+        "Yuefeng Sun",
+        "Yuanhong Zheng",
+        "Dongsheng Ma",
+        "Zirui Tang",
+        "Boyu Niu",
+        "Ziyang Miao",
+        "Hejun Dong",
+        "Siyi Qian",
+        "Junyuan Zhang",
+        "Jingzhou Chen",
+        "Fangdong Wang",
+        "Xiaomeng Zhao",
+        "Liqun Wei",
+        "Wei Li",
+        "Shasha Wang",
+        "Ruiliang Xu",
+        "Yuanyuan Cao",
+        "Lu Chen",
+        "Qianqian Wu",
+        "Huaiyu Gu",
+        "Lindong Lu",
+        "Keming Wang",
+        "Dechen Lin",
+        "Guanlin Shen",
+        "Xuanhe Zhou",
+        "Linfeng Zhang",
+        "Yuhang Zang",
+        "Xiaoyi Dong",
+        "Jiaqi Wang",
+        "Bo Zhang",
+        "Lei Bai",
+        "Pei Chu",
+        "Weijia Li",
+        "Jiang Wu",
+        "Lijun Wu",
+        "Zhenxiang Li",
+        "Guangyu Wang",
+        "Zhongying Tu",
+        "Chao Xu",
+        "Kai Chen",
+        "Yu Qiao",
+        "Bowen Zhou",
+        "Dahua Lin",
+        "Wentao Zhang",
+        "Conghui He"
+      ],
+      "published_at": "2025-09-26T06:45:48.000Z",
+      "rank": 2,
+      "raw": {
+        "summary": "We introduce MinerU2.5, a 1.2B-parameter document parsing vision-language\nmodel that achieves state-of-the-art recognition accuracy while maintaining\nexceptional computational efficiency. Our approach employs a coarse-to-fine,\ntwo-stage parsing strategy that decouples global layout analysis from local\ncontent recognition. In the first stage, the model performs efficient layout\nanalysis on downsampled images to identify structural elements, circumventing\nthe computational overhead of processing high-resolution inputs. In the second\nstage, guided by the global layout, it performs targeted content recognition on\nnative-resolution crops extracted from the original image, preserving\nfine-grained details in dense text, complex formulas, and tables. To support\nthis strategy, we developed a comprehensive data engine that generates diverse,\nlarge-scale training corpora for both pretraining and fine-tuning. Ultimately,\nMinerU2.5 demonstrates strong document parsing ability, achieving\nstate-of-the-art performance on multiple benchmarks, surpassing both\ngeneral-purpose and domain-specific models across various recognition tasks,\nwhile maintaining significantly lower computational overhead.",
+        "ai_summary": "MinerU2.5, a 1.2B-parameter document parsing vision-language model, achieves state-of-the-art recognition accuracy with computational efficiency through a coarse-to-fine parsing strategy.",
+        "ai_keywords": [
+          "document parsing",
+          "vision-language model",
+          "coarse-to-fine",
+          "two-stage parsing",
+          "layout analysis",
+          "content recognition",
+          "downsampled images",
+          "native-resolution crops",
+          "data engine",
+          "pretraining",
+          "fine-tuning",
+          "state-of-the-art performance",
+          "computational overhead"
+        ],
+        "upvotes": 174,
+        "num_comments": 2,
+        "github_repo": "https://github.com/opendatalab/MinerU",
+        "github_stars": 71532,
+        "project_page": "https://opendatalab.github.io/MinerU/"
+      },
+      "links": [
+        {
+          "rank": 1,
+          "label": "HF 토론·요약",
+          "url": "https://huggingface.co/papers/2509.22186"
+        },
+        {
+          "rank": 2,
+          "label": "arXiv 초록",
+          "url": "https://arxiv.org/abs/2509.22186"
+        },
+        {
+          "rank": 3,
+          "label": "PDF 원문",
+          "url": "https://arxiv.org/pdf/2509.22186"
+        },
+        {
+          "rank": 4,
+          "label": "코드(GitHub)",
+          "url": "https://github.com/opendatalab/MinerU"
+        },
+        {
+          "rank": 5,
+          "label": "프로젝트 페이지",
+          "url": "https://opendatalab.github.io/MinerU/"
+        }
+      ],
+      "classify": {
+        "categories": [
+          "Multimodal",
+          "Vision"
+        ],
+        "primary_category": "Multimodal",
+        "topic_tags": [
+          "document-parsing",
+          "vision-language",
+          "coarse-to-fine",
+          "two-stage-parsing"
+        ],
+        "method_tags": [
+          "finetuning",
+          "data-centric",
+          "architecture"
+        ],
+        "modality": [
+          "image",
+          "text"
+        ],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "전역 레이아웃과 지역 인식을 분리한 2단계 전략으로 SOTA를 낸 1.2B 경량 문서 파싱 VLM.",
+        "problem": "고해상도 문서를 통째로 처리하면 연산 비용이 크다. 정확도와 효율을 동시에 잡는 경량 문서 파싱 모델이 필요했다.",
+        "approach": "coarse-to-fine 2단계 전략으로 전역 레이아웃 분석과 지역 내용 인식을 분리한다. 1단계는 다운샘플 이미지에서 효율적으로 구조 요소를 파악하고, 2단계는 그 레이아웃을 길잡이 삼아 원해상도 crop에서 표적 인식해 조밀한 텍스트·수식·표의 세부를 보존한다. 전용 데이터 엔진으로 사전학습·파인튜닝 코퍼스를 대규모 생성한다.",
+        "contributions": [
+          "전역 레이아웃·지역 인식을 분리한 coarse-to-fine 2단계 파싱 전략",
+          "다운샘플→원해상도 crop으로 고해상도 비용을 회피하며 세부 보존",
+          "대규모 학습 코퍼스를 만드는 전용 데이터 엔진",
+          "여러 벤치마크 SOTA를 1.2B 경량·저비용으로 달성(★71.5k)"
+        ],
+        "why_now": "Unlimited OCR과 함께 이번 주 문서 파싱이 2편 트렌딩에 올랐다. '경량 + 2단계 분리'로 효율과 정확도를 동시에 잡는 접근은 기업 문서·RAG 입력단 수요와 직결된다.",
+        "difficulty": "중급",
+        "recommended_reader": "문서 AI·VLM·효율적 추론에 관심 있는 학습자",
+        "field_tags": [
+          "문서파싱",
+          "VLM",
+          "2단계파싱",
+          "경량모델"
+        ],
+        "interest": {
+          "upvotes": 174,
+          "num_comments": 2,
+          "github_stars": 71500
+        }
+      },
+      "tier2": {
+        "analyzed_at": "2026-06-29",
+        "method_detail": "1.2B VLM = 비전 인코더(675M NaViT, Qwen2-VL 초기화, 2D-RoPE로 동적 해상도) + 언어모델(0.5B Qwen2-Instruct 디코더, M-RoPE) + 패치 머저(2×2 비전 토큰 pixel-unshuffle). 2단계 파이프라인: 1단계는 입력을 1036×1036 썸네일로 리사이즈해 전역 레이아웃을 저비용으로 분석하고, 2단계는 검출된 레이아웃으로 원해상도(최대 2048²) crop을 떠 조밀한 텍스트·수식·표를 인식한다. 이 분리로 엔드투엔드 원해상도 처리의 O(N²) 토큰 복잡도를 회피한다.",
+        "experiment_setup": [
+          "벤치마크: OmniDocBench(1,355 페이지), Ocean-OCR, olmOCR-bench",
+          "비교: 범용 VLM(GPT-4o·Gemini-2.5 Pro·Qwen2.5-VL-72B) + 전문 모델(dots.ocr·MonkeyOCR·olmOCR)",
+          "주요 결과: OmniDocBench 종합 90.67(dots.ocr 88.41 대비 우위), 표 TEDS 88.22"
+        ],
+        "datasets": [
+          {
+            "name": "사전학습(레이아웃/텍스트/수식/표)",
+            "scale": "6.9M 샘플",
+            "domain": "문서(논문·교재·보고서, 중·영 균형)"
+          },
+          {
+            "name": "파인튜닝(IMIC 난이도 채굴)",
+            "scale": "630K 샘플",
+            "domain": "hard case 중심"
+          }
+        ],
+        "limitations": {
+          "by_authors": [
+            "원문에 명시적 '한계' 절은 두드러지지 않음"
+          ],
+          "by_claude": [
+            "1단계 썸네일 품질에 레이아웃 검출이 의존",
+            "극단적 종횡비 crop에서 취약 가능",
+            "2단계가 1단계 레이아웃 오류를 전파할 수 있음"
+          ]
+        },
+        "reproducibility": {
+          "code": "공개",
+          "weights": "공개",
+          "data": "부분",
+          "license": "확인 필요",
+          "note": "github.com/opendatalab/MinerU + HF opendatalab/MinerU2.5-2509-1.2B, ★71.5k"
+        },
+        "my_learning_points": [
+          "coarse(썸네일 전역)→fine(원해상도 crop) 분리로 고해상도 비용을 피하는 패턴 — 긴 문서·고해상 입력 전반에 응용 가능",
+          "데이터 엔진 IMIC(추론 일관성으로 hard case 채굴 → 전문 주석)가 SOTA의 숨은 동력 — '데이터 중심'의 전형",
+          "1.2B로 72B급 범용 VLM을 능가 + 4~7× 처리량 — 특화 경량 모델의 효율 입증"
+        ],
+        "related_work": {
+          "prior": [
+            {
+              "name": "dots.ocr / MonkeyOCR / olmOCR",
+              "relation": "문서 파싱 전문 경쟁 모델"
+            },
+            {
+              "name": "PaddleOCR-VL (W25)",
+              "relation": "같은 문서 파싱 흐름의 직전 등장 논문"
+            }
+          ],
+          "followup": [
+            {
+              "name": "Unlimited OCR (이번 주)",
+              "relation": "같은 주 문서 파싱 — 추론 효율(상수 KV캐시) 각도"
+            }
+          ]
+        },
+        "claude_note": "'전역은 싸게(썸네일), 지역은 정밀하게(원해상도 crop)'라는 단순한 분리로 정확도·효율을 동시에 잡았고, IMIC 데이터 엔진이 뒤를 받친다. PaddleOCR-VL(W25)에 이어 문서 파싱이 다시 강하게 올라온 이번 주의 대표작. 1.2B로 72B 범용을 이기는 점은 '특화 경량 + 좋은 데이터'의 설득력 있는 증거."
+      },
+      "learning": {
+        "key_terms": [
+          {
+            "term": "Coarse-to-fine",
+            "gloss": "거칠게(전역) 본 뒤 세밀하게(지역) 처리하는 2단계 전략"
+          },
+          {
+            "term": "Layout Analysis",
+            "gloss": "문서의 구조(제목·표·문단 등)를 파악하는 단계"
+          },
+          {
+            "term": "VLM",
+            "gloss": "이미지와 텍스트를 함께 이해하는 비전-언어 모델"
+          }
+        ],
+        "recall_quiz": {
+          "question": "MinerU2.5가 고해상도 처리 비용을 줄이면서 세부를 보존하는 2단계 전략은?",
+          "answer": "1단계는 다운샘플 이미지로 전역 레이아웃을 분석하고, 2단계는 그 레이아웃을 따라 원해상도 crop만 표적 인식한다."
+        },
+        "spaced_review": {
+          "flag": false,
+          "review_due": null
+        }
+      }
+    },
+    {
+      "id": "2412.20138",
+      "title": "TradingAgents: Multi-Agents LLM Financial Trading Framework",
+      "title_ko": null,
+      "authors": [
+        "Yijia Xiao",
+        "Edward Sun",
+        "Di Luo",
+        "Wei Wang"
+      ],
+      "published_at": "2024-12-28T07:54:06.000Z",
+      "rank": 3,
+      "raw": {
+        "summary": "Significant progress has been made in automated problem-solving using\nsocieties of agents powered by large language models (LLMs). In finance,\nefforts have largely focused on single-agent systems handling specific tasks or\nmulti-agent frameworks independently gathering data. However, the multi-agent\nsystems' potential to replicate real-world trading firms' collaborative\ndynamics remains underexplored. TradingAgents proposes a novel stock trading\nframework inspired by trading firms, featuring LLM-powered agents in\nspecialized roles such as fundamental analysts, sentiment analysts, technical\nanalysts, and traders with varied risk profiles. The framework includes Bull\nand Bear researcher agents assessing market conditions, a risk management team\nmonitoring exposure, and traders synthesizing insights from debates and\nhistorical data to make informed decisions. By simulating a dynamic,\ncollaborative trading environment, this framework aims to improve trading\nperformance. Detailed architecture and extensive experiments reveal its\nsuperiority over baseline models, with notable improvements in cumulative\nreturns, Sharpe ratio, and maximum drawdown, highlighting the potential of\nmulti-agent LLM frameworks in financial trading. TradingAgents is available at\nhttps://github.com/TauricResearch/TradingAgents.",
+        "ai_summary": "A multi-agent framework using large language models for stock trading simulates real-world trading firms, improving performance metrics like cumulative returns and Sharpe ratio.",
+        "ai_keywords": [
+          "large language models",
+          "LLM",
+          "multi-agent systems",
+          "fundamental analysts",
+          "sentiment analysts",
+          "technical analysts",
+          "traders",
+          "risk management",
+          "cumulative returns",
+          "Sharpe ratio",
+          "maximum drawdown"
+        ],
+        "upvotes": 102,
+        "num_comments": 4,
+        "github_repo": "https://github.com/tauricresearch/tradingagents",
+        "github_stars": 89393,
+        "project_page": null
+      },
+      "links": [
+        {
+          "rank": 1,
+          "label": "HF 토론·요약",
+          "url": "https://huggingface.co/papers/2412.20138"
+        },
+        {
+          "rank": 2,
+          "label": "arXiv 초록",
+          "url": "https://arxiv.org/abs/2412.20138"
+        },
+        {
+          "rank": 3,
+          "label": "PDF 원문",
+          "url": "https://arxiv.org/pdf/2412.20138"
+        },
+        {
+          "rank": 4,
+          "label": "코드(GitHub)",
+          "url": "https://github.com/tauricresearch/tradingagents"
+        }
+      ],
+      "classify": {
+        "categories": [
+          "LLM/Agents"
+        ],
+        "primary_category": "LLM/Agents",
+        "topic_tags": [
+          "agentic-workflow",
+          "multi-agent",
+          "financial-ai",
+          "tool-use"
+        ],
+        "method_tags": [
+          "prompting",
+          "architecture"
+        ],
+        "modality": [
+          "text"
+        ],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "트레이딩 회사 조직을 본떠 역할을 나눈 LLM 에이전트들이 토론으로 주식 매매를 결정한다.",
+        "problem": "금융 분야의 LLM 활용은 대개 단일 에이전트가 특정 작업을 처리하거나, 여러 에이전트가 따로 데이터만 수집하는 수준에 머물렀다. 실제 트레이딩 회사처럼 전문가들이 협업·토론하며 의사결정하는 구조는 거의 탐구되지 않았다.",
+        "approach": "펀더멘털·감성·기술 분석가, 강세(Bull)·약세(Bear) 리서처, 리스크 관리팀, 트레이더 등 실제 회사의 직무를 LLM 에이전트로 구현한다. 강세·약세 에이전트가 시장 상황을 두고 토론하고, 트레이더가 그 결과와 과거 데이터를 종합해 매매를 결정한다. 협업적이고 동적인 트레이딩 환경을 시뮬레이션하는 것이 핵심이다.",
+        "contributions": [
+          "다중 에이전트 협업·토론 구조를 금융 트레이딩에 적용한 신규 프레임워크 제안",
+          "베이스라인 대비 누적 수익률(cumulative returns) 향상",
+          "샤프 지수(Sharpe ratio)·최대 낙폭(MDD) 등 위험조정 지표 개선",
+          "코드 오픈소스(★89k)로 재현·확장 가능"
+        ],
+        "why_now": "멀티 에이전트 시스템이 핵심 축으로 떠오른 가운데, 이를 '역할 분담 + 토론'이라는 실세계 조직 구조에 매핑한 대표 사례다. W25부터 이번 주까지 3주 연속 트렌딩에 남으며 꾸준한 관심을 입증했다.",
+        "difficulty": "중급",
+        "recommended_reader": "LLM 에이전트 오케스트레이션·금융 AI에 관심 있는 학습자",
+        "field_tags": [
+          "멀티에이전트",
+          "금융AI",
+          "에이전트토론",
+          "리스크관리"
+        ],
+        "interest": {
+          "upvotes": 102,
+          "num_comments": 4,
+          "github_stars": 89400
+        }
+      },
+      "tier2": null,
+      "learning": {
+        "key_terms": [
+          {
+            "term": "Multi-Agent System",
+            "gloss": "여러 LLM 에이전트가 역할을 나눠 협업하는 구조"
+          },
+          {
+            "term": "Sharpe Ratio",
+            "gloss": "위험 대비 초과수익을 재는 투자 성과 지표"
+          },
+          {
+            "term": "Maximum Drawdown",
+            "gloss": "고점 대비 최대 하락폭, 손실 위험의 척도"
+          }
+        ],
+        "recall_quiz": {
+          "question": "TradingAgents에서 강세(Bull)·약세(Bear) 에이전트는 매매 결정에 어떻게 기여하는가?",
+          "answer": "시장 상황을 두고 서로 토론하며, 트레이더 에이전트가 그 토론 결과와 과거 데이터를 종합해 최종 매매를 결정한다."
+        },
+        "spaced_review": {
+          "flag": false,
+          "review_due": null
+        }
+      }
+    },
+    {
+      "id": "2604.14141",
+      "title": "Geometric Context Transformer for Streaming 3D Reconstruction",
+      "title_ko": null,
+      "authors": [
+        "Lin-Zhuo Chen",
+        "Jian Gao",
+        "Yihang Chen",
+        "Ka Leong Cheng",
+        "Yipengjing Sun",
+        "Liangxiao Hu",
+        "Nan Xue",
+        "Xing Zhu",
+        "Yujun Shen",
+        "Yao Yao",
+        "Yinghao Xu"
+      ],
+      "published_at": "2026-04-14T20:00:00.000Z",
+      "rank": 4,
+      "raw": {
+        "summary": "Streaming 3D reconstruction aims to recover 3D information, such as camera poses and point clouds, from a video stream, which necessitates geometric accuracy, temporal\n  consistency, and computational efficiency. Motivated by the principles of Simultaneous Localization and Mapping (SLAM), we introduce LingBot-Map, a feed-forward 3D foundation\n  model for reconstructing scenes from streaming data, built upon a geometric context transformer (GCT) architecture. A defining aspect of LingBot-Map lies in its carefully\n  designed attention mechanism, which integrates an anchor context, a pose-reference window, and a trajectory memory to address coordinate grounding, dense geometric cues, and\n  long-range drift correction, respectively. This design keeps the streaming state compact while retaining rich geometric context, enabling stable efficient inference at around\n  20 FPS on 518 x 378 resolution inputs over long sequences exceeding 10,000 frames. Extensive evaluations across a variety of benchmarks demonstrate that our approach\n  achieves superior performance compared to both existing streaming and iterative optimization-based approaches.",
+        "ai_summary": "LingBot-Map is a feed-forward 3D foundation model that reconstructs scenes from video streams using a geometric context transformer architecture with specialized attention mechanisms for coordinate grounding, dense geometric cues, and long-range drift correction, achieving stable real-time performance at 20 FPS.",
+        "ai_keywords": [
+          "Simultaneous Localization and Mapping",
+          "feed-forward 3D foundation model",
+          "geometric context transformer",
+          "attention mechanism",
+          "anchor context",
+          "pose-reference window",
+          "trajectory memory",
+          "coordinate grounding",
+          "dense geometric cues",
+          "long-range drift correction"
+        ],
+        "upvotes": 21,
+        "num_comments": 2,
+        "github_repo": "https://github.com/robbyant/lingbot-map",
+        "github_stars": 8197,
+        "project_page": "https://technology.robbyant.com/lingbot-map"
+      },
+      "links": [
+        {
+          "rank": 1,
+          "label": "HF 토론·요약",
+          "url": "https://huggingface.co/papers/2604.14141"
+        },
+        {
+          "rank": 2,
+          "label": "arXiv 초록",
+          "url": "https://arxiv.org/abs/2604.14141"
+        },
+        {
+          "rank": 3,
+          "label": "PDF 원문",
+          "url": "https://arxiv.org/pdf/2604.14141"
+        },
+        {
+          "rank": 4,
+          "label": "코드(GitHub)",
+          "url": "https://github.com/robbyant/lingbot-map"
+        },
+        {
+          "rank": 5,
+          "label": "프로젝트 페이지",
+          "url": "https://technology.robbyant.com/lingbot-map"
+        }
+      ],
+      "classify": {
+        "categories": [
+          "Embodied/World Models",
+          "Vision"
+        ],
+        "primary_category": "Embodied/World Models",
+        "topic_tags": [
+          "3d-reconstruction",
+          "slam",
+          "geometric-context-transformer",
+          "world-model"
+        ],
+        "method_tags": [
+          "architecture",
+          "inference-time"
+        ],
+        "modality": [
+          "3d",
+          "video"
+        ],
+        "confidence": "medium"
+      },
+      "tier1": {
+        "one_liner": "SLAM 원리를 담은 어텐션으로 영상 스트림에서 실시간(약 20FPS) 3D를 복원하는 피드포워드 파운데이션 모델.",
+        "problem": "스트리밍 3D 재구성은 영상 스트림에서 카메라 포즈·점군을 복원해야 하며, 기하 정확도·시간적 일관성·계산 효율을 동시에 요구한다.",
+        "approach": "SLAM 원리에 착안해 GCT(geometric context transformer) 기반 피드포워드 3D 파운데이션 모델 LingBot-Map을 제안한다. 어텐션이 앵커 컨텍스트(좌표 grounding)·포즈 참조 윈도우(조밀한 기하 단서)·궤적 메모리(장거리 드리프트 보정)를 통합해, 스트리밍 상태를 작게 유지하면서 풍부한 기하 맥락을 보존한다.",
+        "contributions": [
+          "앵커·포즈참조·궤적메모리를 통합한 GCT 어텐션 설계",
+          "518x378 입력·1만+ 프레임에서 약 20FPS 안정적 추론",
+          "스트리밍·반복최적화 기존 기법 대비 우수한 성능",
+          "피드포워드 3D 파운데이션 모델로 효율·정확을 동시 달성"
+        ],
+        "why_now": "이번 주 새로 등장한 3D·공간 AI 주제다. 로보틱스·공간컴퓨팅에서 '피드포워드 3D 파운데이션 모델'이 SLAM의 반복 최적화 방식을 대체하려는 흐름을 보여준다.",
+        "difficulty": "고급",
+        "recommended_reader": "3D 비전·SLAM·로보틱스·공간 AI에 관심 있는 학습자",
+        "field_tags": [
+          "3D재구성",
+          "SLAM",
+          "공간AI",
+          "파운데이션모델"
+        ],
+        "interest": {
+          "upvotes": 21,
+          "num_comments": 2,
+          "github_stars": 8200
+        }
+      },
+      "tier2": null,
+      "learning": {
+        "key_terms": [
+          {
+            "term": "SLAM",
+            "gloss": "위치추정과 지도작성을 동시에 하는 기법(Simultaneous Localization and Mapping)"
+          },
+          {
+            "term": "Feed-forward 3D",
+            "gloss": "반복 최적화 없이 한 번의 순전파로 3D를 추정하는 방식"
+          },
+          {
+            "term": "Drift",
+            "gloss": "장시간 추정에서 누적되는 위치 오차"
+          }
+        ],
+        "recall_quiz": {
+          "question": "LingBot-Map의 어텐션이 통합하는 세 요소와 각 역할은?",
+          "answer": "앵커 컨텍스트(좌표 grounding), 포즈 참조 윈도우(조밀한 기하 단서), 궤적 메모리(장거리 드리프트 보정)."
+        },
+        "spaced_review": {
+          "flag": false,
+          "review_due": null
+        }
+      }
+    },
+    {
+      "id": "2310.10688",
+      "title": "A decoder-only foundation model for time-series forecasting",
+      "title_ko": null,
+      "authors": [
+        "Abhimanyu Das",
+        "Weihao Kong",
+        "Rajat Sen",
+        "Yichen Zhou"
+      ],
+      "published_at": "2023-10-14T13:01:37.000Z",
+      "rank": 5,
+      "raw": {
+        "summary": "Motivated by recent advances in large language models for Natural Language\nProcessing (NLP), we design a time-series foundation model for forecasting\nwhose out-of-the-box zero-shot performance on a variety of public datasets\ncomes close to the accuracy of state-of-the-art supervised forecasting models\nfor each individual dataset. Our model is based on pretraining a\npatched-decoder style attention model on a large time-series corpus, and can\nwork well across different forecasting history lengths, prediction lengths and\ntemporal granularities.",
+        "ai_summary": "A large language model adapted for time-series forecasting achieves near-optimal zero-shot performance on diverse datasets across different time scales and granularities.",
+        "ai_keywords": [
+          "patched-decoder",
+          "attention model",
+          "time-series corpus",
+          "forecasting",
+          "zero-shot performance"
+        ],
+        "upvotes": 37,
+        "num_comments": 1,
+        "github_repo": "https://github.com/google-research/timesfm",
+        "github_stars": 26003,
+        "project_page": null
+      },
+      "links": [
+        {
+          "rank": 1,
+          "label": "HF 토론·요약",
+          "url": "https://huggingface.co/papers/2310.10688"
+        },
+        {
+          "rank": 2,
+          "label": "arXiv 초록",
+          "url": "https://arxiv.org/abs/2310.10688"
+        },
+        {
+          "rank": 3,
+          "label": "PDF 원문",
+          "url": "https://arxiv.org/pdf/2310.10688"
+        },
+        {
+          "rank": 4,
+          "label": "코드(GitHub)",
+          "url": "https://github.com/google-research/timesfm"
+        }
+      ],
+      "classify": {
+        "categories": [
+          "Data"
+        ],
+        "primary_category": "Data",
+        "topic_tags": [
+          "time-series-foundation-model",
+          "zero-shot",
+          "autoregressive-objective",
+          "forecasting"
+        ],
+        "method_tags": [
+          "pretraining",
+          "architecture"
+        ],
+        "modality": [
+          "multi"
+        ],
+        "confidence": "medium"
+      },
+      "tier1": {
+        "one_liner": "패치드-디코더 어텐션으로 사전학습해, 추가 학습 없이도 다양한 시계열을 예측하는 파운데이션 모델.",
+        "problem": "NLP의 LLM 발전에 영감받아, 데이터셋마다 따로 학습하지 않고도 즉시(zero-shot) 쓸 수 있는 시계열 예측 파운데이션 모델이 필요했다. 기존엔 데이터셋별 지도학습 모델이 각각 최고 성능을 냈다.",
+        "approach": "대규모 시계열 코퍼스에 patched-decoder 스타일의 어텐션 모델을 사전학습한다. 다양한 관측 길이·예측 길이·시간 granularity에 두루 동작하도록 설계해, 공개 데이터셋에서 제로샷 성능이 데이터셋별 SOTA 지도학습 모델에 근접한다.",
+        "contributions": [
+          "시계열 예측용 디코더 전용(decoder-only) 파운데이션 모델 제안",
+          "여러 공개 데이터셋에서 제로샷 성능이 데이터셋별 SOTA 지도학습에 근접",
+          "관측·예측 길이와 시간 granularity 변화에 두루 일반화",
+          "코드 공개(Google, ★26k)"
+        ],
+        "why_now": "지난주에 이어 '시계열 파운데이션 모델'이 3주 연속(Kronos→TimesFM→TimesFM) 트렌딩에 올랐다. LLM의 사전학습·제로샷 패러다임이 시계열로 번지는 흐름이 꾸준하다.",
+        "difficulty": "중급",
+        "recommended_reader": "시계열 예측·파운데이션 모델에 관심 있는 학습자",
+        "field_tags": [
+          "시계열",
+          "파운데이션모델",
+          "제로샷",
+          "예측"
+        ],
+        "interest": {
+          "upvotes": 37,
+          "num_comments": 1,
+          "github_stars": 26000
+        }
+      },
+      "tier2": null,
+      "learning": {
+        "key_terms": [
+          {
+            "term": "Zero-shot",
+            "gloss": "별도 추가 학습 없이 바로 새 데이터에 적용하는 능력"
+          },
+          {
+            "term": "Patched-decoder",
+            "gloss": "시계열을 패치 단위로 묶어 디코더로 처리하는 구조"
+          },
+          {
+            "term": "Temporal Granularity",
+            "gloss": "시·일·주 등 데이터의 시간 해상도"
+          }
+        ],
+        "recall_quiz": {
+          "question": "TimesFM이 데이터셋마다 따로 학습하지 않고도 좋은 예측을 내는 학습 방식은?",
+          "answer": "대규모 시계열 코퍼스에 patched-decoder 어텐션 모델을 사전학습한 뒤 zero-shot으로 적용한다."
+        },
+        "spaced_review": {
+          "flag": false,
+          "review_due": null
+        }
+      }
+    },
+    {
+      "id": "2601.02163",
+      "title": "EverMemOS: A Self-Organizing Memory Operating System for Structured Long-Horizon Reasoning",
+      "title_ko": null,
+      "authors": [
+        "Chuanrui Hu",
+        "Xingze Gao",
+        "Zuyi Zhou",
+        "Dannong Xu",
+        "Yi Bai",
+        "Xintong Li",
+        "Hui Zhang",
+        "Tong Li",
+        "Chong Zhang",
+        "Lidong Bing",
+        "Yafeng Deng"
+      ],
+      "published_at": "2026-01-05T09:39:43.000Z",
+      "rank": 6,
+      "raw": {
+        "summary": "Large Language Models (LLMs) are increasingly deployed as long-term interactive agents, yet their limited context windows make it difficult to sustain coherent behavior over extended interactions. Existing memory systems often store isolated records and retrieve fragments, limiting their ability to consolidate evolving user states and resolve conflicts. We introduce EverMemOS, a self-organizing memory operating system that implements an engram-inspired lifecycle for computational memory. Episodic Trace Formation converts dialogue streams into MemCells that capture episodic traces, atomic facts, and time-bounded Foresight signals. Semantic Consolidation organizes MemCells into thematic MemScenes, distilling stable semantic structures and updating user profiles. Reconstructive Recollection performs MemScene-guided agentic retrieval to compose the necessary and sufficient context for downstream reasoning. Experiments on LoCoMo and LongMemEval show that EverMemOS achieves state-of-the-art performance on memory-augmented reasoning tasks. We further report a profile study on PersonaMem v2 and qualitative case studies illustrating chat-oriented capabilities such as user profiling and Foresight. Code is available at https://github.com/EverMind-AI/EverMemOS.",
+        "ai_summary": "EverMemOS presents a self-organizing memory system for large language models that processes dialogue streams into structured memory cells and scenes to enhance long-term interaction capabilities.",
+        "ai_keywords": [
+          "large language models",
+          "memory systems",
+          "episodic trace formation",
+          "memcells",
+          "semantic consolidation",
+          "memscenes",
+          "reconstructive recollection",
+          "agentic retrieval",
+          "memory-augmented reasoning",
+          "user profiling",
+          "foresight"
+        ],
+        "upvotes": 9,
+        "num_comments": 1,
+        "github_repo": "https://github.com/EverMind-AI/EverMemOS",
+        "github_stars": 9645,
+        "project_page": null
+      },
+      "links": [
+        {
+          "rank": 1,
+          "label": "HF 토론·요약",
+          "url": "https://huggingface.co/papers/2601.02163"
+        },
+        {
+          "rank": 2,
+          "label": "arXiv 초록",
+          "url": "https://arxiv.org/abs/2601.02163"
+        },
+        {
+          "rank": 3,
+          "label": "PDF 원문",
+          "url": "https://arxiv.org/pdf/2601.02163"
+        },
+        {
+          "rank": 4,
+          "label": "코드(GitHub)",
+          "url": "https://github.com/EverMind-AI/EverMemOS"
+        }
+      ],
+      "classify": {
+        "categories": [
+          "LLM/Agents",
+          "Reasoning"
+        ],
+        "primary_category": "LLM/Agents",
+        "topic_tags": [
+          "memory-systems",
+          "long-horizon-reasoning",
+          "agentic-retrieval",
+          "personalization"
+        ],
+        "method_tags": [
+          "architecture",
+          "inference-time"
+        ],
+        "modality": [
+          "text"
+        ],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "대화 스트림을 '기억 세포(MemCell)'로 구조화해 장기 상호작용을 지탱하는 자기조직 메모리 OS.",
+        "problem": "LLM이 장기 상호작용 에이전트로 쓰이지만, 제한된 컨텍스트 윈도우 탓에 긴 대화에서 일관된 행동을 유지하기 어렵다. 기존 메모리 시스템은 고립된 기록을 저장하고 단편만 검색해, 변화하는 사용자 상태를 통합하거나 충돌을 해소하지 못한다.",
+        "approach": "엔그램(engram)에서 영감받은 기억 생애주기를 구현한다. ①Episodic Trace Formation이 대화 스트림을 일화 흔적·원자적 사실·시간한정 Foresight 신호를 담은 MemCell로 변환하고, ②Semantic Consolidation이 MemCell을 주제별 MemScene으로 묶어 안정적 의미 구조를 추출하며 사용자 프로필을 갱신하고, ③Reconstructive Recollection이 MemScene 기반 에이전트 검색으로 추론에 필요·충분한 맥락을 구성한다.",
+        "contributions": [
+          "엔그램 기반 기억 생애주기를 구현한 자기조직 메모리 OS 제안",
+          "MemCell → MemScene → 재구성적 회상(Reconstructive Recollection)의 3단계 구조",
+          "LoCoMo·LongMemEval에서 메모리 증강 추론 SOTA",
+          "PersonaMem v2 프로필 연구·사례연구로 사용자 프로파일링·Foresight 등 채팅 능력 입증, 코드 공개"
+        ],
+        "why_now": "에이전트가 '오래 기억하고 일관되게 행동'하는 능력은 장기 상호작용의 핵심 과제다. 지난주에 이어 2주 연속 트렌딩하며 '에이전트 메모리'가 꾸준한 화두임을 보여준다.",
+        "difficulty": "고급",
+        "recommended_reader": "에이전트 메모리·장기 상호작용·개인화에 관심 있는 학습자",
+        "field_tags": [
+          "에이전트메모리",
+          "장기상호작용",
+          "메모리OS",
+          "개인화"
+        ],
+        "interest": {
+          "upvotes": 9,
+          "num_comments": 1,
+          "github_stars": 9600
+        }
+      },
+      "tier2": null,
+      "learning": {
+        "key_terms": [
+          {
+            "term": "Context Window",
+            "gloss": "모델이 한 번에 볼 수 있는 입력 길이의 한계"
+          },
+          {
+            "term": "Engram",
+            "gloss": "기억이 뇌에 저장된 물리적 흔적. 여기선 계산적 기억의 비유"
+          },
+          {
+            "term": "MemCell",
+            "gloss": "대화에서 추출한 일화·사실·예측 신호를 담는 기억 단위"
+          }
+        ],
+        "recall_quiz": {
+          "question": "EverMemOS가 대화 스트림을 처리하는 3단계는 무엇인가?",
+          "answer": "Episodic Trace Formation(MemCell 생성) → Semantic Consolidation(MemScene으로 묶기) → Reconstructive Recollection(맥락 재구성 검색)."
+        },
+        "spaced_review": {
+          "flag": false,
+          "review_due": null
+        }
+      }
+    }
+  ],
+  "week_summary": {
+    "headline_ko": "문서 파싱·OCR이 다시 부상(2편)하고 '효율화'가 분야를 가로지른다 — 에이전트는 조정, 시계열 FM은 3주 연속",
+    "clusters": [
+      {
+        "category": "Multimodal",
+        "paper_ranks": [
+          1,
+          2
+        ],
+        "theme_ko": "문서 파싱/OCR 부상 — 상수 KV캐시(Unlimited OCR)·경량 2단계(MinerU2.5)"
+      },
+      {
+        "category": "LLM/Agents",
+        "paper_ranks": [
+          3,
+          6
+        ],
+        "theme_ko": "에이전트 — 금융 트레이딩(3주 연속)·장기 메모리(2주 연속)"
+      },
+      {
+        "category": "Data",
+        "paper_ranks": [
+          5
+        ],
+        "theme_ko": "시계열 파운데이션 모델(TimesFM) — 3주 연속"
+      },
+      {
+        "category": "Embodied/World Models",
+        "paper_ranks": [
+          4
+        ],
+        "theme_ko": "스트리밍 3D 재구성(LingBot-Map) — 이번 주 첫 등장"
+      }
+    ],
+    "emerging_keywords": [
+      "document-parsing",
+      "kv-cache"
+    ],
+    "narrative_ko": "이번 주 트렌딩은 문서 파싱/OCR로 무게가 옮겨갔다 — Unlimited OCR(상수 KV캐시 R-SWA)과 MinerU2.5(▲174, 1.2B 경량 2단계)가 나란히 올랐다. 에이전트는 TradingAgents(3주 연속)·EverMemOS(2주 연속) 2편으로 지난주(5편)보다 줄었고, 시계열 파운데이션 모델(TimesFM)은 3주 연속 자리를 지켰다. 새 얼굴로는 스트리밍 3D 재구성(LingBot-Map)이 처음 등장했다. 전반적으로 '효율화'가 OCR·모델 설계 전반에 스며드는 점이 두드러진다.",
+    "recent_trend_ko": "누적 3주차 — 트렌드 판정을 시작한다. [지속] LLM/Agents가 3주 모두 등장(주당 3→5→2편)했고, 시계열 파운데이션 모델도 Kronos→TimesFM→TimesFM로 3주 연속이다(TradingAgents는 개별 논문으로 3주 연속 트렌딩). [부상] 문서 파싱/OCR이 이번 주 2편으로 급증했다(W25 1편→W26 0→W27 2편). [가로지르는 흐름] '효율화'가 독립 주제를 넘어 여러 분야에 스며든다 — W25 LMCache(KV캐시), W26 GLM-5(DSA 비용절감), W27 Unlimited OCR(상수 KV캐시)·MinerU2.5(1.2B 경량). [단발] 스트리밍 3D 재구성(LingBot-Map)이 이번 주 처음 등장했다. [조정] 지난주 6편 중 5편이던 에이전트 비중은 이번 주 2편으로 줄어 W26이 단기 정점이었다.",
+    "caveats_ko": "주 6편 트렌딩 표본 기준이며 HuggingFace 커뮤니티의 인기·최신 편향이 있습니다. 업보트·스타는 중요도가 아닌 '관심도' 지표로만 해석하세요. 일부 논문은 과거 발표작이 이번 주 다시 트렌딩에 올랐을 수 있습니다(예: TradingAgents·TimesFM·MinerU2.5)."
+  }
+}

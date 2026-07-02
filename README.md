@@ -40,6 +40,7 @@ Claude Code에서 이 폴더를 열고:
   ├─ ④ rollup.py         전 주차 집계 → _data/index.json (정량 신호 단일 출처)
   │     [Claude]          누적 신호 근거로 week_summary(동향) 작성
   └─ ⑤ render.py         분석 JSON → 템플릿 주입 → HTML + 인덱스 멱등 재생성
+                         (연속 등장 논문엔 "🔁 N주 연속" 배지 자동 부착)
 ```
 
 **데이터 출처:** `https://huggingface.co/api/daily_papers?sort=trending&limit=6` (공식 JSON API, HTML 파싱 불필요).
@@ -99,11 +100,14 @@ Claude Code에서 이 폴더를 열고:
    - `tier1` = 1차(초록 기반, 6편 전부) · `tier2` = 심층(arXiv 원문, 관심 논문만, 없으면 `null`).
    - 정확한 필드는 [`schema.json`](.claude/skills/ai-paper-trends/schema.json) 참조.
 2. **`index.json`** — `rollup.py`가 weeks 전체를 읽어 결정론적으로 만드는 **정량 신호 단일 출처**
-   (카테고리/키워드 추이, 논문-주차 매핑, 누적 합계). 차트와 동향 추론의 근거.
+   (카테고리/키워드 추이, `paper_weeks`=논문별 등장 주차 이력, 논문-주차 매핑, 누적 합계).
+   차트·동향 추론·연속 등장(streak) 계산의 근거.
 3. **`taxonomy.json`** — 폐쇄형 1차 카테고리 10개(주차 간 비교용) + `keyword_aliases`(동의어 통합 사전).
 
 > Claude는 거대한 weeks JSON을 직접 편집하지 않고, 작은 **패치 JSON**(`analysis/<주차>.patch.json`)을 작성해
 > `merge_analysis.py`로 병합한다 → 안전·재현 가능. 분석을 고치려면 패치만 수정 후 재병합·재렌더.
+> 1차 분석과 심층(tier2)은 패치를 나눠도 된다(예: `<주차>.patch.json` + `<주차>.deep.patch.json`).
+> `merge_analysis.py`는 **있는 키만 갱신**하므로 여러 번 부분 병합해도 안전하다.
 
 ---
 
@@ -117,6 +121,20 @@ Claude Code에서 이 폴더를 열고:
   - 3주차+ → 지속(최근 3~4주 중 3주+) / 부상(서로 다른 2주+ 등장) / 식어감(3주+ 데이터 시) 판정
 - **상시 경고:** "주 6편 표본·HF 인기 편향" caveat 고정. 업보트는 중요도가 아닌 **관심도** 지표.
 - **시각화:** 외부 차트 라이브러리 0 — 키워드 빈도는 CSS 막대, 주차 추이는 인라인 SVG로 그린다.
+
+---
+
+## 🔁 연속 등장(streak) 추적
+
+같은 논문이 여러 주 연속 트렌딩에 오르면 카드에 **"🔁 N주 연속"** 배지가 자동으로 붙는다.
+
+- `rollup.py`가 논문별 등장 주차를 `index.json`의 `paper_weeks`에 기록한다.
+- `render.py`가 렌더 대상 주차에서 거슬러 올라가며 **연속 등장 주차 수(as-of-주차)** 를 계산한다.
+  예: W26 리포트의 어떤 논문이 W25·W26에 있었다면 그 시점 기준 "2주 연속"으로 표시(W27까지 보지 않음).
+- 2주 이상일 때만 배지를 단다. 신규 논문은 배지 없음.
+- **완전 자동** — Claude 작업 불필요. 과거 주차를 다시 렌더하면 그 시점 기준으로 소급 표시된다.
+
+> 배지 스타일은 `_assets/style.css`의 `.badge--streak`(오로라 제이드). 임계값(2주 이상)은 `render.py`의 `build_card`에서 조정.
 
 ---
 
@@ -134,7 +152,7 @@ Claude Code에서 이 폴더를 열고:
 **이 폴더 전체를 복사**하면 그대로 동작한다. 시스템이 자기완결형이기 때문:
 
 1. **필요 조건**
-   - Python 3 (3.10+ 권장 / `datetime.date.fromisocalendar` 사용). 추가 패키지 **없음**.
+   - Python **3.8+ 필요**(`datetime.date.fromisocalendar` 사용, 권장 3.10+). 추가 패키지 **없음**.
    - 인터넷 (HF API 수집 + 폰트 CDN + arXiv 심층 조회).
    - 분석·인사이트 단계는 **Claude Code** 가 수행(스킬 자동 인식). → 아래 "수동 실행"으로 LLM 없이도 부분 운용 가능.
 2. **경로**: 스크립트는 `--root`로 루트를 받으므로 폴더 위치가 어디든 OK. 한글·공백 경로는 항상 따옴표.
@@ -174,8 +192,24 @@ py "$S/render.py" --root "$ROOT" --week <주차>
 
 ## 🗓️ 월간 종합 트렌드
 
-월말(또는 "월간 종합" 요청) 시 Claude가 그 달을 관통하는 3대 흐름을 도출해
-`_data/months/<YYYY.MM>.json`에 저장하고 `render.py`를 다시 돌리면, 해당 월 `index.html` 상단에 종합 섹션이 임베드된다.
+월말(또는 "월간 종합" 요청) 시, 그 달을 관통하는 3~4개 흐름을 도출해 `_data/months/<YYYY.MM>.json`에 저장하고
+`render.py`를 (week 지정 없이 또는 최신 주차로) 다시 돌리면, 해당 월 `index.html` 상단에 종합 섹션
+(서술 + 주차별 관심도 추이 SVG)이 자동 임베드된다. 파일이 없으면 "월말에 생성됩니다" 안내만 표시.
+
+형식:
+
+```json
+{
+  "month": "2026.06",
+  "headline_ko": "그 달을 한 줄로 요약",
+  "synthesis": [
+    { "title": "흐름 제목", "tag": "persist | emerging | cooling",
+      "body": "정량 신호를 인용한 근거 + 개인 학습자 관점 시사점" }
+  ]
+}
+```
+
+`tag`는 리포트에서 **지속 / 부상 / 식어감** 색상 배지로 렌더된다.
 
 ---
 

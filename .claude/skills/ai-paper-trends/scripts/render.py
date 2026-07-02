@@ -103,7 +103,7 @@ def paper_tags(paper):
 
 
 # ----------------------------- 카드 -----------------------------
-def build_card(paper, idx, cat_labels):
+def build_card(paper, idx, cat_labels, streak=1):
     raw = paper.get("raw", {})
     t1 = paper.get("tier1") or {}
     t2 = paper.get("tier2")
@@ -136,6 +136,8 @@ def build_card(paper, idx, cat_labels):
               f'<span class="badge badge--cm">💬 {raw.get("num_comments", 0)}</span>']
     if raw.get("github_stars"):
         badges.append(f'<span class="badge badge--star">★ {short(raw["github_stars"])}</span>')
+    if streak and streak >= 2:
+        badges.insert(0, f'<span class="badge badge--streak">🔁 {streak}주 연속</span>')
     badges_html = "".join(badges)
 
     # 키워드 칩
@@ -394,7 +396,23 @@ def render_week(root, week_id, taxonomy, index_data):
     papers = week.get("papers") or []
     ws = week.get("week_summary") or {}
 
-    cards = "\n".join(build_card(p, i + 1, cat_labels) for i, p in enumerate(papers))
+    # 연속 등장(streak): 이번 주에서 거슬러 올라가며 연속으로 트렌딩한 주차 수
+    weeks_covered = (index_data or {}).get("weeks_covered") or []
+    paper_weeks = (index_data or {}).get("paper_weeks") or {}
+
+    def streak_for(pid):
+        appears = set(paper_weeks.get(pid, []))
+        appears.add(week_id)  # 이번 주는 당연히 포함
+        if week_id not in weeks_covered:
+            return 1
+        i = weeks_covered.index(week_id)
+        s = 0
+        while i >= 0 and weeks_covered[i] in appears:
+            s += 1
+            i -= 1
+        return s
+
+    cards = "\n".join(build_card(p, i + 1, cat_labels, streak_for(p.get("id"))) for i, p in enumerate(papers))
 
     total_up = sum(int(p.get("raw", {}).get("upvotes") or 0) for p in papers)
     distinct_tags = len({t for p in papers for t in paper_tags(p)})

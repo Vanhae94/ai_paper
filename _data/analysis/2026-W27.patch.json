@@ -1,0 +1,252 @@
+{
+  "week_id": "2026-W27",
+  "papers": {
+    "2606.23050": {
+      "classify": {
+        "categories": ["Multimodal", "Efficiency/Inference"],
+        "primary_category": "Multimodal",
+        "topic_tags": ["end-to-end-ocr", "kv-cache", "sliding-window-attention", "document-parsing"],
+        "method_tags": ["architecture", "inference-time"],
+        "modality": ["image", "text"],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "상수 KV 캐시(R-SWA)로 수십 페이지 문서를 한 번에 받아 적는, 인간 작업기억을 모사한 OCR 모델.",
+        "problem": "DeepSeek OCR처럼 LLM을 디코더로 쓰는 엔드투엔드 OCR은 언어의 사전분포를 활용해 성능이 좋지만, 출력이 길어질수록 KV 캐시가 누적돼 메모리가 늘고 생성이 느려진다. 긴 필사에도 효율이 떨어지지 않는 인간과 대조된다.",
+        "approach": "DeepSeek OCR을 베이스라인으로, 디코더의 모든 어텐션을 제안 기법 R-SWA(Reference Sliding Window Attention)로 교체한다. R-SWA는 어텐션 연산을 줄이면서 디코딩 내내 KV 캐시를 '상수'로 유지한다. 인코더의 높은 압축률과 결합해 32K 최대 길이에서 수십 페이지를 단일 forward로 전사한다. R-SWA는 OCR뿐 아니라 ASR·번역에도 쓰이는 범용 파싱 어텐션이다.",
+        "contributions": [
+          "디코딩 내내 일정한 KV 캐시를 유지하는 R-SWA 어텐션 제안",
+          "32K 길이에서 수십 페이지 문서를 단일 forward로 전사",
+          "OCR을 넘어 ASR·번역 등에 적용 가능한 범용 파싱 어텐션",
+          "코드·가중치 공개(Baidu, ★11.5k)"
+        ],
+        "why_now": "이번 주 문서 파싱/OCR이 2편 트렌딩에 오르며 다시 부상했다. 특히 '엔드투엔드 OCR + 추론 효율화(상수 KV캐시)'의 결합으로, 효율화가 분야를 가로질러 스며드는 흐름을 보여준다.",
+        "difficulty": "고급",
+        "recommended_reader": "OCR·문서 AI·추론 효율화(어텐션/KV캐시)에 관심 있는 학습자",
+        "field_tags": ["OCR", "상수KV캐시", "슬라이딩윈도우어텐션", "문서AI"],
+        "interest": { "upvotes": 38, "num_comments": 5, "github_stars": 11500 }
+      },
+      "learning": {
+        "key_terms": [
+          { "term": "KV Cache", "gloss": "어텐션 키·값을 저장해 디코딩을 가속하는 캐시. 길어지면 메모리 부담" },
+          { "term": "Sliding Window Attention", "gloss": "최근 일정 구간만 보는 어텐션으로 비용·캐시를 제한" },
+          { "term": "End-to-end OCR", "gloss": "이미지→텍스트를 단일 모델로 직접 수행하는 OCR" }
+        ],
+        "recall_quiz": {
+          "question": "Unlimited OCR이 긴 문서에서도 메모리·속도 저하 없이 작동하게 한 핵심 기법은?",
+          "answer": "디코더 어텐션을 R-SWA로 교체해 디코딩 내내 KV 캐시를 상수로 유지한다."
+        },
+        "spaced_review": { "flag": false, "review_due": null }
+      }
+    },
+
+    "2509.22186": {
+      "classify": {
+        "categories": ["Multimodal", "Vision"],
+        "primary_category": "Multimodal",
+        "topic_tags": ["document-parsing", "vision-language", "coarse-to-fine", "two-stage-parsing"],
+        "method_tags": ["finetuning", "data-centric", "architecture"],
+        "modality": ["image", "text"],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "전역 레이아웃과 지역 인식을 분리한 2단계 전략으로 SOTA를 낸 1.2B 경량 문서 파싱 VLM.",
+        "problem": "고해상도 문서를 통째로 처리하면 연산 비용이 크다. 정확도와 효율을 동시에 잡는 경량 문서 파싱 모델이 필요했다.",
+        "approach": "coarse-to-fine 2단계 전략으로 전역 레이아웃 분석과 지역 내용 인식을 분리한다. 1단계는 다운샘플 이미지에서 효율적으로 구조 요소를 파악하고, 2단계는 그 레이아웃을 길잡이 삼아 원해상도 crop에서 표적 인식해 조밀한 텍스트·수식·표의 세부를 보존한다. 전용 데이터 엔진으로 사전학습·파인튜닝 코퍼스를 대규모 생성한다.",
+        "contributions": [
+          "전역 레이아웃·지역 인식을 분리한 coarse-to-fine 2단계 파싱 전략",
+          "다운샘플→원해상도 crop으로 고해상도 비용을 회피하며 세부 보존",
+          "대규모 학습 코퍼스를 만드는 전용 데이터 엔진",
+          "여러 벤치마크 SOTA를 1.2B 경량·저비용으로 달성(★71.5k)"
+        ],
+        "why_now": "Unlimited OCR과 함께 이번 주 문서 파싱이 2편 트렌딩에 올랐다. '경량 + 2단계 분리'로 효율과 정확도를 동시에 잡는 접근은 기업 문서·RAG 입력단 수요와 직결된다.",
+        "difficulty": "중급",
+        "recommended_reader": "문서 AI·VLM·효율적 추론에 관심 있는 학습자",
+        "field_tags": ["문서파싱", "VLM", "2단계파싱", "경량모델"],
+        "interest": { "upvotes": 174, "num_comments": 2, "github_stars": 71500 }
+      },
+      "learning": {
+        "key_terms": [
+          { "term": "Coarse-to-fine", "gloss": "거칠게(전역) 본 뒤 세밀하게(지역) 처리하는 2단계 전략" },
+          { "term": "Layout Analysis", "gloss": "문서의 구조(제목·표·문단 등)를 파악하는 단계" },
+          { "term": "VLM", "gloss": "이미지와 텍스트를 함께 이해하는 비전-언어 모델" }
+        ],
+        "recall_quiz": {
+          "question": "MinerU2.5가 고해상도 처리 비용을 줄이면서 세부를 보존하는 2단계 전략은?",
+          "answer": "1단계는 다운샘플 이미지로 전역 레이아웃을 분석하고, 2단계는 그 레이아웃을 따라 원해상도 crop만 표적 인식한다."
+        },
+        "spaced_review": { "flag": false, "review_due": null }
+      }
+    },
+
+    "2412.20138": {
+      "classify": {
+        "categories": ["LLM/Agents"],
+        "primary_category": "LLM/Agents",
+        "topic_tags": ["agentic-workflow", "multi-agent", "financial-ai", "tool-use"],
+        "method_tags": ["prompting", "architecture"],
+        "modality": ["text"],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "트레이딩 회사 조직을 본떠 역할을 나눈 LLM 에이전트들이 토론으로 주식 매매를 결정한다.",
+        "problem": "금융 분야의 LLM 활용은 대개 단일 에이전트가 특정 작업을 처리하거나, 여러 에이전트가 따로 데이터만 수집하는 수준에 머물렀다. 실제 트레이딩 회사처럼 전문가들이 협업·토론하며 의사결정하는 구조는 거의 탐구되지 않았다.",
+        "approach": "펀더멘털·감성·기술 분석가, 강세(Bull)·약세(Bear) 리서처, 리스크 관리팀, 트레이더 등 실제 회사의 직무를 LLM 에이전트로 구현한다. 강세·약세 에이전트가 시장 상황을 두고 토론하고, 트레이더가 그 결과와 과거 데이터를 종합해 매매를 결정한다. 협업적이고 동적인 트레이딩 환경을 시뮬레이션하는 것이 핵심이다.",
+        "contributions": [
+          "다중 에이전트 협업·토론 구조를 금융 트레이딩에 적용한 신규 프레임워크 제안",
+          "베이스라인 대비 누적 수익률(cumulative returns) 향상",
+          "샤프 지수(Sharpe ratio)·최대 낙폭(MDD) 등 위험조정 지표 개선",
+          "코드 오픈소스(★89k)로 재현·확장 가능"
+        ],
+        "why_now": "멀티 에이전트 시스템이 핵심 축으로 떠오른 가운데, 이를 '역할 분담 + 토론'이라는 실세계 조직 구조에 매핑한 대표 사례다. W25부터 이번 주까지 3주 연속 트렌딩에 남으며 꾸준한 관심을 입증했다.",
+        "difficulty": "중급",
+        "recommended_reader": "LLM 에이전트 오케스트레이션·금융 AI에 관심 있는 학습자",
+        "field_tags": ["멀티에이전트", "금융AI", "에이전트토론", "리스크관리"],
+        "interest": { "upvotes": 102, "num_comments": 4, "github_stars": 89400 }
+      },
+      "learning": {
+        "key_terms": [
+          { "term": "Multi-Agent System", "gloss": "여러 LLM 에이전트가 역할을 나눠 협업하는 구조" },
+          { "term": "Sharpe Ratio", "gloss": "위험 대비 초과수익을 재는 투자 성과 지표" },
+          { "term": "Maximum Drawdown", "gloss": "고점 대비 최대 하락폭, 손실 위험의 척도" }
+        ],
+        "recall_quiz": {
+          "question": "TradingAgents에서 강세(Bull)·약세(Bear) 에이전트는 매매 결정에 어떻게 기여하는가?",
+          "answer": "시장 상황을 두고 서로 토론하며, 트레이더 에이전트가 그 토론 결과와 과거 데이터를 종합해 최종 매매를 결정한다."
+        },
+        "spaced_review": { "flag": false, "review_due": null }
+      }
+    },
+
+    "2604.14141": {
+      "classify": {
+        "categories": ["Embodied/World Models", "Vision"],
+        "primary_category": "Embodied/World Models",
+        "topic_tags": ["3d-reconstruction", "slam", "geometric-context-transformer", "world-model"],
+        "method_tags": ["architecture", "inference-time"],
+        "modality": ["3d", "video"],
+        "confidence": "medium"
+      },
+      "tier1": {
+        "one_liner": "SLAM 원리를 담은 어텐션으로 영상 스트림에서 실시간(약 20FPS) 3D를 복원하는 피드포워드 파운데이션 모델.",
+        "problem": "스트리밍 3D 재구성은 영상 스트림에서 카메라 포즈·점군을 복원해야 하며, 기하 정확도·시간적 일관성·계산 효율을 동시에 요구한다.",
+        "approach": "SLAM 원리에 착안해 GCT(geometric context transformer) 기반 피드포워드 3D 파운데이션 모델 LingBot-Map을 제안한다. 어텐션이 앵커 컨텍스트(좌표 grounding)·포즈 참조 윈도우(조밀한 기하 단서)·궤적 메모리(장거리 드리프트 보정)를 통합해, 스트리밍 상태를 작게 유지하면서 풍부한 기하 맥락을 보존한다.",
+        "contributions": [
+          "앵커·포즈참조·궤적메모리를 통합한 GCT 어텐션 설계",
+          "518x378 입력·1만+ 프레임에서 약 20FPS 안정적 추론",
+          "스트리밍·반복최적화 기존 기법 대비 우수한 성능",
+          "피드포워드 3D 파운데이션 모델로 효율·정확을 동시 달성"
+        ],
+        "why_now": "이번 주 새로 등장한 3D·공간 AI 주제다. 로보틱스·공간컴퓨팅에서 '피드포워드 3D 파운데이션 모델'이 SLAM의 반복 최적화 방식을 대체하려는 흐름을 보여준다.",
+        "difficulty": "고급",
+        "recommended_reader": "3D 비전·SLAM·로보틱스·공간 AI에 관심 있는 학습자",
+        "field_tags": ["3D재구성", "SLAM", "공간AI", "파운데이션모델"],
+        "interest": { "upvotes": 21, "num_comments": 2, "github_stars": 8200 }
+      },
+      "learning": {
+        "key_terms": [
+          { "term": "SLAM", "gloss": "위치추정과 지도작성을 동시에 하는 기법(Simultaneous Localization and Mapping)" },
+          { "term": "Feed-forward 3D", "gloss": "반복 최적화 없이 한 번의 순전파로 3D를 추정하는 방식" },
+          { "term": "Drift", "gloss": "장시간 추정에서 누적되는 위치 오차" }
+        ],
+        "recall_quiz": {
+          "question": "LingBot-Map의 어텐션이 통합하는 세 요소와 각 역할은?",
+          "answer": "앵커 컨텍스트(좌표 grounding), 포즈 참조 윈도우(조밀한 기하 단서), 궤적 메모리(장거리 드리프트 보정)."
+        },
+        "spaced_review": { "flag": false, "review_due": null }
+      }
+    },
+
+    "2310.10688": {
+      "classify": {
+        "categories": ["Data"],
+        "primary_category": "Data",
+        "topic_tags": ["time-series-foundation-model", "zero-shot", "autoregressive-objective", "forecasting"],
+        "method_tags": ["pretraining", "architecture"],
+        "modality": ["multi"],
+        "confidence": "medium"
+      },
+      "tier1": {
+        "one_liner": "패치드-디코더 어텐션으로 사전학습해, 추가 학습 없이도 다양한 시계열을 예측하는 파운데이션 모델.",
+        "problem": "NLP의 LLM 발전에 영감받아, 데이터셋마다 따로 학습하지 않고도 즉시(zero-shot) 쓸 수 있는 시계열 예측 파운데이션 모델이 필요했다. 기존엔 데이터셋별 지도학습 모델이 각각 최고 성능을 냈다.",
+        "approach": "대규모 시계열 코퍼스에 patched-decoder 스타일의 어텐션 모델을 사전학습한다. 다양한 관측 길이·예측 길이·시간 granularity에 두루 동작하도록 설계해, 공개 데이터셋에서 제로샷 성능이 데이터셋별 SOTA 지도학습 모델에 근접한다.",
+        "contributions": [
+          "시계열 예측용 디코더 전용(decoder-only) 파운데이션 모델 제안",
+          "여러 공개 데이터셋에서 제로샷 성능이 데이터셋별 SOTA 지도학습에 근접",
+          "관측·예측 길이와 시간 granularity 변화에 두루 일반화",
+          "코드 공개(Google, ★26k)"
+        ],
+        "why_now": "지난주에 이어 '시계열 파운데이션 모델'이 3주 연속(Kronos→TimesFM→TimesFM) 트렌딩에 올랐다. LLM의 사전학습·제로샷 패러다임이 시계열로 번지는 흐름이 꾸준하다.",
+        "difficulty": "중급",
+        "recommended_reader": "시계열 예측·파운데이션 모델에 관심 있는 학습자",
+        "field_tags": ["시계열", "파운데이션모델", "제로샷", "예측"],
+        "interest": { "upvotes": 37, "num_comments": 1, "github_stars": 26000 }
+      },
+      "learning": {
+        "key_terms": [
+          { "term": "Zero-shot", "gloss": "별도 추가 학습 없이 바로 새 데이터에 적용하는 능력" },
+          { "term": "Patched-decoder", "gloss": "시계열을 패치 단위로 묶어 디코더로 처리하는 구조" },
+          { "term": "Temporal Granularity", "gloss": "시·일·주 등 데이터의 시간 해상도" }
+        ],
+        "recall_quiz": {
+          "question": "TimesFM이 데이터셋마다 따로 학습하지 않고도 좋은 예측을 내는 학습 방식은?",
+          "answer": "대규모 시계열 코퍼스에 patched-decoder 어텐션 모델을 사전학습한 뒤 zero-shot으로 적용한다."
+        },
+        "spaced_review": { "flag": false, "review_due": null }
+      }
+    },
+
+    "2601.02163": {
+      "classify": {
+        "categories": ["LLM/Agents", "Reasoning"],
+        "primary_category": "LLM/Agents",
+        "topic_tags": ["memory-systems", "long-horizon-reasoning", "agentic-retrieval", "personalization"],
+        "method_tags": ["architecture", "inference-time"],
+        "modality": ["text"],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "대화 스트림을 '기억 세포(MemCell)'로 구조화해 장기 상호작용을 지탱하는 자기조직 메모리 OS.",
+        "problem": "LLM이 장기 상호작용 에이전트로 쓰이지만, 제한된 컨텍스트 윈도우 탓에 긴 대화에서 일관된 행동을 유지하기 어렵다. 기존 메모리 시스템은 고립된 기록을 저장하고 단편만 검색해, 변화하는 사용자 상태를 통합하거나 충돌을 해소하지 못한다.",
+        "approach": "엔그램(engram)에서 영감받은 기억 생애주기를 구현한다. ①Episodic Trace Formation이 대화 스트림을 일화 흔적·원자적 사실·시간한정 Foresight 신호를 담은 MemCell로 변환하고, ②Semantic Consolidation이 MemCell을 주제별 MemScene으로 묶어 안정적 의미 구조를 추출하며 사용자 프로필을 갱신하고, ③Reconstructive Recollection이 MemScene 기반 에이전트 검색으로 추론에 필요·충분한 맥락을 구성한다.",
+        "contributions": [
+          "엔그램 기반 기억 생애주기를 구현한 자기조직 메모리 OS 제안",
+          "MemCell → MemScene → 재구성적 회상(Reconstructive Recollection)의 3단계 구조",
+          "LoCoMo·LongMemEval에서 메모리 증강 추론 SOTA",
+          "PersonaMem v2 프로필 연구·사례연구로 사용자 프로파일링·Foresight 등 채팅 능력 입증, 코드 공개"
+        ],
+        "why_now": "에이전트가 '오래 기억하고 일관되게 행동'하는 능력은 장기 상호작용의 핵심 과제다. 지난주에 이어 2주 연속 트렌딩하며 '에이전트 메모리'가 꾸준한 화두임을 보여준다.",
+        "difficulty": "고급",
+        "recommended_reader": "에이전트 메모리·장기 상호작용·개인화에 관심 있는 학습자",
+        "field_tags": ["에이전트메모리", "장기상호작용", "메모리OS", "개인화"],
+        "interest": { "upvotes": 9, "num_comments": 1, "github_stars": 9600 }
+      },
+      "learning": {
+        "key_terms": [
+          { "term": "Context Window", "gloss": "모델이 한 번에 볼 수 있는 입력 길이의 한계" },
+          { "term": "Engram", "gloss": "기억이 뇌에 저장된 물리적 흔적. 여기선 계산적 기억의 비유" },
+          { "term": "MemCell", "gloss": "대화에서 추출한 일화·사실·예측 신호를 담는 기억 단위" }
+        ],
+        "recall_quiz": {
+          "question": "EverMemOS가 대화 스트림을 처리하는 3단계는 무엇인가?",
+          "answer": "Episodic Trace Formation(MemCell 생성) → Semantic Consolidation(MemScene으로 묶기) → Reconstructive Recollection(맥락 재구성 검색)."
+        },
+        "spaced_review": { "flag": false, "review_due": null }
+      }
+    }
+  },
+
+  "week_summary": {
+    "headline_ko": "문서 파싱·OCR이 다시 부상(2편)하고 '효율화'가 분야를 가로지른다 — 에이전트는 조정, 시계열 FM은 3주 연속",
+    "clusters": [
+      { "category": "Multimodal", "paper_ranks": [1, 2], "theme_ko": "문서 파싱/OCR 부상 — 상수 KV캐시(Unlimited OCR)·경량 2단계(MinerU2.5)" },
+      { "category": "LLM/Agents", "paper_ranks": [3, 6], "theme_ko": "에이전트 — 금융 트레이딩(3주 연속)·장기 메모리(2주 연속)" },
+      { "category": "Data", "paper_ranks": [5], "theme_ko": "시계열 파운데이션 모델(TimesFM) — 3주 연속" },
+      { "category": "Embodied/World Models", "paper_ranks": [4], "theme_ko": "스트리밍 3D 재구성(LingBot-Map) — 이번 주 첫 등장" }
+    ],
+    "emerging_keywords": ["document-parsing", "kv-cache"],
+    "narrative_ko": "이번 주 트렌딩은 문서 파싱/OCR로 무게가 옮겨갔다 — Unlimited OCR(상수 KV캐시 R-SWA)과 MinerU2.5(▲174, 1.2B 경량 2단계)가 나란히 올랐다. 에이전트는 TradingAgents(3주 연속)·EverMemOS(2주 연속) 2편으로 지난주(5편)보다 줄었고, 시계열 파운데이션 모델(TimesFM)은 3주 연속 자리를 지켰다. 새 얼굴로는 스트리밍 3D 재구성(LingBot-Map)이 처음 등장했다. 전반적으로 '효율화'가 OCR·모델 설계 전반에 스며드는 점이 두드러진다.",
+    "recent_trend_ko": "누적 3주차 — 트렌드 판정을 시작한다. [지속] LLM/Agents가 3주 모두 등장(주당 3→5→2편)했고, 시계열 파운데이션 모델도 Kronos→TimesFM→TimesFM로 3주 연속이다(TradingAgents는 개별 논문으로 3주 연속 트렌딩). [부상] 문서 파싱/OCR이 이번 주 2편으로 급증했다(W25 1편→W26 0→W27 2편). [가로지르는 흐름] '효율화'가 독립 주제를 넘어 여러 분야에 스며든다 — W25 LMCache(KV캐시), W26 GLM-5(DSA 비용절감), W27 Unlimited OCR(상수 KV캐시)·MinerU2.5(1.2B 경량). [단발] 스트리밍 3D 재구성(LingBot-Map)이 이번 주 처음 등장했다. [조정] 지난주 6편 중 5편이던 에이전트 비중은 이번 주 2편으로 줄어 W26이 단기 정점이었다.",
+    "caveats_ko": "주 6편 트렌딩 표본 기준이며 HuggingFace 커뮤니티의 인기·최신 편향이 있습니다. 업보트·스타는 중요도가 아닌 '관심도' 지표로만 해석하세요. 일부 논문은 과거 발표작이 이번 주 다시 트렌딩에 올랐을 수 있습니다(예: TradingAgents·TimesFM·MinerU2.5)."
+  }
+}

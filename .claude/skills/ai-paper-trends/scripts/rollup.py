@@ -100,6 +100,7 @@ def main():
     category_upvote = {}         # cat -> {week: upvote_sum}
     keyword_freq = {}            # tag -> {weeks:set, count:int, first_seen:str}
     paper_week_map = {}          # arxiv_id -> first week seen
+    paper_weeks = {}             # arxiv_id -> [등장한 모든 주차] (연속 등장/streak 계산용)
     per_week = {}                # week -> rollup
     total_papers = 0
 
@@ -113,6 +114,8 @@ def main():
             pid = p.get("id")
             if pid and pid not in paper_week_map:
                 paper_week_map[pid] = wid
+            if pid:
+                paper_weeks.setdefault(pid, []).append(wid)
 
             cat = primary_category(p)
             category_timeseries.setdefault(cat, {})
@@ -160,6 +163,7 @@ def main():
         "category_upvote_weighted": category_upvote,
         "keyword_freq": keyword_freq_out,
         "paper_week_map": paper_week_map,
+        "paper_weeks": paper_weeks,
         "per_week": per_week,
         "totals": {"papers": total_papers, "weeks": len(weeks)},
     }

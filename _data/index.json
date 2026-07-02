@@ -1,72 +1,89 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-06-22T09:01:41+09:00",
+  "generated_at": "2026-06-29T09:37:25+09:00",
   "weeks_covered": [
     "2026-W25",
-    "2026-W26"
+    "2026-W26",
+    "2026-W27"
   ],
   "category_timeseries": {
     "LLM/Agents": {
       "2026-W25": 3,
-      "2026-W26": 5
+      "2026-W26": 5,
+      "2026-W27": 2
     },
     "Data": {
       "2026-W25": 1,
-      "2026-W26": 1
+      "2026-W26": 1,
+      "2026-W27": 1
     },
     "Multimodal": {
-      "2026-W25": 1
+      "2026-W25": 1,
+      "2026-W27": 2
     },
     "Efficiency/Inference": {
       "2026-W25": 1
+    },
+    "Embodied/World Models": {
+      "2026-W27": 1
     }
   },
   "category_upvote_weighted": {
     "LLM/Agents": {
       "2026-W25": 405,
-      "2026-W26": 601
+      "2026-W26": 601,
+      "2026-W27": 111
     },
     "Data": {
       "2026-W25": 41,
-      "2026-W26": 34
+      "2026-W26": 34,
+      "2026-W27": 37
     },
     "Multimodal": {
-      "2026-W25": 16
+      "2026-W25": 16,
+      "2026-W27": 212
     },
     "Efficiency/Inference": {
       "2026-W25": 5
+    },
+    "Embodied/World Models": {
+      "2026-W27": 21
     }
   },
   "keyword_freq": {
     "agentic-workflow": {
-      "count": 6,
+      "count": 7,
       "weeks": [
         "2026-W25",
-        "2026-W26"
+        "2026-W26",
+        "2026-W27"
       ],
       "first_seen": "2026-W25"
     },
     "multi-agent": {
-      "count": 2,
+      "count": 3,
       "weeks": [
         "2026-W25",
-        "2026-W26"
+        "2026-W26",
+        "2026-W27"
       ],
       "first_seen": "2026-W25"
     },
     "financial-ai": {
-      "count": 3,
+      "count": 4,
       "weeks": [
         "2026-W25",
-        "2026-W26"
+        "2026-W26",
+        "2026-W27"
       ],
       "first_seen": "2026-W25"
     },
     "tool-use": {
-      "count": 4,
+      "count": 5,
       "weeks": [
         "2026-W25",
-        "2026-W26"
+        "2026-W26",
+        "2026-W27"
       ],
       "first_seen": "2026-W25"
     },
@@ -103,10 +120,11 @@
       "first_seen": "2026-W25"
     },
     "time-series-foundation-model": {
-      "count": 2,
+      "count": 3,
       "weeks": [
         "2026-W25",
-        "2026-W26"
+        "2026-W26",
+        "2026-W27"
       ],
       "first_seen": "2026-W25"
     },
@@ -118,10 +136,11 @@
       "first_seen": "2026-W25"
     },
     "autoregressive-objective": {
-      "count": 2,
+      "count": 3,
       "weeks": [
         "2026-W25",
-        "2026-W26"
+        "2026-W26",
+        "2026-W27"
       ],
       "first_seen": "2026-W25"
     },
@@ -142,16 +161,18 @@
       "first_seen": "2026-W25"
     },
     "document-parsing": {
-      "count": 1,
+      "count": 3,
       "weeks": [
-        "2026-W25"
+        "2026-W25",
+        "2026-W27"
       ],
       "first_seen": "2026-W25"
     },
     "vision-language": {
-      "count": 1,
+      "count": 2,
       "weeks": [
-        "2026-W25"
+        "2026-W25",
+        "2026-W27"
       ],
       "first_seen": "2026-W25"
     },
@@ -171,9 +192,10 @@
       "first_seen": "2026-W25"
     },
     "kv-cache": {
-      "count": 1,
+      "count": 2,
       "weeks": [
-        "2026-W25"
+        "2026-W25",
+        "2026-W27"
       ],
       "first_seen": "2026-W25"
     },
@@ -199,16 +221,18 @@
       "first_seen": "2026-W25"
     },
     "zero-shot": {
-      "count": 1,
+      "count": 2,
       "weeks": [
-        "2026-W26"
+        "2026-W26",
+        "2026-W27"
       ],
       "first_seen": "2026-W26"
     },
     "forecasting": {
-      "count": 1,
+      "count": 2,
       "weeks": [
-        "2026-W26"
+        "2026-W26",
+        "2026-W27"
       ],
       "first_seen": "2026-W26"
     },
@@ -234,32 +258,92 @@
       "first_seen": "2026-W26"
     },
     "memory-systems": {
-      "count": 1,
+      "count": 2,
       "weeks": [
-        "2026-W26"
+        "2026-W26",
+        "2026-W27"
       ],
       "first_seen": "2026-W26"
     },
     "long-horizon-reasoning": {
-      "count": 1,
+      "count": 2,
       "weeks": [
-        "2026-W26"
+        "2026-W26",
+        "2026-W27"
       ],
       "first_seen": "2026-W26"
     },
     "agentic-retrieval": {
-      "count": 1,
+      "count": 2,
       "weeks": [
-        "2026-W26"
+        "2026-W26",
+        "2026-W27"
       ],
       "first_seen": "2026-W26"
     },
     "personalization": {
-      "count": 1,
+      "count": 2,
       "weeks": [
-        "2026-W26"
+        "2026-W26",
+        "2026-W27"
       ],
       "first_seen": "2026-W26"
+    },
+    "end-to-end-ocr": {
+      "count": 1,
+      "weeks": [
+        "2026-W27"
+      ],
+      "first_seen": "2026-W27"
+    },
+    "sliding-window-attention": {
+      "count": 1,
+      "weeks": [
+        "2026-W27"
+      ],
+      "first_seen": "2026-W27"
+    },
+    "coarse-to-fine": {
+      "count": 1,
+      "weeks": [
+        "2026-W27"
+      ],
+      "first_seen": "2026-W27"
+    },
+    "two-stage-parsing": {
+      "count": 1,
+      "weeks": [
+        "2026-W27"
+      ],
+      "first_seen": "2026-W27"
+    },
+    "3d-reconstruction": {
+      "count": 1,
+      "weeks": [
+        "2026-W27"
+      ],
+      "first_seen": "2026-W27"
+    },
+    "slam": {
+      "count": 1,
+      "weeks": [
+        "2026-W27"
+      ],
+      "first_seen": "2026-W27"
+    },
+    "geometric-context-transformer": {
+      "count": 1,
+      "weeks": [
+        "2026-W27"
+      ],
+      "first_seen": "2026-W27"
+    },
+    "world-model": {
+      "count": 1,
+      "weeks": [
+        "2026-W27"
+      ],
+      "first_seen": "2026-W27"
     }
   },
   "paper_week_map": {
@@ -271,7 +355,54 @@
     "2510.09665": "2026-W25",
     "2310.10688": "2026-W26",
     "2602.15763": "2026-W26",
-    "2601.02163": "2026-W26"
+    "2601.02163": "2026-W26",
+    "2606.23050": "2026-W27",
+    "2509.22186": "2026-W27",
+    "2604.14141": "2026-W27"
+  },
+  "paper_weeks": {
+    "2412.20138": [
+      "2026-W25",
+      "2026-W26",
+      "2026-W27"
+    ],
+    "2605.23904": [
+      "2026-W25",
+      "2026-W26"
+    ],
+    "2508.02739": [
+      "2026-W25"
+    ],
+    "2407.16741": [
+      "2026-W25",
+      "2026-W26"
+    ],
+    "2606.03264": [
+      "2026-W25"
+    ],
+    "2510.09665": [
+      "2026-W25"
+    ],
+    "2310.10688": [
+      "2026-W26",
+      "2026-W27"
+    ],
+    "2602.15763": [
+      "2026-W26"
+    ],
+    "2601.02163": [
+      "2026-W26",
+      "2026-W27"
+    ],
+    "2606.23050": [
+      "2026-W27"
+    ],
+    "2509.22186": [
+      "2026-W27"
+    ],
+    "2604.14141": [
+      "2026-W27"
+    ]
   },
   "per_week": {
     "2026-W25": {
@@ -303,10 +434,25 @@
       ],
       "headline_ko": "트렌딩 6편 중 5편이 '에이전트' — 코딩·금융·메모리·자기개선으로 확장, 시계열 파운데이션 모델은 2주 연속",
       "analyzed": true
+    },
+    "2026-W27": {
+      "month_folder": "2026.06",
+      "date_range_ko": "2026-06-29 ~ 2026-07-05",
+      "paper_count": 6,
+      "total_upvotes": 381,
+      "top_tags": [
+        "document-parsing",
+        "3d-reconstruction",
+        "agentic-retrieval",
+        "agentic-workflow",
+        "autoregressive-objective"
+      ],
+      "headline_ko": "문서 파싱·OCR이 다시 부상(2편)하고 '효율화'가 분야를 가로지른다 — 에이전트는 조정, 시계열 FM은 3주 연속",
+      "analyzed": true
     }
   },
   "totals": {
-    "papers": 12,
-    "weeks": 2
+    "papers": 18,
+    "weeks": 3
   }
 }
