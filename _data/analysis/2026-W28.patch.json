@@ -1,0 +1,321 @@
+{
+  "week_id": "2026-W28",
+  "papers": {
+    "2606.23050": {
+      "classify": {
+        "categories": ["Multimodal", "Efficiency/Inference"],
+        "primary_category": "Multimodal",
+        "topic_tags": ["end-to-end-ocr", "kv-cache", "sliding-window-attention", "document-parsing"],
+        "method_tags": ["architecture", "inference-time"],
+        "modality": ["image", "text"],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "상수 KV 캐시(R-SWA)로 수십 페이지 문서를 한 번에 받아 적는, 인간 작업기억을 모사한 OCR 모델.",
+        "problem": "DeepSeek OCR처럼 LLM을 디코더로 쓰는 엔드투엔드 OCR은 언어의 사전분포를 활용해 성능이 좋지만, 출력이 길어질수록 KV 캐시가 누적돼 메모리가 늘고 생성이 느려진다. 긴 필사에도 효율이 떨어지지 않는 인간과 대조된다.",
+        "approach": "DeepSeek OCR을 베이스라인으로, 디코더의 모든 어텐션을 제안 기법 R-SWA(Reference Sliding Window Attention)로 교체한다. R-SWA는 어텐션 연산을 줄이면서 디코딩 내내 KV 캐시를 '상수'로 유지한다. 인코더의 높은 압축률과 결합해 32K 최대 길이에서 수십 페이지를 단일 forward로 전사한다. R-SWA는 OCR뿐 아니라 ASR·번역에도 쓰이는 범용 파싱 어텐션이다.",
+        "contributions": [
+          "디코딩 내내 일정한 KV 캐시를 유지하는 R-SWA 어텐션 제안",
+          "32K 길이에서 수십 페이지 문서를 단일 forward로 전사",
+          "OCR을 넘어 ASR·번역 등에 적용 가능한 범용 파싱 어텐션",
+          "코드·가중치 공개(Baidu, ★13.3k)"
+        ],
+        "why_now": "문서 파싱/OCR이 이번 주를 지배한 가운데(3편), '엔드투엔드 OCR + 추론 효율화(상수 KV캐시)'의 결합으로 2주 연속 트렌딩했다. 효율화가 분야를 가로지르는 흐름의 대표 사례다.",
+        "difficulty": "고급",
+        "recommended_reader": "OCR·문서 AI·추론 효율화(어텐션/KV캐시)에 관심 있는 학습자",
+        "field_tags": ["OCR", "상수KV캐시", "슬라이딩윈도우어텐션", "문서AI"],
+        "interest": { "upvotes": 50, "num_comments": 5, "github_stars": 13300 }
+      },
+      "tier2": {
+        "analyzed_at": "2026-06-29",
+        "method_detail": "핵심은 R-SWA(Reference Sliding Window Attention). 디코딩 중 KV 캐시를 두 부분으로 유지한다 — 고정 프리픽스(시각+프롬프트 토큰, 길이 L_m)와 생성 텍스트에 대한 폭 n(기본 128)의 인과적 슬라이딩 윈도우. 캐시 크기는 C = L_m + min(n, T) ≤ L_m + n 으로, 윈도우 크기까지만 커지고 이후 '상수'다(표준 MHA는 L_m + T로 선형 증가). 시각(reference) 토큰은 상태 전이 없이 디코딩 내내 전역으로 접근 가능해, 일반 슬라이딩 윈도우와 달리 시각 특징이 '흐려지지' 않는다. 베이스라인 DeepSeek OCR의 인코더(DeepEncoder: SAM-ViT + CLIP-ViT, 16× 토큰 압축, 1024² → ~256 토큰)는 동결하고 디코더 어텐션만 R-SWA로 교체, LLM 파라미터만 학습한다. 디코더 3B(MoE로 ~500M 활성).",
+        "experiment_setup": [
+          "주 벤치마크: OmniDocBench v1.5/v1.6",
+          "비교: DeepSeek OCR(베이스라인)",
+          "장문 평가: 2~40+ 페이지 문서를 단일 forward로 전사"
+        ],
+        "datasets": [
+          { "name": "문서 학습 샘플", "scale": "약 200만(단일:다중 페이지 ≈ 9:1)", "domain": "문서 OCR" }
+        ],
+        "limitations": {
+          "by_authors": [
+            "프리필 32K 제한 — 페이지가 매우 많으면 한계(향후 128K 학습 예정)",
+            "다중페이지 모드는 Base 인코더(1024²)라 해상도 손실 → 20페이지 넘으면 edit distance 상승"
+          ],
+          "by_claude": [
+            "ASR·번역 일반화는 주장만 있고 실험 검증 없음(future work)",
+            "KV캐시 절감이 초장문에서 품질 저하와 트레이드오프"
+          ]
+        },
+        "reproducibility": {
+          "code": "공개", "weights": "공개", "data": "불명", "license": "CC BY 4.0",
+          "note": "github.com/baidu/Unlimited-OCR, ★13.3k"
+        },
+        "my_learning_points": [
+          "'reference 토큰을 상태전이에서 제외'가 핵심 트릭 — 시각 충실도를 지키며 KV캐시를 상수화",
+          "상수 KV캐시 = 장문 추론 비용의 근본 해법(W25 LMCache의 외부 오프로딩과 다른 각도)",
+          "DeepSeek OCR 대비 OmniDocBench v1.5 +6.22%p, 6K 토큰 구간 ~35% 빠름"
+        ],
+        "related_work": {
+          "prior": [{ "name": "DeepSeek OCR", "relation": "베이스라인 — 인코더 재사용, 디코더 어텐션만 교체" }],
+          "followup": [{ "name": "MinerU2.5 / olmOCR", "relation": "같은 문서 파싱 흐름의 동시대 경쟁·보완" }]
+        },
+        "claude_note": "'인간은 이미 쓴 글을 다시 다 읽지 않는다'는 직관을 reference 토큰 전역 접근 + 출력 슬라이딩 윈도우로 구현해 KV캐시를 상수로 만든 영리한 설계. 문서 파싱과 추론 효율화가 한 논문에서 만나는 이번 흐름의 전형."
+      },
+      "learning": {
+        "key_terms": [
+          { "term": "KV Cache", "gloss": "어텐션 키·값을 저장해 디코딩을 가속하는 캐시. 길어지면 메모리 부담" },
+          { "term": "Sliding Window Attention", "gloss": "최근 일정 구간만 보는 어텐션으로 비용·캐시를 제한" },
+          { "term": "End-to-end OCR", "gloss": "이미지→텍스트를 단일 모델로 직접 수행하는 OCR" }
+        ],
+        "recall_quiz": {
+          "question": "Unlimited OCR이 긴 문서에서도 메모리·속도 저하 없이 작동하게 한 핵심 기법은?",
+          "answer": "디코더 어텐션을 R-SWA로 교체해 디코딩 내내 KV 캐시를 상수로 유지한다."
+        },
+        "spaced_review": { "flag": false, "review_due": null }
+      }
+    },
+
+    "2412.20138": {
+      "classify": {
+        "categories": ["LLM/Agents"],
+        "primary_category": "LLM/Agents",
+        "topic_tags": ["agentic-workflow", "multi-agent", "financial-ai", "tool-use"],
+        "method_tags": ["prompting", "architecture"],
+        "modality": ["text"],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "트레이딩 회사 조직을 본떠 역할을 나눈 LLM 에이전트들이 토론으로 주식 매매를 결정한다.",
+        "problem": "금융 분야의 LLM 활용은 대개 단일 에이전트가 특정 작업을 처리하거나, 여러 에이전트가 따로 데이터만 수집하는 수준에 머물렀다. 실제 트레이딩 회사처럼 전문가들이 협업·토론하며 의사결정하는 구조는 거의 탐구되지 않았다.",
+        "approach": "펀더멘털·감성·기술 분석가, 강세(Bull)·약세(Bear) 리서처, 리스크 관리팀, 트레이더 등 실제 회사의 직무를 LLM 에이전트로 구현한다. 강세·약세 에이전트가 시장 상황을 두고 토론하고, 트레이더가 그 결과와 과거 데이터를 종합해 매매를 결정한다. 협업적이고 동적인 트레이딩 환경을 시뮬레이션하는 것이 핵심이다.",
+        "contributions": [
+          "다중 에이전트 협업·토론 구조를 금융 트레이딩에 적용한 신규 프레임워크 제안",
+          "베이스라인 대비 누적 수익률(cumulative returns) 향상",
+          "샤프 지수(Sharpe ratio)·최대 낙폭(MDD) 등 위험조정 지표 개선",
+          "코드 오픈소스(★91k)로 재현·확장 가능"
+        ],
+        "why_now": "W25부터 이번 주까지 '4주 연속' 트렌딩에 오른 6월~7월의 롱런 논문이다. 멀티 에이전트 × 금융이라는 조합이 꾸준한 관심을 받고 있음을 보여준다.",
+        "difficulty": "중급",
+        "recommended_reader": "LLM 에이전트 오케스트레이션·금융 AI에 관심 있는 학습자",
+        "field_tags": ["멀티에이전트", "금융AI", "에이전트토론", "리스크관리"],
+        "interest": { "upvotes": 103, "num_comments": 4, "github_stars": 91000 }
+      },
+      "learning": {
+        "key_terms": [
+          { "term": "Multi-Agent System", "gloss": "여러 LLM 에이전트가 역할을 나눠 협업하는 구조" },
+          { "term": "Sharpe Ratio", "gloss": "위험 대비 초과수익을 재는 투자 성과 지표" },
+          { "term": "Maximum Drawdown", "gloss": "고점 대비 최대 하락폭, 손실 위험의 척도" }
+        ],
+        "recall_quiz": {
+          "question": "TradingAgents에서 강세(Bull)·약세(Bear) 에이전트는 매매 결정에 어떻게 기여하는가?",
+          "answer": "시장 상황을 두고 서로 토론하며, 트레이더 에이전트가 그 토론 결과와 과거 데이터를 종합해 최종 매매를 결정한다."
+        },
+        "spaced_review": { "flag": false, "review_due": null }
+      }
+    },
+
+    "2509.22186": {
+      "classify": {
+        "categories": ["Multimodal", "Vision"],
+        "primary_category": "Multimodal",
+        "topic_tags": ["document-parsing", "vision-language", "coarse-to-fine", "two-stage-parsing"],
+        "method_tags": ["finetuning", "data-centric", "architecture"],
+        "modality": ["image", "text"],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "전역 레이아웃과 지역 인식을 분리한 2단계 전략으로 SOTA를 낸 1.2B 경량 문서 파싱 VLM.",
+        "problem": "고해상도 문서를 통째로 처리하면 연산 비용이 크다. 정확도와 효율을 동시에 잡는 경량 문서 파싱 모델이 필요했다.",
+        "approach": "coarse-to-fine 2단계 전략으로 전역 레이아웃 분석과 지역 내용 인식을 분리한다. 1단계는 다운샘플 이미지에서 효율적으로 구조 요소를 파악하고, 2단계는 그 레이아웃을 길잡이 삼아 원해상도 crop에서 표적 인식해 조밀한 텍스트·수식·표의 세부를 보존한다. 전용 데이터 엔진으로 사전학습·파인튜닝 코퍼스를 대규모 생성한다.",
+        "contributions": [
+          "전역 레이아웃·지역 인식을 분리한 coarse-to-fine 2단계 파싱 전략",
+          "다운샘플→원해상도 crop으로 고해상도 비용을 회피하며 세부 보존",
+          "대규모 학습 코퍼스를 만드는 전용 데이터 엔진",
+          "여러 벤치마크 SOTA를 1.2B 경량·저비용으로 달성(★73.5k)"
+        ],
+        "why_now": "문서 파싱이 이번 주를 지배한 3편 중 최다 업보트(▲174, 2주 연속). '경량 + 2단계 분리'로 효율과 정확을 동시에 잡는 접근이 기업 문서·RAG 입력단 수요와 직결된다.",
+        "difficulty": "중급",
+        "recommended_reader": "문서 AI·VLM·효율적 추론에 관심 있는 학습자",
+        "field_tags": ["문서파싱", "VLM", "2단계파싱", "경량모델"],
+        "interest": { "upvotes": 174, "num_comments": 2, "github_stars": 73500 }
+      },
+      "tier2": {
+        "analyzed_at": "2026-06-29",
+        "method_detail": "1.2B VLM = 비전 인코더(675M NaViT, Qwen2-VL 초기화, 2D-RoPE로 동적 해상도) + 언어모델(0.5B Qwen2-Instruct 디코더, M-RoPE) + 패치 머저(2×2 비전 토큰 pixel-unshuffle). 2단계 파이프라인: 1단계는 입력을 1036×1036 썸네일로 리사이즈해 전역 레이아웃을 저비용으로 분석하고, 2단계는 검출된 레이아웃으로 원해상도(최대 2048²) crop을 떠 조밀한 텍스트·수식·표를 인식한다. 이 분리로 엔드투엔드 원해상도 처리의 O(N²) 토큰 복잡도를 회피한다.",
+        "experiment_setup": [
+          "벤치마크: OmniDocBench(1,355 페이지), Ocean-OCR, olmOCR-bench",
+          "비교: 범용 VLM(GPT-4o·Gemini-2.5 Pro·Qwen2.5-VL-72B) + 전문 모델(dots.ocr·MonkeyOCR·olmOCR)",
+          "주요 결과: OmniDocBench 종합 90.67(dots.ocr 88.41 대비 우위), 표 TEDS 88.22"
+        ],
+        "datasets": [
+          { "name": "사전학습(레이아웃/텍스트/수식/표)", "scale": "6.9M 샘플", "domain": "문서(논문·교재·보고서, 중·영 균형)" },
+          { "name": "파인튜닝(IMIC 난이도 채굴)", "scale": "630K 샘플", "domain": "hard case 중심" }
+        ],
+        "limitations": {
+          "by_authors": ["원문에 명시적 '한계' 절은 두드러지지 않음"],
+          "by_claude": [
+            "1단계 썸네일 품질에 레이아웃 검출이 의존",
+            "2단계가 1단계 레이아웃 오류를 전파할 수 있음"
+          ]
+        },
+        "reproducibility": {
+          "code": "공개", "weights": "공개", "data": "부분", "license": "확인 필요",
+          "note": "github.com/opendatalab/MinerU + HF opendatalab/MinerU2.5-2509-1.2B, ★73.5k"
+        },
+        "my_learning_points": [
+          "coarse(썸네일 전역)→fine(원해상도 crop) 분리로 고해상도 비용을 피하는 패턴",
+          "데이터 엔진 IMIC(추론 일관성으로 hard case 채굴)가 SOTA의 숨은 동력",
+          "1.2B로 72B급 범용 VLM 능가 + 4~7× 처리량 — 특화 경량의 효율"
+        ],
+        "related_work": {
+          "prior": [{ "name": "PaddleOCR-VL (W25)", "relation": "같은 문서 파싱 흐름의 직전 등장 논문" }],
+          "followup": [{ "name": "Unlimited OCR / olmOCR", "relation": "같은 흐름의 효율(상수 KV캐시)·대량처리($) 각도" }]
+        },
+        "claude_note": "'전역은 싸게(썸네일), 지역은 정밀하게(원해상도 crop)'라는 단순한 분리로 정확도·효율을 동시에 잡았고 IMIC 데이터 엔진이 뒤를 받친다. 4주째 이어지는 문서 파싱 강세의 대표작."
+      },
+      "learning": {
+        "key_terms": [
+          { "term": "Coarse-to-fine", "gloss": "거칠게(전역) 본 뒤 세밀하게(지역) 처리하는 2단계 전략" },
+          { "term": "Layout Analysis", "gloss": "문서의 구조(제목·표·문단 등)를 파악하는 단계" },
+          { "term": "VLM", "gloss": "이미지와 텍스트를 함께 이해하는 비전-언어 모델" }
+        ],
+        "recall_quiz": {
+          "question": "MinerU2.5가 고해상도 처리 비용을 줄이면서 세부를 보존하는 2단계 전략은?",
+          "answer": "1단계는 다운샘플 이미지로 전역 레이아웃을 분석하고, 2단계는 그 레이아웃을 따라 원해상도 crop만 표적 인식한다."
+        },
+        "spaced_review": { "flag": false, "review_due": null }
+      }
+    },
+
+    "2604.14141": {
+      "classify": {
+        "categories": ["Embodied/World Models", "Vision"],
+        "primary_category": "Embodied/World Models",
+        "topic_tags": ["3d-reconstruction", "slam", "geometric-context-transformer", "world-model"],
+        "method_tags": ["architecture", "inference-time"],
+        "modality": ["3d", "video"],
+        "confidence": "medium"
+      },
+      "tier1": {
+        "one_liner": "SLAM 원리를 담은 어텐션으로 영상 스트림에서 실시간(약 20FPS) 3D를 복원하는 피드포워드 파운데이션 모델.",
+        "problem": "스트리밍 3D 재구성은 영상 스트림에서 카메라 포즈·점군을 복원해야 하며, 기하 정확도·시간적 일관성·계산 효율을 동시에 요구한다.",
+        "approach": "SLAM 원리에 착안해 GCT(geometric context transformer) 기반 피드포워드 3D 파운데이션 모델 LingBot-Map을 제안한다. 어텐션이 앵커 컨텍스트(좌표 grounding)·포즈 참조 윈도우(조밀한 기하 단서)·궤적 메모리(장거리 드리프트 보정)를 통합해, 스트리밍 상태를 작게 유지하면서 풍부한 기하 맥락을 보존한다.",
+        "contributions": [
+          "앵커·포즈참조·궤적메모리를 통합한 GCT 어텐션 설계",
+          "518x378 입력·1만+ 프레임에서 약 20FPS 안정적 추론",
+          "스트리밍·반복최적화 기존 기법 대비 우수한 성능",
+          "피드포워드 3D 파운데이션 모델로 효율·정확을 동시 달성"
+        ],
+        "why_now": "지난주 첫 등장에 이어 2주 연속 트렌딩했다. 로보틱스·공간컴퓨팅에서 '피드포워드 3D 파운데이션 모델'이 SLAM의 반복 최적화 방식을 대체하려는 흐름을 보여준다.",
+        "difficulty": "고급",
+        "recommended_reader": "3D 비전·SLAM·로보틱스·공간 AI에 관심 있는 학습자",
+        "field_tags": ["3D재구성", "SLAM", "공간AI", "파운데이션모델"],
+        "interest": { "upvotes": 25, "num_comments": 2, "github_stars": 9900 }
+      },
+      "learning": {
+        "key_terms": [
+          { "term": "SLAM", "gloss": "위치추정과 지도작성을 동시에 하는 기법(Simultaneous Localization and Mapping)" },
+          { "term": "Feed-forward 3D", "gloss": "반복 최적화 없이 한 번의 순전파로 3D를 추정하는 방식" },
+          { "term": "Drift", "gloss": "장시간 추정에서 누적되는 위치 오차" }
+        ],
+        "recall_quiz": {
+          "question": "LingBot-Map의 어텐션이 통합하는 세 요소와 각 역할은?",
+          "answer": "앵커 컨텍스트(좌표 grounding), 포즈 참조 윈도우(조밀한 기하 단서), 궤적 메모리(장거리 드리프트 보정)."
+        },
+        "spaced_review": { "flag": false, "review_due": null }
+      }
+    },
+
+    "2502.18443": {
+      "classify": {
+        "categories": ["Multimodal", "Data"],
+        "primary_category": "Multimodal",
+        "topic_tags": ["document-parsing", "pdf-processing", "vision-language", "ocr"],
+        "method_tags": ["finetuning", "data-centric"],
+        "modality": ["image", "text"],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "100만 PDF 페이지를 단돈 $190에 자연 읽기순서 텍스트로 바꾸는 완전 오픈소스 7B VLM 툴킷.",
+        "problem": "PDF는 LLM 학습용으로 수조 개의 고품질 토큰을 품고 있지만, 형식·레이아웃이 제각각이라 내용을 충실히 추출·표현하기 어렵다.",
+        "approach": "olmOCR은 PDF를 섹션·표·리스트·수식 등 구조를 보존한 채 자연 읽기 순서의 깔끔한 평문으로 선형화하는 오픈소스 파이썬 툴킷이다. 10만+ 크롤링 PDF에서 뽑은 26만 페이지(그래픽·손글씨·저품질 스캔 포함)로 파인튜닝한 7B VLM을 쓰며, vLLM·SGLang 위에서 대규모 배치 처리에 최적화됐다.",
+        "contributions": [
+          "구조 보존 + 자연 읽기 순서 선형화 오픈소스 툴킷",
+          "다양한 26만 페이지(10만+ PDF)로 파인튜닝한 7B VLM",
+          "100만 PDF 페이지를 약 $190에 처리(대규모 배치 최적화)",
+          "VLM 가중치·데이터·학습·추론 코드 전부 공개"
+        ],
+        "why_now": "이번 주 문서 파싱/OCR 3편 중 하나로, 'LLM 학습 데이터 확보'라는 각도가 특징이다. 초저가 대량 처리와 완전 공개로 '문서→토큰' 파이프라인의 실용 표준을 지향한다.",
+        "difficulty": "중급",
+        "recommended_reader": "문서 AI·데이터 파이프라인·사전학습 데이터 구축에 관심 있는 학습자",
+        "field_tags": ["문서파싱", "PDF", "VLM", "오픈소스"],
+        "interest": { "upvotes": 13, "num_comments": 2, "github_stars": 18800 }
+      },
+      "learning": {
+        "key_terms": [
+          { "term": "Linearization", "gloss": "2D 레이아웃 문서를 읽기 순서의 1D 텍스트로 변환" },
+          { "term": "Natural Reading Order", "gloss": "사람이 읽는 순서(단→표→각주 등)를 따르는 텍스트 순서" },
+          { "term": "Batch Processing", "gloss": "대량 입력을 묶어 효율적으로 처리하는 방식" }
+        ],
+        "recall_quiz": {
+          "question": "olmOCR이 강조하는 두 가지 실용적 강점은?",
+          "answer": "100만 페이지를 약 $190에 처리하는 초저가 대량 처리와, VLM 가중치·데이터·코드를 모두 공개한 완전 오픈소스."
+        },
+        "spaced_review": { "flag": false, "review_due": null }
+      }
+    },
+
+    "2407.16741": {
+      "classify": {
+        "categories": ["LLM/Agents", "Evaluation/Benchmarks"],
+        "primary_category": "LLM/Agents",
+        "topic_tags": ["ai-agents", "tool-use", "code-execution", "agentic-workflow"],
+        "method_tags": ["prompting", "architecture"],
+        "modality": ["text"],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "코드 작성·터미널·웹 브라우징으로 인간 개발자처럼 일하는 AI 에이전트 오픈 플랫폼.",
+        "problem": "LLM 발전으로 환경과 상호작용하는 AI 에이전트가 빠르게 등장했지만, 새 에이전트를 구현하고 안전하게 코드를 실행하며 다중 에이전트를 조율하고 평가까지 아우르는 통합 개발 플랫폼이 부족했다.",
+        "approach": "인간 개발자처럼 코드를 쓰고 커맨드라인을 다루며 웹을 탐색하는 에이전트를 만들 수 있는 플랫폼을 제공한다. 샌드박스 환경에서의 안전한 코드 실행, 다중 에이전트 조율, 평가 벤치마크 통합을 지원한다.",
+        "contributions": [
+          "유연한 AI 개발자 에이전트 구축용 오픈 플랫폼(MIT 라이선스)",
+          "SWE-Bench(소프트웨어 공학)·WebArena(웹) 등 15개 도전 과제로 에이전트 평가",
+          "160명+ 기여자, 1.3K+ 기여의 커뮤니티 프로젝트",
+          "코드 오픈소스(★79.5k)"
+        ],
+        "why_now": "코딩 에이전트 생태계의 대표 오픈 플랫폼으로, W27을 건너뛴 뒤 이번 주 다시 트렌딩에 복귀했다(연속은 아님). 코딩 에이전트에 대한 관심이 여전히 큼을 보여준다.",
+        "difficulty": "입문",
+        "recommended_reader": "코딩 에이전트·에이전트 평가에 입문하려는 학습자",
+        "field_tags": ["코딩에이전트", "오픈플랫폼", "SWE-Bench", "에이전트평가"],
+        "interest": { "upvotes": 82, "num_comments": 7, "github_stars": 79500 }
+      },
+      "learning": {
+        "key_terms": [
+          { "term": "SWE-Bench", "gloss": "실제 GitHub 이슈 해결 능력을 재는 소프트웨어 공학 벤치마크" },
+          { "term": "Sandbox", "gloss": "코드를 안전하게 격리 실행하는 환경" },
+          { "term": "Generalist Agent", "gloss": "여러 종류의 작업을 두루 수행하는 범용 에이전트" }
+        ],
+        "recall_quiz": {
+          "question": "OpenDevin의 에이전트가 인간 개발자처럼 세상과 상호작용하는 세 가지 방식은?",
+          "answer": "코드 작성, 커맨드라인(터미널) 사용, 웹 브라우징."
+        },
+        "spaced_review": { "flag": false, "review_due": null }
+      }
+    }
+  },
+
+  "week_summary": {
+    "headline_ko": "문서 파싱·OCR이 이번 주를 지배(3편) — 4주째 상승세. TradingAgents는 4주 연속, 시계열 FM은 첫 공백",
+    "clusters": [
+      { "category": "Multimodal", "paper_ranks": [1, 3, 5], "theme_ko": "문서 파싱/OCR 지배 — 상수 KV캐시(Unlimited OCR)·경량 2단계(MinerU2.5)·초저가 대량처리(olmOCR)" },
+      { "category": "LLM/Agents", "paper_ranks": [2, 6], "theme_ko": "에이전트 — 금융(TradingAgents 4주 연속)·코딩 플랫폼(OpenDevin 복귀)" },
+      { "category": "Embodied/World Models", "paper_ranks": [4], "theme_ko": "스트리밍 3D 재구성(LingBot-Map) — 2주 연속" }
+    ],
+    "emerging_keywords": [],
+    "narrative_ko": "이번 주 트렌딩은 문서 파싱/OCR이 지배했다 — Unlimited OCR(2주 연속)·MinerU2.5(▲174, 2주 연속)·olmOCR(100만 페이지를 $190에)로 3편이 올랐다. 나머지는 에이전트 2편(TradingAgents 4주 연속·OpenDevin 복귀)과 스트리밍 3D(LingBot-Map, 2주 연속)다. 신규 진입은 olmOCR 1편뿐으로, 기존 강세 주제들이 자리를 지킨 '재등장 우세' 주간이었다.",
+    "recent_trend_ko": "누적 4주차. [강화] 문서 파싱/OCR이 뚜렷한 상승세다 — W25 1편 → W26 0 → W27 2편 → W28 3편으로 이번 주 최다이며, 셋 다 효율(경량·상수 KV캐시·초저가 대량처리)을 앞세운다. [지속] LLM/Agents는 4주 연속 등장(주당 3→5→2→2편), 특히 TradingAgents가 4주 내리 트렌딩했다. [복귀] OpenDevin은 W27을 건너뛴 뒤 이번 주 재등장(연속 아님). [첫 공백] 3주 연속이던 시계열 파운데이션 모델(Kronos→TimesFM→TimesFM)이 이번 주엔 빠졌다 — 추세 둔화 여부는 다음 주에 확인. [관통] 효율화가 전 분야를 가로지르는 흐름은 4주째 유지.",
+    "caveats_ko": "주 6편 트렌딩 표본 기준이며 HuggingFace 커뮤니티의 인기·최신 편향이 있습니다. 업보트·스타는 중요도가 아닌 '관심도' 지표로만 해석하세요. 이번 주는 6편 중 5편이 재등장 논문이라, 신규 유입보다 기존 강세의 지속으로 해석하는 편이 안전합니다."
+  }
+}

@@ -1,0 +1,248 @@
+{
+  "week_id": "2026-W28",
+  "papers": {
+    "2502.18443": {
+      "tier2": {
+        "method_detail": "olmOCR은 Qwen2-VL-7B-Instruct를 full fine-tuning하여 만든 olmOCR-7B-0225-preview VLM으로, PDF 페이지를 자연스러운 읽기 순서(natural reading order)의 clean linearized plain text로 변환한다. 핵심 기법은 'document anchoring'으로, born-digital PDF 바이너리에서 텍스트 블록·이미지 등 salient element의 좌표(coordinates)를 추출해 raw text와 함께 프롬프트에 주입함으로써 이미지 단독 방식 대비 hallucination을 줄인다(텍스트 블록은 문서 시작·끝을 우선해 문자 수 제한 내에서 삽입). 학습 데이터(silver label)는 teacher로 gpt-4o-2024-08-06를 document anchoring과 결합해 생성했으며, 저자들은 GPT-4o가 anchoring 없이는 충분한 fidelity의 plain text를 내지 못한다고 명시한다(2024년 10월 평가 기준 Gemini 1.5는 RECITATION 오류, GPT-4o mini는 과도한 hallucination, Claude Sonnet 3.5는 비용 문제로 배제). Fine-tuning은 8x NVIDIA H100(80GB) 단일 노드에서 effective batch size 4, learning rate 1e-6, AdamW + cosine annealing으로 10,000 step(약 1.2 epoch, run당 약 16시간, 총 365 node-hours) 수행했고 최종 response token에만 loss를 masking해 적용했다. 입력 이미지는 longest edge 최대 1024 pixel로 렌더링하며 출력은 structured JSON 포맷이다. LoRA도 시도했으나 full fine-tuning보다 loss가 높아 채택하지 않았다. 추론은 대규모 배치 처리에 최적화되어 vLLM/SGLang 백엔드를 지원하며, 원문 Table 6 기준 1M 페이지 변환 비용이 L40S $176, H100 $178 수준이다.",
+        "experiment_setup": [
+          "벤치마크: 자체 제작 olmOCR-Bench (PDF 1,402건, unit-test 7,010개). arXiv Math(2,927), Old Scans Math(458), Tables(1,020), Old Scans(526), Headers/Footers(753), Multi-Column(884), Long Tiny Text(442)로 구성(외 Baseline). Pass/Fail 단위 테스트로 fuzzy gold matching이나 LLM-as-judge 없이 시스템 간 직접 비교 지향.",
+          "비교군: Marker v1.7.5, MinerU v1.3.10, Mistral OCR API, GPT-4o(anchored), Qwen 2.5 VL, GOT-OCR 2.0(48.3%) 등.",
+          "핵심 결과(olmOCR-Bench overall, Table 4): olmOCR(Anchored) 75.5%로 최고, No-Anchor 74.7%, Mistral OCR 72.0%, Marker 70.1%, GPT-4o(anchored) 69.9%, Qwen2.5 VL 65.5%, MinerU 61.5%.",
+          "도메인별 강점: arXiv Math 74.9%(GPT-4o 53.5% 대비 우위), Tables 71.0%(Mistral 60.6% 대비), Multi-Column 78.3%(Marker 72.9% 대비).",
+          "비용/처리량(Table 6): olmOCR L40S 1M 페이지당 $176(906 tok/s, USD당 5,697 페이지), H100 $178(3,050 tok/s). Gemini Flash 2 Batch $249, Mistral OCR $1,000, GPT-4o Batch $6,240. 추론 시 robustness를 위해 약 12% retry rate 반영.",
+          "다운스트림(사전학습) 검증: OLMo-2-1124-7B 체크포인트를 olmOCR 추출 50B 토큰으로 continued pretraining 시 기존 peS2o(Grobid+rule) 대비 평균 +1.3pp(53.9%→55.2%). HellaSwag +5.2pp(57.4→62.6), ARC-C +1.4pp(75.0→76.4), DROP +1.4pp(42.3→43.7), MMLU 무변화(61.1), NaturalQuestions -0.3pp(29.4→29.1)·WinoGrande -0.3pp(58.3→58.0).",
+          "인간평가: Marker/MinerU/GOT-OCR 2.0 대비 2,000 comparison pair를 AI2 데이터 연구자·엔지니어 11명이 reading order·comprehensiveness·구조화 정보 표현 기준으로 pairwise(ELO) 평가."
+        ],
+        "datasets": [
+          {
+            "name": "olmOCR-mix-0225 (학습 데이터)",
+            "scale": "260,000 페이지 / 102,825개 고유 문서 (웹 크롤 PDF 96,929건·240,940페이지 + Internet Archive 공개도메인 서적 5,896건·17,701페이지)",
+            "domain": "학술논문 55.9%, 브로슈어 11.2%, 법률 10.2%, 서적 6.8%, 표 5.6%, 다이어그램 4.7%, 슬라이드 1.9%, 기타 3.7% (707페이지 샘플 추정)"
+          },
+          {
+            "name": "olmOCR-Bench (평가 벤치마크)",
+            "scale": "PDF 1,402건 / unit-test 7,010개",
+            "domain": "arXiv 수식, 구식 스캔본, 표, 헤더/푸터, 다단(multi-column), 초소형 텍스트 등 난이도 높은 문서 유형"
+          },
+          {
+            "name": "olmOCR-pes2o-0225 (다운스트림용 재처리)",
+            "scale": "약 50B 토큰 (OLMo-2-1124-7B continued pretraining 실험용)",
+            "domain": "학술 문헌(peS2o corpus 재추출)"
+          }
+        ],
+        "limitations": {
+          "by_authors": [
+            "document anchoring이 PDF 내부 구조 추출의 신뢰성에 의존 — 심하게 손상된(corrupted) PDF나 순수 스캔본에서는 anchoring 신호가 약함.",
+            "대부분 문서가 teacher(GPT-4o)와 평균 0.875 alignment이나 일부는 teacher 출력과 divergence 존재 — 즉 silver label의 상한이 GPT-4o 품질에 종속.",
+            "olmOCR-Bench가 특정 난이도 문서 유형에 집중되어 있어 모든 실제 PDF 분포를 대표하지 못할 수 있음.",
+            "추론 robustness 확보를 위해 약 12% retry rate가 필요."
+          ],
+          "by_claude": [
+            "영어 전용 파이프라인(Lingua로 비영어 문서 제거) — 다국어/비라틴 문자 문서 성능은 본문 근거 없음, 확대 적용 시 별도 검증 필요.",
+            "silver-label 방식의 구조적 한계: teacher가 GPT-4o이므로 GPT-4o가 못 읽는 케이스(복잡 수식·필기·저품질 스캔)의 오류가 학습 데이터에 그대로 각인될 소지. 인간 gold label 부재.",
+            "메인 벤치마크(olmOCR-Bench)와 학습 teacher를 같은 팀(AI2)이 설계 — self-designed benchmark 편향 가능성. 독립 서드파티 벤치마크 결과는 본문 확인 필요.",
+            "다운스트림 이득 +1.3pp이 일부 태스크(NQ, WinoGrande)에서는 음수·MMLU 무변화 — 개선이 균일하지 않고 HellaSwag 단일 태스크(+5.2pp)에 크게 의존하는지 분해 검증 필요.",
+            "표/수식 정확도가 절대 수치로는 70%대에 그쳐 production 재무·과학 문서에 그대로 쓰기엔 오류율이 낮지 않음(실사용 시 downstream 영향 평가 필요).",
+            "'GPT-4o 대비 약 35배 저렴'($6,240→$176)은 수치 비교로부터 파생된 추론이며 원문이 '35배'라고 직접 명시하지는 않음 — 인용 시 파생 수치임에 유의."
+          ]
+        },
+        "reproducibility": {
+          "code": "공개",
+          "weights": "공개",
+          "data": "공개",
+          "license": "Apache-2.0 (코드 리포지토리 기준). 모델 가중치·데이터셋의 개별 HF 라이선스는 별도 확인 필요.",
+          "note": "GitHub allenai/olmocr — 약 18.8k stars(2026-07 확인 시점). 코드 레포는 Apache-2.0. HuggingFace에 모델(allenai/olmOCR-7B-0225-preview 및 후속 olmOCR-7B-0725/0825-FP8, olmOCR-2-7B-1025-FP8), 학습데이터(allenai/olmOCR-mix-0225), 벤치마크(allenai/olmOCR-bench), 재처리 코퍼스(allenai/olmOCR-pes2o-0225) 공개. 학습 코드·전처리/필터링 스크립트·vLLM/SGLang 추론 파이프라인·평가 도구 모두 공개. 후속 릴리스(0725-FP8 2025-07-24, 0825-FP8 2025-08-13, 2-7B-1025-FP8 2025-10-21)에서 GRPO RL trainer(olmocr/train/grpo_train.py) 도입 확인. 라이브 데모 olmocr.allenai.org. 웹크롤/Internet Archive 데이터의 개별 라이선스는 데이터 카드 별도 확인 권장."
+        },
+        "my_learning_points": [
+          "이미지 단독 OCR 대신 'document anchoring'(born-digital PDF의 텍스트+좌표를 프롬프트에 주입)이 hallucination을 줄이는 실용 레시피임 — 자신의 문서 추출 파이프라인에도 PDF 메타데이터를 프롬프트에 병합하는 방식을 우선 실험해볼 것.",
+          "GPT-4o를 teacher로 silver label을 만들고 7B 오픈모델을 full fine-tuning해 단위비용을 GPT-4o($6,240/1M) 대비 크게(약 35배 수준) 낮춘 distillation 전략을 벤치마킹 — 대규모 반복 추론 태스크는 '프론티어 모델 라벨링 → 소형모델 파인튜닝' 패턴이 ROI가 큼을 실측으로 확인.",
+          "평가를 fuzzy matching/LLM-judge 대신 pass/fail unit-test(olmOCR-Bench)로 설계한 점을 참고 — OCR/추출 태스크 평가 시 검증 가능한 단위 테스트를 직접 만들어 시스템 간 재현 가능한 비교를 구축할 것."
+        ],
+        "related_work": {
+          "prior": [
+            {
+              "name": "Qwen2-VL-7B-Instruct",
+              "relation": "base VLM — olmOCR가 이를 full fine-tuning한 백본."
+            },
+            {
+              "name": "GPT-4o (gpt-4o-2024-08-06)",
+              "relation": "teacher/silver-label 생성 모델이자 주요 비교 baseline."
+            },
+            {
+              "name": "Marker / MinerU / GOT-OCR 2.0 / Mistral OCR",
+              "relation": "기존 PDF 추출·OCR 시스템 — 벤치마크·인간평가 비교군."
+            },
+            {
+              "name": "peS2o (Grobid+rule 기반 학술 코퍼스)",
+              "relation": "다운스트림 사전학습 비교의 기존 파이프라인 baseline."
+            }
+          ],
+          "followup": [
+            {
+              "name": "olmOCR-7B-0725 / 0825-FP8, olmOCR-2-7B-1025-FP8",
+              "relation": "동일 리포에서 이어진 후속 모델 릴리스(2025년 7~10월, FP8 양자화·GRPO RL trainer 도입) — 파이프라인의 지속 개선."
+            },
+            {
+              "name": "OLMo-2 계열 LM 사전학습",
+              "relation": "olmOCR 추출 토큰을 학습 소스로 활용하는 다운스트림 소비처 — 'trillions of tokens' 활용의 실증."
+            }
+          ]
+        },
+        "claude_note": "olmOCR는 '프론티어 모델(GPT-4o)로 라벨링 → 7B 오픈 VLM full fine-tuning → 대규모 배치 추론'이라는 distillation 파이프라인을 완비된 오픈소스(코드 Apache-2.0, 가중치·데이터·벤치마크 HF 공개)로 내놓은 점에서 재현성과 실용성이 매우 높다. 특히 born-digital PDF 좌표를 프롬프트에 주입하는 document anchoring은 단순하지만 효과적인 엔지니어링 기여로, 1M 페이지당 $176(L40S)~$178(H100)라는 실측 단위비용(GPT-4o $6,240 대비 약 35배 저렴)이 설득력의 핵심이다. 다만 (1) teacher가 GPT-4o인 silver-label 구조상 성능 상한이 teacher에 종속되고, (2) 주 벤치마크(olmOCR-Bench)를 저자 팀이 직접 설계해 self-benchmark 편향 여지가 있으며, (3) 영어 전용·표/수식 절대 정확도 70%대라는 점은 프로덕션 일반화에 유의할 지점이다. 다운스트림 사전학습 이득(+1.3pp)이 태스크별로 불균일하고 일부 음수·MMLU 무변화인 점도 '토큰 품질 향상' 주장을 다소 절제해서 받아들일 근거다. 종합적으로 오픈 OCR/문서추출 생태계에 대한 기여도는 크며(약 18.8k stars, 활발한 후속 릴리스), 대량 문서 추출을 저비용으로 자동화하려는 실무자에게 강력한 baseline이다.",
+        "analyzed_at": "2026-07-06"
+      }
+    },
+    "2407.16741": {
+      "tier2": {
+        "method_detail": "OpenHands(구 OpenDevin)는 코딩·명령줄·웹 브라우징을 사람 개발자처럼 수행하는 AI 에이전트를 만들기 위한 오픈 플랫폼으로, 핵심 추상화는 단일 step(self, state: State) 함수와 이벤트 스트림(event stream)이다. 이벤트 스트림은 과거 행동(Action)과 관찰(Observation)을 시간순으로 누적한 State의 핵심 요소로, 사용자 지시/피드백·멀티에이전트 위임 메타데이터까지 담는다. 행동 원시 타입은 IPythonRunCellAction(샌드박스 내 Python 실행), CmdRunAction(bash 실행), BrowserInteractiveAction(BrowserGym DSL 기반 웹 조작), 그리고 AgentDelegateAction·MessageAction·AgentFinishAction 등으로 정의된다. 실행 격리는 Agent Runtime으로, Docker 샌드박스 위에서 bash 쉘, Jupyter IPython 서버, Playwright 기반 Chromium을 제공한다. AgentSkills는 기본 bash/Python으로 얻기 어려운 유틸리티 툴박스로 edit_file, scroll_up/scroll_down, parse_image(비전-언어 모델 기반), parse_pdf 등을 제공한다. 멀티에이전트 협업은 AgentDelegateAction으로 구현되어 범용 CodeActAgent가 웹 태스크를 BrowsingAgent에게 위임할 수 있으며, 커뮤니티 에이전트 구현은 AgentHub에 모인다. 이 이벤트 스트림 + Docker 런타임 + AgentSkills + 위임 구조가 새 에이전트 구현·평가를 표준화하는 프레임워크를 이룬다.",
+        "experiment_setup": [
+          "벤치마크: 총 15개를 3범주로 통합 - 소프트웨어(SWE-Bench, HumanEvalFix, BIRD, BioCoder, ML-Bench, Gorilla APIBench, ToolQA), 웹(WebArena, MiniWoB++), 기타 보조(GAIA, GPQA, AgentBench, MINT, ProofWriter, Entity Deduction Arena)",
+          "평가 에이전트: CodeActAgent(v1.5/v1.8), BrowsingAgent(v1.0), GPTSwarm(v1.0) 등을 플랫폼에 재구현/통합",
+          "사용 LLM: 주로 gpt-4o(2024-05-13), claude-3-5-sonnet(20240620), gpt-4o-mini 등 프롬프트 기반(추가 파인튜닝 없음)",
+          "핵심 결과 - SWE-Bench Lite(300, 힌트 없음): CodeActAgent v1.8 + claude-3.5-sonnet = 26.0% resolve (gpt-4o 22.0%, gpt-4o-mini 7.0%) [원문 확인됨]",
+          "핵심 결과 - WebArena(812): BrowsingAgent v1.0 + claude-3.5-sonnet = 15.5% success (gpt-4o 14.8%, gpt-4o-mini 8.5%; WebArena 원논문 gpt-4-turbo baseline 14.4% 수준으로 대등) [원문 확인됨]",
+          "핵심 결과 - MiniWoB++(125 env): BrowsingAgent v1.0 + gpt-4o = 40.8%; 전문 모델 CC-NET(RL+human BC) 91.1%와 대비 [원문 확인됨]",
+          "핵심 결과 - GAIA L1 검증셋(53): GPTSwarm v1.0 + gpt-4o = 32.1% [원문 확인됨]",
+          "기타 보고 결과: HumanEvalFix 79.3%(CodeActAgent v1.5, gpt-4o, 0-shot), GPQA diamond 52.0%(v1.8, claude-3.5-sonnet), ML-Bench 76.5%(v1.5, gpt-4o, 68 인스턴스), AgentBench OS 57.6%(v1.5, gpt-4o, 144 인스턴스) [원문 확인됨]",
+          "비교군: 전문(specialist) 에이전트(SWE-Agent, AutoCodeRover, Aider 등) 및 전용 학습 모델(MiniWoB++의 CC-NET 등)과 대조"
+        ],
+        "datasets": [
+          {
+            "name": "SWE-Bench (Lite)",
+            "scale": "300 instances (Lite; full 2,294)",
+            "domain": "GitHub 이슈 해결/버그 수정 소프트웨어 엔지니어링"
+          },
+          {
+            "name": "WebArena",
+            "scale": "812 tasks",
+            "domain": "멀티도메인 실사이트 웹 브라우징/조작"
+          },
+          {
+            "name": "MiniWoB++",
+            "scale": "125 environments",
+            "domain": "합성 미니멀 웹 인터페이스 조작"
+          },
+          {
+            "name": "HumanEvalFix",
+            "scale": "164 Python instances",
+            "domain": "테스트 기반 버그 수정 코딩"
+          },
+          {
+            "name": "GAIA",
+            "scale": "466 curated tasks(3 난이도); L1 검증 53 평가",
+            "domain": "다능력 범용 어시스턴트"
+          },
+          {
+            "name": "GPQA (diamond)",
+            "scale": "198 instances",
+            "domain": "대학원 수준 과학 추론 QA"
+          },
+          {
+            "name": "AgentBench (OS subset)",
+            "scale": "144 bash instances",
+            "domain": "OS/bash 커맨드라인 상호작용"
+          },
+          {
+            "name": "BIRD",
+            "scale": "300 (dev set)",
+            "domain": "text-to-SQL"
+          },
+          {
+            "name": "BioCoder",
+            "scale": "157 Python + 50 Java",
+            "domain": "생명정보 코딩"
+          },
+          {
+            "name": "ML-Bench",
+            "scale": "68 instances (subset)",
+            "domain": "ML 리포지토리 코드 실행"
+          },
+          {
+            "name": "Gorilla APIBench",
+            "scale": "1,775 instances",
+            "domain": "API 선택"
+          },
+          {
+            "name": "MINT",
+            "scale": "225(math) + 136(code)",
+            "domain": "다중턴 도구 사용/추론"
+          },
+          {
+            "name": "ProofWriter",
+            "scale": "600 (5-hop)",
+            "domain": "논리 추론"
+          },
+          {
+            "name": "Entity Deduction Arena",
+            "scale": "200 (Things 100 + Celebrities 100)",
+            "domain": "전략적 질의 추론"
+          }
+        ],
+        "limitations": {
+          "by_authors": [
+            "현재 에이전트가 복잡·장기(long-horizon) 태스크에서 여전히 고전함(능력 상한 존재)",
+            "긴 파일 편집(long file editing) 등 특정 상황에서 성능 저하가 존재함",
+            "이미지/비디오 등 멀티모달(비전-언어) 지원이 미흡 - 향후 과제로 명시",
+            "웹 브라우징이 전문 에이전트/전용 학습 모델(예: MiniWoB++ CC-NET 91.1%) 대비 크게 열세(BrowsingAgent 40.8%, WebArena 15.5%)",
+            "안전(safety) 측면 우려 및 현 AI 에이전트가 실세계 태스크를 신뢰성 있게 수행하기 어렵다는 점 인정"
+          ],
+          "by_claude": [
+            "SWE-Bench 전체(2,294)가 아닌 Lite(300) 위주 보고이며 절대 성능(26.0%)은 신뢰성 있는 실무 자동화 수준과는 거리가 있어 상한 해석에 주의",
+            "최고 성능이 폐쇄형 상용 LLM(gpt-4o, claude-3.5-sonnet)에 크게 의존 - '오픈 플랫폼' 정체성과 성능 원천 사이에 긴장. 오픈웨이트 모델 성능은 본문 확인 필요",
+            "각 벤치마크의 세부 세팅(shot 수, 재시도 정책, 프롬프트) 및 baseline 공정성은 표를 직접 대조해야 완전 판단 가능",
+            "버전이 빠르게 바뀌어(v1.5 vs v1.8) 논문 수치와 현재 레포 성능/설계가 어긋날 수 있어 재현 시 커밋+모델 버전 고정 필요",
+            "도메인별 최고점은 여전히 전문 에이전트/전용 학습 모델에 미달 - '제너럴리스트'의 대가로서 범용성-성능 트레이드오프가 명시적으로 존재"
+          ]
+        },
+        "reproducibility": {
+          "code": "공개",
+          "weights": "해당없음(플랫폼/프레임워크로 자체 학습 가중치 없음; 상용/오픈 LLM API를 백엔드로 사용)",
+          "data": "공개(평가 벤치마크는 모두 공개된 외부 데이터셋을 통합; 통합 하네스가 레포에 포함)",
+          "license": "MIT",
+          "note": "GitHub: All-Hands-AI/OpenHands. v3 본문 기준 32K stars, 2.1K+ contributions, 188+ contributors(초록의 초기 수치 1.3K/160+ 대비 갱신됨). Docker 이미지 기반 런타임으로 환경 재현성 높음. ICLR 2025 채택(arXiv Comments 필드에서 확인). SWE-Bench 전체 2,294 인스턴스 실행 비용은 인스턴스당 $3 보수 추정 시 약 $6.9k로 원문 명시. OpenDevin→OpenHands 개명(f.k.a. OpenDevin)."
+        },
+        "my_learning_points": [
+          "에이전트 프레임워크 설계 시 '행동(Action)-관찰(Observation) 이벤트 스트림 + 단일 step(state: State) 함수' 추상화를 벤치마킹하라 - 새 에이전트/멀티에이전트 위임(AgentDelegateAction)을 최소 변경으로 붙일 수 있는 확장점이 된다.",
+          "코드 실행은 Docker 이미지 기반 격리 런타임(bash + IPython + Playwright)으로 감싸라 - 안전성과 환경 재현성을 동시에 확보하는 실전 패턴을 그대로 차용할 수 있다.",
+          "직접 재현 시 논문 수치가 아닌 특정 커밋 + 명시된 모델 버전(claude-3.5-sonnet@20240620 등)으로 고정하고, SWE-Bench는 Lite(300)로 소규모 검증 후 확장하라 - 전체 2,294 실행은 약 $6.9k 비용이 든다."
+        ],
+        "related_work": {
+          "prior": [
+            {
+              "name": "CodeAct (Executable Code Actions)",
+              "relation": "CodeActAgent의 기반 - 코드를 행동으로 실행하는 에이전트 패러다임"
+            },
+            {
+              "name": "SWE-Agent / SWE-Bench",
+              "relation": "핵심 소프트웨어 엔지니어링 벤치마크 및 비교 대상 전문 에이전트"
+            },
+            {
+              "name": "WebArena / BrowserGym",
+              "relation": "웹 브라우징 평가 환경 및 브라우저 행동 DSL 제공(BrowsingAgent 기반)"
+            },
+            {
+              "name": "AutoGPT / GPTSwarm / AutoGen 계열",
+              "relation": "범용/멀티에이전트 자율 에이전트의 선행 흐름 - 통합·비교 대상"
+            },
+            {
+              "name": "Devin (Cognition AI)",
+              "relation": "초기 영감을 준 클로즈드 AI 소프트웨어 엔지니어 - 명칭 OpenDevin의 유래"
+            }
+          ],
+          "followup": [
+            {
+              "name": "OpenHands 지속 릴리스(CodeActAgent v1.8+ 등)",
+              "relation": "논문 이후에도 레포에서 에이전트/런타임 지속 개선"
+            },
+            {
+              "name": "SWE-Bench Verified / SWE-Gym 등 후속 SE 벤치마크·학습셋",
+              "relation": "OpenHands 하네스가 후속 SE 에이전트 연구·데이터 생성의 표준 플랫폼으로 활용"
+            }
+          ]
+        },
+        "claude_note": "OpenHands(구 OpenDevin)의 가장 큰 기여는 특정 SOTA 점수가 아니라, 이벤트 스트림·Docker 런타임·AgentSkills·에이전트 위임(AgentDelegateAction/AgentHub)을 표준화해 '누구나 코딩·CLI·웹을 다루는 에이전트를 만들고 15개 벤치마크로 재평가'할 수 있게 한 오픈 인프라 그 자체다. MIT 라이선스에 32K stars, 188+ 기여자로 커뮤니티 채택이 확실하고 ICLR 2025 채택(arXiv Comments 확인)이라는 학술 검증도 받았다. 다만 SWE-Bench Lite 26.0%, WebArena 15.5%, MiniWoB++ 40.8% 같은 절대 성능은 실무 자동화와 거리가 있고, 특히 웹 도메인은 전용 학습 모델 CC-NET 91.1%에 크게 미달해 '제너럴리스트'의 성능 타협이 뚜렷하다. 또한 최고 성능이 폐쇄형 상용 LLM에 종속되어 '오픈 플랫폼' 정체성과 성능 원천 사이에 긴장이 있다. 종합하면 성능 논문이라기보다 '에이전트 연구의 공통 실험대'를 제시한 인프라 논문으로 읽는 것이 정확하며, 후속 SE 에이전트/데이터 연구의 사실상 표준 하네스가 되었다는 점에서 영향력이 크다.",
+        "analyzed_at": "2026-07-06"
+      }
+    }
+  }
+}

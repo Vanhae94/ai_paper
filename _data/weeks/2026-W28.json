@@ -1,0 +1,1277 @@
+{
+  "schema_version": 1,
+  "week_id": "2026-W28",
+  "date_range_ko": "2026-07-06 ~ 07-12",
+  "month_folder": "2026.07",
+  "collected_at": "2026-07-06T09:17:06+09:00",
+  "source": "huggingface daily_papers?sort=trending&limit=6",
+  "paper_count": 6,
+  "papers": [
+    {
+      "id": "2606.23050",
+      "title": "Unlimited OCR Works",
+      "title_ko": null,
+      "authors": [
+        "Youyang Yin",
+        "Huanhuan Liu",
+        "YY",
+        "Qunyi Xie",
+        "Chaorun Liu",
+        "Shiqi Yang",
+        "Shaohua Wang",
+        "Zhanlong Liu",
+        "Hao Zou",
+        "Jinyue Chen",
+        "Shu Wei",
+        "Jingjing Wu",
+        "Mingxin Huang",
+        "Zhen Wu",
+        "Guibin Wang",
+        "Tengyu Du",
+        "Lei Jia"
+      ],
+      "published_at": "2026-06-21T20:00:00.000Z",
+      "rank": 1,
+      "raw": {
+        "summary": "Recently, end-to-end OCR models, exemplified by DeepSeek OCR, have once again thrust OCR into the spotlight. A widely held view is that employing a large language model (LLM) as the decoder allows the model to leverage the prior distribution of language, leading to improved OCR performance. However, the downside is equally evident: as the output sequence lengthens, the accumulated KV cache drives up memory consumption and progressively slows down generation. This stands in stark contrast to humans, who exhibit no such decline in efficiency during long-horizon copying tasks. In this technical report, we propose Unlimited OCR, a model designed to emulate human parsing working memory. Taking DeepSeek OCR as the baseline, we replace all attention layers in the decoder with our proposed Reference Sliding Window Attention (R-SWA), which reduces attention computation costs while maintaining a constant KV cache throughout the entire decoding process. By combining the high compression rate of DeepSeek OCR's encoder with our constant KV cache design, Unlimited OCR can transcribe dozens of pages of documents in a single forward pass under a standard maximum length of 32K. More importantly, R-SWA is a general-purpose parsing attention mechanism - beyond OCR, it is equally applicable to tasks such as ASR, translation, etc. Codes and model weights are publicly available at http://github.com/baidu/Unlimited-OCR.",
+        "ai_summary": "Unlimited OCR introduces Reference Sliding Window Attention to eliminate growing memory consumption during long-sequence OCR tasks, enabling efficient transcription of multiple pages in a single forward pass.",
+        "ai_keywords": [
+          "end-to-end OCR",
+          "large language model",
+          "decoder",
+          "KV cache",
+          "attention layers",
+          "Reference Sliding Window Attention",
+          "document transcription",
+          "sequence length",
+          "memory consumption",
+          "working memory",
+          "parsing attention mechanism",
+          "ASR",
+          "translation"
+        ],
+        "upvotes": 50,
+        "num_comments": 5,
+        "github_repo": "https://github.com/baidu/Unlimited-OCR",
+        "github_stars": 13327,
+        "project_page": null
+      },
+      "links": [
+        {
+          "rank": 1,
+          "label": "HF 토론·요약",
+          "url": "https://huggingface.co/papers/2606.23050"
+        },
+        {
+          "rank": 2,
+          "label": "arXiv 초록",
+          "url": "https://arxiv.org/abs/2606.23050"
+        },
+        {
+          "rank": 3,
+          "label": "PDF 원문",
+          "url": "https://arxiv.org/pdf/2606.23050"
+        },
+        {
+          "rank": 4,
+          "label": "코드(GitHub)",
+          "url": "https://github.com/baidu/Unlimited-OCR"
+        }
+      ],
+      "classify": {
+        "categories": [
+          "Multimodal",
+          "Efficiency/Inference"
+        ],
+        "primary_category": "Multimodal",
+        "topic_tags": [
+          "end-to-end-ocr",
+          "kv-cache",
+          "sliding-window-attention",
+          "document-parsing"
+        ],
+        "method_tags": [
+          "architecture",
+          "inference-time"
+        ],
+        "modality": [
+          "image",
+          "text"
+        ],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "상수 KV 캐시(R-SWA)로 수십 페이지 문서를 한 번에 받아 적는, 인간 작업기억을 모사한 OCR 모델.",
+        "problem": "DeepSeek OCR처럼 LLM을 디코더로 쓰는 엔드투엔드 OCR은 언어의 사전분포를 활용해 성능이 좋지만, 출력이 길어질수록 KV 캐시가 누적돼 메모리가 늘고 생성이 느려진다. 긴 필사에도 효율이 떨어지지 않는 인간과 대조된다.",
+        "approach": "DeepSeek OCR을 베이스라인으로, 디코더의 모든 어텐션을 제안 기법 R-SWA(Reference Sliding Window Attention)로 교체한다. R-SWA는 어텐션 연산을 줄이면서 디코딩 내내 KV 캐시를 '상수'로 유지한다. 인코더의 높은 압축률과 결합해 32K 최대 길이에서 수십 페이지를 단일 forward로 전사한다. R-SWA는 OCR뿐 아니라 ASR·번역에도 쓰이는 범용 파싱 어텐션이다.",
+        "contributions": [
+          "디코딩 내내 일정한 KV 캐시를 유지하는 R-SWA 어텐션 제안",
+          "32K 길이에서 수십 페이지 문서를 단일 forward로 전사",
+          "OCR을 넘어 ASR·번역 등에 적용 가능한 범용 파싱 어텐션",
+          "코드·가중치 공개(Baidu, ★13.3k)"
+        ],
+        "why_now": "문서 파싱/OCR이 이번 주를 지배한 가운데(3편), '엔드투엔드 OCR + 추론 효율화(상수 KV캐시)'의 결합으로 2주 연속 트렌딩했다. 효율화가 분야를 가로지르는 흐름의 대표 사례다.",
+        "difficulty": "고급",
+        "recommended_reader": "OCR·문서 AI·추론 효율화(어텐션/KV캐시)에 관심 있는 학습자",
+        "field_tags": [
+          "OCR",
+          "상수KV캐시",
+          "슬라이딩윈도우어텐션",
+          "문서AI"
+        ],
+        "interest": {
+          "upvotes": 50,
+          "num_comments": 5,
+          "github_stars": 13300
+        }
+      },
+      "tier2": {
+        "analyzed_at": "2026-06-29",
+        "method_detail": "핵심은 R-SWA(Reference Sliding Window Attention). 디코딩 중 KV 캐시를 두 부분으로 유지한다 — 고정 프리픽스(시각+프롬프트 토큰, 길이 L_m)와 생성 텍스트에 대한 폭 n(기본 128)의 인과적 슬라이딩 윈도우. 캐시 크기는 C = L_m + min(n, T) ≤ L_m + n 으로, 윈도우 크기까지만 커지고 이후 '상수'다(표준 MHA는 L_m + T로 선형 증가). 시각(reference) 토큰은 상태 전이 없이 디코딩 내내 전역으로 접근 가능해, 일반 슬라이딩 윈도우와 달리 시각 특징이 '흐려지지' 않는다. 베이스라인 DeepSeek OCR의 인코더(DeepEncoder: SAM-ViT + CLIP-ViT, 16× 토큰 압축, 1024² → ~256 토큰)는 동결하고 디코더 어텐션만 R-SWA로 교체, LLM 파라미터만 학습한다. 디코더 3B(MoE로 ~500M 활성).",
+        "experiment_setup": [
+          "주 벤치마크: OmniDocBench v1.5/v1.6",
+          "비교: DeepSeek OCR(베이스라인)",
+          "장문 평가: 2~40+ 페이지 문서를 단일 forward로 전사"
+        ],
+        "datasets": [
+          {
+            "name": "문서 학습 샘플",
+            "scale": "약 200만(단일:다중 페이지 ≈ 9:1)",
+            "domain": "문서 OCR"
+          }
+        ],
+        "limitations": {
+          "by_authors": [
+            "프리필 32K 제한 — 페이지가 매우 많으면 한계(향후 128K 학습 예정)",
+            "다중페이지 모드는 Base 인코더(1024²)라 해상도 손실 → 20페이지 넘으면 edit distance 상승"
+          ],
+          "by_claude": [
+            "ASR·번역 일반화는 주장만 있고 실험 검증 없음(future work)",
+            "KV캐시 절감이 초장문에서 품질 저하와 트레이드오프"
+          ]
+        },
+        "reproducibility": {
+          "code": "공개",
+          "weights": "공개",
+          "data": "불명",
+          "license": "CC BY 4.0",
+          "note": "github.com/baidu/Unlimited-OCR, ★13.3k"
+        },
+        "my_learning_points": [
+          "'reference 토큰을 상태전이에서 제외'가 핵심 트릭 — 시각 충실도를 지키며 KV캐시를 상수화",
+          "상수 KV캐시 = 장문 추론 비용의 근본 해법(W25 LMCache의 외부 오프로딩과 다른 각도)",
+          "DeepSeek OCR 대비 OmniDocBench v1.5 +6.22%p, 6K 토큰 구간 ~35% 빠름"
+        ],
+        "related_work": {
+          "prior": [
+            {
+              "name": "DeepSeek OCR",
+              "relation": "베이스라인 — 인코더 재사용, 디코더 어텐션만 교체"
+            }
+          ],
+          "followup": [
+            {
+              "name": "MinerU2.5 / olmOCR",
+              "relation": "같은 문서 파싱 흐름의 동시대 경쟁·보완"
+            }
+          ]
+        },
+        "claude_note": "'인간은 이미 쓴 글을 다시 다 읽지 않는다'는 직관을 reference 토큰 전역 접근 + 출력 슬라이딩 윈도우로 구현해 KV캐시를 상수로 만든 영리한 설계. 문서 파싱과 추론 효율화가 한 논문에서 만나는 이번 흐름의 전형."
+      },
+      "learning": {
+        "key_terms": [
+          {
+            "term": "KV Cache",
+            "gloss": "어텐션 키·값을 저장해 디코딩을 가속하는 캐시. 길어지면 메모리 부담"
+          },
+          {
+            "term": "Sliding Window Attention",
+            "gloss": "최근 일정 구간만 보는 어텐션으로 비용·캐시를 제한"
+          },
+          {
+            "term": "End-to-end OCR",
+            "gloss": "이미지→텍스트를 단일 모델로 직접 수행하는 OCR"
+          }
+        ],
+        "recall_quiz": {
+          "question": "Unlimited OCR이 긴 문서에서도 메모리·속도 저하 없이 작동하게 한 핵심 기법은?",
+          "answer": "디코더 어텐션을 R-SWA로 교체해 디코딩 내내 KV 캐시를 상수로 유지한다."
+        },
+        "spaced_review": {
+          "flag": false,
+          "review_due": null
+        }
+      }
+    },
+    {
+      "id": "2412.20138",
+      "title": "TradingAgents: Multi-Agents LLM Financial Trading Framework",
+      "title_ko": null,
+      "authors": [
+        "Yijia Xiao",
+        "Edward Sun",
+        "Di Luo",
+        "Wei Wang"
+      ],
+      "published_at": "2024-12-28T07:54:06.000Z",
+      "rank": 2,
+      "raw": {
+        "summary": "Significant progress has been made in automated problem-solving using\nsocieties of agents powered by large language models (LLMs). In finance,\nefforts have largely focused on single-agent systems handling specific tasks or\nmulti-agent frameworks independently gathering data. However, the multi-agent\nsystems' potential to replicate real-world trading firms' collaborative\ndynamics remains underexplored. TradingAgents proposes a novel stock trading\nframework inspired by trading firms, featuring LLM-powered agents in\nspecialized roles such as fundamental analysts, sentiment analysts, technical\nanalysts, and traders with varied risk profiles. The framework includes Bull\nand Bear researcher agents assessing market conditions, a risk management team\nmonitoring exposure, and traders synthesizing insights from debates and\nhistorical data to make informed decisions. By simulating a dynamic,\ncollaborative trading environment, this framework aims to improve trading\nperformance. Detailed architecture and extensive experiments reveal its\nsuperiority over baseline models, with notable improvements in cumulative\nreturns, Sharpe ratio, and maximum drawdown, highlighting the potential of\nmulti-agent LLM frameworks in financial trading. TradingAgents is available at\nhttps://github.com/TauricResearch/TradingAgents.",
+        "ai_summary": "A multi-agent framework using large language models for stock trading simulates real-world trading firms, improving performance metrics like cumulative returns and Sharpe ratio.",
+        "ai_keywords": [
+          "large language models",
+          "LLM",
+          "multi-agent systems",
+          "fundamental analysts",
+          "sentiment analysts",
+          "technical analysts",
+          "traders",
+          "risk management",
+          "cumulative returns",
+          "Sharpe ratio",
+          "maximum drawdown"
+        ],
+        "upvotes": 103,
+        "num_comments": 4,
+        "github_repo": "https://github.com/tauricresearch/tradingagents",
+        "github_stars": 91030,
+        "project_page": null
+      },
+      "links": [
+        {
+          "rank": 1,
+          "label": "HF 토론·요약",
+          "url": "https://huggingface.co/papers/2412.20138"
+        },
+        {
+          "rank": 2,
+          "label": "arXiv 초록",
+          "url": "https://arxiv.org/abs/2412.20138"
+        },
+        {
+          "rank": 3,
+          "label": "PDF 원문",
+          "url": "https://arxiv.org/pdf/2412.20138"
+        },
+        {
+          "rank": 4,
+          "label": "코드(GitHub)",
+          "url": "https://github.com/tauricresearch/tradingagents"
+        }
+      ],
+      "classify": {
+        "categories": [
+          "LLM/Agents"
+        ],
+        "primary_category": "LLM/Agents",
+        "topic_tags": [
+          "agentic-workflow",
+          "multi-agent",
+          "financial-ai",
+          "tool-use"
+        ],
+        "method_tags": [
+          "prompting",
+          "architecture"
+        ],
+        "modality": [
+          "text"
+        ],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "트레이딩 회사 조직을 본떠 역할을 나눈 LLM 에이전트들이 토론으로 주식 매매를 결정한다.",
+        "problem": "금융 분야의 LLM 활용은 대개 단일 에이전트가 특정 작업을 처리하거나, 여러 에이전트가 따로 데이터만 수집하는 수준에 머물렀다. 실제 트레이딩 회사처럼 전문가들이 협업·토론하며 의사결정하는 구조는 거의 탐구되지 않았다.",
+        "approach": "펀더멘털·감성·기술 분석가, 강세(Bull)·약세(Bear) 리서처, 리스크 관리팀, 트레이더 등 실제 회사의 직무를 LLM 에이전트로 구현한다. 강세·약세 에이전트가 시장 상황을 두고 토론하고, 트레이더가 그 결과와 과거 데이터를 종합해 매매를 결정한다. 협업적이고 동적인 트레이딩 환경을 시뮬레이션하는 것이 핵심이다.",
+        "contributions": [
+          "다중 에이전트 협업·토론 구조를 금융 트레이딩에 적용한 신규 프레임워크 제안",
+          "베이스라인 대비 누적 수익률(cumulative returns) 향상",
+          "샤프 지수(Sharpe ratio)·최대 낙폭(MDD) 등 위험조정 지표 개선",
+          "코드 오픈소스(★91k)로 재현·확장 가능"
+        ],
+        "why_now": "W25부터 이번 주까지 '4주 연속' 트렌딩에 오른 6월~7월의 롱런 논문이다. 멀티 에이전트 × 금융이라는 조합이 꾸준한 관심을 받고 있음을 보여준다.",
+        "difficulty": "중급",
+        "recommended_reader": "LLM 에이전트 오케스트레이션·금융 AI에 관심 있는 학습자",
+        "field_tags": [
+          "멀티에이전트",
+          "금융AI",
+          "에이전트토론",
+          "리스크관리"
+        ],
+        "interest": {
+          "upvotes": 103,
+          "num_comments": 4,
+          "github_stars": 91000
+        }
+      },
+      "tier2": null,
+      "learning": {
+        "key_terms": [
+          {
+            "term": "Multi-Agent System",
+            "gloss": "여러 LLM 에이전트가 역할을 나눠 협업하는 구조"
+          },
+          {
+            "term": "Sharpe Ratio",
+            "gloss": "위험 대비 초과수익을 재는 투자 성과 지표"
+          },
+          {
+            "term": "Maximum Drawdown",
+            "gloss": "고점 대비 최대 하락폭, 손실 위험의 척도"
+          }
+        ],
+        "recall_quiz": {
+          "question": "TradingAgents에서 강세(Bull)·약세(Bear) 에이전트는 매매 결정에 어떻게 기여하는가?",
+          "answer": "시장 상황을 두고 서로 토론하며, 트레이더 에이전트가 그 토론 결과와 과거 데이터를 종합해 최종 매매를 결정한다."
+        },
+        "spaced_review": {
+          "flag": false,
+          "review_due": null
+        }
+      }
+    },
+    {
+      "id": "2509.22186",
+      "title": "MinerU2.5: A Decoupled Vision-Language Model for Efficient\n  High-Resolution Document Parsing",
+      "title_ko": null,
+      "authors": [
+        "Junbo Niu",
+        "Zheng Liu",
+        "Zhuangcheng Gu",
+        "Bin Wang",
+        "Linke Ouyang",
+        "Zhiyuan Zhao",
+        "Tao Chu",
+        "Tianyao He",
+        "Fan Wu",
+        "Qintong Zhang",
+        "Zhenjiang Jin",
+        "Guang Liang",
+        "Rui Zhang",
+        "Wenzheng Zhang",
+        "Yuan Qu",
+        "Zhifei Ren",
+        "Yuefeng Sun",
+        "Yuanhong Zheng",
+        "Dongsheng Ma",
+        "Zirui Tang",
+        "Boyu Niu",
+        "Ziyang Miao",
+        "Hejun Dong",
+        "Siyi Qian",
+        "Junyuan Zhang",
+        "Jingzhou Chen",
+        "Fangdong Wang",
+        "Xiaomeng Zhao",
+        "Liqun Wei",
+        "Wei Li",
+        "Shasha Wang",
+        "Ruiliang Xu",
+        "Yuanyuan Cao",
+        "Lu Chen",
+        "Qianqian Wu",
+        "Huaiyu Gu",
+        "Lindong Lu",
+        "Keming Wang",
+        "Dechen Lin",
+        "Guanlin Shen",
+        "Xuanhe Zhou",
+        "Linfeng Zhang",
+        "Yuhang Zang",
+        "Xiaoyi Dong",
+        "Jiaqi Wang",
+        "Bo Zhang",
+        "Lei Bai",
+        "Pei Chu",
+        "Weijia Li",
+        "Jiang Wu",
+        "Lijun Wu",
+        "Zhenxiang Li",
+        "Guangyu Wang",
+        "Zhongying Tu",
+        "Chao Xu",
+        "Kai Chen",
+        "Yu Qiao",
+        "Bowen Zhou",
+        "Dahua Lin",
+        "Wentao Zhang",
+        "Conghui He"
+      ],
+      "published_at": "2025-09-26T06:45:48.000Z",
+      "rank": 3,
+      "raw": {
+        "summary": "We introduce MinerU2.5, a 1.2B-parameter document parsing vision-language\nmodel that achieves state-of-the-art recognition accuracy while maintaining\nexceptional computational efficiency. Our approach employs a coarse-to-fine,\ntwo-stage parsing strategy that decouples global layout analysis from local\ncontent recognition. In the first stage, the model performs efficient layout\nanalysis on downsampled images to identify structural elements, circumventing\nthe computational overhead of processing high-resolution inputs. In the second\nstage, guided by the global layout, it performs targeted content recognition on\nnative-resolution crops extracted from the original image, preserving\nfine-grained details in dense text, complex formulas, and tables. To support\nthis strategy, we developed a comprehensive data engine that generates diverse,\nlarge-scale training corpora for both pretraining and fine-tuning. Ultimately,\nMinerU2.5 demonstrates strong document parsing ability, achieving\nstate-of-the-art performance on multiple benchmarks, surpassing both\ngeneral-purpose and domain-specific models across various recognition tasks,\nwhile maintaining significantly lower computational overhead.",
+        "ai_summary": "MinerU2.5, a 1.2B-parameter document parsing vision-language model, achieves state-of-the-art recognition accuracy with computational efficiency through a coarse-to-fine parsing strategy.",
+        "ai_keywords": [
+          "document parsing",
+          "vision-language model",
+          "coarse-to-fine",
+          "two-stage parsing",
+          "layout analysis",
+          "content recognition",
+          "downsampled images",
+          "native-resolution crops",
+          "data engine",
+          "pretraining",
+          "fine-tuning",
+          "state-of-the-art performance",
+          "computational overhead"
+        ],
+        "upvotes": 174,
+        "num_comments": 2,
+        "github_repo": "https://github.com/opendatalab/MinerU",
+        "github_stars": 73497,
+        "project_page": "https://opendatalab.github.io/MinerU/"
+      },
+      "links": [
+        {
+          "rank": 1,
+          "label": "HF 토론·요약",
+          "url": "https://huggingface.co/papers/2509.22186"
+        },
+        {
+          "rank": 2,
+          "label": "arXiv 초록",
+          "url": "https://arxiv.org/abs/2509.22186"
+        },
+        {
+          "rank": 3,
+          "label": "PDF 원문",
+          "url": "https://arxiv.org/pdf/2509.22186"
+        },
+        {
+          "rank": 4,
+          "label": "코드(GitHub)",
+          "url": "https://github.com/opendatalab/MinerU"
+        },
+        {
+          "rank": 5,
+          "label": "프로젝트 페이지",
+          "url": "https://opendatalab.github.io/MinerU/"
+        }
+      ],
+      "classify": {
+        "categories": [
+          "Multimodal",
+          "Vision"
+        ],
+        "primary_category": "Multimodal",
+        "topic_tags": [
+          "document-parsing",
+          "vision-language",
+          "coarse-to-fine",
+          "two-stage-parsing"
+        ],
+        "method_tags": [
+          "finetuning",
+          "data-centric",
+          "architecture"
+        ],
+        "modality": [
+          "image",
+          "text"
+        ],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "전역 레이아웃과 지역 인식을 분리한 2단계 전략으로 SOTA를 낸 1.2B 경량 문서 파싱 VLM.",
+        "problem": "고해상도 문서를 통째로 처리하면 연산 비용이 크다. 정확도와 효율을 동시에 잡는 경량 문서 파싱 모델이 필요했다.",
+        "approach": "coarse-to-fine 2단계 전략으로 전역 레이아웃 분석과 지역 내용 인식을 분리한다. 1단계는 다운샘플 이미지에서 효율적으로 구조 요소를 파악하고, 2단계는 그 레이아웃을 길잡이 삼아 원해상도 crop에서 표적 인식해 조밀한 텍스트·수식·표의 세부를 보존한다. 전용 데이터 엔진으로 사전학습·파인튜닝 코퍼스를 대규모 생성한다.",
+        "contributions": [
+          "전역 레이아웃·지역 인식을 분리한 coarse-to-fine 2단계 파싱 전략",
+          "다운샘플→원해상도 crop으로 고해상도 비용을 회피하며 세부 보존",
+          "대규모 학습 코퍼스를 만드는 전용 데이터 엔진",
+          "여러 벤치마크 SOTA를 1.2B 경량·저비용으로 달성(★73.5k)"
+        ],
+        "why_now": "문서 파싱이 이번 주를 지배한 3편 중 최다 업보트(▲174, 2주 연속). '경량 + 2단계 분리'로 효율과 정확을 동시에 잡는 접근이 기업 문서·RAG 입력단 수요와 직결된다.",
+        "difficulty": "중급",
+        "recommended_reader": "문서 AI·VLM·효율적 추론에 관심 있는 학습자",
+        "field_tags": [
+          "문서파싱",
+          "VLM",
+          "2단계파싱",
+          "경량모델"
+        ],
+        "interest": {
+          "upvotes": 174,
+          "num_comments": 2,
+          "github_stars": 73500
+        }
+      },
+      "tier2": {
+        "analyzed_at": "2026-06-29",
+        "method_detail": "1.2B VLM = 비전 인코더(675M NaViT, Qwen2-VL 초기화, 2D-RoPE로 동적 해상도) + 언어모델(0.5B Qwen2-Instruct 디코더, M-RoPE) + 패치 머저(2×2 비전 토큰 pixel-unshuffle). 2단계 파이프라인: 1단계는 입력을 1036×1036 썸네일로 리사이즈해 전역 레이아웃을 저비용으로 분석하고, 2단계는 검출된 레이아웃으로 원해상도(최대 2048²) crop을 떠 조밀한 텍스트·수식·표를 인식한다. 이 분리로 엔드투엔드 원해상도 처리의 O(N²) 토큰 복잡도를 회피한다.",
+        "experiment_setup": [
+          "벤치마크: OmniDocBench(1,355 페이지), Ocean-OCR, olmOCR-bench",
+          "비교: 범용 VLM(GPT-4o·Gemini-2.5 Pro·Qwen2.5-VL-72B) + 전문 모델(dots.ocr·MonkeyOCR·olmOCR)",
+          "주요 결과: OmniDocBench 종합 90.67(dots.ocr 88.41 대비 우위), 표 TEDS 88.22"
+        ],
+        "datasets": [
+          {
+            "name": "사전학습(레이아웃/텍스트/수식/표)",
+            "scale": "6.9M 샘플",
+            "domain": "문서(논문·교재·보고서, 중·영 균형)"
+          },
+          {
+            "name": "파인튜닝(IMIC 난이도 채굴)",
+            "scale": "630K 샘플",
+            "domain": "hard case 중심"
+          }
+        ],
+        "limitations": {
+          "by_authors": [
+            "원문에 명시적 '한계' 절은 두드러지지 않음"
+          ],
+          "by_claude": [
+            "1단계 썸네일 품질에 레이아웃 검출이 의존",
+            "2단계가 1단계 레이아웃 오류를 전파할 수 있음"
+          ]
+        },
+        "reproducibility": {
+          "code": "공개",
+          "weights": "공개",
+          "data": "부분",
+          "license": "확인 필요",
+          "note": "github.com/opendatalab/MinerU + HF opendatalab/MinerU2.5-2509-1.2B, ★73.5k"
+        },
+        "my_learning_points": [
+          "coarse(썸네일 전역)→fine(원해상도 crop) 분리로 고해상도 비용을 피하는 패턴",
+          "데이터 엔진 IMIC(추론 일관성으로 hard case 채굴)가 SOTA의 숨은 동력",
+          "1.2B로 72B급 범용 VLM 능가 + 4~7× 처리량 — 특화 경량의 효율"
+        ],
+        "related_work": {
+          "prior": [
+            {
+              "name": "PaddleOCR-VL (W25)",
+              "relation": "같은 문서 파싱 흐름의 직전 등장 논문"
+            }
+          ],
+          "followup": [
+            {
+              "name": "Unlimited OCR / olmOCR",
+              "relation": "같은 흐름의 효율(상수 KV캐시)·대량처리($) 각도"
+            }
+          ]
+        },
+        "claude_note": "'전역은 싸게(썸네일), 지역은 정밀하게(원해상도 crop)'라는 단순한 분리로 정확도·효율을 동시에 잡았고 IMIC 데이터 엔진이 뒤를 받친다. 4주째 이어지는 문서 파싱 강세의 대표작."
+      },
+      "learning": {
+        "key_terms": [
+          {
+            "term": "Coarse-to-fine",
+            "gloss": "거칠게(전역) 본 뒤 세밀하게(지역) 처리하는 2단계 전략"
+          },
+          {
+            "term": "Layout Analysis",
+            "gloss": "문서의 구조(제목·표·문단 등)를 파악하는 단계"
+          },
+          {
+            "term": "VLM",
+            "gloss": "이미지와 텍스트를 함께 이해하는 비전-언어 모델"
+          }
+        ],
+        "recall_quiz": {
+          "question": "MinerU2.5가 고해상도 처리 비용을 줄이면서 세부를 보존하는 2단계 전략은?",
+          "answer": "1단계는 다운샘플 이미지로 전역 레이아웃을 분석하고, 2단계는 그 레이아웃을 따라 원해상도 crop만 표적 인식한다."
+        },
+        "spaced_review": {
+          "flag": false,
+          "review_due": null
+        }
+      }
+    },
+    {
+      "id": "2604.14141",
+      "title": "Geometric Context Transformer for Streaming 3D Reconstruction",
+      "title_ko": null,
+      "authors": [
+        "Lin-Zhuo Chen",
+        "Jian Gao",
+        "Yihang Chen",
+        "Ka Leong Cheng",
+        "Yipengjing Sun",
+        "Liangxiao Hu",
+        "Nan Xue",
+        "Xing Zhu",
+        "Yujun Shen",
+        "Yao Yao",
+        "Yinghao Xu"
+      ],
+      "published_at": "2026-04-14T20:00:00.000Z",
+      "rank": 4,
+      "raw": {
+        "summary": "Streaming 3D reconstruction aims to recover 3D information, such as camera poses and point clouds, from a video stream, which necessitates geometric accuracy, temporal\n  consistency, and computational efficiency. Motivated by the principles of Simultaneous Localization and Mapping (SLAM), we introduce LingBot-Map, a feed-forward 3D foundation\n  model for reconstructing scenes from streaming data, built upon a geometric context transformer (GCT) architecture. A defining aspect of LingBot-Map lies in its carefully\n  designed attention mechanism, which integrates an anchor context, a pose-reference window, and a trajectory memory to address coordinate grounding, dense geometric cues, and\n  long-range drift correction, respectively. This design keeps the streaming state compact while retaining rich geometric context, enabling stable efficient inference at around\n  20 FPS on 518 x 378 resolution inputs over long sequences exceeding 10,000 frames. Extensive evaluations across a variety of benchmarks demonstrate that our approach\n  achieves superior performance compared to both existing streaming and iterative optimization-based approaches.",
+        "ai_summary": "LingBot-Map is a feed-forward 3D foundation model that reconstructs scenes from video streams using a geometric context transformer architecture with specialized attention mechanisms for coordinate grounding, dense geometric cues, and long-range drift correction, achieving stable real-time performance at 20 FPS.",
+        "ai_keywords": [
+          "Simultaneous Localization and Mapping",
+          "feed-forward 3D foundation model",
+          "geometric context transformer",
+          "attention mechanism",
+          "anchor context",
+          "pose-reference window",
+          "trajectory memory",
+          "coordinate grounding",
+          "dense geometric cues",
+          "long-range drift correction"
+        ],
+        "upvotes": 25,
+        "num_comments": 2,
+        "github_repo": "https://github.com/robbyant/lingbot-map",
+        "github_stars": 9880,
+        "project_page": "https://technology.robbyant.com/lingbot-map"
+      },
+      "links": [
+        {
+          "rank": 1,
+          "label": "HF 토론·요약",
+          "url": "https://huggingface.co/papers/2604.14141"
+        },
+        {
+          "rank": 2,
+          "label": "arXiv 초록",
+          "url": "https://arxiv.org/abs/2604.14141"
+        },
+        {
+          "rank": 3,
+          "label": "PDF 원문",
+          "url": "https://arxiv.org/pdf/2604.14141"
+        },
+        {
+          "rank": 4,
+          "label": "코드(GitHub)",
+          "url": "https://github.com/robbyant/lingbot-map"
+        },
+        {
+          "rank": 5,
+          "label": "프로젝트 페이지",
+          "url": "https://technology.robbyant.com/lingbot-map"
+        }
+      ],
+      "classify": {
+        "categories": [
+          "Embodied/World Models",
+          "Vision"
+        ],
+        "primary_category": "Embodied/World Models",
+        "topic_tags": [
+          "3d-reconstruction",
+          "slam",
+          "geometric-context-transformer",
+          "world-model"
+        ],
+        "method_tags": [
+          "architecture",
+          "inference-time"
+        ],
+        "modality": [
+          "3d",
+          "video"
+        ],
+        "confidence": "medium"
+      },
+      "tier1": {
+        "one_liner": "SLAM 원리를 담은 어텐션으로 영상 스트림에서 실시간(약 20FPS) 3D를 복원하는 피드포워드 파운데이션 모델.",
+        "problem": "스트리밍 3D 재구성은 영상 스트림에서 카메라 포즈·점군을 복원해야 하며, 기하 정확도·시간적 일관성·계산 효율을 동시에 요구한다.",
+        "approach": "SLAM 원리에 착안해 GCT(geometric context transformer) 기반 피드포워드 3D 파운데이션 모델 LingBot-Map을 제안한다. 어텐션이 앵커 컨텍스트(좌표 grounding)·포즈 참조 윈도우(조밀한 기하 단서)·궤적 메모리(장거리 드리프트 보정)를 통합해, 스트리밍 상태를 작게 유지하면서 풍부한 기하 맥락을 보존한다.",
+        "contributions": [
+          "앵커·포즈참조·궤적메모리를 통합한 GCT 어텐션 설계",
+          "518x378 입력·1만+ 프레임에서 약 20FPS 안정적 추론",
+          "스트리밍·반복최적화 기존 기법 대비 우수한 성능",
+          "피드포워드 3D 파운데이션 모델로 효율·정확을 동시 달성"
+        ],
+        "why_now": "지난주 첫 등장에 이어 2주 연속 트렌딩했다. 로보틱스·공간컴퓨팅에서 '피드포워드 3D 파운데이션 모델'이 SLAM의 반복 최적화 방식을 대체하려는 흐름을 보여준다.",
+        "difficulty": "고급",
+        "recommended_reader": "3D 비전·SLAM·로보틱스·공간 AI에 관심 있는 학습자",
+        "field_tags": [
+          "3D재구성",
+          "SLAM",
+          "공간AI",
+          "파운데이션모델"
+        ],
+        "interest": {
+          "upvotes": 25,
+          "num_comments": 2,
+          "github_stars": 9900
+        }
+      },
+      "tier2": null,
+      "learning": {
+        "key_terms": [
+          {
+            "term": "SLAM",
+            "gloss": "위치추정과 지도작성을 동시에 하는 기법(Simultaneous Localization and Mapping)"
+          },
+          {
+            "term": "Feed-forward 3D",
+            "gloss": "반복 최적화 없이 한 번의 순전파로 3D를 추정하는 방식"
+          },
+          {
+            "term": "Drift",
+            "gloss": "장시간 추정에서 누적되는 위치 오차"
+          }
+        ],
+        "recall_quiz": {
+          "question": "LingBot-Map의 어텐션이 통합하는 세 요소와 각 역할은?",
+          "answer": "앵커 컨텍스트(좌표 grounding), 포즈 참조 윈도우(조밀한 기하 단서), 궤적 메모리(장거리 드리프트 보정)."
+        },
+        "spaced_review": {
+          "flag": false,
+          "review_due": null
+        }
+      }
+    },
+    {
+      "id": "2502.18443",
+      "title": "olmOCR: Unlocking Trillions of Tokens in PDFs with Vision Language\n  Models",
+      "title_ko": null,
+      "authors": [
+        "Jake Poznanski",
+        "Jon Borchardt",
+        "Jason Dunkelberger",
+        "Regan Huff",
+        "Daniel Lin",
+        "Aman Rangapur",
+        "Christopher Wilhelm",
+        "Kyle Lo",
+        "Luca Soldaini"
+      ],
+      "published_at": "2025-02-25T13:38:38.000Z",
+      "rank": 5,
+      "raw": {
+        "summary": "PDF documents have the potential to provide trillions of novel, high-quality\ntokens for training language models. However, these documents come in a\ndiversity of types with differing formats and visual layouts that pose a\nchallenge when attempting to extract and faithfully represent the underlying\ncontent for language model use. We present olmOCR, an open-source Python\ntoolkit for processing PDFs into clean, linearized plain text in natural\nreading order while preserving structured content like sections, tables, lists,\nequations, and more. Our toolkit runs a fine-tuned 7B vision language model\n(VLM) trained on a sample of 260,000 pages from over 100,000 crawled PDFs with\ndiverse properties, including graphics, handwritten text and poor quality\nscans. olmOCR is optimized for large-scale batch processing, able to scale\nflexibly to different hardware setups and convert a million PDF pages for only\n$190 USD. We release all components of olmOCR including VLM weights, data and\ntraining code, as well as inference code built on serving frameworks including\nvLLM and SGLang.",
+        "ai_summary": "olmOCR is an open-source toolkit using a fine-tuned vision language model to process PDFs into clean text while preserving structure, optimized for large-scale batch processing.",
+        "ai_keywords": [
+          "vision language model (VLM)",
+          "PDF processing",
+          "natural reading order",
+          "sections",
+          "tables",
+          "lists",
+          "equations",
+          "large-scale batch processing",
+          "vLLM",
+          "SGLang"
+        ],
+        "upvotes": 13,
+        "num_comments": 2,
+        "github_repo": "https://github.com/allenai/olmocr",
+        "github_stars": 18791,
+        "project_page": "https://olmocr.allenai.org/"
+      },
+      "links": [
+        {
+          "rank": 1,
+          "label": "HF 토론·요약",
+          "url": "https://huggingface.co/papers/2502.18443"
+        },
+        {
+          "rank": 2,
+          "label": "arXiv 초록",
+          "url": "https://arxiv.org/abs/2502.18443"
+        },
+        {
+          "rank": 3,
+          "label": "PDF 원문",
+          "url": "https://arxiv.org/pdf/2502.18443"
+        },
+        {
+          "rank": 4,
+          "label": "코드(GitHub)",
+          "url": "https://github.com/allenai/olmocr"
+        },
+        {
+          "rank": 5,
+          "label": "프로젝트 페이지",
+          "url": "https://olmocr.allenai.org/"
+        }
+      ],
+      "classify": {
+        "categories": [
+          "Multimodal",
+          "Data"
+        ],
+        "primary_category": "Multimodal",
+        "topic_tags": [
+          "document-parsing",
+          "pdf-processing",
+          "vision-language",
+          "ocr"
+        ],
+        "method_tags": [
+          "finetuning",
+          "data-centric"
+        ],
+        "modality": [
+          "image",
+          "text"
+        ],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "100만 PDF 페이지를 단돈 $190에 자연 읽기순서 텍스트로 바꾸는 완전 오픈소스 7B VLM 툴킷.",
+        "problem": "PDF는 LLM 학습용으로 수조 개의 고품질 토큰을 품고 있지만, 형식·레이아웃이 제각각이라 내용을 충실히 추출·표현하기 어렵다.",
+        "approach": "olmOCR은 PDF를 섹션·표·리스트·수식 등 구조를 보존한 채 자연 읽기 순서의 깔끔한 평문으로 선형화하는 오픈소스 파이썬 툴킷이다. 10만+ 크롤링 PDF에서 뽑은 26만 페이지(그래픽·손글씨·저품질 스캔 포함)로 파인튜닝한 7B VLM을 쓰며, vLLM·SGLang 위에서 대규모 배치 처리에 최적화됐다.",
+        "contributions": [
+          "구조 보존 + 자연 읽기 순서 선형화 오픈소스 툴킷",
+          "다양한 26만 페이지(10만+ PDF)로 파인튜닝한 7B VLM",
+          "100만 PDF 페이지를 약 $190에 처리(대규모 배치 최적화)",
+          "VLM 가중치·데이터·학습·추론 코드 전부 공개"
+        ],
+        "why_now": "이번 주 문서 파싱/OCR 3편 중 하나로, 'LLM 학습 데이터 확보'라는 각도가 특징이다. 초저가 대량 처리와 완전 공개로 '문서→토큰' 파이프라인의 실용 표준을 지향한다.",
+        "difficulty": "중급",
+        "recommended_reader": "문서 AI·데이터 파이프라인·사전학습 데이터 구축에 관심 있는 학습자",
+        "field_tags": [
+          "문서파싱",
+          "PDF",
+          "VLM",
+          "오픈소스"
+        ],
+        "interest": {
+          "upvotes": 13,
+          "num_comments": 2,
+          "github_stars": 18800
+        }
+      },
+      "tier2": {
+        "method_detail": "olmOCR은 Qwen2-VL-7B-Instruct를 full fine-tuning하여 만든 olmOCR-7B-0225-preview VLM으로, PDF 페이지를 자연스러운 읽기 순서(natural reading order)의 clean linearized plain text로 변환한다. 핵심 기법은 'document anchoring'으로, born-digital PDF 바이너리에서 텍스트 블록·이미지 등 salient element의 좌표(coordinates)를 추출해 raw text와 함께 프롬프트에 주입함으로써 이미지 단독 방식 대비 hallucination을 줄인다(텍스트 블록은 문서 시작·끝을 우선해 문자 수 제한 내에서 삽입). 학습 데이터(silver label)는 teacher로 gpt-4o-2024-08-06를 document anchoring과 결합해 생성했으며, 저자들은 GPT-4o가 anchoring 없이는 충분한 fidelity의 plain text를 내지 못한다고 명시한다(2024년 10월 평가 기준 Gemini 1.5는 RECITATION 오류, GPT-4o mini는 과도한 hallucination, Claude Sonnet 3.5는 비용 문제로 배제). Fine-tuning은 8x NVIDIA H100(80GB) 단일 노드에서 effective batch size 4, learning rate 1e-6, AdamW + cosine annealing으로 10,000 step(약 1.2 epoch, run당 약 16시간, 총 365 node-hours) 수행했고 최종 response token에만 loss를 masking해 적용했다. 입력 이미지는 longest edge 최대 1024 pixel로 렌더링하며 출력은 structured JSON 포맷이다. LoRA도 시도했으나 full fine-tuning보다 loss가 높아 채택하지 않았다. 추론은 대규모 배치 처리에 최적화되어 vLLM/SGLang 백엔드를 지원하며, 원문 Table 6 기준 1M 페이지 변환 비용이 L40S $176, H100 $178 수준이다.",
+        "experiment_setup": [
+          "벤치마크: 자체 제작 olmOCR-Bench (PDF 1,402건, unit-test 7,010개). arXiv Math(2,927), Old Scans Math(458), Tables(1,020), Old Scans(526), Headers/Footers(753), Multi-Column(884), Long Tiny Text(442)로 구성(외 Baseline). Pass/Fail 단위 테스트로 fuzzy gold matching이나 LLM-as-judge 없이 시스템 간 직접 비교 지향.",
+          "비교군: Marker v1.7.5, MinerU v1.3.10, Mistral OCR API, GPT-4o(anchored), Qwen 2.5 VL, GOT-OCR 2.0(48.3%) 등.",
+          "핵심 결과(olmOCR-Bench overall, Table 4): olmOCR(Anchored) 75.5%로 최고, No-Anchor 74.7%, Mistral OCR 72.0%, Marker 70.1%, GPT-4o(anchored) 69.9%, Qwen2.5 VL 65.5%, MinerU 61.5%.",
+          "도메인별 강점: arXiv Math 74.9%(GPT-4o 53.5% 대비 우위), Tables 71.0%(Mistral 60.6% 대비), Multi-Column 78.3%(Marker 72.9% 대비).",
+          "비용/처리량(Table 6): olmOCR L40S 1M 페이지당 $176(906 tok/s, USD당 5,697 페이지), H100 $178(3,050 tok/s). Gemini Flash 2 Batch $249, Mistral OCR $1,000, GPT-4o Batch $6,240. 추론 시 robustness를 위해 약 12% retry rate 반영.",
+          "다운스트림(사전학습) 검증: OLMo-2-1124-7B 체크포인트를 olmOCR 추출 50B 토큰으로 continued pretraining 시 기존 peS2o(Grobid+rule) 대비 평균 +1.3pp(53.9%→55.2%). HellaSwag +5.2pp(57.4→62.6), ARC-C +1.4pp(75.0→76.4), DROP +1.4pp(42.3→43.7), MMLU 무변화(61.1), NaturalQuestions -0.3pp(29.4→29.1)·WinoGrande -0.3pp(58.3→58.0).",
+          "인간평가: Marker/MinerU/GOT-OCR 2.0 대비 2,000 comparison pair를 AI2 데이터 연구자·엔지니어 11명이 reading order·comprehensiveness·구조화 정보 표현 기준으로 pairwise(ELO) 평가."
+        ],
+        "datasets": [
+          {
+            "name": "olmOCR-mix-0225 (학습 데이터)",
+            "scale": "260,000 페이지 / 102,825개 고유 문서 (웹 크롤 PDF 96,929건·240,940페이지 + Internet Archive 공개도메인 서적 5,896건·17,701페이지)",
+            "domain": "학술논문 55.9%, 브로슈어 11.2%, 법률 10.2%, 서적 6.8%, 표 5.6%, 다이어그램 4.7%, 슬라이드 1.9%, 기타 3.7% (707페이지 샘플 추정)"
+          },
+          {
+            "name": "olmOCR-Bench (평가 벤치마크)",
+            "scale": "PDF 1,402건 / unit-test 7,010개",
+            "domain": "arXiv 수식, 구식 스캔본, 표, 헤더/푸터, 다단(multi-column), 초소형 텍스트 등 난이도 높은 문서 유형"
+          },
+          {
+            "name": "olmOCR-pes2o-0225 (다운스트림용 재처리)",
+            "scale": "약 50B 토큰 (OLMo-2-1124-7B continued pretraining 실험용)",
+            "domain": "학술 문헌(peS2o corpus 재추출)"
+          }
+        ],
+        "limitations": {
+          "by_authors": [
+            "document anchoring이 PDF 내부 구조 추출의 신뢰성에 의존 — 심하게 손상된(corrupted) PDF나 순수 스캔본에서는 anchoring 신호가 약함.",
+            "대부분 문서가 teacher(GPT-4o)와 평균 0.875 alignment이나 일부는 teacher 출력과 divergence 존재 — 즉 silver label의 상한이 GPT-4o 품질에 종속.",
+            "olmOCR-Bench가 특정 난이도 문서 유형에 집중되어 있어 모든 실제 PDF 분포를 대표하지 못할 수 있음.",
+            "추론 robustness 확보를 위해 약 12% retry rate가 필요."
+          ],
+          "by_claude": [
+            "영어 전용 파이프라인(Lingua로 비영어 문서 제거) — 다국어/비라틴 문자 문서 성능은 본문 근거 없음, 확대 적용 시 별도 검증 필요.",
+            "silver-label 방식의 구조적 한계: teacher가 GPT-4o이므로 GPT-4o가 못 읽는 케이스(복잡 수식·필기·저품질 스캔)의 오류가 학습 데이터에 그대로 각인될 소지. 인간 gold label 부재.",
+            "메인 벤치마크(olmOCR-Bench)와 학습 teacher를 같은 팀(AI2)이 설계 — self-designed benchmark 편향 가능성. 독립 서드파티 벤치마크 결과는 본문 확인 필요.",
+            "다운스트림 이득 +1.3pp이 일부 태스크(NQ, WinoGrande)에서는 음수·MMLU 무변화 — 개선이 균일하지 않고 HellaSwag 단일 태스크(+5.2pp)에 크게 의존하는지 분해 검증 필요.",
+            "표/수식 정확도가 절대 수치로는 70%대에 그쳐 production 재무·과학 문서에 그대로 쓰기엔 오류율이 낮지 않음(실사용 시 downstream 영향 평가 필요).",
+            "'GPT-4o 대비 약 35배 저렴'($6,240→$176)은 수치 비교로부터 파생된 추론이며 원문이 '35배'라고 직접 명시하지는 않음 — 인용 시 파생 수치임에 유의."
+          ]
+        },
+        "reproducibility": {
+          "code": "공개",
+          "weights": "공개",
+          "data": "공개",
+          "license": "Apache-2.0 (코드 리포지토리 기준). 모델 가중치·데이터셋의 개별 HF 라이선스는 별도 확인 필요.",
+          "note": "GitHub allenai/olmocr — 약 18.8k stars(2026-07 확인 시점). 코드 레포는 Apache-2.0. HuggingFace에 모델(allenai/olmOCR-7B-0225-preview 및 후속 olmOCR-7B-0725/0825-FP8, olmOCR-2-7B-1025-FP8), 학습데이터(allenai/olmOCR-mix-0225), 벤치마크(allenai/olmOCR-bench), 재처리 코퍼스(allenai/olmOCR-pes2o-0225) 공개. 학습 코드·전처리/필터링 스크립트·vLLM/SGLang 추론 파이프라인·평가 도구 모두 공개. 후속 릴리스(0725-FP8 2025-07-24, 0825-FP8 2025-08-13, 2-7B-1025-FP8 2025-10-21)에서 GRPO RL trainer(olmocr/train/grpo_train.py) 도입 확인. 라이브 데모 olmocr.allenai.org. 웹크롤/Internet Archive 데이터의 개별 라이선스는 데이터 카드 별도 확인 권장."
+        },
+        "my_learning_points": [
+          "이미지 단독 OCR 대신 'document anchoring'(born-digital PDF의 텍스트+좌표를 프롬프트에 주입)이 hallucination을 줄이는 실용 레시피임 — 자신의 문서 추출 파이프라인에도 PDF 메타데이터를 프롬프트에 병합하는 방식을 우선 실험해볼 것.",
+          "GPT-4o를 teacher로 silver label을 만들고 7B 오픈모델을 full fine-tuning해 단위비용을 GPT-4o($6,240/1M) 대비 크게(약 35배 수준) 낮춘 distillation 전략을 벤치마킹 — 대규모 반복 추론 태스크는 '프론티어 모델 라벨링 → 소형모델 파인튜닝' 패턴이 ROI가 큼을 실측으로 확인.",
+          "평가를 fuzzy matching/LLM-judge 대신 pass/fail unit-test(olmOCR-Bench)로 설계한 점을 참고 — OCR/추출 태스크 평가 시 검증 가능한 단위 테스트를 직접 만들어 시스템 간 재현 가능한 비교를 구축할 것."
+        ],
+        "related_work": {
+          "prior": [
+            {
+              "name": "Qwen2-VL-7B-Instruct",
+              "relation": "base VLM — olmOCR가 이를 full fine-tuning한 백본."
+            },
+            {
+              "name": "GPT-4o (gpt-4o-2024-08-06)",
+              "relation": "teacher/silver-label 생성 모델이자 주요 비교 baseline."
+            },
+            {
+              "name": "Marker / MinerU / GOT-OCR 2.0 / Mistral OCR",
+              "relation": "기존 PDF 추출·OCR 시스템 — 벤치마크·인간평가 비교군."
+            },
+            {
+              "name": "peS2o (Grobid+rule 기반 학술 코퍼스)",
+              "relation": "다운스트림 사전학습 비교의 기존 파이프라인 baseline."
+            }
+          ],
+          "followup": [
+            {
+              "name": "olmOCR-7B-0725 / 0825-FP8, olmOCR-2-7B-1025-FP8",
+              "relation": "동일 리포에서 이어진 후속 모델 릴리스(2025년 7~10월, FP8 양자화·GRPO RL trainer 도입) — 파이프라인의 지속 개선."
+            },
+            {
+              "name": "OLMo-2 계열 LM 사전학습",
+              "relation": "olmOCR 추출 토큰을 학습 소스로 활용하는 다운스트림 소비처 — 'trillions of tokens' 활용의 실증."
+            }
+          ]
+        },
+        "claude_note": "olmOCR는 '프론티어 모델(GPT-4o)로 라벨링 → 7B 오픈 VLM full fine-tuning → 대규모 배치 추론'이라는 distillation 파이프라인을 완비된 오픈소스(코드 Apache-2.0, 가중치·데이터·벤치마크 HF 공개)로 내놓은 점에서 재현성과 실용성이 매우 높다. 특히 born-digital PDF 좌표를 프롬프트에 주입하는 document anchoring은 단순하지만 효과적인 엔지니어링 기여로, 1M 페이지당 $176(L40S)~$178(H100)라는 실측 단위비용(GPT-4o $6,240 대비 약 35배 저렴)이 설득력의 핵심이다. 다만 (1) teacher가 GPT-4o인 silver-label 구조상 성능 상한이 teacher에 종속되고, (2) 주 벤치마크(olmOCR-Bench)를 저자 팀이 직접 설계해 self-benchmark 편향 여지가 있으며, (3) 영어 전용·표/수식 절대 정확도 70%대라는 점은 프로덕션 일반화에 유의할 지점이다. 다운스트림 사전학습 이득(+1.3pp)이 태스크별로 불균일하고 일부 음수·MMLU 무변화인 점도 '토큰 품질 향상' 주장을 다소 절제해서 받아들일 근거다. 종합적으로 오픈 OCR/문서추출 생태계에 대한 기여도는 크며(약 18.8k stars, 활발한 후속 릴리스), 대량 문서 추출을 저비용으로 자동화하려는 실무자에게 강력한 baseline이다.",
+        "analyzed_at": "2026-07-06"
+      },
+      "learning": {
+        "key_terms": [
+          {
+            "term": "Linearization",
+            "gloss": "2D 레이아웃 문서를 읽기 순서의 1D 텍스트로 변환"
+          },
+          {
+            "term": "Natural Reading Order",
+            "gloss": "사람이 읽는 순서(단→표→각주 등)를 따르는 텍스트 순서"
+          },
+          {
+            "term": "Batch Processing",
+            "gloss": "대량 입력을 묶어 효율적으로 처리하는 방식"
+          }
+        ],
+        "recall_quiz": {
+          "question": "olmOCR이 강조하는 두 가지 실용적 강점은?",
+          "answer": "100만 페이지를 약 $190에 처리하는 초저가 대량 처리와, VLM 가중치·데이터·코드를 모두 공개한 완전 오픈소스."
+        },
+        "spaced_review": {
+          "flag": false,
+          "review_due": null
+        }
+      }
+    },
+    {
+      "id": "2407.16741",
+      "title": "OpenDevin: An Open Platform for AI Software Developers as Generalist\n  Agents",
+      "title_ko": null,
+      "authors": [
+        "Xingyao Wang",
+        "Boxuan Li",
+        "Yufan Song",
+        "Frank F. Xu",
+        "Xiangru Tang",
+        "Mingchen Zhuge",
+        "Jiayi Pan",
+        "Yueqi Song",
+        "Bowen Li",
+        "Jaskirat Singh",
+        "Hoang H. Tran",
+        "Fuqiang Li",
+        "Ren Ma",
+        "Mingzhang Zheng",
+        "Bill Qian",
+        "Yanjun Shao",
+        "Niklas Muennighoff",
+        "Yizhe Zhang",
+        "Binyuan Hui",
+        "Junyang Lin",
+        "Robert Brennan",
+        "Hao Peng",
+        "Heng Ji",
+        "Graham Neubig"
+      ],
+      "published_at": "2024-07-23T13:50:43.000Z",
+      "rank": 6,
+      "raw": {
+        "summary": "Software is one of the most powerful tools that we humans have at our\ndisposal; it allows a skilled programmer to interact with the world in complex\nand profound ways. At the same time, thanks to improvements in large language\nmodels (LLMs), there has also been a rapid development in AI agents that\ninteract with and affect change in their surrounding environments. In this\npaper, we introduce OpenDevin, a platform for the development of powerful and\nflexible AI agents that interact with the world in similar ways to those of a\nhuman developer: by writing code, interacting with a command line, and browsing\nthe web. We describe how the platform allows for the implementation of new\nagents, safe interaction with sandboxed environments for code execution,\ncoordination between multiple agents, and incorporation of evaluation\nbenchmarks. Based on our currently incorporated benchmarks, we perform an\nevaluation of agents over 15 challenging tasks, including software engineering\n(e.g., SWE-Bench) and web browsing (e.g., WebArena), among others. Released\nunder the permissive MIT license, OpenDevin is a community project spanning\nacademia and industry with more than 1.3K contributions from over 160\ncontributors and will improve going forward.",
+        "ai_summary": "OpenDevin is a platform for developing AI agents that interact with the world by writing code, using command lines, and browsing the web, with support for multiple agents and evaluation benchmarks.",
+        "ai_keywords": [
+          "large language models",
+          "OpenDevin",
+          "AI agents",
+          "code execution",
+          "sandboxed environments",
+          "evaluation benchmarks",
+          "SWE-Bench",
+          "WebArena"
+        ],
+        "upvotes": 82,
+        "num_comments": 7,
+        "github_repo": "https://github.com/opendevin/opendevin",
+        "github_stars": 79510,
+        "project_page": null
+      },
+      "links": [
+        {
+          "rank": 1,
+          "label": "HF 토론·요약",
+          "url": "https://huggingface.co/papers/2407.16741"
+        },
+        {
+          "rank": 2,
+          "label": "arXiv 초록",
+          "url": "https://arxiv.org/abs/2407.16741"
+        },
+        {
+          "rank": 3,
+          "label": "PDF 원문",
+          "url": "https://arxiv.org/pdf/2407.16741"
+        },
+        {
+          "rank": 4,
+          "label": "코드(GitHub)",
+          "url": "https://github.com/opendevin/opendevin"
+        }
+      ],
+      "classify": {
+        "categories": [
+          "LLM/Agents",
+          "Evaluation/Benchmarks"
+        ],
+        "primary_category": "LLM/Agents",
+        "topic_tags": [
+          "ai-agents",
+          "tool-use",
+          "code-execution",
+          "agentic-workflow"
+        ],
+        "method_tags": [
+          "prompting",
+          "architecture"
+        ],
+        "modality": [
+          "text"
+        ],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "코드 작성·터미널·웹 브라우징으로 인간 개발자처럼 일하는 AI 에이전트 오픈 플랫폼.",
+        "problem": "LLM 발전으로 환경과 상호작용하는 AI 에이전트가 빠르게 등장했지만, 새 에이전트를 구현하고 안전하게 코드를 실행하며 다중 에이전트를 조율하고 평가까지 아우르는 통합 개발 플랫폼이 부족했다.",
+        "approach": "인간 개발자처럼 코드를 쓰고 커맨드라인을 다루며 웹을 탐색하는 에이전트를 만들 수 있는 플랫폼을 제공한다. 샌드박스 환경에서의 안전한 코드 실행, 다중 에이전트 조율, 평가 벤치마크 통합을 지원한다.",
+        "contributions": [
+          "유연한 AI 개발자 에이전트 구축용 오픈 플랫폼(MIT 라이선스)",
+          "SWE-Bench(소프트웨어 공학)·WebArena(웹) 등 15개 도전 과제로 에이전트 평가",
+          "160명+ 기여자, 1.3K+ 기여의 커뮤니티 프로젝트",
+          "코드 오픈소스(★79.5k)"
+        ],
+        "why_now": "코딩 에이전트 생태계의 대표 오픈 플랫폼으로, W27을 건너뛴 뒤 이번 주 다시 트렌딩에 복귀했다(연속은 아님). 코딩 에이전트에 대한 관심이 여전히 큼을 보여준다.",
+        "difficulty": "입문",
+        "recommended_reader": "코딩 에이전트·에이전트 평가에 입문하려는 학습자",
+        "field_tags": [
+          "코딩에이전트",
+          "오픈플랫폼",
+          "SWE-Bench",
+          "에이전트평가"
+        ],
+        "interest": {
+          "upvotes": 82,
+          "num_comments": 7,
+          "github_stars": 79500
+        }
+      },
+      "tier2": {
+        "method_detail": "OpenHands(구 OpenDevin)는 코딩·명령줄·웹 브라우징을 사람 개발자처럼 수행하는 AI 에이전트를 만들기 위한 오픈 플랫폼으로, 핵심 추상화는 단일 step(self, state: State) 함수와 이벤트 스트림(event stream)이다. 이벤트 스트림은 과거 행동(Action)과 관찰(Observation)을 시간순으로 누적한 State의 핵심 요소로, 사용자 지시/피드백·멀티에이전트 위임 메타데이터까지 담는다. 행동 원시 타입은 IPythonRunCellAction(샌드박스 내 Python 실행), CmdRunAction(bash 실행), BrowserInteractiveAction(BrowserGym DSL 기반 웹 조작), 그리고 AgentDelegateAction·MessageAction·AgentFinishAction 등으로 정의된다. 실행 격리는 Agent Runtime으로, Docker 샌드박스 위에서 bash 쉘, Jupyter IPython 서버, Playwright 기반 Chromium을 제공한다. AgentSkills는 기본 bash/Python으로 얻기 어려운 유틸리티 툴박스로 edit_file, scroll_up/scroll_down, parse_image(비전-언어 모델 기반), parse_pdf 등을 제공한다. 멀티에이전트 협업은 AgentDelegateAction으로 구현되어 범용 CodeActAgent가 웹 태스크를 BrowsingAgent에게 위임할 수 있으며, 커뮤니티 에이전트 구현은 AgentHub에 모인다. 이 이벤트 스트림 + Docker 런타임 + AgentSkills + 위임 구조가 새 에이전트 구현·평가를 표준화하는 프레임워크를 이룬다.",
+        "experiment_setup": [
+          "벤치마크: 총 15개를 3범주로 통합 - 소프트웨어(SWE-Bench, HumanEvalFix, BIRD, BioCoder, ML-Bench, Gorilla APIBench, ToolQA), 웹(WebArena, MiniWoB++), 기타 보조(GAIA, GPQA, AgentBench, MINT, ProofWriter, Entity Deduction Arena)",
+          "평가 에이전트: CodeActAgent(v1.5/v1.8), BrowsingAgent(v1.0), GPTSwarm(v1.0) 등을 플랫폼에 재구현/통합",
+          "사용 LLM: 주로 gpt-4o(2024-05-13), claude-3-5-sonnet(20240620), gpt-4o-mini 등 프롬프트 기반(추가 파인튜닝 없음)",
+          "핵심 결과 - SWE-Bench Lite(300, 힌트 없음): CodeActAgent v1.8 + claude-3.5-sonnet = 26.0% resolve (gpt-4o 22.0%, gpt-4o-mini 7.0%) [원문 확인됨]",
+          "핵심 결과 - WebArena(812): BrowsingAgent v1.0 + claude-3.5-sonnet = 15.5% success (gpt-4o 14.8%, gpt-4o-mini 8.5%; WebArena 원논문 gpt-4-turbo baseline 14.4% 수준으로 대등) [원문 확인됨]",
+          "핵심 결과 - MiniWoB++(125 env): BrowsingAgent v1.0 + gpt-4o = 40.8%; 전문 모델 CC-NET(RL+human BC) 91.1%와 대비 [원문 확인됨]",
+          "핵심 결과 - GAIA L1 검증셋(53): GPTSwarm v1.0 + gpt-4o = 32.1% [원문 확인됨]",
+          "기타 보고 결과: HumanEvalFix 79.3%(CodeActAgent v1.5, gpt-4o, 0-shot), GPQA diamond 52.0%(v1.8, claude-3.5-sonnet), ML-Bench 76.5%(v1.5, gpt-4o, 68 인스턴스), AgentBench OS 57.6%(v1.5, gpt-4o, 144 인스턴스) [원문 확인됨]",
+          "비교군: 전문(specialist) 에이전트(SWE-Agent, AutoCodeRover, Aider 등) 및 전용 학습 모델(MiniWoB++의 CC-NET 등)과 대조"
+        ],
+        "datasets": [
+          {
+            "name": "SWE-Bench (Lite)",
+            "scale": "300 instances (Lite; full 2,294)",
+            "domain": "GitHub 이슈 해결/버그 수정 소프트웨어 엔지니어링"
+          },
+          {
+            "name": "WebArena",
+            "scale": "812 tasks",
+            "domain": "멀티도메인 실사이트 웹 브라우징/조작"
+          },
+          {
+            "name": "MiniWoB++",
+            "scale": "125 environments",
+            "domain": "합성 미니멀 웹 인터페이스 조작"
+          },
+          {
+            "name": "HumanEvalFix",
+            "scale": "164 Python instances",
+            "domain": "테스트 기반 버그 수정 코딩"
+          },
+          {
+            "name": "GAIA",
+            "scale": "466 curated tasks(3 난이도); L1 검증 53 평가",
+            "domain": "다능력 범용 어시스턴트"
+          },
+          {
+            "name": "GPQA (diamond)",
+            "scale": "198 instances",
+            "domain": "대학원 수준 과학 추론 QA"
+          },
+          {
+            "name": "AgentBench (OS subset)",
+            "scale": "144 bash instances",
+            "domain": "OS/bash 커맨드라인 상호작용"
+          },
+          {
+            "name": "BIRD",
+            "scale": "300 (dev set)",
+            "domain": "text-to-SQL"
+          },
+          {
+            "name": "BioCoder",
+            "scale": "157 Python + 50 Java",
+            "domain": "생명정보 코딩"
+          },
+          {
+            "name": "ML-Bench",
+            "scale": "68 instances (subset)",
+            "domain": "ML 리포지토리 코드 실행"
+          },
+          {
+            "name": "Gorilla APIBench",
+            "scale": "1,775 instances",
+            "domain": "API 선택"
+          },
+          {
+            "name": "MINT",
+            "scale": "225(math) + 136(code)",
+            "domain": "다중턴 도구 사용/추론"
+          },
+          {
+            "name": "ProofWriter",
+            "scale": "600 (5-hop)",
+            "domain": "논리 추론"
+          },
+          {
+            "name": "Entity Deduction Arena",
+            "scale": "200 (Things 100 + Celebrities 100)",
+            "domain": "전략적 질의 추론"
+          }
+        ],
+        "limitations": {
+          "by_authors": [
+            "현재 에이전트가 복잡·장기(long-horizon) 태스크에서 여전히 고전함(능력 상한 존재)",
+            "긴 파일 편집(long file editing) 등 특정 상황에서 성능 저하가 존재함",
+            "이미지/비디오 등 멀티모달(비전-언어) 지원이 미흡 - 향후 과제로 명시",
+            "웹 브라우징이 전문 에이전트/전용 학습 모델(예: MiniWoB++ CC-NET 91.1%) 대비 크게 열세(BrowsingAgent 40.8%, WebArena 15.5%)",
+            "안전(safety) 측면 우려 및 현 AI 에이전트가 실세계 태스크를 신뢰성 있게 수행하기 어렵다는 점 인정"
+          ],
+          "by_claude": [
+            "SWE-Bench 전체(2,294)가 아닌 Lite(300) 위주 보고이며 절대 성능(26.0%)은 신뢰성 있는 실무 자동화 수준과는 거리가 있어 상한 해석에 주의",
+            "최고 성능이 폐쇄형 상용 LLM(gpt-4o, claude-3.5-sonnet)에 크게 의존 - '오픈 플랫폼' 정체성과 성능 원천 사이에 긴장. 오픈웨이트 모델 성능은 본문 확인 필요",
+            "각 벤치마크의 세부 세팅(shot 수, 재시도 정책, 프롬프트) 및 baseline 공정성은 표를 직접 대조해야 완전 판단 가능",
+            "버전이 빠르게 바뀌어(v1.5 vs v1.8) 논문 수치와 현재 레포 성능/설계가 어긋날 수 있어 재현 시 커밋+모델 버전 고정 필요",
+            "도메인별 최고점은 여전히 전문 에이전트/전용 학습 모델에 미달 - '제너럴리스트'의 대가로서 범용성-성능 트레이드오프가 명시적으로 존재"
+          ]
+        },
+        "reproducibility": {
+          "code": "공개",
+          "weights": "해당없음(플랫폼/프레임워크로 자체 학습 가중치 없음; 상용/오픈 LLM API를 백엔드로 사용)",
+          "data": "공개(평가 벤치마크는 모두 공개된 외부 데이터셋을 통합; 통합 하네스가 레포에 포함)",
+          "license": "MIT",
+          "note": "GitHub: All-Hands-AI/OpenHands. v3 본문 기준 32K stars, 2.1K+ contributions, 188+ contributors(초록의 초기 수치 1.3K/160+ 대비 갱신됨). Docker 이미지 기반 런타임으로 환경 재현성 높음. ICLR 2025 채택(arXiv Comments 필드에서 확인). SWE-Bench 전체 2,294 인스턴스 실행 비용은 인스턴스당 $3 보수 추정 시 약 $6.9k로 원문 명시. OpenDevin→OpenHands 개명(f.k.a. OpenDevin)."
+        },
+        "my_learning_points": [
+          "에이전트 프레임워크 설계 시 '행동(Action)-관찰(Observation) 이벤트 스트림 + 단일 step(state: State) 함수' 추상화를 벤치마킹하라 - 새 에이전트/멀티에이전트 위임(AgentDelegateAction)을 최소 변경으로 붙일 수 있는 확장점이 된다.",
+          "코드 실행은 Docker 이미지 기반 격리 런타임(bash + IPython + Playwright)으로 감싸라 - 안전성과 환경 재현성을 동시에 확보하는 실전 패턴을 그대로 차용할 수 있다.",
+          "직접 재현 시 논문 수치가 아닌 특정 커밋 + 명시된 모델 버전(claude-3.5-sonnet@20240620 등)으로 고정하고, SWE-Bench는 Lite(300)로 소규모 검증 후 확장하라 - 전체 2,294 실행은 약 $6.9k 비용이 든다."
+        ],
+        "related_work": {
+          "prior": [
+            {
+              "name": "CodeAct (Executable Code Actions)",
+              "relation": "CodeActAgent의 기반 - 코드를 행동으로 실행하는 에이전트 패러다임"
+            },
+            {
+              "name": "SWE-Agent / SWE-Bench",
+              "relation": "핵심 소프트웨어 엔지니어링 벤치마크 및 비교 대상 전문 에이전트"
+            },
+            {
+              "name": "WebArena / BrowserGym",
+              "relation": "웹 브라우징 평가 환경 및 브라우저 행동 DSL 제공(BrowsingAgent 기반)"
+            },
+            {
+              "name": "AutoGPT / GPTSwarm / AutoGen 계열",
+              "relation": "범용/멀티에이전트 자율 에이전트의 선행 흐름 - 통합·비교 대상"
+            },
+            {
+              "name": "Devin (Cognition AI)",
+              "relation": "초기 영감을 준 클로즈드 AI 소프트웨어 엔지니어 - 명칭 OpenDevin의 유래"
+            }
+          ],
+          "followup": [
+            {
+              "name": "OpenHands 지속 릴리스(CodeActAgent v1.8+ 등)",
+              "relation": "논문 이후에도 레포에서 에이전트/런타임 지속 개선"
+            },
+            {
+              "name": "SWE-Bench Verified / SWE-Gym 등 후속 SE 벤치마크·학습셋",
+              "relation": "OpenHands 하네스가 후속 SE 에이전트 연구·데이터 생성의 표준 플랫폼으로 활용"
+            }
+          ]
+        },
+        "claude_note": "OpenHands(구 OpenDevin)의 가장 큰 기여는 특정 SOTA 점수가 아니라, 이벤트 스트림·Docker 런타임·AgentSkills·에이전트 위임(AgentDelegateAction/AgentHub)을 표준화해 '누구나 코딩·CLI·웹을 다루는 에이전트를 만들고 15개 벤치마크로 재평가'할 수 있게 한 오픈 인프라 그 자체다. MIT 라이선스에 32K stars, 188+ 기여자로 커뮤니티 채택이 확실하고 ICLR 2025 채택(arXiv Comments 확인)이라는 학술 검증도 받았다. 다만 SWE-Bench Lite 26.0%, WebArena 15.5%, MiniWoB++ 40.8% 같은 절대 성능은 실무 자동화와 거리가 있고, 특히 웹 도메인은 전용 학습 모델 CC-NET 91.1%에 크게 미달해 '제너럴리스트'의 성능 타협이 뚜렷하다. 또한 최고 성능이 폐쇄형 상용 LLM에 종속되어 '오픈 플랫폼' 정체성과 성능 원천 사이에 긴장이 있다. 종합하면 성능 논문이라기보다 '에이전트 연구의 공통 실험대'를 제시한 인프라 논문으로 읽는 것이 정확하며, 후속 SE 에이전트/데이터 연구의 사실상 표준 하네스가 되었다는 점에서 영향력이 크다.",
+        "analyzed_at": "2026-07-06"
+      },
+      "learning": {
+        "key_terms": [
+          {
+            "term": "SWE-Bench",
+            "gloss": "실제 GitHub 이슈 해결 능력을 재는 소프트웨어 공학 벤치마크"
+          },
+          {
+            "term": "Sandbox",
+            "gloss": "코드를 안전하게 격리 실행하는 환경"
+          },
+          {
+            "term": "Generalist Agent",
+            "gloss": "여러 종류의 작업을 두루 수행하는 범용 에이전트"
+          }
+        ],
+        "recall_quiz": {
+          "question": "OpenDevin의 에이전트가 인간 개발자처럼 세상과 상호작용하는 세 가지 방식은?",
+          "answer": "코드 작성, 커맨드라인(터미널) 사용, 웹 브라우징."
+        },
+        "spaced_review": {
+          "flag": false,
+          "review_due": null
+        }
+      }
+    }
+  ],
+  "week_summary": {
+    "headline_ko": "문서 파싱·OCR이 이번 주를 지배(3편) — 4주째 상승세. TradingAgents는 4주 연속, 시계열 FM은 첫 공백",
+    "clusters": [
+      {
+        "category": "Multimodal",
+        "paper_ranks": [
+          1,
+          3,
+          5
+        ],
+        "theme_ko": "문서 파싱/OCR 지배 — 상수 KV캐시(Unlimited OCR)·경량 2단계(MinerU2.5)·초저가 대량처리(olmOCR)"
+      },
+      {
+        "category": "LLM/Agents",
+        "paper_ranks": [
+          2,
+          6
+        ],
+        "theme_ko": "에이전트 — 금융(TradingAgents 4주 연속)·코딩 플랫폼(OpenDevin 복귀)"
+      },
+      {
+        "category": "Embodied/World Models",
+        "paper_ranks": [
+          4
+        ],
+        "theme_ko": "스트리밍 3D 재구성(LingBot-Map) — 2주 연속"
+      }
+    ],
+    "emerging_keywords": [],
+    "narrative_ko": "이번 주 트렌딩은 문서 파싱/OCR이 지배했다 — Unlimited OCR(2주 연속)·MinerU2.5(▲174, 2주 연속)·olmOCR(100만 페이지를 $190에)로 3편이 올랐다. 나머지는 에이전트 2편(TradingAgents 4주 연속·OpenDevin 복귀)과 스트리밍 3D(LingBot-Map, 2주 연속)다. 신규 진입은 olmOCR 1편뿐으로, 기존 강세 주제들이 자리를 지킨 '재등장 우세' 주간이었다.",
+    "recent_trend_ko": "누적 4주차. [강화] 문서 파싱/OCR이 뚜렷한 상승세다 — W25 1편 → W26 0 → W27 2편 → W28 3편으로 이번 주 최다이며, 셋 다 효율(경량·상수 KV캐시·초저가 대량처리)을 앞세운다. [지속] LLM/Agents는 4주 연속 등장(주당 3→5→2→2편), 특히 TradingAgents가 4주 내리 트렌딩했다. [복귀] OpenDevin은 W27을 건너뛴 뒤 이번 주 재등장(연속 아님). [첫 공백] 3주 연속이던 시계열 파운데이션 모델(Kronos→TimesFM→TimesFM)이 이번 주엔 빠졌다 — 추세 둔화 여부는 다음 주에 확인. [관통] 효율화가 전 분야를 가로지르는 흐름은 4주째 유지.",
+    "caveats_ko": "주 6편 트렌딩 표본 기준이며 HuggingFace 커뮤니티의 인기·최신 편향이 있습니다. 업보트·스타는 중요도가 아닌 '관심도' 지표로만 해석하세요. 이번 주는 6편 중 5편이 재등장 논문이라, 신규 유입보다 기존 강세의 지속으로 해석하는 편이 안전합니다."
+  }
+}

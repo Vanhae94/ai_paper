@@ -1,0 +1,1374 @@
+[
+  {
+    "paper": {
+      "id": "2606.23050",
+      "authors": [
+        {
+          "_id": "6a3a0c36fdcd3514343bb651",
+          "user": {
+            "_id": "66bc1f9c8543e3883f2082db",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/66bc1f9c8543e3883f2082db/RnmVK90E4VUIkUKcAG3yz.jpeg",
+            "isPro": false,
+            "fullname": "Youyang Yin",
+            "user": "HYPERUU",
+            "type": "user",
+            "name": "HYPERUU"
+          },
+          "name": "Youyang Yin",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-06-23T13:56:12.255Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a3a0c36fdcd3514343bb652",
+          "name": "Huanhuan Liu",
+          "hidden": false
+        },
+        {
+          "_id": "6a3a0c36fdcd3514343bb653",
+          "name": "YY",
+          "hidden": false
+        },
+        {
+          "_id": "6a3a0c36fdcd3514343bb654",
+          "name": "Qunyi Xie",
+          "hidden": false
+        },
+        {
+          "_id": "6a3a0c36fdcd3514343bb655",
+          "name": "Chaorun Liu",
+          "hidden": false
+        },
+        {
+          "_id": "6a3a0c36fdcd3514343bb656",
+          "name": "Shiqi Yang",
+          "hidden": false
+        },
+        {
+          "_id": "6a3a0c36fdcd3514343bb657",
+          "name": "Shaohua Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a3a0c36fdcd3514343bb658",
+          "name": "Zhanlong Liu",
+          "hidden": false
+        },
+        {
+          "_id": "6a3a0c36fdcd3514343bb659",
+          "name": "Hao Zou",
+          "hidden": false
+        },
+        {
+          "_id": "6a3a0c36fdcd3514343bb65a",
+          "name": "Jinyue Chen",
+          "hidden": false
+        },
+        {
+          "_id": "6a3a0c36fdcd3514343bb65b",
+          "name": "Shu Wei",
+          "hidden": false
+        },
+        {
+          "_id": "6a3a0c36fdcd3514343bb65c",
+          "name": "Jingjing Wu",
+          "hidden": false
+        },
+        {
+          "_id": "6a3a0c36fdcd3514343bb65d",
+          "name": "Mingxin Huang",
+          "hidden": false
+        },
+        {
+          "_id": "6a3a0c36fdcd3514343bb65e",
+          "name": "Zhen Wu",
+          "hidden": false
+        },
+        {
+          "_id": "6a3a0c36fdcd3514343bb65f",
+          "name": "Guibin Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a3a0c36fdcd3514343bb660",
+          "name": "Tengyu Du",
+          "hidden": false
+        },
+        {
+          "_id": "6a3a0c36fdcd3514343bb661",
+          "name": "Lei Jia",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2026-06-22T00:00:00.000Z",
+      "submittedOnDailyAt": "2026-06-23T00:00:00.000Z",
+      "title": "Unlimited OCR Works",
+      "submittedOnDailyBy": {
+        "_id": "6039478ab3ecf716b1a5fd4d",
+        "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/6039478ab3ecf716b1a5fd4d/_Thy4E7taiSYBLKxEKJbT.jpeg",
+        "isPro": true,
+        "fullname": "taesiri",
+        "user": "taesiri",
+        "type": "user",
+        "name": "taesiri"
+      },
+      "summary": "Recently, end-to-end OCR models, exemplified by DeepSeek OCR, have once again thrust OCR into the spotlight. A widely held view is that employing a large language model (LLM) as the decoder allows the model to leverage the prior distribution of language, leading to improved OCR performance. However, the downside is equally evident: as the output sequence lengthens, the accumulated KV cache drives up memory consumption and progressively slows down generation. This stands in stark contrast to humans, who exhibit no such decline in efficiency during long-horizon copying tasks. In this technical report, we propose Unlimited OCR, a model designed to emulate human parsing working memory. Taking DeepSeek OCR as the baseline, we replace all attention layers in the decoder with our proposed Reference Sliding Window Attention (R-SWA), which reduces attention computation costs while maintaining a constant KV cache throughout the entire decoding process. By combining the high compression rate of DeepSeek OCR's encoder with our constant KV cache design, Unlimited OCR can transcribe dozens of pages of documents in a single forward pass under a standard maximum length of 32K. More importantly, R-SWA is a general-purpose parsing attention mechanism - beyond OCR, it is equally applicable to tasks such as ASR, translation, etc. Codes and model weights are publicly available at http://github.com/baidu/Unlimited-OCR.",
+      "upvotes": 50,
+      "discussionId": "6a3a0c36fdcd3514343bb662",
+      "githubRepo": "https://github.com/baidu/Unlimited-OCR",
+      "githubRepoAddedBy": "user",
+      "ai_summary": "Unlimited OCR introduces Reference Sliding Window Attention to eliminate growing memory consumption during long-sequence OCR tasks, enabling efficient transcription of multiple pages in a single forward pass.",
+      "ai_keywords": [
+        "end-to-end OCR",
+        "large language model",
+        "decoder",
+        "KV cache",
+        "attention layers",
+        "Reference Sliding Window Attention",
+        "document transcription",
+        "sequence length",
+        "memory consumption",
+        "working memory",
+        "parsing attention mechanism",
+        "ASR",
+        "translation"
+      ],
+      "ai_summary_model": "Qwen/Qwen2.5-Coder-32B-Instruct",
+      "githubStars": 13327,
+      "organization": {
+        "_id": "626a6d6b4909b521e1f59ce5",
+        "name": "baidu",
+        "fullname": "BAIDU",
+        "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/64f187a2cc1c03340ac30498/TYYUxK8xD1AxExFMWqbZD.png"
+      }
+    },
+    "publishedAt": "2026-06-21T20:00:00.000Z",
+    "title": "Unlimited OCR Works",
+    "summary": "Recently, end-to-end OCR models, exemplified by DeepSeek OCR, have once again thrust OCR into the spotlight. A widely held view is that employing a large language model (LLM) as the decoder allows the model to leverage the prior distribution of language, leading to improved OCR performance. However, the downside is equally evident: as the output sequence lengthens, the accumulated KV cache drives up memory consumption and progressively slows down generation. This stands in stark contrast to humans, who exhibit no such decline in efficiency during long-horizon copying tasks. In this technical report, we propose Unlimited OCR, a model designed to emulate human parsing working memory. Taking DeepSeek OCR as the baseline, we replace all attention layers in the decoder with our proposed Reference Sliding Window Attention (R-SWA), which reduces attention computation costs while maintaining a constant KV cache throughout the entire decoding process. By combining the high compression rate of DeepSeek OCR's encoder with our constant KV cache design, Unlimited OCR can transcribe dozens of pages of documents in a single forward pass under a standard maximum length of 32K. More importantly, R-SWA is a general-purpose parsing attention mechanism - beyond OCR, it is equally applicable to tasks such as ASR, translation, etc. Codes and model weights are publicly available at http://github.com/baidu/Unlimited-OCR.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2606.23050.png",
+    "numComments": 5,
+    "submittedBy": {
+      "_id": "6039478ab3ecf716b1a5fd4d",
+      "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/6039478ab3ecf716b1a5fd4d/_Thy4E7taiSYBLKxEKJbT.jpeg",
+      "fullname": "taesiri",
+      "name": "taesiri",
+      "type": "user",
+      "isPro": true,
+      "isHf": false,
+      "isHfAdmin": false,
+      "isMod": false,
+      "followerCount": 329,
+      "isUserFollowing": false
+    },
+    "organization": {
+      "_id": "626a6d6b4909b521e1f59ce5",
+      "name": "baidu",
+      "fullname": "BAIDU",
+      "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/64f187a2cc1c03340ac30498/TYYUxK8xD1AxExFMWqbZD.png"
+    },
+    "isAuthorParticipating": true
+  },
+  {
+    "paper": {
+      "id": "2412.20138",
+      "authors": [
+        {
+          "_id": "6847673b3ec10bdd8ab4dd5e",
+          "name": "Yijia Xiao",
+          "hidden": false
+        },
+        {
+          "_id": "6847673b3ec10bdd8ab4dd5f",
+          "name": "Edward Sun",
+          "hidden": false
+        },
+        {
+          "_id": "6847673b3ec10bdd8ab4dd60",
+          "name": "Di Luo",
+          "hidden": false
+        },
+        {
+          "_id": "6847673b3ec10bdd8ab4dd61",
+          "name": "Wei Wang",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2024-12-28T12:54:06.000Z",
+      "title": "TradingAgents: Multi-Agents LLM Financial Trading Framework",
+      "summary": "Significant progress has been made in automated problem-solving using\nsocieties of agents powered by large language models (LLMs). In finance,\nefforts have largely focused on single-agent systems handling specific tasks or\nmulti-agent frameworks independently gathering data. However, the multi-agent\nsystems' potential to replicate real-world trading firms' collaborative\ndynamics remains underexplored. TradingAgents proposes a novel stock trading\nframework inspired by trading firms, featuring LLM-powered agents in\nspecialized roles such as fundamental analysts, sentiment analysts, technical\nanalysts, and traders with varied risk profiles. The framework includes Bull\nand Bear researcher agents assessing market conditions, a risk management team\nmonitoring exposure, and traders synthesizing insights from debates and\nhistorical data to make informed decisions. By simulating a dynamic,\ncollaborative trading environment, this framework aims to improve trading\nperformance. Detailed architecture and extensive experiments reveal its\nsuperiority over baseline models, with notable improvements in cumulative\nreturns, Sharpe ratio, and maximum drawdown, highlighting the potential of\nmulti-agent LLM frameworks in financial trading. TradingAgents is available at\nhttps://github.com/TauricResearch/TradingAgents.",
+      "upvotes": 103,
+      "discussionId": "6847673c3ec10bdd8ab4dd62",
+      "githubRepo": "https://github.com/tauricresearch/tradingagents",
+      "githubRepoAddedBy": "auto",
+      "ai_summary": "A multi-agent framework using large language models for stock trading simulates real-world trading firms, improving performance metrics like cumulative returns and Sharpe ratio.",
+      "ai_keywords": [
+        "large language models",
+        "LLM",
+        "multi-agent systems",
+        "fundamental analysts",
+        "sentiment analysts",
+        "technical analysts",
+        "traders",
+        "risk management",
+        "cumulative returns",
+        "Sharpe ratio",
+        "maximum drawdown"
+      ],
+      "ai_summary_model": "Qwen/Qwen2.5-Coder-32B-Instruct",
+      "githubStars": 91030
+    },
+    "publishedAt": "2024-12-28T07:54:06.000Z",
+    "title": "TradingAgents: Multi-Agents LLM Financial Trading Framework",
+    "summary": "Significant progress has been made in automated problem-solving using\nsocieties of agents powered by large language models (LLMs). In finance,\nefforts have largely focused on single-agent systems handling specific tasks or\nmulti-agent frameworks independently gathering data. However, the multi-agent\nsystems' potential to replicate real-world trading firms' collaborative\ndynamics remains underexplored. TradingAgents proposes a novel stock trading\nframework inspired by trading firms, featuring LLM-powered agents in\nspecialized roles such as fundamental analysts, sentiment analysts, technical\nanalysts, and traders with varied risk profiles. The framework includes Bull\nand Bear researcher agents assessing market conditions, a risk management team\nmonitoring exposure, and traders synthesizing insights from debates and\nhistorical data to make informed decisions. By simulating a dynamic,\ncollaborative trading environment, this framework aims to improve trading\nperformance. Detailed architecture and extensive experiments reveal its\nsuperiority over baseline models, with notable improvements in cumulative\nreturns, Sharpe ratio, and maximum drawdown, highlighting the potential of\nmulti-agent LLM frameworks in financial trading. TradingAgents is available at\nhttps://github.com/TauricResearch/TradingAgents.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2412.20138.png",
+    "numComments": 4,
+    "isAuthorParticipating": false
+  },
+  {
+    "paper": {
+      "id": "2509.22186",
+      "authors": [
+        {
+          "_id": "68d9ebf80177a6054b013a58",
+          "user": {
+            "_id": "650abbb71aece923f21d87fc",
+            "avatarUrl": "/avatars/f09ff031c278bc42bfd7a563853e142c.svg",
+            "isPro": false,
+            "fullname": "Junbo Niu",
+            "user": "Niujunbo2002",
+            "type": "user",
+            "name": "Niujunbo2002"
+          },
+          "name": "Junbo Niu",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2025-10-16T10:38:58.373Z",
+          "hidden": false
+        },
+        {
+          "_id": "68d9ebf80177a6054b013a59",
+          "user": {
+            "_id": "6625ef13605f46d05c1d0031",
+            "avatarUrl": "/avatars/22f201dca35e43013cb593884516e96c.svg",
+            "isPro": false,
+            "fullname": "Zheng Liu",
+            "user": "starriver030515",
+            "type": "user",
+            "name": "starriver030515"
+          },
+          "name": "Zheng Liu",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2025-09-29T11:26:48.737Z",
+          "hidden": false
+        },
+        {
+          "_id": "68d9ebf80177a6054b013a5a",
+          "user": {
+            "_id": "658b7d80de33432e4cd795d5",
+            "avatarUrl": "/avatars/a83a185edd78157e459b4c0fa6aabfde.svg",
+            "isPro": false,
+            "fullname": "gzc",
+            "user": "Chokoyo",
+            "type": "user",
+            "name": "Chokoyo"
+          },
+          "name": "Zhuangcheng Gu",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2025-10-01T10:25:10.432Z",
+          "hidden": false
+        },
+        {
+          "_id": "68d9ebf80177a6054b013a5b",
+          "user": {
+            "_id": "63ae9ff5557befe297a76f90",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/1672388558183-noauth.jpeg",
+            "isPro": false,
+            "fullname": "Bin Wang",
+            "user": "wanderkid",
+            "type": "user",
+            "name": "wanderkid"
+          },
+          "name": "Bin Wang",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2025-09-29T05:58:46.158Z",
+          "hidden": false
+        },
+        {
+          "_id": "68d9ebf80177a6054b013a5c",
+          "user": {
+            "_id": "66753c556f2ac48ee625d7d1",
+            "avatarUrl": "/avatars/8f7c252675fd8a096794d12971903722.svg",
+            "isPro": false,
+            "fullname": "Linke Ouyang",
+            "user": "ouyanglinke",
+            "type": "user",
+            "name": "ouyanglinke"
+          },
+          "name": "Linke Ouyang",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2025-09-29T11:26:51.347Z",
+          "hidden": false
+        },
+        {
+          "_id": "68d9ebf80177a6054b013a5d",
+          "name": "Zhiyuan Zhao",
+          "hidden": false
+        },
+        {
+          "_id": "68d9ebf80177a6054b013a5e",
+          "name": "Tao Chu",
+          "hidden": false
+        },
+        {
+          "_id": "68d9ebf80177a6054b013a5f",
+          "user": {
+            "_id": "65b8c55130839a0db8cdc496",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/65b8c55130839a0db8cdc496/REpRsa1ts84yjk1GyyfnT.png",
+            "isPro": false,
+            "fullname": "Tianyao He",
+            "user": "hotelll",
+            "type": "user",
+            "name": "hotelll"
+          },
+          "name": "Tianyao He",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2025-09-29T11:27:08.370Z",
+          "hidden": false
+        },
+        {
+          "_id": "68d9ebf80177a6054b013a60",
+          "name": "Fan Wu",
+          "hidden": false
+        },
+        {
+          "_id": "68d9ebf80177a6054b013a61",
+          "name": "Qintong Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "68d9ebf80177a6054b013a62",
+          "name": "Zhenjiang Jin",
+          "hidden": false
+        },
+        {
+          "_id": "68d9ebf80177a6054b013a63",
+          "name": "Guang Liang",
+          "hidden": false
+        },
+        {
+          "_id": "68d9ebf80177a6054b013a64",
+          "name": "Rui Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "68d9ebf80177a6054b013a65",
+          "name": "Wenzheng Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "68d9ebf80177a6054b013a66",
+          "name": "Yuan Qu",
+          "hidden": false
+        },
+        {
+          "_id": "68d9ebf80177a6054b013a67",
+          "name": "Zhifei Ren",
+          "hidden": false
+        },
+        {
+          "_id": "68d9ebf80177a6054b013a68",
+          "user": {
+            "_id": "68231f20feab9d28e37f17e1",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/68231f20feab9d28e37f17e1/hikWkWYg1zmKfU3kLSKeu.jpeg",
+            "isPro": false,
+            "fullname": "Yuefeng Sun",
+            "user": "SunYuefeng",
+            "type": "user",
+            "name": "SunYuefeng"
+          },
+          "name": "Yuefeng Sun",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2025-09-29T11:27:04.835Z",
+          "hidden": false
+        },
+        {
+          "_id": "68d9ebf80177a6054b013a69",
+          "name": "Yuanhong Zheng",
+          "hidden": false
+        },
+        {
+          "_id": "68d9ebf80177a6054b013a6a",
+          "name": "Dongsheng Ma",
+          "hidden": false
+        },
+        {
+          "_id": "68d9ebf80177a6054b013a6b",
+          "name": "Zirui Tang",
+          "hidden": false
+        },
+        {
+          "_id": "68d9ebf80177a6054b013a6c",
+          "name": "Boyu Niu",
+          "hidden": false
+        },
+        {
+          "_id": "68d9ebf80177a6054b013a6d",
+          "name": "Ziyang Miao",
+          "hidden": false
+        },
+        {
+          "_id": "68d9ebf80177a6054b013a6e",
+          "name": "Hejun Dong",
+          "hidden": false
+        },
+        {
+          "_id": "68d9ebf80177a6054b013a6f",
+          "name": "Siyi Qian",
+          "hidden": false
+        },
+        {
+          "_id": "68d9ebf80177a6054b013a70",
+          "user": {
+            "_id": "65411de281a8731a1c28293d",
+            "avatarUrl": "/avatars/18607dcd65303e1f688fae8015f43314.svg",
+            "isPro": false,
+            "fullname": "junyuan",
+            "user": "Carkham",
+            "type": "user",
+            "name": "Carkham"
+          },
+          "name": "Junyuan Zhang",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-03-30T09:13:11.612Z",
+          "hidden": false
+        },
+        {
+          "_id": "68d9ebf80177a6054b013a71",
+          "name": "Jingzhou Chen",
+          "hidden": false
+        },
+        {
+          "_id": "68d9ebf80177a6054b013a72",
+          "name": "Fangdong Wang",
+          "hidden": false
+        },
+        {
+          "_id": "68d9ebf80177a6054b013a73",
+          "user": {
+            "_id": "668f77a3b3991ac0c308a441",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/668f77a3b3991ac0c308a441/w5-9UAxi32HnrTjW9_fGC.jpeg",
+            "isPro": false,
+            "fullname": "xiaomeng zhao",
+            "user": "myhloli",
+            "type": "user",
+            "name": "myhloli"
+          },
+          "name": "Xiaomeng Zhao",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2025-09-30T06:36:34.780Z",
+          "hidden": false
+        },
+        {
+          "_id": "68d9ebf80177a6054b013a74",
+          "name": "Liqun Wei",
+          "hidden": false
+        },
+        {
+          "_id": "68d9ebf80177a6054b013a75",
+          "name": "Wei Li",
+          "hidden": false
+        },
+        {
+          "_id": "68d9ebf80177a6054b013a76",
+          "name": "Shasha Wang",
+          "hidden": false
+        },
+        {
+          "_id": "68d9ebf80177a6054b013a77",
+          "name": "Ruiliang Xu",
+          "hidden": false
+        },
+        {
+          "_id": "68d9ebf80177a6054b013a78",
+          "name": "Yuanyuan Cao",
+          "hidden": false
+        },
+        {
+          "_id": "68d9ebf80177a6054b013a79",
+          "name": "Lu Chen",
+          "hidden": false
+        },
+        {
+          "_id": "68d9ebf80177a6054b013a7a",
+          "name": "Qianqian Wu",
+          "hidden": false
+        },
+        {
+          "_id": "68d9ebf80177a6054b013a7b",
+          "name": "Huaiyu Gu",
+          "hidden": false
+        },
+        {
+          "_id": "68d9ebf80177a6054b013a7c",
+          "name": "Lindong Lu",
+          "hidden": false
+        },
+        {
+          "_id": "68d9ebf80177a6054b013a7d",
+          "name": "Keming Wang",
+          "hidden": false
+        },
+        {
+          "_id": "68d9ebf80177a6054b013a7e",
+          "name": "Dechen Lin",
+          "hidden": false
+        },
+        {
+          "_id": "68d9ebf80177a6054b013a7f",
+          "name": "Guanlin Shen",
+          "hidden": false
+        },
+        {
+          "_id": "68d9ebf80177a6054b013a80",
+          "user": {
+            "_id": "64ef522242da8d2a897d62da",
+            "avatarUrl": "/avatars/03611010d247da66696ac8976d4d3ed3.svg",
+            "isPro": false,
+            "fullname": "xuanhe zhou",
+            "user": "zhouxh19",
+            "type": "user",
+            "name": "zhouxh19"
+          },
+          "name": "Xuanhe Zhou",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-02-27T16:48:01.770Z",
+          "hidden": false
+        },
+        {
+          "_id": "68d9ebf80177a6054b013a81",
+          "name": "Linfeng Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "68d9ebf80177a6054b013a82",
+          "user": {
+            "_id": "63859cf3b2906edaf83af9f0",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/63859cf3b2906edaf83af9f0/kajwuVzd4pDucSPlwghxo.png",
+            "isPro": true,
+            "fullname": "Yuhang Zang",
+            "user": "yuhangzang",
+            "type": "user",
+            "name": "yuhangzang"
+          },
+          "name": "Yuhang Zang",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2025-09-29T05:58:52.431Z",
+          "hidden": false
+        },
+        {
+          "_id": "68d9ebf80177a6054b013a83",
+          "name": "Xiaoyi Dong",
+          "hidden": false
+        },
+        {
+          "_id": "68d9ebf80177a6054b013a84",
+          "user": {
+            "_id": "64b4eec4faa3181a5eab9c46",
+            "avatarUrl": "/avatars/bcc9bf5cbf67546ad2b4c9ec8b96ac96.svg",
+            "isPro": true,
+            "fullname": "Jiaqi Wang",
+            "user": "myownskyW7",
+            "type": "user",
+            "name": "myownskyW7"
+          },
+          "name": "Jiaqi Wang",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2025-09-29T05:58:49.303Z",
+          "hidden": false
+        },
+        {
+          "_id": "68d9ebf80177a6054b013a85",
+          "name": "Bo Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "68d9ebf80177a6054b013a86",
+          "name": "Lei Bai",
+          "hidden": false
+        },
+        {
+          "_id": "68d9ebf80177a6054b013a87",
+          "user": {
+            "_id": "64c9beb2904317f42de06dd8",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/64c9beb2904317f42de06dd8/he3rxfyzfwEd1vLuK6_o2.jpeg",
+            "isPro": false,
+            "fullname": "Pei Chu",
+            "user": "chupei",
+            "type": "user",
+            "name": "chupei"
+          },
+          "name": "Pei Chu",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2025-09-29T05:58:41.995Z",
+          "hidden": false
+        },
+        {
+          "_id": "68d9ebf80177a6054b013a88",
+          "name": "Weijia Li",
+          "hidden": false
+        },
+        {
+          "_id": "68d9ebf80177a6054b013a89",
+          "name": "Jiang Wu",
+          "hidden": false
+        },
+        {
+          "_id": "68d9ebf80177a6054b013a8a",
+          "user": {
+            "_id": "643e60d96db6ba8c5ee177ad",
+            "avatarUrl": "/avatars/73ac7740e462ba0b53a2f2480d9f1e3e.svg",
+            "isPro": false,
+            "fullname": "Lijun Wu",
+            "user": "apeters",
+            "type": "user",
+            "name": "apeters"
+          },
+          "name": "Lijun Wu",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2025-10-08T11:49:34.562Z",
+          "hidden": false
+        },
+        {
+          "_id": "68d9ebf80177a6054b013a8b",
+          "name": "Zhenxiang Li",
+          "hidden": false
+        },
+        {
+          "_id": "68d9ebf80177a6054b013a8c",
+          "name": "Guangyu Wang",
+          "hidden": false
+        },
+        {
+          "_id": "68d9ebf80177a6054b013a8d",
+          "name": "Zhongying Tu",
+          "hidden": false
+        },
+        {
+          "_id": "68d9ebf80177a6054b013a8e",
+          "name": "Chao Xu",
+          "hidden": false
+        },
+        {
+          "_id": "68d9ebf80177a6054b013a8f",
+          "name": "Kai Chen",
+          "hidden": false
+        },
+        {
+          "_id": "68d9ebf80177a6054b013a90",
+          "name": "Yu Qiao",
+          "hidden": false
+        },
+        {
+          "_id": "68d9ebf80177a6054b013a91",
+          "name": "Bowen Zhou",
+          "hidden": false
+        },
+        {
+          "_id": "68d9ebf80177a6054b013a92",
+          "name": "Dahua Lin",
+          "hidden": false
+        },
+        {
+          "_id": "68d9ebf80177a6054b013a93",
+          "name": "Wentao Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "68d9ebf80177a6054b013a94",
+          "name": "Conghui He",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2025-09-26T10:45:48.000Z",
+      "submittedOnDailyAt": "2025-09-29T00:00:00.000Z",
+      "title": "MinerU2.5: A Decoupled Vision-Language Model for Efficient\n  High-Resolution Document Parsing",
+      "submittedOnDailyBy": {
+        "_id": "6039478ab3ecf716b1a5fd4d",
+        "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/6039478ab3ecf716b1a5fd4d/_Thy4E7taiSYBLKxEKJbT.jpeg",
+        "isPro": true,
+        "fullname": "taesiri",
+        "user": "taesiri",
+        "type": "user",
+        "name": "taesiri"
+      },
+      "summary": "We introduce MinerU2.5, a 1.2B-parameter document parsing vision-language\nmodel that achieves state-of-the-art recognition accuracy while maintaining\nexceptional computational efficiency. Our approach employs a coarse-to-fine,\ntwo-stage parsing strategy that decouples global layout analysis from local\ncontent recognition. In the first stage, the model performs efficient layout\nanalysis on downsampled images to identify structural elements, circumventing\nthe computational overhead of processing high-resolution inputs. In the second\nstage, guided by the global layout, it performs targeted content recognition on\nnative-resolution crops extracted from the original image, preserving\nfine-grained details in dense text, complex formulas, and tables. To support\nthis strategy, we developed a comprehensive data engine that generates diverse,\nlarge-scale training corpora for both pretraining and fine-tuning. Ultimately,\nMinerU2.5 demonstrates strong document parsing ability, achieving\nstate-of-the-art performance on multiple benchmarks, surpassing both\ngeneral-purpose and domain-specific models across various recognition tasks,\nwhile maintaining significantly lower computational overhead.",
+      "upvotes": 174,
+      "discussionId": "68d9ebf80177a6054b013a95",
+      "projectPage": "https://opendatalab.github.io/MinerU/",
+      "githubRepo": "https://github.com/opendatalab/MinerU",
+      "githubRepoAddedBy": "user",
+      "ai_summary": "MinerU2.5, a 1.2B-parameter document parsing vision-language model, achieves state-of-the-art recognition accuracy with computational efficiency through a coarse-to-fine parsing strategy.",
+      "ai_keywords": [
+        "document parsing",
+        "vision-language model",
+        "coarse-to-fine",
+        "two-stage parsing",
+        "layout analysis",
+        "content recognition",
+        "downsampled images",
+        "native-resolution crops",
+        "data engine",
+        "pretraining",
+        "fine-tuning",
+        "state-of-the-art performance",
+        "computational overhead"
+      ],
+      "ai_summary_model": "Qwen/Qwen2.5-Coder-32B-Instruct",
+      "githubStars": 73497
+    },
+    "publishedAt": "2025-09-26T06:45:48.000Z",
+    "title": "MinerU2.5: A Decoupled Vision-Language Model for Efficient\n  High-Resolution Document Parsing",
+    "summary": "We introduce MinerU2.5, a 1.2B-parameter document parsing vision-language\nmodel that achieves state-of-the-art recognition accuracy while maintaining\nexceptional computational efficiency. Our approach employs a coarse-to-fine,\ntwo-stage parsing strategy that decouples global layout analysis from local\ncontent recognition. In the first stage, the model performs efficient layout\nanalysis on downsampled images to identify structural elements, circumventing\nthe computational overhead of processing high-resolution inputs. In the second\nstage, guided by the global layout, it performs targeted content recognition on\nnative-resolution crops extracted from the original image, preserving\nfine-grained details in dense text, complex formulas, and tables. To support\nthis strategy, we developed a comprehensive data engine that generates diverse,\nlarge-scale training corpora for both pretraining and fine-tuning. Ultimately,\nMinerU2.5 demonstrates strong document parsing ability, achieving\nstate-of-the-art performance on multiple benchmarks, surpassing both\ngeneral-purpose and domain-specific models across various recognition tasks,\nwhile maintaining significantly lower computational overhead.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2509.22186.png",
+    "numComments": 2,
+    "submittedBy": {
+      "_id": "6039478ab3ecf716b1a5fd4d",
+      "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/6039478ab3ecf716b1a5fd4d/_Thy4E7taiSYBLKxEKJbT.jpeg",
+      "fullname": "taesiri",
+      "name": "taesiri",
+      "type": "user",
+      "isPro": true,
+      "isHf": false,
+      "isHfAdmin": false,
+      "isMod": false,
+      "followerCount": 329,
+      "isUserFollowing": false
+    },
+    "isAuthorParticipating": false
+  },
+  {
+    "paper": {
+      "id": "2604.14141",
+      "authors": [
+        {
+          "_id": "69e090265b704445ba50b80b",
+          "name": "Lin-Zhuo Chen",
+          "hidden": false
+        },
+        {
+          "_id": "69e090265b704445ba50b80c",
+          "name": "Jian Gao",
+          "hidden": false
+        },
+        {
+          "_id": "69e090265b704445ba50b80d",
+          "name": "Yihang Chen",
+          "hidden": false
+        },
+        {
+          "_id": "69e090265b704445ba50b80e",
+          "user": {
+            "_id": "64acd2ec39fcfebff8c79c00",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/64acd2ec39fcfebff8c79c00/Avq66l5hO-aggNtk4Y1ss.png",
+            "isPro": false,
+            "fullname": "Ka Leong Cheng",
+            "user": "felixcheng97",
+            "type": "user",
+            "name": "felixcheng97"
+          },
+          "name": "Ka Leong Cheng",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2026-04-16T20:26:44.373Z",
+          "hidden": false
+        },
+        {
+          "_id": "69e090265b704445ba50b80f",
+          "name": "Yipengjing Sun",
+          "hidden": false
+        },
+        {
+          "_id": "69e090265b704445ba50b810",
+          "name": "Liangxiao Hu",
+          "hidden": false
+        },
+        {
+          "_id": "69e090265b704445ba50b811",
+          "name": "Nan Xue",
+          "hidden": false
+        },
+        {
+          "_id": "69e090265b704445ba50b812",
+          "name": "Xing Zhu",
+          "hidden": false
+        },
+        {
+          "_id": "69e090265b704445ba50b813",
+          "name": "Yujun Shen",
+          "hidden": false
+        },
+        {
+          "_id": "69e090265b704445ba50b814",
+          "name": "Yao Yao",
+          "hidden": false
+        },
+        {
+          "_id": "69e090265b704445ba50b815",
+          "name": "Yinghao Xu",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2026-04-15T00:00:00.000Z",
+      "submittedOnDailyAt": "2026-04-16T00:00:00.000Z",
+      "title": "Geometric Context Transformer for Streaming 3D Reconstruction",
+      "submittedOnDailyBy": {
+        "_id": "5f1158120c833276f61f1a84",
+        "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/1608042047613-5f1158120c833276f61f1a84.jpeg",
+        "isPro": false,
+        "fullname": "Niels Rogge",
+        "user": "nielsr",
+        "type": "user",
+        "name": "nielsr"
+      },
+      "summary": "Streaming 3D reconstruction aims to recover 3D information, such as camera poses and point clouds, from a video stream, which necessitates geometric accuracy, temporal\n  consistency, and computational efficiency. Motivated by the principles of Simultaneous Localization and Mapping (SLAM), we introduce LingBot-Map, a feed-forward 3D foundation\n  model for reconstructing scenes from streaming data, built upon a geometric context transformer (GCT) architecture. A defining aspect of LingBot-Map lies in its carefully\n  designed attention mechanism, which integrates an anchor context, a pose-reference window, and a trajectory memory to address coordinate grounding, dense geometric cues, and\n  long-range drift correction, respectively. This design keeps the streaming state compact while retaining rich geometric context, enabling stable efficient inference at around\n  20 FPS on 518 x 378 resolution inputs over long sequences exceeding 10,000 frames. Extensive evaluations across a variety of benchmarks demonstrate that our approach\n  achieves superior performance compared to both existing streaming and iterative optimization-based approaches.",
+      "upvotes": 25,
+      "discussionId": "69e090275b704445ba50b816",
+      "projectPage": "https://technology.robbyant.com/lingbot-map",
+      "githubRepo": "https://github.com/robbyant/lingbot-map",
+      "githubRepoAddedBy": "user",
+      "ai_summary": "LingBot-Map is a feed-forward 3D foundation model that reconstructs scenes from video streams using a geometric context transformer architecture with specialized attention mechanisms for coordinate grounding, dense geometric cues, and long-range drift correction, achieving stable real-time performance at 20 FPS.",
+      "ai_keywords": [
+        "Simultaneous Localization and Mapping",
+        "feed-forward 3D foundation model",
+        "geometric context transformer",
+        "attention mechanism",
+        "anchor context",
+        "pose-reference window",
+        "trajectory memory",
+        "coordinate grounding",
+        "dense geometric cues",
+        "long-range drift correction"
+      ],
+      "ai_summary_model": "Qwen/Qwen2.5-Coder-32B-Instruct",
+      "githubStars": 9880,
+      "organization": {
+        "_id": "69709f892cd08371c1011a2e",
+        "name": "robbyant",
+        "fullname": "Robbyant",
+        "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/67aeffda7330db26f93cd62f/ZTuImney4XzRmBHyUL47F.png"
+      }
+    },
+    "publishedAt": "2026-04-14T20:00:00.000Z",
+    "title": "Geometric Context Transformer for Streaming 3D Reconstruction",
+    "summary": "Streaming 3D reconstruction aims to recover 3D information, such as camera poses and point clouds, from a video stream, which necessitates geometric accuracy, temporal\n  consistency, and computational efficiency. Motivated by the principles of Simultaneous Localization and Mapping (SLAM), we introduce LingBot-Map, a feed-forward 3D foundation\n  model for reconstructing scenes from streaming data, built upon a geometric context transformer (GCT) architecture. A defining aspect of LingBot-Map lies in its carefully\n  designed attention mechanism, which integrates an anchor context, a pose-reference window, and a trajectory memory to address coordinate grounding, dense geometric cues, and\n  long-range drift correction, respectively. This design keeps the streaming state compact while retaining rich geometric context, enabling stable efficient inference at around\n  20 FPS on 518 x 378 resolution inputs over long sequences exceeding 10,000 frames. Extensive evaluations across a variety of benchmarks demonstrate that our approach\n  achieves superior performance compared to both existing streaming and iterative optimization-based approaches.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2604.14141.png",
+    "numComments": 2,
+    "submittedBy": {
+      "_id": "5f1158120c833276f61f1a84",
+      "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/1608042047613-5f1158120c833276f61f1a84.jpeg",
+      "fullname": "Niels Rogge",
+      "name": "nielsr",
+      "type": "user",
+      "isPro": false,
+      "isHf": true,
+      "isHfAdmin": false,
+      "isMod": false,
+      "followerCount": 1248,
+      "isUserFollowing": false
+    },
+    "organization": {
+      "_id": "69709f892cd08371c1011a2e",
+      "name": "robbyant",
+      "fullname": "Robbyant",
+      "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/67aeffda7330db26f93cd62f/ZTuImney4XzRmBHyUL47F.png"
+    },
+    "isAuthorParticipating": false
+  },
+  {
+    "paper": {
+      "id": "2502.18443",
+      "authors": [
+        {
+          "_id": "67d92b03924be985c28e00a9",
+          "name": "Jake Poznanski",
+          "hidden": false
+        },
+        {
+          "_id": "67d92b03924be985c28e00aa",
+          "name": "Jon Borchardt",
+          "hidden": false
+        },
+        {
+          "_id": "67d92b03924be985c28e00ab",
+          "name": "Jason Dunkelberger",
+          "hidden": false
+        },
+        {
+          "_id": "67d92b03924be985c28e00ac",
+          "name": "Regan Huff",
+          "hidden": false
+        },
+        {
+          "_id": "67d92b03924be985c28e00ad",
+          "name": "Daniel Lin",
+          "hidden": false
+        },
+        {
+          "_id": "67d92b03924be985c28e00ae",
+          "name": "Aman Rangapur",
+          "hidden": false
+        },
+        {
+          "_id": "67d92b03924be985c28e00af",
+          "name": "Christopher Wilhelm",
+          "hidden": false
+        },
+        {
+          "_id": "67d92b03924be985c28e00b0",
+          "name": "Kyle Lo",
+          "hidden": false
+        },
+        {
+          "_id": "67d92b03924be985c28e00b1",
+          "user": {
+            "_id": "5f04d8c45d08220171a0ad32",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/5f04d8c45d08220171a0ad32/B0szblazqtHQql_-pWOHW.jpeg",
+            "isPro": false,
+            "fullname": "Luca Soldaini",
+            "user": "soldni",
+            "type": "user",
+            "name": "soldni"
+          },
+          "name": "Luca Soldaini",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-02-04T19:05:01.150Z",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2025-02-25T18:38:38.000Z",
+      "title": "olmOCR: Unlocking Trillions of Tokens in PDFs with Vision Language\n  Models",
+      "summary": "PDF documents have the potential to provide trillions of novel, high-quality\ntokens for training language models. However, these documents come in a\ndiversity of types with differing formats and visual layouts that pose a\nchallenge when attempting to extract and faithfully represent the underlying\ncontent for language model use. We present olmOCR, an open-source Python\ntoolkit for processing PDFs into clean, linearized plain text in natural\nreading order while preserving structured content like sections, tables, lists,\nequations, and more. Our toolkit runs a fine-tuned 7B vision language model\n(VLM) trained on a sample of 260,000 pages from over 100,000 crawled PDFs with\ndiverse properties, including graphics, handwritten text and poor quality\nscans. olmOCR is optimized for large-scale batch processing, able to scale\nflexibly to different hardware setups and convert a million PDF pages for only\n$190 USD. We release all components of olmOCR including VLM weights, data and\ntraining code, as well as inference code built on serving frameworks including\nvLLM and SGLang.",
+      "upvotes": 13,
+      "discussionId": "67d92b04924be985c28e0109",
+      "projectPage": "https://olmocr.allenai.org/",
+      "githubRepo": "https://github.com/allenai/olmocr",
+      "githubRepoAddedBy": "auto",
+      "ai_summary": "olmOCR is an open-source toolkit using a fine-tuned vision language model to process PDFs into clean text while preserving structure, optimized for large-scale batch processing.",
+      "ai_keywords": [
+        "vision language model (VLM)",
+        "PDF processing",
+        "natural reading order",
+        "sections",
+        "tables",
+        "lists",
+        "equations",
+        "large-scale batch processing",
+        "vLLM",
+        "SGLang"
+      ],
+      "ai_summary_model": "Qwen/Qwen2.5-Coder-32B-Instruct",
+      "githubStars": 18791,
+      "organization": {
+        "_id": "5e70f3648ce3c604d78fe132",
+        "name": "allenai",
+        "fullname": "Ai2",
+        "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/652db071b62cf1f8463221e2/CxxwFiaomTa1MCX_B7-pT.png"
+      }
+    },
+    "publishedAt": "2025-02-25T13:38:38.000Z",
+    "title": "olmOCR: Unlocking Trillions of Tokens in PDFs with Vision Language\n  Models",
+    "summary": "PDF documents have the potential to provide trillions of novel, high-quality\ntokens for training language models. However, these documents come in a\ndiversity of types with differing formats and visual layouts that pose a\nchallenge when attempting to extract and faithfully represent the underlying\ncontent for language model use. We present olmOCR, an open-source Python\ntoolkit for processing PDFs into clean, linearized plain text in natural\nreading order while preserving structured content like sections, tables, lists,\nequations, and more. Our toolkit runs a fine-tuned 7B vision language model\n(VLM) trained on a sample of 260,000 pages from over 100,000 crawled PDFs with\ndiverse properties, including graphics, handwritten text and poor quality\nscans. olmOCR is optimized for large-scale batch processing, able to scale\nflexibly to different hardware setups and convert a million PDF pages for only\n$190 USD. We release all components of olmOCR including VLM weights, data and\ntraining code, as well as inference code built on serving frameworks including\nvLLM and SGLang.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2502.18443.png",
+    "numComments": 2,
+    "organization": {
+      "_id": "5e70f3648ce3c604d78fe132",
+      "name": "allenai",
+      "fullname": "Ai2",
+      "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/652db071b62cf1f8463221e2/CxxwFiaomTa1MCX_B7-pT.png"
+    },
+    "isAuthorParticipating": false
+  },
+  {
+    "paper": {
+      "id": "2407.16741",
+      "authors": [
+        {
+          "_id": "66a1b11eca8ee359d60b5b99",
+          "user": {
+            "_id": "62c63f31031996c36c848504",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/62c63f31031996c36c848504/xZvH6jnozuFLXbtRSU-h1.jpeg",
+            "isPro": false,
+            "fullname": "Xingyao Wang",
+            "user": "xingyaoww",
+            "type": "user",
+            "name": "xingyaoww"
+          },
+          "name": "Xingyao Wang",
+          "status": "extracted_confirmed",
+          "statusLastChangedAt": "2024-07-25T02:51:45.594Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5b9a",
+          "user": {
+            "_id": "664aefb990135abe9ba9b8c9",
+            "avatarUrl": "/avatars/79658c23555deadcfb097b6ebccbe4a6.svg",
+            "isPro": false,
+            "fullname": "Boxuan Li",
+            "user": "liboxuanhk",
+            "type": "user",
+            "name": "liboxuanhk"
+          },
+          "name": "Boxuan Li",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2024-07-25T07:38:14.907Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5b9b",
+          "user": {
+            "_id": "65f89af419e43f235cca48f9",
+            "avatarUrl": "/avatars/d1ff695f9a8ee0aeeff324fb7f07a811.svg",
+            "isPro": false,
+            "fullname": "Yufan Song",
+            "user": "yufansong",
+            "type": "user",
+            "name": "yufansong"
+          },
+          "name": "Yufan Song",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2024-07-25T07:51:32.404Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5b9c",
+          "user": {
+            "_id": "61ac0a0f57307cf7ae3a35bb",
+            "avatarUrl": "/avatars/c3b00cf275b2805861f5b020c9d00639.svg",
+            "isPro": false,
+            "fullname": "Frank Xu",
+            "user": "frankxu",
+            "type": "user",
+            "name": "frankxu"
+          },
+          "name": "Frank F. Xu",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2024-07-25T07:51:55.018Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5b9d",
+          "user": {
+            "_id": "63357c608adfa81faf2ac180",
+            "avatarUrl": "/avatars/ae0314c644f882251baf59b9134fd36f.svg",
+            "isPro": false,
+            "fullname": "Xiangru Tang",
+            "user": "RTT1",
+            "type": "user",
+            "name": "RTT1"
+          },
+          "name": "Xiangru Tang",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2024-07-25T07:52:01.459Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5b9e",
+          "user": {
+            "_id": "64403daae44f30a72323e4ca",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/64403daae44f30a72323e4ca/skJ9h0pdNfmE4VbQL8xDR.png",
+            "isPro": false,
+            "fullname": "mingchen zhuge",
+            "user": "tjpxiaoming",
+            "type": "user",
+            "name": "tjpxiaoming"
+          },
+          "name": "Mingchen Zhuge",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2024-07-25T07:52:12.418Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5b9f",
+          "user": {
+            "_id": "61568f37272f2d87a99ba884",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/61568f37272f2d87a99ba884/lgvkl5f0rEyiQRVU5FE32.png",
+            "isPro": false,
+            "fullname": "Jiayi Pan",
+            "user": "Jiayi-Pan",
+            "type": "user",
+            "name": "Jiayi-Pan"
+          },
+          "name": "Jiayi Pan",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2024-07-25T07:52:19.380Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5ba0",
+          "user": {
+            "_id": "63e7bf7be02ee67e8e53f78d",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/63e7bf7be02ee67e8e53f78d/z9j1PWrurEyIA2JXzpz0i.png",
+            "isPro": false,
+            "fullname": "Yueqi Song",
+            "user": "yueqis",
+            "type": "user",
+            "name": "yueqis"
+          },
+          "name": "Yueqi Song",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2024-07-25T07:52:43.838Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5ba1",
+          "user": {
+            "_id": "664aefb990135abe9ba9b8c9",
+            "avatarUrl": "/avatars/79658c23555deadcfb097b6ebccbe4a6.svg",
+            "isPro": false,
+            "fullname": "Boxuan Li",
+            "user": "liboxuanhk",
+            "type": "user",
+            "name": "liboxuanhk"
+          },
+          "name": "Bowen Li",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2024-07-25T07:51:24.121Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5ba2",
+          "user": {
+            "_id": "60cc389a0844fb1605fef405",
+            "avatarUrl": "/avatars/ec11f85735e0525439e8821cf6d12e53.svg",
+            "isPro": false,
+            "fullname": "Jaskirat Singh",
+            "user": "jsingh",
+            "type": "user",
+            "name": "jsingh"
+          },
+          "name": "Jaskirat Singh",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2024-07-26T07:40:52.677Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5ba3",
+          "user": {
+            "_id": "65c19c3172fd754bba256112",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/65c19c3172fd754bba256112/cfgYvKfO36PSTFYKQottM.jpeg",
+            "isPro": false,
+            "fullname": "Ryan Tran",
+            "user": "ryanhoangt",
+            "type": "user",
+            "name": "ryanhoangt"
+          },
+          "name": "Hoang H. Tran",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2024-07-25T08:19:36.107Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5ba4",
+          "name": "Fuqiang Li",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5ba5",
+          "user": {
+            "_id": "62581ef5d47cce537ee25963",
+            "avatarUrl": "/avatars/d987c625791dc33c84bf9b51069bf2c8.svg",
+            "isPro": false,
+            "fullname": "Ren Ma",
+            "user": "renma",
+            "type": "user",
+            "name": "renma"
+          },
+          "name": "Ren Ma",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2025-06-11T08:40:40.377Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5ba6",
+          "name": "Mingzhang Zheng",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5ba7",
+          "user": {
+            "_id": "641fa2e0863b87326f4a7fd5",
+            "avatarUrl": "/avatars/7b29c20f942d83c08f63f04a85c15c13.svg",
+            "isPro": false,
+            "fullname": "Bill Qian",
+            "user": "lilbillbiscuit",
+            "type": "user",
+            "name": "lilbillbiscuit"
+          },
+          "name": "Bill Qian",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2024-07-25T07:54:51.696Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5ba8",
+          "user": {
+            "_id": "62970df979f193515da13dc0",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/62970df979f193515da13dc0/A-mgKIcgTXRJ54GCHswTq.jpeg",
+            "isPro": false,
+            "fullname": "Yanjun Shao",
+            "user": "super-dainiu",
+            "type": "user",
+            "name": "super-dainiu"
+          },
+          "name": "Yanjun Shao",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2024-07-25T07:55:10.708Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5ba9",
+          "user": {
+            "_id": "5f1eb362eec0ad2a071ad6e2",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/5f1eb362eec0ad2a071ad6e2/nDiBXdLrOTw67lJp_y_WA.jpeg",
+            "isPro": false,
+            "fullname": "Niklas Muennighoff",
+            "user": "Muennighoff",
+            "type": "user",
+            "name": "Muennighoff"
+          },
+          "name": "Niklas Muennighoff",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2024-07-25T07:55:16.299Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5baa",
+          "name": "Yizhe Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5bab",
+          "user": {
+            "_id": "61e4c4ca1ab24785ac11ba69",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/61e4c4ca1ab24785ac11ba69/1Q1zhhyGSJ9RJG9MzwxVv.jpeg",
+            "isPro": false,
+            "fullname": "Binyuan Hui",
+            "user": "huybery",
+            "type": "user",
+            "name": "huybery"
+          },
+          "name": "Binyuan Hui",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2024-07-25T07:55:45.961Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5bac",
+          "user": {
+            "_id": "620760a26e3b7210c2ff1943",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/620760a26e3b7210c2ff1943/VC-rKqimF6yxGESNVlPoR.jpeg",
+            "isPro": false,
+            "fullname": "Junyang Lin",
+            "user": "JustinLin610",
+            "type": "user",
+            "name": "JustinLin610"
+          },
+          "name": "Junyang Lin",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2024-07-25T07:56:17.993Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5bad",
+          "name": "Robert Brennan",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5bae",
+          "user": {
+            "_id": "660ec5a2509153ca49775a7c",
+            "avatarUrl": "/avatars/97570fc245cc8ec7628da9c13bd35b71.svg",
+            "isPro": false,
+            "fullname": "Hao Peng",
+            "user": "haopeng01",
+            "type": "user",
+            "name": "haopeng01"
+          },
+          "name": "Hao Peng",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2024-07-25T07:57:13.319Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5baf",
+          "name": "Heng Ji",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5bb0",
+          "user": {
+            "_id": "60de14638bedd2315529d43f",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/1625166923504-noauth.png",
+            "isPro": false,
+            "fullname": "Graham Neubig",
+            "user": "gneubig",
+            "type": "user",
+            "name": "gneubig"
+          },
+          "name": "Graham Neubig",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2024-07-25T07:57:35.957Z",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2024-07-23T17:50:43.000Z",
+      "submittedOnDailyAt": "2024-07-25T00:00:00.000Z",
+      "title": "OpenDevin: An Open Platform for AI Software Developers as Generalist\n  Agents",
+      "submittedOnDailyBy": {
+        "_id": "60f1abe7544c2adfd699860c",
+        "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/1674929746905-60f1abe7544c2adfd699860c.jpeg",
+        "isPro": false,
+        "fullname": "AK",
+        "user": "akhaliq",
+        "type": "user",
+        "name": "akhaliq"
+      },
+      "summary": "Software is one of the most powerful tools that we humans have at our\ndisposal; it allows a skilled programmer to interact with the world in complex\nand profound ways. At the same time, thanks to improvements in large language\nmodels (LLMs), there has also been a rapid development in AI agents that\ninteract with and affect change in their surrounding environments. In this\npaper, we introduce OpenDevin, a platform for the development of powerful and\nflexible AI agents that interact with the world in similar ways to those of a\nhuman developer: by writing code, interacting with a command line, and browsing\nthe web. We describe how the platform allows for the implementation of new\nagents, safe interaction with sandboxed environments for code execution,\ncoordination between multiple agents, and incorporation of evaluation\nbenchmarks. Based on our currently incorporated benchmarks, we perform an\nevaluation of agents over 15 challenging tasks, including software engineering\n(e.g., SWE-Bench) and web browsing (e.g., WebArena), among others. Released\nunder the permissive MIT license, OpenDevin is a community project spanning\nacademia and industry with more than 1.3K contributions from over 160\ncontributors and will improve going forward.",
+      "upvotes": 82,
+      "discussionId": "66a1b11fca8ee359d60b5bd5",
+      "githubRepo": "https://github.com/opendevin/opendevin",
+      "githubRepoAddedBy": "auto",
+      "ai_summary": "OpenDevin is a platform for developing AI agents that interact with the world by writing code, using command lines, and browsing the web, with support for multiple agents and evaluation benchmarks.",
+      "ai_keywords": [
+        "large language models",
+        "OpenDevin",
+        "AI agents",
+        "code execution",
+        "sandboxed environments",
+        "evaluation benchmarks",
+        "SWE-Bench",
+        "WebArena"
+      ],
+      "ai_summary_model": "Qwen/Qwen2.5-Coder-32B-Instruct",
+      "githubStars": 79510
+    },
+    "publishedAt": "2024-07-23T13:50:43.000Z",
+    "title": "OpenDevin: An Open Platform for AI Software Developers as Generalist\n  Agents",
+    "summary": "Software is one of the most powerful tools that we humans have at our\ndisposal; it allows a skilled programmer to interact with the world in complex\nand profound ways. At the same time, thanks to improvements in large language\nmodels (LLMs), there has also been a rapid development in AI agents that\ninteract with and affect change in their surrounding environments. In this\npaper, we introduce OpenDevin, a platform for the development of powerful and\nflexible AI agents that interact with the world in similar ways to those of a\nhuman developer: by writing code, interacting with a command line, and browsing\nthe web. We describe how the platform allows for the implementation of new\nagents, safe interaction with sandboxed environments for code execution,\ncoordination between multiple agents, and incorporation of evaluation\nbenchmarks. Based on our currently incorporated benchmarks, we perform an\nevaluation of agents over 15 challenging tasks, including software engineering\n(e.g., SWE-Bench) and web browsing (e.g., WebArena), among others. Released\nunder the permissive MIT license, OpenDevin is a community project spanning\nacademia and industry with more than 1.3K contributions from over 160\ncontributors and will improve going forward.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2407.16741.png",
+    "numComments": 7,
+    "submittedBy": {
+      "_id": "60f1abe7544c2adfd699860c",
+      "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/1674929746905-60f1abe7544c2adfd699860c.jpeg",
+      "fullname": "AK",
+      "name": "akhaliq",
+      "type": "user",
+      "isPro": false,
+      "isHf": true,
+      "isHfAdmin": false,
+      "isMod": false,
+      "followerCount": 9740,
+      "isUserFollowing": false
+    },
+    "isAuthorParticipating": true
+  }
+]
