@@ -144,6 +144,7 @@ Claude Code에서 이 폴더를 열고:
 - 폰트: Pretendard(본문) · Fraunces(헤드라인) · Space Mono(수치·ID) — CDN, 차단 시 시스템 폰트로 폴백.
 - 단일 [`_assets/style.css`](_assets/style.css) 하나로 모든 페이지 일관. 빌드 단계 없이 브라우저에서 바로 열림.
 - 색감·무드를 바꾸려면 `style.css` 상단의 CSS 변수(`:root`)만 수정하면 전체가 일관되게 바뀐다.
+- 홈 화면/파비콘 아이콘: `_assets/icon-{180,192,512}.png` + `_assets/site.webmanifest`. 아이콘은 `scripts/make_icons.py`(표준 라이브러리만, pip 불필요)로 재생성한다. 모바일에서 GitHub Pages URL을 '홈 화면에 추가'하면 앱 아이콘으로 뜬다.
 
 ---
 
