@@ -1,0 +1,1279 @@
+{
+  "schema_version": 1,
+  "week_id": "2026-W29",
+  "date_range_ko": "2026-07-13 ~ 07-19",
+  "month_folder": "2026.07",
+  "collected_at": "2026-07-13T09:00:23+09:00",
+  "source": "huggingface daily_papers?sort=trending&limit=6",
+  "paper_count": 6,
+  "papers": [
+    {
+      "id": "2607.07534",
+      "title": "Infinite Worlds with Versatile Interactions",
+      "title_ko": null,
+      "authors": [
+        "Zelin Gao",
+        "Qiuyu Wang",
+        "Jiapeng Zhu",
+        "Jingye Chen",
+        "Zichen Liu",
+        "Qingyan Bai",
+        "Jiahao Wang",
+        "Yufeng Yuan",
+        "Hanlin Wang",
+        "Yichong Lu",
+        "Ka Leong Cheng",
+        "Haojie Zhang",
+        "Jian Gao",
+        "Tianrui Feng",
+        "Yuzheng Liu",
+        "Yao Yao",
+        "Yinghao Xu",
+        "Xing Zhu",
+        "Yujun Shen",
+        "Hao Ouyang"
+      ],
+      "published_at": "2026-07-07T20:00:00.000Z",
+      "rank": 1,
+      "raw": {
+        "summary": "We present LingBot-World 2.0 (also known as LingBot-World-Infinity), an advanced iteration of LingBot-World featuring four distinct upgrades. (1) Our model achieves an unbounded interaction horizon while maintaining consistent output quality, benefiting from a carefully crafted causal pretraining paradigm. (2) Through distilling a real-time variant from the base model, our system guarantees rapid response time, sufficient to drive 720p video streams at 60 fps. (3) Compared to the previous version, this update introduces highly diverse interactive elements, comprising a broader spectrum of actions (e.g., attacking, archery, spell-casting, and shooting) alongside a richer variety of text-driven events. (4) We pioneer the integration of an agentic harness within the domain of world modeling, wherein a pilot agent is tasked with planning and executing character behaviors, while a director agent is responsible for synthesizing novel environmental elements as the scene progresses. Additionally, to facilitate a shared experience, we develop an interface that permits multiple players to simultaneously immerse themselves in this vivid world simulator. We pair our primary 14B model with a lightweight 1.3B counterpart, which supports effortless deployment on a single GPU.",
+        "ai_summary": "An advanced world modeling system with extended interaction capabilities, real-time processing, diverse interactive elements, and multi-agent behavior control for collaborative virtual environments.",
+        "ai_keywords": [
+          "causal pretraining paradigm",
+          "real-time variant",
+          "agentic harness",
+          "pilot agent",
+          "director agent",
+          "world modeling",
+          "interactive elements",
+          "text-driven events",
+          "multi-agent behavior control",
+          "shared experience",
+          "collaborative virtual environments"
+        ],
+        "upvotes": 31,
+        "num_comments": 1,
+        "github_repo": "https://github.com/robbyant/lingbot-world-v2",
+        "github_stars": 909,
+        "project_page": "https://technology.robbyant.com/lingbot-world-v2"
+      },
+      "links": [
+        {
+          "rank": 1,
+          "label": "HF 토론·요약",
+          "url": "https://huggingface.co/papers/2607.07534"
+        },
+        {
+          "rank": 2,
+          "label": "arXiv 초록",
+          "url": "https://arxiv.org/abs/2607.07534"
+        },
+        {
+          "rank": 3,
+          "label": "PDF 원문",
+          "url": "https://arxiv.org/pdf/2607.07534"
+        },
+        {
+          "rank": 4,
+          "label": "코드(GitHub)",
+          "url": "https://github.com/robbyant/lingbot-world-v2"
+        },
+        {
+          "rank": 5,
+          "label": "프로젝트 페이지",
+          "url": "https://technology.robbyant.com/lingbot-world-v2"
+        }
+      ],
+      "classify": {
+        "categories": [
+          "Embodied/World Models",
+          "LLM/Agents"
+        ],
+        "primary_category": "Embodied/World Models",
+        "topic_tags": [
+          "world-model",
+          "causal-pretraining",
+          "agentic-harness",
+          "real-time"
+        ],
+        "method_tags": [
+          "pretraining",
+          "architecture",
+          "distillation"
+        ],
+        "modality": [
+          "video",
+          "multi"
+        ],
+        "confidence": "medium"
+      },
+      "tier1": {
+        "one_liner": "무한히 상호작용 가능한 실시간 월드 시뮬레이터 — 에이전트가 캐릭터 행동과 환경 생성을 함께 조율한다.",
+        "problem": "생성형 월드 모델은 상호작용 지평(얼마나 오래 일관되게 이어갈 수 있나)·실시간성·다양한 상호작용을 동시에 확보하기 어려웠다.",
+        "approach": "LingBot-World 2.0은 (1) 인과적(causal) 사전학습으로 품질을 유지한 채 '무한' 상호작용 지평을 확보하고, (2) 실시간 변형을 증류(distill)해 720p·60fps를 구동하며, (3) 공격·궁술·주문·사격 등 다양한 행동과 텍스트 기반 이벤트를 지원한다. (4) 월드 모델에 '에이전트 하니스'를 도입해 pilot 에이전트가 캐릭터 행동을 계획·실행하고 director 에이전트가 새 환경 요소를 생성한다. 14B 본 모델 + 단일 GPU용 1.3B 경량 버전.",
+        "contributions": [
+          "인과 사전학습으로 무한 상호작용 지평 + 일관된 품질 유지",
+          "실시간 증류로 720p·60fps 구동",
+          "월드 모델 최초로 pilot/director '에이전트 하니스' 통합",
+          "14B + 1.3B(단일 GPU) + 멀티플레이어 인터페이스"
+        ],
+        "why_now": "'월드 모델(interactive world simulator)'이 최근 트렌딩에서 부상 중인 축이다(W27 LingBot-Map, 이번 주 2편). 생성 콘텐츠를 넘어 에이전트가 상주·행동하는 상호작용 세계로 확장되는 흐름을 보여준다.",
+        "difficulty": "고급",
+        "recommended_reader": "월드 모델·게임 AI·에이전트 시뮬레이션에 관심 있는 학습자",
+        "field_tags": [
+          "월드모델",
+          "실시간생성",
+          "에이전트하니스",
+          "게임AI"
+        ],
+        "interest": {
+          "upvotes": 31,
+          "num_comments": 1,
+          "github_stars": 909
+        }
+      },
+      "tier2": {
+        "method_detail": "LingBot-World 2.0(별칭 LingBot-World-Infinity)은 상호작용형 비디오 월드 모델로, 14B 주력 모델과 단일 GPU 배포를 노린 1.3B 경량 모델을 함께 제공하며 백본은 DiT(Diffusion Transformer)이다. 다만 논문 본문은 기반 모델명을 밝히지 않으며, 'Wan2.2 기반으로 구축(built upon Wan2.2)'이라는 서술은 공식 레포 README에만 존재한다. 핵심은 인과적 월드 모델링(causal world modeling)으로, 결합분포를 p(x₁:ₜ|a₁:ₜ)=∏ₜ p(xₜ|x<t, a≤t)로 인수분해해 각 상태를 과거 관측과 현재 입력에만 의존시키는 자기회귀(autoregressive) 생성으로 무한(hour-level) 지평의 일관성을 노린다. 이를 위해 teacher forcing과 양방향 어텐션을 결합한 MoBA(Mixture of Bidirectional and Autoregressive) 어텐션 마스크, 카메라 포즈용 Plücker embeddings(6D 좌표), 텍스트/제어 신호 주입용 AdaLN(adaptive layer normalization)을 사용한다. 학습은 2단계로, (1) conditional flow-matching(속도 예측) 목적함수로 인과적 사전학습을 하고, (2) Consistency Distillation과 DMD(Distribution Matching Distillation)로 다단계 확산을 소수 스텝(few-step) 생성기로 증류하는 사후학습을 거쳐 720p/60fps 실시간을 달성하며, DMD는 self-rollout 궤적 위에서 최적화해 누적 드리프트를 억제한다. 추론 시 동적 KV cache 관리(context-adaptive scheduling)로 무한 롤아웃을 지원한다. 에이전트 하니스는 저수준 물리·렌더링을 담당하는 비디오 생성 모델(Pilot=DiT)과 거시적 의미 규칙·인과추론으로 이벤트를 제안하는 VLM(Director)로 구성되며, Director는 마스크 없는 직접 의미 상호작용과 SAM 기반 추적 보조 객체 상호작용의 두 모드를 지원한다. 다만 실시간 지표(GPU 종류·지연시간)와 정량 벤치마크 수치는 본문에 명시되어 있지 않다.",
+        "experiment_setup": [
+          "비교군(정성): 폐쇄형 HappyOyster·Genie 3, 공개형 Sana·Matrix-Game 3(Table 1의 M-G 3.0)·DreamX(Table 1의 D-W)·원조 LingBot-World(v1)·Worldplay(5.1). 인과 사전학습 모델 비교(5.2)에는 MAGI-1·Worldplay 사용",
+          "평가 축(정성): 시각 충실도, 시간적 안정성, 행동 반응성, 실시간 처리량, 생성 지속시간, 의미적 상호작용, 도메인, 동적 정도(dynamic degree), 오픈소스 여부",
+          "핵심 주장: 일반 도메인에서 시간(hour) 단위 무한 생성을 달성한 유일 시스템이라 주장(Table 1)하며, 60분 무중단 세션(Figure 10)에서도 눈에 띄는 품질 저하(decay)가 없다고 보고",
+          "대비: 기존 인과 모델(MAGI-1 등)은 수초~수분 내에 품질이 붕괴한다고 서술하고, 본 모델은 '상당히 더 오래' 품질을 유지한다고 주장",
+          "정량 지표 부재(확인 완료): 본문에는 정성 비교표(Table 1)와 정성 그림(예: Fig. 11)만 있고 FID/LPIPS/PSNR/사용자 스터디 등 정량 지표 표는 제시되지 않음"
+        ],
+        "datasets": [
+          {
+            "name": "Egocentric videos — Ego4D, Epic Kitchens, EgoDex + 자체 수집",
+            "scale": "규모 미명시",
+            "domain": "실사 1인칭/구현형 상호작용"
+          },
+          {
+            "name": "Synthetic game/Unreal Engine data",
+            "scale": "규모 미명시",
+            "domain": "게임/시뮬레이션 합성 렌더링"
+          },
+          {
+            "name": "Large-scale web videos",
+            "scale": "'대규모'로만 서술, 정확 수치 미명시",
+            "domain": "웹 일반 비디오"
+          }
+        ],
+        "limitations": {
+          "by_authors": [
+            "장기 메모리 부재: 생성한 세계를 실제로 기억하지 못하고, 컨텍스트 윈도우를 벗어난 영역은 재방문 시 재생성되는 경향",
+            "정체성/스타일 일관성: 특정 캐릭터의 외형이 미묘하게 바뀌거나 전체 아트 스타일이 초장기 롤아웃에서 점진적으로 표류(drift)",
+            "물리 이해 한계: 명시적 기하/충돌 없이 픽셀로만 동역학을 학습해 물리적으로 비현실적인 교차·관통 아티팩트가 간헐적으로 발생",
+            "높은 연산 비용: 실시간 성능을 위해 상당한 컴퓨팅 자원이 필요"
+          ],
+          "by_claude": [
+            "정량 벤치마크(FID/LPIPS/PSNR/행동정확도/사용자 스터디)가 본문에 전혀 없음을 재확인(확인 완료) — 성능 우위 주장이 정성 비교표(Table 1)와 정성 그림에만 근거해 객관적 재현·검증이 곤란",
+            "1.3B '단일 GPU' 주장의 구체적 GPU 사양·지연시간·처리량 수치가 본문에 없음(확인 완료) — 실시간성 재현 가능성 판단 곤란",
+            "'무한 지평·무열화' 주장이 저자 스스로 인정한 장기 메모리 부재(컨텍스트 윈도우 밖 재생성)와 긴장 관계 — '무열화'는 60분 정성 관찰 기반이며 장기 일관성의 조작적 정의가 모호",
+            "멀티플레이어 인터페이스는 UI 배치(뷰포트·WASD/IJKL·이벤트 핫키) 수준만 기술되고 네트워킹/동기화 아키텍처 세부는 없음",
+            "'Wan2.2 기반'은 논문 본문이 아니라 공식 레포 README에만 존재 — 논문만 보면 백본 출처가 불명(본문 확인 결과 Wan2.2 미언급)"
+          ]
+        },
+        "reproducibility": {
+          "code": "부분 공개 — GitHub(robbyant/lingbot-world-v2)에 추론 코드(generate.py: chunk 단위 처리 + KV caching, run_fast.sh 래퍼) 제공. 배포(deployment) 코드는 의도적 미공개('deployment code 미공개' 명시)이며 SGLang/flashdreams 등 외부 구현 안내(직접 확인 완료)",
+          "weights": "부분 공개 — 14B 'causal-fast'는 HuggingFace·ModelScope 배포(직접 확인 완료). 14B 'causal-pretrain'과 1.3B 변종은 TODO(미공개)로 표기됨(직접 확인 완료)",
+          "data": "비공개 — 소스는 egocentric(Ego4D·Epic Kitchens·EgoDex·자체 수집)·합성(게임/Unreal Engine)·웹 비디오 혼합, 3단계 파이프라인(취득·프로파일링(TransNet V2 샷검출, Qwen 계열 VLM)·다중 어노테이션)만 서술. 데이터셋 자체 배포 정보 없음",
+          "license": "CC BY-NC-SA 4.0(비상업)로 레포에서 직접 확인 — 상업적 이용 제한. arXiv 논문 자체는 비독점(non-exclusive) 라이선스",
+          "note": "저장소 스타 920개(직접 확인, 하향 헤지 제거). Wan2.2 기반(레포 README 근거이며 논문 본문엔 미기재). 핵심 자산(pretrain 가중치·1.3B·배포코드·데이터) 미공개로 완전 재현은 제한적 — 보수적으로 '부분 공개'로 판단"
+        },
+        "my_learning_points": [
+          "장기 지평 일관성의 원리로 causal/autoregressive 정식화(x<t, a≤t)와 MoBA 어텐션 마스크를 분해 학습하라 — teacher forcing에 양방향 어텐션을 어떻게 섞어 열화를 억제하는지가 핵심",
+          "실시간화 레시피로 Consistency Distillation + DMD(few-step, self-rollout 궤적 최적화) 파이프라인을 재현해보며 다단계 확산을 소수 스텝으로 증류할 때의 품질-속도 트레이드오프를 체득하라",
+          "공개된 14B 'causal-fast' 가중치와 generate.py(KV caching)를 내려받아 무한 롤아웃/드리프트 현상을 직접 관찰하고, Director(VLM)-Pilot(DiT) 이벤트 주입 구조와 SAM 추적 모드를 코드에서 확인하라"
+        ],
+        "related_work": {
+          "prior": [
+            {
+              "name": "LingBot-World v1",
+              "relation": "직접 전신(predecessor). 본 논문이 4가지 업그레이드로 확장"
+            },
+            {
+              "name": "Wan2.2",
+              "relation": "베이스 비디오 확산 모델(DiT 백본)로 추정 — 단, 근거는 공식 레포 README뿐이며 논문 본문엔 미기재"
+            },
+            {
+              "name": "Genie 3 (DeepMind 계열 상호작용 월드 모델)",
+              "relation": "주요 경쟁 비교군(폐쇄형)"
+            },
+            {
+              "name": "Matrix-Game 3 (Table 1의 M-G 3.0)",
+              "relation": "게임형 상호작용 월드 모델 비교군(공개형)"
+            },
+            {
+              "name": "MAGI-1",
+              "relation": "인과 사전학습 모델 장기 안정성 비교군(5.2)"
+            },
+            {
+              "name": "DMD (Distribution Matching Distillation)",
+              "relation": "실시간 소수 스텝 증류에 사용한 방법론"
+            },
+            {
+              "name": "SAM (Segment Anything)",
+              "relation": "Director의 추적 보조 객체 상호작용에 활용"
+            }
+          ],
+          "followup": [
+            {
+              "name": "실시간 few-step 월드 모델(60fps) 연구 흐름",
+              "relation": "본 논문의 distillation 변종이 후속 실시간 상호작용 생성 연구를 촉진할 여지"
+            },
+            {
+              "name": "에이전트형 월드 모델(Pilot/Director harness)",
+              "relation": "VLM 감독+생성모델 조합의 agentic world modeling을 개척했다고 주장 — 후속 확장 축"
+            }
+          ]
+        },
+        "claude_note": "arXiv HTML 본문(v1)과 공식 레포·HuggingFace를 직접 교차 확인해 아키텍처·데이터·한계·공개 상태를 초록을 넘어 본문 근거로 정리했으며, 이 분석은 초록에만 의존하지 않는다. 방법론(causal pretraining+MoBA, Plücker/AdaLN, Consistency Distillation/DMD)과 Pilot-Director 에이전트 하니스는 구체적이고 설득력 있으나, 성능 우위 주장이 정성 비교표(Table 1)와 60분 무열화 정성 관찰에만 기대고 FID/LPIPS/사용자 스터디 등 정량 지표 표가 본문에 전무해(확인 완료) 검증 관점의 근거가 약하다. 저자 스스로 장기 메모리 부재·스타일 드리프트·물리 비일관성을 인정해 '무한 세계'라는 표제와 긴장 관계가 있다. 공개 측면은 부분 공개로, 14B causal-fast 가중치+추론코드(generate.py/KV caching)와 CC BY-NC-SA 4.0 라이선스·스타 920개는 레포에서 직접 확인했으나 pretrain 가중치·1.3B·배포코드·데이터가 빠져 완전 재현은 어렵다. 주의: 'Wan2.2 기반'은 논문 본문이 아닌 레포 README 근거이고, 초안의 비교군 'DreamWorld'는 논문상 'DreamX'(Table 1의 D-W)로 정정했다.",
+        "analyzed_at": "2026-07-13"
+      },
+      "learning": {
+        "key_terms": [
+          {
+            "term": "World Model",
+            "gloss": "환경의 동역학을 학습해 다음 상태를 생성·예측하는 모델"
+          },
+          {
+            "term": "Causal Pretraining",
+            "gloss": "과거만 참조(인과적)하도록 학습해 무한 스트리밍을 가능케 함"
+          },
+          {
+            "term": "Distillation",
+            "gloss": "큰 모델을 작게·빠르게 증류해 실시간 구동"
+          }
+        ],
+        "recall_quiz": {
+          "question": "LingBot-World 2.0이 월드 모델에 처음 통합한 '에이전트 하니스'의 두 역할은?",
+          "answer": "pilot 에이전트(캐릭터 행동 계획·실행)와 director 에이전트(새 환경 요소 생성)."
+        },
+        "spaced_review": {
+          "flag": false,
+          "review_due": null
+        }
+      }
+    },
+    {
+      "id": "2607.07675",
+      "title": "Scaling Mixture-of-Experts Video Pretraining for Embodied Intelligence",
+      "title_ko": null,
+      "authors": [
+        "Shuailei Ma",
+        "Jiaqi Liao",
+        "Xinyang Wang",
+        "Jingjing Wang",
+        "Chaoran Feng",
+        "Zijing Hu",
+        "Chong Bao",
+        "Zichen Xi",
+        "Yuqi Gan",
+        "Weisen Wang",
+        "Yanhong Zeng",
+        "Qin Zhao",
+        "Zifan Shi",
+        "Wei Wu",
+        "Hao Ouyang",
+        "Qiuyu Wang",
+        "Shangzhan Zhang",
+        "Jiahao Shao",
+        "Yipengjing Sun",
+        "Liangxiao Hu",
+        "Lunke Pan",
+        "Nan Xue",
+        "Kecheng Zheng",
+        "Yinghao Xu",
+        "Xing Zhu",
+        "Yujun Shen",
+        "Ka Leong Cheng"
+      ],
+      "published_at": "2026-07-07T20:00:00.000Z",
+      "rank": 2,
+      "raw": {
+        "summary": "Despite the recent promise in robot control, video generative models suffer from a domain mismatch due to their primary focus on content creation. For example, their design inherently prioritizes visual fidelity and creativity over computational efficiency and physical realism. In this work, we present LingBot-Video, a DiT-based video pretraining paradigm specifically tailored for embodied intelligence. From the architecture perspective, we adopt the Mixture-of-Experts (MoE), instead of dense, framework to achieve a better trade-off between modeling capacity and inference efficiency, and manage to scale it up from scratch. From the data perspective, we construct a data profiling engine that augments standard internet videos with extensive robot-oriented footage, encompassing manipulation, navigation, and egocentric perspectives, to equip the base model with an intrinsic understanding of actions and world dynamics. From the training perspective, we develop a multi-dimensional reward system to enforce the alignment regarding physical rationality and task completion, going beyond standard criteria such as aesthetics, prompt-following, and motion consistency. Comprehensive evaluations validate its performance and efficiency as a video foundation model. We contribute LingBot-Video as the inaugural large-scale, open-source MoE video foundation model to the community, in a pioneering effort to bridge digital creativity and physical actuation.",
+        "ai_summary": "LingBot-Video presents a DiT-based video pretraining framework with Mixture-of-Experts architecture, specialized data augmentation, and multi-dimensional reward system for embodied intelligence applications.",
+        "ai_keywords": [
+          "DiT-based video pretraining",
+          "Mixture-of-Experts",
+          "embodied intelligence",
+          "data profiling engine",
+          "robot-oriented footage",
+          "multi-dimensional reward system",
+          "physical rationality",
+          "task completion"
+        ],
+        "upvotes": 49,
+        "num_comments": 1,
+        "github_repo": "https://github.com/robbyant/lingbot-video",
+        "github_stars": 708,
+        "project_page": "https://technology.robbyant.com/lingbot-video"
+      },
+      "links": [
+        {
+          "rank": 1,
+          "label": "HF 토론·요약",
+          "url": "https://huggingface.co/papers/2607.07675"
+        },
+        {
+          "rank": 2,
+          "label": "arXiv 초록",
+          "url": "https://arxiv.org/abs/2607.07675"
+        },
+        {
+          "rank": 3,
+          "label": "PDF 원문",
+          "url": "https://arxiv.org/pdf/2607.07675"
+        },
+        {
+          "rank": 4,
+          "label": "코드(GitHub)",
+          "url": "https://github.com/robbyant/lingbot-video"
+        },
+        {
+          "rank": 5,
+          "label": "프로젝트 페이지",
+          "url": "https://technology.robbyant.com/lingbot-video"
+        }
+      ],
+      "classify": {
+        "categories": [
+          "Embodied/World Models",
+          "Efficiency/Inference"
+        ],
+        "primary_category": "Embodied/World Models",
+        "topic_tags": [
+          "video-foundation-model",
+          "mixture-of-experts",
+          "embodied-intelligence",
+          "physical-realism"
+        ],
+        "method_tags": [
+          "pretraining",
+          "architecture",
+          "rl"
+        ],
+        "modality": [
+          "video"
+        ],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "로봇·물리 현실에 특화된 최초의 대규모 오픈소스 MoE 비디오 파운데이션 모델.",
+        "problem": "비디오 생성 모델은 콘텐츠 창작(시각적 화려함) 위주라, 로봇 제어에 필요한 계산 효율·물리적 현실성과는 도메인 불일치가 있다.",
+        "approach": "임바디드 지능에 맞춘 DiT 기반 비디오 사전학습. 아키텍처는 dense 대신 MoE로 용량·추론효율 균형을 잡아 처음부터 스케일업하고, 데이터는 조작·내비게이션·1인칭 로봇 영상을 인터넷 영상에 증강하는 프로파일링 엔진을 쓰며, 학습은 미학·프롬프트 준수를 넘어 '물리적 합리성·과제 완수'를 강제하는 다차원 보상을 도입한다.",
+        "contributions": [
+          "임바디드 특화 DiT 비디오 사전학습 패러다임",
+          "dense→MoE로 용량·효율 균형, 스크래치 스케일업",
+          "로봇 영상 증강 데이터 프로파일링 엔진 + 물리성·과제완수 다차원 보상",
+          "최초의 대규모 오픈소스 MoE 비디오 파운데이션 모델"
+        ],
+        "why_now": "이번 주 임바디드/월드모델이 2편으로 부상했다. '디지털 생성 ↔ 물리적 행동'을 잇는 비디오 파운데이션 모델은 로보틱스·피지컬 AI의 핵심 인프라로 떠오른다. MoE로 효율까지 챙긴 점이 이번 흐름과 맞물린다.",
+        "difficulty": "고급",
+        "recommended_reader": "로보틱스·비디오 생성·MoE·피지컬 AI에 관심 있는 학습자",
+        "field_tags": [
+          "비디오FM",
+          "MoE",
+          "임바디드",
+          "로보틱스"
+        ],
+        "interest": {
+          "upvotes": 49,
+          "num_comments": 1,
+          "github_stars": 708
+        }
+      },
+      "tier2": {
+        "method_detail": "LingBot-Video는 DiT(Diffusion Transformer) 기반 비디오 생성 패러다임을 embodied intelligence(체화 지능)용으로 재설계하고, dense 대신 Mixture-of-Experts(MoE) 구조를 채택해 모델 용량(modeling capacity)과 추론 효율(inference efficiency)의 트레이드오프를 개선했다(초록 확인). 공개 가중치는 dense 1.3B와 MoE 30B-total/3B-active(30B-A3B) 두 변종으로, 토큰당 30B 중 약 3B만 활성화하며 레포/HF 카드는 동일 품질 dense 대비 '~3x faster inference'를 주장한다(측정 프로토콜은 미공개). 두 변종 모두 T2I·T2V·TI2V·Refinement을 지원한다(README 확인; 초안의 'Refiner는 MoE 전용'은 근거 없어 정정). 학습 데이터는 'data profiling engine'이 인터넷 비디오에 manipulation·navigation·egocentric 등 로봇 지향 영상을 대규모로 증강해(대규모 웹 비디오 + 70,000+시간 embodied 데이터) 행동(action)과 세계 동역학(world dynamics)에 대한 사전지식을 심는 방식이다(초록·README). 정렬(alignment)은 표준 지표인 심미성(aesthetics)·모션 일관성(motion consistency)을 넘어 물리적 타당성(physical rationality/realism)과 과제 완수(task completion)까지 강제하는 다차원 보상(multi-dimensional reward)으로 수행한다(초록·README). 프롬프트 리라이터로 Qwen3.6-27B를 base VLM으로 두고 구조화 JSON 출력용 LoRA 어댑터를 얹은 2단계 파이프라인을 제공한다(README; 초안의 '자동 negative prompt 생성'은 미확인이라 삭제). 다만 전문가(expert) 개수, 토큰당 활성 전문가 수, 라우팅 방식, DiT 레이어/차원, 보상 최적화 기법(GRPO/DPO 등)과 학습 컴퓨트는 fetch 가능한 자료(초록·README·HF·GitHub)에 없어 원문 본문(paper.pdf) 확인이 필요하다 — arXiv HTML 404, PDF 10MB 초과, alphaXiv 403으로 본문 파싱 불가.",
+        "experiment_setup": [
+          "벤치마크: RBench Leaderboard(README, 2026-07-09 기준) — embodied intelligence 태스크 평균 점수 보고. LingBot-Video 평균 0.620으로 오픈소스 1위 주장(자체 리더보드 성격, 제3자 미검증).",
+          "카테고리별 점수(README 기준): Manipulation 0.578, Long-horizon 0.634, Quadruped 0.758, Humanoid 0.689.",
+          "비교군(README 기준): Cosmos3 Super 0.581, HunyuanVideo 1.5 0.460 등 대비 우위 주장. 전체 baseline 표/평가 조건은 원문 본문 확인 필요.",
+          "기본 추론 설정(README): 480x832 해상도, 24 FPS(설정 변경 가능).",
+          "지원 태스크: T2I(text-to-image), T2V(text-to-video), TI2V(text+image-to-video), Refinement — README상 dense·MoE 두 변종 모두 지원(초안의 'Refiner는 MoE 전용' 서술은 근거 없어 정정).",
+          "효율 주장: 동일 품질에서 dense 대비 '~3x faster inference'(README 실제 문구). 다만 하드웨어·배치·스텝 수·품질 정의 등 정량 프로토콜 미공개."
+        ],
+        "datasets": [
+          {
+            "name": "Data Profiling Engine로 증강한 인터넷 비디오 + 로봇 지향 embodied 코퍼스",
+            "scale": "대규모 웹 비디오 + 70,000+ 시간(embodied data) — README/모델 설명 기준",
+            "domain": "manipulation, navigation, egocentric (행동/세계 동역학 사전학습)"
+          }
+        ],
+        "limitations": {
+          "by_authors": [
+            "초록 기준: 표준 비디오 생성 모델은 콘텐츠 창작에 초점을 둬 시각적 충실도/창의성에 치우치고, 로봇 제어에 필요한 계산 효율성과 물리적 사실성에서 도메인 불일치(domain mismatch)가 있음(본 논문이 해결하려는 한계로 제시).",
+            "저자가 명시한 별도의 실패 사례/한계 절은 fetch 가능한 초록·레포·모델카드에서 확인되지 않음 — 원문 본문(paper.pdf) 확인 필요."
+          ],
+          "by_claude": [
+            "MoE 전문가 수·토큰당 활성 전문가 수·라우팅 방식·DiT 하이퍼파라미터가 공개 자료(초록/README/HF/GitHub)에 없어 아키텍처 재현/비교가 제한됨 — 본문 확인 필요(arXiv HTML 404, PDF 10MB 초과, alphaXiv 403).",
+            "RBench 우위가 전적으로 자체 README 리더보드/모델카드 기반 주장이며, 독립 제3자 평가나 표준 비디오 벤치(VBench 등) 교차검증이 확인되지 않음.",
+            "'~3x faster inference'와 '동일 품질'의 측정 프로토콜(하드웨어, 배치, 스텝 수, 품질 정의)이 불명확 — 재현 시 자기 하드웨어 A/B 필요.",
+            "다차원 보상의 구체적 신호원(물리 시뮬레이터/판별기/VLM judge)·가중치·최적화 알고리즘(GRPO/DPO/PPO 등)이 미상 — 재현성 핵심 공백, 본문 확인 필요.",
+            "생성 비디오가 실제 로봇 정책(정책 학습/제어) 다운스트림 성능으로 이어지는지의 인과 근거가 본 자료에서 확인되지 않음.",
+            "'data profiling engine' 파이프라인 코드/명세 및 학습 데이터가 미공개라, 데이터 증강 재현이 불가능 — 데이터 측 재현성 공백."
+          ]
+        },
+        "reproducibility": {
+          "code": "공개(Apache-2.0). GitHub Robbyant/lingbot-video, 711 stars, Python 89.7%/Shell 10.3%. 단일/다중 GPU 추론 스크립트(refiner/no-refiner 포함) 제공.",
+          "weights": "공개. dense 1.3B(lingbot-video-dense-1.3b), MoE 30B-A3B(lingbot-video-moe-30b-a3b) — HuggingFace 및 ModelScope 배포. 프롬프트 리라이터(Qwen3.6-27B base + 구조화 JSON용 LoRA) 포함.",
+          "data": "부분/비공개. 학습 데이터셋(대규모 웹 비디오 + 70,000+시간 embodied) 미배포이며 'data profiling engine' 파이프라인 코드/명세도 공개 근거 확인 안 됨(GitHub 확인).",
+          "license": "Apache-2.0 (코드/가중치, GitHub·모델카드 확인).",
+          "note": "arXiv HTML(html/2607.07675) 404, PDF는 fetch 10MB 초과, alphaXiv abs 403으로 본문 전문 미확보 → 아키텍처 세부·보상 알고리즘·전체 벤치 표는 GitHub 기술보고서(paper.pdf) 및 원문 PDF에서 직접 확인 필요. GitHub에 paper.pdf 존재 확인. 2026-07-09 릴리스."
+        },
+        "my_learning_points": [
+          "직접 실행: HF에서 dense 1.3B를 먼저 내려받아 T2V 추론을 재현하고, 이후 MoE 30B-A3B로 동일 프롬프트 A/B 측정(스텝 수·해상도·하드웨어 고정)으로 '~3x' 추론 주장을 자기 환경에서 검증해볼 것.",
+          "설계 원리 학습: 비디오 파운데이션 모델에 MoE(총 파라미터↑, 활성 파라미터 고정)를 얹어 용량-효율을 분리하는 패턴과, 심미성·모션 일관성 위주 보상에 '물리적 타당성+과제 완수'를 추가하는 다차원 보상 설계를 자기 도메인 목적함수에 이식해볼 것.",
+          "평가 관점 확립: RBench 같은 자체·신규 리더보드 수치는 그대로 신뢰하지 말고 VBench 등 표준 벤치와 교차, 그리고 '생성 품질'이 실제 로봇 다운스트림(정책 성공률)으로 이어지는 인과 링크를 요구하는 습관을 들일 것."
+        ],
+        "related_work": {
+          "prior": [
+            {
+              "name": "DiT / Diffusion Transformer",
+              "relation": "본 모델의 백본 아키텍처 계보(확산 기반 트랜스포머)."
+            },
+            {
+              "name": "Wan / CogVideoX / HunyuanVideo 계열 오픈 비디오 생성 모델",
+              "relation": "일반 도메인 dense 비디오 파운데이션의 선행/배경(도메인 불일치 문제의 맥락). HunyuanVideo 1.5는 RBench 비교군으로 등장."
+            },
+            {
+              "name": "NVIDIA Cosmos(월드 파운데이션 모델)",
+              "relation": "체화/월드 모델용 비디오 사전학습 선행 흐름, RBench 비교군(Cosmos3 Super)으로 등장."
+            },
+            {
+              "name": "Mixture-of-Experts(sparse MoE, 예: Switch/Mixtral 계열)",
+              "relation": "용량-효율 트레이드오프를 위한 sparse 활성화 기법의 원류를 비디오 생성으로 이식."
+            }
+          ],
+          "followup": [
+            {
+              "name": "생성 비디오 기반 로봇 정책 학습(video-as-world-model / policy learning)",
+              "relation": "본 파운데이션 모델을 액션 예측·시뮬레이션·데이터 증강으로 연결하는 후속 방향."
+            },
+            {
+              "name": "RBench 등 embodied 비디오 평가 벤치의 확장/독립 검증",
+              "relation": "본 결과의 제3자 재평가 및 표준화 후속."
+            }
+          ]
+        },
+        "claude_note": "본 분석은 arXiv HTML 본문이 404(html/2607.07675)이고 PDF가 10MB 초과, alphaXiv abs가 403이어서 논문 전문(paper.pdf)을 직접 파싱하지 못한 채, arXiv 초록 + GitHub 레포(Robbyant/lingbot-video, 711 stars) + HuggingFace 모델카드를 교차 확인한 2차 자료 기반이다. 초안 대비 세 가지 사실 오류를 교정했다: (1) Refinement은 MoE 전용이 아니라 dense·MoE 두 변종 공통 지원, (2) 프롬프트 리라이터의 'negative prompt 자동 생성'은 미확인이라 삭제하고 LoRA 용도를 '구조화 JSON 출력'으로 정정, (3) 다차원 보상의 '프롬프트 정합성' 차원은 근거 없어 초록 표현(심미성·모션 일관성 + 물리적 타당성·과제 완수)으로 정정. 신뢰도 높은 사실은 dense 1.3B / MoE 30B-A3B의 Apache-2.0 공개, 70,000+시간 embodied 데이터 증강, 다차원 보상 정렬, RBench 평균 0.620(자체 리더보드)이며, MoE 전문가 수·라우팅·DiT 구성·보상 최적화 알고리즘·정확한 벤치 프로토콜은 확인 불가라 by_claude에 '본문 확인 필요'로 남겼다. 종합하면 '오픈소스 최초 대규모 MoE 비디오 파운데이션'이라는 포지셔닝과 코드·가중치 완전 공개는 실질적 기여이나, 정량 주장(특히 RBench 우위와 3x 효율)의 재현·검증은 원문 PDF와 표준 벤치 교차 확인 전까지 보수적으로 해석해야 한다.",
+        "analyzed_at": "2026-07-13"
+      },
+      "learning": {
+        "key_terms": [
+          {
+            "term": "DiT",
+            "gloss": "Diffusion Transformer, 트랜스포머 기반 확산 생성 모델"
+          },
+          {
+            "term": "Mixture-of-Experts (MoE)",
+            "gloss": "입력마다 일부 전문가만 활성화해 용량↑·계산↓"
+          },
+          {
+            "term": "Embodied Intelligence",
+            "gloss": "몸(로봇)을 통해 물리 세계와 상호작용하며 학습하는 AI"
+          }
+        ],
+        "recall_quiz": {
+          "question": "LingBot-Video가 dense 대신 MoE 아키텍처를 택한 이유는?",
+          "answer": "모델링 용량과 추론 효율 사이의 더 나은 균형(trade-off)을 얻어 처음부터 스케일업하기 위해."
+        },
+        "spaced_review": {
+          "flag": false,
+          "review_due": null
+        }
+      }
+    },
+    {
+      "id": "2403.08299",
+      "title": "AutoDev: Automated AI-Driven Development",
+      "title_ko": null,
+      "authors": [
+        "Michele Tufano",
+        "Anisha Agarwal",
+        "Jinu Jang",
+        "Roshanak Zilouchian Moghaddam",
+        "Neel Sundaresan"
+      ],
+      "published_at": "2024-03-13T03:12:03.000Z",
+      "rank": 3,
+      "raw": {
+        "summary": "The landscape of software development has witnessed a paradigm shift with the\nadvent of AI-powered assistants, exemplified by GitHub Copilot. However,\nexisting solutions are not leveraging all the potential capabilities available\nin an IDE such as building, testing, executing code, git operations, etc.\nTherefore, they are constrained by their limited capabilities, primarily\nfocusing on suggesting code snippets and file manipulation within a chat-based\ninterface. To fill this gap, we present AutoDev, a fully automated AI-driven\nsoftware development framework, designed for autonomous planning and execution\nof intricate software engineering tasks. AutoDev enables users to define\ncomplex software engineering objectives, which are assigned to AutoDev's\nautonomous AI Agents to achieve. These AI agents can perform diverse operations\non a codebase, including file editing, retrieval, build processes, execution,\ntesting, and git operations. They also have access to files, compiler output,\nbuild and testing logs, static analysis tools, and more. This enables the AI\nAgents to execute tasks in a fully automated manner with a comprehensive\nunderstanding of the contextual information required. Furthermore, AutoDev\nestablishes a secure development environment by confining all operations within\nDocker containers. This framework incorporates guardrails to ensure user\nprivacy and file security, allowing users to define specific permitted or\nrestricted commands and operations within AutoDev. In our evaluation, we tested\nAutoDev on the HumanEval dataset, obtaining promising results with 91.5% and\n87.8% of Pass@1 for code generation and test generation respectively,\ndemonstrating its effectiveness in automating software engineering tasks while\nmaintaining a secure and user-controlled development environment.",
+        "ai_summary": "AutoDev is an AI-driven software development framework that automates complex engineering tasks within a secure Docker environment, achieving high performance in code and test generation.",
+        "ai_keywords": [
+          "autonomous AI Agents",
+          "Docker containers",
+          "HumanEval dataset",
+          "Pass@1",
+          "code generation",
+          "test generation"
+        ],
+        "upvotes": 15,
+        "num_comments": 2,
+        "github_repo": "https://github.com/vxcontrol/pentagi",
+        "github_stars": 20117,
+        "project_page": null
+      },
+      "links": [
+        {
+          "rank": 1,
+          "label": "HF 토론·요약",
+          "url": "https://huggingface.co/papers/2403.08299"
+        },
+        {
+          "rank": 2,
+          "label": "arXiv 초록",
+          "url": "https://arxiv.org/abs/2403.08299"
+        },
+        {
+          "rank": 3,
+          "label": "PDF 원문",
+          "url": "https://arxiv.org/pdf/2403.08299"
+        },
+        {
+          "rank": 4,
+          "label": "코드(GitHub)",
+          "url": "https://github.com/vxcontrol/pentagi"
+        }
+      ],
+      "classify": {
+        "categories": [
+          "LLM/Agents",
+          "Evaluation/Benchmarks"
+        ],
+        "primary_category": "LLM/Agents",
+        "topic_tags": [
+          "ai-agents",
+          "code-execution",
+          "autonomous-agents",
+          "tool-use"
+        ],
+        "method_tags": [
+          "prompting",
+          "architecture"
+        ],
+        "modality": [
+          "text"
+        ],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "빌드·실행·테스트·git까지 IDE 전 기능을 자율 수행하는 완전 자동화 AI 개발 프레임워크.",
+        "problem": "Copilot류 AI 코딩 도우미는 채팅 기반 코드 제안·파일 조작에 머물러, IDE의 빌드·테스트·실행·git 등 잠재 기능을 활용하지 못한다.",
+        "approach": "AutoDev는 복잡한 SW 공학 목표를 자율 AI 에이전트에게 맡긴다. 에이전트는 파일 편집·검색·빌드·실행·테스트·git을 수행하고 컴파일러 출력·로그·정적분석 도구에 접근한다. 모든 작업은 Docker 컨테이너에 가둬 보안을 확보하고, 허용/금지 명령을 정의하는 가드레일을 둔다.",
+        "contributions": [
+          "IDE 전 기능(빌드·실행·테스트·git)을 자율 수행하는 프레임워크",
+          "Docker 격리 + 사용자 정의 가드레일로 보안 확보",
+          "HumanEval 코드 생성 Pass@1 91.5%, 테스트 생성 87.8%",
+          "로그·정적분석 등 맥락 정보에 접근하는 완전 자동 실행"
+        ],
+        "why_now": "코딩 에이전트는 6~7월 트렌드의 중심(OpenDevin·GLM-5·SkillOpt에 이어). AutoDev는 '자율 실행 + 격리 보안'을 강조해 에이전트가 실제 개발 루프를 도는 방향을 보여준다.",
+        "difficulty": "중급",
+        "recommended_reader": "코딩 에이전트·자동화 개발·에이전트 보안에 관심 있는 학습자",
+        "field_tags": [
+          "코딩에이전트",
+          "자동화개발",
+          "Docker격리",
+          "HumanEval"
+        ],
+        "interest": {
+          "upvotes": 15,
+          "num_comments": 2,
+          "github_stars": 20100
+        }
+      },
+      "tier2": {
+        "method_detail": "AutoDev은 자율 AI 에이전트가 IDE 전반의 기능(파일 편집·검색·빌드·실행·테스트·git)을 직접 조작하도록 오케스트레이션하는 프레임워크로, 네 개의 핵심 축(Conversation Manager, Tools Library, Agent Scheduler, Evaluation Environment)으로 구성된다. (1) Conversation Manager는 사용자·에이전트 대화를 관리하며 하위 모듈로 에이전트 응답에서 명령·인자를 정해진 포맷으로 파싱하는 Parser, 실행 환경의 출력을 처리·구조화하는 Output Organizer, 종료 시점을 결정하는 Conversation Conclusion을 둔다. (2) Agent Scheduler는 Round Robin / Token-Based / Priority-Based 협업 알고리즘으로 다중 에이전트를 조율한다. (3) Tools Library는 File Editing(write/edit/insert/delete), Retrieval(grep/find/ls/embedding 기반 스니펫 검색), Build & Execution, Testing & Validation(테스트·린터·버그탐지), Git(commit/push/merge에 대한 세분화된 권한 설정), Communication(talk/ask/stop)의 6개 명령 범주를 제공한다. (4) Evaluation Environment는 Docker 컨테이너 안에서 모든 명령을 안전하게 실행하는 샌드박스다. 사용자는 YAML 설정으로 에이전트별 허용/제한 명령(guardrails)과 페르소나·역할(예: Developer, Reviewer)을 선언하며, 기본 설정 또는 세분화 권한을 선택할 수 있다. 평가에서는 gpt-4-1106-preview 단일 에이전트를 사용했고, 에이전트가 명령을 내면 환경이 실행 후 파일 내용·컴파일러 출력·빌드/테스트 로그·정적분석 결과를 다시 대화 이력으로 되돌려 반복(iterative) 개선하는 폐루프 구조다.",
+        "experiment_setup": [
+          "벤치마크: HumanEval(164개 수기 프로그래밍 문제, 각 문제는 함수 시그니처+docstring+본문+평균 7.7개 단위테스트). 테스트 생성 평가에는 인간 솔루션은 사용하고 인간 작성 테스트는 폐기한 뒤 focal method에 대한 테스트를 생성하도록 지시하는 변형본 사용.",
+          "모델: GPT-4(gpt-4-1106-preview) 단일 에이전트. 추가 학습 없음. (완전 자율 평가를 위해 human feedback용 ask 명령은 비활성화)",
+          "비교군: LATS(Language Agent Tree Search), Reflexion, zero-shot GPT-4 베이스라인.",
+          "코드 생성(RQ1): AutoDev 91.5% Pass@1(Extra Training X) vs LATS 94.4%(Extra Training O) vs Reflexion 91.0%(Extra Training O) vs zero-shot GPT-4 67.0%. zero-shot 대비 약 30% 상대 개선. 본문은 'second-best position', 초록은 '추가 학습 데이터 없이 top-3'로 표현(양립).",
+          "테스트 생성(RQ2): AutoDev Pass@1 87.8% vs 베이스라인 75% vs 인간 100%. 전체 커버리지 88.8% vs 74%(베이스라인) vs 99.4%(인간). 단, '통과한 테스트만의 커버리지'는 AutoDev·베이스라인 모두 ~99.3%로 거의 동일. 베이스라인 대비 약 17% 상대 개선.",
+          "효율(RQ3): 태스크당 평균 명령 수 5.5(코드생성)/6.5(테스트생성). 코드생성 명령 분포 write 1.8, test 1.7, stop 0.92, 잘못된 명령 0.25. 토큰 사용 1,656(코드)/1,863(테스트) vs 베이스라인 약 200(코드)~373(테스트) 토큰(다중 추론 호출로 인한 오버헤드)."
+        ],
+        "datasets": [
+          {
+            "name": "HumanEval",
+            "scale": "164개 문제, 문제당 평균 7.7개 단위테스트",
+            "domain": "함수 단위 파이썬 코드 생성 벤치마크"
+          },
+          {
+            "name": "HumanEval (test-generation 변형)",
+            "scale": "동일 164개 기반, 인간 솔루션 사용·인간 작성 테스트 폐기 후 focal method 테스트 생성",
+            "domain": "단위테스트 자동 생성 평가"
+          }
+        ],
+        "limitations": {
+          "by_authors": [
+            "HumanEval이 상대적으로 단순해 본 평가는 단일 GPT-4 에이전트로만 수행함(다중 에이전트 협업은 향후 확장 대상).",
+            "다중 에이전트 협업으로의 확장을 복잡한 태스크용 향후 과제로 명시(완전 검증은 미완).",
+            "더 어렵고 현실적인 데이터셋(예: Copilot Evaluation Harness)으로 평가 확장 필요.",
+            "가장 빈번한(most prevalent) 잘못된 명령은 에이전트가 자연어와 코드/명령을 섞어 출력하는 파싱 문제.",
+            "Docker 기반 평가 환경이 직접 CLI 대비 오버헤드가 커 'major execution cost'(주요 실행 비용) 요인이며, 다중 추론 호출도 단일 호출 방식 대비 비용 증가 요인.",
+            "human-in-the-loop의 더 깊은 통합, IDE 챗봇화, CI/CD·PR 리뷰 플랫폼 통합은 향후 과제."
+          ],
+          "by_claude": [
+            "결과표에서 LATS/Reflexion을 'Extra Training 필요'로 표기(원문 확인됨)했으나, 두 방법은 사실상 추론 시점의 탐색(MCTS)·언어적 피드백 기법에 가까워 '학습'이라는 프레이밍은 논쟁의 여지가 있음(정의 관점에 따라 해석 상이).",
+            "평가가 HumanEval 단일 벤치마크·단일 에이전트에 국한되어, 프레임워크의 핵심 세일즈포인트인 실제 리포지토리 규모의 멀티파일/의존성 태스크·다중 에이전트·git 워크플로 성능은 정량 미검증.",
+            "zero-shot 베이스라인 67.0%는 gpt-4-1106-preview의 통상 HumanEval 성능 대비 낮은 편이라, 베이스라인 프롬프트/설정 조건 확인 필요(본문 상세 부족).",
+            "guardrails(허용/제한 명령·YAML)의 실제 보안·프라이버시 효과나 우회 사례에 대한 정량 평가는 본문에 부재.",
+            "테스트생성에서 '통과 테스트 커버리지'는 베이스라인과 사실상 동일(~99.3%)하므로, 개선의 본질은 커버리지가 아니라 통과율(Pass@1)에 있음을 유의."
+          ]
+        },
+        "reproducibility": {
+          "code": "비공개/불명 — 논문 본문(arXiv HTML v1)에 코드·리포지토리 링크·오픈소스 공개 계획 언급 없음. 공식 레포/스타 수 확인 불가.",
+          "weights": "해당 없음 — 자체 학습 모델 없이 GPT-4 API(gpt-4-1106-preview) 사용.",
+          "data": "부분 공개 — HumanEval은 공개 데이터셋이나, 테스트생성 변형본/스캐폴딩·하니스 스크립트 공개 여부는 불명.",
+          "license": "불명 — 라이선스 명시 없음(저자진은 Microsoft 소속으로 알려진 연구자들이며 사내 프로토타입으로 추정, 본문에 라이선스·공개 조항 없음).",
+          "note": "arXiv HTML 본문(섹션·결과표 인용 포함)까지 대조 확인함(초록 기반 아님). 재현하려면 GPT-4 API 접근, Docker 샌드박스, YAML guardrail 설정, HumanEval 하니스 및 테스트생성 변형을 직접 재구성해야 하며 저자 제공 코드는 확인되지 않음."
+        },
+        "my_learning_points": [
+          "에이전트에 '도구 = 명령 카테고리(편집/검색/빌드/테스트/git/통신)'로 노출하고 실행 로그(파일 내용·컴파일러 출력·테스트/정적분석 결과)를 다시 컨텍스트로 되먹이는 폐루프 설계를 그대로 벤치마킹할 것 — LLM 단독 생성보다 반복 실행·검증이 Pass@1을 67%→91.5%로 끌어올린 핵심.",
+          "YAML 기반 allow/deny guardrail + Docker 샌드박스를 코딩 에이전트의 기본 안전장치로 채택하되, Docker가 본문서 '주요 실행 비용'으로 지목된 만큼 컨테이너 재사용/캐싱 등 오버헤드 절감 전략을 함께 설계할 것.",
+          "'자연어와 명령 혼합'이 최빈 실패 원인이었으므로, 에이전트 출력 포맷을 엄격히 강제(구조화 파서·정규식/함수호출 스키마)하고 잘못된 명령 비율(여기선 태스크당 0.25)을 상시 평가 지표로 추적할 것."
+        ],
+        "related_work": {
+          "prior": [
+            {
+              "name": "Auto-GPT",
+              "relation": "GPT+동반봇으로 목표 자율 수행; AutoDev은 이를 SE 특화 도구로 확장"
+            },
+            {
+              "name": "LATS (Language Agent Tree Search)",
+              "relation": "MCTS 기반 계획·행동·추론; HumanEval 94.4%로 상위 비교군(원문서 Extra Training으로 분류)"
+            },
+            {
+              "name": "Reflexion",
+              "relation": "언어적 피드백을 에피소드 메모리로 강화; 91.0% 비교군(원문서 Extra Training으로 분류)"
+            },
+            {
+              "name": "AutoGen",
+              "relation": "LLM 워크플로·다중 에이전트 대화 오케스트레이션; AutoDev은 직접 리포 조작 능력을 추가"
+            },
+            {
+              "name": "GitHub Copilot",
+              "relation": "기존 AI 코딩 어시스턴트지만 빌드/테스트/실행/git 등 전체 IDE 기능 미활용 — AutoDev의 문제의식 출발점"
+            }
+          ],
+          "followup": [
+            {
+              "name": "Copilot Evaluation Harness",
+              "relation": "저자들이 향후 더 현실적 평가로 확장하겠다고 본문에 명시한 벤치마크(후속 방향)"
+            },
+            {
+              "name": "SWE-bench 계열 리포지토리 레벨 에이전트",
+              "relation": "AutoDev이 목표한 실제 리포 규모 자율 SE의 후속 흐름으로 이어짐(Claude 관점 맥락화, 원문 언급 아님)"
+            }
+          ]
+        },
+        "claude_note": "arXiv HTML 본문(섹션·결과표·한계 인용 포함)까지 대조 검증한 분석이며 초록 기반이 아니다. Microsoft 소속 연구진(Tufano 외 4인)의 이 논문은 '전체 IDE 기능을 명령 도구로 노출 + Docker 샌드박스 + YAML guardrail'이라는 실용적 아키텍처를 제시하고 HumanEval에서 코드생성 91.5%/테스트생성 87.8% Pass@1을 보고하며, 초안의 모든 정량 수치는 원문과 일치함을 확인했다. 다만 기여는 새 모델·알고리즘이 아니라 잘 설계된 에이전트-도구 오케스트레이션 프레임워크에 가깝고, 평가가 HumanEval 단일·단일 에이전트에 국한되어 프레임워크의 핵심 세일즈포인트(다중 에이전트·현실 리포 규모·git 워크플로)는 정작 정량 검증이 얇다는 한계가 뚜렷하다. 코드/데이터 공개나 라이선스 언급이 없어 재현성은 보수적으로 '비공개/불명'으로 보아야 하며, LATS/Reflexion을 'Extra Training'으로 분류한 비교 프레이밍과 zero-shot 67% 베이스라인의 이례적 저점은 재확인 여지가 있다. 학습 자료로는 '실행 로그 되먹임 폐루프'와 'guardrail+샌드박스' 설계 패턴을 벤치마킹하는 용도로 가치가 높다.",
+        "analyzed_at": "2026-07-13"
+      },
+      "learning": {
+        "key_terms": [
+          {
+            "term": "Pass@1",
+            "gloss": "한 번 생성으로 테스트를 통과하는 비율(코드 생성 성능 지표)"
+          },
+          {
+            "term": "HumanEval",
+            "gloss": "함수 구현 능력을 재는 코드 생성 벤치마크"
+          },
+          {
+            "term": "Guardrails",
+            "gloss": "에이전트의 허용/금지 동작을 제한하는 안전장치"
+          }
+        ],
+        "recall_quiz": {
+          "question": "AutoDev가 기존 Copilot류 도우미와 차별화되는 핵심은?",
+          "answer": "코드 제안에 그치지 않고 빌드·실행·테스트·git 등 IDE 전 기능을 Docker 격리 안에서 자율 수행한다."
+        },
+        "spaced_review": {
+          "flag": false,
+          "review_due": null
+        }
+      }
+    },
+    {
+      "id": "2509.06926",
+      "title": "Continuous Audio Language Models",
+      "title_ko": null,
+      "authors": [
+        "Rouard Simon",
+        "Orsini Manu",
+        "Roebel Axel",
+        "Zeghidour Neil",
+        "Défossez Alexandre"
+      ],
+      "published_at": "2025-09-08T13:38:13.000Z",
+      "rank": 4,
+      "raw": {
+        "summary": "Audio Language Models (ALM) have emerged as the dominant paradigm for speech\nand music generation by representing audio as sequences of discrete tokens.\nYet, unlike text tokens, which are invertible, audio tokens are extracted from\nlossy codecs with a limited bitrate. As a consequence, increasing audio quality\nrequires generating more tokens, which imposes a trade-off between fidelity and\ncomputational cost. We address this issue by studying Continuous Audio Language\nModels (CALM). These models instantiate a large Transformer backbone that\nproduces a contextual embedding at every timestep. This sequential information\nthen conditions an MLP that generates the next continuous frame of an audio VAE\nthrough consistency modeling. By avoiding lossy compression, CALM achieves\nhigher quality at lower computational cost than their discrete counterpart.\nExperiments on speech and music demonstrate improved efficiency and fidelity\nover state-of-the-art discrete audio language models, facilitating lightweight,\nhigh-quality audio generation. Samples are available at\nhttps://continuous-audio-language-models.github.io",
+        "ai_summary": "",
+        "ai_keywords": [],
+        "upvotes": 11,
+        "num_comments": 0,
+        "github_repo": "https://github.com/kyutai-labs/pocket-tts",
+        "github_stars": 7406,
+        "project_page": "https://huggingface.co/spaces/kyutai/calm-samples"
+      },
+      "links": [
+        {
+          "rank": 1,
+          "label": "HF 토론·요약",
+          "url": "https://huggingface.co/papers/2509.06926"
+        },
+        {
+          "rank": 2,
+          "label": "arXiv 초록",
+          "url": "https://arxiv.org/abs/2509.06926"
+        },
+        {
+          "rank": 3,
+          "label": "PDF 원문",
+          "url": "https://arxiv.org/pdf/2509.06926"
+        },
+        {
+          "rank": 4,
+          "label": "코드(GitHub)",
+          "url": "https://github.com/kyutai-labs/pocket-tts"
+        },
+        {
+          "rank": 5,
+          "label": "프로젝트 페이지",
+          "url": "https://huggingface.co/spaces/kyutai/calm-samples"
+        }
+      ],
+      "classify": {
+        "categories": [
+          "Multimodal",
+          "Efficiency/Inference"
+        ],
+        "primary_category": "Multimodal",
+        "topic_tags": [
+          "audio-language-model",
+          "continuous-representation",
+          "consistency-modeling",
+          "audio-generation"
+        ],
+        "method_tags": [
+          "architecture",
+          "inference-time"
+        ],
+        "modality": [
+          "audio"
+        ],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "손실 압축 이산 토큰 대신 '연속' 표현으로, 더 적은 계산에 더 높은 음질을 내는 오디오 LM.",
+        "problem": "오디오 LM은 오디오를 이산 토큰 시퀀스로 표현하는데, 텍스트 토큰과 달리 오디오 토큰은 손실 코덱에서 나와 비트레이트가 제한적이다. 음질을 높이려면 토큰을 더 많이 생성해야 해 충실도-비용 트레이드오프가 생긴다.",
+        "approach": "CALM은 큰 트랜스포머 백본이 매 시점 맥락 임베딩을 만들고, 이 정보가 MLP를 조건화해 오디오 VAE의 다음 '연속' 프레임을 consistency modeling으로 생성한다. 손실 압축을 피해 이산 방식보다 낮은 계산으로 높은 음질을 얻는다.",
+        "contributions": [
+          "이산 토큰 대신 연속 표현을 쓰는 오디오 LM(CALM) 제안",
+          "consistency modeling으로 오디오 VAE의 연속 프레임 생성",
+          "음성·음악에서 SOTA 이산 오디오 LM 대비 효율·충실도 향상",
+          "경량·고품질 오디오 생성 촉진"
+        ],
+        "why_now": "이번 주 새로 등장한 오디오 모달리티다. '이산 토큰의 손실 한계를 연속 표현으로 극복'하는 접근은, 효율화가 전 모달리티(문서·비디오에 이어 오디오)로 번지는 흐름과 맞닿아 있다.",
+        "difficulty": "고급",
+        "recommended_reader": "오디오 생성·음성/음악 AI·효율적 생성에 관심 있는 학습자",
+        "field_tags": [
+          "오디오LM",
+          "연속표현",
+          "음성음악생성",
+          "효율화"
+        ],
+        "interest": {
+          "upvotes": 11,
+          "num_comments": 0,
+          "github_stars": 7400
+        }
+      },
+      "tier2": {
+        "method_detail": "CALM은 이산 토큰(RVQ codec) 대신 연속 잠재(latent)를 자기회귀적으로 예측하는 오디오 언어모델이다. 구조는 세 부분으로, (1) 큰 causal Transformer backbone(음악은 MusicGen Medium 계열 1.35B, 스피치 continuation은 Helium-1 pretrained 기반 2B)이 각 timestep에서 문맥 임베딩 z_long을 만들고, 학습 시 입력 latent에 노이즈를 주입(x̃_s=√k_s·ε+√(1−k_s)·x_s)해 추론 시 오차 누적(error accumulation)과 divergence를 완화한다. (2) 직전 K개(음악 K=10, 약 0.4s)의 clean latent만 보는 경량 short-context Transformer z_short를 더해(Z_s=z_long+z_short) 지역적 디테일을 보존한다(스피치는 ablation상 K가 결정적 하이퍼파라미터가 아님). (3) 확산(diffusion) head 대신 약 10M 규모의 소형 MLP consistency model head가 단일 스텝(1-step)으로 다음 프레임 latent를 생성한다(x̂_s=f_φ(x=ε,t=1,Z_s)). 잠재 공간은 RVQ를 대체하는 VAE-GAN(스피치 32차원 causal, temporal/frequency 재구성+adversarial+feature matching+KL+스피치는 WavLM semantic distillation)이며 프레임레이트는 스피치 12.5Hz·음악 25Hz(32kHz mono)다. 손실은 TrigFlow류 continuous-time consistency 목적함수(x_t=cos(t)·x+sin(t)·ε, t∈[0,1])를 쓴다. 핵심 기법으로 z_long을 N=8회 재사용해 노이즈/타임스텝을 독립 샘플링하는 Head Batch Multiplier, 연속판 temperature sampling인 Gaussian Temperature Sampling(스피치 τ=0.8), 잠재 조건에 CFG를 거는 Latent CFG(TTS α≈1.5), CFG teacher를 소형 student로 옮기는 Latent (Self-)Distillation(LSD, TTS 24→6 layer)이 있다.",
+        "experiment_setup": [
+          "스피치 continuation(Table 2): 비교군 RQ-Transformer(8-RVQ). 핵심 지표 PPX·VERT·의미성(Meaningfulness) Elo·음질 MUSHRA. CALM(consistency, τ=0.8)이 PPX 23.8(vs 8-RVQ temp0.8 26.8), VERT 31.2(vs 33.1), 음질 3.45±0.14(vs 2.75), 의미성 Elo 2023±27(vs 1870, reference 2180) 달성, 샘플러 head ×12.3·전체(모델 전체) ×1.3 가속(head가 전체 추론 시간의 소수 비중이라 전체 가속은 완만). [주의: ABX 8.1%·PESQ 2.42·STOI 0.90·MOSNet 3.15·MUSHRA 66.0±1.4는 continuation이 아니라 VAE(연속) vs VQ-VAE(이산 57.7) 압축/재구성 품질(Table 1) 지표다.]",
+          "TTS(Table 3, LibriSpeech test-clean): 지표 WER·CER(Whisper-large-v3)·화자유사도(WavLM)·MUSHRA·인간 Elo. 비교군 F5-TTS(336M)·DSM(750M)·DiTAR(600M)·SALAD(350M). CALM+LSD(313M)가 WER 1.81, CER 0.57(SALAD 0.74보다 우수), 음질 61.1±2.3(DSM 60.2·F5-TTS 54.7보다 우수), 화자 SIM Elo 1966(DSM 2112·F5 2032와 경쟁적).",
+          "음악 continuation(Table 4, 30초 생성): 지표 FAD·MUSHRA·enjoyment Elo·가속. 비교군 RQ-Transformer(32/16-RVQ)·MusicGen Medium. CALM(1-step)이 FAD 0.83±0.04(vs 32-RVQ 1.06·MusicGen 1.72), 음질 2.90±0.07(vs 32-RVQ 2.85, reference 3.84), enjoyment Elo 1857(vs 1824), 전체 ×2.2·샘플러 ×19.3 가속, 샘플러 시간비중 6.6%(RQ-Transformer 57.7%). CALM 4-step은 FAD 0.71/음질 3.07.",
+          "Text-to-Music(Table 6, CLAP audio mode, 30초): 지표 FAD·MUSHRA·Elo·가속, 비교군 RQ-Transformer(32-RVQ, CFG=3)·MusicGen Medium. 학습은 실제 텍스트 캡션 대신 CLAP 오디오 임베딩 조건. CALM 4-step(CFG=2)이 FAD 0.91/음질 3.11/Elo 1998로 32-RVQ(FAD 0.93/3.16/1998)와 대등하며 ×1.9 전체 가속. MusicCaps는 부록(E.6) 벤치마크 평가에 사용.",
+          "Ablation(음악 consistency 4-step, 250K steps 기준 FAD, Table 5): base 0.93±0.06 → short-context 제거 4.03±0.16(가장 치명적) → 노이즈 증강 제거 1.63±0.11 → head batch multiplier 제거 1.32±0.09 → 전부 제거 8.38±0.17로, 각 구성요소 기여를 정량 확인.",
+          "품질/속도 트레이드오프: TrigFlow(100-step 다스텝)가 최고 품질(음악 FAD 0.64±0.04, 음질 3.12)이나 ×0.3× 전체 속도로 실시간 부적합, 1-step consistency가 실용적 균형점."
+        ],
+        "datasets": [
+          {
+            "name": "공개 스피치 코퍼스 집합 (LibriHeavy, GigaSpeech, TED-LIUM 3, Earnings-22, Emilia, AMI 등, Appendix D)",
+            "scale": "TTS용 약 88k 시간",
+            "domain": "음성 (TTS)"
+          },
+          {
+            "name": "프랑스어+영어 스피치 (Défossez et al. 방식)",
+            "scale": "본문 미명시(스케일 확인 필요)",
+            "domain": "음성 continuation"
+          },
+          {
+            "name": "LAION-Disco-12M 부분집합",
+            "scale": "400K곡 / 약 20K 시간, 32kHz mono",
+            "domain": "음악 (continuation·text-to-music)"
+          },
+          {
+            "name": "평가 벤치마크 (LibriSpeech test-clean = TTS/continuation 평가, MusicCaps = 부록 text-to-music 평가)",
+            "scale": "표준 테스트셋",
+            "domain": "음성·음악 평가"
+          }
+        ],
+        "limitations": {
+          "by_authors": [
+            "VAE 재구성 손실로 화자 정체성 보존이 약함: 자동 화자 유사도 0.52(ground truth 0.69, VAE 통과 reference도 0.57)로 음질은 높지만 identity가 손상 — 저자들은 이 이상치를 별도 인간평가로 보완(모든 방법이 GT를 상회했다고 보고).",
+            "음악 VAE에는 semantic distillation이 없음 — 음악의 semantic 정의가 어려워 future work로 남김.",
+            "확장성(scalability): backbone 확대에서 개선 경향을 보였으나 완전한 스케일링 연구는 미완(future work).",
+            "Gaussian Temperature Sampling은 consistency 세팅에서 temperature sampling을 근사하는 휴리스틱으로 이론적 근거가 부족.",
+            "TrigFlow는 최고 품질이나 추론 비용 때문에 실시간에 비실용적(트레이드오프).",
+            "제안 기법(short-context·노이즈 증강 등) 없이는 추론 중 빠르게 divergence하고 10~15초 후 무음/디테일 손실이 발생.",
+            "Text-to-music은 실제 텍스트 캡션이 아니라 CLAP 임베딩으로 학습했고 MusicCaps 평가는 부록으로 밀림."
+          ],
+          "by_claude": [
+            "본문 표(Table 1~6)의 정밀 수치는 arXiv HTML(v3)을 요약 모델을 거쳐 추출·대조한 값이므로, 논문에 정확히 인용할 때는 PDF 원문과 소수점까지 재대조 권장(대부분 교차확인은 일치).",
+            "스피치 continuation CALM 행이 '1-step'인지는 표에 명시 라벨이 없다(음악 표에만 1-step/4-step 구분 존재). 샘플러 ×12.3 가속 및 논문 강조점상 1-step으로 보는 것이 합리적이나 본문 확인 필요.",
+            "대형 CALM 학습 코드는 v3 기준 '재학습용 학습 코드를 공개할 예정(will release)' 진술에 머물고, 대형 backbone(1.35B/2B) 가중치는 미공개 — 실공개 시점 추적 필요(공개된 것은 Pocket TTS 100M 계열뿐).",
+            "MUSHRA·Elo 등 인간평가 비중이 커 재현성/재계산이 어렵고, 청취자 수·프로토콜의 통계적 검정력 확인 필요.",
+            "이산 baseline이 자사(Kyutai) RQ-Transformer/Moshi 계열 위주(TTS는 F5-TTS·DSM·DiTAR·SALAD 등 외부 포함)라, 최신 이산 codec LM 전반 대비 우위 일반화는 추가 검증 필요."
+          ]
+        },
+        "reproducibility": {
+          "code": "부분 공개. Pocket TTS(100M TTS) 추론 코드가 오픈소스로 공개(github.com/kyutai-labs/pocket-tts, 약 7.4k stars, Python, 추론 중심). 전체 CALM 재학습용 학습 코드는 논문에서 '공개 예정(will release)'으로만 진술(현재 미공개, 실공개 확인 필요).",
+          "weights": "부분 공개. Pocket TTS 100M 및 언어별(영·불·독·포·이·스페인) 변형(비영어는 최대 24-layer 고품질판) 가중치가 Hugging Face로 배포. CALM의 대형 backbone(1.35B/2B) 가중치는 미공개.",
+          "data": "부분 재현 가능. 스피치는 공개 코퍼스(LibriHeavy·GigaSpeech·Emilia 등, 약 88k h) 명시. 음악 LAION-Disco-12M은 공개 데이터셋이나 저자들이 사용한 400K곡(약 20K h) 필터링 부분집합은 그대로 재현 어려움.",
+          "license": "Pocket TTS 레포: MIT(확인). arXiv 논문 자체: Creative Commons BY-NC-SA 4.0(확인). 대형 CALM backbone 가중치는 미공개라 별도 모델 라이선스 없음.",
+          "note": "종합적으로 '부분 공개'. 실용 산출물(Pocket TTS: MIT, HF 가중치, CPU 실시간 이상 추론)은 재현 용이하나, 논문 핵심인 대형 backbone 학습 파이프라인 전체 재현은 학습 코드 공개 시점·데이터 필터링·인간평가 의존 때문에 제한적."
+        },
+        "my_learning_points": [
+          "sCM/TrigFlow(Lu & Song)와 MAR(Li et al., VQ 없는 자기회귀 이미지 생성)를 먼저 읽고, 소형 VAE latent 위에 1-step consistency head를 붙이는 최소 예제를 직접 구현해 '연속 토큰 AR + distillation head' 패턴을 체득하기.",
+          "kyutai-labs/pocket-tts를 clone해 CPU에서 추론을 돌려보고, long backbone과 short-context Transformer(음악 K=10) 결합·Latent CFG(α≈1.5) 적용 지점을 코드에서 확인하며 논문 구조를 실물로 매핑하기.",
+          "ablation(short-context 제거 시 FAD 0.93→4.03, 노이즈 증강 제거 1.63)을 근거로, 연속 AR 오디오 모델을 설계할 때 지역-문맥 경로와 학습-시 노이즈 증강(x̃=√k·ε+√(1−k)·x)을 기본 포함하는 설계 원칙을 체크리스트화하기."
+        ],
+        "related_work": {
+          "prior": [
+            {
+              "name": "AudioLM (Zeghidour/Borsos et al.)",
+              "relation": "이산 토큰 기반 오디오 LM의 원형 — CALM이 극복하려는 lossy codec 토큰화 패러다임의 선행 연구(공저자 Zeghidour)."
+            },
+            {
+              "name": "EnCodec / SoundStream (RVQ neural codec)",
+              "relation": "CALM이 연속 VAE-GAN latent로 대체한 이산 RVQ codec의 기반."
+            },
+            {
+              "name": "MusicGen / RQ-Transformer·Moshi-Mimi (Défossez, Kyutai)",
+              "relation": "본 논문의 직접 비교 baseline이자 공저자들의 선행 이산 오디오 LM(음악 backbone도 MusicGen Medium 1.35B 기반)."
+            },
+            {
+              "name": "Consistency Models / TrigFlow·sCM (Song, Lu & Song)",
+              "relation": "1-step 생성 head의 이론적 토대 — 확산 head를 대체하는 continuous-time consistency 목적함수 제공."
+            },
+            {
+              "name": "MAR: Autoregressive Image Generation without VQ (Li et al.)",
+              "relation": "이미지 도메인에서 연속 토큰 AR+diffusion head를 제시한 개념적 선구 — CALM은 이를 오디오로, head를 consistency로 확장."
+            }
+          ],
+          "followup": [
+            {
+              "name": "Pocket TTS (kyutai-labs)",
+              "relation": "CALM에서 파생·공개된 100M TTS 산출물 — CPU 실시간 이상 구동, MIT, HF 가중치(약 7.4k stars)."
+            },
+            {
+              "name": "음악 semantic distillation·완전한 스케일링 연구",
+              "relation": "저자들이 future work로 명시한 후속 방향(현재 미완)."
+            }
+          ]
+        },
+        "claude_note": "arXiv HTML v3(2026-01-13, ICLR판, 저자 Rouard·Orsini·Roebel·Zeghidour·Défossez, Kyutai Labs 계열)를 본문·표까지 확인해 초록이 아닌 본문 기반으로 검증했고, 초안의 정량 주장 대부분(PPX 23.8/VERT 31.2, TTS WER 1.81/CER 0.57, 음악 FAD 0.83/샘플러 ×19.3, ablation 0.93→4.03, TrigFlow FAD 0.64 등)은 원문과 일치했다. 방향성은 명확하다 — 이산 codec 토큰화의 fidelity/compute 트레이드오프를 연속 VAE latent + 1-step consistency head로 정면 돌파하며, 샘플러 head를 ×12~19 가속하면서도 이산 SOTA 대비 FAD·PPX·음질을 개선하고 ablation과 다중 지표·인간평가로 뒷받침한 설득력 있는 실증이다. 교정 사항은 스피치 continuation의 Elo가 '화자 Elo'가 아니라 'Meaningfulness(의미성) Elo'라는 라벨 오기와, VAE 압축 지표(ABX·PESQ·STOI·MOSNet)를 continuation 지표와 혼합한 귀속 오류이며, 라이선스는 Pocket TTS 레포 MIT·arXiv 논문 CC BY-NC-SA 4.0으로 확정했다. 한계로는 대형 backbone 학습 코드/가중치가 '공개 예정'에 머물고(실공개는 Pocket TTS 100M뿐) 데이터 부분집합·인간평가 의존으로 완전 재현이 제한적이며 Gaussian temperature 등 일부 기법이 휴리스틱이라는 저자 자인이 있다.",
+        "analyzed_at": "2026-07-13"
+      },
+      "learning": {
+        "key_terms": [
+          {
+            "term": "Discrete Token",
+            "gloss": "연속 신호를 유한한 코드로 양자화한 표현(손실 발생)"
+          },
+          {
+            "term": "Audio VAE",
+            "gloss": "오디오를 잠재 공간으로 인코딩/복원하는 변분 오토인코더"
+          },
+          {
+            "term": "Consistency Modeling",
+            "gloss": "적은 스텝으로 고품질 샘플을 생성하는 기법"
+          }
+        ],
+        "recall_quiz": {
+          "question": "CALM이 기존 이산 오디오 LM의 '충실도-비용' 트레이드오프를 푼 핵심 아이디어는?",
+          "answer": "손실 있는 이산 토큰 대신 오디오 VAE의 연속 프레임을 consistency modeling으로 생성한다."
+        },
+        "spaced_review": {
+          "flag": false,
+          "review_due": null
+        }
+      }
+    },
+    {
+      "id": "2412.20138",
+      "title": "TradingAgents: Multi-Agents LLM Financial Trading Framework",
+      "title_ko": null,
+      "authors": [
+        "Yijia Xiao",
+        "Edward Sun",
+        "Di Luo",
+        "Wei Wang"
+      ],
+      "published_at": "2024-12-28T07:54:06.000Z",
+      "rank": 5,
+      "raw": {
+        "summary": "Significant progress has been made in automated problem-solving using\nsocieties of agents powered by large language models (LLMs). In finance,\nefforts have largely focused on single-agent systems handling specific tasks or\nmulti-agent frameworks independently gathering data. However, the multi-agent\nsystems' potential to replicate real-world trading firms' collaborative\ndynamics remains underexplored. TradingAgents proposes a novel stock trading\nframework inspired by trading firms, featuring LLM-powered agents in\nspecialized roles such as fundamental analysts, sentiment analysts, technical\nanalysts, and traders with varied risk profiles. The framework includes Bull\nand Bear researcher agents assessing market conditions, a risk management team\nmonitoring exposure, and traders synthesizing insights from debates and\nhistorical data to make informed decisions. By simulating a dynamic,\ncollaborative trading environment, this framework aims to improve trading\nperformance. Detailed architecture and extensive experiments reveal its\nsuperiority over baseline models, with notable improvements in cumulative\nreturns, Sharpe ratio, and maximum drawdown, highlighting the potential of\nmulti-agent LLM frameworks in financial trading. TradingAgents is available at\nhttps://github.com/TauricResearch/TradingAgents.",
+        "ai_summary": "A multi-agent framework using large language models for stock trading simulates real-world trading firms, improving performance metrics like cumulative returns and Sharpe ratio.",
+        "ai_keywords": [
+          "large language models",
+          "LLM",
+          "multi-agent systems",
+          "fundamental analysts",
+          "sentiment analysts",
+          "technical analysts",
+          "traders",
+          "risk management",
+          "cumulative returns",
+          "Sharpe ratio",
+          "maximum drawdown"
+        ],
+        "upvotes": 110,
+        "num_comments": 4,
+        "github_repo": "https://github.com/tauricresearch/tradingagents",
+        "github_stars": 92547,
+        "project_page": null
+      },
+      "links": [
+        {
+          "rank": 1,
+          "label": "HF 토론·요약",
+          "url": "https://huggingface.co/papers/2412.20138"
+        },
+        {
+          "rank": 2,
+          "label": "arXiv 초록",
+          "url": "https://arxiv.org/abs/2412.20138"
+        },
+        {
+          "rank": 3,
+          "label": "PDF 원문",
+          "url": "https://arxiv.org/pdf/2412.20138"
+        },
+        {
+          "rank": 4,
+          "label": "코드(GitHub)",
+          "url": "https://github.com/tauricresearch/tradingagents"
+        }
+      ],
+      "classify": {
+        "categories": [
+          "LLM/Agents"
+        ],
+        "primary_category": "LLM/Agents",
+        "topic_tags": [
+          "agentic-workflow",
+          "multi-agent",
+          "financial-ai",
+          "tool-use"
+        ],
+        "method_tags": [
+          "prompting",
+          "architecture"
+        ],
+        "modality": [
+          "text"
+        ],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "트레이딩 회사 조직을 본떠 역할을 나눈 LLM 에이전트들이 토론으로 주식 매매를 결정한다.",
+        "problem": "금융 분야의 LLM 활용은 대개 단일 에이전트가 특정 작업을 처리하거나, 여러 에이전트가 따로 데이터만 수집하는 수준에 머물렀다. 실제 트레이딩 회사처럼 전문가들이 협업·토론하며 의사결정하는 구조는 거의 탐구되지 않았다.",
+        "approach": "펀더멘털·감성·기술 분석가, 강세(Bull)·약세(Bear) 리서처, 리스크 관리팀, 트레이더 등 실제 회사의 직무를 LLM 에이전트로 구현한다. 강세·약세 에이전트가 시장 상황을 두고 토론하고, 트레이더가 그 결과와 과거 데이터를 종합해 매매를 결정한다.",
+        "contributions": [
+          "다중 에이전트 협업·토론 구조를 금융 트레이딩에 적용한 신규 프레임워크",
+          "베이스라인 대비 누적 수익률(cumulative returns) 향상",
+          "샤프 지수(Sharpe ratio)·최대 낙폭(MDD) 등 위험조정 지표 개선",
+          "코드 오픈소스(★92.5k)로 재현·확장 가능"
+        ],
+        "why_now": "W25부터 이번 주까지 '5주 연속' 트렌딩에 오른 초장기 롱런 논문이다. 멀티 에이전트 × 금융 조합에 대한 관심이 흔들림 없이 유지되고 있다.",
+        "difficulty": "중급",
+        "recommended_reader": "LLM 에이전트 오케스트레이션·금융 AI에 관심 있는 학습자",
+        "field_tags": [
+          "멀티에이전트",
+          "금융AI",
+          "에이전트토론",
+          "리스크관리"
+        ],
+        "interest": {
+          "upvotes": 110,
+          "num_comments": 4,
+          "github_stars": 92500
+        }
+      },
+      "tier2": null,
+      "learning": {
+        "key_terms": [
+          {
+            "term": "Multi-Agent System",
+            "gloss": "여러 LLM 에이전트가 역할을 나눠 협업하는 구조"
+          },
+          {
+            "term": "Sharpe Ratio",
+            "gloss": "위험 대비 초과수익을 재는 투자 성과 지표"
+          },
+          {
+            "term": "Maximum Drawdown",
+            "gloss": "고점 대비 최대 하락폭, 손실 위험의 척도"
+          }
+        ],
+        "recall_quiz": {
+          "question": "TradingAgents에서 강세(Bull)·약세(Bear) 에이전트는 매매 결정에 어떻게 기여하는가?",
+          "answer": "시장 상황을 두고 서로 토론하며, 트레이더 에이전트가 그 토론 결과와 과거 데이터를 종합해 최종 매매를 결정한다."
+        },
+        "spaced_review": {
+          "flag": false,
+          "review_due": null
+        }
+      }
+    },
+    {
+      "id": "2605.23904",
+      "title": "SkillOpt: Executive Strategy for Self-Evolving Agent Skills",
+      "title_ko": null,
+      "authors": [
+        "Yifan Yang",
+        "Ziyang Gong",
+        "Weiquan Huang",
+        "Qihao Yang",
+        "Ziwei Zhou",
+        "Zisu Huang",
+        "Yan Li",
+        "Xuemei Gao",
+        "Qi Dai",
+        "Bei Liu",
+        "Kai Qiu",
+        "Yuqing Yang",
+        "Dongdong Chen",
+        "Xue Yang",
+        "Chong Luo"
+      ],
+      "published_at": "2026-05-21T20:00:00.000Z",
+      "rank": 6,
+      "raw": {
+        "summary": "Agent skills today are hand-crafted, generated one-shot, or evolved through loosely controlled self-revision, none of which behaves like a deep-learning optimizer for the skill, and none of which reliably improves over its starting point under feedback. We argue the skill should instead be trained as the external state of a frozen agent, with the same discipline that makes weight-space optimization reproducible. SkillOpt is, to our knowledge, the first systematic controllable text-space optimizer for agent skills: a separate optimizer model turns scored rollouts into bounded add/delete/replace edits on a single skill document, and an edit is accepted only when it strictly improves a held-out validation score. A textual learning-rate budget, rejected-edit buffer, and epoch-wise slow/meta update make skill training stable while adding zero inference-time model calls at deployment. Across six benchmarks, seven target models, and three execution harnesses (direct chat, Codex, Claude Code), SkillOpt is best or tied on all 52 evaluated (model, benchmark, harness) cells and beats every per-cell competitor among human, one-shot LLM, Trace2Skill, TextGrad, GEPA, and EvoSkill skills. On GPT-5.5 it lifts the average no-skill accuracy by +23.5 points in direct chat, by +24.8 inside the Codex agentic loop, and by +19.1 inside Claude Code. Transfer experiments further show that optimized skill artifacts retain value when moved across model scales, between Codex and Claude Code execution environments, and to a nearby math benchmark without further optimization.",
+        "ai_summary": "SkillOpt introduces a systematic text-space optimizer for agent skills that trains skills as external agent state with stable updates and zero deployment inference overhead, achieving superior performance across multiple benchmarks and execution environments.",
+        "ai_keywords": [
+          "agent skills",
+          "skill training",
+          "text-space optimizer",
+          "rollouts",
+          "add/delete/replace edits",
+          "validation score",
+          "textual learning-rate budget",
+          "rejected-edit buffer",
+          "epoch-wise slow/meta update",
+          "skill optimization",
+          "transfer experiments",
+          "agent state",
+          "reproducible optimization"
+        ],
+        "upvotes": 254,
+        "num_comments": 4,
+        "github_repo": "https://github.com/microsoft/SkillOpt",
+        "github_stars": 12300,
+        "project_page": "https://microsoft.github.io/SkillOpt/"
+      },
+      "links": [
+        {
+          "rank": 1,
+          "label": "HF 토론·요약",
+          "url": "https://huggingface.co/papers/2605.23904"
+        },
+        {
+          "rank": 2,
+          "label": "arXiv 초록",
+          "url": "https://arxiv.org/abs/2605.23904"
+        },
+        {
+          "rank": 3,
+          "label": "PDF 원문",
+          "url": "https://arxiv.org/pdf/2605.23904"
+        },
+        {
+          "rank": 4,
+          "label": "코드(GitHub)",
+          "url": "https://github.com/microsoft/SkillOpt"
+        },
+        {
+          "rank": 5,
+          "label": "프로젝트 페이지",
+          "url": "https://microsoft.github.io/SkillOpt/"
+        }
+      ],
+      "classify": {
+        "categories": [
+          "LLM/Agents"
+        ],
+        "primary_category": "LLM/Agents",
+        "topic_tags": [
+          "agent-skills",
+          "self-refinement",
+          "text-space-optimizer",
+          "agentic-workflow",
+          "transfer-learning"
+        ],
+        "method_tags": [
+          "inference-time",
+          "data-centric"
+        ],
+        "modality": [
+          "text"
+        ],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "에이전트의 '스킬 문서'를 딥러닝 옵티마이저처럼 체계적으로 학습시켜 성능을 끌어올린다.",
+        "problem": "오늘날 에이전트 스킬은 수작업·일회성 생성·느슨한 자기수정으로 만들어져 시작점 대비 일관되게 개선되지 않는다. 가중치 최적화처럼 재현 가능하고 피드백 하에서 확실히 향상되는 '스킬 학습' 방법이 없었다.",
+        "approach": "프리즈된 에이전트의 외부 상태로서 스킬 문서를 학습한다. 옵티마이저 모델이 점수화된 롤아웃을 보고 단일 스킬 문서에 add/delete/replace 편집을 제안하되, 보류 검증 점수를 '엄격히 향상'시킬 때만 수용한다. 텍스트 학습률 예산·거부 편집 버퍼·slow/meta 업데이트로 안정화하며 배포 시 추가 추론은 0이다.",
+        "contributions": [
+          "체계적·제어 가능한 최초의 텍스트 공간(text-space) 스킬 옵티마이저",
+          "6개 벤치마크·7개 모델·3개 실행 환경 전 52셀에서 최고 또는 동률",
+          "GPT-5.5 무스킬 대비 +23.5(대화)/+24.8(Codex)/+19.1(Claude Code)p",
+          "최적화 스킬이 모델·환경·인접 벤치마크로 전이"
+        ],
+        "why_now": "W25~W27 3주 연속 뒤 W28을 건너뛰고 이번 주 다시 최다 업보트급(▲254)으로 복귀했다. '스킬·컨텍스트를 학습시킨다'는 주제의 저력을 보여준다.",
+        "difficulty": "고급",
+        "recommended_reader": "에이전트·프롬프트 최적화, 자기개선 시스템 연구자",
+        "field_tags": [
+          "에이전트스킬",
+          "자기개선",
+          "텍스트최적화",
+          "전이학습"
+        ],
+        "interest": {
+          "upvotes": 254,
+          "num_comments": 4,
+          "github_stars": 12300
+        }
+      },
+      "tier2": {
+        "analyzed_at": "2026-06-29",
+        "method_detail": "옵티마이저 모델이 점수화된 롤아웃을 입력받아 단일 스킬 문서에 경계가 있는(bounded) add/delete/replace 편집을 생성한다. 각 편집은 보류(held-out) 검증 점수를 '엄격히 향상'시킬 때만 채택되어, 확률적·휴리스틱이 아닌 결정론적 수용 기준을 갖는다. 텍스트 학습률 예산이 단계별 편집 범위를 제한하고, 거부된 편집은 버퍼에 저장해 중복 탐색을 막으며, 에폭 단위 slow/meta 업데이트로 점진적·안정적으로 수렴한다. 최적화는 오프라인에서 일어나 배포 시 추가 모델 호출이 없다.",
+        "experiment_setup": [
+          "벤치마크 6종, 타깃 모델 7종(GPT-5.5 포함)",
+          "실행 환경 3종: 직접 대화 / Codex 에이전트 루프 / Claude Code",
+          "비교군: 인간 작성, 일회성 LLM 생성, Trace2Skill, TextGrad, GEPA, EvoSkill"
+        ],
+        "datasets": [
+          {
+            "name": "6개 에이전트 벤치마크 + 인접 수학 벤치마크(전이 평가)",
+            "scale": "52개 (모델,벤치,환경) 조합",
+            "domain": "에이전트 태스크"
+          }
+        ],
+        "limitations": {
+          "by_authors": [
+            "초록 수준에서는 명시적 한계 서술이 제시되지 않음"
+          ],
+          "by_claude": [
+            "옵티마이저 모델 자체의 품질·비용에 성능이 의존할 수 있음",
+            "도메인마다 검증셋과 점수 함수를 설계해야 해 적용 부담이 있음"
+          ]
+        },
+        "reproducibility": {
+          "code": "공개",
+          "weights": "해당없음(고정 에이전트 + 텍스트 스킬)",
+          "data": "부분",
+          "license": "확인 필요",
+          "note": "Microsoft 공개 레포(aka.ms/skillopt) + 프로젝트 페이지, ★12.3k"
+        },
+        "my_learning_points": [
+          "'스킬 = 학습 대상' 관점 — 이 논문정리 스킬도 검증 점수를 정의하면 체계적 개선 가능",
+          "결정론적 수용(검증 향상 시에만 채택)은 LLM 자기수정의 발산을 막는 장치",
+          "최적화를 오프라인 분리해 배포 추론 비용을 0으로"
+        ],
+        "related_work": {
+          "prior": [
+            {
+              "name": "TextGrad / GEPA",
+              "relation": "텍스트 기반 최적화 선행(비교 베이스라인)"
+            }
+          ],
+          "followup": [
+            {
+              "name": "Trace2Skill / EvoSkill",
+              "relation": "궤적에서 스킬 추출·진화 경쟁 접근"
+            }
+          ]
+        },
+        "claude_note": "가중치 최적화의 규율(재현성·검증 기반 수용·학습률)을 텍스트 스킬에 이식한 점이 신선하다. W25 이후 반복 등장하며 '스킬·컨텍스트 엔지니어링이 학습 문제로 수렴'하는 흐름의 대표작."
+      },
+      "learning": {
+        "key_terms": [
+          {
+            "term": "Rollout",
+            "gloss": "에이전트 실행 기록(궤적). 점수를 매겨 학습 신호로 씀"
+          },
+          {
+            "term": "Held-out Validation",
+            "gloss": "학습에 안 쓴 검증셋. 편집 수용 판단 기준"
+          },
+          {
+            "term": "Text-space Optimization",
+            "gloss": "가중치가 아닌 텍스트(스킬 문서)를 최적화 대상으로"
+          }
+        ],
+        "recall_quiz": {
+          "question": "SkillOpt가 편집(add/delete/replace)을 스킬 문서에 반영하는 기준은?",
+          "answer": "보류된(held-out) 검증 점수를 엄격히 향상시킬 때만 편집을 수용한다."
+        },
+        "spaced_review": {
+          "flag": true,
+          "review_due": "2026-W29"
+        }
+      }
+    }
+  ],
+  "week_summary": {
+    "headline_ko": "월드 모델·임바디드가 부상(2편)하고 오디오가 새로 합류 — 문서파싱은 휴지, TradingAgents는 5주 연속",
+    "clusters": [
+      {
+        "category": "Embodied/World Models",
+        "paper_ranks": [
+          1,
+          2
+        ],
+        "theme_ko": "월드 모델·임바디드 부상 — 실시간 월드 시뮬레이터(Infinite Worlds)·MoE 비디오 FM(LingBot-Video), 둘 다 LingBot 랩"
+      },
+      {
+        "category": "LLM/Agents",
+        "paper_ranks": [
+          3,
+          5,
+          6
+        ],
+        "theme_ko": "에이전트 지속 — 코딩 자동화(AutoDev)·금융(TradingAgents 5주 연속)·스킬 자기개선(SkillOpt 복귀)"
+      },
+      {
+        "category": "Multimodal",
+        "paper_ranks": [
+          4
+        ],
+        "theme_ko": "오디오 LM 신규 — 연속 표현(CALM)"
+      }
+    ],
+    "emerging_keywords": [
+      "world-model",
+      "embodied-intelligence"
+    ],
+    "narrative_ko": "이번 주는 무게중심이 '월드 모델·임바디드'로 옮겨갔다 — 실시간 무한 월드 시뮬레이터(Infinite Worlds)와 최초 오픈소스 MoE 비디오 파운데이션 모델(LingBot-Video)이 나란히 올랐다(둘 다 LingBot 랩). 에이전트는 5주 연속으로 코딩 자동화(AutoDev)·금융(TradingAgents ▲110, 5주 연속)·스킬 자기개선(SkillOpt ▲254, 복귀)으로 건재했다. 오디오 LM(CALM)이 새 모달리티로 합류한 반면, 지난 2주 트렌딩을 지배하던 문서 파싱/OCR은 이번 주 완전히 빠졌다.",
+    "recent_trend_ko": "누적 5주차. [부상] 월드 모델·임바디드가 뚜렷이 상승 — W27 1편→W28 1편→W29 2편으로 늘었고, 이번 주 두 편 모두 LingBot 랩(W27 LingBot-Map에 이어)이다. [지속] LLM/Agents는 5주 연속 등장, TradingAgents는 5주 내리 트렌딩(SkillOpt는 W28 건너뛰고 복귀). [식어감] 지난 2주(W27·W28) 최대 3편까지 갔던 문서 파싱/OCR이 이번 주 0편으로 급감했고, 시계열 파운데이션 모델도 W28부터 2주째 부재. [신규] 오디오 LM(CALM)이 처음 등장 — 모달리티가 문서·비디오에 이어 오디오로 확장. [관통] 효율화는 여전히 전방위(MoE 비디오, 연속-오디오 저비용, 1.3B 경량 월드모델).",
+    "caveats_ko": "주 6편 트렌딩 표본 기준이며 HuggingFace 커뮤니티의 인기·최신 편향이 있습니다. 업보트·스타는 중요도가 아닌 '관심도' 지표로만 해석하세요. 이번 주 임바디드 2편은 모두 같은 랩(LingBot)이라 특정 팀의 연속 공개에 따른 편향일 수 있습니다."
+  }
+}

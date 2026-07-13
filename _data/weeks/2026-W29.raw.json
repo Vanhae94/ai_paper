@@ -1,0 +1,808 @@
+[
+  {
+    "paper": {
+      "id": "2607.07534",
+      "authors": [
+        {
+          "_id": "6a4f019a48d70828b718de20",
+          "name": "Zelin Gao",
+          "hidden": false
+        },
+        {
+          "_id": "6a4f019a48d70828b718de21",
+          "user": {
+            "_id": "64981bea09cea550852652af",
+            "avatarUrl": "/avatars/df528e9008972c8e5ae4d278e617476c.svg",
+            "isPro": false,
+            "fullname": "Qiuyu Wang",
+            "user": "qiuyuu",
+            "type": "user",
+            "name": "qiuyuu"
+          },
+          "name": "Qiuyu Wang",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-07-09T11:52:48.713Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a4f019a48d70828b718de22",
+          "name": "Jiapeng Zhu",
+          "hidden": false
+        },
+        {
+          "_id": "6a4f019a48d70828b718de23",
+          "name": "Jingye Chen",
+          "hidden": false
+        },
+        {
+          "_id": "6a4f019a48d70828b718de24",
+          "user": {
+            "_id": "655c2cc7e8a8971e89aa6e75",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/655c2cc7e8a8971e89aa6e75/rWQEbTqgq7MLEJJGfjP5y.jpeg",
+            "isPro": false,
+            "fullname": "LIU Zichen",
+            "user": "LiuZichen",
+            "type": "user",
+            "name": "LiuZichen"
+          },
+          "name": "Zichen Liu",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-07-10T07:45:32.908Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a4f019a48d70828b718de25",
+          "user": {
+            "_id": "63f0baf66309c84d5f4a2226",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/63f0baf66309c84d5f4a2226/ihOgtwseRkfP1t-60IgyT.jpeg",
+            "isPro": true,
+            "fullname": "Qingyan",
+            "user": "QingyanBai",
+            "type": "user",
+            "name": "QingyanBai"
+          },
+          "name": "Qingyan Bai",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-07-09T11:52:52.353Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a4f019a48d70828b718de26",
+          "name": "Jiahao Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a4f019a48d70828b718de27",
+          "name": "Yufeng Yuan",
+          "hidden": false
+        },
+        {
+          "_id": "6a4f019a48d70828b718de28",
+          "name": "Hanlin Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a4f019a48d70828b718de29",
+          "name": "Yichong Lu",
+          "hidden": false
+        },
+        {
+          "_id": "6a4f019a48d70828b718de2a",
+          "user": {
+            "_id": "64acd2ec39fcfebff8c79c00",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/64acd2ec39fcfebff8c79c00/Avq66l5hO-aggNtk4Y1ss.png",
+            "isPro": false,
+            "fullname": "Ka Leong Cheng",
+            "user": "felixcheng97",
+            "type": "user",
+            "name": "felixcheng97"
+          },
+          "name": "Ka Leong Cheng",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-07-09T16:29:38.318Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a4f019a48d70828b718de2b",
+          "name": "Haojie Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "6a4f019a48d70828b718de2c",
+          "name": "Jian Gao",
+          "hidden": false
+        },
+        {
+          "_id": "6a4f019a48d70828b718de2d",
+          "name": "Tianrui Feng",
+          "hidden": false
+        },
+        {
+          "_id": "6a4f019a48d70828b718de2e",
+          "name": "Yuzheng Liu",
+          "hidden": false
+        },
+        {
+          "_id": "6a4f019a48d70828b718de2f",
+          "name": "Yao Yao",
+          "hidden": false
+        },
+        {
+          "_id": "6a4f019a48d70828b718de30",
+          "name": "Yinghao Xu",
+          "hidden": false
+        },
+        {
+          "_id": "6a4f019a48d70828b718de31",
+          "name": "Xing Zhu",
+          "hidden": false
+        },
+        {
+          "_id": "6a4f019a48d70828b718de32",
+          "name": "Yujun Shen",
+          "hidden": false
+        },
+        {
+          "_id": "6a4f019a48d70828b718de33",
+          "user": {
+            "_id": "646c37261da1b6d027ff20ef",
+            "avatarUrl": "/avatars/2c2feb9b3f29169ade74632a95450175.svg",
+            "isPro": false,
+            "fullname": "hao",
+            "user": "GPTVer8",
+            "type": "user",
+            "name": "GPTVer8"
+          },
+          "name": "Hao Ouyang",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-07-09T11:52:46.856Z",
+          "hidden": false
+        }
+      ],
+      "mediaUrls": [
+        "https://cdn-uploads.huggingface.co/production/uploads/6039478ab3ecf716b1a5fd4d/AY853ftl3KAYTSIsicW3E.mp4"
+      ],
+      "publishedAt": "2026-07-08T00:00:00.000Z",
+      "submittedOnDailyAt": "2026-07-09T00:00:00.000Z",
+      "title": "Infinite Worlds with Versatile Interactions",
+      "submittedOnDailyBy": {
+        "_id": "6039478ab3ecf716b1a5fd4d",
+        "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/6039478ab3ecf716b1a5fd4d/_Thy4E7taiSYBLKxEKJbT.jpeg",
+        "isPro": true,
+        "fullname": "taesiri",
+        "user": "taesiri",
+        "type": "user",
+        "name": "taesiri"
+      },
+      "summary": "We present LingBot-World 2.0 (also known as LingBot-World-Infinity), an advanced iteration of LingBot-World featuring four distinct upgrades. (1) Our model achieves an unbounded interaction horizon while maintaining consistent output quality, benefiting from a carefully crafted causal pretraining paradigm. (2) Through distilling a real-time variant from the base model, our system guarantees rapid response time, sufficient to drive 720p video streams at 60 fps. (3) Compared to the previous version, this update introduces highly diverse interactive elements, comprising a broader spectrum of actions (e.g., attacking, archery, spell-casting, and shooting) alongside a richer variety of text-driven events. (4) We pioneer the integration of an agentic harness within the domain of world modeling, wherein a pilot agent is tasked with planning and executing character behaviors, while a director agent is responsible for synthesizing novel environmental elements as the scene progresses. Additionally, to facilitate a shared experience, we develop an interface that permits multiple players to simultaneously immerse themselves in this vivid world simulator. We pair our primary 14B model with a lightweight 1.3B counterpart, which supports effortless deployment on a single GPU.",
+      "upvotes": 31,
+      "discussionId": "6a4f019b48d70828b718de34",
+      "projectPage": "https://technology.robbyant.com/lingbot-world-v2",
+      "githubRepo": "https://github.com/robbyant/lingbot-world-v2",
+      "githubRepoAddedBy": "user",
+      "ai_summary": "An advanced world modeling system with extended interaction capabilities, real-time processing, diverse interactive elements, and multi-agent behavior control for collaborative virtual environments.",
+      "ai_keywords": [
+        "causal pretraining paradigm",
+        "real-time variant",
+        "agentic harness",
+        "pilot agent",
+        "director agent",
+        "world modeling",
+        "interactive elements",
+        "text-driven events",
+        "multi-agent behavior control",
+        "shared experience",
+        "collaborative virtual environments"
+      ],
+      "ai_summary_model": "Qwen/Qwen2.5-Coder-32B-Instruct",
+      "githubStars": 909,
+      "organization": {
+        "_id": "69709f892cd08371c1011a2e",
+        "name": "robbyant",
+        "fullname": "Robbyant",
+        "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/67aeffda7330db26f93cd62f/ZTuImney4XzRmBHyUL47F.png"
+      }
+    },
+    "publishedAt": "2026-07-07T20:00:00.000Z",
+    "title": "Infinite Worlds with Versatile Interactions",
+    "summary": "We present LingBot-World 2.0 (also known as LingBot-World-Infinity), an advanced iteration of LingBot-World featuring four distinct upgrades. (1) Our model achieves an unbounded interaction horizon while maintaining consistent output quality, benefiting from a carefully crafted causal pretraining paradigm. (2) Through distilling a real-time variant from the base model, our system guarantees rapid response time, sufficient to drive 720p video streams at 60 fps. (3) Compared to the previous version, this update introduces highly diverse interactive elements, comprising a broader spectrum of actions (e.g., attacking, archery, spell-casting, and shooting) alongside a richer variety of text-driven events. (4) We pioneer the integration of an agentic harness within the domain of world modeling, wherein a pilot agent is tasked with planning and executing character behaviors, while a director agent is responsible for synthesizing novel environmental elements as the scene progresses. Additionally, to facilitate a shared experience, we develop an interface that permits multiple players to simultaneously immerse themselves in this vivid world simulator. We pair our primary 14B model with a lightweight 1.3B counterpart, which supports effortless deployment on a single GPU.",
+    "mediaUrls": [
+      "https://cdn-uploads.huggingface.co/production/uploads/6039478ab3ecf716b1a5fd4d/AY853ftl3KAYTSIsicW3E.mp4"
+    ],
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2607.07534.png",
+    "numComments": 1,
+    "submittedBy": {
+      "_id": "6039478ab3ecf716b1a5fd4d",
+      "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/6039478ab3ecf716b1a5fd4d/_Thy4E7taiSYBLKxEKJbT.jpeg",
+      "fullname": "taesiri",
+      "name": "taesiri",
+      "type": "user",
+      "isPro": true,
+      "isHf": false,
+      "isHfAdmin": false,
+      "isMod": false,
+      "followerCount": 330,
+      "isUserFollowing": false
+    },
+    "organization": {
+      "_id": "69709f892cd08371c1011a2e",
+      "name": "robbyant",
+      "fullname": "Robbyant",
+      "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/67aeffda7330db26f93cd62f/ZTuImney4XzRmBHyUL47F.png"
+    },
+    "isAuthorParticipating": false
+  },
+  {
+    "paper": {
+      "id": "2607.07675",
+      "authors": [
+        {
+          "_id": "6a4f009f48d70828b718de02",
+          "name": "Shuailei Ma",
+          "hidden": false
+        },
+        {
+          "_id": "6a4f009f48d70828b718de03",
+          "name": "Jiaqi Liao",
+          "hidden": false
+        },
+        {
+          "_id": "6a4f009f48d70828b718de04",
+          "name": "Xinyang Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a4f009f48d70828b718de05",
+          "name": "Jingjing Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a4f009f48d70828b718de06",
+          "name": "Chaoran Feng",
+          "hidden": false
+        },
+        {
+          "_id": "6a4f009f48d70828b718de07",
+          "name": "Zijing Hu",
+          "hidden": false
+        },
+        {
+          "_id": "6a4f009f48d70828b718de08",
+          "name": "Chong Bao",
+          "hidden": false
+        },
+        {
+          "_id": "6a4f009f48d70828b718de09",
+          "name": "Zichen Xi",
+          "hidden": false
+        },
+        {
+          "_id": "6a4f009f48d70828b718de0a",
+          "name": "Yuqi Gan",
+          "hidden": false
+        },
+        {
+          "_id": "6a4f009f48d70828b718de0b",
+          "name": "Weisen Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a4f009f48d70828b718de0c",
+          "name": "Yanhong Zeng",
+          "hidden": false
+        },
+        {
+          "_id": "6a4f009f48d70828b718de0d",
+          "name": "Qin Zhao",
+          "hidden": false
+        },
+        {
+          "_id": "6a4f009f48d70828b718de0e",
+          "name": "Zifan Shi",
+          "hidden": false
+        },
+        {
+          "_id": "6a4f009f48d70828b718de0f",
+          "name": "Wei Wu",
+          "hidden": false
+        },
+        {
+          "_id": "6a4f009f48d70828b718de10",
+          "name": "Hao Ouyang",
+          "hidden": false
+        },
+        {
+          "_id": "6a4f009f48d70828b718de11",
+          "user": {
+            "_id": "64981bea09cea550852652af",
+            "avatarUrl": "/avatars/df528e9008972c8e5ae4d278e617476c.svg",
+            "isPro": false,
+            "fullname": "Qiuyu Wang",
+            "user": "qiuyuu",
+            "type": "user",
+            "name": "qiuyuu"
+          },
+          "name": "Qiuyu Wang",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-07-09T11:52:54.630Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a4f009f48d70828b718de12",
+          "name": "Shangzhan Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "6a4f009f48d70828b718de13",
+          "name": "Jiahao Shao",
+          "hidden": false
+        },
+        {
+          "_id": "6a4f009f48d70828b718de14",
+          "name": "Yipengjing Sun",
+          "hidden": false
+        },
+        {
+          "_id": "6a4f009f48d70828b718de15",
+          "name": "Liangxiao Hu",
+          "hidden": false
+        },
+        {
+          "_id": "6a4f009f48d70828b718de16",
+          "name": "Lunke Pan",
+          "hidden": false
+        },
+        {
+          "_id": "6a4f009f48d70828b718de17",
+          "name": "Nan Xue",
+          "hidden": false
+        },
+        {
+          "_id": "6a4f009f48d70828b718de18",
+          "name": "Kecheng Zheng",
+          "hidden": false
+        },
+        {
+          "_id": "6a4f009f48d70828b718de19",
+          "name": "Yinghao Xu",
+          "hidden": false
+        },
+        {
+          "_id": "6a4f009f48d70828b718de1a",
+          "name": "Xing Zhu",
+          "hidden": false
+        },
+        {
+          "_id": "6a4f009f48d70828b718de1b",
+          "name": "Yujun Shen",
+          "hidden": false
+        },
+        {
+          "_id": "6a4f009f48d70828b718de1c",
+          "user": {
+            "_id": "64acd2ec39fcfebff8c79c00",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/64acd2ec39fcfebff8c79c00/Avq66l5hO-aggNtk4Y1ss.png",
+            "isPro": false,
+            "fullname": "Ka Leong Cheng",
+            "user": "felixcheng97",
+            "type": "user",
+            "name": "felixcheng97"
+          },
+          "name": "Ka Leong Cheng",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-07-09T16:29:40.453Z",
+          "hidden": false
+        }
+      ],
+      "mediaUrls": [
+        "https://cdn-uploads.huggingface.co/production/uploads/6039478ab3ecf716b1a5fd4d/U1jsOC1SUDuBw9teQ5NQN.mp4"
+      ],
+      "publishedAt": "2026-07-08T00:00:00.000Z",
+      "submittedOnDailyAt": "2026-07-09T00:00:00.000Z",
+      "title": "Scaling Mixture-of-Experts Video Pretraining for Embodied Intelligence",
+      "submittedOnDailyBy": {
+        "_id": "6039478ab3ecf716b1a5fd4d",
+        "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/6039478ab3ecf716b1a5fd4d/_Thy4E7taiSYBLKxEKJbT.jpeg",
+        "isPro": true,
+        "fullname": "taesiri",
+        "user": "taesiri",
+        "type": "user",
+        "name": "taesiri"
+      },
+      "summary": "Despite the recent promise in robot control, video generative models suffer from a domain mismatch due to their primary focus on content creation. For example, their design inherently prioritizes visual fidelity and creativity over computational efficiency and physical realism. In this work, we present LingBot-Video, a DiT-based video pretraining paradigm specifically tailored for embodied intelligence. From the architecture perspective, we adopt the Mixture-of-Experts (MoE), instead of dense, framework to achieve a better trade-off between modeling capacity and inference efficiency, and manage to scale it up from scratch. From the data perspective, we construct a data profiling engine that augments standard internet videos with extensive robot-oriented footage, encompassing manipulation, navigation, and egocentric perspectives, to equip the base model with an intrinsic understanding of actions and world dynamics. From the training perspective, we develop a multi-dimensional reward system to enforce the alignment regarding physical rationality and task completion, going beyond standard criteria such as aesthetics, prompt-following, and motion consistency. Comprehensive evaluations validate its performance and efficiency as a video foundation model. We contribute LingBot-Video as the inaugural large-scale, open-source MoE video foundation model to the community, in a pioneering effort to bridge digital creativity and physical actuation.",
+      "upvotes": 49,
+      "discussionId": "6a4f00a048d70828b718de1d",
+      "projectPage": "https://technology.robbyant.com/lingbot-video",
+      "githubRepo": "https://github.com/robbyant/lingbot-video",
+      "githubRepoAddedBy": "user",
+      "ai_summary": "LingBot-Video presents a DiT-based video pretraining framework with Mixture-of-Experts architecture, specialized data augmentation, and multi-dimensional reward system for embodied intelligence applications.",
+      "ai_keywords": [
+        "DiT-based video pretraining",
+        "Mixture-of-Experts",
+        "embodied intelligence",
+        "data profiling engine",
+        "robot-oriented footage",
+        "multi-dimensional reward system",
+        "physical rationality",
+        "task completion"
+      ],
+      "ai_summary_model": "Qwen/Qwen2.5-Coder-32B-Instruct",
+      "githubStars": 708,
+      "organization": {
+        "_id": "69709f892cd08371c1011a2e",
+        "name": "robbyant",
+        "fullname": "Robbyant",
+        "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/67aeffda7330db26f93cd62f/ZTuImney4XzRmBHyUL47F.png"
+      }
+    },
+    "publishedAt": "2026-07-07T20:00:00.000Z",
+    "title": "Scaling Mixture-of-Experts Video Pretraining for Embodied Intelligence",
+    "summary": "Despite the recent promise in robot control, video generative models suffer from a domain mismatch due to their primary focus on content creation. For example, their design inherently prioritizes visual fidelity and creativity over computational efficiency and physical realism. In this work, we present LingBot-Video, a DiT-based video pretraining paradigm specifically tailored for embodied intelligence. From the architecture perspective, we adopt the Mixture-of-Experts (MoE), instead of dense, framework to achieve a better trade-off between modeling capacity and inference efficiency, and manage to scale it up from scratch. From the data perspective, we construct a data profiling engine that augments standard internet videos with extensive robot-oriented footage, encompassing manipulation, navigation, and egocentric perspectives, to equip the base model with an intrinsic understanding of actions and world dynamics. From the training perspective, we develop a multi-dimensional reward system to enforce the alignment regarding physical rationality and task completion, going beyond standard criteria such as aesthetics, prompt-following, and motion consistency. Comprehensive evaluations validate its performance and efficiency as a video foundation model. We contribute LingBot-Video as the inaugural large-scale, open-source MoE video foundation model to the community, in a pioneering effort to bridge digital creativity and physical actuation.",
+    "mediaUrls": [
+      "https://cdn-uploads.huggingface.co/production/uploads/6039478ab3ecf716b1a5fd4d/U1jsOC1SUDuBw9teQ5NQN.mp4"
+    ],
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2607.07675.png",
+    "numComments": 1,
+    "submittedBy": {
+      "_id": "6039478ab3ecf716b1a5fd4d",
+      "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/6039478ab3ecf716b1a5fd4d/_Thy4E7taiSYBLKxEKJbT.jpeg",
+      "fullname": "taesiri",
+      "name": "taesiri",
+      "type": "user",
+      "isPro": true,
+      "isHf": false,
+      "isHfAdmin": false,
+      "isMod": false,
+      "followerCount": 330,
+      "isUserFollowing": false
+    },
+    "organization": {
+      "_id": "69709f892cd08371c1011a2e",
+      "name": "robbyant",
+      "fullname": "Robbyant",
+      "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/67aeffda7330db26f93cd62f/ZTuImney4XzRmBHyUL47F.png"
+    },
+    "isAuthorParticipating": false
+  },
+  {
+    "paper": {
+      "id": "2403.08299",
+      "authors": [
+        {
+          "_id": "6602aab50356f5be2d3fb892",
+          "name": "Michele Tufano",
+          "hidden": false
+        },
+        {
+          "_id": "6602aab50356f5be2d3fb893",
+          "name": "Anisha Agarwal",
+          "hidden": false
+        },
+        {
+          "_id": "6602aab50356f5be2d3fb894",
+          "name": "Jinu Jang",
+          "hidden": false
+        },
+        {
+          "_id": "6602aab50356f5be2d3fb895",
+          "name": "Roshanak Zilouchian Moghaddam",
+          "hidden": false
+        },
+        {
+          "_id": "6602aab50356f5be2d3fb896",
+          "name": "Neel Sundaresan",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2024-03-13T07:12:03.000Z",
+      "title": "AutoDev: Automated AI-Driven Development",
+      "summary": "The landscape of software development has witnessed a paradigm shift with the\nadvent of AI-powered assistants, exemplified by GitHub Copilot. However,\nexisting solutions are not leveraging all the potential capabilities available\nin an IDE such as building, testing, executing code, git operations, etc.\nTherefore, they are constrained by their limited capabilities, primarily\nfocusing on suggesting code snippets and file manipulation within a chat-based\ninterface. To fill this gap, we present AutoDev, a fully automated AI-driven\nsoftware development framework, designed for autonomous planning and execution\nof intricate software engineering tasks. AutoDev enables users to define\ncomplex software engineering objectives, which are assigned to AutoDev's\nautonomous AI Agents to achieve. These AI agents can perform diverse operations\non a codebase, including file editing, retrieval, build processes, execution,\ntesting, and git operations. They also have access to files, compiler output,\nbuild and testing logs, static analysis tools, and more. This enables the AI\nAgents to execute tasks in a fully automated manner with a comprehensive\nunderstanding of the contextual information required. Furthermore, AutoDev\nestablishes a secure development environment by confining all operations within\nDocker containers. This framework incorporates guardrails to ensure user\nprivacy and file security, allowing users to define specific permitted or\nrestricted commands and operations within AutoDev. In our evaluation, we tested\nAutoDev on the HumanEval dataset, obtaining promising results with 91.5% and\n87.8% of Pass@1 for code generation and test generation respectively,\ndemonstrating its effectiveness in automating software engineering tasks while\nmaintaining a secure and user-controlled development environment.",
+      "upvotes": 15,
+      "discussionId": "6602aab60356f5be2d3fb8b1",
+      "githubRepo": "https://github.com/vxcontrol/pentagi",
+      "githubRepoAddedBy": "auto",
+      "ai_summary": "AutoDev is an AI-driven software development framework that automates complex engineering tasks within a secure Docker environment, achieving high performance in code and test generation.",
+      "ai_keywords": [
+        "autonomous AI Agents",
+        "Docker containers",
+        "HumanEval dataset",
+        "Pass@1",
+        "code generation",
+        "test generation"
+      ],
+      "ai_summary_model": "Qwen/Qwen2.5-Coder-32B-Instruct",
+      "githubStars": 20117
+    },
+    "publishedAt": "2024-03-13T03:12:03.000Z",
+    "title": "AutoDev: Automated AI-Driven Development",
+    "summary": "The landscape of software development has witnessed a paradigm shift with the\nadvent of AI-powered assistants, exemplified by GitHub Copilot. However,\nexisting solutions are not leveraging all the potential capabilities available\nin an IDE such as building, testing, executing code, git operations, etc.\nTherefore, they are constrained by their limited capabilities, primarily\nfocusing on suggesting code snippets and file manipulation within a chat-based\ninterface. To fill this gap, we present AutoDev, a fully automated AI-driven\nsoftware development framework, designed for autonomous planning and execution\nof intricate software engineering tasks. AutoDev enables users to define\ncomplex software engineering objectives, which are assigned to AutoDev's\nautonomous AI Agents to achieve. These AI agents can perform diverse operations\non a codebase, including file editing, retrieval, build processes, execution,\ntesting, and git operations. They also have access to files, compiler output,\nbuild and testing logs, static analysis tools, and more. This enables the AI\nAgents to execute tasks in a fully automated manner with a comprehensive\nunderstanding of the contextual information required. Furthermore, AutoDev\nestablishes a secure development environment by confining all operations within\nDocker containers. This framework incorporates guardrails to ensure user\nprivacy and file security, allowing users to define specific permitted or\nrestricted commands and operations within AutoDev. In our evaluation, we tested\nAutoDev on the HumanEval dataset, obtaining promising results with 91.5% and\n87.8% of Pass@1 for code generation and test generation respectively,\ndemonstrating its effectiveness in automating software engineering tasks while\nmaintaining a secure and user-controlled development environment.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2403.08299.png",
+    "numComments": 2,
+    "isAuthorParticipating": false
+  },
+  {
+    "paper": {
+      "id": "2509.06926",
+      "authors": [
+        {
+          "_id": "68c02a15629c5c1ac880f540",
+          "name": "Rouard Simon",
+          "hidden": false
+        },
+        {
+          "_id": "68c02a15629c5c1ac880f541",
+          "name": "Orsini Manu",
+          "hidden": false
+        },
+        {
+          "_id": "68c02a15629c5c1ac880f542",
+          "name": "Roebel Axel",
+          "hidden": false
+        },
+        {
+          "_id": "68c02a15629c5c1ac880f543",
+          "name": "Zeghidour Neil",
+          "hidden": false
+        },
+        {
+          "_id": "68c02a15629c5c1ac880f544",
+          "name": "Défossez Alexandre",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2025-09-08T17:38:13.000Z",
+      "title": "Continuous Audio Language Models",
+      "summary": "Audio Language Models (ALM) have emerged as the dominant paradigm for speech\nand music generation by representing audio as sequences of discrete tokens.\nYet, unlike text tokens, which are invertible, audio tokens are extracted from\nlossy codecs with a limited bitrate. As a consequence, increasing audio quality\nrequires generating more tokens, which imposes a trade-off between fidelity and\ncomputational cost. We address this issue by studying Continuous Audio Language\nModels (CALM). These models instantiate a large Transformer backbone that\nproduces a contextual embedding at every timestep. This sequential information\nthen conditions an MLP that generates the next continuous frame of an audio VAE\nthrough consistency modeling. By avoiding lossy compression, CALM achieves\nhigher quality at lower computational cost than their discrete counterpart.\nExperiments on speech and music demonstrate improved efficiency and fidelity\nover state-of-the-art discrete audio language models, facilitating lightweight,\nhigh-quality audio generation. Samples are available at\nhttps://continuous-audio-language-models.github.io",
+      "upvotes": 11,
+      "discussionId": "68c02a15629c5c1ac880f545",
+      "projectPage": "https://huggingface.co/spaces/kyutai/calm-samples",
+      "githubRepo": "https://github.com/kyutai-labs/pocket-tts",
+      "githubRepoAddedBy": "auto",
+      "githubStars": 7406
+    },
+    "publishedAt": "2025-09-08T13:38:13.000Z",
+    "title": "Continuous Audio Language Models",
+    "summary": "Audio Language Models (ALM) have emerged as the dominant paradigm for speech\nand music generation by representing audio as sequences of discrete tokens.\nYet, unlike text tokens, which are invertible, audio tokens are extracted from\nlossy codecs with a limited bitrate. As a consequence, increasing audio quality\nrequires generating more tokens, which imposes a trade-off between fidelity and\ncomputational cost. We address this issue by studying Continuous Audio Language\nModels (CALM). These models instantiate a large Transformer backbone that\nproduces a contextual embedding at every timestep. This sequential information\nthen conditions an MLP that generates the next continuous frame of an audio VAE\nthrough consistency modeling. By avoiding lossy compression, CALM achieves\nhigher quality at lower computational cost than their discrete counterpart.\nExperiments on speech and music demonstrate improved efficiency and fidelity\nover state-of-the-art discrete audio language models, facilitating lightweight,\nhigh-quality audio generation. Samples are available at\nhttps://continuous-audio-language-models.github.io",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2509.06926.png",
+    "numComments": 0,
+    "isAuthorParticipating": false
+  },
+  {
+    "paper": {
+      "id": "2412.20138",
+      "authors": [
+        {
+          "_id": "6847673b3ec10bdd8ab4dd5e",
+          "name": "Yijia Xiao",
+          "hidden": false
+        },
+        {
+          "_id": "6847673b3ec10bdd8ab4dd5f",
+          "name": "Edward Sun",
+          "hidden": false
+        },
+        {
+          "_id": "6847673b3ec10bdd8ab4dd60",
+          "name": "Di Luo",
+          "hidden": false
+        },
+        {
+          "_id": "6847673b3ec10bdd8ab4dd61",
+          "name": "Wei Wang",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2024-12-28T12:54:06.000Z",
+      "title": "TradingAgents: Multi-Agents LLM Financial Trading Framework",
+      "summary": "Significant progress has been made in automated problem-solving using\nsocieties of agents powered by large language models (LLMs). In finance,\nefforts have largely focused on single-agent systems handling specific tasks or\nmulti-agent frameworks independently gathering data. However, the multi-agent\nsystems' potential to replicate real-world trading firms' collaborative\ndynamics remains underexplored. TradingAgents proposes a novel stock trading\nframework inspired by trading firms, featuring LLM-powered agents in\nspecialized roles such as fundamental analysts, sentiment analysts, technical\nanalysts, and traders with varied risk profiles. The framework includes Bull\nand Bear researcher agents assessing market conditions, a risk management team\nmonitoring exposure, and traders synthesizing insights from debates and\nhistorical data to make informed decisions. By simulating a dynamic,\ncollaborative trading environment, this framework aims to improve trading\nperformance. Detailed architecture and extensive experiments reveal its\nsuperiority over baseline models, with notable improvements in cumulative\nreturns, Sharpe ratio, and maximum drawdown, highlighting the potential of\nmulti-agent LLM frameworks in financial trading. TradingAgents is available at\nhttps://github.com/TauricResearch/TradingAgents.",
+      "upvotes": 110,
+      "discussionId": "6847673c3ec10bdd8ab4dd62",
+      "githubRepo": "https://github.com/tauricresearch/tradingagents",
+      "githubRepoAddedBy": "auto",
+      "ai_summary": "A multi-agent framework using large language models for stock trading simulates real-world trading firms, improving performance metrics like cumulative returns and Sharpe ratio.",
+      "ai_keywords": [
+        "large language models",
+        "LLM",
+        "multi-agent systems",
+        "fundamental analysts",
+        "sentiment analysts",
+        "technical analysts",
+        "traders",
+        "risk management",
+        "cumulative returns",
+        "Sharpe ratio",
+        "maximum drawdown"
+      ],
+      "ai_summary_model": "Qwen/Qwen2.5-Coder-32B-Instruct",
+      "githubStars": 92547
+    },
+    "publishedAt": "2024-12-28T07:54:06.000Z",
+    "title": "TradingAgents: Multi-Agents LLM Financial Trading Framework",
+    "summary": "Significant progress has been made in automated problem-solving using\nsocieties of agents powered by large language models (LLMs). In finance,\nefforts have largely focused on single-agent systems handling specific tasks or\nmulti-agent frameworks independently gathering data. However, the multi-agent\nsystems' potential to replicate real-world trading firms' collaborative\ndynamics remains underexplored. TradingAgents proposes a novel stock trading\nframework inspired by trading firms, featuring LLM-powered agents in\nspecialized roles such as fundamental analysts, sentiment analysts, technical\nanalysts, and traders with varied risk profiles. The framework includes Bull\nand Bear researcher agents assessing market conditions, a risk management team\nmonitoring exposure, and traders synthesizing insights from debates and\nhistorical data to make informed decisions. By simulating a dynamic,\ncollaborative trading environment, this framework aims to improve trading\nperformance. Detailed architecture and extensive experiments reveal its\nsuperiority over baseline models, with notable improvements in cumulative\nreturns, Sharpe ratio, and maximum drawdown, highlighting the potential of\nmulti-agent LLM frameworks in financial trading. TradingAgents is available at\nhttps://github.com/TauricResearch/TradingAgents.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2412.20138.png",
+    "numComments": 4,
+    "isAuthorParticipating": false
+  },
+  {
+    "paper": {
+      "id": "2605.23904",
+      "authors": [
+        {
+          "_id": "6a13aad74d9e8d8602d201a8",
+          "user": {
+            "_id": "62d18eb81e36881a57f29bf4",
+            "avatarUrl": "/avatars/104851421b4ee9641daaf15942fa7ea1.svg",
+            "isPro": false,
+            "fullname": "Yif Yang",
+            "user": "Yif29",
+            "type": "user",
+            "name": "Yif29"
+          },
+          "name": "Yifan Yang",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-05-25T15:12:31.312Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a13aad74d9e8d8602d201a9",
+          "user": {
+            "_id": "660691330be1fbe3b9e4c33d",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/660691330be1fbe3b9e4c33d/TxrDFH_cRu3AlpMC3xmhv.jpeg",
+            "isPro": false,
+            "fullname": "ZiYang Gong",
+            "user": "Cusyoung",
+            "type": "user",
+            "name": "Cusyoung"
+          },
+          "name": "Ziyang Gong",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-05-25T15:12:29.154Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a13aad74d9e8d8602d201aa",
+          "name": "Weiquan Huang",
+          "hidden": false
+        },
+        {
+          "_id": "6a13aad74d9e8d8602d201ab",
+          "name": "Qihao Yang",
+          "hidden": false
+        },
+        {
+          "_id": "6a13aad74d9e8d8602d201ac",
+          "name": "Ziwei Zhou",
+          "hidden": false
+        },
+        {
+          "_id": "6a13aad74d9e8d8602d201ad",
+          "user": {
+            "_id": "662b6a8f0b7f23f3c000559e",
+            "avatarUrl": "/avatars/0a5b4e09ac9a8e40342131319ff32b29.svg",
+            "isPro": false,
+            "fullname": "Zisu Huang",
+            "user": "zisuh",
+            "type": "user",
+            "name": "zisuh"
+          },
+          "name": "Zisu Huang",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-05-25T15:12:25.187Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a13aad74d9e8d8602d201ae",
+          "name": "Yan Li",
+          "hidden": false
+        },
+        {
+          "_id": "6a13aad74d9e8d8602d201af",
+          "name": "Xuemei Gao",
+          "hidden": false
+        },
+        {
+          "_id": "6a13aad74d9e8d8602d201b0",
+          "name": "Qi Dai",
+          "hidden": false
+        },
+        {
+          "_id": "6a13aad74d9e8d8602d201b1",
+          "name": "Bei Liu",
+          "hidden": false
+        },
+        {
+          "_id": "6a13aad74d9e8d8602d201b2",
+          "name": "Kai Qiu",
+          "hidden": false
+        },
+        {
+          "_id": "6a13aad74d9e8d8602d201b3",
+          "name": "Yuqing Yang",
+          "hidden": false
+        },
+        {
+          "_id": "6a13aad74d9e8d8602d201b4",
+          "name": "Dongdong Chen",
+          "hidden": false
+        },
+        {
+          "_id": "6a13aad74d9e8d8602d201b5",
+          "name": "Xue Yang",
+          "hidden": false
+        },
+        {
+          "_id": "6a13aad74d9e8d8602d201b6",
+          "name": "Chong Luo",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2026-05-22T00:00:00.000Z",
+      "submittedOnDailyAt": "2026-05-25T00:00:00.000Z",
+      "title": "SkillOpt: Executive Strategy for Self-Evolving Agent Skills",
+      "submittedOnDailyBy": {
+        "_id": "6039478ab3ecf716b1a5fd4d",
+        "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/6039478ab3ecf716b1a5fd4d/_Thy4E7taiSYBLKxEKJbT.jpeg",
+        "isPro": true,
+        "fullname": "taesiri",
+        "user": "taesiri",
+        "type": "user",
+        "name": "taesiri"
+      },
+      "summary": "Agent skills today are hand-crafted, generated one-shot, or evolved through loosely controlled self-revision, none of which behaves like a deep-learning optimizer for the skill, and none of which reliably improves over its starting point under feedback. We argue the skill should instead be trained as the external state of a frozen agent, with the same discipline that makes weight-space optimization reproducible. SkillOpt is, to our knowledge, the first systematic controllable text-space optimizer for agent skills: a separate optimizer model turns scored rollouts into bounded add/delete/replace edits on a single skill document, and an edit is accepted only when it strictly improves a held-out validation score. A textual learning-rate budget, rejected-edit buffer, and epoch-wise slow/meta update make skill training stable while adding zero inference-time model calls at deployment. Across six benchmarks, seven target models, and three execution harnesses (direct chat, Codex, Claude Code), SkillOpt is best or tied on all 52 evaluated (model, benchmark, harness) cells and beats every per-cell competitor among human, one-shot LLM, Trace2Skill, TextGrad, GEPA, and EvoSkill skills. On GPT-5.5 it lifts the average no-skill accuracy by +23.5 points in direct chat, by +24.8 inside the Codex agentic loop, and by +19.1 inside Claude Code. Transfer experiments further show that optimized skill artifacts retain value when moved across model scales, between Codex and Claude Code execution environments, and to a nearby math benchmark without further optimization.",
+      "upvotes": 254,
+      "discussionId": "6a13aad74d9e8d8602d201b7",
+      "projectPage": "https://microsoft.github.io/SkillOpt/",
+      "githubRepo": "https://github.com/microsoft/SkillOpt",
+      "githubRepoAddedBy": "user",
+      "ai_summary": "SkillOpt introduces a systematic text-space optimizer for agent skills that trains skills as external agent state with stable updates and zero deployment inference overhead, achieving superior performance across multiple benchmarks and execution environments.",
+      "ai_keywords": [
+        "agent skills",
+        "skill training",
+        "text-space optimizer",
+        "rollouts",
+        "add/delete/replace edits",
+        "validation score",
+        "textual learning-rate budget",
+        "rejected-edit buffer",
+        "epoch-wise slow/meta update",
+        "skill optimization",
+        "transfer experiments",
+        "agent state",
+        "reproducible optimization"
+      ],
+      "ai_summary_model": "Qwen/Qwen2.5-Coder-32B-Instruct",
+      "githubStars": 12300,
+      "organization": {
+        "_id": "68151d0f51add3813f3f7d1b",
+        "name": "MicrosoftResearch",
+        "fullname": "Microsoft Research",
+        "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/6529a4f2f1205983224fa513/PeuVr7jSuJflmDBBGxoDX.png"
+      }
+    },
+    "publishedAt": "2026-05-21T20:00:00.000Z",
+    "title": "SkillOpt: Executive Strategy for Self-Evolving Agent Skills",
+    "summary": "Agent skills today are hand-crafted, generated one-shot, or evolved through loosely controlled self-revision, none of which behaves like a deep-learning optimizer for the skill, and none of which reliably improves over its starting point under feedback. We argue the skill should instead be trained as the external state of a frozen agent, with the same discipline that makes weight-space optimization reproducible. SkillOpt is, to our knowledge, the first systematic controllable text-space optimizer for agent skills: a separate optimizer model turns scored rollouts into bounded add/delete/replace edits on a single skill document, and an edit is accepted only when it strictly improves a held-out validation score. A textual learning-rate budget, rejected-edit buffer, and epoch-wise slow/meta update make skill training stable while adding zero inference-time model calls at deployment. Across six benchmarks, seven target models, and three execution harnesses (direct chat, Codex, Claude Code), SkillOpt is best or tied on all 52 evaluated (model, benchmark, harness) cells and beats every per-cell competitor among human, one-shot LLM, Trace2Skill, TextGrad, GEPA, and EvoSkill skills. On GPT-5.5 it lifts the average no-skill accuracy by +23.5 points in direct chat, by +24.8 inside the Codex agentic loop, and by +19.1 inside Claude Code. Transfer experiments further show that optimized skill artifacts retain value when moved across model scales, between Codex and Claude Code execution environments, and to a nearby math benchmark without further optimization.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2605.23904.png",
+    "numComments": 4,
+    "submittedBy": {
+      "_id": "6039478ab3ecf716b1a5fd4d",
+      "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/6039478ab3ecf716b1a5fd4d/_Thy4E7taiSYBLKxEKJbT.jpeg",
+      "fullname": "taesiri",
+      "name": "taesiri",
+      "type": "user",
+      "isPro": true,
+      "isHf": false,
+      "isHfAdmin": false,
+      "isMod": false,
+      "followerCount": 330,
+      "isUserFollowing": false
+    },
+    "organization": {
+      "_id": "68151d0f51add3813f3f7d1b",
+      "name": "MicrosoftResearch",
+      "fullname": "Microsoft Research",
+      "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/6529a4f2f1205983224fa513/PeuVr7jSuJflmDBBGxoDX.png"
+    },
+    "isAuthorParticipating": true
+  }
+]
