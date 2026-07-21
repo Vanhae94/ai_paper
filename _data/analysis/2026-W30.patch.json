@@ -1,0 +1,251 @@
+{
+  "week_id": "2026-W30",
+  "papers": {
+    "2509.02523": {
+      "classify": {
+        "categories": ["Multimodal", "Efficiency/Inference"],
+        "primary_category": "Multimodal",
+        "topic_tags": ["automatic-speech-recognition", "edge-devices", "monolingual", "synthetic-data"],
+        "method_tags": ["finetuning", "data-centric"],
+        "modality": ["audio"],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "27M 초소형 단일언어 ASR로 9~28배 큰 Whisper를 능가하는 저자원 언어용 온디바이스 음성인식.",
+        "problem": "'다국어 ASR이 교차언어 음운 유사성 덕에 단일언어보다 낫다'는 통념이 지배적이지만, 저자원 언어를 위한 정확한 온디바이스 ASR은 여전히 부족했다.",
+        "approach": "충분히 작은 모델(27M)에서는 통념과 달리, 고품질 인간 라벨 + 의사(pseudo) 라벨 + 합성 데이터를 균형 있게 섞어 '단일언어' 시스템을 학습하면 훨씬 우수함을 보인다. 아랍어·중국어·일본어·한국어·우크라이나어·베트남어용 Moonshine 모델을 공개한다.",
+        "contributions": [
+          "27M 단일언어 ASR이 동급 Whisper Tiny 대비 평균 오류율 48%↓",
+          "9배 큰 Whisper Small 능가, 대부분 28배 큰 Whisper Medium과 동급/능가",
+          "'작은 모델에선 단일언어 + 고품질 데이터 믹스가 낫다'는 반(反)통념 결과",
+          "저자원 6개 언어(한국어 포함) 모델을 관대한 라이선스로 오픈소스 공개"
+        ],
+        "why_now": "지난주 CALM에 이어 오디오/음성이 부상 중이다. 특히 '초소형·온디바이스·저자원 언어' 방향으로 효율화가 음성으로 번지는 흐름을 보여준다(한국어 모델 포함이라 실용성도 크다).",
+        "difficulty": "중급",
+        "recommended_reader": "온디바이스 ASR·저자원 언어·경량 모델에 관심 있는 학습자",
+        "field_tags": ["ASR", "온디바이스", "단일언어", "저자원언어"],
+        "interest": { "upvotes": 21, "num_comments": 1, "github_stars": 9300 }
+      },
+      "learning": {
+        "key_terms": [
+          { "term": "ASR", "gloss": "자동 음성 인식(Automatic Speech Recognition)" },
+          { "term": "Monolingual vs Multilingual", "gloss": "단일언어 전용 vs 여러 언어 통합 모델" },
+          { "term": "Pseudo-labeling", "gloss": "모델이 만든 라벨을 학습에 재활용하는 준지도 기법" }
+        ],
+        "recall_quiz": {
+          "question": "Flavors of Moonshine가 뒤집은 통념과, 27M 모델에서 택한 전략은?",
+          "answer": "'다국어>단일언어' 통념을 뒤집어, 작은 모델에선 고품질(인간+의사+합성) 데이터로 학습한 단일언어 모델이 더 낫다는 것."
+        },
+        "spaced_review": { "flag": false, "review_due": null }
+      }
+    },
+
+    "2410.15608": {
+      "classify": {
+        "categories": ["Multimodal", "Efficiency/Inference"],
+        "primary_category": "Multimodal",
+        "topic_tags": ["automatic-speech-recognition", "encoder-decoder", "rotary-position-embedding", "live-transcription"],
+        "method_tags": ["architecture", "inference-time"],
+        "modality": ["audio"],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "제로패딩을 없애 인코더 효율을 높인, 실시간 전사·음성명령용 경량 음성인식 모델.",
+        "problem": "실시간 전사·음성 명령에는 저지연·저자원 음성 인식이 필요하지만, 기존 모델(Whisper 등)은 고정 길이 처리로 짧은 구간에도 연산 낭비가 크다.",
+        "approach": "인코더-디코더 트랜스포머에 절대 위치 임베딩 대신 RoPE(회전 위치 임베딩)를 쓰고, 다양한 길이의 음성 구간을 '제로패딩 없이' 학습해 추론 시 인코더 효율을 높인다.",
+        "contributions": [
+          "RoPE + 제로패딩 제거로 인코더 추론 효율↑",
+          "Whisper tiny.en 대비 10초 구간 전사에 연산 5배 절감",
+          "표준 평가셋에서 단어오류율(WER) 증가 없이 효율만 개선",
+          "실시간·자원 제약 환경에 적합"
+        ],
+        "why_now": "오디오/음성 부상 흐름의 핵심 축(효율)이다. '제로패딩 제거'라는 단순 최적화로 5배 절감을 낸 점이, 효율화가 전 모달리티로 번지는 이번 트렌드와 정확히 맞물린다.",
+        "difficulty": "중급",
+        "recommended_reader": "실시간 ASR·음성 명령·엣지 추론에 관심 있는 학습자",
+        "field_tags": ["ASR", "실시간전사", "RoPE", "경량추론"],
+        "interest": { "upvotes": 12, "num_comments": 0, "github_stars": 9200 }
+      },
+      "learning": {
+        "key_terms": [
+          { "term": "RoPE", "gloss": "회전 위치 임베딩. 상대 위치를 회전으로 인코딩해 길이 일반화에 유리" },
+          { "term": "Zero-padding", "gloss": "배치 처리를 위해 짧은 입력을 0으로 채우는 것(연산 낭비 발생)" },
+          { "term": "WER", "gloss": "단어 오류율(Word Error Rate), ASR 정확도 지표" }
+        ],
+        "recall_quiz": {
+          "question": "Moonshine가 Whisper tiny.en 대비 연산을 5배 줄인 두 가지 설계는?",
+          "answer": "절대 위치 임베딩 대신 RoPE 사용 + 제로패딩 없이 가변 길이 학습으로 인코더를 효율화."
+        },
+        "spaced_review": { "flag": false, "review_due": null }
+      }
+    },
+
+    "2604.14141": {
+      "classify": {
+        "categories": ["Embodied/World Models", "Vision"],
+        "primary_category": "Embodied/World Models",
+        "topic_tags": ["3d-reconstruction", "slam", "geometric-context-transformer", "world-model"],
+        "method_tags": ["architecture", "inference-time"],
+        "modality": ["3d", "video"],
+        "confidence": "medium"
+      },
+      "tier1": {
+        "one_liner": "SLAM 원리를 담은 어텐션으로 영상 스트림에서 실시간(약 20FPS) 3D를 복원하는 피드포워드 파운데이션 모델.",
+        "problem": "스트리밍 3D 재구성은 영상 스트림에서 카메라 포즈·점군을 복원해야 하며, 기하 정확도·시간적 일관성·계산 효율을 동시에 요구한다.",
+        "approach": "SLAM 원리에 착안해 GCT(geometric context transformer) 기반 피드포워드 3D 파운데이션 모델 LingBot-Map을 제안한다. 어텐션이 앵커 컨텍스트(좌표 grounding)·포즈 참조 윈도우(조밀한 기하 단서)·궤적 메모리(장거리 드리프트 보정)를 통합해, 스트리밍 상태를 작게 유지하면서 풍부한 기하 맥락을 보존한다.",
+        "contributions": [
+          "앵커·포즈참조·궤적메모리를 통합한 GCT 어텐션 설계",
+          "518x378 입력·1만+ 프레임에서 약 20FPS 안정적 추론",
+          "스트리밍·반복최적화 기존 기법 대비 우수한 성능",
+          "피드포워드 3D 파운데이션 모델로 효율·정확을 동시 달성"
+        ],
+        "why_now": "W27·W28 연속 등장 후 W29를 건너뛰고 이번 주 다시 트렌딩에 복귀했다. 임바디드/공간 AI가 꾸준한 관심축임을 보여준다.",
+        "difficulty": "고급",
+        "recommended_reader": "3D 비전·SLAM·로보틱스·공간 AI에 관심 있는 학습자",
+        "field_tags": ["3D재구성", "SLAM", "공간AI", "파운데이션모델"],
+        "interest": { "upvotes": 29, "num_comments": 3, "github_stars": 13600 }
+      },
+      "learning": {
+        "key_terms": [
+          { "term": "SLAM", "gloss": "위치추정과 지도작성을 동시에 하는 기법(Simultaneous Localization and Mapping)" },
+          { "term": "Feed-forward 3D", "gloss": "반복 최적화 없이 한 번의 순전파로 3D를 추정하는 방식" },
+          { "term": "Drift", "gloss": "장시간 추정에서 누적되는 위치 오차" }
+        ],
+        "recall_quiz": {
+          "question": "LingBot-Map의 어텐션이 통합하는 세 요소와 각 역할은?",
+          "answer": "앵커 컨텍스트(좌표 grounding), 포즈 참조 윈도우(조밀한 기하 단서), 궤적 메모리(장거리 드리프트 보정)."
+        },
+        "spaced_review": { "flag": false, "review_due": null }
+      }
+    },
+
+    "2412.20138": {
+      "classify": {
+        "categories": ["LLM/Agents"],
+        "primary_category": "LLM/Agents",
+        "topic_tags": ["agentic-workflow", "multi-agent", "financial-ai", "tool-use"],
+        "method_tags": ["prompting", "architecture"],
+        "modality": ["text"],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "트레이딩 회사 조직을 본떠 역할을 나눈 LLM 에이전트들이 토론으로 주식 매매를 결정한다.",
+        "problem": "금융 분야의 LLM 활용은 대개 단일 에이전트가 특정 작업을 처리하거나, 여러 에이전트가 따로 데이터만 수집하는 수준에 머물렀다. 실제 트레이딩 회사처럼 전문가들이 협업·토론하며 의사결정하는 구조는 거의 탐구되지 않았다.",
+        "approach": "펀더멘털·감성·기술 분석가, 강세(Bull)·약세(Bear) 리서처, 리스크 관리팀, 트레이더 등 실제 회사의 직무를 LLM 에이전트로 구현한다. 강세·약세 에이전트가 시장을 두고 토론하고, 트레이더가 그 결과와 과거 데이터를 종합해 매매를 결정한다.",
+        "contributions": [
+          "다중 에이전트 협업·토론 구조를 금융 트레이딩에 적용한 신규 프레임워크",
+          "베이스라인 대비 누적 수익률(cumulative returns) 향상",
+          "샤프 지수(Sharpe ratio)·최대 낙폭(MDD) 등 위험조정 지표 개선",
+          "코드 오픈소스(★93.7k)로 재현·확장 가능"
+        ],
+        "why_now": "W25부터 이번 주까지 '6주 연속' 트렌딩에 오른 초장기 롱런 논문이다. 멀티 에이전트 × 금융 조합의 관심이 흔들림 없이 유지되고 있다.",
+        "difficulty": "중급",
+        "recommended_reader": "LLM 에이전트 오케스트레이션·금융 AI에 관심 있는 학습자",
+        "field_tags": ["멀티에이전트", "금융AI", "에이전트토론", "리스크관리"],
+        "interest": { "upvotes": 115, "num_comments": 4, "github_stars": 93700 }
+      },
+      "learning": {
+        "key_terms": [
+          { "term": "Multi-Agent System", "gloss": "여러 LLM 에이전트가 역할을 나눠 협업하는 구조" },
+          { "term": "Sharpe Ratio", "gloss": "위험 대비 초과수익을 재는 투자 성과 지표" },
+          { "term": "Maximum Drawdown", "gloss": "고점 대비 최대 하락폭, 손실 위험의 척도" }
+        ],
+        "recall_quiz": {
+          "question": "TradingAgents에서 강세(Bull)·약세(Bear) 에이전트는 매매 결정에 어떻게 기여하는가?",
+          "answer": "시장 상황을 두고 서로 토론하며, 트레이더 에이전트가 그 토론 결과와 과거 데이터를 종합해 최종 매매를 결정한다."
+        },
+        "spaced_review": { "flag": false, "review_due": null }
+      }
+    },
+
+    "2407.16741": {
+      "classify": {
+        "categories": ["LLM/Agents", "Evaluation/Benchmarks"],
+        "primary_category": "LLM/Agents",
+        "topic_tags": ["ai-agents", "tool-use", "code-execution", "agentic-workflow"],
+        "method_tags": ["prompting", "architecture"],
+        "modality": ["text"],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "코드 작성·터미널·웹 브라우징으로 인간 개발자처럼 일하는 AI 에이전트 오픈 플랫폼.",
+        "problem": "LLM 발전으로 환경과 상호작용하는 AI 에이전트가 빠르게 등장했지만, 새 에이전트를 구현하고 안전하게 코드를 실행하며 다중 에이전트를 조율하고 평가까지 아우르는 통합 개발 플랫폼이 부족했다.",
+        "approach": "인간 개발자처럼 코드를 쓰고 커맨드라인을 다루며 웹을 탐색하는 에이전트를 만들 수 있는 플랫폼을 제공한다. 샌드박스 환경에서의 안전한 코드 실행, 다중 에이전트 조율, 평가 벤치마크 통합을 지원한다.",
+        "contributions": [
+          "유연한 AI 개발자 에이전트 구축용 오픈 플랫폼(MIT 라이선스)",
+          "SWE-Bench·WebArena 등 15개 도전 과제로 에이전트 평가",
+          "160명+ 기여자, 1.3K+ 기여의 커뮤니티 프로젝트",
+          "코드 오픈소스(★81.3k)"
+        ],
+        "why_now": "코딩 에이전트는 6~7월 트렌드의 중심. 이번 주 AutoDev와 함께 2편이 올라 코딩 에이전트 생태계가 여전히 강함을 보여준다.",
+        "difficulty": "입문",
+        "recommended_reader": "코딩 에이전트·에이전트 평가에 입문하려는 학습자",
+        "field_tags": ["코딩에이전트", "오픈플랫폼", "SWE-Bench", "에이전트평가"],
+        "interest": { "upvotes": 83, "num_comments": 7, "github_stars": 81300 }
+      },
+      "learning": {
+        "key_terms": [
+          { "term": "SWE-Bench", "gloss": "실제 GitHub 이슈 해결 능력을 재는 소프트웨어 공학 벤치마크" },
+          { "term": "Sandbox", "gloss": "코드를 안전하게 격리 실행하는 환경" },
+          { "term": "Generalist Agent", "gloss": "여러 종류의 작업을 두루 수행하는 범용 에이전트" }
+        ],
+        "recall_quiz": {
+          "question": "OpenDevin의 에이전트가 인간 개발자처럼 세상과 상호작용하는 세 가지 방식은?",
+          "answer": "코드 작성, 커맨드라인(터미널) 사용, 웹 브라우징."
+        },
+        "spaced_review": { "flag": false, "review_due": null }
+      }
+    },
+
+    "2403.08299": {
+      "classify": {
+        "categories": ["LLM/Agents", "Evaluation/Benchmarks"],
+        "primary_category": "LLM/Agents",
+        "topic_tags": ["ai-agents", "code-execution", "autonomous-agents", "tool-use"],
+        "method_tags": ["prompting", "architecture"],
+        "modality": ["text"],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "빌드·실행·테스트·git까지 IDE 전 기능을 자율 수행하는 완전 자동화 AI 개발 프레임워크.",
+        "problem": "Copilot류 AI 코딩 도우미는 채팅 기반 코드 제안·파일 조작에 머물러, IDE의 빌드·테스트·실행·git 등 잠재 기능을 활용하지 못한다.",
+        "approach": "AutoDev는 복잡한 SW 공학 목표를 자율 AI 에이전트에게 맡긴다. 에이전트는 파일 편집·검색·빌드·실행·테스트·git을 수행하고 컴파일러 출력·로그·정적분석 도구에 접근한다. 모든 작업은 Docker 컨테이너에 가둬 보안을 확보하고, 허용/금지 명령을 정의하는 가드레일을 둔다.",
+        "contributions": [
+          "IDE 전 기능(빌드·실행·테스트·git)을 자율 수행하는 프레임워크",
+          "Docker 격리 + 사용자 정의 가드레일로 보안 확보",
+          "HumanEval 코드 생성 Pass@1 91.5%, 테스트 생성 87.8%",
+          "로그·정적분석 등 맥락 정보에 접근하는 완전 자동 실행"
+        ],
+        "why_now": "코딩 에이전트 강세 속에 지난주에 이어 2주 연속 트렌딩. '자율 실행 + 격리 보안'으로 에이전트가 실제 개발 루프를 도는 방향을 보여준다.",
+        "difficulty": "중급",
+        "recommended_reader": "코딩 에이전트·자동화 개발·에이전트 보안에 관심 있는 학습자",
+        "field_tags": ["코딩에이전트", "자동화개발", "Docker격리", "HumanEval"],
+        "interest": { "upvotes": 17, "num_comments": 2, "github_stars": 20900 }
+      },
+      "learning": {
+        "key_terms": [
+          { "term": "Pass@1", "gloss": "한 번 생성으로 테스트를 통과하는 비율(코드 생성 성능 지표)" },
+          { "term": "HumanEval", "gloss": "함수 구현 능력을 재는 코드 생성 벤치마크" },
+          { "term": "Guardrails", "gloss": "에이전트의 허용/금지 동작을 제한하는 안전장치" }
+        ],
+        "recall_quiz": {
+          "question": "AutoDev가 기존 Copilot류 도우미와 차별화되는 핵심은?",
+          "answer": "코드 제안에 그치지 않고 빌드·실행·테스트·git 등 IDE 전 기능을 Docker 격리 안에서 자율 수행한다."
+        },
+        "spaced_review": { "flag": false, "review_due": null }
+      }
+    }
+  },
+
+  "week_summary": {
+    "headline_ko": "오디오/음성(경량 ASR)이 부상(Moonshine 2편) — 에이전트는 6주째, TradingAgents 6주 연속",
+    "clusters": [
+      { "category": "LLM/Agents", "paper_ranks": [2, 5, 6], "theme_ko": "에이전트 지속 — 금융(TradingAgents 6주 연속)·코딩(OpenDevin·AutoDev 2주 연속)" },
+      { "category": "Multimodal", "paper_ranks": [3, 4], "theme_ko": "오디오/음성 부상 — 경량·온디바이스 ASR(Moonshine 계열)" },
+      { "category": "Embodied/World Models", "paper_ranks": [1], "theme_ko": "스트리밍 3D 재구성(LingBot-Map) 복귀" }
+    ],
+    "emerging_keywords": ["automatic-speech-recognition", "edge-devices"],
+    "narrative_ko": "이번 주는 오디오/음성으로 무게가 실렸다 — 엣지용 초소형 ASR 두 편(Flavors of Moonshine, Moonshine)이 나란히 올랐고 둘 다 '작고 빠르게'를 앞세운다(Flavors는 27M로 28배 큰 Whisper Medium과 동급, Moonshine은 5배 저연산). 에이전트는 6주 연속으로 TradingAgents(▲115, 6주 연속)·코딩(OpenDevin·AutoDev)이 건재했고, 3D 재구성 LingBot-Map이 공백 뒤 복귀했다. 지난 2주 강세였던 문서 파싱은 이번에도 없었다.",
+    "recent_trend_ko": "누적 6주차. [부상] 오디오/음성이 확실히 상승 — W29 CALM(1)에 이어 W30 Moonshine 계열 2편(경량·온디바이스 ASR)으로 2주간 오디오 3편, 모두 '효율(저연산·초소형)'이 핵심. [지속] LLM/Agents 6주 연속, TradingAgents 6주 내리 트렌딩, 코딩 에이전트도 2편(AutoDev 2주 연속). [관통] 효율화가 이번엔 음성으로 — 27M tiny·5x 저연산·제로패딩 제거. 6주째 전방위 지속. [식어감] 문서 파싱/OCR은 W29·W30 2주 연속 부재(W27·W28 정점 후 소강), 시계열 FM도 계속 부재. [간헐] 임바디드/3D는 LingBot-Map이 공백 뒤 복귀했으나 W29의 2편에서 1편으로 축소.",
+    "caveats_ko": "주 6편 트렌딩 표본 기준이며 HuggingFace 커뮤니티의 인기·최신 편향이 있습니다. 업보트·스타는 중요도가 아닌 '관심도' 지표로만 해석하세요. 이번 주 오디오 2편은 모두 같은 프로젝트(Moonshine)라 특정 프로젝트의 연속 공개에 따른 편향일 수 있습니다."
+  }
+}

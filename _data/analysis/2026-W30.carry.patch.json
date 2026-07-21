@@ -1,0 +1,247 @@
+{
+  "week_id": "2026-W30",
+  "papers": {
+    "2403.08299": {
+      "tier2": {
+        "method_detail": "AutoDev은 자율 AI 에이전트가 IDE 전반의 기능(파일 편집·검색·빌드·실행·테스트·git)을 직접 조작하도록 오케스트레이션하는 프레임워크로, 네 개의 핵심 축(Conversation Manager, Tools Library, Agent Scheduler, Evaluation Environment)으로 구성된다. (1) Conversation Manager는 사용자·에이전트 대화를 관리하며 하위 모듈로 에이전트 응답에서 명령·인자를 정해진 포맷으로 파싱하는 Parser, 실행 환경의 출력을 처리·구조화하는 Output Organizer, 종료 시점을 결정하는 Conversation Conclusion을 둔다. (2) Agent Scheduler는 Round Robin / Token-Based / Priority-Based 협업 알고리즘으로 다중 에이전트를 조율한다. (3) Tools Library는 File Editing(write/edit/insert/delete), Retrieval(grep/find/ls/embedding 기반 스니펫 검색), Build & Execution, Testing & Validation(테스트·린터·버그탐지), Git(commit/push/merge에 대한 세분화된 권한 설정), Communication(talk/ask/stop)의 6개 명령 범주를 제공한다. (4) Evaluation Environment는 Docker 컨테이너 안에서 모든 명령을 안전하게 실행하는 샌드박스다. 사용자는 YAML 설정으로 에이전트별 허용/제한 명령(guardrails)과 페르소나·역할(예: Developer, Reviewer)을 선언하며, 기본 설정 또는 세분화 권한을 선택할 수 있다. 평가에서는 gpt-4-1106-preview 단일 에이전트를 사용했고, 에이전트가 명령을 내면 환경이 실행 후 파일 내용·컴파일러 출력·빌드/테스트 로그·정적분석 결과를 다시 대화 이력으로 되돌려 반복(iterative) 개선하는 폐루프 구조다.",
+        "experiment_setup": [
+          "벤치마크: HumanEval(164개 수기 프로그래밍 문제, 각 문제는 함수 시그니처+docstring+본문+평균 7.7개 단위테스트). 테스트 생성 평가에는 인간 솔루션은 사용하고 인간 작성 테스트는 폐기한 뒤 focal method에 대한 테스트를 생성하도록 지시하는 변형본 사용.",
+          "모델: GPT-4(gpt-4-1106-preview) 단일 에이전트. 추가 학습 없음. (완전 자율 평가를 위해 human feedback용 ask 명령은 비활성화)",
+          "비교군: LATS(Language Agent Tree Search), Reflexion, zero-shot GPT-4 베이스라인.",
+          "코드 생성(RQ1): AutoDev 91.5% Pass@1(Extra Training X) vs LATS 94.4%(Extra Training O) vs Reflexion 91.0%(Extra Training O) vs zero-shot GPT-4 67.0%. zero-shot 대비 약 30% 상대 개선. 본문은 'second-best position', 초록은 '추가 학습 데이터 없이 top-3'로 표현(양립).",
+          "테스트 생성(RQ2): AutoDev Pass@1 87.8% vs 베이스라인 75% vs 인간 100%. 전체 커버리지 88.8% vs 74%(베이스라인) vs 99.4%(인간). 단, '통과한 테스트만의 커버리지'는 AutoDev·베이스라인 모두 ~99.3%로 거의 동일. 베이스라인 대비 약 17% 상대 개선.",
+          "효율(RQ3): 태스크당 평균 명령 수 5.5(코드생성)/6.5(테스트생성). 코드생성 명령 분포 write 1.8, test 1.7, stop 0.92, 잘못된 명령 0.25. 토큰 사용 1,656(코드)/1,863(테스트) vs 베이스라인 약 200(코드)~373(테스트) 토큰(다중 추론 호출로 인한 오버헤드)."
+        ],
+        "datasets": [
+          {
+            "name": "HumanEval",
+            "scale": "164개 문제, 문제당 평균 7.7개 단위테스트",
+            "domain": "함수 단위 파이썬 코드 생성 벤치마크"
+          },
+          {
+            "name": "HumanEval (test-generation 변형)",
+            "scale": "동일 164개 기반, 인간 솔루션 사용·인간 작성 테스트 폐기 후 focal method 테스트 생성",
+            "domain": "단위테스트 자동 생성 평가"
+          }
+        ],
+        "limitations": {
+          "by_authors": [
+            "HumanEval이 상대적으로 단순해 본 평가는 단일 GPT-4 에이전트로만 수행함(다중 에이전트 협업은 향후 확장 대상).",
+            "다중 에이전트 협업으로의 확장을 복잡한 태스크용 향후 과제로 명시(완전 검증은 미완).",
+            "더 어렵고 현실적인 데이터셋(예: Copilot Evaluation Harness)으로 평가 확장 필요.",
+            "가장 빈번한(most prevalent) 잘못된 명령은 에이전트가 자연어와 코드/명령을 섞어 출력하는 파싱 문제.",
+            "Docker 기반 평가 환경이 직접 CLI 대비 오버헤드가 커 'major execution cost'(주요 실행 비용) 요인이며, 다중 추론 호출도 단일 호출 방식 대비 비용 증가 요인.",
+            "human-in-the-loop의 더 깊은 통합, IDE 챗봇화, CI/CD·PR 리뷰 플랫폼 통합은 향후 과제."
+          ],
+          "by_claude": [
+            "결과표에서 LATS/Reflexion을 'Extra Training 필요'로 표기(원문 확인됨)했으나, 두 방법은 사실상 추론 시점의 탐색(MCTS)·언어적 피드백 기법에 가까워 '학습'이라는 프레이밍은 논쟁의 여지가 있음(정의 관점에 따라 해석 상이).",
+            "평가가 HumanEval 단일 벤치마크·단일 에이전트에 국한되어, 프레임워크의 핵심 세일즈포인트인 실제 리포지토리 규모의 멀티파일/의존성 태스크·다중 에이전트·git 워크플로 성능은 정량 미검증.",
+            "zero-shot 베이스라인 67.0%는 gpt-4-1106-preview의 통상 HumanEval 성능 대비 낮은 편이라, 베이스라인 프롬프트/설정 조건 확인 필요(본문 상세 부족).",
+            "guardrails(허용/제한 명령·YAML)의 실제 보안·프라이버시 효과나 우회 사례에 대한 정량 평가는 본문에 부재.",
+            "테스트생성에서 '통과 테스트 커버리지'는 베이스라인과 사실상 동일(~99.3%)하므로, 개선의 본질은 커버리지가 아니라 통과율(Pass@1)에 있음을 유의."
+          ]
+        },
+        "reproducibility": {
+          "code": "비공개/불명 — 논문 본문(arXiv HTML v1)에 코드·리포지토리 링크·오픈소스 공개 계획 언급 없음. 공식 레포/스타 수 확인 불가.",
+          "weights": "해당 없음 — 자체 학습 모델 없이 GPT-4 API(gpt-4-1106-preview) 사용.",
+          "data": "부분 공개 — HumanEval은 공개 데이터셋이나, 테스트생성 변형본/스캐폴딩·하니스 스크립트 공개 여부는 불명.",
+          "license": "불명 — 라이선스 명시 없음(저자진은 Microsoft 소속으로 알려진 연구자들이며 사내 프로토타입으로 추정, 본문에 라이선스·공개 조항 없음).",
+          "note": "arXiv HTML 본문(섹션·결과표 인용 포함)까지 대조 확인함(초록 기반 아님). 재현하려면 GPT-4 API 접근, Docker 샌드박스, YAML guardrail 설정, HumanEval 하니스 및 테스트생성 변형을 직접 재구성해야 하며 저자 제공 코드는 확인되지 않음."
+        },
+        "my_learning_points": [
+          "에이전트에 '도구 = 명령 카테고리(편집/검색/빌드/테스트/git/통신)'로 노출하고 실행 로그(파일 내용·컴파일러 출력·테스트/정적분석 결과)를 다시 컨텍스트로 되먹이는 폐루프 설계를 그대로 벤치마킹할 것 — LLM 단독 생성보다 반복 실행·검증이 Pass@1을 67%→91.5%로 끌어올린 핵심.",
+          "YAML 기반 allow/deny guardrail + Docker 샌드박스를 코딩 에이전트의 기본 안전장치로 채택하되, Docker가 본문서 '주요 실행 비용'으로 지목된 만큼 컨테이너 재사용/캐싱 등 오버헤드 절감 전략을 함께 설계할 것.",
+          "'자연어와 명령 혼합'이 최빈 실패 원인이었으므로, 에이전트 출력 포맷을 엄격히 강제(구조화 파서·정규식/함수호출 스키마)하고 잘못된 명령 비율(여기선 태스크당 0.25)을 상시 평가 지표로 추적할 것."
+        ],
+        "related_work": {
+          "prior": [
+            {
+              "name": "Auto-GPT",
+              "relation": "GPT+동반봇으로 목표 자율 수행; AutoDev은 이를 SE 특화 도구로 확장"
+            },
+            {
+              "name": "LATS (Language Agent Tree Search)",
+              "relation": "MCTS 기반 계획·행동·추론; HumanEval 94.4%로 상위 비교군(원문서 Extra Training으로 분류)"
+            },
+            {
+              "name": "Reflexion",
+              "relation": "언어적 피드백을 에피소드 메모리로 강화; 91.0% 비교군(원문서 Extra Training으로 분류)"
+            },
+            {
+              "name": "AutoGen",
+              "relation": "LLM 워크플로·다중 에이전트 대화 오케스트레이션; AutoDev은 직접 리포 조작 능력을 추가"
+            },
+            {
+              "name": "GitHub Copilot",
+              "relation": "기존 AI 코딩 어시스턴트지만 빌드/테스트/실행/git 등 전체 IDE 기능 미활용 — AutoDev의 문제의식 출발점"
+            }
+          ],
+          "followup": [
+            {
+              "name": "Copilot Evaluation Harness",
+              "relation": "저자들이 향후 더 현실적 평가로 확장하겠다고 본문에 명시한 벤치마크(후속 방향)"
+            },
+            {
+              "name": "SWE-bench 계열 리포지토리 레벨 에이전트",
+              "relation": "AutoDev이 목표한 실제 리포 규모 자율 SE의 후속 흐름으로 이어짐(Claude 관점 맥락화, 원문 언급 아님)"
+            }
+          ]
+        },
+        "claude_note": "arXiv HTML 본문(섹션·결과표·한계 인용 포함)까지 대조 검증한 분석이며 초록 기반이 아니다. Microsoft 소속 연구진(Tufano 외 4인)의 이 논문은 '전체 IDE 기능을 명령 도구로 노출 + Docker 샌드박스 + YAML guardrail'이라는 실용적 아키텍처를 제시하고 HumanEval에서 코드생성 91.5%/테스트생성 87.8% Pass@1을 보고하며, 초안의 모든 정량 수치는 원문과 일치함을 확인했다. 다만 기여는 새 모델·알고리즘이 아니라 잘 설계된 에이전트-도구 오케스트레이션 프레임워크에 가깝고, 평가가 HumanEval 단일·단일 에이전트에 국한되어 프레임워크의 핵심 세일즈포인트(다중 에이전트·현실 리포 규모·git 워크플로)는 정작 정량 검증이 얇다는 한계가 뚜렷하다. 코드/데이터 공개나 라이선스 언급이 없어 재현성은 보수적으로 '비공개/불명'으로 보아야 하며, LATS/Reflexion을 'Extra Training'으로 분류한 비교 프레이밍과 zero-shot 67% 베이스라인의 이례적 저점은 재확인 여지가 있다. 학습 자료로는 '실행 로그 되먹임 폐루프'와 'guardrail+샌드박스' 설계 패턴을 벤치마킹하는 용도로 가치가 높다.",
+        "analyzed_at": "2026-07-13"
+      }
+    },
+    "2407.16741": {
+      "tier2": {
+        "method_detail": "OpenHands(구 OpenDevin)는 코딩·명령줄·웹 브라우징을 사람 개발자처럼 수행하는 AI 에이전트를 만들기 위한 오픈 플랫폼으로, 핵심 추상화는 단일 step(self, state: State) 함수와 이벤트 스트림(event stream)이다. 이벤트 스트림은 과거 행동(Action)과 관찰(Observation)을 시간순으로 누적한 State의 핵심 요소로, 사용자 지시/피드백·멀티에이전트 위임 메타데이터까지 담는다. 행동 원시 타입은 IPythonRunCellAction(샌드박스 내 Python 실행), CmdRunAction(bash 실행), BrowserInteractiveAction(BrowserGym DSL 기반 웹 조작), 그리고 AgentDelegateAction·MessageAction·AgentFinishAction 등으로 정의된다. 실행 격리는 Agent Runtime으로, Docker 샌드박스 위에서 bash 쉘, Jupyter IPython 서버, Playwright 기반 Chromium을 제공한다. AgentSkills는 기본 bash/Python으로 얻기 어려운 유틸리티 툴박스로 edit_file, scroll_up/scroll_down, parse_image(비전-언어 모델 기반), parse_pdf 등을 제공한다. 멀티에이전트 협업은 AgentDelegateAction으로 구현되어 범용 CodeActAgent가 웹 태스크를 BrowsingAgent에게 위임할 수 있으며, 커뮤니티 에이전트 구현은 AgentHub에 모인다. 이 이벤트 스트림 + Docker 런타임 + AgentSkills + 위임 구조가 새 에이전트 구현·평가를 표준화하는 프레임워크를 이룬다.",
+        "experiment_setup": [
+          "벤치마크: 총 15개를 3범주로 통합 - 소프트웨어(SWE-Bench, HumanEvalFix, BIRD, BioCoder, ML-Bench, Gorilla APIBench, ToolQA), 웹(WebArena, MiniWoB++), 기타 보조(GAIA, GPQA, AgentBench, MINT, ProofWriter, Entity Deduction Arena)",
+          "평가 에이전트: CodeActAgent(v1.5/v1.8), BrowsingAgent(v1.0), GPTSwarm(v1.0) 등을 플랫폼에 재구현/통합",
+          "사용 LLM: 주로 gpt-4o(2024-05-13), claude-3-5-sonnet(20240620), gpt-4o-mini 등 프롬프트 기반(추가 파인튜닝 없음)",
+          "핵심 결과 - SWE-Bench Lite(300, 힌트 없음): CodeActAgent v1.8 + claude-3.5-sonnet = 26.0% resolve (gpt-4o 22.0%, gpt-4o-mini 7.0%) [원문 확인됨]",
+          "핵심 결과 - WebArena(812): BrowsingAgent v1.0 + claude-3.5-sonnet = 15.5% success (gpt-4o 14.8%, gpt-4o-mini 8.5%; WebArena 원논문 gpt-4-turbo baseline 14.4% 수준으로 대등) [원문 확인됨]",
+          "핵심 결과 - MiniWoB++(125 env): BrowsingAgent v1.0 + gpt-4o = 40.8%; 전문 모델 CC-NET(RL+human BC) 91.1%와 대비 [원문 확인됨]",
+          "핵심 결과 - GAIA L1 검증셋(53): GPTSwarm v1.0 + gpt-4o = 32.1% [원문 확인됨]",
+          "기타 보고 결과: HumanEvalFix 79.3%(CodeActAgent v1.5, gpt-4o, 0-shot), GPQA diamond 52.0%(v1.8, claude-3.5-sonnet), ML-Bench 76.5%(v1.5, gpt-4o, 68 인스턴스), AgentBench OS 57.6%(v1.5, gpt-4o, 144 인스턴스) [원문 확인됨]",
+          "비교군: 전문(specialist) 에이전트(SWE-Agent, AutoCodeRover, Aider 등) 및 전용 학습 모델(MiniWoB++의 CC-NET 등)과 대조"
+        ],
+        "datasets": [
+          {
+            "name": "SWE-Bench (Lite)",
+            "scale": "300 instances (Lite; full 2,294)",
+            "domain": "GitHub 이슈 해결/버그 수정 소프트웨어 엔지니어링"
+          },
+          {
+            "name": "WebArena",
+            "scale": "812 tasks",
+            "domain": "멀티도메인 실사이트 웹 브라우징/조작"
+          },
+          {
+            "name": "MiniWoB++",
+            "scale": "125 environments",
+            "domain": "합성 미니멀 웹 인터페이스 조작"
+          },
+          {
+            "name": "HumanEvalFix",
+            "scale": "164 Python instances",
+            "domain": "테스트 기반 버그 수정 코딩"
+          },
+          {
+            "name": "GAIA",
+            "scale": "466 curated tasks(3 난이도); L1 검증 53 평가",
+            "domain": "다능력 범용 어시스턴트"
+          },
+          {
+            "name": "GPQA (diamond)",
+            "scale": "198 instances",
+            "domain": "대학원 수준 과학 추론 QA"
+          },
+          {
+            "name": "AgentBench (OS subset)",
+            "scale": "144 bash instances",
+            "domain": "OS/bash 커맨드라인 상호작용"
+          },
+          {
+            "name": "BIRD",
+            "scale": "300 (dev set)",
+            "domain": "text-to-SQL"
+          },
+          {
+            "name": "BioCoder",
+            "scale": "157 Python + 50 Java",
+            "domain": "생명정보 코딩"
+          },
+          {
+            "name": "ML-Bench",
+            "scale": "68 instances (subset)",
+            "domain": "ML 리포지토리 코드 실행"
+          },
+          {
+            "name": "Gorilla APIBench",
+            "scale": "1,775 instances",
+            "domain": "API 선택"
+          },
+          {
+            "name": "MINT",
+            "scale": "225(math) + 136(code)",
+            "domain": "다중턴 도구 사용/추론"
+          },
+          {
+            "name": "ProofWriter",
+            "scale": "600 (5-hop)",
+            "domain": "논리 추론"
+          },
+          {
+            "name": "Entity Deduction Arena",
+            "scale": "200 (Things 100 + Celebrities 100)",
+            "domain": "전략적 질의 추론"
+          }
+        ],
+        "limitations": {
+          "by_authors": [
+            "현재 에이전트가 복잡·장기(long-horizon) 태스크에서 여전히 고전함(능력 상한 존재)",
+            "긴 파일 편집(long file editing) 등 특정 상황에서 성능 저하가 존재함",
+            "이미지/비디오 등 멀티모달(비전-언어) 지원이 미흡 - 향후 과제로 명시",
+            "웹 브라우징이 전문 에이전트/전용 학습 모델(예: MiniWoB++ CC-NET 91.1%) 대비 크게 열세(BrowsingAgent 40.8%, WebArena 15.5%)",
+            "안전(safety) 측면 우려 및 현 AI 에이전트가 실세계 태스크를 신뢰성 있게 수행하기 어렵다는 점 인정"
+          ],
+          "by_claude": [
+            "SWE-Bench 전체(2,294)가 아닌 Lite(300) 위주 보고이며 절대 성능(26.0%)은 신뢰성 있는 실무 자동화 수준과는 거리가 있어 상한 해석에 주의",
+            "최고 성능이 폐쇄형 상용 LLM(gpt-4o, claude-3.5-sonnet)에 크게 의존 - '오픈 플랫폼' 정체성과 성능 원천 사이에 긴장. 오픈웨이트 모델 성능은 본문 확인 필요",
+            "각 벤치마크의 세부 세팅(shot 수, 재시도 정책, 프롬프트) 및 baseline 공정성은 표를 직접 대조해야 완전 판단 가능",
+            "버전이 빠르게 바뀌어(v1.5 vs v1.8) 논문 수치와 현재 레포 성능/설계가 어긋날 수 있어 재현 시 커밋+모델 버전 고정 필요",
+            "도메인별 최고점은 여전히 전문 에이전트/전용 학습 모델에 미달 - '제너럴리스트'의 대가로서 범용성-성능 트레이드오프가 명시적으로 존재"
+          ]
+        },
+        "reproducibility": {
+          "code": "공개",
+          "weights": "해당없음(플랫폼/프레임워크로 자체 학습 가중치 없음; 상용/오픈 LLM API를 백엔드로 사용)",
+          "data": "공개(평가 벤치마크는 모두 공개된 외부 데이터셋을 통합; 통합 하네스가 레포에 포함)",
+          "license": "MIT",
+          "note": "GitHub: All-Hands-AI/OpenHands. v3 본문 기준 32K stars, 2.1K+ contributions, 188+ contributors(초록의 초기 수치 1.3K/160+ 대비 갱신됨). Docker 이미지 기반 런타임으로 환경 재현성 높음. ICLR 2025 채택(arXiv Comments 필드에서 확인). SWE-Bench 전체 2,294 인스턴스 실행 비용은 인스턴스당 $3 보수 추정 시 약 $6.9k로 원문 명시. OpenDevin→OpenHands 개명(f.k.a. OpenDevin)."
+        },
+        "my_learning_points": [
+          "에이전트 프레임워크 설계 시 '행동(Action)-관찰(Observation) 이벤트 스트림 + 단일 step(state: State) 함수' 추상화를 벤치마킹하라 - 새 에이전트/멀티에이전트 위임(AgentDelegateAction)을 최소 변경으로 붙일 수 있는 확장점이 된다.",
+          "코드 실행은 Docker 이미지 기반 격리 런타임(bash + IPython + Playwright)으로 감싸라 - 안전성과 환경 재현성을 동시에 확보하는 실전 패턴을 그대로 차용할 수 있다.",
+          "직접 재현 시 논문 수치가 아닌 특정 커밋 + 명시된 모델 버전(claude-3.5-sonnet@20240620 등)으로 고정하고, SWE-Bench는 Lite(300)로 소규모 검증 후 확장하라 - 전체 2,294 실행은 약 $6.9k 비용이 든다."
+        ],
+        "related_work": {
+          "prior": [
+            {
+              "name": "CodeAct (Executable Code Actions)",
+              "relation": "CodeActAgent의 기반 - 코드를 행동으로 실행하는 에이전트 패러다임"
+            },
+            {
+              "name": "SWE-Agent / SWE-Bench",
+              "relation": "핵심 소프트웨어 엔지니어링 벤치마크 및 비교 대상 전문 에이전트"
+            },
+            {
+              "name": "WebArena / BrowserGym",
+              "relation": "웹 브라우징 평가 환경 및 브라우저 행동 DSL 제공(BrowsingAgent 기반)"
+            },
+            {
+              "name": "AutoGPT / GPTSwarm / AutoGen 계열",
+              "relation": "범용/멀티에이전트 자율 에이전트의 선행 흐름 - 통합·비교 대상"
+            },
+            {
+              "name": "Devin (Cognition AI)",
+              "relation": "초기 영감을 준 클로즈드 AI 소프트웨어 엔지니어 - 명칭 OpenDevin의 유래"
+            }
+          ],
+          "followup": [
+            {
+              "name": "OpenHands 지속 릴리스(CodeActAgent v1.8+ 등)",
+              "relation": "논문 이후에도 레포에서 에이전트/런타임 지속 개선"
+            },
+            {
+              "name": "SWE-Bench Verified / SWE-Gym 등 후속 SE 벤치마크·학습셋",
+              "relation": "OpenHands 하네스가 후속 SE 에이전트 연구·데이터 생성의 표준 플랫폼으로 활용"
+            }
+          ]
+        },
+        "claude_note": "OpenHands(구 OpenDevin)의 가장 큰 기여는 특정 SOTA 점수가 아니라, 이벤트 스트림·Docker 런타임·AgentSkills·에이전트 위임(AgentDelegateAction/AgentHub)을 표준화해 '누구나 코딩·CLI·웹을 다루는 에이전트를 만들고 15개 벤치마크로 재평가'할 수 있게 한 오픈 인프라 그 자체다. MIT 라이선스에 32K stars, 188+ 기여자로 커뮤니티 채택이 확실하고 ICLR 2025 채택(arXiv Comments 확인)이라는 학술 검증도 받았다. 다만 SWE-Bench Lite 26.0%, WebArena 15.5%, MiniWoB++ 40.8% 같은 절대 성능은 실무 자동화와 거리가 있고, 특히 웹 도메인은 전용 학습 모델 CC-NET 91.1%에 크게 미달해 '제너럴리스트'의 성능 타협이 뚜렷하다. 또한 최고 성능이 폐쇄형 상용 LLM에 종속되어 '오픈 플랫폼' 정체성과 성능 원천 사이에 긴장이 있다. 종합하면 성능 논문이라기보다 '에이전트 연구의 공통 실험대'를 제시한 인프라 논문으로 읽는 것이 정확하며, 후속 SE 에이전트/데이터 연구의 사실상 표준 하네스가 되었다는 점에서 영향력이 크다.",
+        "analyzed_at": "2026-07-06"
+      }
+    }
+  }
+}

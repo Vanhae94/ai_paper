@@ -1,0 +1,812 @@
+[
+  {
+    "paper": {
+      "id": "2604.14141",
+      "authors": [
+        {
+          "_id": "69e090265b704445ba50b80b",
+          "name": "Lin-Zhuo Chen",
+          "hidden": false
+        },
+        {
+          "_id": "69e090265b704445ba50b80c",
+          "name": "Jian Gao",
+          "hidden": false
+        },
+        {
+          "_id": "69e090265b704445ba50b80d",
+          "name": "Yihang Chen",
+          "hidden": false
+        },
+        {
+          "_id": "69e090265b704445ba50b80e",
+          "user": {
+            "_id": "64acd2ec39fcfebff8c79c00",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/64acd2ec39fcfebff8c79c00/Avq66l5hO-aggNtk4Y1ss.png",
+            "isPro": false,
+            "fullname": "Ka Leong Cheng",
+            "user": "felixcheng97",
+            "type": "user",
+            "name": "felixcheng97"
+          },
+          "name": "Ka Leong Cheng",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2026-04-16T20:26:44.373Z",
+          "hidden": false
+        },
+        {
+          "_id": "69e090265b704445ba50b80f",
+          "name": "Yipengjing Sun",
+          "hidden": false
+        },
+        {
+          "_id": "69e090265b704445ba50b810",
+          "name": "Liangxiao Hu",
+          "hidden": false
+        },
+        {
+          "_id": "69e090265b704445ba50b811",
+          "name": "Nan Xue",
+          "hidden": false
+        },
+        {
+          "_id": "69e090265b704445ba50b812",
+          "name": "Xing Zhu",
+          "hidden": false
+        },
+        {
+          "_id": "69e090265b704445ba50b813",
+          "name": "Yujun Shen",
+          "hidden": false
+        },
+        {
+          "_id": "69e090265b704445ba50b814",
+          "name": "Yao Yao",
+          "hidden": false
+        },
+        {
+          "_id": "69e090265b704445ba50b815",
+          "name": "Yinghao Xu",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2026-04-15T00:00:00.000Z",
+      "submittedOnDailyAt": "2026-04-16T00:00:00.000Z",
+      "title": "Geometric Context Transformer for Streaming 3D Reconstruction",
+      "submittedOnDailyBy": {
+        "_id": "5f1158120c833276f61f1a84",
+        "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/1608042047613-5f1158120c833276f61f1a84.jpeg",
+        "isPro": false,
+        "fullname": "Niels Rogge",
+        "user": "nielsr",
+        "type": "user",
+        "name": "nielsr"
+      },
+      "summary": "Streaming 3D reconstruction aims to recover 3D information, such as camera poses and point clouds, from a video stream, which necessitates geometric accuracy, temporal\n  consistency, and computational efficiency. Motivated by the principles of Simultaneous Localization and Mapping (SLAM), we introduce LingBot-Map, a feed-forward 3D foundation\n  model for reconstructing scenes from streaming data, built upon a geometric context transformer (GCT) architecture. A defining aspect of LingBot-Map lies in its carefully\n  designed attention mechanism, which integrates an anchor context, a pose-reference window, and a trajectory memory to address coordinate grounding, dense geometric cues, and\n  long-range drift correction, respectively. This design keeps the streaming state compact while retaining rich geometric context, enabling stable efficient inference at around\n  20 FPS on 518 x 378 resolution inputs over long sequences exceeding 10,000 frames. Extensive evaluations across a variety of benchmarks demonstrate that our approach\n  achieves superior performance compared to both existing streaming and iterative optimization-based approaches.",
+      "upvotes": 29,
+      "discussionId": "69e090275b704445ba50b816",
+      "projectPage": "https://technology.robbyant.com/lingbot-map",
+      "githubRepo": "https://github.com/robbyant/lingbot-map",
+      "githubRepoAddedBy": "user",
+      "ai_summary": "LingBot-Map is a feed-forward 3D foundation model that reconstructs scenes from video streams using a geometric context transformer architecture with specialized attention mechanisms for coordinate grounding, dense geometric cues, and long-range drift correction, achieving stable real-time performance at 20 FPS.",
+      "ai_keywords": [
+        "Simultaneous Localization and Mapping",
+        "feed-forward 3D foundation model",
+        "geometric context transformer",
+        "attention mechanism",
+        "anchor context",
+        "pose-reference window",
+        "trajectory memory",
+        "coordinate grounding",
+        "dense geometric cues",
+        "long-range drift correction"
+      ],
+      "ai_summary_model": "Qwen/Qwen2.5-Coder-32B-Instruct",
+      "githubStars": 13561,
+      "organization": {
+        "_id": "69709f892cd08371c1011a2e",
+        "name": "robbyant",
+        "fullname": "Robbyant",
+        "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/67aeffda7330db26f93cd62f/ZTuImney4XzRmBHyUL47F.png"
+      }
+    },
+    "publishedAt": "2026-04-14T20:00:00.000Z",
+    "title": "Geometric Context Transformer for Streaming 3D Reconstruction",
+    "summary": "Streaming 3D reconstruction aims to recover 3D information, such as camera poses and point clouds, from a video stream, which necessitates geometric accuracy, temporal\n  consistency, and computational efficiency. Motivated by the principles of Simultaneous Localization and Mapping (SLAM), we introduce LingBot-Map, a feed-forward 3D foundation\n  model for reconstructing scenes from streaming data, built upon a geometric context transformer (GCT) architecture. A defining aspect of LingBot-Map lies in its carefully\n  designed attention mechanism, which integrates an anchor context, a pose-reference window, and a trajectory memory to address coordinate grounding, dense geometric cues, and\n  long-range drift correction, respectively. This design keeps the streaming state compact while retaining rich geometric context, enabling stable efficient inference at around\n  20 FPS on 518 x 378 resolution inputs over long sequences exceeding 10,000 frames. Extensive evaluations across a variety of benchmarks demonstrate that our approach\n  achieves superior performance compared to both existing streaming and iterative optimization-based approaches.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2604.14141.png",
+    "numComments": 3,
+    "submittedBy": {
+      "_id": "5f1158120c833276f61f1a84",
+      "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/1608042047613-5f1158120c833276f61f1a84.jpeg",
+      "fullname": "Niels Rogge",
+      "name": "nielsr",
+      "type": "user",
+      "isPro": false,
+      "isHf": true,
+      "isHfAdmin": false,
+      "isMod": false,
+      "followerCount": 1257,
+      "isUserFollowing": false
+    },
+    "organization": {
+      "_id": "69709f892cd08371c1011a2e",
+      "name": "robbyant",
+      "fullname": "Robbyant",
+      "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/67aeffda7330db26f93cd62f/ZTuImney4XzRmBHyUL47F.png"
+    },
+    "isAuthorParticipating": true
+  },
+  {
+    "paper": {
+      "id": "2412.20138",
+      "authors": [
+        {
+          "_id": "6847673b3ec10bdd8ab4dd5e",
+          "name": "Yijia Xiao",
+          "hidden": false
+        },
+        {
+          "_id": "6847673b3ec10bdd8ab4dd5f",
+          "name": "Edward Sun",
+          "hidden": false
+        },
+        {
+          "_id": "6847673b3ec10bdd8ab4dd60",
+          "name": "Di Luo",
+          "hidden": false
+        },
+        {
+          "_id": "6847673b3ec10bdd8ab4dd61",
+          "name": "Wei Wang",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2024-12-28T12:54:06.000Z",
+      "title": "TradingAgents: Multi-Agents LLM Financial Trading Framework",
+      "summary": "Significant progress has been made in automated problem-solving using\nsocieties of agents powered by large language models (LLMs). In finance,\nefforts have largely focused on single-agent systems handling specific tasks or\nmulti-agent frameworks independently gathering data. However, the multi-agent\nsystems' potential to replicate real-world trading firms' collaborative\ndynamics remains underexplored. TradingAgents proposes a novel stock trading\nframework inspired by trading firms, featuring LLM-powered agents in\nspecialized roles such as fundamental analysts, sentiment analysts, technical\nanalysts, and traders with varied risk profiles. The framework includes Bull\nand Bear researcher agents assessing market conditions, a risk management team\nmonitoring exposure, and traders synthesizing insights from debates and\nhistorical data to make informed decisions. By simulating a dynamic,\ncollaborative trading environment, this framework aims to improve trading\nperformance. Detailed architecture and extensive experiments reveal its\nsuperiority over baseline models, with notable improvements in cumulative\nreturns, Sharpe ratio, and maximum drawdown, highlighting the potential of\nmulti-agent LLM frameworks in financial trading. TradingAgents is available at\nhttps://github.com/TauricResearch/TradingAgents.",
+      "upvotes": 115,
+      "discussionId": "6847673c3ec10bdd8ab4dd62",
+      "githubRepo": "https://github.com/tauricresearch/tradingagents",
+      "githubRepoAddedBy": "auto",
+      "ai_summary": "A multi-agent framework using large language models for stock trading simulates real-world trading firms, improving performance metrics like cumulative returns and Sharpe ratio.",
+      "ai_keywords": [
+        "large language models",
+        "LLM",
+        "multi-agent systems",
+        "fundamental analysts",
+        "sentiment analysts",
+        "technical analysts",
+        "traders",
+        "risk management",
+        "cumulative returns",
+        "Sharpe ratio",
+        "maximum drawdown"
+      ],
+      "ai_summary_model": "Qwen/Qwen2.5-Coder-32B-Instruct",
+      "githubStars": 93667
+    },
+    "publishedAt": "2024-12-28T07:54:06.000Z",
+    "title": "TradingAgents: Multi-Agents LLM Financial Trading Framework",
+    "summary": "Significant progress has been made in automated problem-solving using\nsocieties of agents powered by large language models (LLMs). In finance,\nefforts have largely focused on single-agent systems handling specific tasks or\nmulti-agent frameworks independently gathering data. However, the multi-agent\nsystems' potential to replicate real-world trading firms' collaborative\ndynamics remains underexplored. TradingAgents proposes a novel stock trading\nframework inspired by trading firms, featuring LLM-powered agents in\nspecialized roles such as fundamental analysts, sentiment analysts, technical\nanalysts, and traders with varied risk profiles. The framework includes Bull\nand Bear researcher agents assessing market conditions, a risk management team\nmonitoring exposure, and traders synthesizing insights from debates and\nhistorical data to make informed decisions. By simulating a dynamic,\ncollaborative trading environment, this framework aims to improve trading\nperformance. Detailed architecture and extensive experiments reveal its\nsuperiority over baseline models, with notable improvements in cumulative\nreturns, Sharpe ratio, and maximum drawdown, highlighting the potential of\nmulti-agent LLM frameworks in financial trading. TradingAgents is available at\nhttps://github.com/TauricResearch/TradingAgents.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2412.20138.png",
+    "numComments": 4,
+    "isAuthorParticipating": false
+  },
+  {
+    "paper": {
+      "id": "2509.02523",
+      "authors": [
+        {
+          "_id": "68b7aecd295f15ff609112c5",
+          "user": {
+            "_id": "6330f53cb68c7453d2ee8785",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/6330f53cb68c7453d2ee8785/5SemTL_5L_IKuzlO7hM--.jpeg",
+            "isPro": true,
+            "fullname": "Evan King",
+            "user": "evanking",
+            "type": "user",
+            "name": "evanking"
+          },
+          "name": "Evan King",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2025-09-03T19:25:52.487Z",
+          "hidden": false
+        },
+        {
+          "_id": "68b7aecd295f15ff609112c6",
+          "user": {
+            "_id": "623778e77c45100513d8621c",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/623778e77c45100513d8621c/gFtspOwmDozjPMzcObTqU.jpeg",
+            "isPro": false,
+            "fullname": "Adam Sabra",
+            "user": "theadamsabra",
+            "type": "user",
+            "name": "theadamsabra"
+          },
+          "name": "Adam Sabra",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2025-09-03T19:25:55.032Z",
+          "hidden": false
+        },
+        {
+          "_id": "68b7aecd295f15ff609112c7",
+          "name": "Manjunath Kudlur",
+          "hidden": false
+        },
+        {
+          "_id": "68b7aecd295f15ff609112c8",
+          "name": "James Wang",
+          "hidden": false
+        },
+        {
+          "_id": "68b7aecd295f15ff609112c9",
+          "name": "Pete Warden",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2025-09-02T17:22:54.000Z",
+      "submittedOnDailyAt": "2025-09-03T00:00:00.000Z",
+      "title": "Flavors of Moonshine: Tiny Specialized ASR Models for Edge Devices",
+      "submittedOnDailyBy": {
+        "_id": "6330f53cb68c7453d2ee8785",
+        "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/6330f53cb68c7453d2ee8785/5SemTL_5L_IKuzlO7hM--.jpeg",
+        "isPro": true,
+        "fullname": "Evan King",
+        "user": "evanking",
+        "type": "user",
+        "name": "evanking"
+      },
+      "summary": "We present the Flavors of Moonshine, a suite of tiny automatic speech\nrecognition (ASR) models specialized for a range of underrepresented languages.\nPrevailing wisdom suggests that multilingual ASR models outperform monolingual\ncounterparts by exploiting cross-lingual phonetic similarities. We challenge\nthis assumption, showing that for sufficiently small models (27M parameters),\ntraining monolingual systems on a carefully balanced mix of high-quality\nhuman-labeled, pseudo-labeled, and synthetic data yields substantially superior\nperformance. On average, our models achieve error rates 48% lower than the\ncomparably sized Whisper Tiny model, outperform the 9x larger Whisper Small\nmodel, and in most cases match or outperform the 28x larger Whisper Medium\nmodel. These results advance the state of the art for models of this size,\nenabling accurate on-device ASR for languages that previously had limited\nsupport. We release Arabic, Chinese, Japanese, Korean, Ukrainian, and\nVietnamese Moonshine models under a permissive open-source license.",
+      "upvotes": 21,
+      "discussionId": "68b7aecd295f15ff609112ca",
+      "githubRepo": "https://github.com/moonshine-ai/moonshine",
+      "githubRepoAddedBy": "user",
+      "ai_summary": "Monolingual ASR models trained on a balanced mix of high-quality, pseudo-labeled, and synthetic data outperform multilingual models for small model sizes, achieving superior error rates and enabling on-device ASR for underrepresented languages.",
+      "ai_keywords": [
+        "automatic speech recognition",
+        "ASR",
+        "multilingual ASR",
+        "monolingual systems",
+        "human-labeled",
+        "pseudo-labeled",
+        "synthetic data",
+        "Whisper Tiny",
+        "Whisper Small",
+        "Whisper Medium",
+        "on-device ASR",
+        "underrepresented languages"
+      ],
+      "ai_summary_model": "Qwen/Qwen2.5-Coder-32B-Instruct",
+      "githubStars": 9275
+    },
+    "publishedAt": "2025-09-02T13:22:54.000Z",
+    "title": "Flavors of Moonshine: Tiny Specialized ASR Models for Edge Devices",
+    "summary": "We present the Flavors of Moonshine, a suite of tiny automatic speech\nrecognition (ASR) models specialized for a range of underrepresented languages.\nPrevailing wisdom suggests that multilingual ASR models outperform monolingual\ncounterparts by exploiting cross-lingual phonetic similarities. We challenge\nthis assumption, showing that for sufficiently small models (27M parameters),\ntraining monolingual systems on a carefully balanced mix of high-quality\nhuman-labeled, pseudo-labeled, and synthetic data yields substantially superior\nperformance. On average, our models achieve error rates 48% lower than the\ncomparably sized Whisper Tiny model, outperform the 9x larger Whisper Small\nmodel, and in most cases match or outperform the 28x larger Whisper Medium\nmodel. These results advance the state of the art for models of this size,\nenabling accurate on-device ASR for languages that previously had limited\nsupport. We release Arabic, Chinese, Japanese, Korean, Ukrainian, and\nVietnamese Moonshine models under a permissive open-source license.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2509.02523.png",
+    "numComments": 1,
+    "submittedBy": {
+      "_id": "6330f53cb68c7453d2ee8785",
+      "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/6330f53cb68c7453d2ee8785/5SemTL_5L_IKuzlO7hM--.jpeg",
+      "fullname": "Evan King",
+      "name": "evanking",
+      "type": "user",
+      "isPro": true,
+      "isHf": false,
+      "isHfAdmin": false,
+      "isMod": false,
+      "followerCount": 5,
+      "isUserFollowing": false
+    },
+    "isAuthorParticipating": true
+  },
+  {
+    "paper": {
+      "id": "2410.15608",
+      "authors": [
+        {
+          "_id": "671703d403f25f168064c517",
+          "name": "Nat Jeffries",
+          "hidden": false
+        },
+        {
+          "_id": "671703d403f25f168064c518",
+          "user": {
+            "_id": "6330f53cb68c7453d2ee8785",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/6330f53cb68c7453d2ee8785/5SemTL_5L_IKuzlO7hM--.jpeg",
+            "isPro": true,
+            "fullname": "Evan King",
+            "user": "evanking",
+            "type": "user",
+            "name": "evanking"
+          },
+          "name": "Evan King",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2024-10-22T08:01:04.576Z",
+          "hidden": false
+        },
+        {
+          "_id": "671703d403f25f168064c519",
+          "name": "Manjunath Kudlur",
+          "hidden": false
+        },
+        {
+          "_id": "671703d403f25f168064c51a",
+          "name": "Guy Nicholson",
+          "hidden": false
+        },
+        {
+          "_id": "671703d403f25f168064c51b",
+          "name": "James Wang",
+          "hidden": false
+        },
+        {
+          "_id": "671703d403f25f168064c51c",
+          "name": "Pete Warden",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2024-10-21T03:13:20.000Z",
+      "title": "Moonshine: Speech Recognition for Live Transcription and Voice Commands",
+      "summary": "This paper introduces Moonshine, a family of speech recognition models\noptimized for live transcription and voice command processing. Moonshine is\nbased on an encoder-decoder transformer architecture and employs Rotary\nPosition Embedding (RoPE) instead of traditional absolute position embeddings.\nThe model is trained on speech segments of various lengths, but without using\nzero-padding, leading to greater efficiency for the encoder during inference\ntime. When benchmarked against OpenAI's Whisper tiny.en, Moonshine Tiny\ndemonstrates a 5x reduction in compute requirements for transcribing a\n10-second speech segment while incurring no increase in word error rates across\nstandard evaluation datasets. These results highlight Moonshine's potential for\nreal-time and resource-constrained applications.",
+      "upvotes": 12,
+      "discussionId": "671703d503f25f168064c558",
+      "githubRepo": "https://github.com/usefulsensors/moonshine",
+      "githubRepoAddedBy": "auto",
+      "ai_summary": "Moonshine, an encoder-decoder transformer architecture for speech recognition, uses Rotary Position Embedding, reducing compute requirements without decreasing accuracy.",
+      "ai_keywords": [
+        "encoder-decoder transformer",
+        "Rotary Position Embedding",
+        "zero-padding"
+      ],
+      "ai_summary_model": "Qwen/Qwen2.5-Coder-32B-Instruct",
+      "githubStars": 9233
+    },
+    "publishedAt": "2024-10-20T23:13:20.000Z",
+    "title": "Moonshine: Speech Recognition for Live Transcription and Voice Commands",
+    "summary": "This paper introduces Moonshine, a family of speech recognition models\noptimized for live transcription and voice command processing. Moonshine is\nbased on an encoder-decoder transformer architecture and employs Rotary\nPosition Embedding (RoPE) instead of traditional absolute position embeddings.\nThe model is trained on speech segments of various lengths, but without using\nzero-padding, leading to greater efficiency for the encoder during inference\ntime. When benchmarked against OpenAI's Whisper tiny.en, Moonshine Tiny\ndemonstrates a 5x reduction in compute requirements for transcribing a\n10-second speech segment while incurring no increase in word error rates across\nstandard evaluation datasets. These results highlight Moonshine's potential for\nreal-time and resource-constrained applications.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2410.15608.png",
+    "numComments": 0,
+    "isAuthorParticipating": false
+  },
+  {
+    "paper": {
+      "id": "2407.16741",
+      "authors": [
+        {
+          "_id": "66a1b11eca8ee359d60b5b99",
+          "user": {
+            "_id": "62c63f31031996c36c848504",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/62c63f31031996c36c848504/xZvH6jnozuFLXbtRSU-h1.jpeg",
+            "isPro": false,
+            "fullname": "Xingyao Wang",
+            "user": "xingyaoww",
+            "type": "user",
+            "name": "xingyaoww"
+          },
+          "name": "Xingyao Wang",
+          "status": "extracted_confirmed",
+          "statusLastChangedAt": "2024-07-25T02:51:45.594Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5b9a",
+          "user": {
+            "_id": "664aefb990135abe9ba9b8c9",
+            "avatarUrl": "/avatars/79658c23555deadcfb097b6ebccbe4a6.svg",
+            "isPro": false,
+            "fullname": "Boxuan Li",
+            "user": "liboxuanhk",
+            "type": "user",
+            "name": "liboxuanhk"
+          },
+          "name": "Boxuan Li",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2024-07-25T07:38:14.907Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5b9b",
+          "user": {
+            "_id": "65f89af419e43f235cca48f9",
+            "avatarUrl": "/avatars/d1ff695f9a8ee0aeeff324fb7f07a811.svg",
+            "isPro": false,
+            "fullname": "Yufan Song",
+            "user": "yufansong",
+            "type": "user",
+            "name": "yufansong"
+          },
+          "name": "Yufan Song",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2024-07-25T07:51:32.404Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5b9c",
+          "user": {
+            "_id": "61ac0a0f57307cf7ae3a35bb",
+            "avatarUrl": "/avatars/c3b00cf275b2805861f5b020c9d00639.svg",
+            "isPro": false,
+            "fullname": "Frank Xu",
+            "user": "frankxu",
+            "type": "user",
+            "name": "frankxu"
+          },
+          "name": "Frank F. Xu",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2024-07-25T07:51:55.018Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5b9d",
+          "user": {
+            "_id": "63357c608adfa81faf2ac180",
+            "avatarUrl": "/avatars/ae0314c644f882251baf59b9134fd36f.svg",
+            "isPro": false,
+            "fullname": "Xiangru Tang",
+            "user": "RTT1",
+            "type": "user",
+            "name": "RTT1"
+          },
+          "name": "Xiangru Tang",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2024-07-25T07:52:01.459Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5b9e",
+          "user": {
+            "_id": "64403daae44f30a72323e4ca",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/64403daae44f30a72323e4ca/skJ9h0pdNfmE4VbQL8xDR.png",
+            "isPro": false,
+            "fullname": "mingchen zhuge",
+            "user": "tjpxiaoming",
+            "type": "user",
+            "name": "tjpxiaoming"
+          },
+          "name": "Mingchen Zhuge",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2024-07-25T07:52:12.418Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5b9f",
+          "user": {
+            "_id": "61568f37272f2d87a99ba884",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/61568f37272f2d87a99ba884/lgvkl5f0rEyiQRVU5FE32.png",
+            "isPro": false,
+            "fullname": "Jiayi Pan",
+            "user": "Jiayi-Pan",
+            "type": "user",
+            "name": "Jiayi-Pan"
+          },
+          "name": "Jiayi Pan",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2024-07-25T07:52:19.380Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5ba0",
+          "user": {
+            "_id": "63e7bf7be02ee67e8e53f78d",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/63e7bf7be02ee67e8e53f78d/z9j1PWrurEyIA2JXzpz0i.png",
+            "isPro": false,
+            "fullname": "Yueqi Song",
+            "user": "yueqis",
+            "type": "user",
+            "name": "yueqis"
+          },
+          "name": "Yueqi Song",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2024-07-25T07:52:43.838Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5ba1",
+          "user": {
+            "_id": "664aefb990135abe9ba9b8c9",
+            "avatarUrl": "/avatars/79658c23555deadcfb097b6ebccbe4a6.svg",
+            "isPro": false,
+            "fullname": "Boxuan Li",
+            "user": "liboxuanhk",
+            "type": "user",
+            "name": "liboxuanhk"
+          },
+          "name": "Bowen Li",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2024-07-25T07:51:24.121Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5ba2",
+          "user": {
+            "_id": "60cc389a0844fb1605fef405",
+            "avatarUrl": "/avatars/ec11f85735e0525439e8821cf6d12e53.svg",
+            "isPro": false,
+            "fullname": "Jaskirat Singh",
+            "user": "jsingh",
+            "type": "user",
+            "name": "jsingh"
+          },
+          "name": "Jaskirat Singh",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2024-07-26T07:40:52.677Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5ba3",
+          "user": {
+            "_id": "65c19c3172fd754bba256112",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/65c19c3172fd754bba256112/cfgYvKfO36PSTFYKQottM.jpeg",
+            "isPro": false,
+            "fullname": "Ryan Tran",
+            "user": "ryanhoangt",
+            "type": "user",
+            "name": "ryanhoangt"
+          },
+          "name": "Hoang H. Tran",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2024-07-25T08:19:36.107Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5ba4",
+          "name": "Fuqiang Li",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5ba5",
+          "user": {
+            "_id": "62581ef5d47cce537ee25963",
+            "avatarUrl": "/avatars/d987c625791dc33c84bf9b51069bf2c8.svg",
+            "isPro": false,
+            "fullname": "Ren Ma",
+            "user": "renma",
+            "type": "user",
+            "name": "renma"
+          },
+          "name": "Ren Ma",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2025-06-11T08:40:40.377Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5ba6",
+          "name": "Mingzhang Zheng",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5ba7",
+          "user": {
+            "_id": "641fa2e0863b87326f4a7fd5",
+            "avatarUrl": "/avatars/7b29c20f942d83c08f63f04a85c15c13.svg",
+            "isPro": false,
+            "fullname": "Bill Qian",
+            "user": "lilbillbiscuit",
+            "type": "user",
+            "name": "lilbillbiscuit"
+          },
+          "name": "Bill Qian",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2024-07-25T07:54:51.696Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5ba8",
+          "user": {
+            "_id": "62970df979f193515da13dc0",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/62970df979f193515da13dc0/A-mgKIcgTXRJ54GCHswTq.jpeg",
+            "isPro": false,
+            "fullname": "Daniel",
+            "user": "super-dainiu",
+            "type": "user",
+            "name": "super-dainiu"
+          },
+          "name": "Yanjun Shao",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2024-07-25T07:55:10.708Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5ba9",
+          "user": {
+            "_id": "5f1eb362eec0ad2a071ad6e2",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/5f1eb362eec0ad2a071ad6e2/nDiBXdLrOTw67lJp_y_WA.jpeg",
+            "isPro": false,
+            "fullname": "Niklas Muennighoff",
+            "user": "Muennighoff",
+            "type": "user",
+            "name": "Muennighoff"
+          },
+          "name": "Niklas Muennighoff",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2024-07-25T07:55:16.299Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5baa",
+          "name": "Yizhe Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5bab",
+          "user": {
+            "_id": "61e4c4ca1ab24785ac11ba69",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/61e4c4ca1ab24785ac11ba69/1Q1zhhyGSJ9RJG9MzwxVv.jpeg",
+            "isPro": false,
+            "fullname": "Binyuan Hui",
+            "user": "huybery",
+            "type": "user",
+            "name": "huybery"
+          },
+          "name": "Binyuan Hui",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2024-07-25T07:55:45.961Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5bac",
+          "user": {
+            "_id": "620760a26e3b7210c2ff1943",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/620760a26e3b7210c2ff1943/VC-rKqimF6yxGESNVlPoR.jpeg",
+            "isPro": false,
+            "fullname": "Junyang Lin",
+            "user": "JustinLin610",
+            "type": "user",
+            "name": "JustinLin610"
+          },
+          "name": "Junyang Lin",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2024-07-25T07:56:17.993Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5bad",
+          "name": "Robert Brennan",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5bae",
+          "user": {
+            "_id": "660ec5a2509153ca49775a7c",
+            "avatarUrl": "/avatars/97570fc245cc8ec7628da9c13bd35b71.svg",
+            "isPro": false,
+            "fullname": "Hao Peng",
+            "user": "haopeng01",
+            "type": "user",
+            "name": "haopeng01"
+          },
+          "name": "Hao Peng",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2024-07-25T07:57:13.319Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5baf",
+          "name": "Heng Ji",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5bb0",
+          "user": {
+            "_id": "60de14638bedd2315529d43f",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/1625166923504-noauth.png",
+            "isPro": false,
+            "fullname": "Graham Neubig",
+            "user": "gneubig",
+            "type": "user",
+            "name": "gneubig"
+          },
+          "name": "Graham Neubig",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2024-07-25T07:57:35.957Z",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2024-07-23T17:50:43.000Z",
+      "submittedOnDailyAt": "2024-07-25T00:00:00.000Z",
+      "title": "OpenDevin: An Open Platform for AI Software Developers as Generalist\n  Agents",
+      "submittedOnDailyBy": {
+        "_id": "60f1abe7544c2adfd699860c",
+        "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/1674929746905-60f1abe7544c2adfd699860c.jpeg",
+        "isPro": false,
+        "fullname": "AK",
+        "user": "akhaliq",
+        "type": "user",
+        "name": "akhaliq"
+      },
+      "summary": "Software is one of the most powerful tools that we humans have at our\ndisposal; it allows a skilled programmer to interact with the world in complex\nand profound ways. At the same time, thanks to improvements in large language\nmodels (LLMs), there has also been a rapid development in AI agents that\ninteract with and affect change in their surrounding environments. In this\npaper, we introduce OpenDevin, a platform for the development of powerful and\nflexible AI agents that interact with the world in similar ways to those of a\nhuman developer: by writing code, interacting with a command line, and browsing\nthe web. We describe how the platform allows for the implementation of new\nagents, safe interaction with sandboxed environments for code execution,\ncoordination between multiple agents, and incorporation of evaluation\nbenchmarks. Based on our currently incorporated benchmarks, we perform an\nevaluation of agents over 15 challenging tasks, including software engineering\n(e.g., SWE-Bench) and web browsing (e.g., WebArena), among others. Released\nunder the permissive MIT license, OpenDevin is a community project spanning\nacademia and industry with more than 1.3K contributions from over 160\ncontributors and will improve going forward.",
+      "upvotes": 83,
+      "discussionId": "66a1b11fca8ee359d60b5bd5",
+      "githubRepo": "https://github.com/opendevin/opendevin",
+      "githubRepoAddedBy": "auto",
+      "ai_summary": "OpenDevin is a platform for developing AI agents that interact with the world by writing code, using command lines, and browsing the web, with support for multiple agents and evaluation benchmarks.",
+      "ai_keywords": [
+        "large language models",
+        "OpenDevin",
+        "AI agents",
+        "code execution",
+        "sandboxed environments",
+        "evaluation benchmarks",
+        "SWE-Bench",
+        "WebArena"
+      ],
+      "ai_summary_model": "Qwen/Qwen2.5-Coder-32B-Instruct",
+      "githubStars": 81304
+    },
+    "publishedAt": "2024-07-23T13:50:43.000Z",
+    "title": "OpenDevin: An Open Platform for AI Software Developers as Generalist\n  Agents",
+    "summary": "Software is one of the most powerful tools that we humans have at our\ndisposal; it allows a skilled programmer to interact with the world in complex\nand profound ways. At the same time, thanks to improvements in large language\nmodels (LLMs), there has also been a rapid development in AI agents that\ninteract with and affect change in their surrounding environments. In this\npaper, we introduce OpenDevin, a platform for the development of powerful and\nflexible AI agents that interact with the world in similar ways to those of a\nhuman developer: by writing code, interacting with a command line, and browsing\nthe web. We describe how the platform allows for the implementation of new\nagents, safe interaction with sandboxed environments for code execution,\ncoordination between multiple agents, and incorporation of evaluation\nbenchmarks. Based on our currently incorporated benchmarks, we perform an\nevaluation of agents over 15 challenging tasks, including software engineering\n(e.g., SWE-Bench) and web browsing (e.g., WebArena), among others. Released\nunder the permissive MIT license, OpenDevin is a community project spanning\nacademia and industry with more than 1.3K contributions from over 160\ncontributors and will improve going forward.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2407.16741.png",
+    "numComments": 7,
+    "submittedBy": {
+      "_id": "60f1abe7544c2adfd699860c",
+      "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/1674929746905-60f1abe7544c2adfd699860c.jpeg",
+      "fullname": "AK",
+      "name": "akhaliq",
+      "type": "user",
+      "isPro": false,
+      "isHf": true,
+      "isHfAdmin": false,
+      "isMod": false,
+      "followerCount": 9802,
+      "isUserFollowing": false
+    },
+    "isAuthorParticipating": true
+  },
+  {
+    "paper": {
+      "id": "2403.08299",
+      "authors": [
+        {
+          "_id": "6602aab50356f5be2d3fb892",
+          "name": "Michele Tufano",
+          "hidden": false
+        },
+        {
+          "_id": "6602aab50356f5be2d3fb893",
+          "name": "Anisha Agarwal",
+          "hidden": false
+        },
+        {
+          "_id": "6602aab50356f5be2d3fb894",
+          "name": "Jinu Jang",
+          "hidden": false
+        },
+        {
+          "_id": "6602aab50356f5be2d3fb895",
+          "name": "Roshanak Zilouchian Moghaddam",
+          "hidden": false
+        },
+        {
+          "_id": "6602aab50356f5be2d3fb896",
+          "name": "Neel Sundaresan",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2024-03-13T07:12:03.000Z",
+      "title": "AutoDev: Automated AI-Driven Development",
+      "summary": "The landscape of software development has witnessed a paradigm shift with the\nadvent of AI-powered assistants, exemplified by GitHub Copilot. However,\nexisting solutions are not leveraging all the potential capabilities available\nin an IDE such as building, testing, executing code, git operations, etc.\nTherefore, they are constrained by their limited capabilities, primarily\nfocusing on suggesting code snippets and file manipulation within a chat-based\ninterface. To fill this gap, we present AutoDev, a fully automated AI-driven\nsoftware development framework, designed for autonomous planning and execution\nof intricate software engineering tasks. AutoDev enables users to define\ncomplex software engineering objectives, which are assigned to AutoDev's\nautonomous AI Agents to achieve. These AI agents can perform diverse operations\non a codebase, including file editing, retrieval, build processes, execution,\ntesting, and git operations. They also have access to files, compiler output,\nbuild and testing logs, static analysis tools, and more. This enables the AI\nAgents to execute tasks in a fully automated manner with a comprehensive\nunderstanding of the contextual information required. Furthermore, AutoDev\nestablishes a secure development environment by confining all operations within\nDocker containers. This framework incorporates guardrails to ensure user\nprivacy and file security, allowing users to define specific permitted or\nrestricted commands and operations within AutoDev. In our evaluation, we tested\nAutoDev on the HumanEval dataset, obtaining promising results with 91.5% and\n87.8% of Pass@1 for code generation and test generation respectively,\ndemonstrating its effectiveness in automating software engineering tasks while\nmaintaining a secure and user-controlled development environment.",
+      "upvotes": 17,
+      "discussionId": "6602aab60356f5be2d3fb8b1",
+      "githubRepo": "https://github.com/vxcontrol/pentagi",
+      "githubRepoAddedBy": "auto",
+      "ai_summary": "AutoDev is an AI-driven software development framework that automates complex engineering tasks within a secure Docker environment, achieving high performance in code and test generation.",
+      "ai_keywords": [
+        "autonomous AI Agents",
+        "Docker containers",
+        "HumanEval dataset",
+        "Pass@1",
+        "code generation",
+        "test generation"
+      ],
+      "ai_summary_model": "Qwen/Qwen2.5-Coder-32B-Instruct",
+      "githubStars": 20945
+    },
+    "publishedAt": "2024-03-13T03:12:03.000Z",
+    "title": "AutoDev: Automated AI-Driven Development",
+    "summary": "The landscape of software development has witnessed a paradigm shift with the\nadvent of AI-powered assistants, exemplified by GitHub Copilot. However,\nexisting solutions are not leveraging all the potential capabilities available\nin an IDE such as building, testing, executing code, git operations, etc.\nTherefore, they are constrained by their limited capabilities, primarily\nfocusing on suggesting code snippets and file manipulation within a chat-based\ninterface. To fill this gap, we present AutoDev, a fully automated AI-driven\nsoftware development framework, designed for autonomous planning and execution\nof intricate software engineering tasks. AutoDev enables users to define\ncomplex software engineering objectives, which are assigned to AutoDev's\nautonomous AI Agents to achieve. These AI agents can perform diverse operations\non a codebase, including file editing, retrieval, build processes, execution,\ntesting, and git operations. They also have access to files, compiler output,\nbuild and testing logs, static analysis tools, and more. This enables the AI\nAgents to execute tasks in a fully automated manner with a comprehensive\nunderstanding of the contextual information required. Furthermore, AutoDev\nestablishes a secure development environment by confining all operations within\nDocker containers. This framework incorporates guardrails to ensure user\nprivacy and file security, allowing users to define specific permitted or\nrestricted commands and operations within AutoDev. In our evaluation, we tested\nAutoDev on the HumanEval dataset, obtaining promising results with 91.5% and\n87.8% of Pass@1 for code generation and test generation respectively,\ndemonstrating its effectiveness in automating software engineering tasks while\nmaintaining a secure and user-controlled development environment.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2403.08299.png",
+    "numComments": 2,
+    "isAuthorParticipating": false
+  }
+]
