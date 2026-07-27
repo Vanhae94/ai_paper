@@ -1,0 +1,220 @@
+{
+  "week_id": "2026-W31",
+  "papers": {
+    "2607.19064": {
+      "tier2": {
+        "method_detail": "Mage-Flow는 공동 설계된 두 요소로 이루어진 4B 규모 생성 스택이다. (1) Mage-VAE는 약 49M 파라미터의 경량 토크나이저로, 인코더·디코더를 모두 one-step diffusion(patch embedding + stacked convolutional diffusion blocks, 디코더는 decoupled pixel diffusion head) 방식으로 구현하고 fully-convolutional 설계로 global attention을 배제해 디코딩 비용을 해상도에 대해 거의 선형으로 유지한다. 16x 공간 압축 + 128 latent channel 구조이며, 표준 Gaussian prior 대신 FLUX.2-VAE가 유도하는 anchor latent 분포로 posterior를 정렬하는 anchor-latent 정규화로 공개 VAE급 재구성(CLIC PSNR 36.61dB/LPIPS 0.0148, FFHQ 1024^2 PSNR 40.67/LPIPS 0.0107)을 유지하면서 인코딩 173 / 디코딩 215 kMACs/pixel로 FLUX.2-VAE(2,134 / 4,798) 대비 12.3x / 22.3x 연산을 절감한다. (2) 본체는 4B Native-Resolution Multimodal Diffusion Transformer(NR-MMDiT)로 SD3식 MMDiT 블록(텍스트·이미지 토큰 concat 후 joint self-attention)에 per-sample 2D RoPE(편집은 각 시각 토큰에 3D 위치 인덱스 (h,w,f)를 부여하는 frame-aware RoPE)를 결합하고, rectified flow matching(z_t=(1-t)z+tε) 목적함수로 학습한다. 텍스트·멀티모달 조건 τ는 frozen Qwen3-VL-4B-Instruct 인코더에서 얻는다. 학습 시스템 측면에서는 고정 50,000 token packing(가변길이 FlashAttention)으로 해상도 버킷을 제거해 512~2048px 및 극단적 종횡비(512x2048, 2048x512)를 단일 배치로 학습하고, stack-level CUDA 커널 융합으로 MFU 33.20%→77.26%, per-step 2.49x(본문 표기 약 2.5x end-to-end) 학습 가속을 달성한다. 후처리는 capability-targeted Diffusion-NFT(텍스트렌더링·심미성·의미이해 3그룹 보상; 평가기 PaddleOCR-VL-1.5 및 Qwen3.5-27B)로 RL 정렬하고, SenseFlow에서 영감을 받은 decoupled DMD(ΔCA + ΔDM + λ_GAN∇L_GAN, frozen DINOv2·CLIP 특징 판별기, w=7.5, λ_GAN=0.13)의 4-step distillation으로 Turbo 변형을 생성한다.",
+        "experiment_setup": [
+          "생성 벤치마크: GenEval, DPG-Bench, TIIF-Short/Long, CVTG-2K, OneIG-EN/CN, LongText-EN/CN (텍스트 렌더링·다국어 포함).",
+          "편집 벤치마크: ImgEdit(-Bench), GEdit-Bench-EN/CN, TextEdit-Bench-Syn/Real.",
+          "비교 baseline: FLUX.2-dev(32B), FLUX.2-Klein-4B, Qwen-Image(20B), Z-Image(6B), HunyuanImage-3.0(80B), 편집은 Qwen-Image-Edit(20B)·FireRed-Image-Edit 등. 핵심 서사는 '단일 4B 패밀리로 수배~수십배 큰 모델과 대등/우세'. (baseline 수치가 저자 재현값인지 원저 인용값인지는 원문 표 각주로 완전히 확정하지 못함.)",
+          "생성 핵심 수치(원문 확인): Mage-Flow-Turbo GenEval 0.88, DPG-Bench 85.48, TIIF-Short 83.58 / Long 84.16, OneIG-EN 0.523 / CN 0.491, LongText-EN 0.911 / CN 0.801.",
+          "편집 핵심 수치(원문 확인): ImgEdit 4.38, GEdit-EN 8.271 / CN 8.264, TextEdit-Syn 12.77 / Real 15.41.",
+          "추론 속도(1024^2, 단일 A100, 원문 확인): Base 생성 30-step 4.37s → Turbo 4-step 0.59s, Edit 30-step 10.55s → Edit-Turbo 4-step 1.02s. 추론 peak memory 약 18~20GB(비교군 중 최저).",
+          "VAE 재구성/호환성 실험: Mage-VAE와 FLUX.2-VAE를 동일 backbone에 스왑해도 생성 성능이 유사(cross-tokenizer compatibility, Table 2)함을 근거로 anchor-latent 설계를 정당화.",
+          "학습 시스템 ablation(원문 verbatim, Table 4): 커널 융합으로 MFU 33.20%→77.26%, 학습 시 peak per-GPU memory 175.45→141.44GB, per-step 2.49x(약 2.5x end-to-end). packed CFG는 1.09~1.15x 추가 이득.",
+          "adversarial perceptual guidance ablation: 텍스트 편집엔 이득, 일반 content 편집(GEdit)엔 중립/음성 → 벤치마크 의존적(Table 6)."
+        ],
+        "datasets": [
+          {
+            "name": "Text-to-image pretraining corpus",
+            "scale": "raw 약 10B → 필터링 후 약 1.3B image-text pairs (256px 1.2B → 512px native-AR 600M → 1024px native-AR 300M 단계적, SFT 1024px 150M) — 원문 확인",
+            "domain": "일반 웹 이미지-텍스트, 다국어 캡션(Qwen3-VL 계열 다중 granularity 리캡셔닝)"
+          },
+          {
+            "name": "Image-editing triples",
+            "scale": "raw 약 90M(open-source 50M + 합성 40M) → 필터 후 약 45M triples(open 20M + 합성 25M 잔존) — 원문 확인",
+            "domain": "instruction-기반 편집, edit-type taxonomy(객체 교체·배경·색/재질·텍스트·복원·스타일 등)"
+          },
+          {
+            "name": "Distillation curated set",
+            "scale": "생성 약 200K prompt-image pairs, 편집 약 250K samples (원문 확인; 초안의 'edit:gen 3:1'은 오류 — 실제 약 1.25:1)",
+            "domain": "4-step Turbo 증류용 고품질 큐레이션"
+          },
+          {
+            "name": "Diffusion-NFT RL prompt pool",
+            "scale": "T2I 약 20K(텍스트렌더링 ~10K, 심미성 ~4K, 의미이해 ~6K) + 편집용 약 30K — 원문 확인",
+            "domain": "capability-targeted RL 보상 정렬용"
+          },
+          {
+            "name": "평가용 공개 벤치마크",
+            "scale": "GenEval/DPG/TIIF/CVTG-2K/OneIG/LongText/ImgEdit/GEdit/TextEdit 등",
+            "domain": "생성·편집 표준 평가(다국어 EN/CN 포함)"
+          }
+        ],
+        "limitations": {
+          "by_authors": [
+            "adversarial perceptual guidance의 효과가 벤치마크 의존적 — 텍스트 편집은 개선되나 일반 content 편집(GEdit-Bench)에서는 중립/음성(Table 6).",
+            "multi-image 편집 데이터가 전체 편집 데이터의 극소수(0.5% 미만 규모)로 다중 이미지 편집 능력이 제한적.",
+            "모델 규모를 4B로 고정 — 효율을 위한 의도적 설계이나 상한 성능 측면에선 대형 모델 대비 제약이 존재.",
+            "고압축 4-step 궤적에서 품질 유지가 핵심 난제로, 증류 기법(adversarial perceptual guidance 등)에 성능이 민감."
+          ],
+          "by_claude": [
+            "GenEval 0.88은 Turbo(4-step) 값이며 30-step Mage-Flow 및 RL-aligned 중간 체크포인트의 GenEval은 원문에 미보고 — full 변형 vs Turbo 성능 격차를 이 지표로는 파악 불가(원문 확인 결과 '미보고' 확정).",
+            "baseline 수치의 출처(저자 재현 vs 원저 인용)를 원문 표 각주로 완전히 확정하지 못함 — 공정 비교 여부는 유보.",
+            "'대등/우세' 서사가 텍스트렌더링·다국어 등 자사 강점 벤치에 편중됐을 가능성 — human preference / FID 등 보완 지표로 재검토 권장.",
+            "메모리 수치 혼동 주의: 학습 커널융합 ablation의 peak per-GPU memory(175.45→141.44GB)와 추론 peak memory(약 18~20GB)는 서로 다른 맥락 — 초안이 이를 혼용할 소지가 있었음(본 검증에서 분리 명시).",
+            "175GB 규모의 학습 peak memory는 A100(80GB) 단일 카드 용량을 초과 — 원문이 어떤 하드웨어/측정 기준(예: 대용량 GPU 또는 특정 병렬 설정)에서 산출했는지는 본문 세부 확인 시 유의."
+          ]
+        },
+        "reproducibility": {
+          "code": "공개(확인) — GitHub microsoft/Mage 내 mage_flow/ 디렉터리에 설치·구현·문서 포함. 저장소 실재 및 문서 구성 확인.",
+          "weights": "공개(보고) — HuggingFace microsoft 컬렉션에 Base/RL-aligned/Turbo 및 Edit 변형 model zoo 링크. README Model Zoo 기재 확인, 개별 체크포인트 다운로드는 미검증.",
+          "data": "비공개 — 학습·편집·증류·RL 데이터 자체는 미배포. 수집/필터링/캡셔닝/임계값 방법론은 상세 문서화되어 재현 참고 가능.",
+          "license": "Mage-Flow=MIT, 형제 모델 Mage-VL=Apache-2.0 (GitHub 저장소 대조로 확정). 초안이 언급한 'CC BY 4.0'은 근거 없어 폐기.",
+          "note": "저장소(약 665 stars 보고)·HF 컬렉션·프로젝트 페이지(microsoft.github.io/Mage) 실재 확인. 코드·가중치 공개 수준은 높으나 학습 데이터 미공개로 '완전 재현'은 불가, '추론·파인튜닝 재현'은 가능한 partial-open 릴리스로 평가."
+        },
+        "my_learning_points": [
+          "Mage-VAE의 'anchor-latent 정규화(표준 Gaussian prior를 FLUX.2-VAE 유도 anchor latent로 대체)' 아이디어를 직접 재현해볼 것 — 기성 강력 VAE의 latent space를 앵커로 삼아 경량 one-step VAE를 정렬하면 backbone 재학습 없이 토크나이저만 스왑 가능한지(cross-tokenizer swap, Table 2) 검증하면 비용절감 레시피로 재사용 가치가 큼.",
+          "native-resolution packing(고정 50,000-token 예산 + 가변길이 FlashAttention)을 자신의 학습 파이프라인에 이식해 해상도 버킷을 제거해볼 것 — '해상도 다양성을 학습 신호로 전환'하는 접근과 packed-CFG(1.09~1.15x) 이득이 소규모 셋업에서도 재현되는지 측정. 함께 보고된 stack-level 커널 융합(MFU 33.20%→77.26%)이 병목 어디에서 이득을 내는지 프로파일링.",
+          "4-step Turbo 레시피(decoupled DMD ΔCA+ΔDM + DINOv2/CLIP adversarial perceptual guidance, w=7.5, λ_GAN=0.13)를 few-step distillation baseline으로 삼되, 저자가 밝힌 '벤치마크 의존적 효과'를 감안해 텍스트 편집/일반 편집을 분리 평가하는 습관을 들일 것."
+        ],
+        "related_work": {
+          "prior": [
+            {
+              "name": "FLUX.2 / FLUX.2-VAE (Black Forest Labs)",
+              "relation": "Mage-VAE가 anchor-latent 정렬 대상으로 삼는 기준 VAE(32ch/8x → 16x/128ch patchify)이자 FLUX.2-dev(32B)/Klein-4B가 핵심 생성 baseline."
+            },
+            {
+              "name": "Stable Diffusion 3 (MMDiT)",
+              "relation": "본체 NR-MMDiT 블록 설계(텍스트·이미지 토큰 concat 후 joint self-attention)의 직접적 기반."
+            },
+            {
+              "name": "Rectified Flow / Flow Matching",
+              "relation": "학습 목적함수(rectified flow matching)의 이론적 토대."
+            },
+            {
+              "name": "DMD / DMD2 (Distribution Matching Distillation)",
+              "relation": "few-step Turbo 증류의 decoupled DMD 구성요소(ΔDM, fake-score model)의 출발점."
+            },
+            {
+              "name": "SenseFlow",
+              "relation": "decoupled DMD에 결합한 adversarial perceptual guidance의 영감 원천(원문 명시)."
+            },
+            {
+              "name": "DINOv2 · CLIP",
+              "relation": "adversarial perceptual guidance의 frozen 특징 판별기로 사용."
+            },
+            {
+              "name": "Qwen3-VL-4B-Instruct / Qwen-Image(-Edit)",
+              "relation": "전자는 frozen 텍스트·멀티모달 인코더, 후자(20B)는 생성·편집 주요 비교군. 후처리 보상 평가기로 Qwen3.5-27B, 텍스트 OCR 보상에 PaddleOCR-VL-1.5 사용."
+            },
+            {
+              "name": "Diffusion-NFT",
+              "relation": "post-training RL 정렬 프레임워크로 채택(capability-targeted reward-weighted flow matching)."
+            }
+          ],
+          "followup": [
+            {
+              "name": "Mage-VL (동일 microsoft/Mage 저장소 형제 모델, 4B 이해 모델)",
+              "relation": "같은 'Mage' 경량 멀티모달 패밀리로 공개된 이해(understanding) 축(Apache-2.0) — 생성(Mage-Flow)과 이해가 codec-native 토크나이저 철학을 공유. 향후 통합 모델로 확장 가능성."
+            },
+            {
+              "name": "(2026-07 시점) 외부 후속 연구",
+              "relation": "본문 확인 필요 — v1 2026-07-21 / v2 2026-07-22 제출 직후라 검증된 후속 인용은 미확인. 커뮤니티 재현·벤치 재측정이 예상되나 현재 근거 없음."
+            }
+          ]
+        },
+        "claude_note": "이 분석은 초록이 아니라 arXiv HTML 본문(v1, cs.CV, v1 2026-07-21 / v2 2026-07-22)을 다중 verbatim 인용으로 교차 검증하고 GitHub microsoft/Mage 저장소까지 대조해 작성했다. 핵심 기여는 '경량 one-step anchor-latent VAE + native-resolution packing(50k token) + stack-level 커널 융합'을 공동설계해 4B 단일 스택으로 학습 가속(MFU 33.20%→77.26%, per-step 2.49x/약 2.5x end-to-end)과 0.59s(생성)/1.02s(편집) 추론을 달성한 시스템-모델 co-design으로, 서사는 견고하고 코드·가중치(MIT/Apache-2.0)가 실제 공개되어 실용성이 높다. 초안이 상충 표기했던 값은 이번 검증에서 확정 교정했다 — MFU는 13.88%→29.28%가 아니라 33.20%→77.26%, Base 30-step 지연은 4.37s(생성)/10.55s(편집), VAE는 49M, 라이선스는 Mage-Flow=MIT이며 'CC BY 4.0'은 근거 없어 폐기, 증류 큐레이션 'edit:gen 3:1'도 실제 약 1.25:1로 오류였다. 다만 30-step full 변형의 GenEval 미보고, baseline 수치 출처 불명, 다중이미지 편집 데이터 극소수 등은 성능 주장의 범위를 좁혀 읽어야 할 지점이다. 종합적으로 '완전 재현'은 학습 데이터 미공개로 불가하나 '추론·파인튜닝 재현'은 가능한 partial-open 릴리스로, 효율 지향 생성 스택을 공부·재사용하려는 학습자에게 실무 가치가 크다.",
+        "analyzed_at": "2026-07-27"
+      }
+    },
+    "2412.20138": {
+      "tier2": {
+        "method_detail": "TradingAgents는 실제 트레이딩 회사를 모사한 LLM 멀티에이전트 프레임워크로, 7개 역할을 5개 팀으로 조직한다. (1) 애널리스트 팀(Analyst Team)은 펀더멘털(fundamental)·감성(sentiment)·뉴스(news)·기술적(technical) 분석가가 각자 구조화 리포트를 생성한다. (2) 리서처 팀(Researcher Team)은 강세(bull)/약세(bear) 연구자가 자연어 토론(natural language debate)을 n라운드 진행하고, 진행자(facilitator) 에이전트가 토론 이력을 검토해 우세 관점을 선택·기록한다(원문 표현 'facilitator ... selects the prevailing perspective'). (3) 트레이더(Trader)가 이를 종합해 매매 신호를 도출한다. (4) 리스크 관리 팀(Risk Management Team)은 공격적(aggressive)·중립(neutral)·보수(conservative) 세 관점이 토론해 노출을 조정한다. (5) 펀드 매니저(Fund Manager)가 최종 승인·집행한다. 에이전트 간 통신은 '구조화 리포트'를 1차 채널로, '자연어 대화'를 2차 채널로 쓰는 하이브리드 방식이며, 공유 글로벌 에이전트 상태(global agent state)와 메모리로 과거 결정 맥락을 유지한다(명시적 reflection 모듈 여부는 본문 확인 필요). 모델은 2계층(two-tier) 전략으로, 추론 집약 노드(분석·연구·트레이딩)에는 심층사고(deep-thinking) o1-preview를, 요약·데이터 변환·검색 등에는 신속사고(quick-thinking) gpt-4o/gpt-4o-mini를 배정하고, 전 에이전트는 ReAct 프롬프팅 프레임워크를 따른다(논문 명시). LangGraph는 논문 본문이 아니라 공식 오픈소스 레포/문서에서 구현 스택으로 명시된다('built with LangGraph').",
+        "experiment_setup": [
+          "대상 종목: AAPL, GOOGL, AMZN (3종목 소규모 표본)",
+          "백테스트 기간: 2024-06-19 ~ 2024-11-19 (약 5개월) — 원문(arXiv v1) 확인. 초안의 '2024년 1~3월/88거래일'은 오류로 정정",
+          "비교군(baselines): Buy & Hold(B&H), MACD, KDJ&RSI, ZMR, SMA 등 규칙기반 전략 (강한 ML/RL 트레이딩 비교군은 없음)",
+          "평가지표: 누적수익률(CR), 연환산수익률(ARR), 샤프비율(SR), 최대낙폭(MDD)",
+          "핵심 결과(Table 1, 원문 대조 일치): AAPL CR 26.62% / ARR 30.5% / SR 8.21 / MDD 0.91%",
+          "GOOGL CR 24.36% / ARR 27.58% / SR 6.39 / MDD 1.69%; AMZN CR 23.21% / ARR 24.90% / SR 5.60 / MDD 2.11%",
+          "원문 명시 개선폭(최고 베이스라인 대비): AAPL 누적 +24.57%·연환산 +28.43%, GOOGL +16.58%/+19.49%, AMZN +6.10%/+7.30% (SR 개선폭은 원문 미제시)",
+          "거래비용·슬리피지·세금 가정은 본문에서 언급 확인 안 됨"
+        ],
+        "datasets": [
+          {
+            "name": "과거 주가 시계열(OHLCV)",
+            "scale": "3종목 × 약 5개월(2024-06-19~11-19), Yahoo Finance/EODHD 등",
+            "domain": "시장 가격 데이터"
+          },
+          {
+            "name": "뉴스 기사",
+            "scale": "Bloomberg, Yahoo, EODHD, FinnHub 등 다중 소스",
+            "domain": "금융 뉴스/거시 지표"
+          },
+          {
+            "name": "소셜미디어 감성",
+            "scale": "Reddit, X/Twitter 게시물 + 보조 LM 감성 점수",
+            "domain": "시장 심리"
+          },
+          {
+            "name": "내부자·재무 데이터",
+            "scale": "SEDI 인사이더 거래, 기업 공시·재무제표",
+            "domain": "펀더멘털"
+          },
+          {
+            "name": "기술적 지표",
+            "scale": "60개 표준 기술분석 지표(MACD, RSI, Bollinger Bands 등) — 원문 'sixty ... indicators'",
+            "domain": "기술적 분석"
+          }
+        ],
+        "limitations": {
+          "by_authors": [
+            "과거 데이터 백테스트에 한정되며 실거래(live trading) 배포는 미검증 — 향후 과제로 명시",
+            "데이터 가용성 의존: 데이터 부재가 실제 거래 부재를 의미할 수 있어 신호 누락 가능",
+            "테스트 종목 수가 3개(AAPL/GOOGL/AMZN)로 소규모",
+            "다라운드 토론에 따른 지연·API 크레딧 비용 등 운영 오버헤드 존재"
+          ],
+          "by_claude": [
+            "보고된 샤프비율(AAPL SR 8.21 등)이 실무 기준으로 비현실적으로 높음 — 약 5개월의 짧고 대체로 우호적이었던 대형 기술주 구간과 3종목 소표본에 기인한 과대추정 가능성",
+            "거래비용·슬리피지·세금 반영 여부가 본문에서 확인되지 않음 — 미반영 시 실현 성과는 크게 하락 가능",
+            "베이스라인이 B&H·규칙기반 위주라 강한 ML/RL 트레이딩 비교군이 부재해 우위 주장의 상대적 강도가 제한적",
+            "데이터 누출 통제 서술이 불명확 — 백테스트 구간(2024 하반기)은 사용 모델(gpt-4o/o1-preview, 학습 컷오프 ~2023) 이후라 단순 암기형 누출 위험은 낮은 편이나, 뉴스·검색 파이프라인의 시점정합(point-in-time) 통제(미래 기사·미래 지표 유입 차단) 여부는 본문 확인 필요",
+            "원문이 제시한 개선폭은 CR/ARR 기준이며 SR 개선폭은 없음 — 초안의 'SR +6.57 우위'는 원문 근거 없어 삭제함"
+          ]
+        },
+        "reproducibility": {
+          "code": "공개 (github.com/TauricResearch/TradingAgents, Python, CLI+패키지, 조회 시점 약 94.6k 스타 — 변동값)",
+          "weights": "해당 없음 — 자체 학습 가중치 없이 OpenAI/Anthropic/Google/xAI/DeepSeek/Qwen/Ollama 등 상용·로컬 LLM API를 호출하는 구조",
+          "data": "부분 공개 — Yahoo/FinnHub/EODHD/Reddit 등 공개 API로 수집(API 키 필요), 정제·전처리 세부는 재현 시 재구성 필요",
+          "license": "Apache-2.0 (레포 확인)",
+          "note": "코드는 완전 공개이며 레포/문서에 LangGraph 기반 구현, 다중 LLM 프로바이더·Ollama 로컬 모델, CLI가 명시됨. 상용 LLM API 키가 필요해 비용·모델 버전에 따라 결과 재현이 달라질 수 있고, 레포에 '연구 목적이며 금융/투자/트레이딩 조언 아님' 면책이 명시됨. 논문 성과 수치(Table 1)는 원문과 1:1 대조해 일치 확인함."
+        },
+        "my_learning_points": [
+          "역할 분리 + 하이브리드 통신 패턴을 직접 모사해볼 것: 구조화 리포트(1차)와 자연어 토론(2차)을 상태 그래프(예: LangGraph)로 분리하면 '데이터 수집 → 관점 토론 → 리스크 조정 → 승인/집행' 파이프라인을 재사용 가능한 템플릿으로 만들 수 있다.",
+          "2계층 모델 라우팅(deep-thinking o1-preview vs quick-thinking gpt-4o/mini)을 벤치마크할 것: 추론 노드에만 고비용 모델을 쓰고 요약·검색은 저비용 모델로 돌려 비용/성능 트레이드오프를 직접 측정하면 실전 에이전트 설계 감각을 얻는다.",
+          "화려한 수익률(SR 8.21)을 액면 그대로 믿지 말고 재현 실험을 설계할 것: 종목·기간을 넓히고 거래비용을 넣은 뒤, 특히 뉴스/지표 검색을 시점정합(point-in-time)으로 잠근 out-of-sample 백테스트를 돌려 미래정보 유입을 통제하는 검증 습관을 기른다."
+        ],
+        "related_work": {
+          "prior": [
+            {
+              "name": "ReAct (Yao et al., 2022)",
+              "relation": "전 에이전트의 추론-행동 결합 프롬프팅 기반으로 채택(논문 명시)"
+            },
+            {
+              "name": "Generative Agents (Park et al., 2023)",
+              "relation": "LLM 에이전트 사회/역할 시뮬레이션이라는 설계 철학의 선행"
+            },
+            {
+              "name": "MetaGPT / ChatDev",
+              "relation": "역할 기반 멀티에이전트 협업(SOP·구조화 통신) 프레임워크 계보의 선행"
+            },
+            {
+              "name": "FinMem / FinAgent / FinGPT",
+              "relation": "단일 에이전트 중심 금융 LLM 선행 연구(FinMem·FinAgent는 본문에서 비교/언급), 본 논문이 협업형으로 확장"
+            }
+          ],
+          "followup": [
+            {
+              "name": "TauricResearch 오픈소스 생태계 확산",
+              "relation": "레포가 조회 시점 약 94.6k 스타로 확산되며 다중 프로바이더·로컬 모델·백테스트 기능 등 후속 개발이 이어짐(후속 '논문'은 본문 밖, 확인 필요)"
+            }
+          ]
+        },
+        "claude_note": "이 분석은 초록만이 아니라 arXiv v1 HTML 전문과 GitHub 레포를 실제 조회해 작성했고, 성과 표(Table 1)의 CR/ARR/SR/MDD를 원문과 1:1 대조해 모두 일치함을 확인했다. 다만 초안에는 백테스트 기간 오류(실제 2024-06-19~11-19, 약 5개월)와 원문에 없는 'SR +6.57 우위' 계산치가 있어 정정·삭제했고, LangGraph는 논문이 아니라 레포/문서 근거로 재귀속했다. 프레임워크 자체는 역할 분리·하이브리드 통신·2계층 모델 라우팅이라는 엔지니어링 설계가 탄탄하고 Apache-2.0로 완전 공개(조회 시점 약 94.6k 스타)되어 재현·학습 가치가 높다. 반면 SR 8.21과 초저 MDD는 3종목·약 5개월의 짧고 우호적인 대형 기술주 구간, 규칙기반 위주의 약한 베이스라인, 거래비용 미명시를 고려하면 실전 성능으로 액면 수용하기 어렵다(단, 테스트 구간이 모델 학습 컷오프 이후라 단순 암기형 누출 우려는 상대적으로 작다). 요컨대 '수익률 주장'보다 '멀티에이전트 트레이딩 아키텍처의 오픈소스 레퍼런스'로서의 기여가 이 논문의 진짜 가치다.",
+        "analyzed_at": "2026-07-27"
+      }
+    }
+  }
+}

@@ -1,0 +1,230 @@
+{
+  "week_id": "2026-W31",
+  "papers": {
+    "2606.23050": {
+      "tier2": {
+        "analyzed_at": "2026-06-29",
+        "method_detail": "핵심은 R-SWA(Reference Sliding Window Attention). 디코딩 중 KV 캐시를 두 부분으로 유지한다 — 고정 프리픽스(시각+프롬프트 토큰, 길이 L_m)와 생성 텍스트에 대한 폭 n(기본 128)의 인과적 슬라이딩 윈도우. 캐시 크기는 C = L_m + min(n, T) ≤ L_m + n 으로, 윈도우 크기까지만 커지고 이후 '상수'다(표준 MHA는 L_m + T로 선형 증가). 시각(reference) 토큰은 상태 전이 없이 디코딩 내내 전역으로 접근 가능해, 일반 슬라이딩 윈도우와 달리 시각 특징이 '흐려지지' 않는다. 베이스라인 DeepSeek OCR의 인코더(DeepEncoder: SAM-ViT + CLIP-ViT, 16× 토큰 압축, 1024² → ~256 토큰)는 동결하고 디코더 어텐션만 R-SWA로 교체, LLM 파라미터만 학습한다. 디코더 3B(MoE로 ~500M 활성).",
+        "experiment_setup": [
+          "주 벤치마크: OmniDocBench v1.5/v1.6",
+          "비교: DeepSeek OCR(베이스라인)",
+          "장문 평가: 2~40+ 페이지 문서를 단일 forward로 전사"
+        ],
+        "datasets": [
+          {
+            "name": "문서 학습 샘플",
+            "scale": "약 200만(단일:다중 페이지 ≈ 9:1)",
+            "domain": "문서 OCR"
+          }
+        ],
+        "limitations": {
+          "by_authors": [
+            "프리필 32K 제한 — 페이지가 매우 많으면 한계(향후 128K 학습 예정)",
+            "다중페이지 모드는 Base 인코더(1024²)라 해상도 손실 → 20페이지 넘으면 edit distance 상승",
+            "학습 샘플 200만으로 제한적"
+          ],
+          "by_claude": [
+            "ASR·번역 일반화는 주장만 있고 실험 검증 없음(future work)",
+            "KV캐시 절감이 초장문에서 품질 저하와 트레이드오프"
+          ]
+        },
+        "reproducibility": {
+          "code": "공개",
+          "weights": "공개",
+          "data": "불명",
+          "license": "CC BY 4.0",
+          "note": "github.com/baidu/Unlimited-OCR, ★11.5k"
+        },
+        "my_learning_points": [
+          "'reference 토큰을 상태전이에서 제외'가 핵심 트릭 — 시각 충실도를 지키며 KV캐시를 상수화. 멀티모달 장문 디코딩에 일반 적용 가능",
+          "상수 KV캐시 = 장문 추론 비용의 근본 해법. W25 LMCache(캐시 외부 오프로딩)와 다른 각도(캐시 자체를 안 키움)",
+          "DeepSeek OCR 대비 OmniDocBench v1.5 +6.22%p, 6K 토큰 구간에서 ~35% 빠름 — 효율과 정확을 동시 개선"
+        ],
+        "related_work": {
+          "prior": [
+            {
+              "name": "DeepSeek OCR",
+              "relation": "베이스라인 — 인코더 재사용, 디코더 어텐션만 교체"
+            },
+            {
+              "name": "LMCache (W25)",
+              "relation": "KV캐시 효율화의 다른 접근(외부 오프로딩 vs 상수화)"
+            }
+          ],
+          "followup": [
+            {
+              "name": "R-SWA → ASR/번역",
+              "relation": "저자가 제시한 향후 확장(미검증)"
+            }
+          ]
+        },
+        "claude_note": "'인간은 이미 쓴 글을 다시 다 읽지 않는다'는 직관을 reference 토큰 전역 접근 + 출력 슬라이딩 윈도우로 구현해 KV캐시를 상수로 만든 영리한 설계다. 문서 파싱과 추론 효율화가 한 논문에서 만나는 점이 이번 주 '효율화가 분야를 가로지른다'는 흐름의 전형. 다만 초장문 해상도 손실·타도메인 미검증은 숙제."
+      }
+    },
+    "2604.14141": {
+      "tier2": {
+        "method_detail": "LingBot-Map은 SLAM 원리에서 착안한 feed-forward 3D 파운데이션 모델로, 핵심은 Geometric Context Transformer(GCT)의 어텐션인 Geometric Context Attention(GCA)이다. GCA는 세 컨텍스트를 통합한다: (1) Anchor Context — 첫 n장(n=3)을 anchor 프레임으로 지정해 절대 스케일·좌표계를 고정(coordinate grounding), (2) Pose-Reference Window — 최근 k장(학습 시 k=16~64 랜덤 샘플, 추론 시 k=64)을 full image token으로 유지해 조밀 국소 정합과 window 내 relative-pose 감독을 제공, (3) Trajectory Memory — anchor·window 밖 프레임을 프레임당 6-token 요약으로 압축하고 video RoPE로 시간 순서를 보존해 메모리를 O(MT)에서 O(6T)로 낮춘다(M≈500 기준 프레임당 증가량 약 80배 감소; n=3,k=16,T=10,000에서 causal attention ≈5×10⁶ 토큰 vs GCA ≈7×10⁴ 토큰). 학습은 2단계 커리큘럼으로, Stage 1은 160K iteration의 base 모델(≈21,500 GPU-hours), Stage 2는 GCA를 24→320 view로 점진 확장하며 relative-pose loss와 Ulysses context parallelism(parallelism dimension 16)을 적용한다(Stage 2 ≈15,360 GPU-hours, 합계 ≈36,860). 손실은 L = λ_depth·L_depth + λ_abs-pose·L_abs-pose + λ_rel-pose·L_rel-pose로 깊이·절대포즈·상대포즈를 결합한다. 추론은 약 3,000 프레임 이내에 최적인 Direct Output 모드와, 임의 길이를 window 간 정렬로 이어붙이는 Visual Odometry(VO) 모드를 지원하며, 518×378 입력에서 약 20 FPS로 유계 window가 full causal attention 대비 1.7배 빠르고 메모리 2.7배(13.28 vs 36.06 GB) 절감된다.",
+        "experiment_setup": [
+          "평가 벤치마크: Oxford Spires(대규모 실외 장시퀀스, 최대 3,840 프레임), ETH3D(레이저 스캔 depth 실내외), 7-Scenes(룸 스케일 RGB-D), Tanks and Temples(대규모 실외), NRGBD(복잡 실내)",
+          "비교군(원문 표기) — Offline: VGGT, DA3, Fast3R, FastVGGT, Pi3 / 최적화 기반: DroidSLAM, MegaSAM, VIPE / Streaming: StreamVGGT, SLAM3R, InfiniteVGGT, Spann3R, Stream3R, CUT3R, TTT3R, Wint3R",
+          "Oxford Spires(320 프레임): AUC@15 61.64 / AUC@30 75.16 / ATE 6.42m. 원문 명시 개선폭 — 스트리밍 최고 CUT3R(AUC@15 5.98, ATE 18.16m) 대비 pose accuracy(AUC@15) 약 10배 향상·trajectory error(ATE) 약 2.8배 감소. 오프라인 최고 DA3는 AUC@15 49.84·ATE 12.87m (DA3는 offline이므로 '스트리밍 베이스라인'이 아님)",
+          "장시퀀스 강건성(3,840 프레임): LingBot-Map ATE 증가 +0.69m(6.42→7.11, 20.29 FPS 유지), 반면 CUT3R +14.31m(→32.47)·Wint3R +11.80m(→32.90)로 크게 악화",
+          "ETH3D: F1 98.98(Wint3R 77.28), ATE 0.22m, AUC@30 86.20 / 7-Scenes: F1 80.39, ATE 0.08m, AUC@30 78.59 / Tanks&Temples: AUC@30 92.80, ATE 0.20m / NRGBD: F1 64.26(Wint3R 56.96)",
+          "속도/효율: 518×378에서 약 20 FPS, 유계 window가 full causal attention 대비 1.7배 속도·2.7배 메모리(13.28 vs 36.06 GB) 절감, 10,000+ 프레임 안정 추론",
+          "Ablation(TartanGround): Relative Loss만(AUC@3 9.80/ATE 8.59) → +Anchor Init(13.63/7.88) → +Context Tokens(15.75/7.46) → +Video RoPE(16.39/5.98)로 각 컴포넌트 누적 기여; window size 64가 full attention(ATE 6.60m)보다 우수한 5.98m 달성"
+        ],
+        "datasets": [
+          {
+            "name": "학습용 29개 데이터셋 통합",
+            "scale": "Stage1 160K iter, Stage2 24→320 view 커리큘럼",
+            "domain": "실내외 멀티뷰/RGB-D/자율주행/합성 혼합"
+          },
+          {
+            "name": "BlendedMVS / MegaDepth / HyperSim",
+            "scale": "대규모 멀티뷰·합성",
+            "domain": "일반 3D 재구성/depth"
+          },
+          {
+            "name": "TartanAir / TartanAirV2 / TartanGround(TartanAirGround)",
+            "scale": "합성 시퀀스(ablation에도 사용)",
+            "domain": "SLAM/드론 궤적"
+          },
+          {
+            "name": "ScanNet / ScanNet++ / KITTI-360 / Waymo",
+            "scale": "실측 실내·주행 스캔",
+            "domain": "실내 RGB-D / 자율주행"
+          },
+          {
+            "name": "MatrixCity / Objaverse / Texverse / internal game dataset",
+            "scale": "대규모 합성·게임 데이터(일부 비공개)",
+            "domain": "합성 도시·오브젝트 메시"
+          },
+          {
+            "name": "평가: Oxford Spires",
+            "scale": "최대 3,840 프레임(씬 개수는 본문 확인 필요)",
+            "domain": "대규모 실외 장시퀀스"
+          },
+          {
+            "name": "평가: ETH3D / 7-Scenes / Tanks&Temples / NRGBD",
+            "scale": "씬 수십 개 규모",
+            "domain": "실내외 정밀 depth·포즈 벤치마크"
+          }
+        ],
+        "limitations": {
+          "by_authors": [
+            "재방문 영역에 대한 명시적 loop-closure detection이 없음 (누적 드리프트를 구조적으로 닫지 못함) — 원문 한계 절 명시",
+            "프레임당 6-token 고정 압축이 매우 긴(>10,000 프레임) 시퀀스에서 세부 기하 정보를 손실할 수 있음",
+            "test-time optimization을 사용하지 않음 (원문 한계로 명시)",
+            "Direct 모드는 유효 범위가 약 3,000 프레임이며, 그 이상은 VO 모드가 필요"
+          ],
+          "by_claude": [
+            "핵심 수치(AUC/ATE/F1/FPS, GPU-hours 36,860, 토큰 ≈7×10⁴ vs ≈5×10⁶, 1.7×/2.7×)는 arXiv HTML v2 본문·표와 재대조해 확인함. 다만 최종 인용·논문화 시 원본 PDF 표의 소수점 값과 한 번 더 대조 권장",
+            "학습 인프라: 원문은 Ulysses 'parallelism dimension 16'만 명시 — 총 GPU 개수·FSDP 사용 여부는 본문에서 확인 불가(초안의 '16 GPU·FSDP' 표현은 근거 부족으로 제거·완화함)",
+            "리포지토리에 학습 코드가 부재하나 'Coming soon' 같은 명시 라벨/공개 일정은 없음(초안의 'Coming soon' 표현은 정정)",
+            "라이선스가 arXiv abs(CC-BY 4.0)와 GitHub 코드(Apache 2.0)로 상이하며, 배포 체크포인트(HF/ModelScope)의 세부 가중치 라이선스 조건은 별도 확인 필요",
+            "'internal game dataset' 등 비공개 학습 데이터 포함 + 학습 코드 미공개로, 추론·평가 재현은 가능하나 처음부터의 재학습 재현은 불가",
+            "Oxford Spires 씬 개수(초안 '13개 씬'), anchor n·window k 조합별 민감도, VO 모드의 window 간 정렬 방식(Sim(3) 여부)은 본문·부록에서 추가 확인 필요"
+          ]
+        },
+        "reproducibility": {
+          "code": "부분공개 — 추론(demo.py: viser 기반 인터랙티브 뷰어, demo_render/batch_demo.py: 오프라인 렌더링)·다수 벤치마크 평가 스크립트(KITTI, Oxford Spires, VBR, TUM-D, 7-Scenes, ETH3D, Tanks&Temples, NRGBD 등) 공개. 학습 코드는 미공개(README에 공개 일정 명시 없음)",
+          "weights": "공개 — HuggingFace(robbyant/lingbot-map)·ModelScope(Robbyant/lingbot-map)에 3개 변형 배포: lingbot-map-long(장시퀀스/대규모 씬), lingbot-map(balanced, 논문·벤치마크·오프라인 데모 기본), lingbot-map-stage1(bidirectional 추론용 Stage-1)",
+          "data": "부분공개 — 29개 학습 데이터셋 중 공개 데이터(BlendedMVS, ScanNet(++), KITTI-360, Waymo, TartanAir(V2), MatrixCity, Objaverse 등) 다수 사용, 'internal game dataset' 등 일부 비공개. 평가 벤치마크는 공개 데이터 기반",
+          "license": "코드 Apache License 2.0(GitHub 명시) / 논문 텍스트 CC-BY 4.0(arXiv abs). 배포 가중치의 세부 라이선스 조건은 확인 필요",
+          "note": "GitHub github.com/robbyant/lingbot-map 약 13.6k stars(확인), 프로젝트 페이지 technology.robbyant.com/lingbot-map. 설치·퀵스타트·오프라인 렌더링 파이프라인 README 완비. 추론+공개 가중치로 벤치마크 결과 재생은 가능하나 학습 재현은 코드·일부 데이터 미공개로 제약"
+        },
+        "my_learning_points": [
+          "스트리밍 3D의 메모리 폭발 문제를 'anchor(좌표/스케일 고정) + 최근 window(조밀 정합) + 압축 memory(장기 드리프트)'로 역할 분담하는 설계 패턴을 직접 코드로 재현해보고, 프레임당 6-token 압축이 정확도-메모리 트레이드오프에 미치는 영향을 ablation처럼 실험할 것",
+          "공개된 HuggingFace 체크포인트(lingbot-map balanced vs long)로 자신의 긴 비디오에 Direct vs VO 모드를 돌려 3,000 프레임 경계에서 드리프트가 어떻게 갈라지는지 정성 확인하고, video RoPE 유무가 ATE에 주는 효과(ablation상 7.46→5.98, 약 -1.48m)를 감으로 익힐 것",
+          "VGGT·CUT3R·Stream3R 등 선행 스트리밍 3D 모델과 GCA를 비교 정리해, 'causal attention의 O(MT) 상태를 O(6T)로 줄이는' 아이디어(≈80배 감소)가 다른 시퀀스 태스크(비디오 이해, 온라인 SLAM)에도 이식 가능한지 설계 관점에서 메모를 남길 것"
+        ],
+        "related_work": {
+          "prior": [
+            {
+              "name": "VGGT / Pi3 / DA3 (offline feed-forward 3D)",
+              "relation": "오프라인 다중뷰 3D 파운데이션 모델 계보로, LingBot-Map이 이를 스트리밍으로 확장·비교 대상으로 삼음(DA3는 offline 최고 성능 베이스라인)"
+            },
+            {
+              "name": "CUT3R / Stream3R / StreamVGGT / Spann3R / Wint3R (streaming 3D)",
+              "relation": "직접 경쟁하는 스트리밍 재구성 베이스라인 — 장시퀀스 드리프트에서 LingBot-Map이 크게 앞섬(CUT3R 대비 AUC@15 약 10배·ATE 약 2.8배)"
+            },
+            {
+              "name": "DroidSLAM / MegaSAM / VIPE (optimization-based)",
+              "relation": "반복 최적화 기반 접근으로, feed-forward 방식이 이를 능가함을 보이는 비교군"
+            },
+            {
+              "name": "RoPE / Ulysses context parallelism",
+              "relation": "video RoPE로 시간 순서 인코딩, Ulysses(parallelism dimension 16)로 장시퀀스 분산 학습을 구현하는 기반 기법"
+            }
+          ],
+          "followup": [
+            {
+              "name": "TTT3R / ZipMap (test-time optimization)",
+              "relation": "저자가 미도입한 test-time 최적화를 결합하면 정확도를 더 끌어올릴 수 있는 후속 방향"
+            },
+            {
+              "name": "Loop-closure를 갖춘 확장 버전",
+              "relation": "명시적 loop-closure 부재라는 저자 인정 한계를 보완하는 후속 연구 여지"
+            }
+          ]
+        },
+        "claude_note": "arXiv HTML(2604.14141v2) 본문·표·부록이 충실히 공개되어 아키텍처·학습·정량 결과·ablation·한계를 초록이 아닌 실제 본문 기준으로 검증했고, 핵심 수치는 원문 표와 재대조했다. GCA의 anchor/window/memory 3분할과 프레임당 6-token(O(6T)) 압축은 스트리밍 3D의 메모리 병목을 정공법으로 푼 설득력 있는 설계다. 다만 초안의 'ATE 약 10배 개선'은 오류로, 원문은 스트리밍 최고 CUT3R 대비 pose accuracy(AUC@15 61.64 vs 5.98) 약 10배·trajectory error(ATE 6.42 vs 18.16) 약 2.8배 개선을 주장하며 이를 정정했다(오프라인 DA3를 스트리밍 베이스라인으로 오인한 부분도 수정). 아울러 학습 인프라의 '16 GPU·FSDP', 학습 코드 'Coming soon' 표현은 원문·레포 근거가 없어 완화했다. 재현성은 '추론+가중치(HF/ModelScope 3종) 공개, 학습 코드·일부 데이터(internal game dataset) 비공개'로 중간 수준이며, 정밀 인용 시 원본 PDF 표와의 소수점 대조를 권한다.",
+        "analyzed_at": "2026-07-20"
+      }
+    },
+    "2605.23904": {
+      "tier2": {
+        "analyzed_at": "2026-06-29",
+        "method_detail": "옵티마이저 모델이 점수화된 롤아웃을 입력받아 단일 스킬 문서에 경계가 있는(bounded) add/delete/replace 편집을 생성한다. 각 편집은 보류(held-out) 검증 점수를 '엄격히 향상'시킬 때만 채택되어, 확률적·휴리스틱이 아닌 결정론적 수용 기준을 갖는다. 텍스트 학습률 예산이 단계별 편집 범위를 제한하고, 거부된 편집은 버퍼에 저장해 중복 탐색을 막으며, 에폭 단위 slow/meta 업데이트로 점진적·안정적으로 수렴한다. 최적화는 오프라인에서 일어나 배포 시 추가 모델 호출이 없다.",
+        "experiment_setup": [
+          "벤치마크 6종, 타깃 모델 7종(GPT-5.5 포함)",
+          "실행 환경 3종: 직접 대화 / Codex 에이전트 루프 / Claude Code",
+          "비교군: 인간 작성, 일회성 LLM 생성, Trace2Skill, TextGrad, GEPA, EvoSkill"
+        ],
+        "datasets": [
+          {
+            "name": "6개 에이전트 벤치마크 + 인접 수학 벤치마크(전이 평가)",
+            "scale": "52개 (모델,벤치,환경) 조합",
+            "domain": "에이전트 태스크"
+          }
+        ],
+        "limitations": {
+          "by_authors": [
+            "초록 수준에서는 명시적 한계 서술이 제시되지 않음"
+          ],
+          "by_claude": [
+            "옵티마이저 모델 자체의 품질·비용에 성능이 의존할 수 있음",
+            "도메인마다 검증셋과 점수 함수를 설계해야 해 적용 부담이 있음"
+          ]
+        },
+        "reproducibility": {
+          "code": "공개",
+          "weights": "해당없음(고정 에이전트 + 텍스트 스킬)",
+          "data": "부분",
+          "license": "확인 필요",
+          "note": "Microsoft 공개 레포(aka.ms/skillopt) + 프로젝트 페이지, ★12.3k"
+        },
+        "my_learning_points": [
+          "'스킬 = 학습 대상' 관점 — 이 논문정리 스킬도 검증 점수를 정의하면 체계적 개선 가능",
+          "결정론적 수용(검증 향상 시에만 채택)은 LLM 자기수정의 발산을 막는 장치",
+          "최적화를 오프라인 분리해 배포 추론 비용을 0으로"
+        ],
+        "related_work": {
+          "prior": [
+            {
+              "name": "TextGrad / GEPA",
+              "relation": "텍스트 기반 최적화 선행(비교 베이스라인)"
+            }
+          ],
+          "followup": [
+            {
+              "name": "Trace2Skill / EvoSkill",
+              "relation": "궤적에서 스킬 추출·진화 경쟁 접근"
+            }
+          ]
+        },
+        "claude_note": "가중치 최적화의 규율(재현성·검증 기반 수용·학습률)을 텍스트 스킬에 이식한 점이 신선하다. W25 이후 반복 등장하며 '스킬·컨텍스트 엔지니어링이 학습 문제로 수렴'하는 흐름의 대표작."
+      }
+    }
+  }
+}

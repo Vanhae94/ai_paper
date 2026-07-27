@@ -1,0 +1,852 @@
+[
+  {
+    "paper": {
+      "id": "2606.23050",
+      "authors": [
+        {
+          "_id": "6a3a0c36fdcd3514343bb651",
+          "user": {
+            "_id": "66bc1f9c8543e3883f2082db",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/66bc1f9c8543e3883f2082db/RnmVK90E4VUIkUKcAG3yz.jpeg",
+            "isPro": false,
+            "fullname": "Youyang Yin",
+            "user": "HYPERUU",
+            "type": "user",
+            "name": "HYPERUU"
+          },
+          "name": "Youyang Yin",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-06-23T13:56:12.255Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a3a0c36fdcd3514343bb652",
+          "name": "Huanhuan Liu",
+          "hidden": false
+        },
+        {
+          "_id": "6a3a0c36fdcd3514343bb653",
+          "name": "YY",
+          "hidden": false
+        },
+        {
+          "_id": "6a3a0c36fdcd3514343bb654",
+          "name": "Qunyi Xie",
+          "hidden": false
+        },
+        {
+          "_id": "6a3a0c36fdcd3514343bb655",
+          "name": "Chaorun Liu",
+          "hidden": false
+        },
+        {
+          "_id": "6a3a0c36fdcd3514343bb656",
+          "name": "Shiqi Yang",
+          "hidden": false
+        },
+        {
+          "_id": "6a3a0c36fdcd3514343bb657",
+          "name": "Shaohua Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a3a0c36fdcd3514343bb658",
+          "name": "Zhanlong Liu",
+          "hidden": false
+        },
+        {
+          "_id": "6a3a0c36fdcd3514343bb659",
+          "name": "Hao Zou",
+          "hidden": false
+        },
+        {
+          "_id": "6a3a0c36fdcd3514343bb65a",
+          "name": "Jinyue Chen",
+          "hidden": false
+        },
+        {
+          "_id": "6a3a0c36fdcd3514343bb65b",
+          "name": "Shu Wei",
+          "hidden": false
+        },
+        {
+          "_id": "6a3a0c36fdcd3514343bb65c",
+          "name": "Jingjing Wu",
+          "hidden": false
+        },
+        {
+          "_id": "6a3a0c36fdcd3514343bb65d",
+          "name": "Mingxin Huang",
+          "hidden": false
+        },
+        {
+          "_id": "6a3a0c36fdcd3514343bb65e",
+          "name": "Zhen Wu",
+          "hidden": false
+        },
+        {
+          "_id": "6a3a0c36fdcd3514343bb65f",
+          "name": "Guibin Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a3a0c36fdcd3514343bb660",
+          "name": "Tengyu Du",
+          "hidden": false
+        },
+        {
+          "_id": "6a3a0c36fdcd3514343bb661",
+          "name": "Lei Jia",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2026-06-22T00:00:00.000Z",
+      "submittedOnDailyAt": "2026-06-23T00:00:00.000Z",
+      "title": "Unlimited OCR Works",
+      "submittedOnDailyBy": {
+        "_id": "6039478ab3ecf716b1a5fd4d",
+        "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/6039478ab3ecf716b1a5fd4d/_Thy4E7taiSYBLKxEKJbT.jpeg",
+        "isPro": true,
+        "fullname": "taesiri",
+        "user": "taesiri",
+        "type": "user",
+        "name": "taesiri"
+      },
+      "summary": "Recently, end-to-end OCR models, exemplified by DeepSeek OCR, have once again thrust OCR into the spotlight. A widely held view is that employing a large language model (LLM) as the decoder allows the model to leverage the prior distribution of language, leading to improved OCR performance. However, the downside is equally evident: as the output sequence lengthens, the accumulated KV cache drives up memory consumption and progressively slows down generation. This stands in stark contrast to humans, who exhibit no such decline in efficiency during long-horizon copying tasks. In this technical report, we propose Unlimited OCR, a model designed to emulate human parsing working memory. Taking DeepSeek OCR as the baseline, we replace all attention layers in the decoder with our proposed Reference Sliding Window Attention (R-SWA), which reduces attention computation costs while maintaining a constant KV cache throughout the entire decoding process. By combining the high compression rate of DeepSeek OCR's encoder with our constant KV cache design, Unlimited OCR can transcribe dozens of pages of documents in a single forward pass under a standard maximum length of 32K. More importantly, R-SWA is a general-purpose parsing attention mechanism - beyond OCR, it is equally applicable to tasks such as ASR, translation, etc. Codes and model weights are publicly available at http://github.com/baidu/Unlimited-OCR.",
+      "upvotes": 66,
+      "discussionId": "6a3a0c36fdcd3514343bb662",
+      "githubRepo": "https://github.com/baidu/Unlimited-OCR",
+      "githubRepoAddedBy": "user",
+      "ai_summary": "Unlimited OCR introduces Reference Sliding Window Attention to eliminate growing memory consumption during long-sequence OCR tasks, enabling efficient transcription of multiple pages in a single forward pass.",
+      "ai_keywords": [
+        "end-to-end OCR",
+        "large language model",
+        "decoder",
+        "KV cache",
+        "attention layers",
+        "Reference Sliding Window Attention",
+        "document transcription",
+        "sequence length",
+        "memory consumption",
+        "working memory",
+        "parsing attention mechanism",
+        "ASR",
+        "translation"
+      ],
+      "ai_summary_model": "Qwen/Qwen2.5-Coder-32B-Instruct",
+      "githubStars": 19166,
+      "organization": {
+        "_id": "626a6d6b4909b521e1f59ce5",
+        "name": "baidu",
+        "fullname": "BAIDU",
+        "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/64f187a2cc1c03340ac30498/TYYUxK8xD1AxExFMWqbZD.png"
+      }
+    },
+    "publishedAt": "2026-06-21T20:00:00.000Z",
+    "title": "Unlimited OCR Works",
+    "summary": "Recently, end-to-end OCR models, exemplified by DeepSeek OCR, have once again thrust OCR into the spotlight. A widely held view is that employing a large language model (LLM) as the decoder allows the model to leverage the prior distribution of language, leading to improved OCR performance. However, the downside is equally evident: as the output sequence lengthens, the accumulated KV cache drives up memory consumption and progressively slows down generation. This stands in stark contrast to humans, who exhibit no such decline in efficiency during long-horizon copying tasks. In this technical report, we propose Unlimited OCR, a model designed to emulate human parsing working memory. Taking DeepSeek OCR as the baseline, we replace all attention layers in the decoder with our proposed Reference Sliding Window Attention (R-SWA), which reduces attention computation costs while maintaining a constant KV cache throughout the entire decoding process. By combining the high compression rate of DeepSeek OCR's encoder with our constant KV cache design, Unlimited OCR can transcribe dozens of pages of documents in a single forward pass under a standard maximum length of 32K. More importantly, R-SWA is a general-purpose parsing attention mechanism - beyond OCR, it is equally applicable to tasks such as ASR, translation, etc. Codes and model weights are publicly available at http://github.com/baidu/Unlimited-OCR.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2606.23050.png",
+    "numComments": 5,
+    "submittedBy": {
+      "_id": "6039478ab3ecf716b1a5fd4d",
+      "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/6039478ab3ecf716b1a5fd4d/_Thy4E7taiSYBLKxEKJbT.jpeg",
+      "fullname": "taesiri",
+      "name": "taesiri",
+      "type": "user",
+      "isPro": true,
+      "isHf": false,
+      "isHfAdmin": false,
+      "isMod": false,
+      "followerCount": 346,
+      "isUserFollowing": false
+    },
+    "organization": {
+      "_id": "626a6d6b4909b521e1f59ce5",
+      "name": "baidu",
+      "fullname": "BAIDU",
+      "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/64f187a2cc1c03340ac30498/TYYUxK8xD1AxExFMWqbZD.png"
+    },
+    "isAuthorParticipating": true
+  },
+  {
+    "paper": {
+      "id": "2508.02739",
+      "authors": [
+        {
+          "_id": "68940073741a16f544fbce2f",
+          "name": "Yu Shi",
+          "hidden": false
+        },
+        {
+          "_id": "68940073741a16f544fbce30",
+          "name": "Zongliang Fu",
+          "hidden": false
+        },
+        {
+          "_id": "68940073741a16f544fbce31",
+          "name": "Shuo Chen",
+          "hidden": false
+        },
+        {
+          "_id": "68940073741a16f544fbce32",
+          "name": "Bohan Zhao",
+          "hidden": false
+        },
+        {
+          "_id": "68940073741a16f544fbce33",
+          "name": "Wei Xu",
+          "hidden": false
+        },
+        {
+          "_id": "68940073741a16f544fbce34",
+          "name": "Changshui Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "68940073741a16f544fbce35",
+          "name": "Jian Li",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2025-08-02T13:15:59.000Z",
+      "title": "Kronos: A Foundation Model for the Language of Financial Markets",
+      "summary": "The success of large-scale pre-training paradigm, exemplified by Large\nLanguage Models (LLMs), has inspired the development of Time Series Foundation\nModels (TSFMs). However, their application to financial candlestick (K-line)\ndata remains limited, often underperforming non-pre-trained architectures.\nMoreover, existing TSFMs often overlook crucial downstream tasks such as\nvolatility prediction and synthetic data generation. To address these\nlimitations, we propose Kronos, a unified, scalable pre-training framework\ntailored to financial K-line modeling. Kronos introduces a specialized\ntokenizer that discretizes continuous market information into token sequences,\npreserving both price dynamics and trade activity patterns. We pre-train Kronos\nusing an autoregressive objective on a massive, multi-market corpus of over 12\nbillion K-line records from 45 global exchanges, enabling it to learn nuanced\ntemporal and cross-asset representations. Kronos excels in a zero-shot setting\nacross a diverse set of financial tasks. On benchmark datasets, Kronos boosts\nprice series forecasting RankIC by 93% over the leading TSFM and 87% over the\nbest non-pre-trained baseline. It also achieves a 9% lower MAE in volatility\nforecasting and a 22% improvement in generative fidelity for synthetic K-line\nsequences. These results establish Kronos as a robust, versatile foundation\nmodel for end-to-end financial time series analysis. Our pre-trained model is\npublicly available at https://github.com/shiyu-coder/Kronos.",
+      "upvotes": 48,
+      "discussionId": "68940073741a16f544fbce36",
+      "githubRepo": "https://github.com/shiyu-coder/Kronos",
+      "githubRepoAddedBy": "auto",
+      "ai_summary": "Kronos, a specialized pre-training framework for financial K-line data, outperforms existing models in forecasting and synthetic data generation through a unique tokenizer and autoregressive pre-training on a large dataset.",
+      "ai_keywords": [
+        "Large Language Models",
+        "Time Series Foundation Models",
+        "financial candlestick",
+        "volatility prediction",
+        "synthetic data generation",
+        "autoregressive objective",
+        "token sequences",
+        "price dynamics",
+        "trade activity patterns",
+        "zero-shot setting",
+        "price series forecasting",
+        "RankIC",
+        "MAE",
+        "generative fidelity"
+      ],
+      "ai_summary_model": "Qwen/Qwen2.5-Coder-32B-Instruct",
+      "githubStars": 34152
+    },
+    "publishedAt": "2025-08-02T09:15:59.000Z",
+    "title": "Kronos: A Foundation Model for the Language of Financial Markets",
+    "summary": "The success of large-scale pre-training paradigm, exemplified by Large\nLanguage Models (LLMs), has inspired the development of Time Series Foundation\nModels (TSFMs). However, their application to financial candlestick (K-line)\ndata remains limited, often underperforming non-pre-trained architectures.\nMoreover, existing TSFMs often overlook crucial downstream tasks such as\nvolatility prediction and synthetic data generation. To address these\nlimitations, we propose Kronos, a unified, scalable pre-training framework\ntailored to financial K-line modeling. Kronos introduces a specialized\ntokenizer that discretizes continuous market information into token sequences,\npreserving both price dynamics and trade activity patterns. We pre-train Kronos\nusing an autoregressive objective on a massive, multi-market corpus of over 12\nbillion K-line records from 45 global exchanges, enabling it to learn nuanced\ntemporal and cross-asset representations. Kronos excels in a zero-shot setting\nacross a diverse set of financial tasks. On benchmark datasets, Kronos boosts\nprice series forecasting RankIC by 93% over the leading TSFM and 87% over the\nbest non-pre-trained baseline. It also achieves a 9% lower MAE in volatility\nforecasting and a 22% improvement in generative fidelity for synthetic K-line\nsequences. These results establish Kronos as a robust, versatile foundation\nmodel for end-to-end financial time series analysis. Our pre-trained model is\npublicly available at https://github.com/shiyu-coder/Kronos.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2508.02739.png",
+    "numComments": 4,
+    "isAuthorParticipating": false
+  },
+  {
+    "paper": {
+      "id": "2604.14141",
+      "authors": [
+        {
+          "_id": "69e090265b704445ba50b80b",
+          "name": "Lin-Zhuo Chen",
+          "hidden": false
+        },
+        {
+          "_id": "69e090265b704445ba50b80c",
+          "name": "Jian Gao",
+          "hidden": false
+        },
+        {
+          "_id": "69e090265b704445ba50b80d",
+          "name": "Yihang Chen",
+          "hidden": false
+        },
+        {
+          "_id": "69e090265b704445ba50b80e",
+          "user": {
+            "_id": "64acd2ec39fcfebff8c79c00",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/64acd2ec39fcfebff8c79c00/Avq66l5hO-aggNtk4Y1ss.png",
+            "isPro": false,
+            "fullname": "Ka Leong Cheng",
+            "user": "felixcheng97",
+            "type": "user",
+            "name": "felixcheng97"
+          },
+          "name": "Ka Leong Cheng",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2026-04-16T20:26:44.373Z",
+          "hidden": false
+        },
+        {
+          "_id": "69e090265b704445ba50b80f",
+          "name": "Yipengjing Sun",
+          "hidden": false
+        },
+        {
+          "_id": "69e090265b704445ba50b810",
+          "name": "Liangxiao Hu",
+          "hidden": false
+        },
+        {
+          "_id": "69e090265b704445ba50b811",
+          "name": "Nan Xue",
+          "hidden": false
+        },
+        {
+          "_id": "69e090265b704445ba50b812",
+          "name": "Xing Zhu",
+          "hidden": false
+        },
+        {
+          "_id": "69e090265b704445ba50b813",
+          "name": "Yujun Shen",
+          "hidden": false
+        },
+        {
+          "_id": "69e090265b704445ba50b814",
+          "name": "Yao Yao",
+          "hidden": false
+        },
+        {
+          "_id": "69e090265b704445ba50b815",
+          "name": "Yinghao Xu",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2026-04-15T00:00:00.000Z",
+      "submittedOnDailyAt": "2026-04-16T00:00:00.000Z",
+      "title": "Geometric Context Transformer for Streaming 3D Reconstruction",
+      "submittedOnDailyBy": {
+        "_id": "5f1158120c833276f61f1a84",
+        "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/1608042047613-5f1158120c833276f61f1a84.jpeg",
+        "isPro": false,
+        "fullname": "Niels Rogge",
+        "user": "nielsr",
+        "type": "user",
+        "name": "nielsr"
+      },
+      "summary": "Streaming 3D reconstruction aims to recover 3D information, such as camera poses and point clouds, from a video stream, which necessitates geometric accuracy, temporal\n  consistency, and computational efficiency. Motivated by the principles of Simultaneous Localization and Mapping (SLAM), we introduce LingBot-Map, a feed-forward 3D foundation\n  model for reconstructing scenes from streaming data, built upon a geometric context transformer (GCT) architecture. A defining aspect of LingBot-Map lies in its carefully\n  designed attention mechanism, which integrates an anchor context, a pose-reference window, and a trajectory memory to address coordinate grounding, dense geometric cues, and\n  long-range drift correction, respectively. This design keeps the streaming state compact while retaining rich geometric context, enabling stable efficient inference at around\n  20 FPS on 518 x 378 resolution inputs over long sequences exceeding 10,000 frames. Extensive evaluations across a variety of benchmarks demonstrate that our approach\n  achieves superior performance compared to both existing streaming and iterative optimization-based approaches.",
+      "upvotes": 33,
+      "discussionId": "69e090275b704445ba50b816",
+      "projectPage": "https://technology.robbyant.com/lingbot-map",
+      "githubRepo": "https://github.com/robbyant/lingbot-map",
+      "githubRepoAddedBy": "user",
+      "ai_summary": "LingBot-Map is a feed-forward 3D foundation model that reconstructs scenes from video streams using a geometric context transformer architecture with specialized attention mechanisms for coordinate grounding, dense geometric cues, and long-range drift correction, achieving stable real-time performance at 20 FPS.",
+      "ai_keywords": [
+        "Simultaneous Localization and Mapping",
+        "feed-forward 3D foundation model",
+        "geometric context transformer",
+        "attention mechanism",
+        "anchor context",
+        "pose-reference window",
+        "trajectory memory",
+        "coordinate grounding",
+        "dense geometric cues",
+        "long-range drift correction"
+      ],
+      "ai_summary_model": "Qwen/Qwen2.5-Coder-32B-Instruct",
+      "githubStars": 15537,
+      "organization": {
+        "_id": "69709f892cd08371c1011a2e",
+        "name": "robbyant",
+        "fullname": "Robbyant",
+        "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/67aeffda7330db26f93cd62f/ZTuImney4XzRmBHyUL47F.png"
+      }
+    },
+    "publishedAt": "2026-04-14T20:00:00.000Z",
+    "title": "Geometric Context Transformer for Streaming 3D Reconstruction",
+    "summary": "Streaming 3D reconstruction aims to recover 3D information, such as camera poses and point clouds, from a video stream, which necessitates geometric accuracy, temporal\n  consistency, and computational efficiency. Motivated by the principles of Simultaneous Localization and Mapping (SLAM), we introduce LingBot-Map, a feed-forward 3D foundation\n  model for reconstructing scenes from streaming data, built upon a geometric context transformer (GCT) architecture. A defining aspect of LingBot-Map lies in its carefully\n  designed attention mechanism, which integrates an anchor context, a pose-reference window, and a trajectory memory to address coordinate grounding, dense geometric cues, and\n  long-range drift correction, respectively. This design keeps the streaming state compact while retaining rich geometric context, enabling stable efficient inference at around\n  20 FPS on 518 x 378 resolution inputs over long sequences exceeding 10,000 frames. Extensive evaluations across a variety of benchmarks demonstrate that our approach\n  achieves superior performance compared to both existing streaming and iterative optimization-based approaches.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2604.14141.png",
+    "numComments": 3,
+    "submittedBy": {
+      "_id": "5f1158120c833276f61f1a84",
+      "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/1608042047613-5f1158120c833276f61f1a84.jpeg",
+      "fullname": "Niels Rogge",
+      "name": "nielsr",
+      "type": "user",
+      "isPro": false,
+      "isHf": true,
+      "isHfAdmin": false,
+      "isMod": false,
+      "followerCount": 1259,
+      "isUserFollowing": false
+    },
+    "organization": {
+      "_id": "69709f892cd08371c1011a2e",
+      "name": "robbyant",
+      "fullname": "Robbyant",
+      "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/67aeffda7330db26f93cd62f/ZTuImney4XzRmBHyUL47F.png"
+    },
+    "isAuthorParticipating": true
+  },
+  {
+    "paper": {
+      "id": "2605.23904",
+      "authors": [
+        {
+          "_id": "6a13aad74d9e8d8602d201a8",
+          "user": {
+            "_id": "62d18eb81e36881a57f29bf4",
+            "avatarUrl": "/avatars/104851421b4ee9641daaf15942fa7ea1.svg",
+            "isPro": false,
+            "fullname": "Yif Yang",
+            "user": "Yif29",
+            "type": "user",
+            "name": "Yif29"
+          },
+          "name": "Yifan Yang",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-05-25T15:12:31.312Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a13aad74d9e8d8602d201a9",
+          "user": {
+            "_id": "660691330be1fbe3b9e4c33d",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/660691330be1fbe3b9e4c33d/TxrDFH_cRu3AlpMC3xmhv.jpeg",
+            "isPro": false,
+            "fullname": "ZiYang Gong",
+            "user": "Cusyoung",
+            "type": "user",
+            "name": "Cusyoung"
+          },
+          "name": "Ziyang Gong",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-05-25T15:12:29.154Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a13aad74d9e8d8602d201aa",
+          "name": "Weiquan Huang",
+          "hidden": false
+        },
+        {
+          "_id": "6a13aad74d9e8d8602d201ab",
+          "name": "Qihao Yang",
+          "hidden": false
+        },
+        {
+          "_id": "6a13aad74d9e8d8602d201ac",
+          "name": "Ziwei Zhou",
+          "hidden": false
+        },
+        {
+          "_id": "6a13aad74d9e8d8602d201ad",
+          "user": {
+            "_id": "662b6a8f0b7f23f3c000559e",
+            "avatarUrl": "/avatars/0a5b4e09ac9a8e40342131319ff32b29.svg",
+            "isPro": false,
+            "fullname": "Zisu Huang",
+            "user": "zisuh",
+            "type": "user",
+            "name": "zisuh"
+          },
+          "name": "Zisu Huang",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-05-25T15:12:25.187Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a13aad74d9e8d8602d201ae",
+          "name": "Yan Li",
+          "hidden": false
+        },
+        {
+          "_id": "6a13aad74d9e8d8602d201af",
+          "name": "Xuemei Gao",
+          "hidden": false
+        },
+        {
+          "_id": "6a13aad74d9e8d8602d201b0",
+          "user": {
+            "_id": "65115c00a588fdb36558b673",
+            "avatarUrl": "/avatars/1f36263dc4bfaf696a4aa959a6aab1e1.svg",
+            "isPro": false,
+            "fullname": "Qi Dai",
+            "user": "daiqi",
+            "type": "user",
+            "name": "daiqi"
+          },
+          "name": "Qi Dai",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-07-20T15:44:38.713Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a13aad74d9e8d8602d201b1",
+          "name": "Bei Liu",
+          "hidden": false
+        },
+        {
+          "_id": "6a13aad74d9e8d8602d201b2",
+          "name": "Kai Qiu",
+          "hidden": false
+        },
+        {
+          "_id": "6a13aad74d9e8d8602d201b3",
+          "name": "Yuqing Yang",
+          "hidden": false
+        },
+        {
+          "_id": "6a13aad74d9e8d8602d201b4",
+          "name": "Dongdong Chen",
+          "hidden": false
+        },
+        {
+          "_id": "6a13aad74d9e8d8602d201b5",
+          "name": "Xue Yang",
+          "hidden": false
+        },
+        {
+          "_id": "6a13aad74d9e8d8602d201b6",
+          "name": "Chong Luo",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2026-05-22T00:00:00.000Z",
+      "submittedOnDailyAt": "2026-05-25T00:00:00.000Z",
+      "title": "SkillOpt: Executive Strategy for Self-Evolving Agent Skills",
+      "submittedOnDailyBy": {
+        "_id": "6039478ab3ecf716b1a5fd4d",
+        "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/6039478ab3ecf716b1a5fd4d/_Thy4E7taiSYBLKxEKJbT.jpeg",
+        "isPro": true,
+        "fullname": "taesiri",
+        "user": "taesiri",
+        "type": "user",
+        "name": "taesiri"
+      },
+      "summary": "Agent skills today are hand-crafted, generated one-shot, or evolved through loosely controlled self-revision, none of which behaves like a deep-learning optimizer for the skill, and none of which reliably improves over its starting point under feedback. We argue the skill should instead be trained as the external state of a frozen agent, with the same discipline that makes weight-space optimization reproducible. SkillOpt is, to our knowledge, the first systematic controllable text-space optimizer for agent skills: a separate optimizer model turns scored rollouts into bounded add/delete/replace edits on a single skill document, and an edit is accepted only when it strictly improves a held-out validation score. A textual learning-rate budget, rejected-edit buffer, and epoch-wise slow/meta update make skill training stable while adding zero inference-time model calls at deployment. Across six benchmarks, seven target models, and three execution harnesses (direct chat, Codex, Claude Code), SkillOpt is best or tied on all 52 evaluated (model, benchmark, harness) cells and beats every per-cell competitor among human, one-shot LLM, Trace2Skill, TextGrad, GEPA, and EvoSkill skills. On GPT-5.5 it lifts the average no-skill accuracy by +23.5 points in direct chat, by +24.8 inside the Codex agentic loop, and by +19.1 inside Claude Code. Transfer experiments further show that optimized skill artifacts retain value when moved across model scales, between Codex and Claude Code execution environments, and to a nearby math benchmark without further optimization.",
+      "upvotes": 262,
+      "discussionId": "6a13aad74d9e8d8602d201b7",
+      "projectPage": "https://microsoft.github.io/SkillOpt/",
+      "githubRepo": "https://github.com/microsoft/SkillOpt",
+      "githubRepoAddedBy": "user",
+      "ai_summary": "SkillOpt introduces a systematic text-space optimizer for agent skills that trains skills as external agent state with stable updates and zero deployment inference overhead, achieving superior performance across multiple benchmarks and execution environments.",
+      "ai_keywords": [
+        "agent skills",
+        "skill training",
+        "text-space optimizer",
+        "rollouts",
+        "add/delete/replace edits",
+        "validation score",
+        "textual learning-rate budget",
+        "rejected-edit buffer",
+        "epoch-wise slow/meta update",
+        "skill optimization",
+        "transfer experiments",
+        "agent state",
+        "reproducible optimization"
+      ],
+      "ai_summary_model": "Qwen/Qwen2.5-Coder-32B-Instruct",
+      "githubStars": 15086,
+      "organization": {
+        "_id": "68151d0f51add3813f3f7d1b",
+        "name": "MicrosoftResearch",
+        "fullname": "Microsoft Research",
+        "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/6529a4f2f1205983224fa513/PeuVr7jSuJflmDBBGxoDX.png"
+      }
+    },
+    "publishedAt": "2026-05-21T20:00:00.000Z",
+    "title": "SkillOpt: Executive Strategy for Self-Evolving Agent Skills",
+    "summary": "Agent skills today are hand-crafted, generated one-shot, or evolved through loosely controlled self-revision, none of which behaves like a deep-learning optimizer for the skill, and none of which reliably improves over its starting point under feedback. We argue the skill should instead be trained as the external state of a frozen agent, with the same discipline that makes weight-space optimization reproducible. SkillOpt is, to our knowledge, the first systematic controllable text-space optimizer for agent skills: a separate optimizer model turns scored rollouts into bounded add/delete/replace edits on a single skill document, and an edit is accepted only when it strictly improves a held-out validation score. A textual learning-rate budget, rejected-edit buffer, and epoch-wise slow/meta update make skill training stable while adding zero inference-time model calls at deployment. Across six benchmarks, seven target models, and three execution harnesses (direct chat, Codex, Claude Code), SkillOpt is best or tied on all 52 evaluated (model, benchmark, harness) cells and beats every per-cell competitor among human, one-shot LLM, Trace2Skill, TextGrad, GEPA, and EvoSkill skills. On GPT-5.5 it lifts the average no-skill accuracy by +23.5 points in direct chat, by +24.8 inside the Codex agentic loop, and by +19.1 inside Claude Code. Transfer experiments further show that optimized skill artifacts retain value when moved across model scales, between Codex and Claude Code execution environments, and to a nearby math benchmark without further optimization.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2605.23904.png",
+    "numComments": 5,
+    "submittedBy": {
+      "_id": "6039478ab3ecf716b1a5fd4d",
+      "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/6039478ab3ecf716b1a5fd4d/_Thy4E7taiSYBLKxEKJbT.jpeg",
+      "fullname": "taesiri",
+      "name": "taesiri",
+      "type": "user",
+      "isPro": true,
+      "isHf": false,
+      "isHfAdmin": false,
+      "isMod": false,
+      "followerCount": 346,
+      "isUserFollowing": false
+    },
+    "organization": {
+      "_id": "68151d0f51add3813f3f7d1b",
+      "name": "MicrosoftResearch",
+      "fullname": "Microsoft Research",
+      "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/6529a4f2f1205983224fa513/PeuVr7jSuJflmDBBGxoDX.png"
+    },
+    "isAuthorParticipating": true
+  },
+  {
+    "paper": {
+      "id": "2607.19064",
+      "authors": [
+        {
+          "_id": "6a6021d57e7f152167e4704a",
+          "name": "Xinjie Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "6a6021d57e7f152167e4704b",
+          "name": "Peng Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "6a6021d57e7f152167e4704c",
+          "name": "Shicheng Zheng",
+          "hidden": false
+        },
+        {
+          "_id": "6a6021d57e7f152167e4704d",
+          "name": "Jinghao Guo",
+          "hidden": false
+        },
+        {
+          "_id": "6a6021d57e7f152167e4704e",
+          "name": "Zhaoyang Jia",
+          "hidden": false
+        },
+        {
+          "_id": "6a6021d57e7f152167e4704f",
+          "user": {
+            "_id": "649aa367c6cf3cc95bc1b7f6",
+            "avatarUrl": "/avatars/4bf5446c261eab08fc06caebf4c5779a.svg",
+            "isPro": false,
+            "fullname": "Yifei Shen",
+            "user": "yshenaw",
+            "type": "user",
+            "name": "yshenaw"
+          },
+          "name": "Yifei Shen",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-07-22T08:45:04.664Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a6021d57e7f152167e47050",
+          "name": "Xun Guo",
+          "hidden": false
+        },
+        {
+          "_id": "6a6021d57e7f152167e47051",
+          "user": {
+            "_id": "66e391a5021730e4ead995eb",
+            "avatarUrl": "/avatars/43ea3085b77ad9b08d21a8642156e574.svg",
+            "isPro": false,
+            "fullname": "Luo Yuxuan",
+            "user": "LoYuXrqw",
+            "type": "user",
+            "name": "LoYuXrqw"
+          },
+          "name": "Yuxuan Luo",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-07-22T07:39:29.268Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a6021d57e7f152167e47052",
+          "name": "Jiahao Li",
+          "hidden": false
+        },
+        {
+          "_id": "6a6021d57e7f152167e47053",
+          "name": "Wenxuan Xie",
+          "hidden": false
+        },
+        {
+          "_id": "6a6021d57e7f152167e47054",
+          "user": {
+            "_id": "646e1ef5075bbcc48ddf21e8",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/646e1ef5075bbcc48ddf21e8/g-nFu-plmEdTpnAJh_pUx.png",
+            "isPro": false,
+            "fullname": "Pu Fanyi",
+            "user": "pufanyi",
+            "type": "user",
+            "name": "pufanyi"
+          },
+          "name": "Fanyi Pu",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-07-22T07:39:29.257Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a6021d57e7f152167e47055",
+          "name": "Xiaoyi Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "6a6021d57e7f152167e47056",
+          "name": "Kaichen Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "6a6021d57e7f152167e47057",
+          "name": "Zongyu Guo",
+          "hidden": false
+        },
+        {
+          "_id": "6a6021d57e7f152167e47058",
+          "user": {
+            "_id": "65a2a384bfaec7e7cae41d27",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/65a2a384bfaec7e7cae41d27/89BV_99ujn5DL5x4zOCbc.png",
+            "isPro": false,
+            "fullname": "Tianci Bi",
+            "user": "tiancibi",
+            "type": "user",
+            "name": "tiancibi"
+          },
+          "name": "Tianci Bi",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-07-22T07:39:29.277Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a6021d57e7f152167e47059",
+          "name": "Dongnan Gui",
+          "hidden": false
+        },
+        {
+          "_id": "6a6021d57e7f152167e4705a",
+          "name": "Zhening Liu",
+          "hidden": false
+        },
+        {
+          "_id": "6a6021d57e7f152167e4705b",
+          "name": "Zimo Wen",
+          "hidden": false
+        },
+        {
+          "_id": "6a6021d57e7f152167e4705c",
+          "name": "Zihan Zheng",
+          "hidden": false
+        },
+        {
+          "_id": "6a6021d57e7f152167e4705d",
+          "name": "Senqiao Yang",
+          "hidden": false
+        },
+        {
+          "_id": "6a6021d57e7f152167e4705e",
+          "name": "Xiao Li",
+          "hidden": false
+        },
+        {
+          "_id": "6a6021d57e7f152167e4705f",
+          "name": "Jinglu Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a6021d57e7f152167e47060",
+          "name": "Bin Li",
+          "hidden": false
+        },
+        {
+          "_id": "6a6021d57e7f152167e47061",
+          "name": "Yan Lu",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2026-07-21T00:00:00.000Z",
+      "submittedOnDailyAt": "2026-07-22T00:00:00.000Z",
+      "title": "Mage-Flow: An Efficient Native-Resolution Foundation Model for Image Generation and Editing",
+      "submittedOnDailyBy": {
+        "_id": "64338d1c4521083b9d2d21da",
+        "avatarUrl": "/avatars/54b809021d794f1c4b762fbc5d0c7c90.svg",
+        "isPro": false,
+        "fullname": "Xinjie",
+        "user": "Xinjie-Q",
+        "type": "user",
+        "name": "Xinjie-Q"
+      },
+      "summary": "Large-scale visual generators are increasingly capable but costly to train, fine-tune, and deploy. We introduce Mage-Flow, a compact 4B-scale generative stack for efficient text-to-image generation and instruction-based image editing. The stack is built from two co-designed components: Mage-VAE, a lightweight high-fidelity latent tokenizer, and a Native-Resolution Multimodal Diffusion Transformer trained with rectified flow matching. Mage-VAE uses one-step diffusion-style encoding and decoding with anchor-latent regularization, preserving the reconstruction quality of strong public VAEs while reducing tokenization cost by more than an order of magnitude. Together with native-resolution packing and stack-level CUDA kernel fusion, the stack supports flexible-resolution training and improves end-to-end training throughput by about 2.5times. Built on this foundation, we develop a complete model family with Base, RL-aligned, and Turbo variants for both generation and editing. Diffusion-NFT improves prompt following, text rendering, aesthetic quality, and editing fidelity, while few-step distillation with adversarial perceptual guidance produces 4-step Turbo models for low-latency inference. Despite its compact scale, Mage-Flow and Mage-Flow-Edit achieves competitive performance across standard generation and editing benchmarks. More importantly, the Turbo variants make high-resolution generation and editing practical for interactive use: at 1024^2 resolution on a single NVIDIA A100 GPU, Mage-Flow-Turbo generates an image in 0.59s, and Mage-Flow-Edit-Turbo edits an image in 1.02s, while maintaining a small memory footprint. These results show that careful tokenizer--backbone--system co-design can deliver strong high-resolution generation and editing within an efficient 4B model family.",
+      "upvotes": 68,
+      "discussionId": "6a6021d57e7f152167e47062",
+      "projectPage": "https://microsoft.github.io/Mage/",
+      "githubRepo": "https://github.com/microsoft/Mage",
+      "githubRepoAddedBy": "user",
+      "githubStars": 652,
+      "organization": {
+        "_id": "5e6485f787403103f9f1055e",
+        "name": "microsoft",
+        "fullname": "Microsoft",
+        "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/1583646260758-5e64858c87403103f9f1055d.png"
+      }
+    },
+    "publishedAt": "2026-07-20T20:00:00.000Z",
+    "title": "Mage-Flow: An Efficient Native-Resolution Foundation Model for Image Generation and Editing",
+    "summary": "Large-scale visual generators are increasingly capable but costly to train, fine-tune, and deploy. We introduce Mage-Flow, a compact 4B-scale generative stack for efficient text-to-image generation and instruction-based image editing. The stack is built from two co-designed components: Mage-VAE, a lightweight high-fidelity latent tokenizer, and a Native-Resolution Multimodal Diffusion Transformer trained with rectified flow matching. Mage-VAE uses one-step diffusion-style encoding and decoding with anchor-latent regularization, preserving the reconstruction quality of strong public VAEs while reducing tokenization cost by more than an order of magnitude. Together with native-resolution packing and stack-level CUDA kernel fusion, the stack supports flexible-resolution training and improves end-to-end training throughput by about 2.5times. Built on this foundation, we develop a complete model family with Base, RL-aligned, and Turbo variants for both generation and editing. Diffusion-NFT improves prompt following, text rendering, aesthetic quality, and editing fidelity, while few-step distillation with adversarial perceptual guidance produces 4-step Turbo models for low-latency inference. Despite its compact scale, Mage-Flow and Mage-Flow-Edit achieves competitive performance across standard generation and editing benchmarks. More importantly, the Turbo variants make high-resolution generation and editing practical for interactive use: at 1024^2 resolution on a single NVIDIA A100 GPU, Mage-Flow-Turbo generates an image in 0.59s, and Mage-Flow-Edit-Turbo edits an image in 1.02s, while maintaining a small memory footprint. These results show that careful tokenizer--backbone--system co-design can deliver strong high-resolution generation and editing within an efficient 4B model family.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2607.19064.png",
+    "numComments": 2,
+    "submittedBy": {
+      "_id": "64338d1c4521083b9d2d21da",
+      "avatarUrl": "/avatars/54b809021d794f1c4b762fbc5d0c7c90.svg",
+      "fullname": "Xinjie",
+      "name": "Xinjie-Q",
+      "type": "user",
+      "isPro": false,
+      "isHf": false,
+      "isHfAdmin": false,
+      "isMod": false,
+      "followerCount": 6,
+      "isUserFollowing": false
+    },
+    "organization": {
+      "_id": "5e6485f787403103f9f1055e",
+      "name": "microsoft",
+      "fullname": "Microsoft",
+      "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/1583646260758-5e64858c87403103f9f1055d.png"
+    },
+    "isAuthorParticipating": false
+  },
+  {
+    "paper": {
+      "id": "2412.20138",
+      "authors": [
+        {
+          "_id": "6847673b3ec10bdd8ab4dd5e",
+          "name": "Yijia Xiao",
+          "hidden": false
+        },
+        {
+          "_id": "6847673b3ec10bdd8ab4dd5f",
+          "name": "Edward Sun",
+          "hidden": false
+        },
+        {
+          "_id": "6847673b3ec10bdd8ab4dd60",
+          "name": "Di Luo",
+          "hidden": false
+        },
+        {
+          "_id": "6847673b3ec10bdd8ab4dd61",
+          "name": "Wei Wang",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2024-12-28T12:54:06.000Z",
+      "title": "TradingAgents: Multi-Agents LLM Financial Trading Framework",
+      "summary": "Significant progress has been made in automated problem-solving using\nsocieties of agents powered by large language models (LLMs). In finance,\nefforts have largely focused on single-agent systems handling specific tasks or\nmulti-agent frameworks independently gathering data. However, the multi-agent\nsystems' potential to replicate real-world trading firms' collaborative\ndynamics remains underexplored. TradingAgents proposes a novel stock trading\nframework inspired by trading firms, featuring LLM-powered agents in\nspecialized roles such as fundamental analysts, sentiment analysts, technical\nanalysts, and traders with varied risk profiles. The framework includes Bull\nand Bear researcher agents assessing market conditions, a risk management team\nmonitoring exposure, and traders synthesizing insights from debates and\nhistorical data to make informed decisions. By simulating a dynamic,\ncollaborative trading environment, this framework aims to improve trading\nperformance. Detailed architecture and extensive experiments reveal its\nsuperiority over baseline models, with notable improvements in cumulative\nreturns, Sharpe ratio, and maximum drawdown, highlighting the potential of\nmulti-agent LLM frameworks in financial trading. TradingAgents is available at\nhttps://github.com/TauricResearch/TradingAgents.",
+      "upvotes": 115,
+      "discussionId": "6847673c3ec10bdd8ab4dd62",
+      "githubRepo": "https://github.com/tauricresearch/tradingagents",
+      "githubRepoAddedBy": "auto",
+      "ai_summary": "A multi-agent framework using large language models for stock trading simulates real-world trading firms, improving performance metrics like cumulative returns and Sharpe ratio.",
+      "ai_keywords": [
+        "large language models",
+        "LLM",
+        "multi-agent systems",
+        "fundamental analysts",
+        "sentiment analysts",
+        "technical analysts",
+        "traders",
+        "risk management",
+        "cumulative returns",
+        "Sharpe ratio",
+        "maximum drawdown"
+      ],
+      "ai_summary_model": "Qwen/Qwen2.5-Coder-32B-Instruct",
+      "githubStars": 94602
+    },
+    "publishedAt": "2024-12-28T07:54:06.000Z",
+    "title": "TradingAgents: Multi-Agents LLM Financial Trading Framework",
+    "summary": "Significant progress has been made in automated problem-solving using\nsocieties of agents powered by large language models (LLMs). In finance,\nefforts have largely focused on single-agent systems handling specific tasks or\nmulti-agent frameworks independently gathering data. However, the multi-agent\nsystems' potential to replicate real-world trading firms' collaborative\ndynamics remains underexplored. TradingAgents proposes a novel stock trading\nframework inspired by trading firms, featuring LLM-powered agents in\nspecialized roles such as fundamental analysts, sentiment analysts, technical\nanalysts, and traders with varied risk profiles. The framework includes Bull\nand Bear researcher agents assessing market conditions, a risk management team\nmonitoring exposure, and traders synthesizing insights from debates and\nhistorical data to make informed decisions. By simulating a dynamic,\ncollaborative trading environment, this framework aims to improve trading\nperformance. Detailed architecture and extensive experiments reveal its\nsuperiority over baseline models, with notable improvements in cumulative\nreturns, Sharpe ratio, and maximum drawdown, highlighting the potential of\nmulti-agent LLM frameworks in financial trading. TradingAgents is available at\nhttps://github.com/TauricResearch/TradingAgents.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2412.20138.png",
+    "numComments": 4,
+    "isAuthorParticipating": false
+  }
+]
