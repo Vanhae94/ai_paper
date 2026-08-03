@@ -1,0 +1,319 @@
+{
+  "week_id": "2026-W32",
+  "papers": {
+    "2508.19205": {
+      "tier2": {
+        "method_detail": "VibeVoice는 텍스트-음성 정렬을 LLM에 맡기고, 음향 표현 생성은 토큰 단위 확산(next-token diffusion)에 맡기는 하이브리드 자기회귀 구조다. 핵심은 두 개의 연속형 토크나이저다. 음향 토크나이저는 sigma-VAE 형태의 인코더-디코더로, 24kHz 입력에 6개의 다운샘플링 층을 쌓아 누적 3200배 압축(즉 프레임레이트 7.5Hz)을 달성하며 인코더와 디코더가 각각 약 340M 파라미터다. 내부는 7단계의 변형 Transformer 블록으로 구성되고 self-attention 대신 1D depth-wise causal convolution을 써서 스트리밍 처리에 적합하게 만들었으며, 학습은 DAC 계열의 판별자와 손실 설계를 따른다. 분산을 학습하지 않고 사전 정의된 분포로 고정하는 sigma-VAE를 쓴 이유는 자기회귀 세팅에서 VAE의 분산 붕괴(variance collapse)를 완화하기 위함이다. 의미 토크나이저는 음향 인코더의 계층 구조를 그대로 따르되 VAE 구성요소를 제거하고 ASR을 프록시 과제로 학습한 뒤 디코더 층은 폐기하며, 생성 대상 음성 구간은 음향/의미 두 토크나이저로 모두 인코딩되어 하이브리드 음성 표현으로 자기회귀 모델링에 들어간다. LLM 백본은 Qwen2.5 1.5B와 7B이고, 입력 시퀀스는 화자별 음성 프롬프트 잠재벡터 묶음 다음에 화자별 텍스트 스크립트가 오는 형태로 화자 식별자와 교차 배치된다(X = [Speaker1:z1, ..., SpeakerN:zN] + [Speaker1:T1, ..., SpeakerN:TN]). LLM 히든 스테이트를 조건으로 받는 4층 확산 헤드가 각 토큰 위치에서 음향 VAE 특징의 노이즈를 예측하며, 추론 시 CFG 스케일 1.3과 DPM-Solver++ 10스텝으로 디노이징한 뒤 음향 디코더로 파형을 복원한다. 학습은 사전학습된 두 토크나이저를 동결하고 LLM과 확산 헤드만 갱신하며, 입력 시퀀스 길이를 4,096에서 65,536 토큰까지 점진적으로 늘리는 커리큘럼을 적용해 64K 컨텍스트에서 최대 90분/최대 4화자 생성을 가능하게 했다. 확산 헤드 히든 차원과 파라미터 수, 음향 잠재벡터의 채널 차원, sigma 상수값은 본문 확인 필요(미기재).",
+        "experiment_setup": [
+          "평가축 3개: (1) 장문 다화자 팟캐스트 주관/객관 평가, (2) SEED 단문 zero-shot TTS, (3) LibriTTS 토크나이저 재구성 품질.",
+          "팟캐스트 평가는 8개 장문 대화 스크립트(총 약 1시간)를 사용하고, 24명의 어노테이터가 Realism/Richness/Preference 3개 축으로 MOS를 매김. 객관 지표는 Whisper-large-v3 WER, NeMo ASR WER, WavLM-large 기반 SIM.",
+          "팟캐스트 MOS 평균: VibeVoice-7B 3.76(+/-0.93) > VibeVoice-1.5B 3.54(+/-0.96) > Gemini 2.5 Pro 3.66(+/-1.16)와 비교 시 Preference 항목에서 7B 3.75 vs Gemini 3.65로 우위. Elevenlabs v3 alpha 3.40, Higgs Audio V2 2.99, SesameAI CSM 2.89.",
+          "팟캐스트 WER(Whisper): VibeVoice-1.5B 1.11이 최저, 7B 1.29, Gemini 2.5 Pro 1.73, Elevenlabs 2.39, CSM 2.66, Higgs Audio V2 5.94. SIM은 7B 0.692, CSM 0.685, Elevenlabs 0.623, 1.5B 0.548.",
+          "SEED 단문(1.5B만 보고): test-zh CER 1.16% / SIM 0.744, test-en WER 3.04% / SIM 0.689. 비교군 Seed-TTS(zh CER 1.12, en WER 2.25, SIM 0.796/0.762), MaskGCT, FireRedTTS, CosyVoice 2, Spark TTS. 즉 zh CER은 상위권이지만 en WER과 SIM은 최상위 대비 열위이며, 프레임레이트가 7.5Hz(타 모델 25~50Hz)라는 점이 트레이드오프 근거로 제시됨.",
+          "토크나이저 재구성(LibriTTS test-clean): 제안 음향 토크나이저는 양자화기 1개, 토큰레이트 7.5로 PESQ 3.068 / UTMOS 4.181을 기록. Encodec(8 quantizer, 600 토큰레이트)은 PESQ 2.72 / UTMOS 3.04, WavTokenizer(75)는 PESQ 2.373 / UTMOS 4.049. 토큰레이트 600 대 7.5가 곧 '80배 압축' 주장의 근거.",
+          "test-other에서도 PESQ 2.848 / UTMOS 3.724로 우위를 유지하나 STOI는 0.828(clean)/0.823(other)로 Encodec 0.939/0.924보다 낮아 명료도 지표에서는 손실이 있음.",
+          "정식 ablation 섹션은 없음. 1.5B -> 7B 스케일업 시 음색 풍부함과 억양 자연성 개선을 정성적으로만 기술. LLM 단계 학습 데이터 시간 수, 학습률, 배치 크기, 옵티마이저는 본문 미기재(확인 필요)."
+        ],
+        "datasets": [
+          {
+            "name": "VibeVoice Podcast 평가셋(자체 구축)",
+            "domain": "장문 다화자 대화(팟캐스트) 합성 주관/객관 평가",
+            "scale": "8개 대화 스크립트, 총 약 1시간. 언어 구성은 본문 미기재"
+          },
+          {
+            "name": "SEED test-zh / test-en",
+            "domain": "단문 zero-shot TTS(중국어 CER, 영어 WER, 화자 유사도)",
+            "scale": "영어 약 1,000 / 중국어 약 2,000 샘플 규모. 원 출처 상세는 본문 확인 필요"
+          },
+          {
+            "name": "LibriTTS test-clean / test-other",
+            "domain": "음향 토크나이저 재구성 품질(PESQ, STOI, UTMOS)",
+            "scale": "표준 테스트 분할 사용, 샘플 수 본문 미기재"
+          },
+          {
+            "name": "학습 코퍼스(음향/의미 토크나이저 및 LLM 단계)",
+            "domain": "영어, 중국어 음성",
+            "scale": "미공개. 총 시간 수, 출처, 전처리 모두 본문 미기재(확인 필요)"
+          }
+        ],
+        "limitations": {
+          "by_authors": [
+            "언어 제약: 영어와 중국어만 지원한다. 그 외 언어 스크립트는 예상치 못한 오디오가 나올 수 있다고 명시한다.",
+            "비음성 오디오 미지원: 음성 합성만 다루며 배경 소음, 음악, 효과음은 생성하지 않는다.",
+            "겹쳐 말하기 미지원: 현재 모델은 overlapping 구간을 명시적으로 모델링하거나 생성하지 않는다.",
+            "악용 위험 인정: 고품질 합성음이 사칭, 사기, 허위정보용 딥페이크로 오용될 수 있다고 경고한다.",
+            "배포 태도: 추가 테스트와 개발 없이 상업적 또는 실제 서비스에 쓰는 것을 권장하지 않는다고 못 박는다.",
+            "백본 편향 상속: Qwen2.5의 편향과 오류를 물려받는다는 문구는 논문이 아니라 HF 모델 카드에만 있다. 본문에는 없다.",
+            "주의: 생성 상한(화자 4명, 64K 컨텍스트에서 90분)은 저자가 한계 절에 적은 항목이 아니라 초록의 능력 주장이다. 저자 선언 한계로 세지 말 것."
+          ],
+          "by_claude": [
+            "학습 데이터가 통째로 비공개다. 총 시간, 출처, 언어 비율, 대화체 비중이 모두 없다. 성능 우위가 구조 덕인지 데이터 덕인지 판별할 근거가 없다.",
+            "어블레이션이 없다. sigma-VAE, 의미 토크나이저, 하이브리드 표현, 길이 커리큘럼의 기여도가 하나도 분리 검증되지 않았다. 분산 붕괴 완화 논거도 설계 근거로만 제시된다.",
+            "90분 주장이 90분 근처에서 한 번도 평가되지 않았다. 주관 평가는 스크립트 8개 총 약 1시간, 평균 약 7.5분이다. 상한의 12분의 1 수준만 듣고 90분을 주장한다.",
+            "WER과 화자 유사도는 대리지표다. 과도하게 또박또박한 합성이 WER에서 유리해질 수 있는데 자연스러움과 WER의 상충을 다루지 않는다.",
+            "80배 압축의 기준은 표3에서 역산 가능하다. Encodec 8코드북 토큰레이트 600 대비 7.5로 정확히 80배다. 다만 이산 토큰 개수와 연속 잠재 1개를 같은 축에 놓은 비교라 압축률 우위의 의미가 과대해 보일 수 있다. 표3 지표(PESQ, STOI, UTMOS)도 LibriTTS 낭독체 한정이라 대화체와 잡음 환경 일반화는 미확인이다.",
+            "스트리밍 친화 설계(self-attention 대신 1D depth-wise causal conv)를 내세우지만 RTF, 지연시간, 스트리밍 성능 수치가 본문에 전혀 없다. 확인 완료 사항이다.",
+            "핵심 하이퍼파라미터가 빠져 있다. 토크나이저는 인코더/디코더 각 약 340M으로 명시했지만, 확산 헤드의 히든 차원과 파라미터 수, 음향 잠재 채널 수, C_sigma 값은 모두 없어 재구현이 불가능하다.",
+            "논문의 공개 경로와 실제 상태가 어긋난다. 2025년 9월 Microsoft가 TTS 코드를 저장소에서 삭제했고 microsoft/VibeVoice-Large 공식 페이지도 접근 불가다. 논문 링크만 따라가면 표1의 7B를 재현할 수 없다.",
+            "논문 수치는 안전 장치 없는 조건일 가능성이 크다. 워터마크와 가청 고지문은 본문에 언급조차 없고 HF 모델 카드에만 있다. 공개 코드로 WER, SIM을 재측정하면 조건이 달라진다.",
+            "논문 내부 불일치가 있다. 본문은 6개 모델을 평가했다고 적었지만 표1에는 8행이 있다. 본문 확인 필요.",
+            "공개된 7B(VibeVoice-Large)는 32K 컨텍스트, 약 45분으로 표기돼 초록의 64K/90분과 어긋난다. 90분은 1.5B 기준으로 보인다.",
+            "우위가 7B에만 걸려 있다. 표1에서 1.5B 평균 3.54는 Gemini 3.66보다 낮고 SIM 0.548은 CSM 0.685보다 낮다."
+          ]
+        },
+        "reproducibility": {
+          "code": "부분 공개, 이후 회수. 논문은 github.com/microsoft/VibeVoice 를 코드 경로로 명시하지만, 2025년 9월 Microsoft가 의도와 어긋난 사용 사례를 이유로 VibeVoice-TTS 코드를 저장소에서 삭제했다. 현재 공식 저장소에는 VibeVoice-ASR과 Realtime-0.5B 계열 코드만 남아 있다. 원본 TTS 추론 코드는 커뮤니티 포크(vibevoice-community/VibeVoice 등)에 보존돼 있다. 학습 코드와 토크나이저 사전학습 코드는 미공개.",
+          "data": "미공개. 학습 데이터의 규모, 출처, 구성이 논문에 기재되지 않았다. 평가 데이터만 확인 가능: SEED 테스트셋(CommonVoice 기반, 영어 약 1,000 샘플과 중국어 약 2,000 샘플), LibriTTS 테스트셋(토크나이저 복원 품질), 자체 장문 대화 스크립트 8개(약 1시간, 주관 평가용). 주관 평가는 어노테이터 24명, 1인당 약 6시간 오디오.",
+          "weights": "부분 공개. VibeVoice-1.5B는 HuggingFace(microsoft/VibeVoice-1.5B)에서 계속 다운로드 가능하다. 7B급 VibeVoice-Large 공식 페이지는 접근 불가(401)이나 커뮤니티 미러(aoi-ot/VibeVoice-Large, rsxdalv/VibeVoice-Large 등)에 가중치가 남아 있다. ModelScope 잔존 여부는 상충 정보가 있어 본문 확인 필요. 공개 Large 스펙은 32K 컨텍스트, 약 45분으로 논문 초록의 64K/90분과 어긋난다. 후속 VibeVoice-ASR(7B), ASR-BitNet, Realtime-0.5B는 공개 상태.",
+          "license": "MIT(가중치 및 추론 코드). 단 모델 카드가 연구개발 목적 한정과 상용/실서비스 비권장을 함께 명시하므로 라이선스 문구보다 사용 범위 제약이 실질적으로 더 강하다. arXiv 페이지 자체는 nonexclusive-distrib/1.0 표기.",
+          "note": "재현 난이도는 높지만 추론 재현은 가능하다. 코드는 커뮤니티 포크에, 1.5B는 HF 공식에, 7B는 HF 미러에 남아 있어 표1과 표2의 추론 재측정 경로가 아주 막힌 것은 아니다. 학습 재현은 데이터와 학습 코드 부재로 사실상 불가하다. 합성음에 가청 고지문과 워터마크가 들어가는데 이 사실은 논문이 아니라 모델 카드에만 있으므로, 지표 재측정 시 논문 수치와 조건이 다를 수 있다."
+        },
+        "my_learning_points": [
+          "프레임레이트를 토큰 예산으로 환산하는 계산을 직접 해보라. 24kHz에서 3200배 다운샘플이면 7.5Hz이고, 90분은 약 40,500 프레임이다. 64K 컨텍스트에 텍스트와 음성 프롬프트까지 들어가는데 어떻게 들어맞는지 손으로 맞춰보면 이 논문이 왜 압축률을 1번 문제로 잡았는지 체감된다. 이어서 HF의 1.5B 토크나이저만 떼어내 몇 문장을 인코딩-디코딩하고 PESQ/UTMOS를 재측정해 표3의 주장 범위를 확인하라.",
+          "이산 코덱(RVQ)에서 연속 잠재 + 확산 헤드로 넘어갈 때 무엇이 사라지고 무엇이 새로 생기는지 목록으로 정리하라. 코드북 붕괴, 다중 코드북 예측 순서, 양자화 오차가 사라지는 대신 디노이징 스텝 수(여기서는 DPM-Solver++ 10스텝)와 CFG 스케일(1.3) 튜닝 부담이 생긴다. 같은 트레이드오프를 이미지 토크나이저 계열과 나란히 정리해두면 이후 멀티모달 논문 독해 속도가 붙는다.",
+          "저자들이 생략한 어블레이션을 자기 실험 주제로 가져오라. 특히 의미 토크나이저를 뺐을 때 WER이 얼마나 나빠지는가, 길이 커리큘럼(4,096 -> 65,536)을 생략하고 처음부터 긴 시퀀스로 학습하면 화자 일관성이 어떻게 무너지는가는 소규모로도 검증 가능한 질문이다. 논문의 빈칸이 곧 개인 실험 설계의 출발점이라는 습관을 여기서 들여두면 좋다."
+        ],
+        "related_work": {
+          "prior": [
+            {
+              "title": "Multimodal Latent Language Modeling with Next-Token Diffusion (LatentLM)",
+              "id": "arXiv:2412.08635",
+              "why": "next-token diffusion과 sigma-VAE 설계의 직접적 출처. VibeVoice는 이 틀을 장문 다화자 음성으로 옮긴 응용이다."
+            },
+            {
+              "title": "High Fidelity Neural Audio Compression (EnCodec)",
+              "id": "arXiv:2210.13438",
+              "why": "80배 압축 주장의 비교 기준선. 표3에서 8코드북 토큰레이트 600으로 등장한다."
+            },
+            {
+              "title": "High-Fidelity Audio Compression with Improved RVQGAN (DAC)",
+              "id": "arXiv:2306.06546",
+              "why": "음향 토크나이저의 판별자 구성과 손실 설계를 따랐다고 밝힌 근거 논문."
+            },
+            {
+              "title": "Qwen2.5 Technical Report",
+              "id": "arXiv:2412.15115",
+              "why": "LLM 백본(1.5B, 7B). 텍스트-음성 정렬 능력의 출처."
+            },
+            {
+              "title": "DPM-Solver++",
+              "id": "arXiv:2211.01095",
+              "why": "추론 시 10스텝 디노이징을 가능하게 한 샘플러."
+            },
+            {
+              "title": "MoonCast: High-Quality Zero-Shot Podcast Generation",
+              "id": "arXiv:2503.14345",
+              "why": "장문 팟캐스트 생성 선행 연구이자 표1 베이스라인."
+            },
+            {
+              "title": "Seed-TTS",
+              "id": "arXiv:2406.02430",
+              "why": "SEED 평가 프로토콜 제공. 표2 CER/WER 대조군."
+            },
+            {
+              "title": "CosyVoice 2",
+              "id": "arXiv:2412.10117",
+              "why": "LLM 기반 스트리밍 합성 대표 선행. 표2 베이스라인으로 실제 등장한다."
+            }
+          ],
+          "followup": [
+            {
+              "title": "VibeVoice-ASR Technical Report",
+              "id": "arXiv:2601.18184",
+              "why": "본편을 직접 계승한 정식 학술 후속. 동일 표현을 인식, 화자 분할, 타임스탬프 통합 과제로 확장하고 64K 컨텍스트로 60분 단일 패스를 처리한다. 50개 이상 언어 지원."
+            },
+            {
+              "title": "VibeVoice-ASR-BitNet Technical Report",
+              "id": "arXiv:2607.21075",
+              "why": "ASR 후속의 저비트 양자화판. CPU 실시간 추론을 목표로 한다."
+            },
+            {
+              "title": "VibeVoice-Realtime-0.5B",
+              "id": "별도 논문 미확인",
+              "why": "스트리밍 실시간 TTS 후속. 원 논문의 causal convolution 기반 스트리밍 친화 설계가 실제로 이어진 경로."
+            },
+            {
+              "title": "vibevoice-community/VibeVoice (커뮤니티 포크)",
+              "id": "해당 없음",
+              "why": "공식 TTS 코드 삭제 이후 원본 추론 코드를 보존한 사실상의 재현 경로. 학술 후속이 아니라 배포 생태계 차원의 후속."
+            }
+          ]
+        },
+        "claude_note": "VibeVoice의 기여는 새 생성 패러다임이 아니라 압축률이라는 병목을 정확히 골라 밀어붙인 엔지니어링 판단에 있다. 7.5Hz라는 극단적 프레임레이트가 64K 컨텍스트를 90분으로 환산해주고, 나머지 설계(하이브리드 토크나이저, 4층 확산 헤드, 길이 커리큘럼)는 그 압축을 감당하기 위한 보조 장치로 읽힌다. 다만 테크니컬 리포트답게 학습 데이터와 어블레이션이 통째로 비어 있어 성능의 출처가 데이터인지 구조인지 판별할 수 없고, 90분 생성의 품질 저하를 시간축으로 측정한 지표도 없다. 저자들이 스스로 공개 코드를 회수하고 7B 가중치 배포를 막은 탓에 재현 경로가 커뮤니티 포크에 의존하게 된 점은, 기술적 한계가 아니라 배포 거버넌스가 재현성을 깎은 드문 사례로 기록해둘 만하다. 읽을 때는 MOS 3.75 대 3.65 같은 근소한 주관 점수 차를 과대 해석하지 말고, 압축률 대비 복원 품질 우위(표3)가 이 논문의 진짜 주장이라고 보는 편이 정확하다.",
+        "analyzed_at": "2026-08-03"
+      }
+    },
+    "2607.24653": {
+      "tier2": {
+        "method_detail": "Kimi K3는 총 2.78T, 토큰당 활성 104.2B의 native multimodal MoE로 93층, hidden 7,168, attention head 96, vocab 160K이며, Kimi K2(61층, 1.04T/32.6B) 대비 층수 +52%, 총 파라미터 +167%, 활성 파라미터 +220%, 학습 컨텍스트 128K -> 1M(8x)이다. 시퀀스 축은 Hybrid Attention으로 블록마다 KDA(Kimi Delta Attention) 3층 + Gated MLA 1층의 3:1 구성(전체 69 KDA + 24 MLA)이고, 백본 끝에 Gated MLA를 하나 더 붙여 마지막 층이 항상 global attention이 되게 한다. KDA는 delta-rule 재귀에 채널별 forget gate를 더한 것인데, K3는 log-decay 매핑을 Kimi Linear의 negative-Softplus에서 scaled sigmoid로 바꿔 gmin = -5의 하한을 두었고, 그 결과 16-token tile의 누적 log-decay가 (-80, 0)에 갇혀 역수 rescaling이 BF16 범위에 들어오므로 대각 tile까지 전부 Tensor Core dense matmul로 처리해 기존의 position-pair 대각 경로를 제거했다(output gate도 low-rank -> full-rank). Gated MLA는 모든 MLA 층에 NoPE를 적용해 컨텍스트 확장 시 RoPE 재조정이나 YaRN이 불필요하고, 위치 정보는 KDA의 decay/gating이 담당하며 학습 시 attention 출력을 FP32로 유지한다. 깊이 축의 Attention Residuals는 층별 학습 pseudo-query로 embedding과 선행 블록 출력에 softmax attention을 걸어 깊이 방향 선택적 접근을 주며, K3는 12층 x 8블록의 Block AttnRes를 써 메모리/통신을 O(Ld)에서 O(Nd)로 낮춘다. 폭 축의 Stable LatentMoE는 routed expert를 896개로 늘려 토큰당 16개만 활성(sparsity 56)하고 full-width shared expert 2개를 두며, latent 폭 3,584(hidden의 0.5x), expert별 MoE hidden 3,072이고, 극단적 sparsity의 활성값 폭발과 부하 불균형을 up-projection 앞 RMSNorm, SiTU-GLU(gate lambda1 = 4, up lambda2 = 25의 tanh softcap), Quantile Balancing(expert bias를 margin의 (1-k/n)-quantile로 설정, histogram all-reduce로 근사)으로 억제한다. 비전은 SigLIP 초기화를 버리고 next-token prediction으로 처음부터 학습한 27층 401M MoonViT-V2(patch 14, head 12, RMSNorm, bias 제거)를 쓰고 2x2 pixel-shuffle로 시각 토큰을 1/4로 줄여 3584x3584까지 1M 컨텍스트에 담으며, optimizer는 Q/K/V 모멘텀을 head별로 Newton-Schulz 직교화하는 Per-Head Muon에 cosine decay(warmup 1%, weight decay 0.1)를 쓰고 컨텍스트는 8K -> 64K(사전학습) -> 256K -> 1M(cooldown) 4단계로 늘린다(총 학습 토큰수와 GPU 규모는 본문 미기재). 사후학습은 SFT(XTML chat template, 이 단계부터 MXFP4 weight/MXFP8 activation QAT) -> RL(general/general agents/coding agents 3도메인 x low/high/max 3단계 = 9개 전문가, partial rollout과 per-token 정규화로 stale 데이터 허용, 문제별 토큰예산 초과 시 보상 -1을 주는 reasoning effort 제어, 비검증 과제는 rubric 프로토콜 기반 Agentic GRM) -> MOPD(교사/학생 로그비를 clip한 per-token 보상으로 9개를 단일 모델로 통합) 3단계이며, 인프라는 FlashKDA 커널과 고정 크기 all-gather + prefix scan으로 동작하는 KDA Context Parallelism, rank당 최대 E/R개의 redundant expert만으로 완전 부하균형과 static shape를 보장하는 MoonEP, Firecracker microVM 기반 AgentENV(checkpoint 133 ms, resume 49 ms, 메모리 overcommit 최대 6.5x)로 구성된다.",
+        "experiment_setup": [
+          "평가 축은 Reasoning & Knowledge / Coding / Agentic / Vision 4개로 약 40종 공개 벤치를 쓰고, 베이스라인은 Claude Fable 5(max, fallback 포함), GPT-5.6 Sol(max, cyberguard 포함), Claude Opus 4.8(max), GPT-5.5(xhigh), 개방가중치 GLM-5.2(max)이다. Kimi K3는 reasoning effort max, temperature 1.0, 단발 과제 top-p 0.95 / 에이전트 과제 top-p 1.0이며 코딩은 Kimi Code / Claude Code / Codex 하네스 중 하나를 쓴다. 주: 원문 Table 1과 Table 2는 PDF 텍스트 추출 시 열이 밀려, 아래 수치는 본문 서술이나 delta 열로 교차확인된 값만 인용했다.",
+          "Reasoning & Knowledge: GPQA Diamond 93.5로 프런티어와 대등하나 연구급 과제는 열세다. HLE-Full은 도구 없이 43.5, 도구 사용 시 56.0으로 Fable 5와 GPT-5.6 Sol에 모두 뒤지고, CritPt는 23.4로 Fable 5(28.6), GPT-5.6 Sol, GPT-5.5보다 낮아 저자들이 개선 과제로 명시했다.",
+          "Coding: ProgramBench 77.8로 1위(GPT-5.6 Sol 77.6, Fable 5 76.8), SWE-Marathon 42.0으로 Fable 5(35.0)보다 7점 앞선다(단 H20 재보정 브랜치이며 Fable 5는 과제 35%에서 fallback 발생). Terminal-Bench 2.1은 88.3으로 GPT-5.6 Sol 88.8에 근접(Fable 5 88.0), 장기 과제 FrontierSWE는 81.2로 Fable 5(86.6)에 이어 2위, DeepSWE는 67.5(공식 리더보드 mini-SWE-agent 하네스 67.3)로 Fable 5(70.0)/GPT-5.6 Sol(73.0)에 뒤지고 GPT-5.5(67.0)/Opus 4.8(59.0)보다 앞선다.",
+          "Agentic: BrowseComp 91.2(300K 트리거 컨텍스트 압축 기준, 1M 풀컨텍스트에 압축 없이 돌리면 90.4), DeepSearchQA F1 95.0, ResearchRubrics 76.2, MCPMark-Verified 94.5, AutomationBench 30.8, SpreadsheetBench 2 34.8, tau3-Banking 33.4, Harvey Lab-AA 94.6(기준 통과율)로 다수 SOTA다. 반면 Elo 기반 지식노동 스위트는 열세로 GDPval-AA v2는 1,686으로 Fable 5(1,747)/GPT-5.6 Sol(1,736)에 이어 3위, AA-Briefcase는 1,548로 2위이며, CorpFin v2(71.6 vs 71.8)와 OSWorld-Verified(84.8 vs 85.0)는 Fable 5에 0.2점 차로 근접, OSWorld 2.0과 SaaS-Bench는 Fable 5 또는 GPT-5.6 Sol이 선두다.",
+          "Vision: 3회 평균(ZeroBench-main만 5회) 기준으로 OmniDocBench 91.1이 최고점이고, Python 도구가 성능을 크게 끌어올려 Math-Vision 94.3 -> 97.8, ZeroBench-main pass@5는 23.0(Fable 5와 동률) -> 41.0이 된다. WorldVQA는 51.0으로 Fable 5(56.7) 다음 2위이며 GPT-5.6 Sol(41.8)과 Opus 4.8(39.1)을 앞선다. MMMU-Pro 81.6 / 83.4, CharXiv(RQ) 84.8 / 91.3(도구 없음 / 도구 사용).",
+          "사내 벤치(Table 3): 강점은 오케스트레이션과 리서치형 에이전시로 Swarm Bench 76.3, Deep Research Bench 90.0이 선두이며, Kimi Code Bench 2.0은 Fable 5에만 뒤지고 Coding Experience는 1위다. Kimi Webdev Bench 블라인드 전문가 심사에서 Opus 4.8 대비 종합 승 58.6% / 무 13.8% / 패 27.6%(승-패 +31.0)이고 3D/WebGL/Shader가 +59.1로 최대 격차다. 약점은 Agent Behavior Bench, MIRA Bench, 24/7 ClawBench 2.0, Agentic Vision Bench, KWV Bench다.",
+          "사이버 보안 평가: Anthropic/OpenAI 프런티어 모델이 사이버 과제를 거부해 비교가 불가하므로 제외했다. Tier 1(취약점 발견)에서 OS 커널, DB, 웹 프레임워크, 블록체인, VPN 등 수십 개 시스템에서 수백 건의 후보를 찾아 인간 검토분의 약 70%가 진성으로 확인되고 6개 프로젝트에서 미공개 취약점 16건을 발견(원격 트리거 heap OOB write, RDMA의 Dirty-COW류 포함)했다. 반면 Tier 2(엔드투엔드 exploit)는 41개 과제 중 0건에서만 임의 코드 실행에 성공해 프런티어 사이버 모델에 못 미치며, 저자들은 이를 능력의 하한으로 규정한다.",
+          "제3자 평가(2026-07-23 기준)와 비용 효율: Artificial Analysis Intelligence Index v4.1 57.1로 580개 중 4위(Fable 5 59.9, GPT-5.6 Sol 58.9), Vals Index 74.7로 39개 중 2위(Fable 5 75.1, GPT-5.6 Sol 73.1), WebDev Arena 1,678 Elo로 99개 중 1위(개방 모델 최초 1위, Fable 5 1,634), Text Arena 1,486으로 200개 중 8위, Agent Arena 9.1로 37개 중 4위다. 비용은 BrowseComp 최고점 91.2를 과제당 $2.03(GPT-5.6 Sol의 절반, Claude 계열 max의 약 1/10)에 달성하고, Kimi Code Bench 2.0은 Fable 5보다 4.0점 낮은 대신 비용 38%이며 high effort로 Opus 4.8의 max 점수를 약 1/3 비용에 맞춘다. GDPval-AA v2는 GPT-5.6 Sol과 50 Elo 이내이면서 비용 13% 낮고 Fable 5보다 2.6x 저렴하다."
+        ],
+        "datasets": [
+          {
+            "name": "사전학습 텍스트 코퍼스 (Web Text / Code / Mathematics / Knowledge)",
+            "domain": "일반 텍스트, 코드, 수학, 지식",
+            "scale": "총 토큰수 본문 미기재. 규칙 휴리스틱 + 분류기 품질점수 + 중복제거로 필터링, 도메인별 샘플링률은 소형 모델 ablation으로 결정. 지식/수학은 K2의 rephrasing 레시피(문체와 관점 다변화 프롬프트, chunk 단위 자기회귀 생성, 원문 대조 충실도 검증)로 재작성. 배치 크기, 학습률, TPP, 모델 shape는 전용 scaling law 연구로 재조정했고 그 값은 미기재."
+          },
+          {
+            "name": "사전학습 비전 코퍼스",
+            "domain": "caption, interleaved image-text, OCR, perception, video, visual coding",
+            "scale": "규모 미기재. K2.5 분류체계를 따르며 오픈소스 컬렉션 + 사내 필터링/합성/중복제거 파이프라인. 좌표 감독은 절대값과 정규화([0,1]) 두 형식을 병기해 해상도 강건성 확보. SVG, 3D 에셋, Webpage, Game, CAD 스키매틱 등 코드-렌더링 쌍 프로그래매틱 멀티모달 데이터를 대폭 증량."
+          },
+          {
+            "name": "장문 컨텍스트 데이터",
+            "domain": "장문 문서, 장편 영상",
+            "scale": "8K -> 64K(사전학습) -> 256K -> 1M(cooldown) 4단계 커리큘럼. 정확/퍼지 중복제거, 영상은 프레임 perceptual hashing, 휴리스틱과 분류기 품질 필터, 구조 검증. 자연 장문이 희소해 upsample하고, 멀티모달 문서와 하위 과제를 permute-concat해 1M 전역을 봐야 풀리는 과제를 합성."
+          },
+          {
+            "name": "지식그래프 유도 RL 태스크 합성",
+            "domain": "지식 집약 도메인, 코딩, 비전",
+            "scale": "규모 미기재. 에이전트가 웹 탐색으로 재귀 확장하는 자기진화 DAG(조립 시 기존 노드 재사용으로 중복 최소화, 개념이 원자적이면 확장 중단). 다양한 granularity의 노드를 단독 또는 조합 샘플링해 키워드를 만들고 공개 자료를 검색, 합성 에이전트가 과제 유형을 골라 생성."
+          },
+          {
+            "name": "Kernel Optimization Tasks",
+            "domain": "GPU 커널 최적화",
+            "scale": "대규모 스위트, 정확한 개수 미기재. Flash Linear Attention 등 고품질 GitHub 저장소에서 수집, 단일 연산자부터 fused mega-kernel까지. CUDA, Triton, CuTe DSL, Gluon, ThunderKittens, TileLang과 BF16/FP8/FP4 지원. 보상은 정확도 + 성능(전문가 구현 수준 0.5, 하드웨어 roofline 접근 시 1)이며 CUDA graph replay, 입력 캐싱, 정밀도 축소 같은 reward hacking 탐지기를 병행."
+          },
+          {
+            "name": "Personal Assistant 모의 환경",
+            "domain": "장기 개인비서 워크플로 (HR, 법무, 금융)",
+            "scale": "Gmail, Notion, Slack, Canvas 등의 현실적 mock 구현. 수 시뮬레이션 일에 걸쳐 앱 전반에 수십 개 상호의존 이벤트가 분포하고, 단일 rollout이 최대 수천 tool call과 수백만 컨텍스트 토큰에 이른다. 이벤트마다 결정론적 규칙 또는 LLM 평가자 기준을 가지며 초기 워크스페이스는 에이전트가 웹 검색으로 자율 구성."
+          },
+          {
+            "name": "샌드박스 실행 규모 (AgentENV 등)",
+            "domain": "에이전트 RL 및 평가 인프라",
+            "scale": "K3 학습과 평가 전 과정에서 1,505,678개 이미지에 걸쳐 총 51,219,741개 샌드박스 생성. Firecracker microVM, OverlayBD 이미지 포맷 + 커스텀 ublk 드라이버로 sub-second 기동, 증분 checkpoint 133 ms / resume 49 ms, 메모리 overcommit 최대 6.5x. 1M 컨텍스트 RL 실험 자체는 co-located 설계로 수백 GPU 규모 내에서 수행."
+          },
+          {
+            "name": "사내 벤치마크 스위트",
+            "domain": "코딩 경험, 일반 에이전트 경험, 대화 경험",
+            "scale": "Kimi Code Bench 2.0, Kimi Webdev Bench(과제 수 미기재, 도메인은 Games / 3D-WebGL-Shader / Website-UI Clone), Coding Experience, 24/7 ClawBench 2.0, MIRA Bench, KAET, CLIF Bench, Agentic Vision Bench, Swarm Bench, Online Experience, Deep Research Bench, Finance Bench, KWV Bench, DECK Bench, Agent Behavior Bench, Faithfulness, Chat All-in-One Bench. 일부 표기상 80과제 또는 95과제 규모(각주의 fallback/refusal 카운트로 확인)."
+          }
+        ],
+        "limitations": {
+          "by_authors": [
+            "전체 성능이 최상위 상용 모델에 뒤진다고 초록과 1절에서 직접 인정한다. 대상은 Claude Fable 5와 GPT-5.6 Sol이며, 나머지 오픈/상용 모델에는 앞선다는 서술이다. 8절 결론은 '격차가 남는다'고만 쓰고 모델명은 적지 않는다.",
+            "연구급(research-level) 추론이 약점이라고 명시한다. HLE-Full은 도구 없이 43.5%, 도구 사용 56.0%로 두 상위 모델에 뒤지고, CritPt는 23.4%로 GPT-5.5에게까지 밀린다. 본문 표현은 '연구급 추론이 주요 개선 방향으로 남는다'이다.",
+            "사내(in-house) 평가가 공개 벤치보다 강약점을 더 선명하게 갈랐다고 밝히며, Agent Behavior Bench, MIRA Bench, 24/7 ClawBench 2.0, Agentic Vision Bench, KWV Bench 5개에서 선두에 뒤진다고 스스로 나열한다.",
+            "익스플로잇 개발(Tier 2) 36과제 중 14개(38.9%)만 해결했고 그중 10개가 user-space 트랙이다. 구성은 user-space 16 + 커널 20이며, 커널 트랙은 K3와 GLM-5.2 모두 3/4을 못 풀었다. 모든 과제가 인간 전문가로 해결 검증되었고 수트 전체가 약 540 전문가시간(과제당 약 15시간)으로 추정되므로 미해결분이 곧 인간 격차라고 인정한다.",
+            "익스플로잇 실패 모드 4가지를 직접 명시한다. (i) 이미 확보한 primitive에서 체인 최종 단계를 마무리 못함, (ii) 완화기법 하에서 전략 선택 실패(데이터 전용 공격이 쉬운데도 제어흐름 하이재킹 고집), (iii) 비생산적 디버깅 루프에 갇힘, (iv) 최종 산출물 검증 부족.",
+            "사이버 평가 결과를 '능력의 하한(lower bound)'으로 규정하고, 현재 모델 버전과 평가 범위에 조건부라고 단서를 단다. UK AISI/NIST CAISI 공동 평가에서도 41과제 중 0건 임의코드실행으로 프런티어 사이버 모델에 뒤진다고 인용한다.",
+            "Anthropic/OpenAI 프런티어 모델이 사이버 과제를 거부해 비교가 불가능하다며 해당 수트에서 제외했다. 결과적으로 Tier 2 베이스라인은 GLM-5.2 단독이다.",
+            "SwiGLU가 널리 쓰이지만 '경험적 효과에 대한 완전한 설명은 아직 열려 있다'고 인정하며, SiTU-GLU도 저정밀 오버플로 억제라는 공학적 동기에서 도출했다고 밝힌다.",
+            "MOPD에서 더 세밀한 top-k distillation 목적함수를 시도했으나 수렴 속도나 최종 성능 모두 뚜렷한 이득이 없었다고 음성 결과를 보고한다.",
+            "WorldVQA에서 모든 모델에 걸쳐 일관된 거부 행동이 관측되어 프롬프트 엔지니어링으로 답변을 강제했다고 밝힌다. 즉 해당 점수는 소재 그대로의 성능이 아니다."
+          ],
+          "by_claude": [
+            "핵심 주장인 '2.5x scaling efficiency'의 검증 근거가 부족하다. Figure 7의 x축은 절대 FLOPs(1e20 ~ 1e21)이지만 이는 소형 모델 스케일링 법칙 피팅 곡선이고, K3 자체의 총 학습 토큰 수, TPP 최적값, 사전학습 클러스터 규모, 총 FLOPs는 공개되지 않는다. GPU 규모 언급은 RL에 대한 '실험당 수백 GPU'가 유일하다. 외부에서 2.5배를 확인할 방법이 없다.",
+            "2.5x 이득의 분해 ablation이 없다. KDA, Block AttnRes, Stable LatentMoE, 데이터 개선, 학습 레시피 개선이 각각 몇 %를 기여했는지 표가 없고, 개별 근거는 'RMSNorm이 검증 손실과 다운스트림을 일관되게 개선' 같은 정성 서술뿐이다. 부록도 A 기여자, B SiTU-GLU, C QB 유도, D 히스토그램, E MoonEP 증명, F 챗 템플릿으로 기여도 분해표는 없다. 깊이 축과 폭 축 중 무엇이 실제 동력인지 알 수 없다.",
+            "깊이 축의 핵심인 Attention Residuals가 참고문헌 [57] 'Kimi Team. Attention Residuals. Preprint. 2026'으로만 인용된다. arXiv 번호도 URL도 없다. 같은 논문의 [63] Kimi Linear는 arXiv 2510.26692, [14] FlashKDA는 GitHub URL을 주는 것과 대조적이며 3대 축 중 하나의 원 근거에 접근할 수 없다.",
+            "벤치마크 비교의 하네스 비대칭 가능성이 있으나 근거 강도는 항목마다 다르다. 명시적으로 확인되는 것은 Agents' Last Exam 리더보드(K3=Kimi Code, GPT=Codex, Claude/GLM=Claude Code), Table 3 사내 벤치, 6.4절 비용 비교다. Table 2 코딩 항목은 '세 하네스 중 하나'라고만 적혀 모델별 배정이 불명이다. Terminal-Bench 2.1의 하네스별 최고점은 모든 모델에 동일 적용된다고 명시되어 대칭 조건이다. 반면 SWE-Marathon은 공식 v1.1 이전의 H20 재보정 브랜치, PostTrainBench는 공식 H100 대신 H20 3회 평균이라 자사 하드웨어 조건이 섞여 있다.",
+            "경쟁 모델 수치에 열화 조건이 섞여 있다. Claude Fable 5는 fallback 포함(SWE-Marathon 35% 과제에서 fallback 발생, Agents' Last Exam은 xhigh에 40% 과제가 downgraded 표기)이고 GPT-5.6 Sol은 cyberguard 포함이다. 저자들이 각주로 밝힌 점은 정직하지만, 표의 격차를 순수 능력 격차로 읽으면 과대 해석이 된다.",
+            "강점 주장의 상당 부분이 비공개 사내 벤치에 실려 있다. Swarm Bench 76.3, Deep Research Bench 90.0 등은 데이터셋과 채점 루브릭이 공개되지 않아 제3자 재현이 불가능하다. Kimi Webdev Bench의 +31.0은 Claude Opus 4.8 단독 대비이며 도메인 3종(Games +14.9, 3D/WebGL/Shader +59.1, Website/UI Clone +26.3)의 '전문가 블라인드 심사 선호'라는 주관 지표다.",
+            "사이버 이외의 전용 안전성 절이 없다. 전문에서 jailbreak, harmful, biological, chemical, misalignment, red team, safety, system card 문자열이 모두 검출되지 않고 시스템 카드에 해당하는 문서도 없다. 사내 Faithfulness(환각율) 벤치와 Table 3의 모델별 거부 횟수 각주가 유일한 인접 지표다. 3T급 가중치를 전면 공개하는 릴리스로서는 위험 문서화가 비대칭적으로 얕다.",
+            "다국어 평가가 없다. 160K vocab의 native multimodal 모델인데 언어 커버리지, 중국어/영어 외 성능, 언어별 열화에 관한 절이 없다. multilingual 관련 서술 검출 0건이다.",
+            "사전학습 전용 base 체크포인트가 공개되지 않은 것으로 보인다. 단 이는 원문 미기재 사항이며 논문은 각주 1의 moonshotai/Kimi-K3 URL만 제시한다. HuggingFace 공식 계정에 Base/Instruct 구분이 없다는 것은 외부 확인 결과다. 아키텍처 연구자가 KDA나 AttnRes 자체의 사전학습 특성을 후학습 효과와 분리해 검증할 경로가 막힌다.",
+            "공개 가중치가 SFT 단계부터 적용된 QAT 결과물이다. 다만 MXFP4는 MoE expert weights에만 적용되고 activations가 MXFP8이며, attention projections, latent MoE projections, shared experts, router는 고정밀을 유지한다고 4.1.4절이 명시한다. BF16 원본 대비 손실이 얼마인지, 고정밀 재학습이나 파인튜닝 시 어떤 제약이 생기는지에 대한 수치는 없다.",
+            "라이선스 관련 서술은 전부 원문 밖 근거다. 논문 전문에 'licen' 문자열이 0건이고 확인 가능한 것은 arXiv 게시물의 CC-BY-NC-ND 4.0뿐이다. 자체 Kimi K3 License, MaaS 누적 매출 2000만 달러 기준, MAU 1억 또는 월 매출 2000만 달러 초과 시 UI에 'Kimi K3' 표기 의무는 HuggingFace/GitHub 문서 기준의 외부 사실이며 별도 검증이 필요하다. 그 전제에서 'Open Frontier'라는 제목이 시사하는 것보다 개방 범위가 좁다는 지적은 유지된다.",
+            "1M 컨텍스트의 구간별 열화 곡선이 없다. NoPE + KDA decay로 위치 정보를 대체했다는 설계상 장문 열화 검증이 특히 중요한데, 8K에서 1M까지 needle 회수율이나 손실 곡선이 제시되지 않는다(needle, RULER 검출 0건). 장문 지표로는 AA-LCR 74.7이 유일하고 이는 Artificial Analysis 인용값이다. BrowseComp는 300K에서 compaction을 트리거하며, 무관리 1M 조건 90.4%는 6.1.3절 평가 설정 본문에 단일 수치로만 언급된다.",
+            "인프라 규모 자체가 재현 불가 수준이다. 학습/평가 동안 생성한 샌드박스가 51,219,741개, 이미지 1,505,678종이다. 다만 MoonEP(각주 3)와 AgentENV(각주 4)는 GitHub에 공개되며, 비공개로 남는 것은 사전학습 학습 코드, 1M agentic RL 프레임워크, 평가 하네스, 사내 벤치다. 즉 인프라 부품 일부는 열려 있고 전체 파이프라인 조립이 막혀 있다.",
+            "Figure 10에 'Kimi K2.6'이 비교군(0.560)으로 등장하지만 본문, 참고문헌, 부록 어디에도 소개나 인용이 없다(전문 검색상 해당 1회가 유일). 미공개 내부 모델과의 비교로 보이며 독자가 맥락을 확인할 수 없다."
+          ]
+        },
+        "reproducibility": {
+          "code": "부분 공개. 논문이 직접 URL로 밝히는 것은 FlashKDA(참고문헌 [14], github.com/MoonshotAI/FlashKDA), KDA 구현이 들어간 FLA PR #691(각주 2), MoonEP(각주 3, github.com/MoonshotAI/MoonEP), AgentENV(각주 4, github.com/kvcache-ai/AgentENV), 그리고 K3가 만든 산출물인 minitriton(각주 5)과 nano-kpu(각주 6)다. FlashKDA는 CUTLASS 기반이며 flash-linear-attention의 백엔드로 자동 디스패치된다고 밝힌다. FlashKDA API의 'lower_bound' 인자(범위 -5.0 ~ 0)가 논문의 gmin = -5 설계와 일치한다는 것은 원문에 없는 외부 확인 사항이다. GitHub MoonshotAI/Kimi-K3의 추론 배포 레시피(vLLM, SGLang, TokenSpeed 권장, OpenAI/Anthropic 호환 API)도 원문 미기재 외부 정보다. 반면 사전학습/후학습 학습 코드, 1M agentic RL 프레임워크, 평가 하네스, 사내 벤치 코드는 공개되지 않는다.",
+          "data": "미공개. 사전학습은 Web Text, Code, Mathematics, Knowledge 4개 텍스트 도메인 + 대규모 비전 코퍼스(캡션, interleaved, OCR, perception, video, visual coding)라고만 서술한다. 총 토큰 수, 도메인별 샘플링 비율, 필터 임계값, 중복제거 파라미터가 모두 없고 '작은 모델 ablation으로 결정했다'는 서술로 대체된다. 장문 데이터는 정확/퍼지 중복제거와 영상 프레임 perceptual hashing으로 정제하고 업샘플했다고만 밝힌다. 후학습 SFT/RL 데이터셋, GRM 루브릭, 사내 벤치 모두 비공개.",
+          "weights": "전체 공개. 각주 1의 HuggingFace moonshotai/Kimi-K3, 총 2.78T 파라미터 / 104.2B 활성, 1M 컨텍스트, MoonViT-V2(401M, 27층) 포함. 양자화는 MoE expert weights만 MXFP4이고 입력 activations가 MXFP8이며, attention projections, latent MoE projections, shared experts, router는 고정밀을 유지한다. SFT 단계부터 QAT를 적용한 배포용 가중치이고 BF16 원본은 논문에서 확인되지 않는다. 사전학습 전용 base 체크포인트 부재와 커뮤니티 파생(GGUF, NVFP4, FP8-BLOCK, REAP 등)은 원문 밖 외부 확인 사항이다.",
+          "license": "논문 본문에는 라이선스 조항이 전혀 없다(전문 'licen' 검출 0건). 확인 가능한 것은 arXiv 게시물 자체의 CC-BY-NC-ND 4.0(PDF 메타데이터)과 참고문헌 [14] FlashKDA의 공개 저장소 존재다. 자체 Kimi K3 License의 세부 조건, 즉 내부 사용 면제, MaaS 제공 시 라이선시와 계열사 합산 연속 12개월 누적 매출 2000만 달러 초과 시 별도 계약, MAU 1억 또는 월 매출 2000만 달러 초과 제품의 UI 'Kimi K3' 표기 의무, Moonshot 공식 제품 및 인증 추론 파트너 경유 면제, 무보증 조항은 모두 HuggingFace/GitHub 문서 기준의 외부 사실이며 원문으로는 검증되지 않는다.",
+          "note": "재현 가능성이 층위별로 크게 갈린다. 서빙/배포 재현성은 높다(가중치 + 추론 엔진 + MIT 커널). 학습 재현성은 0에 가깝다. 총 컴퓨트, 총 토큰 수, TPP 최적값, 사전학습 클러스터 규모, 데이터, 학습 코드가 전부 비공개다. 단 인프라 부품은 전부 비공개가 아니라 MoonEP와 AgentENV가 GitHub에 공개되어 있고, 막혀 있는 것은 이를 조립하는 사전학습/RL 파이프라인과 평가 하네스다. 벤치마크 재현성은 부분적이며, Table 2의 모델별 하네스 배정이 불명이고 SWE-Marathon과 PostTrainBench는 H20 재보정 환경이라 숫자 재생산이 사실상 어렵다. 검증 가능한 실질 자산은 (1) 가중치, (2) FlashKDA 커널, (3) MoonEP, (4) AgentENV, (5) Table 1의 K2 대비 아키텍처 대조표다. 3rd party 검증은 Artificial Analysis(Intelligence Index v4.1 = 57.1, 580개 중 4위), Vals AI(Vals Index 74.7%, 39개 중 2위), WebDev Arena(1,678 Elo, 99개 중 1위), Text Arena(1,486 Elo, 200개 중 8위), Agent Arena(9.1, 37개 중 4위), UK AISI/NIST CAISI 공동 사이버 평가가 존재해 자체 주장의 방향성은 외부에서 대체로 지지된다."
+        },
+        "my_learning_points": [
+          "FlashKDA(MIT)를 클론해 'lower_bound' 인자를 -5와 무제한(원 Kimi Linear의 negative-Softplus 상당)으로 바꿔가며 16-token tile 벤치를 돌려본다. 대각 tile을 Tensor Core dense matmul로 처리할 수 있게 만든 것이 순수 수학이 아니라 '누적 log-decay를 (-80, 0)에 가둬 역수를 BF16 범위에 넣는다'는 수치 범위 설계였음을 손으로 확인하는 것이 목적이다. 커널 제약이 아키텍처를 역으로 규정하는 사례를 체감할 수 있다.",
+          "K3의 Table 2를 그대로 옮겨 적고 각주 조건(K3는 Kimi Code / 경쟁사는 Claude Code, Codex, Fable 5의 fallback 35%, ALE의 downgraded 40%, H20 재보정, Terminal-Bench 하네스별 최고점)을 하나씩 제거하며 순위를 다시 매겨본다. 어떤 결론이 각주 제거만으로 흔들리는지 목록화하면, 이후 어떤 테크리포트를 읽어도 '표보다 각주를 먼저 읽는' 습관이 생긴다.",
+          "소형 MoE(예: 총 1B 미만, 64 experts, top-4)를 만들고 Stable LatentMoE의 세 요소 중 하나씩만 이식해 검증 손실을 비교한다. 우선순위는 (1) up-projection 앞 RMSNorm, (2) SiTU-GLU의 softcap, (3) Quantile Balancing이다. 논문이 제공하지 않은 분해 ablation을 축소판으로 직접 만들어보는 것이며, 극단 sparsity 안정화가 정규화에서 오는지 게이트 포화에서 오는지 라우팅 균형에서 오는지를 자기 데이터로 판별하는 훈련이 된다."
+        ],
+        "related_work": {
+          "prior": [
+            {
+              "title": "Kimi K2: Open Agentic Intelligence",
+              "arxiv": "2507.20534",
+              "relation": "직전 세대 1.04T / 32.6B MoE. K3의 비교 기준선이며 데이터 파이프라인, rephrasing 레시피, Muon + weight clipping을 그대로 계승한다. 2.5x scaling efficiency의 분모."
+            },
+            {
+              "title": "Kimi K2.5: Visual Agentic Intelligence",
+              "arxiv": "2602.02276",
+              "relation": "비전 코퍼스 taxonomy, RL 정책최적화 알고리즘, partial rollout, GRM tournament 방식, Decoupled Encoder Process(DEP)의 출처. K3는 여기서 비전 인코더 초기화 방식만 뒤집어 MoonViT-V2를 처음부터 학습한다."
+            },
+            {
+              "title": "Kimi Linear: An Expressive, Efficient Attention Architecture",
+              "arxiv": "2510.26692",
+              "relation": "KDA의 원형. chunkwise parallel form과 3:1 hybrid 구성의 출처. K3는 여기의 unbounded negative-Softplus log-decay를 scaled sigmoid + gmin = -5로 교체한 것이 핵심 변경점이다."
+            },
+            {
+              "title": "LatentMoE: Toward Optimal Accuracy per FLOP and Parameter in Mixture of Experts",
+              "arxiv": "2601.18089",
+              "relation": "Elango et al. latent 폭을 hidden과 분리해 expert 수 확장 비용을 낮추는 설계. K3의 Stable LatentMoE(latent 3,584, 896 routed experts)가 직접 확장한 토대."
+            },
+            {
+              "title": "Attention Residuals",
+              "arxiv": "미공개 preprint (Kimi Team, 2026). arXiv 번호 없음, 본문 확인 필요",
+              "relation": "깊이 축 축소의 원 근거. 층별 학습 pseudo-query로 embedding과 선행 블록 출력에 softmax attention을 거는 기법. K3는 12층 x 8블록의 Block AttnRes로 메모리/통신을 O(Ld) -> O(Nd)로 낮춰 적용한다."
+            },
+            {
+              "title": "Gated Delta Networks: Improving Mamba2 with Delta Rule",
+              "arxiv": "본문 확인 필요 (Yang, Kautz, Hatamizadeh)",
+              "relation": "delta rule + gating 계보. KDA의 채널별 forget gate가 여기의 negative-Softplus decay 매핑을 출발점으로 삼는다."
+            },
+            {
+              "title": "Muon is Scalable for LLM Training",
+              "arxiv": "2502.16982",
+              "relation": "K3의 Per-Head Muon 옵티마이저 기반. 분산 환경에서 Newton-Schulz orthogonalization을 위한 P2P 통신 설계로 이어진다."
+            },
+            {
+              "title": "DeepSeek-V3 Technical Report",
+              "arxiv": "2412.19437",
+              "relation": "MLA와 대규모 MoE 라우팅의 사실상 표준 비교군. K3의 Gated MLA와 shared/routed expert 구성이 이 계보 위에 있다."
+            },
+            {
+              "title": "DeepSeekMoE: Towards Ultimate Expert Specialization",
+              "arxiv": "2401.06066",
+              "relation": "fine-grained expert + shared expert 분리 설계의 원류. K3의 896 routed + 2 full-width shared 구성의 직계 조상."
+            }
+          ],
+          "followup": [
+            {
+              "title": "정식 후속 연구",
+              "status": "2026-08-03 시점에 K3를 확장한 공식 후속 논문은 확인되지 않았다. 본문 확인 필요."
+            },
+            {
+              "title": "Kimi K2.6",
+              "status": "본문 Figure 10에 비교군(완성도 0.560)으로만 등장하고 인용이나 설명이 없다. 별도 릴리스 존재를 시사하나 문서 확인 필요."
+            },
+            {
+              "title": "UK AISI + NIST CAISI 공동 사이버 평가",
+              "status": "참고문헌 [123]로 인용된 독립 검증. ExploitBench 32% (GLM-5.2 24%), 32단계 모의 기업망에서 17단계(GLM-5.2 11단계), 41과제 중 임의코드실행 0건. 보고서 서지 상세는 본문 확인 필요."
+            },
+            {
+              "title": "커뮤니티 파생 체크포인트",
+              "status": "HuggingFace에 unsloth/Kimi-K3-GGUF, RedHatAI/Kimi-K3-NVFP4, RedHatAI/Kimi-K3-FP8-BLOCK, nota-ai/Kimi-K3-Nota-Global-Pruned-25 및 -50, REAP 계열 expert pruning, 다수 GGUF 양자화가 존재. 3T급 가중치의 실사용 압축이 주된 파생 방향임을 보여준다."
+            },
+            {
+              "title": "FlashKDA / flash-linear-attention",
+              "status": "MoonshotAI/FlashKDA (MIT, CUTLASS 기반)와 FLA PR #691로 KDA 커널이 커뮤니티에 편입되었다. K3의 lower_bound 게이트가 후속 linear attention 구현의 기본 옵션이 될 가능성이 있다."
+            }
+          ]
+        },
+        "claude_note": "Kimi K3는 '오픈 진영이 test-time scaling에만 매달리는 동안 사전학습 축에서 1T급에 갇혀 수렴하고 있다'는 진단을 서론에서 정면으로 내놓고, 그 진단에 3T급 실물로 답한 보기 드문 리포트다. 기술적으로 가장 배울 점은 KDA의 log-decay를 negative-Softplus에서 scaled sigmoid(gmin = -5)로 바꾼 대목인데, 이는 표현력 개선이 아니라 누적 decay의 역수를 BF16 범위에 가두어 대각 tile까지 Tensor Core dense matmul로 처리하기 위한 수치 설계이며, 알고리즘이 커널 제약에 맞춰 재설계된 co-design의 교과서적 사례다. 정직성 면에서도 준수하다 - HLE-Full과 CritPt의 열위, 사내 벤치 5개의 열위, 익스플로잇 4대 실패 모드, top-k distillation의 무이득까지 스스로 적었고 경쟁 모델의 fallback과 cyberguard 조건도 각주로 밝혔다. 다만 논문의 최대 주장인 2.5x scaling efficiency는 총 토큰, TPP, GPU, FLOPs가 전부 비공개인 상태에서 정규화 곡선 하나로 지지되고, 3대 축 중 하나인 Attention Residuals는 접근 불가한 preprint 인용에 그치며, KDA/AttnRes/LatentMoE/데이터 각각의 기여를 가르는 분해 ablation이 없어 '무엇이 실제로 작동했는가'는 독자가 검증할 수 없다. 여기에 사이버 외 안전성 평가와 다국어 평가의 공백, base 체크포인트 부재, 매출 2000만 달러/MAU 1억 임계를 둔 자체 라이선스를 함께 놓으면, 이 릴리스는 '재현 가능한 연구'라기보다 '검증 가능한 제품 + 서술형 연구 보고'에 가깝다고 읽는 것이 정확하다.",
+        "analyzed_at": "2026-08-03"
+      }
+    }
+  }
+}

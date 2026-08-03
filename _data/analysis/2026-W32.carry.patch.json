@@ -1,0 +1,65 @@
+{
+  "week_id": "2026-W32",
+  "papers": {
+    "2606.23050": {
+      "tier2": {
+        "analyzed_at": "2026-06-29",
+        "method_detail": "핵심은 R-SWA(Reference Sliding Window Attention). 디코딩 중 KV 캐시를 두 부분으로 유지한다 — 고정 프리픽스(시각+프롬프트 토큰, 길이 L_m)와 생성 텍스트에 대한 폭 n(기본 128)의 인과적 슬라이딩 윈도우. 캐시 크기는 C = L_m + min(n, T) ≤ L_m + n 으로, 윈도우 크기까지만 커지고 이후 '상수'다(표준 MHA는 L_m + T로 선형 증가). 시각(reference) 토큰은 상태 전이 없이 디코딩 내내 전역으로 접근 가능해, 일반 슬라이딩 윈도우와 달리 시각 특징이 '흐려지지' 않는다. 베이스라인 DeepSeek OCR의 인코더(DeepEncoder: SAM-ViT + CLIP-ViT, 16× 토큰 압축, 1024² → ~256 토큰)는 동결하고 디코더 어텐션만 R-SWA로 교체, LLM 파라미터만 학습한다. 디코더 3B(MoE로 ~500M 활성).",
+        "experiment_setup": [
+          "주 벤치마크: OmniDocBench v1.5/v1.6",
+          "비교: DeepSeek OCR(베이스라인)",
+          "장문 평가: 2~40+ 페이지 문서를 단일 forward로 전사"
+        ],
+        "datasets": [
+          {
+            "name": "문서 학습 샘플",
+            "scale": "약 200만(단일:다중 페이지 ≈ 9:1)",
+            "domain": "문서 OCR"
+          }
+        ],
+        "limitations": {
+          "by_authors": [
+            "프리필 32K 제한 — 페이지가 매우 많으면 한계(향후 128K 학습 예정)",
+            "다중페이지 모드는 Base 인코더(1024²)라 해상도 손실 → 20페이지 넘으면 edit distance 상승",
+            "학습 샘플 200만으로 제한적"
+          ],
+          "by_claude": [
+            "ASR·번역 일반화는 주장만 있고 실험 검증 없음(future work)",
+            "KV캐시 절감이 초장문에서 품질 저하와 트레이드오프"
+          ]
+        },
+        "reproducibility": {
+          "code": "공개",
+          "weights": "공개",
+          "data": "불명",
+          "license": "CC BY 4.0",
+          "note": "github.com/baidu/Unlimited-OCR, ★11.5k"
+        },
+        "my_learning_points": [
+          "'reference 토큰을 상태전이에서 제외'가 핵심 트릭 — 시각 충실도를 지키며 KV캐시를 상수화. 멀티모달 장문 디코딩에 일반 적용 가능",
+          "상수 KV캐시 = 장문 추론 비용의 근본 해법. W25 LMCache(캐시 외부 오프로딩)와 다른 각도(캐시 자체를 안 키움)",
+          "DeepSeek OCR 대비 OmniDocBench v1.5 +6.22%p, 6K 토큰 구간에서 ~35% 빠름 — 효율과 정확을 동시 개선"
+        ],
+        "related_work": {
+          "prior": [
+            {
+              "name": "DeepSeek OCR",
+              "relation": "베이스라인 — 인코더 재사용, 디코더 어텐션만 교체"
+            },
+            {
+              "name": "LMCache (W25)",
+              "relation": "KV캐시 효율화의 다른 접근(외부 오프로딩 vs 상수화)"
+            }
+          ],
+          "followup": [
+            {
+              "name": "R-SWA → ASR/번역",
+              "relation": "저자가 제시한 향후 확장(미검증)"
+            }
+          ]
+        },
+        "claude_note": "'인간은 이미 쓴 글을 다시 다 읽지 않는다'는 직관을 reference 토큰 전역 접근 + 출력 슬라이딩 윈도우로 구현해 KV캐시를 상수로 만든 영리한 설계다. 문서 파싱과 추론 효율화가 한 논문에서 만나는 점이 이번 주 '효율화가 분야를 가로지른다'는 흐름의 전형. 다만 초장문 해상도 손실·타도메인 미검증은 숙제."
+      }
+    }
+  }
+}

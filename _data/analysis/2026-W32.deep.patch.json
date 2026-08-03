@@ -1,0 +1,72 @@
+{
+  "week_id": "2026-W32",
+  "papers": {
+    "2512.14692": {
+      "tier2": {
+        "analyzed_at": "2026-08-03",
+        "method_detail": "정식 명칭은 TRELLIS.2(Microsoft Research 계열). 핵심은 N³ 희소 복셀마다 (f_shape, f_mat, p) 튜플을 담는 O-Voxel로, 기하를 SDF/occupancy가 아니라 Flexible Dual Grid(dual contouring 변형)로 표현한다 — primal cell당 dual vertex 1개, primal edge당 quad face 1개를 두고, dual vertex 위치는 평면 교차 거리 최소화·경계 edge 패널티·정규화로 구성된 QEF(quadratic error function)로 푼다. edge 교차 플래그 δ∈{0,1}³가 quad 연결을, 분할 가중치 γ>0가 quad→triangle 적응 분할을 결정한다. 덕분에 watertight 가정 없이 열린·비다양체·완전 밀폐 표면을 모두 다루며, f_mat은 base color 3 + metallic 1 + roughness 1 + opacity 1 = 6채널 PBR로 반투명까지 표현한다. 압축은 트랜스포머가 아닌 희소 컨볼루션 U-Net 기반 Sparse Compression VAE(SC-VAE)가 담당하며 세 가지 설계를 도입한다: (1) Sparse Residual Autoencoding — 2× 다운/업샘플 시 자식 복셀 8개를 채널로 쌓아 R^{8C}를 만드는 비파라미터 shortcut, (2) Early-pruning Upsampler — 활성 자식 이진 마스크 ρ∈{0,1}⁸를 예측해 비활성 노드 연산을 생략, (3) Optimized Residual Block — conv 2개를 conv 1개 + 넓은 point-wise MLP로 대체(ConvNeXt 스타일). 그 결과 복셀 계열 최고인 16× 공간 압축을 달성해 1024³ 풀텍스처 자산을 약 9.6K 잠재 토큰으로 담는다(512³=2.2K, 256³=503). VAE 학습은 2단계로, 1단계는 저해상도 O-Voxel 직접 복원(vertex MSE, flag/mask BCE, material L1)+KL, 2단계는 고해상도에서 mask·depth·normal에 L1+SSIM+LPIPS 렌더링 perceptual 감독을 추가하고 카메라를 표면 관통 배치해 내부 구조까지 감독한다. 생성은 flow matching 3단계 캐스케이드(희소 구조 → 기하 잠재 → 기하 정렬 재질 잠재)로 각 DiT가 약 1.3B(width 1536, 30 blocks, 12 heads, MLP 8192), 합계 약 4B이며, AdaLN-single + RoPE + DINOv3-L 이미지 컨디셔닝의 vanilla DiT를 쓴다(conv packing·skip 제거). 1536³는 test-time cascading으로 만든다.",
+        "experiment_setup": [
+          "복원 벤치마크: Toys4K + 자체 선별한 Sketchfab Featured 90개(복잡 PBR·난이도 높은 형상). 지표는 MD(mesh distance, 내부 포함 양방향), CD(가시 표면), F1, normal map PSNR, LPIPS.",
+          "복원 비교군: Dora(2.0K~4.1K 토큰), TRELLIS(9.6K, 4×), Direct3D-S2(3K~17K, 8×), SparseFlex(56K~225K, 4×). 본 방법은 16× 압축으로 토큰이 적으면서도 전 지표 우위를 주장.",
+          "normal PSNR(1024³): 본 방법 43.11dB vs SparseFlex 37.34, TRELLIS 30.29, Direct3D-S2 26.34, Dora 27.26.",
+          "재질 복원: PBR 속성맵 38.89dB PSNR / LPIPS 0.033, 셰이딩 이미지 38.69dB / 0.026.",
+          "Image-to-3D 비교군: TRELLIS, Hi3DGen, Direct3D-S2, Step1X-3D, Hunyuan3D 2.1. CLIP 0.894(TRELLIS 0.876, Step1X-3D 0.875, Hunyuan3D 2.1 0.869), CLIP-N 0.758, ULIP-2 0.477, Uni3D 0.436으로 전 지표 1위.",
+          "사용자 연구 선호도: 전체 66.5%, normal map 69.0% (차순위 Hunyuan3D 2.1 13.3%, Step1X-3D 11.8%, TRELLIS 6.4%) — 자동 지표 증분보다 질적 격차가 훨씬 큼.",
+          "Ablation: Sparse Residual Autoencoding 제거 시 16× 압축에서 MD +69%·PSNR -0.5dB / Optimized Residual Block 제거 시 MD +16%·PSNR -0.6dB(런타임 동일) — 단순 효율화가 아니라 품질 기여가 확인됨.",
+          "추론 효율(H100 1장, 형상+재질): 512³ 약 3초(2+1), 1024³ 약 17초(10+7), 1536³ 약 60초(35+25). 요구 사양은 24GB+ VRAM, A100/H100 검증, Linux 한정, CUDA 12.4 권장."
+        ],
+        "datasets": [
+          { "name": "Trellis-500K (Objaverse-XL + ABO + HSSD 선별)", "scale": "약 500K 자산(PBR 재질 보유분 필터링)", "domain": "일반 3D 자산 — SC-VAE·생성 모델 공통 기반" },
+          { "name": "TexVerse (증강용)", "scale": "Trellis-500K와 합산해 생성 모델 학습 약 800K 자산", "domain": "PBR 재질 다양성 보완" },
+          { "name": "렌더링 컨디셔닝 이미지", "scale": "자산당 16뷰, Blender에서 FoV·조명 랜덤화", "domain": "image-to-3D 조건 입력" },
+          { "name": "Toys4K / Sketchfab Featured", "scale": "Toys4K 공개 벤치마크 + Sketchfab 90개 자체 선별", "domain": "복원·생성 평가 전용" }
+        ],
+        "limitations": {
+          "by_authors": [
+            "O-Voxel의 표현력은 공간 해상도에 상한이 있어, 복셀 크기보다 작은 기하 디테일에서는 Flexible Dual Grid 수식이 에일리어싱 아티팩트를 만들 수 있다.",
+            "아주 가깝게 붙은 평행 면 두 장이 같은 복셀을 가로지르면 QEF 솔버가 둘 사이에 dual vertex를 남기고, 그 복셀의 볼류메트릭 재질도 두 면의 평균이 되어 외형이 흐려진다.",
+            "생성·복원된 raw mesh에 작은 구멍이나 사소한 위상 단절이 남을 수 있어, 엄격한 watertight가 필요한 워크플로는 hole-filling 후처리가 별도로 필요하다.",
+            "part-level segmentation·그래프 기반 위상 구조 같은 상위 레벨 구조 정보가 없어 편집·리깅 등 다운스트림이 제한적(향후 과제로 명시). 디코더가 항상 다양체(manifold) 메시를 보장하지도 않는다.",
+            "모델 카드 명시: base 모델은 사람 선호 정렬(alignment)을 거치지 않아 출력이 학습 데이터 분포를 그대로 반영하며, 웹 수집 데이터의 편향이 남아 있을 수 있다(연구 전용 프로젝트)."
+          ],
+          "by_claude": [
+            "Table 1의 MD/CD/F1 절대값은 arXiv HTML→텍스트 변환에서 컬럼 정렬이 깨져 신뢰하기 어려움 — PDF 원본 표로 재확인 필요(normal PSNR·재질 수치는 확인됨).",
+            "재질이 UV 텍스처가 아니라 복셀 위 볼류메트릭 속성(복원 시 trilinear 보간)이므로, 기존 DCC·게임 파이프라인이 기대하는 UV 아틀라스·텍스처 베이킹 품질은 독립 검증이 필요하다.",
+            "사용자 연구는 66.5% vs 6~13%로 압도적인데 CLIP/ULIP-2/Uni3D 증분은 0.01~0.02에 그친다 — 자동 지표 포화인지, 사용자 연구 통제(판정자 수·샘플 수·블라인드 여부)가 충분한지 본문 확인 필요.",
+            "3단계 캐스케이드(구조→기하→재질)는 단계 간 오류 전파 위험이 있는 구조인데, 구조 단계 예측이 틀렸을 때 하위 단계가 복구하는지에 대한 분석은 확인되지 않았다.",
+            "논문은 데이터셋 공개를 예고했지만 레포에 실제 학습 데이터는 없어(원 소스에서 개별 재수집 필요) 전 공정 재현은 현 시점 부분적이다.",
+            "학습 사양이 생성 32×H100 + VAE 16×H100로 개인·소규모 랩에서는 처음부터 학습이 불가하며, 총 학습 시간·비용 수치는 논문에 명시되지 않았다."
+          ]
+        },
+        "reproducibility": {
+          "code": "공개",
+          "weights": "공개",
+          "data": "부분",
+          "license": "MIT (저장소·모델 카드 기재). 단 프로젝트 페이지가 '상업용이 아닌 순수 연구 프로젝트'라 명시하므로 상업 사용은 학습 데이터 라이선스와 함께 보수적으로 판단할 것.",
+          "note": "github.com/microsoft/TRELLIS.2 (MIT, 확인 시점 약 10.2k stars) — 추론 코드·학습 코드·형상 조건 텍스처 생성 코드 공개. 가중치는 huggingface.co/microsoft/TRELLIS.2-4B(512³~1536³ 지원), 공식 HF Space 데모 운영. 학습 데이터셋 자체는 미배포(Objaverse-XL·ABO·HSSD·TexVerse는 원 공개 소스에서 재수집 필요). 추론은 24GB+ VRAM·A100/H100 검증·Linux·CUDA 12.4 권장. 재현성은 3D 생성 분야 상위권이나 전 공정 재학습은 대규모 클러스터가 필요."
+        },
+        "my_learning_points": [
+          "공식 HF Space 데모로 내 도메인 이미지(가느다란 식물, 반투명 재질, 속이 보이는 구조 등 O-Voxel이 강점이라 주장하는 케이스)를 512³로 돌려 약 3초 기준선을 세우고, 같은 입력을 TRELLIS 1.0·Hunyuan3D 2.1에도 넣어 직접 비교표를 만들어 볼 것 — 자동 지표가 격차를 잘 못 잡으므로 질적 판단을 스스로 확보하는 게 핵심.",
+          "생성 전체가 아니라 SC-VAE만 단독으로 다뤄볼 것: 내 메시 자산(특히 비다양체·개방 메시·이중 법선)을 O-Voxel로 인코딩→디코딩해 토큰 수와 normal PSNR/mesh distance를 재보면, 16×·9.6K 압축이 내 도메인에서도 유지되는지 확인할 수 있다.",
+          "Sparse Residual Autoencoding(자식 8개를 채널로 쌓는 비파라미터 shortcut)은 희소 복셀 밖에서도 이식 가능한 압축 패턴이다 — ablation에서 단독으로 MD를 69% 악화시킬 만큼 기여가 크므로, 내가 다루는 3D·희소 모델의 다운샘플링 경로에 같은 아이디어를 넣고 A/B를 돌려볼 가치가 있다."
+        ],
+        "related_work": {
+          "prior": [
+            { "name": "TRELLIS (SLAT, structured latents)", "relation": "동일 연구팀의 직전 버전이자 핵심 기준선 — 4× 압축·9.6K 토큰 대비, 같은 토큰 수로 16× 압축·1024³를 달성해 해상도를 끌어올렸다." },
+            { "name": "Dual Contouring / FlexiCubes 계열 isosurface 추출", "relation": "Flexible Dual Grid의 이론적 토대 — QEF 기반 dual vertex 배치를 O-Voxel에 맞게 학습 가능하도록 재구성." },
+            { "name": "Dora / Direct3D-S2 / SparseFlex", "relation": "3D 잠재 토큰화·희소 표현 경쟁 계열 — 토큰 수·압축률 벤치마크에서 직접 비교." },
+            { "name": "Hunyuan3D 2.1 / Step1X-3D / Hi3DGen", "relation": "PBR·고품질 image-to-3D 생성 경쟁 모델 — 생성 비교표에서 직접 맞붙는다." },
+            { "name": "DiT + AdaLN-single(PixArt 계열), RoPE, flow matching", "relation": "4B 생성기의 기본 골격 — conv packing·skip을 버린 vanilla DiT로 스케일링을 확보." },
+            { "name": "DINOv3-L", "relation": "이미지 컨디셔닝 인코더로 그대로 도입(자체 학습 없음)." },
+            { "name": "Objaverse-XL / ABO / HSSD / TexVerse / Toys4K", "relation": "학습·평가 데이터의 출처 — 자체 수집 없이 공개 자산 조합만으로 4B를 학습했다는 점이 의미 있다." }
+          ],
+          "followup": [
+            { "name": "part-level segmentation / 그래프 위상 구조 확장", "relation": "저자가 향후 방향으로 명시한 항목(편집·리깅 등 다운스트림 확장)." },
+            { "name": "생태계 확산(공식 HF Space 데모, 서드파티 툴 연동)", "relation": "연구 후속이라기보다 도구·활용 측면의 확산." }
+          ]
+        },
+        "claude_note": "arXiv HTML 본문이 충실해 초록을 넘어 설계 수식·학습 설정·ablation·추론 수치·공개 상태까지 교차 확인할 수 있었다(단 Table 1의 MD/CD/F1 절대값은 HTML 변환에서 컬럼이 섞여 PDF 재확인이 필요). 기여는 분명하다 — 기하와 PBR 재질을 하나의 희소 복셀에 통합하면서 SDF/occupancy 가정을 버려 watertight 제약에서 벗어난 점, 그리고 트랜스포머 VAE가 유행하는 흐름에서 오히려 희소 컨볼루션 U-Net으로 돌아가 16× 압축을 따낸 설계 직관이 인상적이다. 다만 '기존 모델을 크게 능가한다'는 주장은 자동 지표(CLIP 0.894 vs 0.876 등 0.01~0.02 증분)보다 사용자 연구(66.5% vs 6~13%)에 거의 전적으로 의존한다 — 3D 자동 지표가 포화된 시기의 논문이므로 사용자 연구 설계의 통제 수준이 지표보다 중요해졌다. 재현성은 코드·학습 코드·4B 가중치를 MIT로 공개해 분야 상위권이지만, 학습 데이터셋이 미배포이고 학습에 수십 장의 H100이 필요해 전 공정 재현은 여전히 닫혀 있다."
+      }
+    }
+  }
+}

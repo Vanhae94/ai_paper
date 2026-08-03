@@ -1,0 +1,252 @@
+{
+  "week_id": "2026-W32",
+  "papers": {
+    "2607.24653": {
+      "classify": {
+        "categories": ["LLM/Agents", "Efficiency/Inference"],
+        "primary_category": "LLM/Agents",
+        "topic_tags": ["mixture-of-experts", "frontier-model", "long-context", "agentic-workflow", "reinforcement-learning"],
+        "method_tags": ["pretraining", "rl", "architecture"],
+        "modality": ["multi"],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "2.8T MoE(104B 활성)·네이티브 비전·100만 토큰 컨텍스트의 오픈 프론티어 모델, 가중치 전면 공개.",
+        "problem": "오픈 모델이 프론티어급 성능(장기 코딩·에이전트·추론·비전)에 도달하면서도 스케일링 효율을 확보하기는 어렵다.",
+        "approach": "2.8조 파라미터 MoE(토큰당 104B 활성). Kimi Delta Attention(KDA)+Attention Residuals로 시퀀스 길이·모델 깊이 전반의 정보 흐름을 개선하고, Stable LatentMoE(896개 라우팅 전문가 중 16개 활성)와 개선된 학습·데이터 레시피로 Kimi K2 대비 스케일링 효율 약 2.5배를 얻는다. 사후학습은 일반·에이전트·코딩 RL과 다중 추론-노력(reasoning-effort) 레벨로 조합적 일반화와 장기 실행을 강화한다.",
+        "contributions": [
+          "2.8T MoE(104B 활성)·네이티브 비전·1M 토큰 컨텍스트 오픈 모델",
+          "KDA+Attention Residuals, Stable LatentMoE로 K2 대비 스케일링 효율 약 2.5배",
+          "일반·에이전트·코딩 RL + 다중 추론-노력 레벨로 장기 실행 강화",
+          "장기 코딩·에이전트·지식·추론·비전에서 프론티어급 — 가중치 전면 공개"
+        ],
+        "why_now": "이번 주 최다 업보트(▲431 역대 최고)로 오픈 프론티어 모델의 이벤트다. 최상위 상용(논문 표기상 Claude Fable 5, GPT-5.6 Sol)엔 못 미치지만 다른 오픈·상용 모델은 능가하며, '에이전트·장기 실행'을 모델 자체에 내재화한 방향을 보여준다.",
+        "difficulty": "고급",
+        "recommended_reader": "프론티어 LLM·MoE·에이전트 RL·롱컨텍스트에 관심 있는 학습자",
+        "field_tags": ["프론티어모델", "MoE", "롱컨텍스트", "에이전트RL"],
+        "interest": { "upvotes": 431, "num_comments": 9, "github_stars": 7900 }
+      },
+      "learning": {
+        "key_terms": [
+          { "term": "Mixture-of-Experts (MoE)", "gloss": "입력마다 일부 전문가만 활성화해 용량↑·계산↓" },
+          { "term": "Activated Parameters", "gloss": "전체 중 실제 추론에 쓰이는 파라미터(여기선 104B)" },
+          { "term": "Reasoning-effort Levels", "gloss": "추론에 들이는 계산량을 조절하는 다단계 설정" }
+        ],
+        "recall_quiz": {
+          "question": "Kimi K3의 규모·활성 파라미터와 K2 대비 개선점은?",
+          "answer": "2.8T MoE 중 토큰당 104B 활성, KDA·Stable LatentMoE 등으로 K2 대비 스케일링 효율 약 2.5배."
+        },
+        "spaced_review": { "flag": true, "review_due": "2026-W36" }
+      }
+    },
+
+    "2510.22200": {
+      "classify": {
+        "categories": ["Vision", "Efficiency/Inference"],
+        "primary_category": "Vision",
+        "topic_tags": ["text-to-video", "diffusion-transformer", "long-video", "block-sparse-attention"],
+        "method_tags": ["pretraining", "rl", "architecture"],
+        "modality": ["video"],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "분(minute) 단위 긴 영상을 720p·30fps로 효율 생성하는 13.6B 통합 비디오 파운데이션 모델.",
+        "problem": "비디오 생성은 월드 모델로 가는 핵심 경로이며, 특히 '긴 영상을 효율적으로' 생성하는 능력이 관건이다.",
+        "approach": "DiT 기반 통합 아키텍처로 Text-to-Video·Image-to-Video·Video-Continuation을 단일 모델로 지원한다. Video-Continuation 사전학습으로 분 단위 긴 영상의 품질·시간 일관성을 유지하고, 시간·공간축 coarse-to-fine 생성 + Block Sparse Attention으로 720p·30fps를 분 단위로 효율 생성한다. 다중 보상 RLHF로 최신 상용·선도 오픈 모델과 대등한 성능을 낸다.",
+        "contributions": [
+          "T2V·I2V·Video-Continuation을 단일 DiT로 통합(13.6B)",
+          "Video-Continuation 사전학습으로 분 단위 긴 영상 일관성",
+          "coarse-to-fine + Block Sparse Attention으로 720p·30fps 효율 생성",
+          "다중 보상 RLHF로 상용·오픈 SOTA급, 코드·가중치 공개"
+        ],
+        "why_now": "이번 주 생성 모달리티 폭발(비디오·3D·음성)의 한 축이다. '비디오 생성 → 월드 모델' 방향과 효율(Block Sparse) 강조가, 생성이 전 모달리티로 번지는 흐름과 맞물린다.",
+        "difficulty": "고급",
+        "recommended_reader": "비디오 생성·확산 모델·월드 모델에 관심 있는 학습자",
+        "field_tags": ["비디오생성", "DiT", "긴영상", "효율화"],
+        "interest": { "upvotes": 40, "num_comments": 5, "github_stars": 6400 }
+      },
+      "learning": {
+        "key_terms": [
+          { "term": "Text-to-Video", "gloss": "텍스트 프롬프트로 영상을 생성하는 과제" },
+          { "term": "Video-Continuation", "gloss": "주어진 영상을 이어서 생성해 긴 영상을 만드는 방식" },
+          { "term": "Block Sparse Attention", "gloss": "블록 단위로 어텐션을 희소화해 고해상 효율↑" }
+        ],
+        "recall_quiz": {
+          "question": "LongCat-Video가 분 단위 긴 영상의 일관성을 확보한 핵심 사전학습 과제는?",
+          "answer": "Video-Continuation(영상 이어붙이기) 사전학습."
+        },
+        "spaced_review": { "flag": false, "review_due": null }
+      }
+    },
+
+    "2512.14692": {
+      "classify": {
+        "categories": ["Vision", "Embodied/World Models"],
+        "primary_category": "Vision",
+        "topic_tags": ["3d-generation", "structured-latents", "voxel", "flow-matching"],
+        "method_tags": ["pretraining", "architecture"],
+        "modality": ["3d"],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "기하와 재질을 함께 담는 O-Voxel 구조로 임의 위상의 3D 자산을 효율 생성하는 4B 플로우매칭 모델.",
+        "problem": "3D 생성 모델은 사실성이 좋아졌지만, 기존 표현이 복잡한 위상(topology)과 세밀한 외형을 담기 어려워 발목을 잡는다.",
+        "approach": "네이티브 3D 데이터에서 구조화 잠재 표현을 학습한다. 핵심은 O-Voxel — 기하와 외형을 함께 인코딩하는 omni-voxel 희소 복셀 구조로, 열린·비다양체·완전 밀폐 표면 등 임의 위상을 강건히 모델링하고 PBR(물리기반 렌더링) 파라미터 등 텍스처 색을 넘는 표면 속성을 담는다. O-Voxel 위에 Sparse Compression VAE로 높은 공간 압축·컴팩트 잠재공간을 만들고, 공개 3D 자산으로 4B 플로우매칭 모델을 학습한다.",
+        "contributions": [
+          "기하+외형을 함께 담는 omni-voxel 구조 O-Voxel(임의 위상·PBR 속성)",
+          "높은 공간 압축의 Sparse Compression VAE + 컴팩트 잠재공간",
+          "4B 플로우매칭 3D 생성, 규모 대비 효율적 추론",
+          "기존 대비 월등한 기하·재질 품질"
+        ],
+        "why_now": "이번 주 생성 폭발의 3D 축이다. 이미지·비디오·음성에 이어 3D 자산 생성까지 트렌딩에 오르며, 생성 모델이 모든 모달리티로 확산되는 흐름을 완성한다.",
+        "difficulty": "고급",
+        "recommended_reader": "3D 생성·그래픽스·표현 학습에 관심 있는 학습자",
+        "field_tags": ["3D생성", "복셀표현", "플로우매칭", "PBR"],
+        "interest": { "upvotes": 6, "num_comments": 0, "github_stars": 10100 }
+      },
+      "learning": {
+        "key_terms": [
+          { "term": "Voxel", "gloss": "3D 공간을 격자 셀로 나눈 부피 표현(3D 픽셀)" },
+          { "term": "Topology", "gloss": "표면의 위상 구조(열림/닫힘/구멍 등)" },
+          { "term": "Flow Matching", "gloss": "확산 계열의 생성 목적함수(경로를 직선화해 학습)" }
+        ],
+        "recall_quiz": {
+          "question": "O-Voxel이 기존 3D 표현과 달리 함께 담아내는 두 가지는?",
+          "answer": "기하(geometry)와 외형(appearance) — PBR 등 표면 속성까지, 임의 위상에서."
+        },
+        "spaced_review": { "flag": false, "review_due": null }
+      }
+    },
+
+    "2508.19205": {
+      "classify": {
+        "categories": ["Multimodal", "Efficiency/Inference"],
+        "primary_category": "Multimodal",
+        "topic_tags": ["speech-synthesis", "next-token-diffusion", "continuous-tokenizer", "long-form-audio"],
+        "method_tags": ["architecture", "inference-time"],
+        "modality": ["audio"],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "Encodec 대비 80배 압축한 연속 토크나이저로 최대 90분·4화자 대화를 합성하는 장문 음성 생성 모델.",
+        "problem": "여러 화자의 장문 음성을 자연스럽게 합성하려면, 긴 시퀀스를 효율적으로 처리하면서 음질을 유지해야 한다.",
+        "approach": "next-token diffusion — 연속 데이터를 위한 통합 방식으로, 잠재 벡터를 확산으로 자기회귀 생성한다. 이를 위해 새로운 연속 음성 토크나이저를 도입해 Encodec 대비 데이터 압축을 80배 개선하면서 성능은 대등하게 유지한다. 결과적으로 64K 컨텍스트에서 최대 90분·4화자까지 대화의 '바이브'를 살린 장문 음성을 합성한다.",
+        "contributions": [
+          "연속 데이터용 next-token diffusion으로 장문 다화자 음성 합성",
+          "Encodec 대비 80배 압축하는 연속 음성 토크나이저(음질 유지)",
+          "64K 컨텍스트에서 최대 90분·4화자 합성",
+          "오픈·상용 대화 모델 능가"
+        ],
+        "why_now": "오디오/음성이 3주째 트렌딩(CALM→Moonshine→VibeVoice). '80배 압축 토크나이저'로 효율과 장문을 동시에 잡아, 효율화가 음성 생성으로 심화되는 흐름을 보여준다(▲177, GH★51.9k로 관심도 높음).",
+        "difficulty": "고급",
+        "recommended_reader": "음성 합성(TTS)·오디오 생성·효율적 토크나이저에 관심 있는 학습자",
+        "field_tags": ["음성합성", "next-token-diffusion", "연속토크나이저", "장문오디오"],
+        "interest": { "upvotes": 177, "num_comments": 10, "github_stars": 51900 }
+      },
+      "learning": {
+        "key_terms": [
+          { "term": "TTS (Speech Synthesis)", "gloss": "텍스트를 음성으로 합성하는 기술" },
+          { "term": "Next-token Diffusion", "gloss": "다음 토큰(잠재 벡터)을 확산으로 생성하는 자기회귀 방식" },
+          { "term": "Encodec", "gloss": "오디오를 이산 토큰으로 압축하는 대표 뉴럴 코덱(비교 기준)" }
+        ],
+        "recall_quiz": {
+          "question": "VibeVoice의 연속 음성 토크나이저가 Encodec 대비 이룬 핵심 개선은?",
+          "answer": "성능은 대등하게 유지하면서 데이터 압축을 80배 개선 — 긴 시퀀스 처리 효율을 크게 높였다."
+        },
+        "spaced_review": { "flag": false, "review_due": null }
+      }
+    },
+
+    "2606.23050": {
+      "classify": {
+        "categories": ["Multimodal", "Efficiency/Inference"],
+        "primary_category": "Multimodal",
+        "topic_tags": ["end-to-end-ocr", "kv-cache", "sliding-window-attention", "document-parsing"],
+        "method_tags": ["architecture", "inference-time"],
+        "modality": ["image", "text"],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "상수 KV 캐시(R-SWA)로 수십 페이지 문서를 한 번에 받아 적는, 인간 작업기억을 모사한 OCR 모델.",
+        "problem": "DeepSeek OCR처럼 LLM을 디코더로 쓰는 엔드투엔드 OCR은 성능이 좋지만, 출력이 길어질수록 KV 캐시가 누적돼 메모리가 늘고 생성이 느려진다.",
+        "approach": "DeepSeek OCR을 베이스라인으로, 디코더 어텐션을 R-SWA(Reference Sliding Window Attention)로 교체한다. R-SWA는 디코딩 내내 KV 캐시를 '상수'로 유지하며, 인코더의 높은 압축률과 결합해 32K 길이에서 수십 페이지를 단일 forward로 전사한다.",
+        "contributions": [
+          "디코딩 내내 일정한 KV 캐시를 유지하는 R-SWA 어텐션",
+          "32K 길이에서 수십 페이지 문서를 단일 forward로 전사",
+          "OCR을 넘어 ASR·번역 등에 적용 가능한 범용 파싱 어텐션",
+          "코드·가중치 공개(Baidu, ★21.6k)"
+        ],
+        "why_now": "지난주에 이어 2주 연속 트렌딩. 문서 파싱이 8월 초에도 자리를 지키며 '엔드투엔드 OCR + 상수 KV캐시' 조합의 저력을 이어간다.",
+        "difficulty": "고급",
+        "recommended_reader": "OCR·문서 AI·추론 효율화에 관심 있는 학습자",
+        "field_tags": ["OCR", "상수KV캐시", "슬라이딩윈도우어텐션", "문서AI"],
+        "interest": { "upvotes": 75, "num_comments": 6, "github_stars": 21600 }
+      },
+      "learning": {
+        "key_terms": [
+          { "term": "KV Cache", "gloss": "어텐션 키·값을 저장해 디코딩을 가속하는 캐시. 길어지면 메모리 부담" },
+          { "term": "Sliding Window Attention", "gloss": "최근 일정 구간만 보는 어텐션으로 비용·캐시를 제한" },
+          { "term": "End-to-end OCR", "gloss": "이미지→텍스트를 단일 모델로 직접 수행하는 OCR" }
+        ],
+        "recall_quiz": {
+          "question": "Unlimited OCR이 긴 문서에서도 메모리·속도 저하 없이 작동하게 한 핵심 기법은?",
+          "answer": "디코더 어텐션을 R-SWA로 교체해 디코딩 내내 KV 캐시를 상수로 유지한다."
+        },
+        "spaced_review": { "flag": false, "review_due": null }
+      }
+    },
+
+    "2508.02739": {
+      "classify": {
+        "categories": ["Data"],
+        "primary_category": "Data",
+        "topic_tags": ["time-series-foundation-model", "financial-ai", "synthetic-data", "autoregressive-objective"],
+        "method_tags": ["pretraining", "architecture"],
+        "modality": ["multi"],
+        "confidence": "medium"
+      },
+      "tier1": {
+        "one_liner": "45개 거래소의 120억 캔들(K-line)로 사전학습한 금융 시계열 파운데이션 모델.",
+        "problem": "LLM식 사전학습이 시계열 파운데이션 모델(TSFM)로 확장됐지만, 금융 캔들(K-line)에는 적용이 제한적이고 비사전학습 모델보다 못한 경우도 많았다.",
+        "approach": "연속적 시장 정보를 토큰 시퀀스로 이산화하는 전용 토크나이저로 가격 동역학·거래 활동을 보존하고, 45개 거래소의 120억+ K-line으로 자기회귀 목적함수로 사전학습한다.",
+        "contributions": [
+          "금융 K-line 전용 통합 사전학습 프레임워크 + 전용 토크나이저",
+          "제로샷 가격 예측 RankIC를 선도 TSFM 대비 +93%, 최고 비사전학습 대비 +87%",
+          "변동성 예측 MAE 9%↓, 합성 K-line 생성 충실도 22%↑",
+          "사전학습 모델 공개(★35.6k)"
+        ],
+        "why_now": "지난주에 이어 2주 연속 트렌딩. 사전학습 패러다임이 금융 시계열로 번지는 흐름을 이어가며, 'AI×금융' 관심을 지탱한다.",
+        "difficulty": "중급",
+        "recommended_reader": "시계열·파운데이션 모델·퀀트 금융에 관심 있는 학습자",
+        "field_tags": ["시계열", "파운데이션모델", "금융AI", "합성데이터"],
+        "interest": { "upvotes": 51, "num_comments": 4, "github_stars": 35600 }
+      },
+      "learning": {
+        "key_terms": [
+          { "term": "Tokenizer", "gloss": "연속 데이터를 모델이 다룰 수 있는 이산 토큰으로 변환하는 모듈" },
+          { "term": "Autoregressive Pre-training", "gloss": "앞 토큰들로 다음 토큰을 예측하도록 학습하는 방식" },
+          { "term": "RankIC", "gloss": "예측 순위와 실제 순위의 상관. 퀀트에서 예측력 지표" }
+        ],
+        "recall_quiz": {
+          "question": "Kronos가 연속적인 시장 데이터를 모델 입력으로 만들기 위해 도입한 핵심 구성요소는?",
+          "answer": "가격 동역학과 거래 활동 패턴을 보존하며 데이터를 토큰 시퀀스로 이산화하는 전용 토크나이저."
+        },
+        "spaced_review": { "flag": false, "review_due": null }
+      }
+    }
+  },
+
+  "week_summary": {
+    "headline_ko": "생성 모달리티 대폭발(비디오·3D·음성) + 오픈 프론티어 Kimi K3(▲431 역대 최고) — TradingAgents 7주 연속 종료",
+    "clusters": [
+      { "category": "Vision", "paper_ranks": [4, 5], "theme_ko": "생성 폭발 — 비디오(LongCat-Video)·3D(O-Voxel) 생성" },
+      { "category": "Multimodal", "paper_ranks": [2, 6], "theme_ko": "문서 파싱(Unlimited OCR)·음성 생성(VibeVoice, 오디오 3주째)" },
+      { "category": "LLM/Agents", "paper_ranks": [1], "theme_ko": "오픈 프론티어 모델 — Kimi K3(2.8T MoE·1M 컨텍스트·가중치 공개)" },
+      { "category": "Data", "paper_ranks": [3], "theme_ko": "금융 시계열 FM(Kronos, 2주 연속)" }
+    ],
+    "emerging_keywords": ["video-generation", "speech-synthesis", "3d-generation"],
+    "narrative_ko": "이번 주는 '생성 대폭발'이었다 — 비디오(LongCat-Video, 분 단위 긴 영상), 3D(O-Voxel로 임의 위상 자산), 음성(VibeVoice, 90분·4화자) 생성이 한꺼번에 트렌딩했다. 동시에 오픈 프론티어 모델 Kimi K3가 ▲431로 역대 최고 관심을 받았다(2.8T MoE·1M 컨텍스트·가중치 공개, 최상위 상용엔 못 미쳐도 다른 오픈·상용은 능가). 한편 7주 연속이던 TradingAgents가 이번 주 빠지며 최장 기록이 마감됐다. 효율화는 8주째 모든 것을 관통했다(MoE·Block Sparse·80배 압축 토크나이저·Sparse VAE).",
+    "recent_trend_ko": "누적 8주차. [대폭발] 생성 모달리티가 한꺼번에 터졌다 — 비디오·3D·음성 생성이 같은 주에 나란히 올랐고, 지난주 이미지(Mage-Flow)까지 더하면 최근 2주에 이미지·비디오·3D·음성 생성이 모두 트렌딩했다. 7월의 '릴레이'가 8월 초 '합창'이 된 셈. [이벤트] 오픈 프론티어 Kimi K3가 ▲431(역대 최고)로 등장 — 프론티어 성능을 오픈 가중치로 공개. [지속] 오디오/음성 3주 연속(CALM→Moonshine→VibeVoice), 효율화 8주째 전방위(MoE·Block Sparse·80배 압축·Sparse VAE). [종료] TradingAgents의 7주 연속이 끊기고 SkillOpt도 빠져 순수 '에이전트 프레임워크'가 잠시 물러났다 — 다만 Kimi K3가 '에이전트 능력'을 모델에 내재화한 점은 에이전트 흐름의 다른 형태다. [지속] 문서파싱(Unlimited OCR)·금융(Kronos) 각 2주 연속.",
+    "caveats_ko": "주 6편 트렌딩 표본 기준이며 HuggingFace 커뮤니티의 인기·최신 편향이 있습니다. 업보트·스타는 중요도가 아닌 '관심도' 지표로만 해석하세요. Kimi K3의 '프론티어급' 성능 주장은 상당 부분 자체 평가 스위트 기준이므로 독립 벤치마크로 재확인이 필요합니다."
+  }
+}

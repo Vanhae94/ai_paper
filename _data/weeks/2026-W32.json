@@ -1,0 +1,1734 @@
+{
+  "schema_version": 1,
+  "week_id": "2026-W32",
+  "date_range_ko": "2026-08-03 ~ 08-09",
+  "month_folder": "2026.08",
+  "collected_at": "2026-08-03T08:56:24+09:00",
+  "source": "huggingface daily_papers?sort=trending&limit=6",
+  "paper_count": 6,
+  "papers": [
+    {
+      "id": "2607.24653",
+      "title": "Kimi K3: Open Frontier Intelligence",
+      "title_ko": null,
+      "authors": [
+        "Kimi Team",
+        "Tongtong Bai",
+        "Yifan Bai",
+        "Yiping Bao",
+        "M. C.",
+        "Jianfeng Cai",
+        "Xinyuan Cai",
+        "Peizhou Cao",
+        "Yuxuan Cao",
+        "Ziwei Chai",
+        "Y. Charles",
+        "H. S. Che",
+        "Guanduo Chen",
+        "Guangyu Chen",
+        "Guanzheng Chen",
+        "Huarong Chen",
+        "Jia Chen",
+        "Jianlong Chen",
+        "Jun Chen",
+        "Kexin Chen",
+        "Peng Chen",
+        "Ruijue Chen",
+        "Wentao Chen",
+        "Xin Chen",
+        "Yang Chen",
+        "Yanru Chen",
+        "Yifei Chen",
+        "Yingjiang Chen",
+        "Yuankun Chen",
+        "Yujie Chen",
+        "Yutian Chen",
+        "Zhirong Chen",
+        "Dazhi Cheng",
+        "Yean Cheng",
+        "Jialei Cui",
+        "Jingbing Cui",
+        "Anqi Dai",
+        "Jiaqi Deng",
+        "Hao Ding",
+        "Rui Ding",
+        "Shaofeng Ding",
+        "Mengfan Dong",
+        "Mengnan Dong",
+        "Yuhao Dong",
+        "Yuxin Dong",
+        "Angang Du",
+        "Chenzhuang Du",
+        "Dikang Du",
+        "Jusen Du",
+        "Yulun Du",
+        "Yu Fan",
+        "Jing Feng",
+        "Qiulin Feng",
+        "Yichen Feng",
+        "Kelin Fu",
+        "Qiang Fu",
+        "Fuxuan Gao",
+        "Hongcheng Gao",
+        "Jingyue Gao",
+        "Tong Gao",
+        "Weijia Gao",
+        "Shangyi Geng",
+        "Jie Gong",
+        "Linhu Gong",
+        "Shengao Gong",
+        "Xiaochen Gong",
+        "Qizheng Gu",
+        "Yicheng Gu",
+        "Shuhao Guan",
+        "Haiqing Guo",
+        "Shiqi Guo",
+        "Xiang Guo",
+        "Zhengyan Guo",
+        "Beixi Hao",
+        "Wenxin Hao",
+        "Xiaoru Hao",
+        "Dailan He",
+        "Haotian He",
+        "Lehan He",
+        "Qi He",
+        "Weiran He",
+        "Xinran He",
+        "Xinyi He",
+        "Yibo He",
+        "Yunjia He",
+        "Chao Hong",
+        "Tiange Hong",
+        "Hao Hu",
+        "Jiaxi Hu",
+        "Ruikun Hu",
+        "Weiming Hu",
+        "Yangyang Hu",
+        "Zhenxing Hu",
+        "Liang Hua",
+        "Jinbin Huang",
+        "Ke Huang",
+        "Ruiyuan Huang",
+        "Siying Huang",
+        "Weixiao Huang",
+        "Yan Huang",
+        "Zhengjie Huang",
+        "Zhiqi Huang",
+        "Yulong Hui",
+        "Chaobo Jia",
+        "Yutong Jiang",
+        "Zhejun Jiang",
+        "Zuoyou Jiang",
+        "Wenyi Jin",
+        "Xinyi Jin",
+        "Yu Jing",
+        "Huanjun Kong",
+        "Guokun Lai",
+        "Aidi Li",
+        "Cheng Li",
+        "Chengyuan Li",
+        "Cong Li",
+        "Fang Li",
+        "Guanyu Li",
+        "Haoyang Li",
+        "Jia Li",
+        "Junxiong Li",
+        "Lei Li",
+        "Letian Li",
+        "Lincan Li",
+        "Weihong Li",
+        "Wentao Li",
+        "Xintong Li",
+        "Yang Li",
+        "Yishen Li",
+        "Yiwei Li",
+        "Yuxiao Li",
+        "Zhaowei Li",
+        "Zhaoxi Li",
+        "Zheming Li",
+        "Zhengxiao Li",
+        "Zhiyuan Li",
+        "Jiawei Lin",
+        "Xiaohan Lin",
+        "Yibo Lin",
+        "Zichao Lin",
+        "Ziyan Lin",
+        "Bill Liu",
+        "Boxiao Liu",
+        "Chuan Liu",
+        "Liang Liu",
+        "Shaowei Liu",
+        "Shudong Liu",
+        "Shuran Liu",
+        "Tianwei Liu",
+        "Weizhou Liu",
+        "Yangyang Liu",
+        "Yanming Liu",
+        "Yibo Liu",
+        "Yipeng Liu",
+        "Zhengying Liu",
+        "Zhiheng Liu",
+        "Enzhe Lu",
+        "Haoyu Lu",
+        "Linqiang Lu",
+        "Tingzhan Lu",
+        "Zhiyuan Lu",
+        "Aotian Luo",
+        "G. Luo",
+        "Junyu Luo",
+        "Yifan Luo",
+        "B. Lyu",
+        "Wenzhou Lyu",
+        "Shaoguang Mao",
+        "Yuan Mei",
+        "Xin Men",
+        "Minqing Ni",
+        "Yixuan Niu",
+        "Siyuan Pan",
+        "Shujun Peng",
+        "Zhangyang Qi",
+        "Ruoyu Qin",
+        "ZeChao Qin",
+        "Zeyu Qin",
+        "Haiquan Qiu",
+        "Jianxin Qiu",
+        "Jiezhong Qiu",
+        "Bowen Qu",
+        "Yuhao Qu",
+        "Zeyu Shang",
+        "Youbo Shao",
+        "Han Shen",
+        "Jincheng Shi",
+        "Juanfeng Shi",
+        "Lidong Shi",
+        "Shengyuan Shi",
+        "Wingchun Siu",
+        "Pengwei Song",
+        "Xiaoxi Song",
+        "Jianlin Su",
+        "Yunfeng Su",
+        "Zhaochen Su",
+        "Lin Sui",
+        "Jingsong Sun",
+        "Junyao Sun",
+        "Shaoning Sun",
+        "Shuzhe Sun",
+        "Tongyu Sun",
+        "Yujun Sun",
+        "Yunpeng Tai",
+        "Chuning Tang",
+        "Heyi Tang",
+        "Sirui Tang",
+        "Zecheng Tang",
+        "Chaoran Tian",
+        "Rongpeng Tian",
+        "Yu Tian",
+        "Wei Tu",
+        "Chensi Wang",
+        "Chuang Wang",
+        "Chunjie Wang",
+        "Dinglu Wang",
+        "Feng Wang",
+        "Hailong Wang",
+        "Haiming Wang",
+        "Hao Wang",
+        "Hao Wang",
+        "Huaqing Wang",
+        "Hui Wang",
+        "Jiayi Wang",
+        "Jinglong Wang",
+        "Jinhong Wang",
+        "Jiuzheng Wang",
+        "Linian Wang",
+        "Shaobo Wang",
+        "Shenzhi Wang",
+        "Shuyi Wang",
+        "Si Wang",
+        "Siyuan Wang",
+        "Tianfu Wang",
+        "Wenjue Wang",
+        "Xingran Wang",
+        "Xinmei Wang",
+        "Xinyuan Wang",
+        "Xusheng Wang",
+        "Yalin Wang",
+        "Yangkun Wang",
+        "Yao Wang",
+        "Yaoyu Wang",
+        "Yejie Wang",
+        "Yiqin Wang",
+        "Yucheng Wang",
+        "Yuzhi Wang",
+        "Zhaoji Wang",
+        "Zhaowei Wang",
+        "Zhengtao Wang",
+        "Zhenhao Wang",
+        "Zhongsheng Wang",
+        "Zifan Wang",
+        "Chu Wei",
+        "Ming Wei",
+        "Shouxin Wei",
+        "Zichen Wen",
+        "Fan Wu",
+        "Haoning Wu",
+        "Rucong Wu",
+        "Wenhao Wu",
+        "Xiaoxue Wu",
+        "Yingcong Wu",
+        "Yongqi Wu",
+        "Yuxin Wu",
+        "Zijian Wu",
+        "Xinglang Xian",
+        "Chenxuan Xiang",
+        "Yuye Xiang",
+        "Bocheng Xiao",
+        "Chenjun Xiao",
+        "Xin Xiao",
+        "Jin Xie",
+        "Xiaotong Xie",
+        "Yifeng Xie",
+        "Zhe Xie",
+        "Bowei Xing",
+        "Yiming Xiong",
+        "Baosheng Xu",
+        "Boyu Xu",
+        "Jiale Xu",
+        "Jianfan Xu",
+        "Jing Xu",
+        "Jinjing Xu",
+        "L. H. Xu",
+        "Qingtao Xu",
+        "Shuyao Xu",
+        "Suting Xu",
+        "Tiantian Xu",
+        "Tianxiang Xu",
+        "Weixin Xu",
+        "Xinran Xu",
+        "Yangchuan Xu",
+        "Ye Xu",
+        "Yueni Xu",
+        "Ziyao Xu",
+        "Haonan Xue",
+        "Junjie Yan",
+        "Yaoyao Yan",
+        "Fan Yang",
+        "Guangyao Yang",
+        "Hao Yang",
+        "Junwei Yang",
+        "Ruoyu Yang",
+        "Wenjie Yang",
+        "Xiaofei Yang",
+        "Xinyu Yang",
+        "Yi Yang",
+        "Yiling Yang",
+        "Ying Yang",
+        "Yuchen Yang",
+        "Zhen Yang",
+        "Zhilin Yang",
+        "Zian Yang",
+        "Zuhao Yang",
+        "Haotian Yao",
+        "Dan Ye",
+        "Haoran Ye",
+        "Wenjie Ye",
+        "Zhanbo Ye",
+        "Bohong Yin",
+        "Haoxiang Yin",
+        "Xietong Yin",
+        "Chengzhen Yu",
+        "Haozhen Yu",
+        "Longhui Yu",
+        "Shengnan Yu",
+        "Shuying Yu",
+        "Tianxiang Yu",
+        "Enming Yuan",
+        "Mengjie Yuan",
+        "Tongtian Yue",
+        "Wei Yue",
+        "Yang Yue",
+        "Dunyuan Zha",
+        "Haobing Zhan",
+        "B. H. Zhang",
+        "Dehao Zhang",
+        "Fei Zhang",
+        "Hao Zhang",
+        "Haoyuan Zhang",
+        "Huanyu Zhang",
+        "Jiapei Zhang",
+        "Jiaxuan Zhang",
+        "Jin Zhang",
+        "Kaiyi Zhang",
+        "Miaozhen Zhang",
+        "Puqi Zhang",
+        "Qinglei Zhang",
+        "Rong Zhang",
+        "Rui Zhang",
+        "Shaoshuai Zhang",
+        "Shiyi Zhang",
+        "Xiaobin Zhang",
+        "Xiaoyun Zhang",
+        "Y. Zhang",
+        "Yangkun Zhang",
+        "Ye Zhang",
+        "Yichi Zhang",
+        "Yikun Zhang",
+        "Yizhi Zhang",
+        "Yongting Zhang",
+        "Yu Zhang",
+        "Yutao Zhang",
+        "Yutong Zhang",
+        "Zheng Zhang",
+        "Zijing Zhang",
+        "Bin Zhao",
+        "Chenguang Zhao",
+        "Feifan Zhao",
+        "Jinglun Zhao",
+        "Jinxiang Zhao",
+        "Shuai Zhao",
+        "Wenshuo Zhao",
+        "Xiangyu Zhao",
+        "Xuanle Zhao",
+        "Yikai Zhao",
+        "Zijia Zhao",
+        "Haozhi Zheng",
+        "Huabin Zheng",
+        "Ruihan Zheng",
+        "Shaojie Zheng",
+        "Tengyang Zheng",
+        "Haofeng Zhong",
+        "Lei Zhong",
+        "Longguang Zhong",
+        "M. Zhou",
+        "Qiankang Zhou",
+        "Runjie Zhou",
+        "Ruozhang Zhou",
+        "Xinyu Zhou",
+        "Yiqiao Zhou",
+        "Zaida Zhou",
+        "Jinguo Zhu",
+        "Liya Zhu",
+        "Xinhao Zhu",
+        "Yangjunfeng Zhu",
+        "Yuxuan Zhu",
+        "Zhen Zhu",
+        "Chen Zhuang",
+        "Weiyu Zhuang",
+        "Xinxing Zu"
+      ],
+      "published_at": "2026-07-26T20:00:00.000Z",
+      "rank": 1,
+      "raw": {
+        "summary": "We introduce Kimi K3, a 2.8T parameter Mixture-of-Experts model with 104 billion activated parameters, native vision capabilities, and a 1-million-token context window. Kimi K3 is built on Kimi Delta Attention and Attention Residuals, which improve information flow across sequence length and model depth. Together with Stable LatentMoE, which effectively activates 16 of 896 routed experts per token, and refined training and data recipes, these advances yield an approximately 2.5x improvement in overall scaling efficiency over Kimi K2. Post-training highlights reinforcement learning across general, agentic, and coding domains and multiple reasoning-effort levels, enabling compositional generalization and robust long-horizon execution. At 2.8T scale, Kimi K3 is supported by infrastructure advances in multiple areas: algorithm-system co-design for KDA, perfectly balanced expert-parallel training with efficient memory management, million-token agentic RL with persistent rollout and sandbox states, and deployment innovations. Extensive evaluations show that Kimi K3 achieves frontier-level performance across long-horizon coding, agentic, knowledge, reasoning, and vision tasks. While its overall performance still trails the most powerful proprietary models, namely Claude Fable 5 and GPT-5.6 Sol, Kimi K3 consistently outperforms other open and proprietary models evaluated in our suite. We release the full Kimi K3 model weights to facilitate future research and accelerate the broader deployment and adoption of frontier intelligence.",
+        "ai_summary": "",
+        "ai_keywords": [],
+        "upvotes": 431,
+        "num_comments": 9,
+        "github_repo": "https://github.com/MoonshotAI/Kimi-K3",
+        "github_stars": 7896,
+        "project_page": "https://www.kimi.com/blog/kimi-k3"
+      },
+      "links": [
+        {
+          "rank": 1,
+          "label": "HF 토론·요약",
+          "url": "https://huggingface.co/papers/2607.24653"
+        },
+        {
+          "rank": 2,
+          "label": "arXiv 초록",
+          "url": "https://arxiv.org/abs/2607.24653"
+        },
+        {
+          "rank": 3,
+          "label": "PDF 원문",
+          "url": "https://arxiv.org/pdf/2607.24653"
+        },
+        {
+          "rank": 4,
+          "label": "코드(GitHub)",
+          "url": "https://github.com/MoonshotAI/Kimi-K3"
+        },
+        {
+          "rank": 5,
+          "label": "프로젝트 페이지",
+          "url": "https://www.kimi.com/blog/kimi-k3"
+        }
+      ],
+      "classify": {
+        "categories": [
+          "LLM/Agents",
+          "Efficiency/Inference"
+        ],
+        "primary_category": "LLM/Agents",
+        "topic_tags": [
+          "mixture-of-experts",
+          "frontier-model",
+          "long-context",
+          "agentic-workflow",
+          "reinforcement-learning"
+        ],
+        "method_tags": [
+          "pretraining",
+          "rl",
+          "architecture"
+        ],
+        "modality": [
+          "multi"
+        ],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "2.8T MoE(104B 활성)·네이티브 비전·100만 토큰 컨텍스트의 오픈 프론티어 모델, 가중치 전면 공개.",
+        "problem": "오픈 모델이 프론티어급 성능(장기 코딩·에이전트·추론·비전)에 도달하면서도 스케일링 효율을 확보하기는 어렵다.",
+        "approach": "2.8조 파라미터 MoE(토큰당 104B 활성). Kimi Delta Attention(KDA)+Attention Residuals로 시퀀스 길이·모델 깊이 전반의 정보 흐름을 개선하고, Stable LatentMoE(896개 라우팅 전문가 중 16개 활성)와 개선된 학습·데이터 레시피로 Kimi K2 대비 스케일링 효율 약 2.5배를 얻는다. 사후학습은 일반·에이전트·코딩 RL과 다중 추론-노력(reasoning-effort) 레벨로 조합적 일반화와 장기 실행을 강화한다.",
+        "contributions": [
+          "2.8T MoE(104B 활성)·네이티브 비전·1M 토큰 컨텍스트 오픈 모델",
+          "KDA+Attention Residuals, Stable LatentMoE로 K2 대비 스케일링 효율 약 2.5배",
+          "일반·에이전트·코딩 RL + 다중 추론-노력 레벨로 장기 실행 강화",
+          "장기 코딩·에이전트·지식·추론·비전에서 프론티어급 — 가중치 전면 공개"
+        ],
+        "why_now": "이번 주 최다 업보트(▲431 역대 최고)로 오픈 프론티어 모델의 이벤트다. 최상위 상용(논문 표기상 Claude Fable 5, GPT-5.6 Sol)엔 못 미치지만 다른 오픈·상용 모델은 능가하며, '에이전트·장기 실행'을 모델 자체에 내재화한 방향을 보여준다.",
+        "difficulty": "고급",
+        "recommended_reader": "프론티어 LLM·MoE·에이전트 RL·롱컨텍스트에 관심 있는 학습자",
+        "field_tags": [
+          "프론티어모델",
+          "MoE",
+          "롱컨텍스트",
+          "에이전트RL"
+        ],
+        "interest": {
+          "upvotes": 431,
+          "num_comments": 9,
+          "github_stars": 7900
+        }
+      },
+      "tier2": {
+        "method_detail": "Kimi K3는 총 2.78T, 토큰당 활성 104.2B의 native multimodal MoE로 93층, hidden 7,168, attention head 96, vocab 160K이며, Kimi K2(61층, 1.04T/32.6B) 대비 층수 +52%, 총 파라미터 +167%, 활성 파라미터 +220%, 학습 컨텍스트 128K -> 1M(8x)이다. 시퀀스 축은 Hybrid Attention으로 블록마다 KDA(Kimi Delta Attention) 3층 + Gated MLA 1층의 3:1 구성(전체 69 KDA + 24 MLA)이고, 백본 끝에 Gated MLA를 하나 더 붙여 마지막 층이 항상 global attention이 되게 한다. KDA는 delta-rule 재귀에 채널별 forget gate를 더한 것인데, K3는 log-decay 매핑을 Kimi Linear의 negative-Softplus에서 scaled sigmoid로 바꿔 gmin = -5의 하한을 두었고, 그 결과 16-token tile의 누적 log-decay가 (-80, 0)에 갇혀 역수 rescaling이 BF16 범위에 들어오므로 대각 tile까지 전부 Tensor Core dense matmul로 처리해 기존의 position-pair 대각 경로를 제거했다(output gate도 low-rank -> full-rank). Gated MLA는 모든 MLA 층에 NoPE를 적용해 컨텍스트 확장 시 RoPE 재조정이나 YaRN이 불필요하고, 위치 정보는 KDA의 decay/gating이 담당하며 학습 시 attention 출력을 FP32로 유지한다. 깊이 축의 Attention Residuals는 층별 학습 pseudo-query로 embedding과 선행 블록 출력에 softmax attention을 걸어 깊이 방향 선택적 접근을 주며, K3는 12층 x 8블록의 Block AttnRes를 써 메모리/통신을 O(Ld)에서 O(Nd)로 낮춘다. 폭 축의 Stable LatentMoE는 routed expert를 896개로 늘려 토큰당 16개만 활성(sparsity 56)하고 full-width shared expert 2개를 두며, latent 폭 3,584(hidden의 0.5x), expert별 MoE hidden 3,072이고, 극단적 sparsity의 활성값 폭발과 부하 불균형을 up-projection 앞 RMSNorm, SiTU-GLU(gate lambda1 = 4, up lambda2 = 25의 tanh softcap), Quantile Balancing(expert bias를 margin의 (1-k/n)-quantile로 설정, histogram all-reduce로 근사)으로 억제한다. 비전은 SigLIP 초기화를 버리고 next-token prediction으로 처음부터 학습한 27층 401M MoonViT-V2(patch 14, head 12, RMSNorm, bias 제거)를 쓰고 2x2 pixel-shuffle로 시각 토큰을 1/4로 줄여 3584x3584까지 1M 컨텍스트에 담으며, optimizer는 Q/K/V 모멘텀을 head별로 Newton-Schulz 직교화하는 Per-Head Muon에 cosine decay(warmup 1%, weight decay 0.1)를 쓰고 컨텍스트는 8K -> 64K(사전학습) -> 256K -> 1M(cooldown) 4단계로 늘린다(총 학습 토큰수와 GPU 규모는 본문 미기재). 사후학습은 SFT(XTML chat template, 이 단계부터 MXFP4 weight/MXFP8 activation QAT) -> RL(general/general agents/coding agents 3도메인 x low/high/max 3단계 = 9개 전문가, partial rollout과 per-token 정규화로 stale 데이터 허용, 문제별 토큰예산 초과 시 보상 -1을 주는 reasoning effort 제어, 비검증 과제는 rubric 프로토콜 기반 Agentic GRM) -> MOPD(교사/학생 로그비를 clip한 per-token 보상으로 9개를 단일 모델로 통합) 3단계이며, 인프라는 FlashKDA 커널과 고정 크기 all-gather + prefix scan으로 동작하는 KDA Context Parallelism, rank당 최대 E/R개의 redundant expert만으로 완전 부하균형과 static shape를 보장하는 MoonEP, Firecracker microVM 기반 AgentENV(checkpoint 133 ms, resume 49 ms, 메모리 overcommit 최대 6.5x)로 구성된다.",
+        "experiment_setup": [
+          "평가 축은 Reasoning & Knowledge / Coding / Agentic / Vision 4개로 약 40종 공개 벤치를 쓰고, 베이스라인은 Claude Fable 5(max, fallback 포함), GPT-5.6 Sol(max, cyberguard 포함), Claude Opus 4.8(max), GPT-5.5(xhigh), 개방가중치 GLM-5.2(max)이다. Kimi K3는 reasoning effort max, temperature 1.0, 단발 과제 top-p 0.95 / 에이전트 과제 top-p 1.0이며 코딩은 Kimi Code / Claude Code / Codex 하네스 중 하나를 쓴다. 주: 원문 Table 1과 Table 2는 PDF 텍스트 추출 시 열이 밀려, 아래 수치는 본문 서술이나 delta 열로 교차확인된 값만 인용했다.",
+          "Reasoning & Knowledge: GPQA Diamond 93.5로 프런티어와 대등하나 연구급 과제는 열세다. HLE-Full은 도구 없이 43.5, 도구 사용 시 56.0으로 Fable 5와 GPT-5.6 Sol에 모두 뒤지고, CritPt는 23.4로 Fable 5(28.6), GPT-5.6 Sol, GPT-5.5보다 낮아 저자들이 개선 과제로 명시했다.",
+          "Coding: ProgramBench 77.8로 1위(GPT-5.6 Sol 77.6, Fable 5 76.8), SWE-Marathon 42.0으로 Fable 5(35.0)보다 7점 앞선다(단 H20 재보정 브랜치이며 Fable 5는 과제 35%에서 fallback 발생). Terminal-Bench 2.1은 88.3으로 GPT-5.6 Sol 88.8에 근접(Fable 5 88.0), 장기 과제 FrontierSWE는 81.2로 Fable 5(86.6)에 이어 2위, DeepSWE는 67.5(공식 리더보드 mini-SWE-agent 하네스 67.3)로 Fable 5(70.0)/GPT-5.6 Sol(73.0)에 뒤지고 GPT-5.5(67.0)/Opus 4.8(59.0)보다 앞선다.",
+          "Agentic: BrowseComp 91.2(300K 트리거 컨텍스트 압축 기준, 1M 풀컨텍스트에 압축 없이 돌리면 90.4), DeepSearchQA F1 95.0, ResearchRubrics 76.2, MCPMark-Verified 94.5, AutomationBench 30.8, SpreadsheetBench 2 34.8, tau3-Banking 33.4, Harvey Lab-AA 94.6(기준 통과율)로 다수 SOTA다. 반면 Elo 기반 지식노동 스위트는 열세로 GDPval-AA v2는 1,686으로 Fable 5(1,747)/GPT-5.6 Sol(1,736)에 이어 3위, AA-Briefcase는 1,548로 2위이며, CorpFin v2(71.6 vs 71.8)와 OSWorld-Verified(84.8 vs 85.0)는 Fable 5에 0.2점 차로 근접, OSWorld 2.0과 SaaS-Bench는 Fable 5 또는 GPT-5.6 Sol이 선두다.",
+          "Vision: 3회 평균(ZeroBench-main만 5회) 기준으로 OmniDocBench 91.1이 최고점이고, Python 도구가 성능을 크게 끌어올려 Math-Vision 94.3 -> 97.8, ZeroBench-main pass@5는 23.0(Fable 5와 동률) -> 41.0이 된다. WorldVQA는 51.0으로 Fable 5(56.7) 다음 2위이며 GPT-5.6 Sol(41.8)과 Opus 4.8(39.1)을 앞선다. MMMU-Pro 81.6 / 83.4, CharXiv(RQ) 84.8 / 91.3(도구 없음 / 도구 사용).",
+          "사내 벤치(Table 3): 강점은 오케스트레이션과 리서치형 에이전시로 Swarm Bench 76.3, Deep Research Bench 90.0이 선두이며, Kimi Code Bench 2.0은 Fable 5에만 뒤지고 Coding Experience는 1위다. Kimi Webdev Bench 블라인드 전문가 심사에서 Opus 4.8 대비 종합 승 58.6% / 무 13.8% / 패 27.6%(승-패 +31.0)이고 3D/WebGL/Shader가 +59.1로 최대 격차다. 약점은 Agent Behavior Bench, MIRA Bench, 24/7 ClawBench 2.0, Agentic Vision Bench, KWV Bench다.",
+          "사이버 보안 평가: Anthropic/OpenAI 프런티어 모델이 사이버 과제를 거부해 비교가 불가하므로 제외했다. Tier 1(취약점 발견)에서 OS 커널, DB, 웹 프레임워크, 블록체인, VPN 등 수십 개 시스템에서 수백 건의 후보를 찾아 인간 검토분의 약 70%가 진성으로 확인되고 6개 프로젝트에서 미공개 취약점 16건을 발견(원격 트리거 heap OOB write, RDMA의 Dirty-COW류 포함)했다. 반면 Tier 2(엔드투엔드 exploit)는 41개 과제 중 0건에서만 임의 코드 실행에 성공해 프런티어 사이버 모델에 못 미치며, 저자들은 이를 능력의 하한으로 규정한다.",
+          "제3자 평가(2026-07-23 기준)와 비용 효율: Artificial Analysis Intelligence Index v4.1 57.1로 580개 중 4위(Fable 5 59.9, GPT-5.6 Sol 58.9), Vals Index 74.7로 39개 중 2위(Fable 5 75.1, GPT-5.6 Sol 73.1), WebDev Arena 1,678 Elo로 99개 중 1위(개방 모델 최초 1위, Fable 5 1,634), Text Arena 1,486으로 200개 중 8위, Agent Arena 9.1로 37개 중 4위다. 비용은 BrowseComp 최고점 91.2를 과제당 $2.03(GPT-5.6 Sol의 절반, Claude 계열 max의 약 1/10)에 달성하고, Kimi Code Bench 2.0은 Fable 5보다 4.0점 낮은 대신 비용 38%이며 high effort로 Opus 4.8의 max 점수를 약 1/3 비용에 맞춘다. GDPval-AA v2는 GPT-5.6 Sol과 50 Elo 이내이면서 비용 13% 낮고 Fable 5보다 2.6x 저렴하다."
+        ],
+        "datasets": [
+          {
+            "name": "사전학습 텍스트 코퍼스 (Web Text / Code / Mathematics / Knowledge)",
+            "domain": "일반 텍스트, 코드, 수학, 지식",
+            "scale": "총 토큰수 본문 미기재. 규칙 휴리스틱 + 분류기 품질점수 + 중복제거로 필터링, 도메인별 샘플링률은 소형 모델 ablation으로 결정. 지식/수학은 K2의 rephrasing 레시피(문체와 관점 다변화 프롬프트, chunk 단위 자기회귀 생성, 원문 대조 충실도 검증)로 재작성. 배치 크기, 학습률, TPP, 모델 shape는 전용 scaling law 연구로 재조정했고 그 값은 미기재."
+          },
+          {
+            "name": "사전학습 비전 코퍼스",
+            "domain": "caption, interleaved image-text, OCR, perception, video, visual coding",
+            "scale": "규모 미기재. K2.5 분류체계를 따르며 오픈소스 컬렉션 + 사내 필터링/합성/중복제거 파이프라인. 좌표 감독은 절대값과 정규화([0,1]) 두 형식을 병기해 해상도 강건성 확보. SVG, 3D 에셋, Webpage, Game, CAD 스키매틱 등 코드-렌더링 쌍 프로그래매틱 멀티모달 데이터를 대폭 증량."
+          },
+          {
+            "name": "장문 컨텍스트 데이터",
+            "domain": "장문 문서, 장편 영상",
+            "scale": "8K -> 64K(사전학습) -> 256K -> 1M(cooldown) 4단계 커리큘럼. 정확/퍼지 중복제거, 영상은 프레임 perceptual hashing, 휴리스틱과 분류기 품질 필터, 구조 검증. 자연 장문이 희소해 upsample하고, 멀티모달 문서와 하위 과제를 permute-concat해 1M 전역을 봐야 풀리는 과제를 합성."
+          },
+          {
+            "name": "지식그래프 유도 RL 태스크 합성",
+            "domain": "지식 집약 도메인, 코딩, 비전",
+            "scale": "규모 미기재. 에이전트가 웹 탐색으로 재귀 확장하는 자기진화 DAG(조립 시 기존 노드 재사용으로 중복 최소화, 개념이 원자적이면 확장 중단). 다양한 granularity의 노드를 단독 또는 조합 샘플링해 키워드를 만들고 공개 자료를 검색, 합성 에이전트가 과제 유형을 골라 생성."
+          },
+          {
+            "name": "Kernel Optimization Tasks",
+            "domain": "GPU 커널 최적화",
+            "scale": "대규모 스위트, 정확한 개수 미기재. Flash Linear Attention 등 고품질 GitHub 저장소에서 수집, 단일 연산자부터 fused mega-kernel까지. CUDA, Triton, CuTe DSL, Gluon, ThunderKittens, TileLang과 BF16/FP8/FP4 지원. 보상은 정확도 + 성능(전문가 구현 수준 0.5, 하드웨어 roofline 접근 시 1)이며 CUDA graph replay, 입력 캐싱, 정밀도 축소 같은 reward hacking 탐지기를 병행."
+          },
+          {
+            "name": "Personal Assistant 모의 환경",
+            "domain": "장기 개인비서 워크플로 (HR, 법무, 금융)",
+            "scale": "Gmail, Notion, Slack, Canvas 등의 현실적 mock 구현. 수 시뮬레이션 일에 걸쳐 앱 전반에 수십 개 상호의존 이벤트가 분포하고, 단일 rollout이 최대 수천 tool call과 수백만 컨텍스트 토큰에 이른다. 이벤트마다 결정론적 규칙 또는 LLM 평가자 기준을 가지며 초기 워크스페이스는 에이전트가 웹 검색으로 자율 구성."
+          },
+          {
+            "name": "샌드박스 실행 규모 (AgentENV 등)",
+            "domain": "에이전트 RL 및 평가 인프라",
+            "scale": "K3 학습과 평가 전 과정에서 1,505,678개 이미지에 걸쳐 총 51,219,741개 샌드박스 생성. Firecracker microVM, OverlayBD 이미지 포맷 + 커스텀 ublk 드라이버로 sub-second 기동, 증분 checkpoint 133 ms / resume 49 ms, 메모리 overcommit 최대 6.5x. 1M 컨텍스트 RL 실험 자체는 co-located 설계로 수백 GPU 규모 내에서 수행."
+          },
+          {
+            "name": "사내 벤치마크 스위트",
+            "domain": "코딩 경험, 일반 에이전트 경험, 대화 경험",
+            "scale": "Kimi Code Bench 2.0, Kimi Webdev Bench(과제 수 미기재, 도메인은 Games / 3D-WebGL-Shader / Website-UI Clone), Coding Experience, 24/7 ClawBench 2.0, MIRA Bench, KAET, CLIF Bench, Agentic Vision Bench, Swarm Bench, Online Experience, Deep Research Bench, Finance Bench, KWV Bench, DECK Bench, Agent Behavior Bench, Faithfulness, Chat All-in-One Bench. 일부 표기상 80과제 또는 95과제 규모(각주의 fallback/refusal 카운트로 확인)."
+          }
+        ],
+        "limitations": {
+          "by_authors": [
+            "전체 성능이 최상위 상용 모델에 뒤진다고 초록과 1절에서 직접 인정한다. 대상은 Claude Fable 5와 GPT-5.6 Sol이며, 나머지 오픈/상용 모델에는 앞선다는 서술이다. 8절 결론은 '격차가 남는다'고만 쓰고 모델명은 적지 않는다.",
+            "연구급(research-level) 추론이 약점이라고 명시한다. HLE-Full은 도구 없이 43.5%, 도구 사용 56.0%로 두 상위 모델에 뒤지고, CritPt는 23.4%로 GPT-5.5에게까지 밀린다. 본문 표현은 '연구급 추론이 주요 개선 방향으로 남는다'이다.",
+            "사내(in-house) 평가가 공개 벤치보다 강약점을 더 선명하게 갈랐다고 밝히며, Agent Behavior Bench, MIRA Bench, 24/7 ClawBench 2.0, Agentic Vision Bench, KWV Bench 5개에서 선두에 뒤진다고 스스로 나열한다.",
+            "익스플로잇 개발(Tier 2) 36과제 중 14개(38.9%)만 해결했고 그중 10개가 user-space 트랙이다. 구성은 user-space 16 + 커널 20이며, 커널 트랙은 K3와 GLM-5.2 모두 3/4을 못 풀었다. 모든 과제가 인간 전문가로 해결 검증되었고 수트 전체가 약 540 전문가시간(과제당 약 15시간)으로 추정되므로 미해결분이 곧 인간 격차라고 인정한다.",
+            "익스플로잇 실패 모드 4가지를 직접 명시한다. (i) 이미 확보한 primitive에서 체인 최종 단계를 마무리 못함, (ii) 완화기법 하에서 전략 선택 실패(데이터 전용 공격이 쉬운데도 제어흐름 하이재킹 고집), (iii) 비생산적 디버깅 루프에 갇힘, (iv) 최종 산출물 검증 부족.",
+            "사이버 평가 결과를 '능력의 하한(lower bound)'으로 규정하고, 현재 모델 버전과 평가 범위에 조건부라고 단서를 단다. UK AISI/NIST CAISI 공동 평가에서도 41과제 중 0건 임의코드실행으로 프런티어 사이버 모델에 뒤진다고 인용한다.",
+            "Anthropic/OpenAI 프런티어 모델이 사이버 과제를 거부해 비교가 불가능하다며 해당 수트에서 제외했다. 결과적으로 Tier 2 베이스라인은 GLM-5.2 단독이다.",
+            "SwiGLU가 널리 쓰이지만 '경험적 효과에 대한 완전한 설명은 아직 열려 있다'고 인정하며, SiTU-GLU도 저정밀 오버플로 억제라는 공학적 동기에서 도출했다고 밝힌다.",
+            "MOPD에서 더 세밀한 top-k distillation 목적함수를 시도했으나 수렴 속도나 최종 성능 모두 뚜렷한 이득이 없었다고 음성 결과를 보고한다.",
+            "WorldVQA에서 모든 모델에 걸쳐 일관된 거부 행동이 관측되어 프롬프트 엔지니어링으로 답변을 강제했다고 밝힌다. 즉 해당 점수는 소재 그대로의 성능이 아니다."
+          ],
+          "by_claude": [
+            "핵심 주장인 '2.5x scaling efficiency'의 검증 근거가 부족하다. Figure 7의 x축은 절대 FLOPs(1e20 ~ 1e21)이지만 이는 소형 모델 스케일링 법칙 피팅 곡선이고, K3 자체의 총 학습 토큰 수, TPP 최적값, 사전학습 클러스터 규모, 총 FLOPs는 공개되지 않는다. GPU 규모 언급은 RL에 대한 '실험당 수백 GPU'가 유일하다. 외부에서 2.5배를 확인할 방법이 없다.",
+            "2.5x 이득의 분해 ablation이 없다. KDA, Block AttnRes, Stable LatentMoE, 데이터 개선, 학습 레시피 개선이 각각 몇 %를 기여했는지 표가 없고, 개별 근거는 'RMSNorm이 검증 손실과 다운스트림을 일관되게 개선' 같은 정성 서술뿐이다. 부록도 A 기여자, B SiTU-GLU, C QB 유도, D 히스토그램, E MoonEP 증명, F 챗 템플릿으로 기여도 분해표는 없다. 깊이 축과 폭 축 중 무엇이 실제 동력인지 알 수 없다.",
+            "깊이 축의 핵심인 Attention Residuals가 참고문헌 [57] 'Kimi Team. Attention Residuals. Preprint. 2026'으로만 인용된다. arXiv 번호도 URL도 없다. 같은 논문의 [63] Kimi Linear는 arXiv 2510.26692, [14] FlashKDA는 GitHub URL을 주는 것과 대조적이며 3대 축 중 하나의 원 근거에 접근할 수 없다.",
+            "벤치마크 비교의 하네스 비대칭 가능성이 있으나 근거 강도는 항목마다 다르다. 명시적으로 확인되는 것은 Agents' Last Exam 리더보드(K3=Kimi Code, GPT=Codex, Claude/GLM=Claude Code), Table 3 사내 벤치, 6.4절 비용 비교다. Table 2 코딩 항목은 '세 하네스 중 하나'라고만 적혀 모델별 배정이 불명이다. Terminal-Bench 2.1의 하네스별 최고점은 모든 모델에 동일 적용된다고 명시되어 대칭 조건이다. 반면 SWE-Marathon은 공식 v1.1 이전의 H20 재보정 브랜치, PostTrainBench는 공식 H100 대신 H20 3회 평균이라 자사 하드웨어 조건이 섞여 있다.",
+            "경쟁 모델 수치에 열화 조건이 섞여 있다. Claude Fable 5는 fallback 포함(SWE-Marathon 35% 과제에서 fallback 발생, Agents' Last Exam은 xhigh에 40% 과제가 downgraded 표기)이고 GPT-5.6 Sol은 cyberguard 포함이다. 저자들이 각주로 밝힌 점은 정직하지만, 표의 격차를 순수 능력 격차로 읽으면 과대 해석이 된다.",
+            "강점 주장의 상당 부분이 비공개 사내 벤치에 실려 있다. Swarm Bench 76.3, Deep Research Bench 90.0 등은 데이터셋과 채점 루브릭이 공개되지 않아 제3자 재현이 불가능하다. Kimi Webdev Bench의 +31.0은 Claude Opus 4.8 단독 대비이며 도메인 3종(Games +14.9, 3D/WebGL/Shader +59.1, Website/UI Clone +26.3)의 '전문가 블라인드 심사 선호'라는 주관 지표다.",
+            "사이버 이외의 전용 안전성 절이 없다. 전문에서 jailbreak, harmful, biological, chemical, misalignment, red team, safety, system card 문자열이 모두 검출되지 않고 시스템 카드에 해당하는 문서도 없다. 사내 Faithfulness(환각율) 벤치와 Table 3의 모델별 거부 횟수 각주가 유일한 인접 지표다. 3T급 가중치를 전면 공개하는 릴리스로서는 위험 문서화가 비대칭적으로 얕다.",
+            "다국어 평가가 없다. 160K vocab의 native multimodal 모델인데 언어 커버리지, 중국어/영어 외 성능, 언어별 열화에 관한 절이 없다. multilingual 관련 서술 검출 0건이다.",
+            "사전학습 전용 base 체크포인트가 공개되지 않은 것으로 보인다. 단 이는 원문 미기재 사항이며 논문은 각주 1의 moonshotai/Kimi-K3 URL만 제시한다. HuggingFace 공식 계정에 Base/Instruct 구분이 없다는 것은 외부 확인 결과다. 아키텍처 연구자가 KDA나 AttnRes 자체의 사전학습 특성을 후학습 효과와 분리해 검증할 경로가 막힌다.",
+            "공개 가중치가 SFT 단계부터 적용된 QAT 결과물이다. 다만 MXFP4는 MoE expert weights에만 적용되고 activations가 MXFP8이며, attention projections, latent MoE projections, shared experts, router는 고정밀을 유지한다고 4.1.4절이 명시한다. BF16 원본 대비 손실이 얼마인지, 고정밀 재학습이나 파인튜닝 시 어떤 제약이 생기는지에 대한 수치는 없다.",
+            "라이선스 관련 서술은 전부 원문 밖 근거다. 논문 전문에 'licen' 문자열이 0건이고 확인 가능한 것은 arXiv 게시물의 CC-BY-NC-ND 4.0뿐이다. 자체 Kimi K3 License, MaaS 누적 매출 2000만 달러 기준, MAU 1억 또는 월 매출 2000만 달러 초과 시 UI에 'Kimi K3' 표기 의무는 HuggingFace/GitHub 문서 기준의 외부 사실이며 별도 검증이 필요하다. 그 전제에서 'Open Frontier'라는 제목이 시사하는 것보다 개방 범위가 좁다는 지적은 유지된다.",
+            "1M 컨텍스트의 구간별 열화 곡선이 없다. NoPE + KDA decay로 위치 정보를 대체했다는 설계상 장문 열화 검증이 특히 중요한데, 8K에서 1M까지 needle 회수율이나 손실 곡선이 제시되지 않는다(needle, RULER 검출 0건). 장문 지표로는 AA-LCR 74.7이 유일하고 이는 Artificial Analysis 인용값이다. BrowseComp는 300K에서 compaction을 트리거하며, 무관리 1M 조건 90.4%는 6.1.3절 평가 설정 본문에 단일 수치로만 언급된다.",
+            "인프라 규모 자체가 재현 불가 수준이다. 학습/평가 동안 생성한 샌드박스가 51,219,741개, 이미지 1,505,678종이다. 다만 MoonEP(각주 3)와 AgentENV(각주 4)는 GitHub에 공개되며, 비공개로 남는 것은 사전학습 학습 코드, 1M agentic RL 프레임워크, 평가 하네스, 사내 벤치다. 즉 인프라 부품 일부는 열려 있고 전체 파이프라인 조립이 막혀 있다.",
+            "Figure 10에 'Kimi K2.6'이 비교군(0.560)으로 등장하지만 본문, 참고문헌, 부록 어디에도 소개나 인용이 없다(전문 검색상 해당 1회가 유일). 미공개 내부 모델과의 비교로 보이며 독자가 맥락을 확인할 수 없다."
+          ]
+        },
+        "reproducibility": {
+          "code": "부분 공개. 논문이 직접 URL로 밝히는 것은 FlashKDA(참고문헌 [14], github.com/MoonshotAI/FlashKDA), KDA 구현이 들어간 FLA PR #691(각주 2), MoonEP(각주 3, github.com/MoonshotAI/MoonEP), AgentENV(각주 4, github.com/kvcache-ai/AgentENV), 그리고 K3가 만든 산출물인 minitriton(각주 5)과 nano-kpu(각주 6)다. FlashKDA는 CUTLASS 기반이며 flash-linear-attention의 백엔드로 자동 디스패치된다고 밝힌다. FlashKDA API의 'lower_bound' 인자(범위 -5.0 ~ 0)가 논문의 gmin = -5 설계와 일치한다는 것은 원문에 없는 외부 확인 사항이다. GitHub MoonshotAI/Kimi-K3의 추론 배포 레시피(vLLM, SGLang, TokenSpeed 권장, OpenAI/Anthropic 호환 API)도 원문 미기재 외부 정보다. 반면 사전학습/후학습 학습 코드, 1M agentic RL 프레임워크, 평가 하네스, 사내 벤치 코드는 공개되지 않는다.",
+          "data": "미공개. 사전학습은 Web Text, Code, Mathematics, Knowledge 4개 텍스트 도메인 + 대규모 비전 코퍼스(캡션, interleaved, OCR, perception, video, visual coding)라고만 서술한다. 총 토큰 수, 도메인별 샘플링 비율, 필터 임계값, 중복제거 파라미터가 모두 없고 '작은 모델 ablation으로 결정했다'는 서술로 대체된다. 장문 데이터는 정확/퍼지 중복제거와 영상 프레임 perceptual hashing으로 정제하고 업샘플했다고만 밝힌다. 후학습 SFT/RL 데이터셋, GRM 루브릭, 사내 벤치 모두 비공개.",
+          "weights": "전체 공개. 각주 1의 HuggingFace moonshotai/Kimi-K3, 총 2.78T 파라미터 / 104.2B 활성, 1M 컨텍스트, MoonViT-V2(401M, 27층) 포함. 양자화는 MoE expert weights만 MXFP4이고 입력 activations가 MXFP8이며, attention projections, latent MoE projections, shared experts, router는 고정밀을 유지한다. SFT 단계부터 QAT를 적용한 배포용 가중치이고 BF16 원본은 논문에서 확인되지 않는다. 사전학습 전용 base 체크포인트 부재와 커뮤니티 파생(GGUF, NVFP4, FP8-BLOCK, REAP 등)은 원문 밖 외부 확인 사항이다.",
+          "license": "논문 본문에는 라이선스 조항이 전혀 없다(전문 'licen' 검출 0건). 확인 가능한 것은 arXiv 게시물 자체의 CC-BY-NC-ND 4.0(PDF 메타데이터)과 참고문헌 [14] FlashKDA의 공개 저장소 존재다. 자체 Kimi K3 License의 세부 조건, 즉 내부 사용 면제, MaaS 제공 시 라이선시와 계열사 합산 연속 12개월 누적 매출 2000만 달러 초과 시 별도 계약, MAU 1억 또는 월 매출 2000만 달러 초과 제품의 UI 'Kimi K3' 표기 의무, Moonshot 공식 제품 및 인증 추론 파트너 경유 면제, 무보증 조항은 모두 HuggingFace/GitHub 문서 기준의 외부 사실이며 원문으로는 검증되지 않는다.",
+          "note": "재현 가능성이 층위별로 크게 갈린다. 서빙/배포 재현성은 높다(가중치 + 추론 엔진 + MIT 커널). 학습 재현성은 0에 가깝다. 총 컴퓨트, 총 토큰 수, TPP 최적값, 사전학습 클러스터 규모, 데이터, 학습 코드가 전부 비공개다. 단 인프라 부품은 전부 비공개가 아니라 MoonEP와 AgentENV가 GitHub에 공개되어 있고, 막혀 있는 것은 이를 조립하는 사전학습/RL 파이프라인과 평가 하네스다. 벤치마크 재현성은 부분적이며, Table 2의 모델별 하네스 배정이 불명이고 SWE-Marathon과 PostTrainBench는 H20 재보정 환경이라 숫자 재생산이 사실상 어렵다. 검증 가능한 실질 자산은 (1) 가중치, (2) FlashKDA 커널, (3) MoonEP, (4) AgentENV, (5) Table 1의 K2 대비 아키텍처 대조표다. 3rd party 검증은 Artificial Analysis(Intelligence Index v4.1 = 57.1, 580개 중 4위), Vals AI(Vals Index 74.7%, 39개 중 2위), WebDev Arena(1,678 Elo, 99개 중 1위), Text Arena(1,486 Elo, 200개 중 8위), Agent Arena(9.1, 37개 중 4위), UK AISI/NIST CAISI 공동 사이버 평가가 존재해 자체 주장의 방향성은 외부에서 대체로 지지된다."
+        },
+        "my_learning_points": [
+          "FlashKDA(MIT)를 클론해 'lower_bound' 인자를 -5와 무제한(원 Kimi Linear의 negative-Softplus 상당)으로 바꿔가며 16-token tile 벤치를 돌려본다. 대각 tile을 Tensor Core dense matmul로 처리할 수 있게 만든 것이 순수 수학이 아니라 '누적 log-decay를 (-80, 0)에 가둬 역수를 BF16 범위에 넣는다'는 수치 범위 설계였음을 손으로 확인하는 것이 목적이다. 커널 제약이 아키텍처를 역으로 규정하는 사례를 체감할 수 있다.",
+          "K3의 Table 2를 그대로 옮겨 적고 각주 조건(K3는 Kimi Code / 경쟁사는 Claude Code, Codex, Fable 5의 fallback 35%, ALE의 downgraded 40%, H20 재보정, Terminal-Bench 하네스별 최고점)을 하나씩 제거하며 순위를 다시 매겨본다. 어떤 결론이 각주 제거만으로 흔들리는지 목록화하면, 이후 어떤 테크리포트를 읽어도 '표보다 각주를 먼저 읽는' 습관이 생긴다.",
+          "소형 MoE(예: 총 1B 미만, 64 experts, top-4)를 만들고 Stable LatentMoE의 세 요소 중 하나씩만 이식해 검증 손실을 비교한다. 우선순위는 (1) up-projection 앞 RMSNorm, (2) SiTU-GLU의 softcap, (3) Quantile Balancing이다. 논문이 제공하지 않은 분해 ablation을 축소판으로 직접 만들어보는 것이며, 극단 sparsity 안정화가 정규화에서 오는지 게이트 포화에서 오는지 라우팅 균형에서 오는지를 자기 데이터로 판별하는 훈련이 된다."
+        ],
+        "related_work": {
+          "prior": [
+            {
+              "title": "Kimi K2: Open Agentic Intelligence",
+              "arxiv": "2507.20534",
+              "relation": "직전 세대 1.04T / 32.6B MoE. K3의 비교 기준선이며 데이터 파이프라인, rephrasing 레시피, Muon + weight clipping을 그대로 계승한다. 2.5x scaling efficiency의 분모."
+            },
+            {
+              "title": "Kimi K2.5: Visual Agentic Intelligence",
+              "arxiv": "2602.02276",
+              "relation": "비전 코퍼스 taxonomy, RL 정책최적화 알고리즘, partial rollout, GRM tournament 방식, Decoupled Encoder Process(DEP)의 출처. K3는 여기서 비전 인코더 초기화 방식만 뒤집어 MoonViT-V2를 처음부터 학습한다."
+            },
+            {
+              "title": "Kimi Linear: An Expressive, Efficient Attention Architecture",
+              "arxiv": "2510.26692",
+              "relation": "KDA의 원형. chunkwise parallel form과 3:1 hybrid 구성의 출처. K3는 여기의 unbounded negative-Softplus log-decay를 scaled sigmoid + gmin = -5로 교체한 것이 핵심 변경점이다."
+            },
+            {
+              "title": "LatentMoE: Toward Optimal Accuracy per FLOP and Parameter in Mixture of Experts",
+              "arxiv": "2601.18089",
+              "relation": "Elango et al. latent 폭을 hidden과 분리해 expert 수 확장 비용을 낮추는 설계. K3의 Stable LatentMoE(latent 3,584, 896 routed experts)가 직접 확장한 토대."
+            },
+            {
+              "title": "Attention Residuals",
+              "arxiv": "미공개 preprint (Kimi Team, 2026). arXiv 번호 없음, 본문 확인 필요",
+              "relation": "깊이 축 축소의 원 근거. 층별 학습 pseudo-query로 embedding과 선행 블록 출력에 softmax attention을 거는 기법. K3는 12층 x 8블록의 Block AttnRes로 메모리/통신을 O(Ld) -> O(Nd)로 낮춰 적용한다."
+            },
+            {
+              "title": "Gated Delta Networks: Improving Mamba2 with Delta Rule",
+              "arxiv": "본문 확인 필요 (Yang, Kautz, Hatamizadeh)",
+              "relation": "delta rule + gating 계보. KDA의 채널별 forget gate가 여기의 negative-Softplus decay 매핑을 출발점으로 삼는다."
+            },
+            {
+              "title": "Muon is Scalable for LLM Training",
+              "arxiv": "2502.16982",
+              "relation": "K3의 Per-Head Muon 옵티마이저 기반. 분산 환경에서 Newton-Schulz orthogonalization을 위한 P2P 통신 설계로 이어진다."
+            },
+            {
+              "title": "DeepSeek-V3 Technical Report",
+              "arxiv": "2412.19437",
+              "relation": "MLA와 대규모 MoE 라우팅의 사실상 표준 비교군. K3의 Gated MLA와 shared/routed expert 구성이 이 계보 위에 있다."
+            },
+            {
+              "title": "DeepSeekMoE: Towards Ultimate Expert Specialization",
+              "arxiv": "2401.06066",
+              "relation": "fine-grained expert + shared expert 분리 설계의 원류. K3의 896 routed + 2 full-width shared 구성의 직계 조상."
+            }
+          ],
+          "followup": [
+            {
+              "title": "정식 후속 연구",
+              "status": "2026-08-03 시점에 K3를 확장한 공식 후속 논문은 확인되지 않았다. 본문 확인 필요."
+            },
+            {
+              "title": "Kimi K2.6",
+              "status": "본문 Figure 10에 비교군(완성도 0.560)으로만 등장하고 인용이나 설명이 없다. 별도 릴리스 존재를 시사하나 문서 확인 필요."
+            },
+            {
+              "title": "UK AISI + NIST CAISI 공동 사이버 평가",
+              "status": "참고문헌 [123]로 인용된 독립 검증. ExploitBench 32% (GLM-5.2 24%), 32단계 모의 기업망에서 17단계(GLM-5.2 11단계), 41과제 중 임의코드실행 0건. 보고서 서지 상세는 본문 확인 필요."
+            },
+            {
+              "title": "커뮤니티 파생 체크포인트",
+              "status": "HuggingFace에 unsloth/Kimi-K3-GGUF, RedHatAI/Kimi-K3-NVFP4, RedHatAI/Kimi-K3-FP8-BLOCK, nota-ai/Kimi-K3-Nota-Global-Pruned-25 및 -50, REAP 계열 expert pruning, 다수 GGUF 양자화가 존재. 3T급 가중치의 실사용 압축이 주된 파생 방향임을 보여준다."
+            },
+            {
+              "title": "FlashKDA / flash-linear-attention",
+              "status": "MoonshotAI/FlashKDA (MIT, CUTLASS 기반)와 FLA PR #691로 KDA 커널이 커뮤니티에 편입되었다. K3의 lower_bound 게이트가 후속 linear attention 구현의 기본 옵션이 될 가능성이 있다."
+            }
+          ]
+        },
+        "claude_note": "Kimi K3는 '오픈 진영이 test-time scaling에만 매달리는 동안 사전학습 축에서 1T급에 갇혀 수렴하고 있다'는 진단을 서론에서 정면으로 내놓고, 그 진단에 3T급 실물로 답한 보기 드문 리포트다. 기술적으로 가장 배울 점은 KDA의 log-decay를 negative-Softplus에서 scaled sigmoid(gmin = -5)로 바꾼 대목인데, 이는 표현력 개선이 아니라 누적 decay의 역수를 BF16 범위에 가두어 대각 tile까지 Tensor Core dense matmul로 처리하기 위한 수치 설계이며, 알고리즘이 커널 제약에 맞춰 재설계된 co-design의 교과서적 사례다. 정직성 면에서도 준수하다 - HLE-Full과 CritPt의 열위, 사내 벤치 5개의 열위, 익스플로잇 4대 실패 모드, top-k distillation의 무이득까지 스스로 적었고 경쟁 모델의 fallback과 cyberguard 조건도 각주로 밝혔다. 다만 논문의 최대 주장인 2.5x scaling efficiency는 총 토큰, TPP, GPU, FLOPs가 전부 비공개인 상태에서 정규화 곡선 하나로 지지되고, 3대 축 중 하나인 Attention Residuals는 접근 불가한 preprint 인용에 그치며, KDA/AttnRes/LatentMoE/데이터 각각의 기여를 가르는 분해 ablation이 없어 '무엇이 실제로 작동했는가'는 독자가 검증할 수 없다. 여기에 사이버 외 안전성 평가와 다국어 평가의 공백, base 체크포인트 부재, 매출 2000만 달러/MAU 1억 임계를 둔 자체 라이선스를 함께 놓으면, 이 릴리스는 '재현 가능한 연구'라기보다 '검증 가능한 제품 + 서술형 연구 보고'에 가깝다고 읽는 것이 정확하다.",
+        "analyzed_at": "2026-08-03"
+      },
+      "learning": {
+        "key_terms": [
+          {
+            "term": "Mixture-of-Experts (MoE)",
+            "gloss": "입력마다 일부 전문가만 활성화해 용량↑·계산↓"
+          },
+          {
+            "term": "Activated Parameters",
+            "gloss": "전체 중 실제 추론에 쓰이는 파라미터(여기선 104B)"
+          },
+          {
+            "term": "Reasoning-effort Levels",
+            "gloss": "추론에 들이는 계산량을 조절하는 다단계 설정"
+          }
+        ],
+        "recall_quiz": {
+          "question": "Kimi K3의 규모·활성 파라미터와 K2 대비 개선점은?",
+          "answer": "2.8T MoE 중 토큰당 104B 활성, KDA·Stable LatentMoE 등으로 K2 대비 스케일링 효율 약 2.5배."
+        },
+        "spaced_review": {
+          "flag": true,
+          "review_due": "2026-W36"
+        }
+      }
+    },
+    {
+      "id": "2606.23050",
+      "title": "Unlimited OCR Works",
+      "title_ko": null,
+      "authors": [
+        "Youyang Yin",
+        "Huanhuan Liu",
+        "YY",
+        "Qunyi Xie",
+        "Chaorun Liu",
+        "Shiqi Yang",
+        "Shaohua Wang",
+        "Zhanlong Liu",
+        "Hao Zou",
+        "Jinyue Chen",
+        "Shu Wei",
+        "Jingjing Wu",
+        "Mingxin Huang",
+        "Zhen Wu",
+        "Guibin Wang",
+        "Tengyu Du",
+        "Lei Jia"
+      ],
+      "published_at": "2026-06-21T20:00:00.000Z",
+      "rank": 2,
+      "raw": {
+        "summary": "Recently, end-to-end OCR models, exemplified by DeepSeek OCR, have once again thrust OCR into the spotlight. A widely held view is that employing a large language model (LLM) as the decoder allows the model to leverage the prior distribution of language, leading to improved OCR performance. However, the downside is equally evident: as the output sequence lengthens, the accumulated KV cache drives up memory consumption and progressively slows down generation. This stands in stark contrast to humans, who exhibit no such decline in efficiency during long-horizon copying tasks. In this technical report, we propose Unlimited OCR, a model designed to emulate human parsing working memory. Taking DeepSeek OCR as the baseline, we replace all attention layers in the decoder with our proposed Reference Sliding Window Attention (R-SWA), which reduces attention computation costs while maintaining a constant KV cache throughout the entire decoding process. By combining the high compression rate of DeepSeek OCR's encoder with our constant KV cache design, Unlimited OCR can transcribe dozens of pages of documents in a single forward pass under a standard maximum length of 32K. More importantly, R-SWA is a general-purpose parsing attention mechanism - beyond OCR, it is equally applicable to tasks such as ASR, translation, etc. Codes and model weights are publicly available at http://github.com/baidu/Unlimited-OCR.",
+        "ai_summary": "Unlimited OCR introduces Reference Sliding Window Attention to eliminate growing memory consumption during long-sequence OCR tasks, enabling efficient transcription of multiple pages in a single forward pass.",
+        "ai_keywords": [
+          "end-to-end OCR",
+          "large language model",
+          "decoder",
+          "KV cache",
+          "attention layers",
+          "Reference Sliding Window Attention",
+          "document transcription",
+          "sequence length",
+          "memory consumption",
+          "working memory",
+          "parsing attention mechanism",
+          "ASR",
+          "translation"
+        ],
+        "upvotes": 75,
+        "num_comments": 6,
+        "github_repo": "https://github.com/baidu/Unlimited-OCR",
+        "github_stars": 21554,
+        "project_page": null
+      },
+      "links": [
+        {
+          "rank": 1,
+          "label": "HF 토론·요약",
+          "url": "https://huggingface.co/papers/2606.23050"
+        },
+        {
+          "rank": 2,
+          "label": "arXiv 초록",
+          "url": "https://arxiv.org/abs/2606.23050"
+        },
+        {
+          "rank": 3,
+          "label": "PDF 원문",
+          "url": "https://arxiv.org/pdf/2606.23050"
+        },
+        {
+          "rank": 4,
+          "label": "코드(GitHub)",
+          "url": "https://github.com/baidu/Unlimited-OCR"
+        }
+      ],
+      "classify": {
+        "categories": [
+          "Multimodal",
+          "Efficiency/Inference"
+        ],
+        "primary_category": "Multimodal",
+        "topic_tags": [
+          "end-to-end-ocr",
+          "kv-cache",
+          "sliding-window-attention",
+          "document-parsing"
+        ],
+        "method_tags": [
+          "architecture",
+          "inference-time"
+        ],
+        "modality": [
+          "image",
+          "text"
+        ],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "상수 KV 캐시(R-SWA)로 수십 페이지 문서를 한 번에 받아 적는, 인간 작업기억을 모사한 OCR 모델.",
+        "problem": "DeepSeek OCR처럼 LLM을 디코더로 쓰는 엔드투엔드 OCR은 성능이 좋지만, 출력이 길어질수록 KV 캐시가 누적돼 메모리가 늘고 생성이 느려진다.",
+        "approach": "DeepSeek OCR을 베이스라인으로, 디코더 어텐션을 R-SWA(Reference Sliding Window Attention)로 교체한다. R-SWA는 디코딩 내내 KV 캐시를 '상수'로 유지하며, 인코더의 높은 압축률과 결합해 32K 길이에서 수십 페이지를 단일 forward로 전사한다.",
+        "contributions": [
+          "디코딩 내내 일정한 KV 캐시를 유지하는 R-SWA 어텐션",
+          "32K 길이에서 수십 페이지 문서를 단일 forward로 전사",
+          "OCR을 넘어 ASR·번역 등에 적용 가능한 범용 파싱 어텐션",
+          "코드·가중치 공개(Baidu, ★21.6k)"
+        ],
+        "why_now": "지난주에 이어 2주 연속 트렌딩. 문서 파싱이 8월 초에도 자리를 지키며 '엔드투엔드 OCR + 상수 KV캐시' 조합의 저력을 이어간다.",
+        "difficulty": "고급",
+        "recommended_reader": "OCR·문서 AI·추론 효율화에 관심 있는 학습자",
+        "field_tags": [
+          "OCR",
+          "상수KV캐시",
+          "슬라이딩윈도우어텐션",
+          "문서AI"
+        ],
+        "interest": {
+          "upvotes": 75,
+          "num_comments": 6,
+          "github_stars": 21600
+        }
+      },
+      "tier2": {
+        "analyzed_at": "2026-06-29",
+        "method_detail": "핵심은 R-SWA(Reference Sliding Window Attention). 디코딩 중 KV 캐시를 두 부분으로 유지한다 — 고정 프리픽스(시각+프롬프트 토큰, 길이 L_m)와 생성 텍스트에 대한 폭 n(기본 128)의 인과적 슬라이딩 윈도우. 캐시 크기는 C = L_m + min(n, T) ≤ L_m + n 으로, 윈도우 크기까지만 커지고 이후 '상수'다(표준 MHA는 L_m + T로 선형 증가). 시각(reference) 토큰은 상태 전이 없이 디코딩 내내 전역으로 접근 가능해, 일반 슬라이딩 윈도우와 달리 시각 특징이 '흐려지지' 않는다. 베이스라인 DeepSeek OCR의 인코더(DeepEncoder: SAM-ViT + CLIP-ViT, 16× 토큰 압축, 1024² → ~256 토큰)는 동결하고 디코더 어텐션만 R-SWA로 교체, LLM 파라미터만 학습한다. 디코더 3B(MoE로 ~500M 활성).",
+        "experiment_setup": [
+          "주 벤치마크: OmniDocBench v1.5/v1.6",
+          "비교: DeepSeek OCR(베이스라인)",
+          "장문 평가: 2~40+ 페이지 문서를 단일 forward로 전사"
+        ],
+        "datasets": [
+          {
+            "name": "문서 학습 샘플",
+            "scale": "약 200만(단일:다중 페이지 ≈ 9:1)",
+            "domain": "문서 OCR"
+          }
+        ],
+        "limitations": {
+          "by_authors": [
+            "프리필 32K 제한 — 페이지가 매우 많으면 한계(향후 128K 학습 예정)",
+            "다중페이지 모드는 Base 인코더(1024²)라 해상도 손실 → 20페이지 넘으면 edit distance 상승",
+            "학습 샘플 200만으로 제한적"
+          ],
+          "by_claude": [
+            "ASR·번역 일반화는 주장만 있고 실험 검증 없음(future work)",
+            "KV캐시 절감이 초장문에서 품질 저하와 트레이드오프"
+          ]
+        },
+        "reproducibility": {
+          "code": "공개",
+          "weights": "공개",
+          "data": "불명",
+          "license": "CC BY 4.0",
+          "note": "github.com/baidu/Unlimited-OCR, ★11.5k"
+        },
+        "my_learning_points": [
+          "'reference 토큰을 상태전이에서 제외'가 핵심 트릭 — 시각 충실도를 지키며 KV캐시를 상수화. 멀티모달 장문 디코딩에 일반 적용 가능",
+          "상수 KV캐시 = 장문 추론 비용의 근본 해법. W25 LMCache(캐시 외부 오프로딩)와 다른 각도(캐시 자체를 안 키움)",
+          "DeepSeek OCR 대비 OmniDocBench v1.5 +6.22%p, 6K 토큰 구간에서 ~35% 빠름 — 효율과 정확을 동시 개선"
+        ],
+        "related_work": {
+          "prior": [
+            {
+              "name": "DeepSeek OCR",
+              "relation": "베이스라인 — 인코더 재사용, 디코더 어텐션만 교체"
+            },
+            {
+              "name": "LMCache (W25)",
+              "relation": "KV캐시 효율화의 다른 접근(외부 오프로딩 vs 상수화)"
+            }
+          ],
+          "followup": [
+            {
+              "name": "R-SWA → ASR/번역",
+              "relation": "저자가 제시한 향후 확장(미검증)"
+            }
+          ]
+        },
+        "claude_note": "'인간은 이미 쓴 글을 다시 다 읽지 않는다'는 직관을 reference 토큰 전역 접근 + 출력 슬라이딩 윈도우로 구현해 KV캐시를 상수로 만든 영리한 설계다. 문서 파싱과 추론 효율화가 한 논문에서 만나는 점이 이번 주 '효율화가 분야를 가로지른다'는 흐름의 전형. 다만 초장문 해상도 손실·타도메인 미검증은 숙제."
+      },
+      "learning": {
+        "key_terms": [
+          {
+            "term": "KV Cache",
+            "gloss": "어텐션 키·값을 저장해 디코딩을 가속하는 캐시. 길어지면 메모리 부담"
+          },
+          {
+            "term": "Sliding Window Attention",
+            "gloss": "최근 일정 구간만 보는 어텐션으로 비용·캐시를 제한"
+          },
+          {
+            "term": "End-to-end OCR",
+            "gloss": "이미지→텍스트를 단일 모델로 직접 수행하는 OCR"
+          }
+        ],
+        "recall_quiz": {
+          "question": "Unlimited OCR이 긴 문서에서도 메모리·속도 저하 없이 작동하게 한 핵심 기법은?",
+          "answer": "디코더 어텐션을 R-SWA로 교체해 디코딩 내내 KV 캐시를 상수로 유지한다."
+        },
+        "spaced_review": {
+          "flag": false,
+          "review_due": null
+        }
+      }
+    },
+    {
+      "id": "2508.02739",
+      "title": "Kronos: A Foundation Model for the Language of Financial Markets",
+      "title_ko": null,
+      "authors": [
+        "Yu Shi",
+        "Zongliang Fu",
+        "Shuo Chen",
+        "Bohan Zhao",
+        "Wei Xu",
+        "Changshui Zhang",
+        "Jian Li"
+      ],
+      "published_at": "2025-08-02T09:15:59.000Z",
+      "rank": 3,
+      "raw": {
+        "summary": "The success of large-scale pre-training paradigm, exemplified by Large\nLanguage Models (LLMs), has inspired the development of Time Series Foundation\nModels (TSFMs). However, their application to financial candlestick (K-line)\ndata remains limited, often underperforming non-pre-trained architectures.\nMoreover, existing TSFMs often overlook crucial downstream tasks such as\nvolatility prediction and synthetic data generation. To address these\nlimitations, we propose Kronos, a unified, scalable pre-training framework\ntailored to financial K-line modeling. Kronos introduces a specialized\ntokenizer that discretizes continuous market information into token sequences,\npreserving both price dynamics and trade activity patterns. We pre-train Kronos\nusing an autoregressive objective on a massive, multi-market corpus of over 12\nbillion K-line records from 45 global exchanges, enabling it to learn nuanced\ntemporal and cross-asset representations. Kronos excels in a zero-shot setting\nacross a diverse set of financial tasks. On benchmark datasets, Kronos boosts\nprice series forecasting RankIC by 93% over the leading TSFM and 87% over the\nbest non-pre-trained baseline. It also achieves a 9% lower MAE in volatility\nforecasting and a 22% improvement in generative fidelity for synthetic K-line\nsequences. These results establish Kronos as a robust, versatile foundation\nmodel for end-to-end financial time series analysis. Our pre-trained model is\npublicly available at https://github.com/shiyu-coder/Kronos.",
+        "ai_summary": "Kronos, a specialized pre-training framework for financial K-line data, outperforms existing models in forecasting and synthetic data generation through a unique tokenizer and autoregressive pre-training on a large dataset.",
+        "ai_keywords": [
+          "Large Language Models",
+          "Time Series Foundation Models",
+          "financial candlestick",
+          "volatility prediction",
+          "synthetic data generation",
+          "autoregressive objective",
+          "token sequences",
+          "price dynamics",
+          "trade activity patterns",
+          "zero-shot setting",
+          "price series forecasting",
+          "RankIC",
+          "MAE",
+          "generative fidelity"
+        ],
+        "upvotes": 51,
+        "num_comments": 4,
+        "github_repo": "https://github.com/shiyu-coder/Kronos",
+        "github_stars": 35637,
+        "project_page": null
+      },
+      "links": [
+        {
+          "rank": 1,
+          "label": "HF 토론·요약",
+          "url": "https://huggingface.co/papers/2508.02739"
+        },
+        {
+          "rank": 2,
+          "label": "arXiv 초록",
+          "url": "https://arxiv.org/abs/2508.02739"
+        },
+        {
+          "rank": 3,
+          "label": "PDF 원문",
+          "url": "https://arxiv.org/pdf/2508.02739"
+        },
+        {
+          "rank": 4,
+          "label": "코드(GitHub)",
+          "url": "https://github.com/shiyu-coder/Kronos"
+        }
+      ],
+      "classify": {
+        "categories": [
+          "Data"
+        ],
+        "primary_category": "Data",
+        "topic_tags": [
+          "time-series-foundation-model",
+          "financial-ai",
+          "synthetic-data",
+          "autoregressive-objective"
+        ],
+        "method_tags": [
+          "pretraining",
+          "architecture"
+        ],
+        "modality": [
+          "multi"
+        ],
+        "confidence": "medium"
+      },
+      "tier1": {
+        "one_liner": "45개 거래소의 120억 캔들(K-line)로 사전학습한 금융 시계열 파운데이션 모델.",
+        "problem": "LLM식 사전학습이 시계열 파운데이션 모델(TSFM)로 확장됐지만, 금융 캔들(K-line)에는 적용이 제한적이고 비사전학습 모델보다 못한 경우도 많았다.",
+        "approach": "연속적 시장 정보를 토큰 시퀀스로 이산화하는 전용 토크나이저로 가격 동역학·거래 활동을 보존하고, 45개 거래소의 120억+ K-line으로 자기회귀 목적함수로 사전학습한다.",
+        "contributions": [
+          "금융 K-line 전용 통합 사전학습 프레임워크 + 전용 토크나이저",
+          "제로샷 가격 예측 RankIC를 선도 TSFM 대비 +93%, 최고 비사전학습 대비 +87%",
+          "변동성 예측 MAE 9%↓, 합성 K-line 생성 충실도 22%↑",
+          "사전학습 모델 공개(★35.6k)"
+        ],
+        "why_now": "지난주에 이어 2주 연속 트렌딩. 사전학습 패러다임이 금융 시계열로 번지는 흐름을 이어가며, 'AI×금융' 관심을 지탱한다.",
+        "difficulty": "중급",
+        "recommended_reader": "시계열·파운데이션 모델·퀀트 금융에 관심 있는 학습자",
+        "field_tags": [
+          "시계열",
+          "파운데이션모델",
+          "금융AI",
+          "합성데이터"
+        ],
+        "interest": {
+          "upvotes": 51,
+          "num_comments": 4,
+          "github_stars": 35600
+        }
+      },
+      "tier2": null,
+      "learning": {
+        "key_terms": [
+          {
+            "term": "Tokenizer",
+            "gloss": "연속 데이터를 모델이 다룰 수 있는 이산 토큰으로 변환하는 모듈"
+          },
+          {
+            "term": "Autoregressive Pre-training",
+            "gloss": "앞 토큰들로 다음 토큰을 예측하도록 학습하는 방식"
+          },
+          {
+            "term": "RankIC",
+            "gloss": "예측 순위와 실제 순위의 상관. 퀀트에서 예측력 지표"
+          }
+        ],
+        "recall_quiz": {
+          "question": "Kronos가 연속적인 시장 데이터를 모델 입력으로 만들기 위해 도입한 핵심 구성요소는?",
+          "answer": "가격 동역학과 거래 활동 패턴을 보존하며 데이터를 토큰 시퀀스로 이산화하는 전용 토크나이저."
+        },
+        "spaced_review": {
+          "flag": false,
+          "review_due": null
+        }
+      }
+    },
+    {
+      "id": "2510.22200",
+      "title": "LongCat-Video Technical Report",
+      "title_ko": null,
+      "authors": [
+        "Meituan LongCat Team",
+        "Xunliang Cai",
+        "Qilong Huang",
+        "Zhuoliang Kang",
+        "Hongyu Li",
+        "Shijun Liang",
+        "Liya Ma",
+        "Siyu Ren",
+        "Xiaoming Wei",
+        "Rixu Xie",
+        "Tong Zhang"
+      ],
+      "published_at": "2025-10-25T03:41:02.000Z",
+      "rank": 4,
+      "raw": {
+        "summary": "Video generation is a critical pathway toward world models, with efficient\nlong video inference as a key capability. Toward this end, we introduce\nLongCat-Video, a foundational video generation model with 13.6B parameters,\ndelivering strong performance across multiple video generation tasks. It\nparticularly excels in efficient and high-quality long video generation,\nrepresenting our first step toward world models. Key features include: Unified\narchitecture for multiple tasks: Built on the Diffusion Transformer (DiT)\nframework, LongCat-Video supports Text-to-Video, Image-to-Video, and\nVideo-Continuation tasks with a single model; Long video generation:\nPretraining on Video-Continuation tasks enables LongCat-Video to maintain high\nquality and temporal coherence in the generation of minutes-long videos;\nEfficient inference: LongCat-Video generates 720p, 30fps videos within minutes\nby employing a coarse-to-fine generation strategy along both the temporal and\nspatial axes. Block Sparse Attention further enhances efficiency, particularly\nat high resolutions; Strong performance with multi-reward RLHF: Multi-reward\nRLHF training enables LongCat-Video to achieve performance on par with the\nlatest closed-source and leading open-source models. Code and model weights are\npublicly available to accelerate progress in the field.",
+        "ai_summary": "LongCat-Video, a 13.6B parameter video generation model based on the Diffusion Transformer framework, excels in efficient and high-quality long video generation across multiple tasks using unified architecture, coarse-to-fine generation, and block sparse attention.",
+        "ai_keywords": [
+          "Diffusion Transformer",
+          "Text-to-Video",
+          "Image-to-Video",
+          "Video-Continuation",
+          "temporal coherence",
+          "coarse-to-fine generation",
+          "block sparse attention",
+          "multi-reward RLHF"
+        ],
+        "upvotes": 40,
+        "num_comments": 5,
+        "github_repo": "https://github.com/meituan-longcat/LongCat-Video",
+        "github_stars": 6412,
+        "project_page": null
+      },
+      "links": [
+        {
+          "rank": 1,
+          "label": "HF 토론·요약",
+          "url": "https://huggingface.co/papers/2510.22200"
+        },
+        {
+          "rank": 2,
+          "label": "arXiv 초록",
+          "url": "https://arxiv.org/abs/2510.22200"
+        },
+        {
+          "rank": 3,
+          "label": "PDF 원문",
+          "url": "https://arxiv.org/pdf/2510.22200"
+        },
+        {
+          "rank": 4,
+          "label": "코드(GitHub)",
+          "url": "https://github.com/meituan-longcat/LongCat-Video"
+        }
+      ],
+      "classify": {
+        "categories": [
+          "Vision",
+          "Efficiency/Inference"
+        ],
+        "primary_category": "Vision",
+        "topic_tags": [
+          "text-to-video",
+          "diffusion-transformer",
+          "long-video",
+          "block-sparse-attention"
+        ],
+        "method_tags": [
+          "pretraining",
+          "rl",
+          "architecture"
+        ],
+        "modality": [
+          "video"
+        ],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "분(minute) 단위 긴 영상을 720p·30fps로 효율 생성하는 13.6B 통합 비디오 파운데이션 모델.",
+        "problem": "비디오 생성은 월드 모델로 가는 핵심 경로이며, 특히 '긴 영상을 효율적으로' 생성하는 능력이 관건이다.",
+        "approach": "DiT 기반 통합 아키텍처로 Text-to-Video·Image-to-Video·Video-Continuation을 단일 모델로 지원한다. Video-Continuation 사전학습으로 분 단위 긴 영상의 품질·시간 일관성을 유지하고, 시간·공간축 coarse-to-fine 생성 + Block Sparse Attention으로 720p·30fps를 분 단위로 효율 생성한다. 다중 보상 RLHF로 최신 상용·선도 오픈 모델과 대등한 성능을 낸다.",
+        "contributions": [
+          "T2V·I2V·Video-Continuation을 단일 DiT로 통합(13.6B)",
+          "Video-Continuation 사전학습으로 분 단위 긴 영상 일관성",
+          "coarse-to-fine + Block Sparse Attention으로 720p·30fps 효율 생성",
+          "다중 보상 RLHF로 상용·오픈 SOTA급, 코드·가중치 공개"
+        ],
+        "why_now": "이번 주 생성 모달리티 폭발(비디오·3D·음성)의 한 축이다. '비디오 생성 → 월드 모델' 방향과 효율(Block Sparse) 강조가, 생성이 전 모달리티로 번지는 흐름과 맞물린다.",
+        "difficulty": "고급",
+        "recommended_reader": "비디오 생성·확산 모델·월드 모델에 관심 있는 학습자",
+        "field_tags": [
+          "비디오생성",
+          "DiT",
+          "긴영상",
+          "효율화"
+        ],
+        "interest": {
+          "upvotes": 40,
+          "num_comments": 5,
+          "github_stars": 6400
+        }
+      },
+      "tier2": null,
+      "learning": {
+        "key_terms": [
+          {
+            "term": "Text-to-Video",
+            "gloss": "텍스트 프롬프트로 영상을 생성하는 과제"
+          },
+          {
+            "term": "Video-Continuation",
+            "gloss": "주어진 영상을 이어서 생성해 긴 영상을 만드는 방식"
+          },
+          {
+            "term": "Block Sparse Attention",
+            "gloss": "블록 단위로 어텐션을 희소화해 고해상 효율↑"
+          }
+        ],
+        "recall_quiz": {
+          "question": "LongCat-Video가 분 단위 긴 영상의 일관성을 확보한 핵심 사전학습 과제는?",
+          "answer": "Video-Continuation(영상 이어붙이기) 사전학습."
+        },
+        "spaced_review": {
+          "flag": false,
+          "review_due": null
+        }
+      }
+    },
+    {
+      "id": "2512.14692",
+      "title": "Native and Compact Structured Latents for 3D Generation",
+      "title_ko": null,
+      "authors": [
+        "Jianfeng Xiang",
+        "Xiaoxue Chen",
+        "Sicheng Xu",
+        "Ruicheng Wang",
+        "Zelong Lv",
+        "Yu Deng",
+        "Hongyuan Zhu",
+        "Yue Dong",
+        "Hao Zhao",
+        "Nicholas Jing Yuan",
+        "Jiaolong Yang"
+      ],
+      "published_at": "2025-12-16T13:58:28.000Z",
+      "rank": 5,
+      "raw": {
+        "summary": "Recent advancements in 3D generative modeling have significantly improved the generation realism, yet the field is still hampered by existing representations, which struggle to capture assets with complex topologies and detailed appearance. This paper present an approach for learning a structured latent representation from native 3D data to address this challenge. At its core is a new sparse voxel structure called O-Voxel, an omni-voxel representation that encodes both geometry and appearance. O-Voxel can robustly model arbitrary topology, including open, non-manifold, and fully-enclosed surfaces, while capturing comprehensive surface attributes beyond texture color, such as physically-based rendering parameters. Based on O-Voxel, we design a Sparse Compression VAE which provides a high spatial compression rate and a compact latent space. We train large-scale flow-matching models comprising 4B parameters for 3D generation using diverse public 3D asset datasets. Despite their scale, inference remains highly efficient. Meanwhile, the geometry and material quality of our generated assets far exceed those of existing models. We believe our approach offers a significant advancement in 3D generative modeling.",
+        "ai_summary": "A new sparse voxel representation called O-Voxel enables high-quality 3D generative modeling with efficient inference and robust topology handling.",
+        "ai_keywords": [
+          "sparse voxel structure",
+          "O-Voxel",
+          "omni-voxel representation",
+          "geometry",
+          "appearance",
+          "physically-based rendering parameters",
+          "Sparse Compression VAE",
+          "flow-matching models"
+        ],
+        "upvotes": 6,
+        "num_comments": 0,
+        "github_repo": "https://github.com/microsoft/TRELLIS.2",
+        "github_stars": 10140,
+        "project_page": "https://microsoft.github.io/TRELLIS.2/"
+      },
+      "links": [
+        {
+          "rank": 1,
+          "label": "HF 토론·요약",
+          "url": "https://huggingface.co/papers/2512.14692"
+        },
+        {
+          "rank": 2,
+          "label": "arXiv 초록",
+          "url": "https://arxiv.org/abs/2512.14692"
+        },
+        {
+          "rank": 3,
+          "label": "PDF 원문",
+          "url": "https://arxiv.org/pdf/2512.14692"
+        },
+        {
+          "rank": 4,
+          "label": "코드(GitHub)",
+          "url": "https://github.com/microsoft/TRELLIS.2"
+        },
+        {
+          "rank": 5,
+          "label": "프로젝트 페이지",
+          "url": "https://microsoft.github.io/TRELLIS.2/"
+        }
+      ],
+      "classify": {
+        "categories": [
+          "Vision",
+          "Embodied/World Models"
+        ],
+        "primary_category": "Vision",
+        "topic_tags": [
+          "3d-generation",
+          "structured-latents",
+          "voxel",
+          "flow-matching"
+        ],
+        "method_tags": [
+          "pretraining",
+          "architecture"
+        ],
+        "modality": [
+          "3d"
+        ],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "기하와 재질을 함께 담는 O-Voxel 구조로 임의 위상의 3D 자산을 효율 생성하는 4B 플로우매칭 모델.",
+        "problem": "3D 생성 모델은 사실성이 좋아졌지만, 기존 표현이 복잡한 위상(topology)과 세밀한 외형을 담기 어려워 발목을 잡는다.",
+        "approach": "네이티브 3D 데이터에서 구조화 잠재 표현을 학습한다. 핵심은 O-Voxel — 기하와 외형을 함께 인코딩하는 omni-voxel 희소 복셀 구조로, 열린·비다양체·완전 밀폐 표면 등 임의 위상을 강건히 모델링하고 PBR(물리기반 렌더링) 파라미터 등 텍스처 색을 넘는 표면 속성을 담는다. O-Voxel 위에 Sparse Compression VAE로 높은 공간 압축·컴팩트 잠재공간을 만들고, 공개 3D 자산으로 4B 플로우매칭 모델을 학습한다.",
+        "contributions": [
+          "기하+외형을 함께 담는 omni-voxel 구조 O-Voxel(임의 위상·PBR 속성)",
+          "높은 공간 압축의 Sparse Compression VAE + 컴팩트 잠재공간",
+          "4B 플로우매칭 3D 생성, 규모 대비 효율적 추론",
+          "기존 대비 월등한 기하·재질 품질"
+        ],
+        "why_now": "이번 주 생성 폭발의 3D 축이다. 이미지·비디오·음성에 이어 3D 자산 생성까지 트렌딩에 오르며, 생성 모델이 모든 모달리티로 확산되는 흐름을 완성한다.",
+        "difficulty": "고급",
+        "recommended_reader": "3D 생성·그래픽스·표현 학습에 관심 있는 학습자",
+        "field_tags": [
+          "3D생성",
+          "복셀표현",
+          "플로우매칭",
+          "PBR"
+        ],
+        "interest": {
+          "upvotes": 6,
+          "num_comments": 0,
+          "github_stars": 10100
+        }
+      },
+      "tier2": {
+        "analyzed_at": "2026-08-03",
+        "method_detail": "정식 명칭은 TRELLIS.2(Microsoft Research 계열). 핵심은 N³ 희소 복셀마다 (f_shape, f_mat, p) 튜플을 담는 O-Voxel로, 기하를 SDF/occupancy가 아니라 Flexible Dual Grid(dual contouring 변형)로 표현한다 — primal cell당 dual vertex 1개, primal edge당 quad face 1개를 두고, dual vertex 위치는 평면 교차 거리 최소화·경계 edge 패널티·정규화로 구성된 QEF(quadratic error function)로 푼다. edge 교차 플래그 δ∈{0,1}³가 quad 연결을, 분할 가중치 γ>0가 quad→triangle 적응 분할을 결정한다. 덕분에 watertight 가정 없이 열린·비다양체·완전 밀폐 표면을 모두 다루며, f_mat은 base color 3 + metallic 1 + roughness 1 + opacity 1 = 6채널 PBR로 반투명까지 표현한다. 압축은 트랜스포머가 아닌 희소 컨볼루션 U-Net 기반 Sparse Compression VAE(SC-VAE)가 담당하며 세 가지 설계를 도입한다: (1) Sparse Residual Autoencoding — 2× 다운/업샘플 시 자식 복셀 8개를 채널로 쌓아 R^{8C}를 만드는 비파라미터 shortcut, (2) Early-pruning Upsampler — 활성 자식 이진 마스크 ρ∈{0,1}⁸를 예측해 비활성 노드 연산을 생략, (3) Optimized Residual Block — conv 2개를 conv 1개 + 넓은 point-wise MLP로 대체(ConvNeXt 스타일). 그 결과 복셀 계열 최고인 16× 공간 압축을 달성해 1024³ 풀텍스처 자산을 약 9.6K 잠재 토큰으로 담는다(512³=2.2K, 256³=503). VAE 학습은 2단계로, 1단계는 저해상도 O-Voxel 직접 복원(vertex MSE, flag/mask BCE, material L1)+KL, 2단계는 고해상도에서 mask·depth·normal에 L1+SSIM+LPIPS 렌더링 perceptual 감독을 추가하고 카메라를 표면 관통 배치해 내부 구조까지 감독한다. 생성은 flow matching 3단계 캐스케이드(희소 구조 → 기하 잠재 → 기하 정렬 재질 잠재)로 각 DiT가 약 1.3B(width 1536, 30 blocks, 12 heads, MLP 8192), 합계 약 4B이며, AdaLN-single + RoPE + DINOv3-L 이미지 컨디셔닝의 vanilla DiT를 쓴다(conv packing·skip 제거). 1536³는 test-time cascading으로 만든다.",
+        "experiment_setup": [
+          "복원 벤치마크: Toys4K + 자체 선별한 Sketchfab Featured 90개(복잡 PBR·난이도 높은 형상). 지표는 MD(mesh distance, 내부 포함 양방향), CD(가시 표면), F1, normal map PSNR, LPIPS.",
+          "복원 비교군: Dora(2.0K~4.1K 토큰), TRELLIS(9.6K, 4×), Direct3D-S2(3K~17K, 8×), SparseFlex(56K~225K, 4×). 본 방법은 16× 압축으로 토큰이 적으면서도 전 지표 우위를 주장.",
+          "normal PSNR(1024³): 본 방법 43.11dB vs SparseFlex 37.34, TRELLIS 30.29, Direct3D-S2 26.34, Dora 27.26.",
+          "재질 복원: PBR 속성맵 38.89dB PSNR / LPIPS 0.033, 셰이딩 이미지 38.69dB / 0.026.",
+          "Image-to-3D 비교군: TRELLIS, Hi3DGen, Direct3D-S2, Step1X-3D, Hunyuan3D 2.1. CLIP 0.894(TRELLIS 0.876, Step1X-3D 0.875, Hunyuan3D 2.1 0.869), CLIP-N 0.758, ULIP-2 0.477, Uni3D 0.436으로 전 지표 1위.",
+          "사용자 연구 선호도: 전체 66.5%, normal map 69.0% (차순위 Hunyuan3D 2.1 13.3%, Step1X-3D 11.8%, TRELLIS 6.4%) — 자동 지표 증분보다 질적 격차가 훨씬 큼.",
+          "Ablation: Sparse Residual Autoencoding 제거 시 16× 압축에서 MD +69%·PSNR -0.5dB / Optimized Residual Block 제거 시 MD +16%·PSNR -0.6dB(런타임 동일) — 단순 효율화가 아니라 품질 기여가 확인됨.",
+          "추론 효율(H100 1장, 형상+재질): 512³ 약 3초(2+1), 1024³ 약 17초(10+7), 1536³ 약 60초(35+25). 요구 사양은 24GB+ VRAM, A100/H100 검증, Linux 한정, CUDA 12.4 권장."
+        ],
+        "datasets": [
+          {
+            "name": "Trellis-500K (Objaverse-XL + ABO + HSSD 선별)",
+            "scale": "약 500K 자산(PBR 재질 보유분 필터링)",
+            "domain": "일반 3D 자산 — SC-VAE·생성 모델 공통 기반"
+          },
+          {
+            "name": "TexVerse (증강용)",
+            "scale": "Trellis-500K와 합산해 생성 모델 학습 약 800K 자산",
+            "domain": "PBR 재질 다양성 보완"
+          },
+          {
+            "name": "렌더링 컨디셔닝 이미지",
+            "scale": "자산당 16뷰, Blender에서 FoV·조명 랜덤화",
+            "domain": "image-to-3D 조건 입력"
+          },
+          {
+            "name": "Toys4K / Sketchfab Featured",
+            "scale": "Toys4K 공개 벤치마크 + Sketchfab 90개 자체 선별",
+            "domain": "복원·생성 평가 전용"
+          }
+        ],
+        "limitations": {
+          "by_authors": [
+            "O-Voxel의 표현력은 공간 해상도에 상한이 있어, 복셀 크기보다 작은 기하 디테일에서는 Flexible Dual Grid 수식이 에일리어싱 아티팩트를 만들 수 있다.",
+            "아주 가깝게 붙은 평행 면 두 장이 같은 복셀을 가로지르면 QEF 솔버가 둘 사이에 dual vertex를 남기고, 그 복셀의 볼류메트릭 재질도 두 면의 평균이 되어 외형이 흐려진다.",
+            "생성·복원된 raw mesh에 작은 구멍이나 사소한 위상 단절이 남을 수 있어, 엄격한 watertight가 필요한 워크플로는 hole-filling 후처리가 별도로 필요하다.",
+            "part-level segmentation·그래프 기반 위상 구조 같은 상위 레벨 구조 정보가 없어 편집·리깅 등 다운스트림이 제한적(향후 과제로 명시). 디코더가 항상 다양체(manifold) 메시를 보장하지도 않는다.",
+            "모델 카드 명시: base 모델은 사람 선호 정렬(alignment)을 거치지 않아 출력이 학습 데이터 분포를 그대로 반영하며, 웹 수집 데이터의 편향이 남아 있을 수 있다(연구 전용 프로젝트)."
+          ],
+          "by_claude": [
+            "Table 1의 MD/CD/F1 절대값은 arXiv HTML→텍스트 변환에서 컬럼 정렬이 깨져 신뢰하기 어려움 — PDF 원본 표로 재확인 필요(normal PSNR·재질 수치는 확인됨).",
+            "재질이 UV 텍스처가 아니라 복셀 위 볼류메트릭 속성(복원 시 trilinear 보간)이므로, 기존 DCC·게임 파이프라인이 기대하는 UV 아틀라스·텍스처 베이킹 품질은 독립 검증이 필요하다.",
+            "사용자 연구는 66.5% vs 6~13%로 압도적인데 CLIP/ULIP-2/Uni3D 증분은 0.01~0.02에 그친다 — 자동 지표 포화인지, 사용자 연구 통제(판정자 수·샘플 수·블라인드 여부)가 충분한지 본문 확인 필요.",
+            "3단계 캐스케이드(구조→기하→재질)는 단계 간 오류 전파 위험이 있는 구조인데, 구조 단계 예측이 틀렸을 때 하위 단계가 복구하는지에 대한 분석은 확인되지 않았다.",
+            "논문은 데이터셋 공개를 예고했지만 레포에 실제 학습 데이터는 없어(원 소스에서 개별 재수집 필요) 전 공정 재현은 현 시점 부분적이다.",
+            "학습 사양이 생성 32×H100 + VAE 16×H100로 개인·소규모 랩에서는 처음부터 학습이 불가하며, 총 학습 시간·비용 수치는 논문에 명시되지 않았다."
+          ]
+        },
+        "reproducibility": {
+          "code": "공개",
+          "weights": "공개",
+          "data": "부분",
+          "license": "MIT (저장소·모델 카드 기재). 단 프로젝트 페이지가 '상업용이 아닌 순수 연구 프로젝트'라 명시하므로 상업 사용은 학습 데이터 라이선스와 함께 보수적으로 판단할 것.",
+          "note": "github.com/microsoft/TRELLIS.2 (MIT, 확인 시점 약 10.2k stars) — 추론 코드·학습 코드·형상 조건 텍스처 생성 코드 공개. 가중치는 huggingface.co/microsoft/TRELLIS.2-4B(512³~1536³ 지원), 공식 HF Space 데모 운영. 학습 데이터셋 자체는 미배포(Objaverse-XL·ABO·HSSD·TexVerse는 원 공개 소스에서 재수집 필요). 추론은 24GB+ VRAM·A100/H100 검증·Linux·CUDA 12.4 권장. 재현성은 3D 생성 분야 상위권이나 전 공정 재학습은 대규모 클러스터가 필요."
+        },
+        "my_learning_points": [
+          "공식 HF Space 데모로 내 도메인 이미지(가느다란 식물, 반투명 재질, 속이 보이는 구조 등 O-Voxel이 강점이라 주장하는 케이스)를 512³로 돌려 약 3초 기준선을 세우고, 같은 입력을 TRELLIS 1.0·Hunyuan3D 2.1에도 넣어 직접 비교표를 만들어 볼 것 — 자동 지표가 격차를 잘 못 잡으므로 질적 판단을 스스로 확보하는 게 핵심.",
+          "생성 전체가 아니라 SC-VAE만 단독으로 다뤄볼 것: 내 메시 자산(특히 비다양체·개방 메시·이중 법선)을 O-Voxel로 인코딩→디코딩해 토큰 수와 normal PSNR/mesh distance를 재보면, 16×·9.6K 압축이 내 도메인에서도 유지되는지 확인할 수 있다.",
+          "Sparse Residual Autoencoding(자식 8개를 채널로 쌓는 비파라미터 shortcut)은 희소 복셀 밖에서도 이식 가능한 압축 패턴이다 — ablation에서 단독으로 MD를 69% 악화시킬 만큼 기여가 크므로, 내가 다루는 3D·희소 모델의 다운샘플링 경로에 같은 아이디어를 넣고 A/B를 돌려볼 가치가 있다."
+        ],
+        "related_work": {
+          "prior": [
+            {
+              "name": "TRELLIS (SLAT, structured latents)",
+              "relation": "동일 연구팀의 직전 버전이자 핵심 기준선 — 4× 압축·9.6K 토큰 대비, 같은 토큰 수로 16× 압축·1024³를 달성해 해상도를 끌어올렸다."
+            },
+            {
+              "name": "Dual Contouring / FlexiCubes 계열 isosurface 추출",
+              "relation": "Flexible Dual Grid의 이론적 토대 — QEF 기반 dual vertex 배치를 O-Voxel에 맞게 학습 가능하도록 재구성."
+            },
+            {
+              "name": "Dora / Direct3D-S2 / SparseFlex",
+              "relation": "3D 잠재 토큰화·희소 표현 경쟁 계열 — 토큰 수·압축률 벤치마크에서 직접 비교."
+            },
+            {
+              "name": "Hunyuan3D 2.1 / Step1X-3D / Hi3DGen",
+              "relation": "PBR·고품질 image-to-3D 생성 경쟁 모델 — 생성 비교표에서 직접 맞붙는다."
+            },
+            {
+              "name": "DiT + AdaLN-single(PixArt 계열), RoPE, flow matching",
+              "relation": "4B 생성기의 기본 골격 — conv packing·skip을 버린 vanilla DiT로 스케일링을 확보."
+            },
+            {
+              "name": "DINOv3-L",
+              "relation": "이미지 컨디셔닝 인코더로 그대로 도입(자체 학습 없음)."
+            },
+            {
+              "name": "Objaverse-XL / ABO / HSSD / TexVerse / Toys4K",
+              "relation": "학습·평가 데이터의 출처 — 자체 수집 없이 공개 자산 조합만으로 4B를 학습했다는 점이 의미 있다."
+            }
+          ],
+          "followup": [
+            {
+              "name": "part-level segmentation / 그래프 위상 구조 확장",
+              "relation": "저자가 향후 방향으로 명시한 항목(편집·리깅 등 다운스트림 확장)."
+            },
+            {
+              "name": "생태계 확산(공식 HF Space 데모, 서드파티 툴 연동)",
+              "relation": "연구 후속이라기보다 도구·활용 측면의 확산."
+            }
+          ]
+        },
+        "claude_note": "arXiv HTML 본문이 충실해 초록을 넘어 설계 수식·학습 설정·ablation·추론 수치·공개 상태까지 교차 확인할 수 있었다(단 Table 1의 MD/CD/F1 절대값은 HTML 변환에서 컬럼이 섞여 PDF 재확인이 필요). 기여는 분명하다 — 기하와 PBR 재질을 하나의 희소 복셀에 통합하면서 SDF/occupancy 가정을 버려 watertight 제약에서 벗어난 점, 그리고 트랜스포머 VAE가 유행하는 흐름에서 오히려 희소 컨볼루션 U-Net으로 돌아가 16× 압축을 따낸 설계 직관이 인상적이다. 다만 '기존 모델을 크게 능가한다'는 주장은 자동 지표(CLIP 0.894 vs 0.876 등 0.01~0.02 증분)보다 사용자 연구(66.5% vs 6~13%)에 거의 전적으로 의존한다 — 3D 자동 지표가 포화된 시기의 논문이므로 사용자 연구 설계의 통제 수준이 지표보다 중요해졌다. 재현성은 코드·학습 코드·4B 가중치를 MIT로 공개해 분야 상위권이지만, 학습 데이터셋이 미배포이고 학습에 수십 장의 H100이 필요해 전 공정 재현은 여전히 닫혀 있다."
+      },
+      "learning": {
+        "key_terms": [
+          {
+            "term": "Voxel",
+            "gloss": "3D 공간을 격자 셀로 나눈 부피 표현(3D 픽셀)"
+          },
+          {
+            "term": "Topology",
+            "gloss": "표면의 위상 구조(열림/닫힘/구멍 등)"
+          },
+          {
+            "term": "Flow Matching",
+            "gloss": "확산 계열의 생성 목적함수(경로를 직선화해 학습)"
+          }
+        ],
+        "recall_quiz": {
+          "question": "O-Voxel이 기존 3D 표현과 달리 함께 담아내는 두 가지는?",
+          "answer": "기하(geometry)와 외형(appearance) — PBR 등 표면 속성까지, 임의 위상에서."
+        },
+        "spaced_review": {
+          "flag": false,
+          "review_due": null
+        }
+      }
+    },
+    {
+      "id": "2508.19205",
+      "title": "VibeVoice Technical Report",
+      "title_ko": null,
+      "authors": [
+        "Zhiliang Peng",
+        "Jianwei Yu",
+        "Wenhui Wang",
+        "Yaoyao Chang",
+        "Yutao Sun",
+        "Li Dong",
+        "Yi Zhu",
+        "Weijiang Xu",
+        "Hangbo Bao",
+        "Zehua Wang",
+        "Shaohan Huang",
+        "Yan Xia",
+        "Furu Wei"
+      ],
+      "published_at": "2025-08-26T13:09:12.000Z",
+      "rank": 6,
+      "raw": {
+        "summary": "This report presents VibeVoice, a novel model designed to synthesize\nlong-form speech with multiple speakers by employing next-token diffusion,\nwhich is a unified method for modeling continuous data by autoregressively\ngenerating latent vectors via diffusion. To enable this, we introduce a novel\ncontinuous speech tokenizer that, when compared to the popular Encodec model,\nimproves data compression by 80 times while maintaining comparable performance.\nThe tokenizer effectively preserves audio fidelity while significantly boosting\ncomputational efficiency for processing long sequences. Thus, VibeVoice can\nsynthesize long-form speech for up to 90 minutes (in a 64K context window\nlength) with a maximum of 4 speakers, capturing the authentic conversational\n``vibe'' and surpassing open-source and proprietary dialogue models.",
+        "ai_summary": "VibeVoice synthesizes long-form multi-speaker speech using next-token diffusion and a highly efficient continuous speech tokenizer, achieving superior performance and fidelity.",
+        "ai_keywords": [
+          "next-token diffusion",
+          "continuous speech tokenizer",
+          "Encodec",
+          "audio fidelity",
+          "computational efficiency",
+          "long-form speech",
+          "multi-speaker synthesis",
+          "conversational vibe",
+          "dialogue models"
+        ],
+        "upvotes": 177,
+        "num_comments": 10,
+        "github_repo": "https://github.com/microsoft/VibeVoice",
+        "github_stars": 51854,
+        "project_page": "https://microsoft.github.io/VibeVoice/"
+      },
+      "links": [
+        {
+          "rank": 1,
+          "label": "HF 토론·요약",
+          "url": "https://huggingface.co/papers/2508.19205"
+        },
+        {
+          "rank": 2,
+          "label": "arXiv 초록",
+          "url": "https://arxiv.org/abs/2508.19205"
+        },
+        {
+          "rank": 3,
+          "label": "PDF 원문",
+          "url": "https://arxiv.org/pdf/2508.19205"
+        },
+        {
+          "rank": 4,
+          "label": "코드(GitHub)",
+          "url": "https://github.com/microsoft/VibeVoice"
+        },
+        {
+          "rank": 5,
+          "label": "프로젝트 페이지",
+          "url": "https://microsoft.github.io/VibeVoice/"
+        }
+      ],
+      "classify": {
+        "categories": [
+          "Multimodal",
+          "Efficiency/Inference"
+        ],
+        "primary_category": "Multimodal",
+        "topic_tags": [
+          "speech-synthesis",
+          "next-token-diffusion",
+          "continuous-tokenizer",
+          "long-form-audio"
+        ],
+        "method_tags": [
+          "architecture",
+          "inference-time"
+        ],
+        "modality": [
+          "audio"
+        ],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "Encodec 대비 80배 압축한 연속 토크나이저로 최대 90분·4화자 대화를 합성하는 장문 음성 생성 모델.",
+        "problem": "여러 화자의 장문 음성을 자연스럽게 합성하려면, 긴 시퀀스를 효율적으로 처리하면서 음질을 유지해야 한다.",
+        "approach": "next-token diffusion — 연속 데이터를 위한 통합 방식으로, 잠재 벡터를 확산으로 자기회귀 생성한다. 이를 위해 새로운 연속 음성 토크나이저를 도입해 Encodec 대비 데이터 압축을 80배 개선하면서 성능은 대등하게 유지한다. 결과적으로 64K 컨텍스트에서 최대 90분·4화자까지 대화의 '바이브'를 살린 장문 음성을 합성한다.",
+        "contributions": [
+          "연속 데이터용 next-token diffusion으로 장문 다화자 음성 합성",
+          "Encodec 대비 80배 압축하는 연속 음성 토크나이저(음질 유지)",
+          "64K 컨텍스트에서 최대 90분·4화자 합성",
+          "오픈·상용 대화 모델 능가"
+        ],
+        "why_now": "오디오/음성이 3주째 트렌딩(CALM→Moonshine→VibeVoice). '80배 압축 토크나이저'로 효율과 장문을 동시에 잡아, 효율화가 음성 생성으로 심화되는 흐름을 보여준다(▲177, GH★51.9k로 관심도 높음).",
+        "difficulty": "고급",
+        "recommended_reader": "음성 합성(TTS)·오디오 생성·효율적 토크나이저에 관심 있는 학습자",
+        "field_tags": [
+          "음성합성",
+          "next-token-diffusion",
+          "연속토크나이저",
+          "장문오디오"
+        ],
+        "interest": {
+          "upvotes": 177,
+          "num_comments": 10,
+          "github_stars": 51900
+        }
+      },
+      "tier2": {
+        "method_detail": "VibeVoice는 텍스트-음성 정렬을 LLM에 맡기고, 음향 표현 생성은 토큰 단위 확산(next-token diffusion)에 맡기는 하이브리드 자기회귀 구조다. 핵심은 두 개의 연속형 토크나이저다. 음향 토크나이저는 sigma-VAE 형태의 인코더-디코더로, 24kHz 입력에 6개의 다운샘플링 층을 쌓아 누적 3200배 압축(즉 프레임레이트 7.5Hz)을 달성하며 인코더와 디코더가 각각 약 340M 파라미터다. 내부는 7단계의 변형 Transformer 블록으로 구성되고 self-attention 대신 1D depth-wise causal convolution을 써서 스트리밍 처리에 적합하게 만들었으며, 학습은 DAC 계열의 판별자와 손실 설계를 따른다. 분산을 학습하지 않고 사전 정의된 분포로 고정하는 sigma-VAE를 쓴 이유는 자기회귀 세팅에서 VAE의 분산 붕괴(variance collapse)를 완화하기 위함이다. 의미 토크나이저는 음향 인코더의 계층 구조를 그대로 따르되 VAE 구성요소를 제거하고 ASR을 프록시 과제로 학습한 뒤 디코더 층은 폐기하며, 생성 대상 음성 구간은 음향/의미 두 토크나이저로 모두 인코딩되어 하이브리드 음성 표현으로 자기회귀 모델링에 들어간다. LLM 백본은 Qwen2.5 1.5B와 7B이고, 입력 시퀀스는 화자별 음성 프롬프트 잠재벡터 묶음 다음에 화자별 텍스트 스크립트가 오는 형태로 화자 식별자와 교차 배치된다(X = [Speaker1:z1, ..., SpeakerN:zN] + [Speaker1:T1, ..., SpeakerN:TN]). LLM 히든 스테이트를 조건으로 받는 4층 확산 헤드가 각 토큰 위치에서 음향 VAE 특징의 노이즈를 예측하며, 추론 시 CFG 스케일 1.3과 DPM-Solver++ 10스텝으로 디노이징한 뒤 음향 디코더로 파형을 복원한다. 학습은 사전학습된 두 토크나이저를 동결하고 LLM과 확산 헤드만 갱신하며, 입력 시퀀스 길이를 4,096에서 65,536 토큰까지 점진적으로 늘리는 커리큘럼을 적용해 64K 컨텍스트에서 최대 90분/최대 4화자 생성을 가능하게 했다. 확산 헤드 히든 차원과 파라미터 수, 음향 잠재벡터의 채널 차원, sigma 상수값은 본문 확인 필요(미기재).",
+        "experiment_setup": [
+          "평가축 3개: (1) 장문 다화자 팟캐스트 주관/객관 평가, (2) SEED 단문 zero-shot TTS, (3) LibriTTS 토크나이저 재구성 품질.",
+          "팟캐스트 평가는 8개 장문 대화 스크립트(총 약 1시간)를 사용하고, 24명의 어노테이터가 Realism/Richness/Preference 3개 축으로 MOS를 매김. 객관 지표는 Whisper-large-v3 WER, NeMo ASR WER, WavLM-large 기반 SIM.",
+          "팟캐스트 MOS 평균: VibeVoice-7B 3.76(+/-0.93) > VibeVoice-1.5B 3.54(+/-0.96) > Gemini 2.5 Pro 3.66(+/-1.16)와 비교 시 Preference 항목에서 7B 3.75 vs Gemini 3.65로 우위. Elevenlabs v3 alpha 3.40, Higgs Audio V2 2.99, SesameAI CSM 2.89.",
+          "팟캐스트 WER(Whisper): VibeVoice-1.5B 1.11이 최저, 7B 1.29, Gemini 2.5 Pro 1.73, Elevenlabs 2.39, CSM 2.66, Higgs Audio V2 5.94. SIM은 7B 0.692, CSM 0.685, Elevenlabs 0.623, 1.5B 0.548.",
+          "SEED 단문(1.5B만 보고): test-zh CER 1.16% / SIM 0.744, test-en WER 3.04% / SIM 0.689. 비교군 Seed-TTS(zh CER 1.12, en WER 2.25, SIM 0.796/0.762), MaskGCT, FireRedTTS, CosyVoice 2, Spark TTS. 즉 zh CER은 상위권이지만 en WER과 SIM은 최상위 대비 열위이며, 프레임레이트가 7.5Hz(타 모델 25~50Hz)라는 점이 트레이드오프 근거로 제시됨.",
+          "토크나이저 재구성(LibriTTS test-clean): 제안 음향 토크나이저는 양자화기 1개, 토큰레이트 7.5로 PESQ 3.068 / UTMOS 4.181을 기록. Encodec(8 quantizer, 600 토큰레이트)은 PESQ 2.72 / UTMOS 3.04, WavTokenizer(75)는 PESQ 2.373 / UTMOS 4.049. 토큰레이트 600 대 7.5가 곧 '80배 압축' 주장의 근거.",
+          "test-other에서도 PESQ 2.848 / UTMOS 3.724로 우위를 유지하나 STOI는 0.828(clean)/0.823(other)로 Encodec 0.939/0.924보다 낮아 명료도 지표에서는 손실이 있음.",
+          "정식 ablation 섹션은 없음. 1.5B -> 7B 스케일업 시 음색 풍부함과 억양 자연성 개선을 정성적으로만 기술. LLM 단계 학습 데이터 시간 수, 학습률, 배치 크기, 옵티마이저는 본문 미기재(확인 필요)."
+        ],
+        "datasets": [
+          {
+            "name": "VibeVoice Podcast 평가셋(자체 구축)",
+            "domain": "장문 다화자 대화(팟캐스트) 합성 주관/객관 평가",
+            "scale": "8개 대화 스크립트, 총 약 1시간. 언어 구성은 본문 미기재"
+          },
+          {
+            "name": "SEED test-zh / test-en",
+            "domain": "단문 zero-shot TTS(중국어 CER, 영어 WER, 화자 유사도)",
+            "scale": "영어 약 1,000 / 중국어 약 2,000 샘플 규모. 원 출처 상세는 본문 확인 필요"
+          },
+          {
+            "name": "LibriTTS test-clean / test-other",
+            "domain": "음향 토크나이저 재구성 품질(PESQ, STOI, UTMOS)",
+            "scale": "표준 테스트 분할 사용, 샘플 수 본문 미기재"
+          },
+          {
+            "name": "학습 코퍼스(음향/의미 토크나이저 및 LLM 단계)",
+            "domain": "영어, 중국어 음성",
+            "scale": "미공개. 총 시간 수, 출처, 전처리 모두 본문 미기재(확인 필요)"
+          }
+        ],
+        "limitations": {
+          "by_authors": [
+            "언어 제약: 영어와 중국어만 지원한다. 그 외 언어 스크립트는 예상치 못한 오디오가 나올 수 있다고 명시한다.",
+            "비음성 오디오 미지원: 음성 합성만 다루며 배경 소음, 음악, 효과음은 생성하지 않는다.",
+            "겹쳐 말하기 미지원: 현재 모델은 overlapping 구간을 명시적으로 모델링하거나 생성하지 않는다.",
+            "악용 위험 인정: 고품질 합성음이 사칭, 사기, 허위정보용 딥페이크로 오용될 수 있다고 경고한다.",
+            "배포 태도: 추가 테스트와 개발 없이 상업적 또는 실제 서비스에 쓰는 것을 권장하지 않는다고 못 박는다.",
+            "백본 편향 상속: Qwen2.5의 편향과 오류를 물려받는다는 문구는 논문이 아니라 HF 모델 카드에만 있다. 본문에는 없다.",
+            "주의: 생성 상한(화자 4명, 64K 컨텍스트에서 90분)은 저자가 한계 절에 적은 항목이 아니라 초록의 능력 주장이다. 저자 선언 한계로 세지 말 것."
+          ],
+          "by_claude": [
+            "학습 데이터가 통째로 비공개다. 총 시간, 출처, 언어 비율, 대화체 비중이 모두 없다. 성능 우위가 구조 덕인지 데이터 덕인지 판별할 근거가 없다.",
+            "어블레이션이 없다. sigma-VAE, 의미 토크나이저, 하이브리드 표현, 길이 커리큘럼의 기여도가 하나도 분리 검증되지 않았다. 분산 붕괴 완화 논거도 설계 근거로만 제시된다.",
+            "90분 주장이 90분 근처에서 한 번도 평가되지 않았다. 주관 평가는 스크립트 8개 총 약 1시간, 평균 약 7.5분이다. 상한의 12분의 1 수준만 듣고 90분을 주장한다.",
+            "WER과 화자 유사도는 대리지표다. 과도하게 또박또박한 합성이 WER에서 유리해질 수 있는데 자연스러움과 WER의 상충을 다루지 않는다.",
+            "80배 압축의 기준은 표3에서 역산 가능하다. Encodec 8코드북 토큰레이트 600 대비 7.5로 정확히 80배다. 다만 이산 토큰 개수와 연속 잠재 1개를 같은 축에 놓은 비교라 압축률 우위의 의미가 과대해 보일 수 있다. 표3 지표(PESQ, STOI, UTMOS)도 LibriTTS 낭독체 한정이라 대화체와 잡음 환경 일반화는 미확인이다.",
+            "스트리밍 친화 설계(self-attention 대신 1D depth-wise causal conv)를 내세우지만 RTF, 지연시간, 스트리밍 성능 수치가 본문에 전혀 없다. 확인 완료 사항이다.",
+            "핵심 하이퍼파라미터가 빠져 있다. 토크나이저는 인코더/디코더 각 약 340M으로 명시했지만, 확산 헤드의 히든 차원과 파라미터 수, 음향 잠재 채널 수, C_sigma 값은 모두 없어 재구현이 불가능하다.",
+            "논문의 공개 경로와 실제 상태가 어긋난다. 2025년 9월 Microsoft가 TTS 코드를 저장소에서 삭제했고 microsoft/VibeVoice-Large 공식 페이지도 접근 불가다. 논문 링크만 따라가면 표1의 7B를 재현할 수 없다.",
+            "논문 수치는 안전 장치 없는 조건일 가능성이 크다. 워터마크와 가청 고지문은 본문에 언급조차 없고 HF 모델 카드에만 있다. 공개 코드로 WER, SIM을 재측정하면 조건이 달라진다.",
+            "논문 내부 불일치가 있다. 본문은 6개 모델을 평가했다고 적었지만 표1에는 8행이 있다. 본문 확인 필요.",
+            "공개된 7B(VibeVoice-Large)는 32K 컨텍스트, 약 45분으로 표기돼 초록의 64K/90분과 어긋난다. 90분은 1.5B 기준으로 보인다.",
+            "우위가 7B에만 걸려 있다. 표1에서 1.5B 평균 3.54는 Gemini 3.66보다 낮고 SIM 0.548은 CSM 0.685보다 낮다."
+          ]
+        },
+        "reproducibility": {
+          "code": "부분 공개, 이후 회수. 논문은 github.com/microsoft/VibeVoice 를 코드 경로로 명시하지만, 2025년 9월 Microsoft가 의도와 어긋난 사용 사례를 이유로 VibeVoice-TTS 코드를 저장소에서 삭제했다. 현재 공식 저장소에는 VibeVoice-ASR과 Realtime-0.5B 계열 코드만 남아 있다. 원본 TTS 추론 코드는 커뮤니티 포크(vibevoice-community/VibeVoice 등)에 보존돼 있다. 학습 코드와 토크나이저 사전학습 코드는 미공개.",
+          "data": "미공개. 학습 데이터의 규모, 출처, 구성이 논문에 기재되지 않았다. 평가 데이터만 확인 가능: SEED 테스트셋(CommonVoice 기반, 영어 약 1,000 샘플과 중국어 약 2,000 샘플), LibriTTS 테스트셋(토크나이저 복원 품질), 자체 장문 대화 스크립트 8개(약 1시간, 주관 평가용). 주관 평가는 어노테이터 24명, 1인당 약 6시간 오디오.",
+          "weights": "부분 공개. VibeVoice-1.5B는 HuggingFace(microsoft/VibeVoice-1.5B)에서 계속 다운로드 가능하다. 7B급 VibeVoice-Large 공식 페이지는 접근 불가(401)이나 커뮤니티 미러(aoi-ot/VibeVoice-Large, rsxdalv/VibeVoice-Large 등)에 가중치가 남아 있다. ModelScope 잔존 여부는 상충 정보가 있어 본문 확인 필요. 공개 Large 스펙은 32K 컨텍스트, 약 45분으로 논문 초록의 64K/90분과 어긋난다. 후속 VibeVoice-ASR(7B), ASR-BitNet, Realtime-0.5B는 공개 상태.",
+          "license": "MIT(가중치 및 추론 코드). 단 모델 카드가 연구개발 목적 한정과 상용/실서비스 비권장을 함께 명시하므로 라이선스 문구보다 사용 범위 제약이 실질적으로 더 강하다. arXiv 페이지 자체는 nonexclusive-distrib/1.0 표기.",
+          "note": "재현 난이도는 높지만 추론 재현은 가능하다. 코드는 커뮤니티 포크에, 1.5B는 HF 공식에, 7B는 HF 미러에 남아 있어 표1과 표2의 추론 재측정 경로가 아주 막힌 것은 아니다. 학습 재현은 데이터와 학습 코드 부재로 사실상 불가하다. 합성음에 가청 고지문과 워터마크가 들어가는데 이 사실은 논문이 아니라 모델 카드에만 있으므로, 지표 재측정 시 논문 수치와 조건이 다를 수 있다."
+        },
+        "my_learning_points": [
+          "프레임레이트를 토큰 예산으로 환산하는 계산을 직접 해보라. 24kHz에서 3200배 다운샘플이면 7.5Hz이고, 90분은 약 40,500 프레임이다. 64K 컨텍스트에 텍스트와 음성 프롬프트까지 들어가는데 어떻게 들어맞는지 손으로 맞춰보면 이 논문이 왜 압축률을 1번 문제로 잡았는지 체감된다. 이어서 HF의 1.5B 토크나이저만 떼어내 몇 문장을 인코딩-디코딩하고 PESQ/UTMOS를 재측정해 표3의 주장 범위를 확인하라.",
+          "이산 코덱(RVQ)에서 연속 잠재 + 확산 헤드로 넘어갈 때 무엇이 사라지고 무엇이 새로 생기는지 목록으로 정리하라. 코드북 붕괴, 다중 코드북 예측 순서, 양자화 오차가 사라지는 대신 디노이징 스텝 수(여기서는 DPM-Solver++ 10스텝)와 CFG 스케일(1.3) 튜닝 부담이 생긴다. 같은 트레이드오프를 이미지 토크나이저 계열과 나란히 정리해두면 이후 멀티모달 논문 독해 속도가 붙는다.",
+          "저자들이 생략한 어블레이션을 자기 실험 주제로 가져오라. 특히 의미 토크나이저를 뺐을 때 WER이 얼마나 나빠지는가, 길이 커리큘럼(4,096 -> 65,536)을 생략하고 처음부터 긴 시퀀스로 학습하면 화자 일관성이 어떻게 무너지는가는 소규모로도 검증 가능한 질문이다. 논문의 빈칸이 곧 개인 실험 설계의 출발점이라는 습관을 여기서 들여두면 좋다."
+        ],
+        "related_work": {
+          "prior": [
+            {
+              "title": "Multimodal Latent Language Modeling with Next-Token Diffusion (LatentLM)",
+              "id": "arXiv:2412.08635",
+              "why": "next-token diffusion과 sigma-VAE 설계의 직접적 출처. VibeVoice는 이 틀을 장문 다화자 음성으로 옮긴 응용이다."
+            },
+            {
+              "title": "High Fidelity Neural Audio Compression (EnCodec)",
+              "id": "arXiv:2210.13438",
+              "why": "80배 압축 주장의 비교 기준선. 표3에서 8코드북 토큰레이트 600으로 등장한다."
+            },
+            {
+              "title": "High-Fidelity Audio Compression with Improved RVQGAN (DAC)",
+              "id": "arXiv:2306.06546",
+              "why": "음향 토크나이저의 판별자 구성과 손실 설계를 따랐다고 밝힌 근거 논문."
+            },
+            {
+              "title": "Qwen2.5 Technical Report",
+              "id": "arXiv:2412.15115",
+              "why": "LLM 백본(1.5B, 7B). 텍스트-음성 정렬 능력의 출처."
+            },
+            {
+              "title": "DPM-Solver++",
+              "id": "arXiv:2211.01095",
+              "why": "추론 시 10스텝 디노이징을 가능하게 한 샘플러."
+            },
+            {
+              "title": "MoonCast: High-Quality Zero-Shot Podcast Generation",
+              "id": "arXiv:2503.14345",
+              "why": "장문 팟캐스트 생성 선행 연구이자 표1 베이스라인."
+            },
+            {
+              "title": "Seed-TTS",
+              "id": "arXiv:2406.02430",
+              "why": "SEED 평가 프로토콜 제공. 표2 CER/WER 대조군."
+            },
+            {
+              "title": "CosyVoice 2",
+              "id": "arXiv:2412.10117",
+              "why": "LLM 기반 스트리밍 합성 대표 선행. 표2 베이스라인으로 실제 등장한다."
+            }
+          ],
+          "followup": [
+            {
+              "title": "VibeVoice-ASR Technical Report",
+              "id": "arXiv:2601.18184",
+              "why": "본편을 직접 계승한 정식 학술 후속. 동일 표현을 인식, 화자 분할, 타임스탬프 통합 과제로 확장하고 64K 컨텍스트로 60분 단일 패스를 처리한다. 50개 이상 언어 지원."
+            },
+            {
+              "title": "VibeVoice-ASR-BitNet Technical Report",
+              "id": "arXiv:2607.21075",
+              "why": "ASR 후속의 저비트 양자화판. CPU 실시간 추론을 목표로 한다."
+            },
+            {
+              "title": "VibeVoice-Realtime-0.5B",
+              "id": "별도 논문 미확인",
+              "why": "스트리밍 실시간 TTS 후속. 원 논문의 causal convolution 기반 스트리밍 친화 설계가 실제로 이어진 경로."
+            },
+            {
+              "title": "vibevoice-community/VibeVoice (커뮤니티 포크)",
+              "id": "해당 없음",
+              "why": "공식 TTS 코드 삭제 이후 원본 추론 코드를 보존한 사실상의 재현 경로. 학술 후속이 아니라 배포 생태계 차원의 후속."
+            }
+          ]
+        },
+        "claude_note": "VibeVoice의 기여는 새 생성 패러다임이 아니라 압축률이라는 병목을 정확히 골라 밀어붙인 엔지니어링 판단에 있다. 7.5Hz라는 극단적 프레임레이트가 64K 컨텍스트를 90분으로 환산해주고, 나머지 설계(하이브리드 토크나이저, 4층 확산 헤드, 길이 커리큘럼)는 그 압축을 감당하기 위한 보조 장치로 읽힌다. 다만 테크니컬 리포트답게 학습 데이터와 어블레이션이 통째로 비어 있어 성능의 출처가 데이터인지 구조인지 판별할 수 없고, 90분 생성의 품질 저하를 시간축으로 측정한 지표도 없다. 저자들이 스스로 공개 코드를 회수하고 7B 가중치 배포를 막은 탓에 재현 경로가 커뮤니티 포크에 의존하게 된 점은, 기술적 한계가 아니라 배포 거버넌스가 재현성을 깎은 드문 사례로 기록해둘 만하다. 읽을 때는 MOS 3.75 대 3.65 같은 근소한 주관 점수 차를 과대 해석하지 말고, 압축률 대비 복원 품질 우위(표3)가 이 논문의 진짜 주장이라고 보는 편이 정확하다.",
+        "analyzed_at": "2026-08-03"
+      },
+      "learning": {
+        "key_terms": [
+          {
+            "term": "TTS (Speech Synthesis)",
+            "gloss": "텍스트를 음성으로 합성하는 기술"
+          },
+          {
+            "term": "Next-token Diffusion",
+            "gloss": "다음 토큰(잠재 벡터)을 확산으로 생성하는 자기회귀 방식"
+          },
+          {
+            "term": "Encodec",
+            "gloss": "오디오를 이산 토큰으로 압축하는 대표 뉴럴 코덱(비교 기준)"
+          }
+        ],
+        "recall_quiz": {
+          "question": "VibeVoice의 연속 음성 토크나이저가 Encodec 대비 이룬 핵심 개선은?",
+          "answer": "성능은 대등하게 유지하면서 데이터 압축을 80배 개선 — 긴 시퀀스 처리 효율을 크게 높였다."
+        },
+        "spaced_review": {
+          "flag": false,
+          "review_due": null
+        }
+      }
+    }
+  ],
+  "week_summary": {
+    "headline_ko": "생성 모달리티 대폭발(비디오·3D·음성) + 오픈 프론티어 Kimi K3(▲431 역대 최고) — TradingAgents 7주 연속 종료",
+    "clusters": [
+      {
+        "category": "Vision",
+        "paper_ranks": [
+          4,
+          5
+        ],
+        "theme_ko": "생성 폭발 — 비디오(LongCat-Video)·3D(O-Voxel) 생성"
+      },
+      {
+        "category": "Multimodal",
+        "paper_ranks": [
+          2,
+          6
+        ],
+        "theme_ko": "문서 파싱(Unlimited OCR)·음성 생성(VibeVoice, 오디오 3주째)"
+      },
+      {
+        "category": "LLM/Agents",
+        "paper_ranks": [
+          1
+        ],
+        "theme_ko": "오픈 프론티어 모델 — Kimi K3(2.8T MoE·1M 컨텍스트·가중치 공개)"
+      },
+      {
+        "category": "Data",
+        "paper_ranks": [
+          3
+        ],
+        "theme_ko": "금융 시계열 FM(Kronos, 2주 연속)"
+      }
+    ],
+    "emerging_keywords": [
+      "video-generation",
+      "speech-synthesis",
+      "3d-generation"
+    ],
+    "narrative_ko": "이번 주는 '생성 대폭발'이었다 — 비디오(LongCat-Video, 분 단위 긴 영상), 3D(O-Voxel로 임의 위상 자산), 음성(VibeVoice, 90분·4화자) 생성이 한꺼번에 트렌딩했다. 동시에 오픈 프론티어 모델 Kimi K3가 ▲431로 역대 최고 관심을 받았다(2.8T MoE·1M 컨텍스트·가중치 공개, 최상위 상용엔 못 미쳐도 다른 오픈·상용은 능가). 한편 7주 연속이던 TradingAgents가 이번 주 빠지며 최장 기록이 마감됐다. 효율화는 8주째 모든 것을 관통했다(MoE·Block Sparse·80배 압축 토크나이저·Sparse VAE).",
+    "recent_trend_ko": "누적 8주차. [대폭발] 생성 모달리티가 한꺼번에 터졌다 — 비디오·3D·음성 생성이 같은 주에 나란히 올랐고, 지난주 이미지(Mage-Flow)까지 더하면 최근 2주에 이미지·비디오·3D·음성 생성이 모두 트렌딩했다. 7월의 '릴레이'가 8월 초 '합창'이 된 셈. [이벤트] 오픈 프론티어 Kimi K3가 ▲431(역대 최고)로 등장 — 프론티어 성능을 오픈 가중치로 공개. [지속] 오디오/음성 3주 연속(CALM→Moonshine→VibeVoice), 효율화 8주째 전방위(MoE·Block Sparse·80배 압축·Sparse VAE). [종료] TradingAgents의 7주 연속이 끊기고 SkillOpt도 빠져 순수 '에이전트 프레임워크'가 잠시 물러났다 — 다만 Kimi K3가 '에이전트 능력'을 모델에 내재화한 점은 에이전트 흐름의 다른 형태다. [지속] 문서파싱(Unlimited OCR)·금융(Kronos) 각 2주 연속.",
+    "caveats_ko": "주 6편 트렌딩 표본 기준이며 HuggingFace 커뮤니티의 인기·최신 편향이 있습니다. 업보트·스타는 중요도가 아닌 '관심도' 지표로만 해석하세요. Kimi K3의 '프론티어급' 성능 주장은 상당 부분 자체 평가 스위트 기준이므로 독립 벤치마크로 재확인이 필요합니다."
+  }
+}
