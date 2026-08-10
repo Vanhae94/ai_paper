@@ -1,0 +1,3148 @@
+[
+  {
+    "paper": {
+      "id": "2412.20138",
+      "authors": [
+        {
+          "_id": "6847673b3ec10bdd8ab4dd5e",
+          "user": {
+            "_id": "619b6a24030b707ff1f05dee",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/619b6a24030b707ff1f05dee/8FZjePfOuTtN3uvTmaEg5.jpeg",
+            "isPro": false,
+            "fullname": "Yijia Xiao",
+            "user": "Yijia-Xiao",
+            "type": "user",
+            "name": "Yijia-Xiao"
+          },
+          "name": "Yijia Xiao",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-08-08T16:45:04.607Z",
+          "hidden": false
+        },
+        {
+          "_id": "6847673b3ec10bdd8ab4dd5f",
+          "name": "Edward Sun",
+          "hidden": false
+        },
+        {
+          "_id": "6847673b3ec10bdd8ab4dd60",
+          "name": "Di Luo",
+          "hidden": false
+        },
+        {
+          "_id": "6847673b3ec10bdd8ab4dd61",
+          "name": "Wei Wang",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2024-12-28T12:54:06.000Z",
+      "title": "TradingAgents: Multi-Agents LLM Financial Trading Framework",
+      "summary": "Significant progress has been made in automated problem-solving using\nsocieties of agents powered by large language models (LLMs). In finance,\nefforts have largely focused on single-agent systems handling specific tasks or\nmulti-agent frameworks independently gathering data. However, the multi-agent\nsystems' potential to replicate real-world trading firms' collaborative\ndynamics remains underexplored. TradingAgents proposes a novel stock trading\nframework inspired by trading firms, featuring LLM-powered agents in\nspecialized roles such as fundamental analysts, sentiment analysts, technical\nanalysts, and traders with varied risk profiles. The framework includes Bull\nand Bear researcher agents assessing market conditions, a risk management team\nmonitoring exposure, and traders synthesizing insights from debates and\nhistorical data to make informed decisions. By simulating a dynamic,\ncollaborative trading environment, this framework aims to improve trading\nperformance. Detailed architecture and extensive experiments reveal its\nsuperiority over baseline models, with notable improvements in cumulative\nreturns, Sharpe ratio, and maximum drawdown, highlighting the potential of\nmulti-agent LLM frameworks in financial trading. TradingAgents is available at\nhttps://github.com/TauricResearch/TradingAgents.",
+      "upvotes": 119,
+      "discussionId": "6847673c3ec10bdd8ab4dd62",
+      "githubRepo": "https://github.com/tauricresearch/tradingagents",
+      "githubRepoAddedBy": "auto",
+      "ai_summary": "A multi-agent framework using large language models for stock trading simulates real-world trading firms, improving performance metrics like cumulative returns and Sharpe ratio.",
+      "ai_keywords": [
+        "large language models",
+        "LLM",
+        "multi-agent systems",
+        "fundamental analysts",
+        "sentiment analysts",
+        "technical analysts",
+        "traders",
+        "risk management",
+        "cumulative returns",
+        "Sharpe ratio",
+        "maximum drawdown"
+      ],
+      "ai_summary_model": "Qwen/Qwen2.5-Coder-32B-Instruct",
+      "githubStars": 96840
+    },
+    "publishedAt": "2024-12-28T07:54:06.000Z",
+    "title": "TradingAgents: Multi-Agents LLM Financial Trading Framework",
+    "summary": "Significant progress has been made in automated problem-solving using\nsocieties of agents powered by large language models (LLMs). In finance,\nefforts have largely focused on single-agent systems handling specific tasks or\nmulti-agent frameworks independently gathering data. However, the multi-agent\nsystems' potential to replicate real-world trading firms' collaborative\ndynamics remains underexplored. TradingAgents proposes a novel stock trading\nframework inspired by trading firms, featuring LLM-powered agents in\nspecialized roles such as fundamental analysts, sentiment analysts, technical\nanalysts, and traders with varied risk profiles. The framework includes Bull\nand Bear researcher agents assessing market conditions, a risk management team\nmonitoring exposure, and traders synthesizing insights from debates and\nhistorical data to make informed decisions. By simulating a dynamic,\ncollaborative trading environment, this framework aims to improve trading\nperformance. Detailed architecture and extensive experiments reveal its\nsuperiority over baseline models, with notable improvements in cumulative\nreturns, Sharpe ratio, and maximum drawdown, highlighting the potential of\nmulti-agent LLM frameworks in financial trading. TradingAgents is available at\nhttps://github.com/TauricResearch/TradingAgents.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2412.20138.png",
+    "numComments": 4,
+    "isAuthorParticipating": false
+  },
+  {
+    "paper": {
+      "id": "2606.23050",
+      "authors": [
+        {
+          "_id": "6a3a0c36fdcd3514343bb651",
+          "user": {
+            "_id": "66bc1f9c8543e3883f2082db",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/66bc1f9c8543e3883f2082db/RnmVK90E4VUIkUKcAG3yz.jpeg",
+            "isPro": false,
+            "fullname": "Youyang Yin",
+            "user": "HYPERUU",
+            "type": "user",
+            "name": "HYPERUU"
+          },
+          "name": "Youyang Yin",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-06-23T13:56:12.255Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a3a0c36fdcd3514343bb652",
+          "name": "Huanhuan Liu",
+          "hidden": false
+        },
+        {
+          "_id": "6a3a0c36fdcd3514343bb653",
+          "name": "YY",
+          "hidden": false
+        },
+        {
+          "_id": "6a3a0c36fdcd3514343bb654",
+          "name": "Qunyi Xie",
+          "hidden": false
+        },
+        {
+          "_id": "6a3a0c36fdcd3514343bb655",
+          "name": "Chaorun Liu",
+          "hidden": false
+        },
+        {
+          "_id": "6a3a0c36fdcd3514343bb656",
+          "name": "Shiqi Yang",
+          "hidden": false
+        },
+        {
+          "_id": "6a3a0c36fdcd3514343bb657",
+          "name": "Shaohua Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a3a0c36fdcd3514343bb658",
+          "name": "Zhanlong Liu",
+          "hidden": false
+        },
+        {
+          "_id": "6a3a0c36fdcd3514343bb659",
+          "name": "Hao Zou",
+          "hidden": false
+        },
+        {
+          "_id": "6a3a0c36fdcd3514343bb65a",
+          "name": "Jinyue Chen",
+          "hidden": false
+        },
+        {
+          "_id": "6a3a0c36fdcd3514343bb65b",
+          "name": "Shu Wei",
+          "hidden": false
+        },
+        {
+          "_id": "6a3a0c36fdcd3514343bb65c",
+          "name": "Jingjing Wu",
+          "hidden": false
+        },
+        {
+          "_id": "6a3a0c36fdcd3514343bb65d",
+          "name": "Mingxin Huang",
+          "hidden": false
+        },
+        {
+          "_id": "6a3a0c36fdcd3514343bb65e",
+          "name": "Zhen Wu",
+          "hidden": false
+        },
+        {
+          "_id": "6a3a0c36fdcd3514343bb65f",
+          "name": "Guibin Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a3a0c36fdcd3514343bb660",
+          "name": "Tengyu Du",
+          "hidden": false
+        },
+        {
+          "_id": "6a3a0c36fdcd3514343bb661",
+          "name": "Lei Jia",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2026-06-22T00:00:00.000Z",
+      "submittedOnDailyAt": "2026-06-23T00:00:00.000Z",
+      "title": "Unlimited OCR Works",
+      "submittedOnDailyBy": {
+        "_id": "6039478ab3ecf716b1a5fd4d",
+        "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/6039478ab3ecf716b1a5fd4d/_Thy4E7taiSYBLKxEKJbT.jpeg",
+        "isPro": true,
+        "fullname": "taesiri",
+        "user": "taesiri",
+        "type": "user",
+        "name": "taesiri"
+      },
+      "summary": "Recently, end-to-end OCR models, exemplified by DeepSeek OCR, have once again thrust OCR into the spotlight. A widely held view is that employing a large language model (LLM) as the decoder allows the model to leverage the prior distribution of language, leading to improved OCR performance. However, the downside is equally evident: as the output sequence lengthens, the accumulated KV cache drives up memory consumption and progressively slows down generation. This stands in stark contrast to humans, who exhibit no such decline in efficiency during long-horizon copying tasks. In this technical report, we propose Unlimited OCR, a model designed to emulate human parsing working memory. Taking DeepSeek OCR as the baseline, we replace all attention layers in the decoder with our proposed Reference Sliding Window Attention (R-SWA), which reduces attention computation costs while maintaining a constant KV cache throughout the entire decoding process. By combining the high compression rate of DeepSeek OCR's encoder with our constant KV cache design, Unlimited OCR can transcribe dozens of pages of documents in a single forward pass under a standard maximum length of 32K. More importantly, R-SWA is a general-purpose parsing attention mechanism - beyond OCR, it is equally applicable to tasks such as ASR, translation, etc. Codes and model weights are publicly available at http://github.com/baidu/Unlimited-OCR.",
+      "upvotes": 79,
+      "discussionId": "6a3a0c36fdcd3514343bb662",
+      "githubRepo": "https://github.com/baidu/Unlimited-OCR",
+      "githubRepoAddedBy": "user",
+      "ai_summary": "Unlimited OCR introduces Reference Sliding Window Attention to eliminate growing memory consumption during long-sequence OCR tasks, enabling efficient transcription of multiple pages in a single forward pass.",
+      "ai_keywords": [
+        "end-to-end OCR",
+        "large language model",
+        "decoder",
+        "KV cache",
+        "attention layers",
+        "Reference Sliding Window Attention",
+        "document transcription",
+        "sequence length",
+        "memory consumption",
+        "working memory",
+        "parsing attention mechanism",
+        "ASR",
+        "translation"
+      ],
+      "ai_summary_model": "Qwen/Qwen2.5-Coder-32B-Instruct",
+      "githubStars": 23102,
+      "organization": {
+        "_id": "626a6d6b4909b521e1f59ce5",
+        "name": "baidu",
+        "fullname": "BAIDU",
+        "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/64f187a2cc1c03340ac30498/TYYUxK8xD1AxExFMWqbZD.png"
+      }
+    },
+    "publishedAt": "2026-06-21T20:00:00.000Z",
+    "title": "Unlimited OCR Works",
+    "summary": "Recently, end-to-end OCR models, exemplified by DeepSeek OCR, have once again thrust OCR into the spotlight. A widely held view is that employing a large language model (LLM) as the decoder allows the model to leverage the prior distribution of language, leading to improved OCR performance. However, the downside is equally evident: as the output sequence lengthens, the accumulated KV cache drives up memory consumption and progressively slows down generation. This stands in stark contrast to humans, who exhibit no such decline in efficiency during long-horizon copying tasks. In this technical report, we propose Unlimited OCR, a model designed to emulate human parsing working memory. Taking DeepSeek OCR as the baseline, we replace all attention layers in the decoder with our proposed Reference Sliding Window Attention (R-SWA), which reduces attention computation costs while maintaining a constant KV cache throughout the entire decoding process. By combining the high compression rate of DeepSeek OCR's encoder with our constant KV cache design, Unlimited OCR can transcribe dozens of pages of documents in a single forward pass under a standard maximum length of 32K. More importantly, R-SWA is a general-purpose parsing attention mechanism - beyond OCR, it is equally applicable to tasks such as ASR, translation, etc. Codes and model weights are publicly available at http://github.com/baidu/Unlimited-OCR.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2606.23050.png",
+    "numComments": 6,
+    "submittedBy": {
+      "_id": "6039478ab3ecf716b1a5fd4d",
+      "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/6039478ab3ecf716b1a5fd4d/_Thy4E7taiSYBLKxEKJbT.jpeg",
+      "fullname": "taesiri",
+      "name": "taesiri",
+      "type": "user",
+      "isPro": true,
+      "isHf": false,
+      "isHfAdmin": false,
+      "isMod": false,
+      "followerCount": 354,
+      "isUserFollowing": false
+    },
+    "organization": {
+      "_id": "626a6d6b4909b521e1f59ce5",
+      "name": "baidu",
+      "fullname": "BAIDU",
+      "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/64f187a2cc1c03340ac30498/TYYUxK8xD1AxExFMWqbZD.png"
+    },
+    "isAuthorParticipating": true
+  },
+  {
+    "paper": {
+      "id": "2608.03974",
+      "authors": [
+        {
+          "_id": "6a729ba11a375f948521c372",
+          "name": "Yicheng Xiao",
+          "hidden": false
+        },
+        {
+          "_id": "6a729ba11a375f948521c373",
+          "name": "Wenxun Dai",
+          "hidden": false
+        },
+        {
+          "_id": "6a729ba11a375f948521c374",
+          "name": "Xinran Qin",
+          "hidden": false
+        },
+        {
+          "_id": "6a729ba11a375f948521c375",
+          "name": "Lin Song",
+          "hidden": false
+        },
+        {
+          "_id": "6a729ba11a375f948521c376",
+          "name": "Maoquan Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "6a729ba11a375f948521c377",
+          "name": "Hang Xu",
+          "hidden": false
+        },
+        {
+          "_id": "6a729ba11a375f948521c378",
+          "name": "Yukang Chen",
+          "hidden": false
+        },
+        {
+          "_id": "6a729ba11a375f948521c379",
+          "name": "Yitong Li",
+          "hidden": false
+        },
+        {
+          "_id": "6a729ba11a375f948521c37a",
+          "name": "Guohui Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "6a729ba11a375f948521c37b",
+          "name": "Yuan Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "6a729ba11a375f948521c37c",
+          "name": "Xuying Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "6a729ba11a375f948521c37d",
+          "name": "Tommy Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "6a729ba11a375f948521c37e",
+          "name": "Jianlong Yuan",
+          "hidden": false
+        },
+        {
+          "_id": "6a729ba11a375f948521c37f",
+          "name": "Peihao Li",
+          "hidden": false
+        },
+        {
+          "_id": "6a729ba11a375f948521c380",
+          "name": "Shuai Lu",
+          "hidden": false
+        },
+        {
+          "_id": "6a729ba11a375f948521c381",
+          "name": "Siming Fu",
+          "hidden": false
+        },
+        {
+          "_id": "6a729ba11a375f948521c382",
+          "name": "Chuyang Zhao",
+          "hidden": false
+        },
+        {
+          "_id": "6a729ba11a375f948521c383",
+          "name": "Xin Han",
+          "hidden": false
+        },
+        {
+          "_id": "6a729ba11a375f948521c384",
+          "name": "Jie Huang",
+          "hidden": false
+        },
+        {
+          "_id": "6a729ba11a375f948521c385",
+          "name": "Wenbo Li",
+          "hidden": false
+        },
+        {
+          "_id": "6a729ba11a375f948521c386",
+          "name": "Guoqing Ma",
+          "hidden": false
+        },
+        {
+          "_id": "6a729ba11a375f948521c387",
+          "user": {
+            "_id": "656db3f53dc1d277e5a64410",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/656db3f53dc1d277e5a64410/9kiY2K3MCRcBDk7MrkTBK.png",
+            "isPro": false,
+            "fullname": "Wei Huang",
+            "user": "AaronHuangWei",
+            "type": "user",
+            "name": "AaronHuangWei"
+          },
+          "name": "Wei Huang",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-08-05T08:45:04.532Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a729ba11a375f948521c388",
+          "name": "Xiaojuan Qi",
+          "hidden": false
+        },
+        {
+          "_id": "6a729ba11a375f948521c389",
+          "name": "Haoyang Huang",
+          "hidden": false
+        },
+        {
+          "_id": "6a729ba11a375f948521c38a",
+          "name": "Nan Duan",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2026-08-04T00:00:00.000Z",
+      "submittedOnDailyAt": "2026-08-05T00:00:00.000Z",
+      "title": "JoyAI-Video-Edit: Real-Time Open-Ended Video Editing with Autoregressive Diffusion",
+      "submittedOnDailyBy": {
+        "_id": "6039478ab3ecf716b1a5fd4d",
+        "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/6039478ab3ecf716b1a5fd4d/_Thy4E7taiSYBLKxEKJbT.jpeg",
+        "isPro": true,
+        "fullname": "taesiri",
+        "user": "taesiri",
+        "type": "user",
+        "name": "taesiri"
+      },
+      "summary": "Real-time video editing requires low-latency causal generation with bounded computational resources while preserving source fidelity and long-term temporal consistency. We present JoyAI-Video-Edit, a 16B-parameter autoregressive diffusion framework for real-time, open-ended video editing without access to future frames or a predefined video duration. Our method combines chunk-wise autoregressive adaptation, Source-Anchored Distribution Matching Distillation (SA-DMD), and Long-Horizon Autoregressive Distillation to reduce train--inference mismatch, preserve source fidelity during two-step generation, and mitigate accumulated temporal drift. Extensive automatic and human evaluations show that JoyAI-Video-Edit substantially outperforms existing streaming editors and remains competitive with strong offline systems on both short and long videos. The complete system achieves end-to-end 720p video editing at approximately 30 FPS on a single Nvidia B200 GPU. Code is available at https://github.com/jd-opensource/JoyAI-Video-Edit.",
+      "upvotes": 89,
+      "discussionId": "6a729ba21a375f948521c38b",
+      "githubRepo": "https://github.com/jd-opensource/JoyAI-Video-Edit",
+      "githubRepoAddedBy": "user",
+      "githubStars": 587,
+      "organization": {
+        "_id": "682a97a154b087448a5504ee",
+        "name": "jingdong1",
+        "fullname": "jingdong",
+        "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/682a966182dc4fc3e373e3ed/9xUgXZCij6qGJpLqpR99M.png"
+      }
+    },
+    "publishedAt": "2026-08-03T20:00:00.000Z",
+    "title": "JoyAI-Video-Edit: Real-Time Open-Ended Video Editing with Autoregressive Diffusion",
+    "summary": "Real-time video editing requires low-latency causal generation with bounded computational resources while preserving source fidelity and long-term temporal consistency. We present JoyAI-Video-Edit, a 16B-parameter autoregressive diffusion framework for real-time, open-ended video editing without access to future frames or a predefined video duration. Our method combines chunk-wise autoregressive adaptation, Source-Anchored Distribution Matching Distillation (SA-DMD), and Long-Horizon Autoregressive Distillation to reduce train--inference mismatch, preserve source fidelity during two-step generation, and mitigate accumulated temporal drift. Extensive automatic and human evaluations show that JoyAI-Video-Edit substantially outperforms existing streaming editors and remains competitive with strong offline systems on both short and long videos. The complete system achieves end-to-end 720p video editing at approximately 30 FPS on a single Nvidia B200 GPU. Code is available at https://github.com/jd-opensource/JoyAI-Video-Edit.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2608.03974.png",
+    "numComments": 1,
+    "submittedBy": {
+      "_id": "6039478ab3ecf716b1a5fd4d",
+      "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/6039478ab3ecf716b1a5fd4d/_Thy4E7taiSYBLKxEKJbT.jpeg",
+      "fullname": "taesiri",
+      "name": "taesiri",
+      "type": "user",
+      "isPro": true,
+      "isHf": false,
+      "isHfAdmin": false,
+      "isMod": false,
+      "followerCount": 354,
+      "isUserFollowing": false
+    },
+    "organization": {
+      "_id": "682a97a154b087448a5504ee",
+      "name": "jingdong1",
+      "fullname": "jingdong",
+      "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/682a966182dc4fc3e373e3ed/9xUgXZCij6qGJpLqpR99M.png"
+    },
+    "isAuthorParticipating": false
+  },
+  {
+    "paper": {
+      "id": "2607.24653",
+      "authors": [
+        {
+          "_id": "6a681e3e73f69d5af2bec64b",
+          "name": "Kimi Team",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec64c",
+          "name": "Tongtong Bai",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec64d",
+          "name": "Yifan Bai",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec64e",
+          "name": "Yiping Bao",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec64f",
+          "name": "M. C.",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec650",
+          "name": "Jianfeng Cai",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec651",
+          "name": "Xinyuan Cai",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec652",
+          "name": "Peizhou Cao",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec653",
+          "name": "Yuxuan Cao",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec654",
+          "name": "Ziwei Chai",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec655",
+          "name": "Y. Charles",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec656",
+          "name": "H. S. Che",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec657",
+          "name": "Guanduo Chen",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec658",
+          "name": "Guangyu Chen",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec659",
+          "name": "Guanzheng Chen",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec65a",
+          "name": "Huarong Chen",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec65b",
+          "name": "Jia Chen",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec65c",
+          "name": "Jianlong Chen",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec65d",
+          "name": "Jun Chen",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec65e",
+          "name": "Kexin Chen",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec65f",
+          "name": "Peng Chen",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec660",
+          "name": "Ruijue Chen",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec661",
+          "name": "Wentao Chen",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec662",
+          "name": "Xin Chen",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec663",
+          "name": "Yang Chen",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec664",
+          "name": "Yanru Chen",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec665",
+          "name": "Yifei Chen",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec666",
+          "name": "Yingjiang Chen",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec667",
+          "name": "Yuankun Chen",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec668",
+          "name": "Yujie Chen",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec669",
+          "name": "Yutian Chen",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec66a",
+          "name": "Zhirong Chen",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec66b",
+          "name": "Dazhi Cheng",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec66c",
+          "name": "Yean Cheng",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec66d",
+          "name": "Jialei Cui",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec66e",
+          "name": "Jingbing Cui",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec66f",
+          "name": "Anqi Dai",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec670",
+          "user": {
+            "_id": "66eeeb2ae65d94c88e9af620",
+            "avatarUrl": "/avatars/a25657d634878e9d53ada19feb38149a.svg",
+            "isPro": false,
+            "fullname": "Jiaqi Deng",
+            "user": "MillanK",
+            "type": "user",
+            "name": "MillanK"
+          },
+          "name": "Jiaqi Deng",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-07-28T08:45:04.598Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec671",
+          "name": "Hao Ding",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec672",
+          "name": "Rui Ding",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec673",
+          "name": "Shaofeng Ding",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec674",
+          "name": "Mengfan Dong",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec675",
+          "name": "Mengnan Dong",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec676",
+          "user": {
+            "_id": "652965773a416e1f2173443b",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/652965773a416e1f2173443b/y9MB8YgHzbwCXAc4EI9T3.jpeg",
+            "isPro": false,
+            "fullname": "Yuhao Dong",
+            "user": "THUdyh",
+            "type": "user",
+            "name": "THUdyh"
+          },
+          "name": "Yuhao Dong",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-07-29T08:45:04.322Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec677",
+          "name": "Yuxin Dong",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec678",
+          "name": "Angang Du",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec679",
+          "name": "Chenzhuang Du",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec67a",
+          "name": "Dikang Du",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec67b",
+          "user": {
+            "_id": "65003e857804f04a163328d9",
+            "avatarUrl": "/avatars/fe32150aabfde8d283b38ccebcf6982e.svg",
+            "isPro": false,
+            "fullname": "Jusen Du",
+            "user": "JusenK",
+            "type": "user",
+            "name": "JusenK"
+          },
+          "name": "Jusen Du",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-07-31T08:45:05.317Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec67c",
+          "name": "Yulun Du",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec67d",
+          "name": "Yu Fan",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec67e",
+          "name": "Jing Feng",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec67f",
+          "name": "Qiulin Feng",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec680",
+          "name": "Yichen Feng",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec681",
+          "name": "Kelin Fu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec682",
+          "name": "Qiang Fu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec683",
+          "name": "Fuxuan Gao",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec684",
+          "name": "Hongcheng Gao",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec685",
+          "name": "Jingyue Gao",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec686",
+          "name": "Tong Gao",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec687",
+          "name": "Weijia Gao",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec688",
+          "name": "Shangyi Geng",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec689",
+          "name": "Jie Gong",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec68a",
+          "name": "Linhu Gong",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec68b",
+          "name": "Shengao Gong",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec68c",
+          "name": "Xiaochen Gong",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec68d",
+          "name": "Qizheng Gu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec68e",
+          "name": "Yicheng Gu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec68f",
+          "name": "Shuhao Guan",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec690",
+          "name": "Haiqing Guo",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec691",
+          "name": "Shiqi Guo",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec692",
+          "name": "Xiang Guo",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec693",
+          "name": "Zhengyan Guo",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec694",
+          "name": "Beixi Hao",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec695",
+          "name": "Wenxin Hao",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec696",
+          "name": "Xiaoru Hao",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec697",
+          "name": "Dailan He",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec698",
+          "name": "Haotian He",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec699",
+          "user": {
+            "_id": "6753c09d95f2fead90a3750a",
+            "avatarUrl": "/avatars/6d7db74a47cbb4206dd3796632f32936.svg",
+            "isPro": false,
+            "fullname": "helehan(SII)",
+            "user": "helehan",
+            "type": "user",
+            "name": "helehan"
+          },
+          "name": "Lehan He",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-07-28T08:58:06.831Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec69a",
+          "name": "Qi He",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec69b",
+          "name": "Weiran He",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec69c",
+          "name": "Xinran He",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec69d",
+          "name": "Xinyi He",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec69e",
+          "name": "Yibo He",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec69f",
+          "name": "Yunjia He",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6a0",
+          "name": "Chao Hong",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6a1",
+          "name": "Tiange Hong",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6a2",
+          "name": "Hao Hu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6a3",
+          "name": "Jiaxi Hu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6a4",
+          "name": "Ruikun Hu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6a5",
+          "name": "Weiming Hu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6a6",
+          "name": "Yangyang Hu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6a7",
+          "name": "Zhenxing Hu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6a8",
+          "name": "Liang Hua",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6a9",
+          "name": "Jinbin Huang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6aa",
+          "name": "Ke Huang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6ab",
+          "name": "Ruiyuan Huang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6ac",
+          "name": "Siying Huang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6ad",
+          "name": "Weixiao Huang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6ae",
+          "name": "Yan Huang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6af",
+          "name": "Zhengjie Huang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6b0",
+          "name": "Zhiqi Huang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6b1",
+          "name": "Yulong Hui",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6b2",
+          "name": "Chaobo Jia",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6b3",
+          "name": "Yutong Jiang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6b4",
+          "name": "Zhejun Jiang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6b5",
+          "name": "Zuoyou Jiang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6b6",
+          "name": "Wenyi Jin",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6b7",
+          "name": "Xinyi Jin",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6b8",
+          "name": "Yu Jing",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6b9",
+          "name": "Huanjun Kong",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6ba",
+          "name": "Guokun Lai",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6bb",
+          "name": "Aidi Li",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6bc",
+          "name": "Cheng Li",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6bd",
+          "name": "Chengyuan Li",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6be",
+          "name": "Cong Li",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6bf",
+          "name": "Fang Li",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6c0",
+          "name": "Guanyu Li",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6c1",
+          "name": "Haoyang Li",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6c2",
+          "name": "Jia Li",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6c3",
+          "name": "Junxiong Li",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6c4",
+          "name": "Lei Li",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6c5",
+          "name": "Letian Li",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6c6",
+          "name": "Lincan Li",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6c7",
+          "name": "Weihong Li",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6c8",
+          "name": "Wentao Li",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6c9",
+          "name": "Xintong Li",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6ca",
+          "name": "Yang Li",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6cb",
+          "name": "Yishen Li",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6cc",
+          "name": "Yiwei Li",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6cd",
+          "name": "Yuxiao Li",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6ce",
+          "name": "Zhaowei Li",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6cf",
+          "name": "Zhaoxi Li",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6d0",
+          "name": "Zheming Li",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6d1",
+          "name": "Zhengxiao Li",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6d2",
+          "name": "Zhiyuan Li",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6d3",
+          "name": "Jiawei Lin",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6d4",
+          "name": "Xiaohan Lin",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6d5",
+          "name": "Yibo Lin",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6d6",
+          "name": "Zichao Lin",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6d7",
+          "name": "Ziyan Lin",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6d8",
+          "name": "Bill Liu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6d9",
+          "name": "Boxiao Liu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6da",
+          "name": "Chuan Liu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6db",
+          "name": "Liang Liu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6dc",
+          "name": "Shaowei Liu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6dd",
+          "user": {
+            "_id": "654ce87af0b05673196a9f45",
+            "avatarUrl": "/avatars/7b9c854eb98e487e3057479b1c7860ac.svg",
+            "isPro": false,
+            "fullname": "Shudong Liu",
+            "user": "Sudanl",
+            "type": "user",
+            "name": "Sudanl"
+          },
+          "name": "Shudong Liu",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-07-28T08:45:04.624Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6de",
+          "name": "Shuran Liu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6df",
+          "name": "Tianwei Liu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6e0",
+          "name": "Weizhou Liu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6e1",
+          "name": "Yangyang Liu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6e2",
+          "name": "Yanming Liu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6e3",
+          "name": "Yibo Liu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6e4",
+          "name": "Yipeng Liu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6e5",
+          "name": "Zhengying Liu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6e6",
+          "name": "Zhiheng Liu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6e7",
+          "name": "Enzhe Lu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6e8",
+          "name": "Haoyu Lu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6e9",
+          "name": "Linqiang Lu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6ea",
+          "name": "Tingzhan Lu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6eb",
+          "name": "Zhiyuan Lu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6ec",
+          "name": "Aotian Luo",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6ed",
+          "name": "G. Luo",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6ee",
+          "user": {
+            "_id": "642da1cd99f3110ac27caca5",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/642da1cd99f3110ac27caca5/C1QJY3R_ZdaeANG1y8iW7.jpeg",
+            "isPro": false,
+            "fullname": "junyu",
+            "user": "luojunyu",
+            "type": "user",
+            "name": "luojunyu"
+          },
+          "name": "Junyu Luo",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-07-28T08:58:09.894Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6ef",
+          "user": {
+            "_id": "624dae2cb58d1313f8ba9a2d",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/624dae2cb58d1313f8ba9a2d/cFar_YWV8qtWUjOZeNKT0.png",
+            "isPro": false,
+            "fullname": "Yifan Luo",
+            "user": "Luobots",
+            "type": "user",
+            "name": "Luobots"
+          },
+          "name": "Yifan Luo",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-07-28T08:45:04.605Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6f0",
+          "name": "B. Lyu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6f1",
+          "name": "Wenzhou Lyu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6f2",
+          "user": {
+            "_id": "64af8d4b2cda6a37a4927d72",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/noauth/o37G6VkKSyP4N9xktFErV.png",
+            "isPro": false,
+            "fullname": "Shaoguang Mao",
+            "user": "dawnmsg",
+            "type": "user",
+            "name": "dawnmsg"
+          },
+          "name": "Shaoguang Mao",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-07-28T08:45:04.611Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6f3",
+          "name": "Yuan Mei",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6f4",
+          "name": "Xin Men",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6f5",
+          "name": "Minqing Ni",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6f6",
+          "name": "Yixuan Niu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6f7",
+          "name": "Siyuan Pan",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6f8",
+          "name": "Shujun Peng",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6f9",
+          "name": "Zhangyang Qi",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6fa",
+          "name": "Ruoyu Qin",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6fb",
+          "name": "ZeChao Qin",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6fc",
+          "name": "Zeyu Qin",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6fd",
+          "name": "Haiquan Qiu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6fe",
+          "name": "Jianxin Qiu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec6ff",
+          "name": "Jiezhong Qiu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec700",
+          "name": "Bowen Qu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec701",
+          "name": "Yuhao Qu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec702",
+          "name": "Zeyu Shang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec703",
+          "name": "Youbo Shao",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec704",
+          "name": "Han Shen",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec705",
+          "name": "Jincheng Shi",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec706",
+          "name": "Juanfeng Shi",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec707",
+          "name": "Lidong Shi",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec708",
+          "name": "Shengyuan Shi",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec709",
+          "name": "Wingchun Siu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec70a",
+          "name": "Pengwei Song",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec70b",
+          "name": "Xiaoxi Song",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec70c",
+          "name": "Jianlin Su",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec70d",
+          "name": "Yunfeng Su",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec70e",
+          "user": {
+            "_id": "64264095ba51f8a2136946a0",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/64264095ba51f8a2136946a0/FR33boVpkDXcrvGMBmprF.jpeg",
+            "isPro": false,
+            "fullname": "Zhaochen Su",
+            "user": "Warrieryes",
+            "type": "user",
+            "name": "Warrieryes"
+          },
+          "name": "Zhaochen Su",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-07-28T08:45:04.618Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec70f",
+          "name": "Lin Sui",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec710",
+          "name": "Jingsong Sun",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec711",
+          "name": "Junyao Sun",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec712",
+          "name": "Shaoning Sun",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec713",
+          "name": "Shuzhe Sun",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec714",
+          "name": "Tongyu Sun",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec715",
+          "name": "Yujun Sun",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec716",
+          "name": "Yunpeng Tai",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec717",
+          "name": "Chuning Tang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec718",
+          "name": "Heyi Tang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec719",
+          "name": "Sirui Tang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec71a",
+          "name": "Zecheng Tang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec71b",
+          "name": "Chaoran Tian",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec71c",
+          "name": "Rongpeng Tian",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec71d",
+          "name": "Yu Tian",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec71e",
+          "name": "Wei Tu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec71f",
+          "name": "Chensi Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec720",
+          "name": "Chuang Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec721",
+          "name": "Chunjie Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec722",
+          "name": "Dinglu Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec723",
+          "name": "Feng Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec724",
+          "name": "Hailong Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec725",
+          "name": "Haiming Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec726",
+          "name": "Hao Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec727",
+          "name": "Hao Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec728",
+          "name": "Huaqing Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec729",
+          "name": "Hui Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec72a",
+          "name": "Jiayi Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec72b",
+          "name": "Jinglong Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec72c",
+          "name": "Jinhong Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec72d",
+          "name": "Jiuzheng Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec72e",
+          "name": "Linian Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec72f",
+          "user": {
+            "_id": "66968099c952e09a4cb29f78",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/66968099c952e09a4cb29f78/n90NI2R3E9_RqCyMjDCQF.webp",
+            "isPro": false,
+            "fullname": "Wang",
+            "user": "Steven-Shaobo",
+            "type": "user",
+            "name": "Steven-Shaobo"
+          },
+          "name": "Shaobo Wang",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-07-28T08:58:12.154Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec730",
+          "name": "Shenzhi Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec731",
+          "name": "Shuyi Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec732",
+          "name": "Si Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec733",
+          "name": "Siyuan Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec734",
+          "name": "Tianfu Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec735",
+          "name": "Wenjue Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec736",
+          "name": "Xingran Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec737",
+          "name": "Xinmei Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec738",
+          "user": {
+            "_id": "67b327cdd4665a0448eef7d5",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/67b327cdd4665a0448eef7d5/_B5Z9MCa_qiFrDj1axKlz.png",
+            "isPro": true,
+            "fullname": "Xinyuan Wang",
+            "user": "xywang626",
+            "type": "user",
+            "name": "xywang626"
+          },
+          "name": "Xinyuan Wang",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-07-31T08:45:05.309Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec739",
+          "name": "Xusheng Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec73a",
+          "name": "Yalin Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec73b",
+          "name": "Yangkun Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec73c",
+          "name": "Yao Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec73d",
+          "name": "Yaoyu Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec73e",
+          "name": "Yejie Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec73f",
+          "name": "Yiqin Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec740",
+          "name": "Yucheng Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec741",
+          "name": "Yuzhi Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec742",
+          "name": "Zhaoji Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec743",
+          "name": "Zhaowei Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec744",
+          "name": "Zhengtao Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec745",
+          "name": "Zhenhao Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec746",
+          "name": "Zhongsheng Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec747",
+          "name": "Zifan Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec748",
+          "user": {
+            "_id": "635ddec594e5b275ca7941e8",
+            "avatarUrl": "/avatars/28ebfaee74d31e1de020a3ae735a4c1b.svg",
+            "isPro": false,
+            "fullname": "Chu Wei",
+            "user": "courage17340",
+            "type": "user",
+            "name": "courage17340"
+          },
+          "name": "Chu Wei",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-08-04T08:45:04.597Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec749",
+          "name": "Ming Wei",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec74a",
+          "name": "Shouxin Wei",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec74b",
+          "name": "Zichen Wen",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec74c",
+          "name": "Fan Wu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec74d",
+          "name": "Haoning Wu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec74e",
+          "name": "Rucong Wu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec74f",
+          "name": "Wenhao Wu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec750",
+          "name": "Xiaoxue Wu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec751",
+          "name": "Yingcong Wu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec752",
+          "name": "Yongqi Wu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec753",
+          "name": "Yuxin Wu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec754",
+          "name": "Zijian Wu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec755",
+          "name": "Xinglang Xian",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec756",
+          "name": "Chenxuan Xiang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec757",
+          "name": "Yuye Xiang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec758",
+          "name": "Bocheng Xiao",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec759",
+          "name": "Chenjun Xiao",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec75a",
+          "name": "Xin Xiao",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec75b",
+          "name": "Jin Xie",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec75c",
+          "name": "Xiaotong Xie",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec75d",
+          "name": "Yifeng Xie",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec75e",
+          "name": "Zhe Xie",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec75f",
+          "name": "Bowei Xing",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec760",
+          "name": "Yiming Xiong",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec761",
+          "name": "Baosheng Xu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec762",
+          "name": "Boyu Xu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec763",
+          "name": "Jiale Xu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec764",
+          "name": "Jianfan Xu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec765",
+          "name": "Jing Xu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec766",
+          "name": "Jinjing Xu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec767",
+          "name": "L. H. Xu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec768",
+          "name": "Qingtao Xu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec769",
+          "name": "Shuyao Xu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec76a",
+          "name": "Suting Xu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec76b",
+          "name": "Tiantian Xu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec76c",
+          "name": "Tianxiang Xu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec76d",
+          "name": "Weixin Xu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec76e",
+          "name": "Xinran Xu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec76f",
+          "name": "Yangchuan Xu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec770",
+          "name": "Ye Xu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec771",
+          "name": "Yueni Xu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec772",
+          "name": "Ziyao Xu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec773",
+          "name": "Haonan Xue",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec774",
+          "name": "Junjie Yan",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec775",
+          "name": "Yaoyao Yan",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec776",
+          "name": "Fan Yang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec777",
+          "name": "Guangyao Yang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec778",
+          "name": "Hao Yang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec779",
+          "name": "Junwei Yang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec77a",
+          "name": "Ruoyu Yang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec77b",
+          "name": "Wenjie Yang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec77c",
+          "name": "Xiaofei Yang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec77d",
+          "name": "Xinyu Yang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec77e",
+          "name": "Yi Yang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec77f",
+          "name": "Yiling Yang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec780",
+          "name": "Ying Yang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec781",
+          "name": "Yuchen Yang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec782",
+          "name": "Zhen Yang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec783",
+          "name": "Zhilin Yang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec784",
+          "name": "Zian Yang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec785",
+          "name": "Zuhao Yang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec786",
+          "name": "Haotian Yao",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec787",
+          "name": "Dan Ye",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec788",
+          "name": "Haoran Ye",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec789",
+          "name": "Wenjie Ye",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec78a",
+          "name": "Zhanbo Ye",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec78b",
+          "name": "Bohong Yin",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec78c",
+          "name": "Haoxiang Yin",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec78d",
+          "name": "Xietong Yin",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec78e",
+          "name": "Chengzhen Yu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec78f",
+          "name": "Haozhen Yu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec790",
+          "name": "Longhui Yu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec791",
+          "name": "Shengnan Yu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec792",
+          "name": "Shuying Yu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec793",
+          "name": "Tianxiang Yu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec794",
+          "name": "Enming Yuan",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec795",
+          "name": "Mengjie Yuan",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec796",
+          "name": "Tongtian Yue",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec797",
+          "name": "Wei Yue",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec798",
+          "name": "Yang Yue",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec799",
+          "name": "Dunyuan Zha",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec79a",
+          "name": "Haobing Zhan",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec79b",
+          "name": "B. H. Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec79c",
+          "name": "Dehao Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec79d",
+          "name": "Fei Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec79e",
+          "name": "Hao Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec79f",
+          "name": "Haoyuan Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec7a0",
+          "name": "Huanyu Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec7a1",
+          "name": "Jiapei Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec7a2",
+          "name": "Jiaxuan Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec7a3",
+          "name": "Jin Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec7a4",
+          "name": "Kaiyi Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec7a5",
+          "name": "Miaozhen Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec7a6",
+          "name": "Puqi Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec7a7",
+          "name": "Qinglei Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec7a8",
+          "name": "Rong Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec7a9",
+          "name": "Rui Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec7aa",
+          "name": "Shaoshuai Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec7ab",
+          "name": "Shiyi Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec7ac",
+          "name": "Xiaobin Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec7ad",
+          "user": {
+            "_id": "67f33b43ccb05db5f0190cf6",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/no-auth/c-UeSyHfO7QchwNXW9mgu.png",
+            "isPro": false,
+            "fullname": "ZhangXiaoyun",
+            "user": "DadaCloud01",
+            "type": "user",
+            "name": "DadaCloud01"
+          },
+          "name": "Xiaoyun Zhang",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-07-29T08:45:04.331Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec7ae",
+          "name": "Y. Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec7af",
+          "name": "Yangkun Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec7b0",
+          "name": "Ye Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec7b1",
+          "name": "Yichi Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec7b2",
+          "name": "Yikun Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec7b3",
+          "name": "Yizhi Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec7b4",
+          "name": "Yongting Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec7b5",
+          "user": {
+            "_id": "638f5839f6de4b9e7e1627fb",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/638f5839f6de4b9e7e1627fb/6QGkrqRag6-GnH9k60Oil.jpeg",
+            "isPro": false,
+            "fullname": "Yu Zhang",
+            "user": "yzhangcs",
+            "type": "user",
+            "name": "yzhangcs"
+          },
+          "name": "Yu Zhang",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-07-28T16:45:04.639Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec7b6",
+          "name": "Yutao Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec7b7",
+          "name": "Yutong Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec7b8",
+          "name": "Zheng Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec7b9",
+          "name": "Zijing Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec7ba",
+          "name": "Bin Zhao",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec7bb",
+          "name": "Chenguang Zhao",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec7bc",
+          "name": "Feifan Zhao",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec7bd",
+          "name": "Jinglun Zhao",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec7be",
+          "name": "Jinxiang Zhao",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec7bf",
+          "name": "Shuai Zhao",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec7c0",
+          "name": "Wenshuo Zhao",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec7c1",
+          "name": "Xiangyu Zhao",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec7c2",
+          "name": "Xuanle Zhao",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec7c3",
+          "name": "Yikai Zhao",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec7c4",
+          "name": "Zijia Zhao",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec7c5",
+          "name": "Haozhi Zheng",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec7c6",
+          "name": "Huabin Zheng",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec7c7",
+          "name": "Ruihan Zheng",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec7c8",
+          "name": "Shaojie Zheng",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec7c9",
+          "name": "Tengyang Zheng",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec7ca",
+          "name": "Haofeng Zhong",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec7cb",
+          "name": "Lei Zhong",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec7cc",
+          "user": {
+            "_id": "62b6d20416ff90e6198301b6",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/1656148456743-noauth.png",
+            "isPro": false,
+            "fullname": "Longguang Zhong",
+            "user": "GGLS",
+            "type": "user",
+            "name": "GGLS"
+          },
+          "name": "Longguang Zhong",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-07-28T16:45:04.647Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec7cd",
+          "name": "M. Zhou",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec7ce",
+          "name": "Qiankang Zhou",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec7cf",
+          "name": "Runjie Zhou",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec7d0",
+          "name": "Ruozhang Zhou",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec7d1",
+          "name": "Xinyu Zhou",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec7d2",
+          "name": "Yiqiao Zhou",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec7d3",
+          "name": "Zaida Zhou",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec7d4",
+          "name": "Jinguo Zhu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec7d5",
+          "name": "Liya Zhu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec7d6",
+          "name": "Xinhao Zhu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec7d7",
+          "name": "Yangjunfeng Zhu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec7d8",
+          "name": "Yuxuan Zhu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec7d9",
+          "name": "Zhen Zhu",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec7da",
+          "name": "Chen Zhuang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec7db",
+          "name": "Weiyu Zhuang",
+          "hidden": false
+        },
+        {
+          "_id": "6a681e3e73f69d5af2bec7dc",
+          "name": "Xinxing Zu",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2026-07-27T00:00:00.000Z",
+      "submittedOnDailyAt": "2026-07-28T00:00:00.000Z",
+      "title": "Kimi K3: Open Frontier Intelligence",
+      "submittedOnDailyBy": {
+        "_id": "6039478ab3ecf716b1a5fd4d",
+        "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/6039478ab3ecf716b1a5fd4d/_Thy4E7taiSYBLKxEKJbT.jpeg",
+        "isPro": true,
+        "fullname": "taesiri",
+        "user": "taesiri",
+        "type": "user",
+        "name": "taesiri"
+      },
+      "summary": "We introduce Kimi K3, a 2.8T parameter Mixture-of-Experts model with 104 billion activated parameters, native vision capabilities, and a 1-million-token context window. Kimi K3 is built on Kimi Delta Attention and Attention Residuals, which improve information flow across sequence length and model depth. Together with Stable LatentMoE, which effectively activates 16 of 896 routed experts per token, and refined training and data recipes, these advances yield an approximately 2.5x improvement in overall scaling efficiency over Kimi K2. Post-training highlights reinforcement learning across general, agentic, and coding domains and multiple reasoning-effort levels, enabling compositional generalization and robust long-horizon execution. At 2.8T scale, Kimi K3 is supported by infrastructure advances in multiple areas: algorithm-system co-design for KDA, perfectly balanced expert-parallel training with efficient memory management, million-token agentic RL with persistent rollout and sandbox states, and deployment innovations. Extensive evaluations show that Kimi K3 achieves frontier-level performance across long-horizon coding, agentic, knowledge, reasoning, and vision tasks. While its overall performance still trails the most powerful proprietary models, namely Claude Fable 5 and GPT-5.6 Sol, Kimi K3 consistently outperforms other open and proprietary models evaluated in our suite. We release the full Kimi K3 model weights to facilitate future research and accelerate the broader deployment and adoption of frontier intelligence.",
+      "upvotes": 486,
+      "discussionId": "6a681e3e73f69d5af2bec7dd",
+      "projectPage": "https://www.kimi.com/blog/kimi-k3",
+      "githubRepo": "https://github.com/MoonshotAI/Kimi-K3",
+      "githubRepoAddedBy": "admin",
+      "githubStars": 8287,
+      "organization": {
+        "_id": "6425a114812813f8f4a9b02c",
+        "name": "moonshotai",
+        "fullname": "Moonshot AI",
+        "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/641c1e77c3983aa9490f8121/X1yT2rsaIbR9cdYGEVu0X.jpeg"
+      }
+    },
+    "publishedAt": "2026-07-26T20:00:00.000Z",
+    "title": "Kimi K3: Open Frontier Intelligence",
+    "summary": "We introduce Kimi K3, a 2.8T parameter Mixture-of-Experts model with 104 billion activated parameters, native vision capabilities, and a 1-million-token context window. Kimi K3 is built on Kimi Delta Attention and Attention Residuals, which improve information flow across sequence length and model depth. Together with Stable LatentMoE, which effectively activates 16 of 896 routed experts per token, and refined training and data recipes, these advances yield an approximately 2.5x improvement in overall scaling efficiency over Kimi K2. Post-training highlights reinforcement learning across general, agentic, and coding domains and multiple reasoning-effort levels, enabling compositional generalization and robust long-horizon execution. At 2.8T scale, Kimi K3 is supported by infrastructure advances in multiple areas: algorithm-system co-design for KDA, perfectly balanced expert-parallel training with efficient memory management, million-token agentic RL with persistent rollout and sandbox states, and deployment innovations. Extensive evaluations show that Kimi K3 achieves frontier-level performance across long-horizon coding, agentic, knowledge, reasoning, and vision tasks. While its overall performance still trails the most powerful proprietary models, namely Claude Fable 5 and GPT-5.6 Sol, Kimi K3 consistently outperforms other open and proprietary models evaluated in our suite. We release the full Kimi K3 model weights to facilitate future research and accelerate the broader deployment and adoption of frontier intelligence.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2607.24653.png",
+    "numComments": 10,
+    "submittedBy": {
+      "_id": "6039478ab3ecf716b1a5fd4d",
+      "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/6039478ab3ecf716b1a5fd4d/_Thy4E7taiSYBLKxEKJbT.jpeg",
+      "fullname": "taesiri",
+      "name": "taesiri",
+      "type": "user",
+      "isPro": true,
+      "isHf": false,
+      "isHfAdmin": false,
+      "isMod": false,
+      "followerCount": 354,
+      "isUserFollowing": false
+    },
+    "organization": {
+      "_id": "6425a114812813f8f4a9b02c",
+      "name": "moonshotai",
+      "fullname": "Moonshot AI",
+      "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/641c1e77c3983aa9490f8121/X1yT2rsaIbR9cdYGEVu0X.jpeg"
+    },
+    "isAuthorParticipating": false
+  },
+  {
+    "paper": {
+      "id": "2608.01964",
+      "authors": [
+        {
+          "_id": "6a715744ec5082b9f872ce05",
+          "name": "Ziyu Ma",
+          "hidden": false
+        },
+        {
+          "_id": "6a715744ec5082b9f872ce06",
+          "user": {
+            "_id": "65003db8bef9b594656f8fa7",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/65003db8bef9b594656f8fa7/L6cvPOAeBRnFnIQwWxYyf.png",
+            "isPro": false,
+            "fullname": "Hailang Huang",
+            "user": "lerogo",
+            "type": "user",
+            "name": "lerogo"
+          },
+          "name": "Hailang Huang",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-08-04T08:45:04.665Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a715744ec5082b9f872ce07",
+          "name": "Shun Zou",
+          "hidden": false
+        },
+        {
+          "_id": "6a715744ec5082b9f872ce08",
+          "name": "Yong Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a715744ec5082b9f872ce09",
+          "name": "Shidong Yang",
+          "hidden": false
+        },
+        {
+          "_id": "6a715744ec5082b9f872ce0a",
+          "name": "Yiming Hu",
+          "hidden": false
+        },
+        {
+          "_id": "6a715744ec5082b9f872ce0b",
+          "name": "Fei Wei",
+          "hidden": false
+        },
+        {
+          "_id": "6a715744ec5082b9f872ce0c",
+          "name": "XiangXiang Chu",
+          "hidden": false
+        }
+      ],
+      "mediaUrls": [
+        "https://cdn-uploads.huggingface.co/production/uploads/64d1dc5273174cecdffc97d3/QDDq6oSuxJP_g4SwESa7B.mp4"
+      ],
+      "publishedAt": "2026-08-03T00:00:00.000Z",
+      "submittedOnDailyAt": "2026-08-04T00:00:00.000Z",
+      "title": "LongHorizon-Harness: Advancing Long-Horizon Agents for Real-World Tasks",
+      "submittedOnDailyBy": {
+        "_id": "64d1dc5273174cecdffc97d3",
+        "avatarUrl": "/avatars/6564e6b68fee9673f75b6366adf39a3b.svg",
+        "isPro": false,
+        "fullname": "Wang Yong",
+        "user": "seashell11",
+        "type": "user",
+        "name": "seashell11"
+      },
+      "summary": "Large language model (LLM) agents increasingly undertake long-horizon tasks that require sustained reasoning, tool use, and revision across many interdependent steps. However, existing agent harnesses maintain task execution, task state, and completion assessment within a growing context, making the state difficult to track and allowing incorrect self-assessments to propagate into later decisions. We reformulate long-horizon execution as a task-state management problem and propose LongHorizon-Harness, which maintains the task state explicitly outside execution and updates it only with facts independently verified from the environment. Its Manage-Execute-Audit(MEA) loop uses a manager to maintain the task state and determine the next subtask, a fresh-context executor to perform it, and a read-only auditor to verify the resulting environment state before the next round. A lightweight AgentAdapter supports interchangeable model and harness backends without modifying their native agent loops. LongHorizon-Harness improves Qwen~3.7-Plus from 51.8% to 80.7% on WeaveBench, from 69.7% to 77.2% on Terminal-Bench~2.1, and from 2.8% to 8.3% on OSWorld~2.0. It also raises Claude Opus~4.7 from 20.0% to 34.3% on an OSWorld2.0 subset, demonstrating consistent gains across models, harnesses, and interaction domains.",
+      "upvotes": 162,
+      "discussionId": "6a715745ec5082b9f872ce0d",
+      "projectPage": "https://lh-harness.pages.dev",
+      "githubRepo": "https://github.com/AMAP-ML/LongHorizon-Harness",
+      "githubRepoAddedBy": "user",
+      "githubStars": 498
+    },
+    "publishedAt": "2026-08-02T20:00:00.000Z",
+    "title": "LongHorizon-Harness: Advancing Long-Horizon Agents for Real-World Tasks",
+    "summary": "Large language model (LLM) agents increasingly undertake long-horizon tasks that require sustained reasoning, tool use, and revision across many interdependent steps. However, existing agent harnesses maintain task execution, task state, and completion assessment within a growing context, making the state difficult to track and allowing incorrect self-assessments to propagate into later decisions. We reformulate long-horizon execution as a task-state management problem and propose LongHorizon-Harness, which maintains the task state explicitly outside execution and updates it only with facts independently verified from the environment. Its Manage-Execute-Audit(MEA) loop uses a manager to maintain the task state and determine the next subtask, a fresh-context executor to perform it, and a read-only auditor to verify the resulting environment state before the next round. A lightweight AgentAdapter supports interchangeable model and harness backends without modifying their native agent loops. LongHorizon-Harness improves Qwen~3.7-Plus from 51.8% to 80.7% on WeaveBench, from 69.7% to 77.2% on Terminal-Bench~2.1, and from 2.8% to 8.3% on OSWorld~2.0. It also raises Claude Opus~4.7 from 20.0% to 34.3% on an OSWorld2.0 subset, demonstrating consistent gains across models, harnesses, and interaction domains.",
+    "mediaUrls": [
+      "https://cdn-uploads.huggingface.co/production/uploads/64d1dc5273174cecdffc97d3/QDDq6oSuxJP_g4SwESa7B.mp4"
+    ],
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2608.01964.png",
+    "numComments": 3,
+    "submittedBy": {
+      "_id": "64d1dc5273174cecdffc97d3",
+      "avatarUrl": "/avatars/6564e6b68fee9673f75b6366adf39a3b.svg",
+      "fullname": "Wang Yong",
+      "name": "seashell11",
+      "type": "user",
+      "isPro": false,
+      "isHf": false,
+      "isHfAdmin": false,
+      "isMod": false,
+      "isUserFollowing": false
+    },
+    "isAuthorParticipating": true
+  },
+  {
+    "paper": {
+      "id": "2407.16741",
+      "authors": [
+        {
+          "_id": "66a1b11eca8ee359d60b5b99",
+          "user": {
+            "_id": "62c63f31031996c36c848504",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/62c63f31031996c36c848504/xZvH6jnozuFLXbtRSU-h1.jpeg",
+            "isPro": false,
+            "fullname": "Xingyao Wang",
+            "user": "xingyaoww",
+            "type": "user",
+            "name": "xingyaoww"
+          },
+          "name": "Xingyao Wang",
+          "status": "extracted_confirmed",
+          "statusLastChangedAt": "2024-07-25T02:51:45.594Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5b9a",
+          "user": {
+            "_id": "664aefb990135abe9ba9b8c9",
+            "avatarUrl": "/avatars/79658c23555deadcfb097b6ebccbe4a6.svg",
+            "isPro": false,
+            "fullname": "Boxuan Li",
+            "user": "liboxuanhk",
+            "type": "user",
+            "name": "liboxuanhk"
+          },
+          "name": "Boxuan Li",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2024-07-25T07:38:14.907Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5b9b",
+          "user": {
+            "_id": "65f89af419e43f235cca48f9",
+            "avatarUrl": "/avatars/d1ff695f9a8ee0aeeff324fb7f07a811.svg",
+            "isPro": false,
+            "fullname": "Yufan Song",
+            "user": "yufansong",
+            "type": "user",
+            "name": "yufansong"
+          },
+          "name": "Yufan Song",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2024-07-25T07:51:32.404Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5b9c",
+          "user": {
+            "_id": "61ac0a0f57307cf7ae3a35bb",
+            "avatarUrl": "/avatars/c3b00cf275b2805861f5b020c9d00639.svg",
+            "isPro": false,
+            "fullname": "Frank Xu",
+            "user": "frankxu",
+            "type": "user",
+            "name": "frankxu"
+          },
+          "name": "Frank F. Xu",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2024-07-25T07:51:55.018Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5b9d",
+          "user": {
+            "_id": "63357c608adfa81faf2ac180",
+            "avatarUrl": "/avatars/ae0314c644f882251baf59b9134fd36f.svg",
+            "isPro": false,
+            "fullname": "Xiangru Tang",
+            "user": "RTT1",
+            "type": "user",
+            "name": "RTT1"
+          },
+          "name": "Xiangru Tang",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2024-07-25T07:52:01.459Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5b9e",
+          "user": {
+            "_id": "64403daae44f30a72323e4ca",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/64403daae44f30a72323e4ca/skJ9h0pdNfmE4VbQL8xDR.png",
+            "isPro": false,
+            "fullname": "mingchen zhuge",
+            "user": "tjpxiaoming",
+            "type": "user",
+            "name": "tjpxiaoming"
+          },
+          "name": "Mingchen Zhuge",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2024-07-25T07:52:12.418Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5b9f",
+          "user": {
+            "_id": "61568f37272f2d87a99ba884",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/61568f37272f2d87a99ba884/lgvkl5f0rEyiQRVU5FE32.png",
+            "isPro": false,
+            "fullname": "Jiayi Pan",
+            "user": "Jiayi-Pan",
+            "type": "user",
+            "name": "Jiayi-Pan"
+          },
+          "name": "Jiayi Pan",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2024-07-25T07:52:19.380Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5ba0",
+          "user": {
+            "_id": "63e7bf7be02ee67e8e53f78d",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/63e7bf7be02ee67e8e53f78d/z9j1PWrurEyIA2JXzpz0i.png",
+            "isPro": false,
+            "fullname": "Yueqi Song",
+            "user": "yueqis",
+            "type": "user",
+            "name": "yueqis"
+          },
+          "name": "Yueqi Song",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2024-07-25T07:52:43.838Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5ba1",
+          "user": {
+            "_id": "664aefb990135abe9ba9b8c9",
+            "avatarUrl": "/avatars/79658c23555deadcfb097b6ebccbe4a6.svg",
+            "isPro": false,
+            "fullname": "Boxuan Li",
+            "user": "liboxuanhk",
+            "type": "user",
+            "name": "liboxuanhk"
+          },
+          "name": "Bowen Li",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2024-07-25T07:51:24.121Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5ba2",
+          "user": {
+            "_id": "60cc389a0844fb1605fef405",
+            "avatarUrl": "/avatars/ec11f85735e0525439e8821cf6d12e53.svg",
+            "isPro": false,
+            "fullname": "Jaskirat Singh",
+            "user": "jsingh",
+            "type": "user",
+            "name": "jsingh"
+          },
+          "name": "Jaskirat Singh",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2024-07-26T07:40:52.677Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5ba3",
+          "user": {
+            "_id": "65c19c3172fd754bba256112",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/65c19c3172fd754bba256112/cfgYvKfO36PSTFYKQottM.jpeg",
+            "isPro": false,
+            "fullname": "Ryan Tran",
+            "user": "ryanhoangt",
+            "type": "user",
+            "name": "ryanhoangt"
+          },
+          "name": "Hoang H. Tran",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2024-07-25T08:19:36.107Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5ba4",
+          "name": "Fuqiang Li",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5ba5",
+          "user": {
+            "_id": "62581ef5d47cce537ee25963",
+            "avatarUrl": "/avatars/d987c625791dc33c84bf9b51069bf2c8.svg",
+            "isPro": false,
+            "fullname": "Ren Ma",
+            "user": "renma",
+            "type": "user",
+            "name": "renma"
+          },
+          "name": "Ren Ma",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2025-06-11T08:40:40.377Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5ba6",
+          "name": "Mingzhang Zheng",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5ba7",
+          "user": {
+            "_id": "641fa2e0863b87326f4a7fd5",
+            "avatarUrl": "/avatars/7b29c20f942d83c08f63f04a85c15c13.svg",
+            "isPro": false,
+            "fullname": "Bill Qian",
+            "user": "lilbillbiscuit",
+            "type": "user",
+            "name": "lilbillbiscuit"
+          },
+          "name": "Bill Qian",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2024-07-25T07:54:51.696Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5ba8",
+          "user": {
+            "_id": "62970df979f193515da13dc0",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/62970df979f193515da13dc0/A-mgKIcgTXRJ54GCHswTq.jpeg",
+            "isPro": false,
+            "fullname": "Daniel",
+            "user": "super-dainiu",
+            "type": "user",
+            "name": "super-dainiu"
+          },
+          "name": "Yanjun Shao",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2024-07-25T07:55:10.708Z",
+          "hidden": true
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5ba9",
+          "user": {
+            "_id": "5f1eb362eec0ad2a071ad6e2",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/5f1eb362eec0ad2a071ad6e2/nDiBXdLrOTw67lJp_y_WA.jpeg",
+            "isPro": false,
+            "fullname": "Niklas Muennighoff",
+            "user": "Muennighoff",
+            "type": "user",
+            "name": "Muennighoff"
+          },
+          "name": "Niklas Muennighoff",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2024-07-25T07:55:16.299Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5baa",
+          "name": "Yizhe Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5bab",
+          "user": {
+            "_id": "61e4c4ca1ab24785ac11ba69",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/61e4c4ca1ab24785ac11ba69/1Q1zhhyGSJ9RJG9MzwxVv.jpeg",
+            "isPro": false,
+            "fullname": "Binyuan Hui",
+            "user": "huybery",
+            "type": "user",
+            "name": "huybery"
+          },
+          "name": "Binyuan Hui",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2024-07-25T07:55:45.961Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5bac",
+          "user": {
+            "_id": "620760a26e3b7210c2ff1943",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/620760a26e3b7210c2ff1943/VC-rKqimF6yxGESNVlPoR.jpeg",
+            "isPro": false,
+            "fullname": "Junyang Lin",
+            "user": "JustinLin610",
+            "type": "user",
+            "name": "JustinLin610"
+          },
+          "name": "Junyang Lin",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2024-07-25T07:56:17.993Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5bad",
+          "name": "Robert Brennan",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5bae",
+          "user": {
+            "_id": "660ec5a2509153ca49775a7c",
+            "avatarUrl": "/avatars/97570fc245cc8ec7628da9c13bd35b71.svg",
+            "isPro": false,
+            "fullname": "Hao Peng",
+            "user": "haopeng01",
+            "type": "user",
+            "name": "haopeng01"
+          },
+          "name": "Hao Peng",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2024-07-25T07:57:13.319Z",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5baf",
+          "name": "Heng Ji",
+          "hidden": false
+        },
+        {
+          "_id": "66a1b11eca8ee359d60b5bb0",
+          "user": {
+            "_id": "60de14638bedd2315529d43f",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/1625166923504-noauth.png",
+            "isPro": false,
+            "fullname": "Graham Neubig",
+            "user": "gneubig",
+            "type": "user",
+            "name": "gneubig"
+          },
+          "name": "Graham Neubig",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2024-07-25T07:57:35.957Z",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2024-07-23T17:50:43.000Z",
+      "submittedOnDailyAt": "2024-07-25T00:00:00.000Z",
+      "title": "OpenDevin: An Open Platform for AI Software Developers as Generalist\n  Agents",
+      "submittedOnDailyBy": {
+        "_id": "60f1abe7544c2adfd699860c",
+        "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/1674929746905-60f1abe7544c2adfd699860c.jpeg",
+        "isPro": false,
+        "fullname": "AK",
+        "user": "akhaliq",
+        "type": "user",
+        "name": "akhaliq"
+      },
+      "summary": "Software is one of the most powerful tools that we humans have at our\ndisposal; it allows a skilled programmer to interact with the world in complex\nand profound ways. At the same time, thanks to improvements in large language\nmodels (LLMs), there has also been a rapid development in AI agents that\ninteract with and affect change in their surrounding environments. In this\npaper, we introduce OpenDevin, a platform for the development of powerful and\nflexible AI agents that interact with the world in similar ways to those of a\nhuman developer: by writing code, interacting with a command line, and browsing\nthe web. We describe how the platform allows for the implementation of new\nagents, safe interaction with sandboxed environments for code execution,\ncoordination between multiple agents, and incorporation of evaluation\nbenchmarks. Based on our currently incorporated benchmarks, we perform an\nevaluation of agents over 15 challenging tasks, including software engineering\n(e.g., SWE-Bench) and web browsing (e.g., WebArena), among others. Released\nunder the permissive MIT license, OpenDevin is a community project spanning\nacademia and industry with more than 1.3K contributions from over 160\ncontributors and will improve going forward.",
+      "upvotes": 84,
+      "discussionId": "66a1b11fca8ee359d60b5bd5",
+      "githubRepo": "https://github.com/opendevin/opendevin",
+      "githubRepoAddedBy": "auto",
+      "ai_summary": "OpenDevin is a platform for developing AI agents that interact with the world by writing code, using command lines, and browsing the web, with support for multiple agents and evaluation benchmarks.",
+      "ai_keywords": [
+        "large language models",
+        "OpenDevin",
+        "AI agents",
+        "code execution",
+        "sandboxed environments",
+        "evaluation benchmarks",
+        "SWE-Bench",
+        "WebArena"
+      ],
+      "ai_summary_model": "Qwen/Qwen2.5-Coder-32B-Instruct",
+      "githubStars": 83545
+    },
+    "publishedAt": "2024-07-23T13:50:43.000Z",
+    "title": "OpenDevin: An Open Platform for AI Software Developers as Generalist\n  Agents",
+    "summary": "Software is one of the most powerful tools that we humans have at our\ndisposal; it allows a skilled programmer to interact with the world in complex\nand profound ways. At the same time, thanks to improvements in large language\nmodels (LLMs), there has also been a rapid development in AI agents that\ninteract with and affect change in their surrounding environments. In this\npaper, we introduce OpenDevin, a platform for the development of powerful and\nflexible AI agents that interact with the world in similar ways to those of a\nhuman developer: by writing code, interacting with a command line, and browsing\nthe web. We describe how the platform allows for the implementation of new\nagents, safe interaction with sandboxed environments for code execution,\ncoordination between multiple agents, and incorporation of evaluation\nbenchmarks. Based on our currently incorporated benchmarks, we perform an\nevaluation of agents over 15 challenging tasks, including software engineering\n(e.g., SWE-Bench) and web browsing (e.g., WebArena), among others. Released\nunder the permissive MIT license, OpenDevin is a community project spanning\nacademia and industry with more than 1.3K contributions from over 160\ncontributors and will improve going forward.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2407.16741.png",
+    "numComments": 7,
+    "submittedBy": {
+      "_id": "60f1abe7544c2adfd699860c",
+      "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/1674929746905-60f1abe7544c2adfd699860c.jpeg",
+      "fullname": "AK",
+      "name": "akhaliq",
+      "type": "user",
+      "isPro": false,
+      "isHf": true,
+      "isHfAdmin": false,
+      "isMod": false,
+      "followerCount": 9914,
+      "isUserFollowing": false
+    },
+    "isAuthorParticipating": true
+  }
+]

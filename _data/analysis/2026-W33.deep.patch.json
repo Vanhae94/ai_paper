@@ -1,0 +1,152 @@
+{
+  "week_id": "2026-W33",
+  "papers": {
+    "2608.01964": {
+      "tier2": {
+        "method_detail": "LongHorizon-Harness는 장기 지평 과제 수행을 \"계획-실행 능력\"이 아니라 \"작업 상태(task state) 관리\" 문제로 재정의한다. 기존 하네스는 실행 궤적, 작업 상태, 완료 판정을 하나의 계속 커지는 컨텍스트 안에 함께 담기 때문에 상태 추적이 어렵고 에이전트가 스스로 내린 잘못된 완료 판정이 이후 라운드로 전파되는데, 이 논문은 상태를 실행 컨텍스트 바깥에 명시적으로 두고 환경에서 독립적으로 검증된 사실로만 갱신한다. 핵심 구조인 Manage-Execute-Audit(MEA) 루프는 세 역할로 구성된다. 매니저는 지속적 작업 상태와 누적된 감사 리포트만 읽고 환경에 직접 접근하지 않으며, 다음 하위작업의 계약(contract)을 구성한다. 계약에는 즉시 목표(immediate goal), 수용 기준(acceptance criteria), 경계 제약(boundary constraints), 그리고 실행과 검증에 필요한 관련 작업 상태 레코드 및 이전 감사 리포트가 담긴다. 실행자는 매 라운드 신선한(fresh) 컨텍스트에서 시작해 이전 라운드 궤적에 접근하지 못한 채 해당 라운드에 공급된 정보만으로 역할별 인터페이스(GUI 또는 CLI)를 통해 경계가 정해진 하위작업을 수행하고 실행 리포트를 반환하지만, 스스로 완료를 확정할 권한은 없다. 감사자 역시 신선한 컨텍스트에서 시작해 읽기 전용 도구로 결과 환경 상태를 독립 점검하며, 과제 관련 상태를 수정할 수 없고 실행자 주장을 지지하거나 반박하는 근거를 산출한다.\n\n작업 상태는 세 종류의 레코드로 표현된다. 요구사항(Requirements, 원 과제에서 도출된 목표와 제약), 산출물(Artifacts, 실행 중 생성 혹은 수정된 결과물), 사실(Facts, 이후 라운드에 필요한 환경 정보)이며, 각 레코드는 completed / pending / blocked / untrusted 상태 표시를 갖고 이를 뒷받침하는 감사 증거를 참조한다. 감사 리포트는 세 가지 소견 클래스를 기록한다. (1) 완료 상태: complete / incomplete / blocked, (2) 무결성 상태: clean / suspect / violation, (3) 작업 상태 갱신 항목: 검증된 사실과 그 증거 및 미확인 공백. 무결성 판정은 워크스페이스 변형(mutation), 산출물 유효성과 출처(provenance), 삭제 제약 준수 여부를 점검해 부여되며, 감사자 자신이 보호 대상 산출물을 생성/편집/삭제하면 무결성 위반으로 기록된다. 위반이 발생한 리포트는 completed 레코드를 뒷받침할 수 없으므로 오염된 결과가 지속 상태에 진입하지 못한다. 즉 레코드가 completed가 되는 유일한 경로는 clean 감사 증거이며, 미해결 항목은 pending / blocked / untrusted로 남는다.\n\n매니저는 매 라운드 execute / done / blocked / ask 중 하나의 제어 결정을 내리고, 감사된 상태가 원 과제를 충족하거나, 남은 요구사항을 진전시킬 허용 가능한 하위작업이 없거나, 사용자 입력이 필요하거나, 라운드 예산이 소진되면 종료한다(최대 라운드 Nmax = 25). AgentAdapter는 실행자를 공통 인터페이스로 인스턴스화하는 얇은 계층으로, 계약과 역할별 환경 인터페이스, 실행 예산을 받아 Claude Code, Codex CLI, OpenClaw 같은 기존 백엔드를 하나의 경계가 정해진 에피소드(bounded episode)로 기동한다. 어댑터는 백엔드의 네이티브 플래닝 루프를 수정하지 않은 채 공급 컨텍스트, 가용 도구, 실행 예산, 반환 리포트만 통제하므로 모델(Claude, GPT, Qwen)과 하네스를 상호 교환 가능하게 조합할 수 있다.",
+        "experiment_setup": [
+          "벤치마크 3종: WeaveBench(114개 과제, 8개 도메인, GUI와 CLI를 한 워크플로에서 조율), OSWorld 2.0(108개 전문 데스크톱 워크플로, 사람 기준 중앙값 완료시간 약 1.6시간, Ubuntu 기본 해상도 1920x1080), Terminal-Bench 2.1(Harbor를 평가 프레임워크로, Docker 백엔드로 과제별 원본 CPU/메모리/환경 제약 유지, 총 과제 수는 원문 단일 명시 없음 - 본문 확인 필요)",
+          "역할 통일 조건: 별도 명시가 없는 한 매니저/실행자/감사자를 동일 백본 모델로 인스턴스화",
+          "실행 예산: 실행자 라운드당 1800초, 매니저 300초, 감사자 300초, 최대 MEA 라운드 Nmax = 25",
+          "환경/도구 구성: WeaveBench는 격리 컨테이너 Ubuntu 데스크톱 VM에서 실행하고 스크린샷 인식 도구와 pyautogui 기반 액추에이션(클릭, 더블클릭, 마우스 이동, 키보드 입력, 스크롤, 드래그, 대기)을 제공. OSWorld 2.0은 표준 OSWorld Docker 기반 VM 인프라를 쓰고 VM 내부 computer MCP 서버가 GUI 액션을 수행. Terminal-Bench 2.1은 과제당 독립 3회 실행 후 평균 점수 보고",
+          "평가 지표: WeaveBench는 PassRate(완전 통과 과제 비율)와 Overall(평균 점수), 채점은 Claude Opus 4.7 궤적 인지형 저지. OSWorld 2.0은 Binary Accuracy(최종 점수가 정확히 1인 과제)와 Partial Accuracy(평균 점수). Terminal-Bench 2.1은 3회 평균 성공률",
+          "핵심 수치(WeaveBench, Qwen 3.7-Plus + Claude Code 백엔드): PassRate 51.8% -> 80.7%, Overall 0.702 -> 0.835",
+          "도메인별(Table 6, 값은 도메인 평균 점수이며 괄호는 PassRate 델타): Design 0.5630 -> 0.8160(+60.00%p), Spatial/3D 0.5800 -> 0.8192(+50.00%p), Games 0.5235 -> 0.7328(+29.41%p), Data Analysis 0.6981 -> 0.8608(+30.77%p), DevOps 0.7758 -> 0.9090(+25.00%p), Document Processing 0.8009 -> 0.8929(+23.53%p), Web Dev 0.7287 -> 0.8147(+26.67%p), Desktop 0.8671 -> 0.8465(-0.0205, PassRate는 +5.56%p). 즉 PassRate는 8개 도메인 모두 상승하지만 평균 점수는 Desktop에서 하락하며 원문도 이를 명시한다. 도메인별 절대 PassRate 값은 Table 6에 표기되지 않음(본문 확인 필요)",
+          "핵심 수치(OSWorld 2.0, Table 2): Qwen 3.7-Plus single action 베이스라인 Binary 2.8% / Partial 21.5% -> LongHorizon-Harness(hybrid 툴 풀) Binary 8.3% / Partial 35.2%. 동일 표의 다른 행은 Claude Opus 4.8 batched 20.6%/54.8%, Claude Opus 4.7 batched 18.2%/48.9%, GPT-5.5 batched 13.0%/49.5%, Claude Opus 4.8 single 18.5%/49.3%, Claude Opus 4.7 single 13.9%/49.1%, Claude Sonnet 4.6 single 8.3%/41.5%, MiniMax M3 single 4.6%/22.3%, Kimi 2.6 single 4.6%/22.1%. 하네스 행만 hybrid이고 나머지는 GUI 계열이므로 툴 풀 차이가 섞여 있음",
+          "핵심 수치(OSWorld 2.0 서브셋, Table 3, 34개 과제): Claude Opus 4.7 Binary 20.6% -> 35.3%, Partial 55.8% -> 66.9%. 초록에는 같은 서브셋이 20.0% -> 34.3%로 기재되어 표기 불일치가 실재함",
+          "핵심 수치(Terminal-Bench 2.1): Qwen 3.7-Plus + Claude Code 실행 백엔드 기준 성공률 69.7% -> 77.2%, Figure 3 기준 LongHorizon-Harness with Codex and GPT-5.6 Luna 조합은 83.1%",
+          "비용/컴퓨트 분포: 매니저 토큰 비중 2.8%(WeaveBench), 2.0%(OSWorld 2.0), 8.1%(Terminal-Bench). 감사자 19.4% / 24.8% / 38.1%. 총 토큰은 WeaveBench 2.3x, OSWorld 2.0 출력 토큰 3.6x, Terminal-Bench는 오히려 24% 감소",
+          "능력 태그별 이득(OSWorld 2.0, Table 8): 스트리밍 상호작용 0.000 -> 0.500, 휴먼인더루프 0.225 -> 0.557, 튜토리얼 추종 0.157 -> 0.374",
+          "Terminal-Bench 카테고리별(Table 9): 시스템 관리 0.593 -> 0.889, 소프트웨어 엔지니어링 0.705 -> 0.833으로 개선되는 반면 데이터 사이언스 0.792 -> 0.667, 수학 0.917 -> 0.750, 비디오 처리 0.333 -> 0.000으로 하락. 난이도별로는 easy 0.833 -> 1.000, medium 0.776 -> 0.818, hard 0.533 -> 0.656",
+          "모델-하네스 상호작용 관찰(WeaveBench Games 17개 서브셋): Qwen 3.7-Plus 평균 0.524 -> 0.733으로 베이스 Claude Code 하네스를 쓴 Opus의 0.680을 상회하지만, Opus에 하네스를 적용하면 0.680 -> 0.809가 되어 다시 앞선다. 개별 과제로는 gnome_mines_solve 0.040 -> 0.590, pokerth_equity_play 0.000 -> 0.920, supertux_level_repair 0.000 -> 0.650으로 크게 오르는 반면 rhythm autoplay 0.950 -> 0.830, FreeCell 0.520 -> 0.410으로 회귀한 과제도 있음",
+          "구성요소 분해형 어블레이션 표는 원문에 없음. Limitations, Ablation, Discussion 제목의 절 자체가 없고 Experiments 하위 Analysis 절에서 비용-성능 분석과 과제 유형별 효과 분석으로 대체됨. 논문은 29쪽, 2026-08-03 제출, 분류 cs.CV, v1 단일 버전"
+        ],
+        "datasets": [
+          {
+            "name": "WeaveBench",
+            "domain": "GUI와 CLI를 한 워크플로에서 조율해야 하는 장기 지평 실무 과제 (Desktop, Document Processing, Games, Web Development, Data Analysis/Visualization, DevOps, Spatial/3D, Design 8개 도메인)",
+            "scale": "114개 과제, 격리 컨테이너 Ubuntu 데스크톱 VM, pyautogui 기반 액추에이션, Claude Opus 4.7 궤적 인지형 저지 채점. Games 서브셋은 17개 과제"
+          },
+          {
+            "name": "OSWorld 2.0",
+            "domain": "전문가 수준 데스크톱 워크플로 (공식 과제 정의 및 VM 내부 computer MCP 서버 사용)",
+            "scale": "108개 과제, 사람 기준 중앙값 완료시간 약 1.6시간, Ubuntu 1920x1080, Docker 기반 VM. Claude Opus 4.7 비교는 34개 과제 서브셋 사용(선정 기준 원문 미기재)"
+          },
+          {
+            "name": "Terminal-Bench 2.1",
+            "domain": "난이도 높은 커맨드라인 및 터미널 작업 (시스템 관리, 소프트웨어 엔지니어링, 데이터 사이언스, 수학, 비디오 처리 등 카테고리 및 easy/medium/hard 난이도 구분)",
+            "scale": "총 과제 수는 원문에 단일 지점 명시가 없어 본문 확인 필요. Harbor 평가 프레임워크 + Docker 백엔드, 과제별 원본 CPU/메모리/환경 제약 유지, 과제당 독립 3회 실행 평균"
+          }
+        ],
+        "limitations": {
+          "by_authors": [
+            "하네스는 모델이 없는 능력을 만들어내지 못한다. 과제 성능이 시각 지각, 수학 추론, 코딩, 알고리즘 설계 같은 개별 모델 능력에 지배될 때 이득이 최소라고 명시하며, 독립 감사는 결과 오류를 탐지해 복구를 시작할 수는 있어도 모델이 갖지 못한 능력을 공급할 수는 없다고 적는다.",
+            "감사자가 원리적으로 검증하지 못하는 과제군을 인정한다. 숨겨진 성능 임계값(hidden performance thresholds), 랭킹 의미론, 시간축 로컬라이제이션이 필요한 영상 증거, 신체적/시각적 정밀도(embodied visual precision), 가시 상태로부터 복원 불가능한 평가 관례, 그리고 복수 해석이 가능한 과제 의미론이 해당한다.",
+            "요구사항이 순수하게 공간적이거나 모터 수준일 때는 시각 로컬라이제이션과 커서 제어에 성능이 묶여 하네스 이득이 제한된다고 적는다.",
+            "토큰 오버헤드가 상당하고 과제 의존적이다. 매니저는 전체 토큰의 2.0~8.1%, 감사자는 19.4~38.1%를 차지한다. WeaveBench에서 베이스라인 대비 2.3x, OSWorld 2.0에서 출력 토큰 3.6x가 들지만 Terminal-Bench 2.1에서는 오히려 24% 적은 토큰으로 더 높은 성공률을 낸다. 고정 배수가 아니라 실행 및 복구 라운드 수에 좌우된다고 설명한다.",
+            "이득이 과제 구조에 의존한다. 여러 의존 상태를 장기간 보존/점검/수정해야 하는 범주(Design, Spatial/3D 등)에서 개선이 크고 짧은 과제에서는 미미하다.",
+            "저자 스스로 회귀 사례를 표에 남긴다. Terminal-Bench에서 데이터 사이언스 0.792 -> 0.667, 수학 0.917 -> 0.750, 비디오 처리 0.333 -> 0.000이며, WeaveBench Desktop 도메인은 PassRate가 올라도 평균 점수가 0.8671 -> 0.8465로 내려간다. Games에서도 rhythm autoplay 0.950 -> 0.830, FreeCell 0.520 -> 0.410의 회귀가 있다.",
+            "공개 저장소 기준 플랫폼 한계를 인정한다. macOS 위주로 검증되었고 Windows 지원은 포함되어 있으나 충분히 테스트되지 않았다. GUI 플러그인은 macOS에서 접근성(Accessibility) 및 화면/시스템 오디오 녹화 권한을 사용자가 수동으로 부여해야 한다."
+          ],
+          "by_claude": [
+            "초록과 표의 대표 수치가 어긋난다. 초록은 OSWorld 2.0 34개 서브셋에서 Claude Opus 4.7이 20.0% -> 34.3%라고 쓰지만 Table 3은 20.6% -> 35.3%(부분 점수 55.8% -> 66.9%)다. 표 값은 34개 분모(7/34, 12/34)와 정확히 맞고 초록 값은 35개 분모(7/35, 12/35)와 맞아떨어져 분모가 달랐을 가능성이 있으나 원문에 설명이 없다. 어느 쪽이든 대표 수치가 두 가지로 유통되는 것은 문제다.",
+            "OSWorld 2.0 34개 서브셋의 선정 기준이 제시되지 않는다. 왜 108개 중 34개인지, 무작위인지 난이도 기준인지 설명이 없어 체리피킹 가능성을 배제할 근거가 없다.",
+            "OSWorld 2.0 비교가 동일 조건이 아니다. Table 2에서 LongHorizon-Harness 행만 hybrid(GUI+CLI) 툴 풀을 쓰고 베이스라인은 single action 또는 batched action의 GUI 계열이다. 2.8% -> 8.3%에 CLI 도구 추가 효과와 하네스 효과가 뒤섞여 있어 상태 관리 기여만 분리할 수 없다.",
+            "절대 성능은 여전히 모델 격차에 못 미친다. 하네스를 얹은 Qwen 3.7-Plus(8.3% / 35.2%)는 무하네스 Claude Opus 4.8 batched(20.6% / 54.8%)에 크게 뒤진다. Games 서브셋에서도 Qwen+하네스 0.733은 Opus+하네스 0.809에 밀린다. 상대 개선폭 중심 서술은 이 사실을 가린다.",
+            "통계적 신뢰도가 약하다. Terminal-Bench 2.1만 과제당 3회 독립 실행 평균이고 WeaveBench와 OSWorld 2.0은 단일 실행으로 보이며 분산이나 표준편차 보고가 없다. OSWorld 2.0의 2.8% -> 8.3%는 108개 기준 약 3개 대 9개 수준이라 실행 간 변동이 큰 컴퓨터 사용 에이전트에서 결론을 지탱하기 어렵다.",
+            "지연과 실제 비용이 보고되지 않는다. 토큰 분해만 있고 벽시계 시간, 라운드당 소요, 평균 사용 라운드 수, 달러 비용이 없다. 실행자 1800초, 매니저 300초, 감사자 300초, 최대 25 MEA 라운드를 곱하면 과제당 최악의 경우가 수 시간대인데 실무 도입 판단의 핵심 값이 비어 있다.",
+            "핵심 요소에 대한 ablation이 없다. MEA는 (1) 실행 바깥의 명시적 상태, (2) 신선 컨텍스트 실행자, (3) 독립 읽기 전용 감사자를 동시에 도입하는데 감사자를 실행자 self-check로 대체한 조건도, 상태 파일 없이 컨텍스트 리셋만 적용한 조건도 없다. 이득의 인과 원천을 분리할 수 없다.",
+            "평가자 신뢰도 검증이 없고 순환 의존 우려가 있다. WeaveBench 채점은 Claude Opus 4.7 궤적 인지형 저지인데 같은 Opus 4.7이 평가 대상 모델이자 실행 백엔드로도 쓰인다. 저지와 인간의 일치도, 판정 일관성, 자기 계열 선호 편향 점검이 없다.",
+            "감사자 자체의 오류율이 정량화되지 않았다. false accept와 false reject 비율, untrusted 표시 발동 횟수, 잘못된 감사로 오염된 상태의 복구 비율이 모두 없다. 논문의 논리는 감사자가 실행자보다 신뢰할 만하다는 전제 위에 서 있는데 그 전제를 측정한 실험이 없다.",
+            "회귀 사례에 대한 원인 분석이 얕다. 수학 0.917 -> 0.750, 비디오 처리 0.333 -> 0.000, 데이터 사이언스 0.792 -> 0.667 같은 하락은 감사 루프가 정상 결과를 반려하거나 라운드 예산을 잡아먹는 부작용 가설을 시사하는데, 이를 계량한 분석이 제시되지 않는다.",
+            "도메인 일반화가 검증 가능한 환경에 한정된다. 세 벤치마크 모두 파일시스템과 화면으로 상태가 관측 가능한 로컬 환경이다. 결제, 메일 발송, 외부 API 호출처럼 비가역이거나 읽기 전용 재확인이 불가능한 부수효과, 다중 사용자가 동시에 상태를 바꾸는 환경, 판단이 주관적인 산출물에는 감사 루프가 그대로 이식되지 않는다.",
+            "비교군이 좁다. 대조는 대체로 같은 백본을 쓰는 네이티브 하네스(Claude Code, Codex CLI, OpenClaw, Hermes Agent)와 외부 리더보드 수치이고, 기존 검증/비평 계열 기법이나 계획 프레임워크와의 직접 비교가 없다. MEA 특유의 기여인지 일반적 다중 롤 구조의 기여인지 구분되지 않는다.",
+            "정식 Limitations 절이 없다. 원문 구조는 Abstract, Introduction, Method, Experiments(Setup, Main Results, Analysis, Case Studies), Conclusion, 부록 3종이며 Limitations, Ablation, Discussion 제목의 절이 존재하지 않는다. 한계 논의가 Analysis 절과 저장소 README에 흩어져 있어 29쪽 분량임을 감안하면 서술 누락에 가깝다.",
+            "arXiv 분류가 cs.CV 단일이라는 점도 어울리지 않는다. 내용은 에이전트 오케스트레이션과 시스템 설계에 가까운데 cs.AI나 cs.SE 교차 등록이 없어 관련 독자층의 사전 검증 노출이 줄어든다."
+          ]
+        },
+        "reproducibility": {
+          "code": "공개. https://github.com/AMAP-ML/LongHorizon-Harness (AMAP-ML). 본체는 src/lh_harness/ 이고 eval/ 아래에 벤치마크별 동결 재현 스위트가 있다: eval/WeaveBench-harness/(114 tasks), eval/OSWorldv2-harness/(108 tasks, 공식 정의 정렬), eval/TB-harness/(Terminal-Bench 2.1). 각 스위트에 셋업, 파라미터, 실행 커맨드를 담은 개별 README가 포함된다. 설치는 uv tool install lh-harness 또는 pip install lh-harness. Python 3.10 이상, 에이전트 런타임(Claude Code 또는 Codex CLI) 1종 필요, npm 배포 컴퓨터 사용 플러그인용으로 Node.js 20 이상 선택. macOS에서는 codex-computer-use에 접근성 및 화면/시스템 오디오 녹화 권한을 수동 부여해야 한다. 역할별로 서로 다른 모델과 백엔드를 설정으로 배정할 수 있고 설정 폴백은 gui_executor -> executor -> [run].agent / [run].model 순이다. 프로젝트 페이지는 https://lh-harness.pages.dev .",
+          "data": "자체 신규 데이터셋 없음. 공식 벤치마크의 과제 정의, 워크스페이스, 런타임 자산, 판정 템플릿을 그대로 사용한다(WeaveBench 114개, OSWorld 2.0 108개, Terminal-Bench 2.1은 총 과제 수 원문 미명시). 실행 기록은 ./.lh-harness/runs/<run-id>/ 아래에 작업 상태, 이벤트 스트림, 감사 리포트, 역할별 궤적, 워크스페이스 파일이 저장되고 최종 리포트는 logs/report.json 이다. 논문 표에 쓰인 저자들의 원본 실행 로그 전량 공개 여부는 README에 언급이 없다.",
+          "weights": "해당 없음. 모델 학습이나 파인튜닝이 없는 하네스 계층 연구다. 백본은 Qwen 3.7-Plus, Claude Opus 4.7, Claude Opus 4.8, GPT-5.5, GPT-5.6 Luna 등 외부 상용 API 모델이므로, 해당 모델 버전이 교체되거나 폐기되면 수치 재현이 불가능해지는 구조적 재현성 위험이 있다. 채점 저지 역시 Claude Opus 4.7이라 저지 모델 변경 시 WeaveBench 점수 비교 가능성이 깨진다.",
+          "license": "코드 MIT 라이선스. 논문 자체는 arXiv perpetual non-exclusive license.",
+          "note": "재현 난이도는 중간 이상이다. macOS 우선 검증이고 Windows는 미검증이라고 저장소가 밝히며, GUI 플러그인은 접근성 및 화면 녹화 권한을 손으로 승인해야 한다. 예산 파라미터는 공개되어 있다(실행자 라운드당 1800초, 매니저/감사자 각 300초 계열이며 README 기본값은 600초로 표기, 최대 25 MEA 라운드). 실행 횟수가 벤치마크별로 비대칭이고(Terminal-Bench 2.1만 3회 평균) 분산이 보고되지 않으므로, 재현 시 논문 수치와의 편차를 감안해야 한다."
+        },
+        "my_learning_points": [
+          "작업 상태를 컨텍스트에서 꺼내 외부 파일로 승격하고, 갱신 권한을 실행 주체에게서 회수한다. 요구사항 / 산출물 / 사실 3종 레코드에 completed, pending, blocked, untrusted 표시와 근거 증거 포인터를 붙여 저장하고, 검증이 끝난 실행 궤적 원문은 버린다. 내 워크플로에 적용하면 '계획 문서'가 아니라 '검증된 사실만 적히는 상태 파일'을 두고, 실행 에이전트에게는 그 파일에 대한 쓰기 권한을 주지 않는 것이 핵심이다. 상태 파일이 곧 컨텍스트 압축 장치이자 실패 복구 지점이 된다.",
+          "완료 판정을 실행자로부터 분리하고, 판정자에게 실행 궤적을 보여주지 않는다. 실행자는 리포트만 제출하고, 읽기 전용 도구만 가진 별도의 신선 컨텍스트 검증자가 환경 상태를 직접 확인해 승인 여부를 낸다. 검증자가 실행 로그를 읽지 않아야 실행자의 주장에 앵커링되지 않는다는 점이 이 설계의 실질이다. 단 이 논문이 감사자 자체의 오류율을 측정하지 않았으므로, 나는 도입 시 감사 승인/반려 로그를 남겨 false accept 사례를 주기적으로 표본 검토하는 절차를 함께 넣겠다.",
+          "도입 전에 병목의 종류를 판별하고 역할별로 모델과 예산을 라우팅한다. 이 구조는 '여러 의존 상태를 오래 유지해야 하는' 과제에서만 큰 이득을 주고, 단일 능력(시각 정밀도, 수학, 알고리즘 설계)이 병목이면 오버헤드만 늘린다. 비용 측면에서 감사가 토큰의 20~38%를 먹으므로 매니저와 감사자에 강한 모델, 실행자에 저렴한 모델을 배치하는 역할별 라우팅이 실효적이다. 또한 감사 가능성 자체를 설계 조건으로 삼아, 되돌릴 수 없거나 읽기 전용으로 확인 불가능한 액션(결제, 발송, 외부 상태 변경)은 루프 바깥의 사람 승인 지점으로 빼둔다."
+        ],
+        "related_work": {
+          "prior": [
+            {
+              "title": "ReAct: Synergizing Reasoning and Acting in Language Models",
+              "arxiv_id": "2210.03629",
+              "relation": "추론과 도구 사용을 한 컨텍스트 안에서 교차시키는 기본형. 이 논문이 문제 삼는 '실행, 상태, 완료 판정이 하나의 커지는 컨텍스트에 뒤섞이는' 구조의 원형에 해당한다. 본문 인용 확인됨."
+            },
+            {
+              "title": "OpenHands (구 OpenDevin): An Open Platform for AI Software Developers as Generalist Agents",
+              "arxiv_id": "2407.16741",
+              "relation": "오픈 에이전트 하네스/플랫폼 계열의 대표 사례로 인용. LongHorizon-Harness는 이런 하네스를 대체하지 않고 AgentAdapter로 감싸 실행 백엔드로 삼는다는 점이 차별점이다."
+            },
+            {
+              "title": "OSWorld: Benchmarking Multimodal Agents for Open-Ended Tasks in Real Computer Environments",
+              "arxiv_id": "2404.07972",
+              "relation": "평가에 쓰인 OSWorld 2.0(108개 데스크톱 과제)의 원 버전. 실제 GUI 환경에서 상태 검증이 가능한 벤치마크라는 점이 감사자 설계의 전제를 만든다."
+            },
+            {
+              "title": "Agent-as-a-Judge: Evaluate Agents with Agents",
+              "arxiv_id": "2410.10934",
+              "relation": "에이전트가 에이전트를 평가하는 독립 검증 아이디어. MEA의 감사자 역할과 직접 연결되며 본문에 agentasjudge로 인용된다."
+            },
+            {
+              "title": "Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena",
+              "arxiv_id": "2306.05685",
+              "relation": "llmasjudge로 인용. WeaveBench가 Claude Opus 4.7 궤적 인식 판정자를 쓰는 근거이자, 동시에 판정자 편향이라는 미검증 리스크의 출처이기도 하다."
+            },
+            {
+              "title": "Reflexion: Language Agents with Verbal Reinforcement Learning",
+              "arxiv_id": "2303.11366",
+              "relation": "자기 반성 기반 개선의 대표 기법. 이 논문은 자기 평가가 아니라 환경에서 독립 검증된 사실만 신뢰한다는 점에서 정확히 반대 방향의 설계 선택을 한다. 본문 인용 여부는 확인 필요이나 대조 축으로 중요하다."
+            },
+            {
+              "title": "Self-Refine: Iterative Refinement with Self-Feedback",
+              "arxiv_id": "2303.17651",
+              "relation": "동일 모델의 자기 피드백 루프. MEA는 피드백 주체를 다른 컨텍스트와 다른 권한(읽기 전용)으로 분리했다는 점이 핵심 차이. 본문 인용 여부는 확인 필요."
+            },
+            {
+              "title": "MemGPT: Towards LLMs as Operating Systems",
+              "arxiv_id": "2310.08560",
+              "relation": "컨텍스트를 OS의 메모리 계층처럼 다뤄 외부 저장소로 상태를 내보내는 접근. 상태를 실행 컨텍스트 밖에 두는 발상의 선행 계보로 읽힌다. 본문 인용 여부는 확인 필요."
+            },
+            {
+              "title": "WeaveBench",
+              "arxiv_id": "본문 확인 필요",
+              "relation": "주 평가 벤치마크(114개 과제, 8개 도메인, GUI와 CLI 혼합). 논문에서 weavebench로 인용되나 별도 arXiv 식별자는 확인하지 못했다."
+            },
+            {
+              "title": "Terminal-Bench 2.1",
+              "arxiv_id": "본문 확인 필요",
+              "relation": "CLI 장기 지평 과제 벤치마크. 세 벤치마크 중 유일하게 오버헤드가 오히려 감소한(토큰 24% 절감) 환경이라는 점에서 해석상 중요하다. arXiv 식별자는 확인하지 못했다."
+            },
+            {
+              "title": "Claude Code / Codex CLI / OpenClaw / Hermes Agent",
+              "arxiv_id": "해당 없음(시스템, 논문 아님)",
+              "relation": "베이스라인이자 실행 백엔드. 논문은 이들의 네이티브 에이전트 루프를 수정하지 않고 AgentAdapter로 한 라운드짜리 에피소드로 감싸는 방식을 택한다."
+            }
+          ],
+          "followup": [
+            {
+              "note": "2026년 8월 3일 제출 직후 시점이라, 검색 범위(arXiv, HuggingFace papers, alphaXiv, 프로젝트 페이지) 안에서 이 논문을 인용한 후속 연구는 확인되지 않았다. HuggingFace 논문 페이지에도 커뮤니티 토론이나 비판 코멘트가 확인되지 않는다. 후속 동향은 추후 재확인 필요."
+            },
+            {
+              "note": "후속으로 자연스럽게 이어질 방향(관찰 기반 추정, 실제 논문 아님): (1) 감사자 오류율과 상태 오염 복구율의 정량화, (2) MEA 3요소 분리 ablation, (3) 비가역 액션이 포함된 웹/외부 API 환경으로의 확장, (4) 역할별 모델 라우팅의 비용-성능 파레토 최적화."
+            }
+          ]
+        },
+        "claude_note": "이 논문의 진짜 기여는 새 알고리즘이 아니라 권한 설계다. 실행자에게서 '완료를 선언할 권한'을 빼앗아 읽기 전용 감사자에게 넘기고, 상태를 컨텍스트 밖 파일로 승격시켜 검증된 사실만 적히게 만든 것 - 이 두 가지 권한 분리만으로 동일 백본에서 WeaveBench 51.8% -> 80.7%가 나온다는 점은 하네스 계층이 아직 얼마나 저평가되어 있는지를 보여준다. 다만 검증 밀도는 주장 강도를 따라가지 못한다. Terminal-Bench 2.1만 3회 평균이고 나머지는 단일 실행에 분산 미보고이며, OSWorld 2.0의 34개 서브셋 선정 기준이 설명되지 않고 초록(20.0% -> 34.3%)과 표(20.6% -> 35.3%로 읽히는 부분)의 수치가 어긋나 보이는 것도 걸린다. 무엇보다 MEA의 세 요소를 분리한 ablation이 없어서 이득이 '독립 감사'에서 온 것인지 단순한 컨텍스트 리셋에서 온 것인지 알 수 없고, 논문의 핵심 전제인 '감사자는 실행자보다 신뢰할 만하다'를 측정한 실험이 없다는 점은 구조적 공백이다. 그럼에도 저자들이 3.3절에서 '하네스는 모델에 없는 능력을 공급하지 못한다'와 감사 불가능 과제군(숨겨진 임계값, 시간축 증거, 신체적 정밀도)을 스스로 짚고, 토큰 오버헤드를 역할별로(매니저 2.0~8.1%, 감사자 19.4~38.1%) 분해해 공개하며 MIT 라이선스로 재현 스위트까지 낸 태도는 신뢰할 만하다. 실무자에게 남는 교훈은 단순하다 - 상태 관리가 병목인 과제에만 쓰고, 감사가 원리적으로 불가능하거나 되돌릴 수 없는 액션은 이 루프 바깥의 사람 승인 지점으로 빼라.",
+        "analyzed_at": "2026-08-10"
+      }
+    }
+  }
+}

@@ -1,0 +1,251 @@
+{
+  "week_id": "2026-W33",
+  "papers": {
+    "2412.20138": {
+      "classify": {
+        "categories": ["LLM/Agents"],
+        "primary_category": "LLM/Agents",
+        "topic_tags": ["agentic-workflow", "multi-agent", "financial-ai", "tool-use"],
+        "method_tags": ["prompting", "architecture"],
+        "modality": ["text"],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "트레이딩 회사 조직을 본떠 역할을 나눈 LLM 에이전트들이 토론으로 주식 매매를 결정한다.",
+        "problem": "금융 분야의 LLM 활용은 대개 단일 에이전트가 특정 작업을 처리하거나 여러 에이전트가 따로 데이터만 수집하는 수준에 머물렀다. 회사처럼 협업·토론하는 구조는 거의 탐구되지 않았다.",
+        "approach": "펀더멘털·감성·기술 분석가, 강세(Bull)·약세(Bear) 리서처, 리스크 관리팀, 트레이더 등 실제 직무를 LLM 에이전트로 구현한다. 강세·약세 에이전트가 토론하고, 트레이더가 그 결과와 과거 데이터를 종합해 매매를 결정한다.",
+        "contributions": [
+          "다중 에이전트 협업·토론 구조를 금융 트레이딩에 적용한 신규 프레임워크",
+          "베이스라인 대비 누적 수익률(cumulative returns) 향상",
+          "샤프 지수·최대 낙폭(MDD) 등 위험조정 지표 개선",
+          "코드 오픈소스(★96.8k)로 재현·확장 가능"
+        ],
+        "why_now": "지난주 한 주 쉬고 이번 주 다시 복귀했다. W25 이후 9주 중 8주에 등장한 이 시스템 최장수 논문으로, 멀티에이전트 × 금융에 대한 관심이 구조적임을 보여준다.",
+        "difficulty": "중급",
+        "recommended_reader": "LLM 에이전트 오케스트레이션·금융 AI에 관심 있는 학습자",
+        "field_tags": ["멀티에이전트", "금융AI", "에이전트토론", "리스크관리"],
+        "interest": { "upvotes": 119, "num_comments": 4, "github_stars": 96800 }
+      },
+      "learning": {
+        "key_terms": [
+          { "term": "Multi-Agent System", "gloss": "여러 LLM 에이전트가 역할을 나눠 협업하는 구조" },
+          { "term": "Sharpe Ratio", "gloss": "위험 대비 초과수익을 재는 투자 성과 지표" },
+          { "term": "Maximum Drawdown", "gloss": "고점 대비 최대 하락폭, 손실 위험의 척도" }
+        ],
+        "recall_quiz": {
+          "question": "TradingAgents에서 강세(Bull)·약세(Bear) 에이전트는 매매 결정에 어떻게 기여하는가?",
+          "answer": "시장 상황을 두고 서로 토론하며, 트레이더 에이전트가 그 토론 결과와 과거 데이터를 종합해 최종 매매를 결정한다."
+        },
+        "spaced_review": { "flag": false, "review_due": null }
+      }
+    },
+
+    "2606.23050": {
+      "classify": {
+        "categories": ["Multimodal", "Efficiency/Inference"],
+        "primary_category": "Multimodal",
+        "topic_tags": ["end-to-end-ocr", "kv-cache", "sliding-window-attention", "document-parsing"],
+        "method_tags": ["architecture", "inference-time"],
+        "modality": ["image", "text"],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "상수 KV 캐시(R-SWA)로 수십 페이지 문서를 한 번에 받아 적는, 인간 작업기억을 모사한 OCR 모델.",
+        "problem": "LLM을 디코더로 쓰는 엔드투엔드 OCR은 성능이 좋지만, 출력이 길어질수록 KV 캐시가 누적돼 메모리가 늘고 생성이 느려진다.",
+        "approach": "DeepSeek OCR을 베이스라인으로 디코더 어텐션을 R-SWA(Reference Sliding Window Attention)로 교체한다. 시각 토큰은 전역 접근을 유지하고 생성 텍스트만 슬라이딩 윈도우로 제한해 KV 캐시를 상수로 유지하며, 32K 길이에서 수십 페이지를 단일 forward로 전사한다.",
+        "contributions": [
+          "디코딩 내내 일정한 KV 캐시를 유지하는 R-SWA 어텐션",
+          "32K 길이에서 수십 페이지 문서를 단일 forward로 전사",
+          "OCR을 넘어 ASR·번역 등에 적용 가능한 범용 파싱 어텐션",
+          "코드·가중치 공개(Baidu, ★23.1k)"
+        ],
+        "why_now": "3주 연속 트렌딩하며 문서 파싱 분야의 대표작으로 자리잡았다. '문서 파싱 + 추론 효율화' 결합이 꾸준한 수요를 입증한다.",
+        "difficulty": "고급",
+        "recommended_reader": "OCR·문서 AI·추론 효율화에 관심 있는 학습자",
+        "field_tags": ["OCR", "상수KV캐시", "슬라이딩윈도우어텐션", "문서AI"],
+        "interest": { "upvotes": 79, "num_comments": 6, "github_stars": 23100 }
+      },
+      "learning": {
+        "key_terms": [
+          { "term": "KV Cache", "gloss": "어텐션 키·값을 저장해 디코딩을 가속하는 캐시. 길어지면 메모리 부담" },
+          { "term": "Sliding Window Attention", "gloss": "최근 일정 구간만 보는 어텐션으로 비용·캐시를 제한" },
+          { "term": "End-to-end OCR", "gloss": "이미지→텍스트를 단일 모델로 직접 수행하는 OCR" }
+        ],
+        "recall_quiz": {
+          "question": "Unlimited OCR이 긴 문서에서도 메모리·속도 저하 없이 작동하게 한 핵심 기법은?",
+          "answer": "디코더 어텐션을 R-SWA로 교체해 디코딩 내내 KV 캐시를 상수로 유지한다."
+        },
+        "spaced_review": { "flag": false, "review_due": null }
+      }
+    },
+
+    "2608.03974": {
+      "classify": {
+        "categories": ["Vision", "Efficiency/Inference"],
+        "primary_category": "Vision",
+        "topic_tags": ["video-editing", "autoregressive-diffusion", "distillation", "real-time"],
+        "method_tags": ["architecture", "distillation"],
+        "modality": ["video"],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "미래 프레임 없이 720p·30FPS로 실시간 편집하는 16B 자기회귀 확산 비디오 편집기.",
+        "problem": "실시간 비디오 편집은 낮은 지연과 제한된 연산 안에서 인과적(causal) 생성을 해야 하면서도, 원본 충실도와 장기 시간 일관성을 함께 지켜야 한다. 미래 프레임이나 정해진 영상 길이를 전제할 수 없다는 점이 어렵다.",
+        "approach": "16B 자기회귀 확산 프레임워크로 세 기법을 결합한다: 청크 단위 자기회귀 적응(학습-추론 불일치 완화), SA-DMD(Source-Anchored Distribution Matching Distillation, 2스텝 생성에서 원본 충실도 보존), 장기 자기회귀 증류(누적 시간 드리프트 완화).",
+        "contributions": [
+          "미래 프레임·영상 길이 전제 없이 동작하는 개방형(open-ended) 실시간 편집 프레임워크",
+          "SA-DMD로 2스텝 생성에서도 원본 충실도 유지",
+          "장기 자기회귀 증류로 누적 드리프트 억제 — 긴 영상에서도 경쟁력",
+          "단일 NVIDIA B200에서 720p 약 30FPS 엔드투엔드 편집, 코드 공개(JD 오픈소스)"
+        ],
+        "why_now": "지난주 이미지 생성(Mage-Flow)·3D·음성에 이어 이번 주는 '실시간 비디오 편집'이다. 생성 모델이 오프라인 품질 경쟁을 넘어 '실시간 상호작용'으로 이동하는 흐름을 보여준다.",
+        "difficulty": "고급",
+        "recommended_reader": "비디오 생성·확산 증류·실시간 추론에 관심 있는 학습자",
+        "field_tags": ["비디오편집", "자기회귀확산", "실시간", "증류"],
+        "interest": { "upvotes": 89, "num_comments": 1, "github_stars": 587 }
+      },
+      "learning": {
+        "key_terms": [
+          { "term": "Autoregressive Diffusion", "gloss": "이전 청크를 조건으로 다음 구간을 확산 생성하는 방식" },
+          { "term": "DMD", "gloss": "Distribution Matching Distillation. 다단계 확산을 소수 스텝으로 증류" },
+          { "term": "Temporal Drift", "gloss": "긴 영상에서 프레임이 누적적으로 원본과 어긋나는 현상" }
+        ],
+        "recall_quiz": {
+          "question": "JoyAI-Video-Edit이 2스텝 생성에서도 원본 충실도를 지키기 위해 도입한 기법은?",
+          "answer": "SA-DMD(Source-Anchored Distribution Matching Distillation) — 원본에 앵커를 둔 분포 매칭 증류."
+        },
+        "spaced_review": { "flag": false, "review_due": null }
+      }
+    },
+
+    "2607.24653": {
+      "classify": {
+        "categories": ["LLM/Agents", "Efficiency/Inference"],
+        "primary_category": "LLM/Agents",
+        "topic_tags": ["mixture-of-experts", "long-context", "linear-attention", "agentic-workflow", "reinforcement-learning"],
+        "method_tags": ["pretraining", "rl", "architecture"],
+        "modality": ["text", "image"],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "2.8T MoE·104B 활성·1M 컨텍스트로 프런티어급에 도전하는, 가중치를 전면 공개한 네이티브 멀티모달 모델.",
+        "problem": "프런티어급 지능은 사실상 폐쇄형 상용 모델의 영역이었다. 공개 가중치로 그 수준에 근접하려면 규모를 키우면서도 학습·추론 비용과 장문 처리를 동시에 해결해야 한다.",
+        "approach": "총 2.78T·토큰당 활성 104.2B의 MoE로, 시퀀스 축은 KDA(Kimi Delta Attention)와 하이브리드 어텐션으로, 깊이 축은 Attention Residuals로 정보 흐름을 개선한다. Stable LatentMoE가 896개 라우팅 전문가 중 토큰당 16개를 활성화하며, 사후학습은 일반·에이전트·코딩 도메인 RL과 다중 추론 강도(reasoning-effort) 수준을 다룬다. 이를 통해 K2 대비 전체 스케일링 효율이 약 2.5배 개선됐다고 주장한다.",
+        "contributions": [
+          "2.78T/104.2B 활성·1M 컨텍스트·네이티브 비전의 공개 가중치 모델",
+          "KDA + Attention Residuals + Stable LatentMoE로 K2 대비 약 2.5배 스케일링 효율",
+          "백만 토큰 에이전트 RL(지속 롤아웃·샌드박스 상태) 등 인프라 혁신",
+          "장기 코딩·에이전트·지식·추론·비전에서 프런티어급 성능, 전체 가중치 공개"
+        ],
+        "why_now": "2주 연속 트렌딩하며 업보트가 ▲431→486으로 계속 올랐다. 이 시스템 관측 이래 최고 관심도로, '공개 가중치 프런티어 모델'이 커뮤니티의 최대 화두임을 보여준다.",
+        "difficulty": "고급",
+        "recommended_reader": "대규모 모델 아키텍처·MoE·장문 어텐션·RL 인프라에 관심 있는 학습자",
+        "field_tags": ["MoE", "롱컨텍스트", "선형어텐션", "공개가중치"],
+        "interest": { "upvotes": 486, "num_comments": 10, "github_stars": 8300 }
+      },
+      "learning": {
+        "key_terms": [
+          { "term": "MoE (Mixture-of-Experts)", "gloss": "토큰마다 일부 전문가만 활성화해 용량↑·연산↓" },
+          { "term": "KDA", "gloss": "Kimi Delta Attention. 게이트가 있는 선형 어텐션 계열로 장문 효율을 높임" },
+          { "term": "Scaling Efficiency", "gloss": "같은 연산으로 얼마나 더 좋은 성능을 얻는지의 효율" }
+        ],
+        "recall_quiz": {
+          "question": "Kimi K3가 시퀀스 축과 깊이 축에서 각각 도입한 핵심 기법은?",
+          "answer": "시퀀스 축은 KDA(Kimi Delta Attention) 기반 하이브리드 어텐션, 깊이 축은 Attention Residuals."
+        },
+        "spaced_review": { "flag": true, "review_due": "2026-W36" }
+      }
+    },
+
+    "2608.01964": {
+      "classify": {
+        "categories": ["LLM/Agents", "Evaluation/Benchmarks"],
+        "primary_category": "LLM/Agents",
+        "topic_tags": ["long-horizon-reasoning", "agentic-workflow", "task-state-management", "tool-use"],
+        "method_tags": ["architecture", "inference-time"],
+        "modality": ["text"],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "작업 상태를 컨텍스트 밖에 두고 환경으로 검증된 사실만 반영해 장기 작업 성공률을 크게 끌어올린 하니스.",
+        "problem": "LLM 에이전트가 여러 단계에 걸친 장기 작업을 맡게 됐지만, 기존 하니스는 실행·상태·완료 판정을 모두 '커지는 컨텍스트' 안에서 관리한다. 그래서 상태 추적이 어렵고, 잘못된 자기 평가가 이후 결정으로 전파된다.",
+        "approach": "장기 실행을 '작업 상태 관리 문제'로 재정의한다. 상태를 실행 밖에 명시적으로 두고 환경에서 독립 검증된 사실로만 갱신한다. MEA(Manage-Execute-Audit) 루프에서 매니저가 상태를 관리하고 다음 하위작업을 정하며, 새 컨텍스트를 가진 실행자가 이를 수행하고, 읽기 전용 감사자가 다음 라운드 전에 환경 상태를 검증한다. 경량 AgentAdapter로 모델·하니스 백엔드를 원래 루프 수정 없이 교체할 수 있다.",
+        "contributions": [
+          "장기 실행을 작업 상태 관리로 재정의한 MEA(Manage-Execute-Audit) 루프",
+          "Qwen 3.7-Plus: WeaveBench 51.8%→80.7%, Terminal-Bench 2.1 69.7%→77.2%, OSWorld 2.0 2.8%→8.3%",
+          "Claude Opus 4.7: OSWorld 2.0 부분집합 20.0%→34.3%",
+          "AgentAdapter로 모델·하니스 교체 가능 — 여러 모델·도메인에서 일관된 향상"
+        ],
+        "why_now": "에이전트 논의가 '단발 작업'에서 '장기 실행 신뢰성'으로 옮겨가는 흐름의 정면 대응이다. 모델을 바꾸지 않고 하니스 설계만으로 큰 폭 향상을 낸 점이 특히 실용적이다.",
+        "difficulty": "중급",
+        "recommended_reader": "에이전트 하니스·장기 작업·오케스트레이션 설계에 관심 있는 학습자",
+        "field_tags": ["장기실행", "에이전트하니스", "상태관리", "검증"],
+        "interest": { "upvotes": 162, "num_comments": 3, "github_stars": 498 }
+      },
+      "learning": {
+        "key_terms": [
+          { "term": "Long-horizon Task", "gloss": "여러 단계가 서로 의존하는 긴 호흡의 작업" },
+          { "term": "Harness", "gloss": "에이전트의 실행 루프·도구·상태를 감싸는 실행 골격" },
+          { "term": "Auditor", "gloss": "결과를 읽기 전용으로 검증해 오류 전파를 막는 역할" }
+        ],
+        "recall_quiz": {
+          "question": "LongHorizon-Harness의 MEA 루프에서 세 역할은 각각 무엇을 하는가?",
+          "answer": "매니저는 작업 상태를 관리하고 다음 하위작업을 정하며, 새 컨텍스트의 실행자가 수행하고, 읽기 전용 감사자가 환경 상태를 검증한다."
+        },
+        "spaced_review": { "flag": false, "review_due": null }
+      }
+    },
+
+    "2407.16741": {
+      "classify": {
+        "categories": ["LLM/Agents", "Evaluation/Benchmarks"],
+        "primary_category": "LLM/Agents",
+        "topic_tags": ["ai-agents", "tool-use", "code-execution", "agentic-workflow"],
+        "method_tags": ["prompting", "architecture"],
+        "modality": ["text"],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "코드 작성·터미널·웹 브라우징으로 인간 개발자처럼 일하는 AI 에이전트 오픈 플랫폼.",
+        "problem": "LLM 발전으로 AI 에이전트가 빠르게 등장했지만, 새 에이전트를 구현하고 안전하게 코드를 실행하며 다중 에이전트를 조율하고 평가까지 아우르는 통합 플랫폼이 부족했다.",
+        "approach": "인간 개발자처럼 코드를 쓰고 커맨드라인을 다루며 웹을 탐색하는 에이전트를 만들 수 있는 플랫폼을 제공한다. 샌드박스에서의 안전한 코드 실행, 다중 에이전트 조율, 평가 벤치마크 통합을 지원한다.",
+        "contributions": [
+          "유연한 AI 개발자 에이전트 구축용 오픈 플랫폼(MIT 라이선스)",
+          "SWE-Bench·WebArena 등 15개 도전 과제로 에이전트 평가",
+          "커뮤니티 기반 프로젝트로 지속 성장",
+          "코드 오픈소스(★83.5k)"
+        ],
+        "why_now": "이번 주 LongHorizon-Harness와 함께 '에이전트 실행 골격(하니스)'이 두 편 올랐다. 에이전트 인프라·평가 표준에 대한 관심이 이어지고 있다.",
+        "difficulty": "입문",
+        "recommended_reader": "코딩 에이전트·에이전트 평가에 입문하려는 학습자",
+        "field_tags": ["코딩에이전트", "오픈플랫폼", "SWE-Bench", "에이전트평가"],
+        "interest": { "upvotes": 84, "num_comments": 7, "github_stars": 83500 }
+      },
+      "learning": {
+        "key_terms": [
+          { "term": "SWE-Bench", "gloss": "실제 GitHub 이슈 해결 능력을 재는 소프트웨어 공학 벤치마크" },
+          { "term": "Sandbox", "gloss": "코드를 안전하게 격리 실행하는 환경" },
+          { "term": "Generalist Agent", "gloss": "여러 종류의 작업을 두루 수행하는 범용 에이전트" }
+        ],
+        "recall_quiz": {
+          "question": "OpenDevin의 에이전트가 인간 개발자처럼 세상과 상호작용하는 세 가지 방식은?",
+          "answer": "코드 작성, 커맨드라인(터미널) 사용, 웹 브라우징."
+        },
+        "spaced_review": { "flag": false, "review_due": null }
+      }
+    }
+  },
+
+  "week_summary": {
+    "headline_ko": "에이전트 강세 회귀 — 장기 실행 하니스(LongHorizon) 신규 + Kimi K3 ▲486 관측 이래 최고, 실시간 비디오 편집 합류",
+    "clusters": [
+      { "category": "LLM/Agents", "paper_ranks": [1, 4, 5, 6], "theme_ko": "에이전트 4편 — 금융(TradingAgents 복귀)·프런티어 모델(Kimi K3)·장기 실행 하니스(LongHorizon)·코딩 플랫폼(OpenDevin)" },
+      { "category": "Multimodal", "paper_ranks": [2], "theme_ko": "문서 파싱(Unlimited OCR) 3주 연속" },
+      { "category": "Vision", "paper_ranks": [3], "theme_ko": "실시간 비디오 편집(JoyAI-Video-Edit) 신규" }
+    ],
+    "emerging_keywords": ["long-horizon-reasoning", "task-state-management"],
+    "narrative_ko": "이번 주는 에이전트가 6편 중 4편으로 다시 무게중심을 잡았다. 가장 눈에 띄는 신규는 LongHorizon-Harness(▲162)로, 장기 실행을 '작업 상태 관리 문제'로 재정의해 모델 교체 없이 Qwen 3.7-Plus의 WeaveBench를 51.8%에서 80.7%로 끌어올렸다. Kimi K3는 2주 연속 등장하며 ▲486으로 이 시스템 관측 이래 최고 관심도를 기록했고, TradingAgents는 한 주 쉰 뒤 복귀했다. 생성 쪽에서는 실시간 비디오 편집(JoyAI-Video-Edit, 720p 30FPS)이 새로 합류했고, Unlimited OCR은 3주 연속을 이어갔다.",
+    "recent_trend_ko": "누적 9주차. [회귀·강화] LLM/Agents가 6편 중 4편으로 9주 연속 최대 축을 유지했다(누적 agentic-workflow 15회+). 특히 '장기 실행 신뢰성'이 새 초점으로 떠올랐다 — LongHorizon-Harness가 상태를 컨텍스트 밖으로 빼고 환경 검증만 반영하는 MEA 루프를 제안했고, 이는 W29 EverMemOS(메모리 OS)·W25 SkillOpt(스킬 학습)와 함께 '에이전트의 내부 상태를 어떻게 설계할 것인가'라는 계열을 이룬다. [최고 관심] Kimi K3가 ▲431→486으로 2주 연속 상승, 관측 이래 최고치. [지속] 문서 파싱은 Unlimited OCR로 3주 연속. [릴레이 계속] 생성 모달리티가 이미지(W31)·비디오/3D/음성(W32)에 이어 실시간 비디오 편집(W33)으로 이어지며, 초점이 '품질'에서 '실시간·상호작용'으로 이동 중이다. [관통] 효율화는 9주째 — JoyAI의 2스텝 증류·30FPS, Unlimited OCR의 상수 KV캐시.",
+    "caveats_ko": "주 6편 트렌딩 표본 기준이며 HuggingFace 커뮤니티의 인기·최신 편향이 있습니다. 업보트·스타는 중요도가 아닌 '관심도' 지표로만 해석하세요. LongHorizon-Harness·JoyAI-Video-Edit의 성능 수치는 저자 보고 기준이며 제3자 검증 전입니다."
+  }
+}

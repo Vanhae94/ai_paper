@@ -1,0 +1,486 @@
+{
+  "week_id": "2026-W33",
+  "papers": {
+    "2412.20138": {
+      "tier2": {
+        "method_detail": "TradingAgents는 실제 트레이딩 회사를 모사한 LLM 멀티에이전트 프레임워크로, 7개 역할을 5개 팀으로 조직한다. (1) 애널리스트 팀(Analyst Team)은 펀더멘털(fundamental)·감성(sentiment)·뉴스(news)·기술적(technical) 분석가가 각자 구조화 리포트를 생성한다. (2) 리서처 팀(Researcher Team)은 강세(bull)/약세(bear) 연구자가 자연어 토론(natural language debate)을 n라운드 진행하고, 진행자(facilitator) 에이전트가 토론 이력을 검토해 우세 관점을 선택·기록한다(원문 표현 'facilitator ... selects the prevailing perspective'). (3) 트레이더(Trader)가 이를 종합해 매매 신호를 도출한다. (4) 리스크 관리 팀(Risk Management Team)은 공격적(aggressive)·중립(neutral)·보수(conservative) 세 관점이 토론해 노출을 조정한다. (5) 펀드 매니저(Fund Manager)가 최종 승인·집행한다. 에이전트 간 통신은 '구조화 리포트'를 1차 채널로, '자연어 대화'를 2차 채널로 쓰는 하이브리드 방식이며, 공유 글로벌 에이전트 상태(global agent state)와 메모리로 과거 결정 맥락을 유지한다(명시적 reflection 모듈 여부는 본문 확인 필요). 모델은 2계층(two-tier) 전략으로, 추론 집약 노드(분석·연구·트레이딩)에는 심층사고(deep-thinking) o1-preview를, 요약·데이터 변환·검색 등에는 신속사고(quick-thinking) gpt-4o/gpt-4o-mini를 배정하고, 전 에이전트는 ReAct 프롬프팅 프레임워크를 따른다(논문 명시). LangGraph는 논문 본문이 아니라 공식 오픈소스 레포/문서에서 구현 스택으로 명시된다('built with LangGraph').",
+        "experiment_setup": [
+          "대상 종목: AAPL, GOOGL, AMZN (3종목 소규모 표본)",
+          "백테스트 기간: 2024-06-19 ~ 2024-11-19 (약 5개월) — 원문(arXiv v1) 확인. 초안의 '2024년 1~3월/88거래일'은 오류로 정정",
+          "비교군(baselines): Buy & Hold(B&H), MACD, KDJ&RSI, ZMR, SMA 등 규칙기반 전략 (강한 ML/RL 트레이딩 비교군은 없음)",
+          "평가지표: 누적수익률(CR), 연환산수익률(ARR), 샤프비율(SR), 최대낙폭(MDD)",
+          "핵심 결과(Table 1, 원문 대조 일치): AAPL CR 26.62% / ARR 30.5% / SR 8.21 / MDD 0.91%",
+          "GOOGL CR 24.36% / ARR 27.58% / SR 6.39 / MDD 1.69%; AMZN CR 23.21% / ARR 24.90% / SR 5.60 / MDD 2.11%",
+          "원문 명시 개선폭(최고 베이스라인 대비): AAPL 누적 +24.57%·연환산 +28.43%, GOOGL +16.58%/+19.49%, AMZN +6.10%/+7.30% (SR 개선폭은 원문 미제시)",
+          "거래비용·슬리피지·세금 가정은 본문에서 언급 확인 안 됨"
+        ],
+        "datasets": [
+          {
+            "name": "과거 주가 시계열(OHLCV)",
+            "scale": "3종목 × 약 5개월(2024-06-19~11-19), Yahoo Finance/EODHD 등",
+            "domain": "시장 가격 데이터"
+          },
+          {
+            "name": "뉴스 기사",
+            "scale": "Bloomberg, Yahoo, EODHD, FinnHub 등 다중 소스",
+            "domain": "금융 뉴스/거시 지표"
+          },
+          {
+            "name": "소셜미디어 감성",
+            "scale": "Reddit, X/Twitter 게시물 + 보조 LM 감성 점수",
+            "domain": "시장 심리"
+          },
+          {
+            "name": "내부자·재무 데이터",
+            "scale": "SEDI 인사이더 거래, 기업 공시·재무제표",
+            "domain": "펀더멘털"
+          },
+          {
+            "name": "기술적 지표",
+            "scale": "60개 표준 기술분석 지표(MACD, RSI, Bollinger Bands 등) — 원문 'sixty ... indicators'",
+            "domain": "기술적 분석"
+          }
+        ],
+        "limitations": {
+          "by_authors": [
+            "과거 데이터 백테스트에 한정되며 실거래(live trading) 배포는 미검증 — 향후 과제로 명시",
+            "데이터 가용성 의존: 데이터 부재가 실제 거래 부재를 의미할 수 있어 신호 누락 가능",
+            "테스트 종목 수가 3개(AAPL/GOOGL/AMZN)로 소규모",
+            "다라운드 토론에 따른 지연·API 크레딧 비용 등 운영 오버헤드 존재"
+          ],
+          "by_claude": [
+            "보고된 샤프비율(AAPL SR 8.21 등)이 실무 기준으로 비현실적으로 높음 — 약 5개월의 짧고 대체로 우호적이었던 대형 기술주 구간과 3종목 소표본에 기인한 과대추정 가능성",
+            "거래비용·슬리피지·세금 반영 여부가 본문에서 확인되지 않음 — 미반영 시 실현 성과는 크게 하락 가능",
+            "베이스라인이 B&H·규칙기반 위주라 강한 ML/RL 트레이딩 비교군이 부재해 우위 주장의 상대적 강도가 제한적",
+            "데이터 누출 통제 서술이 불명확 — 백테스트 구간(2024 하반기)은 사용 모델(gpt-4o/o1-preview, 학습 컷오프 ~2023) 이후라 단순 암기형 누출 위험은 낮은 편이나, 뉴스·검색 파이프라인의 시점정합(point-in-time) 통제(미래 기사·미래 지표 유입 차단) 여부는 본문 확인 필요",
+            "원문이 제시한 개선폭은 CR/ARR 기준이며 SR 개선폭은 없음 — 초안의 'SR +6.57 우위'는 원문 근거 없어 삭제함"
+          ]
+        },
+        "reproducibility": {
+          "code": "공개 (github.com/TauricResearch/TradingAgents, Python, CLI+패키지, 조회 시점 약 94.6k 스타 — 변동값)",
+          "weights": "해당 없음 — 자체 학습 가중치 없이 OpenAI/Anthropic/Google/xAI/DeepSeek/Qwen/Ollama 등 상용·로컬 LLM API를 호출하는 구조",
+          "data": "부분 공개 — Yahoo/FinnHub/EODHD/Reddit 등 공개 API로 수집(API 키 필요), 정제·전처리 세부는 재현 시 재구성 필요",
+          "license": "Apache-2.0 (레포 확인)",
+          "note": "코드는 완전 공개이며 레포/문서에 LangGraph 기반 구현, 다중 LLM 프로바이더·Ollama 로컬 모델, CLI가 명시됨. 상용 LLM API 키가 필요해 비용·모델 버전에 따라 결과 재현이 달라질 수 있고, 레포에 '연구 목적이며 금융/투자/트레이딩 조언 아님' 면책이 명시됨. 논문 성과 수치(Table 1)는 원문과 1:1 대조해 일치 확인함."
+        },
+        "my_learning_points": [
+          "역할 분리 + 하이브리드 통신 패턴을 직접 모사해볼 것: 구조화 리포트(1차)와 자연어 토론(2차)을 상태 그래프(예: LangGraph)로 분리하면 '데이터 수집 → 관점 토론 → 리스크 조정 → 승인/집행' 파이프라인을 재사용 가능한 템플릿으로 만들 수 있다.",
+          "2계층 모델 라우팅(deep-thinking o1-preview vs quick-thinking gpt-4o/mini)을 벤치마크할 것: 추론 노드에만 고비용 모델을 쓰고 요약·검색은 저비용 모델로 돌려 비용/성능 트레이드오프를 직접 측정하면 실전 에이전트 설계 감각을 얻는다.",
+          "화려한 수익률(SR 8.21)을 액면 그대로 믿지 말고 재현 실험을 설계할 것: 종목·기간을 넓히고 거래비용을 넣은 뒤, 특히 뉴스/지표 검색을 시점정합(point-in-time)으로 잠근 out-of-sample 백테스트를 돌려 미래정보 유입을 통제하는 검증 습관을 기른다."
+        ],
+        "related_work": {
+          "prior": [
+            {
+              "name": "ReAct (Yao et al., 2022)",
+              "relation": "전 에이전트의 추론-행동 결합 프롬프팅 기반으로 채택(논문 명시)"
+            },
+            {
+              "name": "Generative Agents (Park et al., 2023)",
+              "relation": "LLM 에이전트 사회/역할 시뮬레이션이라는 설계 철학의 선행"
+            },
+            {
+              "name": "MetaGPT / ChatDev",
+              "relation": "역할 기반 멀티에이전트 협업(SOP·구조화 통신) 프레임워크 계보의 선행"
+            },
+            {
+              "name": "FinMem / FinAgent / FinGPT",
+              "relation": "단일 에이전트 중심 금융 LLM 선행 연구(FinMem·FinAgent는 본문에서 비교/언급), 본 논문이 협업형으로 확장"
+            }
+          ],
+          "followup": [
+            {
+              "name": "TauricResearch 오픈소스 생태계 확산",
+              "relation": "레포가 조회 시점 약 94.6k 스타로 확산되며 다중 프로바이더·로컬 모델·백테스트 기능 등 후속 개발이 이어짐(후속 '논문'은 본문 밖, 확인 필요)"
+            }
+          ]
+        },
+        "claude_note": "이 분석은 초록만이 아니라 arXiv v1 HTML 전문과 GitHub 레포를 실제 조회해 작성했고, 성과 표(Table 1)의 CR/ARR/SR/MDD를 원문과 1:1 대조해 모두 일치함을 확인했다. 다만 초안에는 백테스트 기간 오류(실제 2024-06-19~11-19, 약 5개월)와 원문에 없는 'SR +6.57 우위' 계산치가 있어 정정·삭제했고, LangGraph는 논문이 아니라 레포/문서 근거로 재귀속했다. 프레임워크 자체는 역할 분리·하이브리드 통신·2계층 모델 라우팅이라는 엔지니어링 설계가 탄탄하고 Apache-2.0로 완전 공개(조회 시점 약 94.6k 스타)되어 재현·학습 가치가 높다. 반면 SR 8.21과 초저 MDD는 3종목·약 5개월의 짧고 우호적인 대형 기술주 구간, 규칙기반 위주의 약한 베이스라인, 거래비용 미명시를 고려하면 실전 성능으로 액면 수용하기 어렵다(단, 테스트 구간이 모델 학습 컷오프 이후라 단순 암기형 누출 우려는 상대적으로 작다). 요컨대 '수익률 주장'보다 '멀티에이전트 트레이딩 아키텍처의 오픈소스 레퍼런스'로서의 기여가 이 논문의 진짜 가치다.",
+        "analyzed_at": "2026-07-27"
+      }
+    },
+    "2606.23050": {
+      "tier2": {
+        "analyzed_at": "2026-06-29",
+        "method_detail": "핵심은 R-SWA(Reference Sliding Window Attention). 디코딩 중 KV 캐시를 두 부분으로 유지한다 — 고정 프리픽스(시각+프롬프트 토큰, 길이 L_m)와 생성 텍스트에 대한 폭 n(기본 128)의 인과적 슬라이딩 윈도우. 캐시 크기는 C = L_m + min(n, T) ≤ L_m + n 으로, 윈도우 크기까지만 커지고 이후 '상수'다(표준 MHA는 L_m + T로 선형 증가). 시각(reference) 토큰은 상태 전이 없이 디코딩 내내 전역으로 접근 가능해, 일반 슬라이딩 윈도우와 달리 시각 특징이 '흐려지지' 않는다. 베이스라인 DeepSeek OCR의 인코더(DeepEncoder: SAM-ViT + CLIP-ViT, 16× 토큰 압축, 1024² → ~256 토큰)는 동결하고 디코더 어텐션만 R-SWA로 교체, LLM 파라미터만 학습한다. 디코더 3B(MoE로 ~500M 활성).",
+        "experiment_setup": [
+          "주 벤치마크: OmniDocBench v1.5/v1.6",
+          "비교: DeepSeek OCR(베이스라인)",
+          "장문 평가: 2~40+ 페이지 문서를 단일 forward로 전사"
+        ],
+        "datasets": [
+          {
+            "name": "문서 학습 샘플",
+            "scale": "약 200만(단일:다중 페이지 ≈ 9:1)",
+            "domain": "문서 OCR"
+          }
+        ],
+        "limitations": {
+          "by_authors": [
+            "프리필 32K 제한 — 페이지가 매우 많으면 한계(향후 128K 학습 예정)",
+            "다중페이지 모드는 Base 인코더(1024²)라 해상도 손실 → 20페이지 넘으면 edit distance 상승",
+            "학습 샘플 200만으로 제한적"
+          ],
+          "by_claude": [
+            "ASR·번역 일반화는 주장만 있고 실험 검증 없음(future work)",
+            "KV캐시 절감이 초장문에서 품질 저하와 트레이드오프"
+          ]
+        },
+        "reproducibility": {
+          "code": "공개",
+          "weights": "공개",
+          "data": "불명",
+          "license": "CC BY 4.0",
+          "note": "github.com/baidu/Unlimited-OCR, ★11.5k"
+        },
+        "my_learning_points": [
+          "'reference 토큰을 상태전이에서 제외'가 핵심 트릭 — 시각 충실도를 지키며 KV캐시를 상수화. 멀티모달 장문 디코딩에 일반 적용 가능",
+          "상수 KV캐시 = 장문 추론 비용의 근본 해법. W25 LMCache(캐시 외부 오프로딩)와 다른 각도(캐시 자체를 안 키움)",
+          "DeepSeek OCR 대비 OmniDocBench v1.5 +6.22%p, 6K 토큰 구간에서 ~35% 빠름 — 효율과 정확을 동시 개선"
+        ],
+        "related_work": {
+          "prior": [
+            {
+              "name": "DeepSeek OCR",
+              "relation": "베이스라인 — 인코더 재사용, 디코더 어텐션만 교체"
+            },
+            {
+              "name": "LMCache (W25)",
+              "relation": "KV캐시 효율화의 다른 접근(외부 오프로딩 vs 상수화)"
+            }
+          ],
+          "followup": [
+            {
+              "name": "R-SWA → ASR/번역",
+              "relation": "저자가 제시한 향후 확장(미검증)"
+            }
+          ]
+        },
+        "claude_note": "'인간은 이미 쓴 글을 다시 다 읽지 않는다'는 직관을 reference 토큰 전역 접근 + 출력 슬라이딩 윈도우로 구현해 KV캐시를 상수로 만든 영리한 설계다. 문서 파싱과 추론 효율화가 한 논문에서 만나는 점이 이번 주 '효율화가 분야를 가로지른다'는 흐름의 전형. 다만 초장문 해상도 손실·타도메인 미검증은 숙제."
+      }
+    },
+    "2607.24653": {
+      "tier2": {
+        "method_detail": "Kimi K3는 총 2.78T, 토큰당 활성 104.2B의 native multimodal MoE로 93층, hidden 7,168, attention head 96, vocab 160K이며, Kimi K2(61층, 1.04T/32.6B) 대비 층수 +52%, 총 파라미터 +167%, 활성 파라미터 +220%, 학습 컨텍스트 128K -> 1M(8x)이다. 시퀀스 축은 Hybrid Attention으로 블록마다 KDA(Kimi Delta Attention) 3층 + Gated MLA 1층의 3:1 구성(전체 69 KDA + 24 MLA)이고, 백본 끝에 Gated MLA를 하나 더 붙여 마지막 층이 항상 global attention이 되게 한다. KDA는 delta-rule 재귀에 채널별 forget gate를 더한 것인데, K3는 log-decay 매핑을 Kimi Linear의 negative-Softplus에서 scaled sigmoid로 바꿔 gmin = -5의 하한을 두었고, 그 결과 16-token tile의 누적 log-decay가 (-80, 0)에 갇혀 역수 rescaling이 BF16 범위에 들어오므로 대각 tile까지 전부 Tensor Core dense matmul로 처리해 기존의 position-pair 대각 경로를 제거했다(output gate도 low-rank -> full-rank). Gated MLA는 모든 MLA 층에 NoPE를 적용해 컨텍스트 확장 시 RoPE 재조정이나 YaRN이 불필요하고, 위치 정보는 KDA의 decay/gating이 담당하며 학습 시 attention 출력을 FP32로 유지한다. 깊이 축의 Attention Residuals는 층별 학습 pseudo-query로 embedding과 선행 블록 출력에 softmax attention을 걸어 깊이 방향 선택적 접근을 주며, K3는 12층 x 8블록의 Block AttnRes를 써 메모리/통신을 O(Ld)에서 O(Nd)로 낮춘다. 폭 축의 Stable LatentMoE는 routed expert를 896개로 늘려 토큰당 16개만 활성(sparsity 56)하고 full-width shared expert 2개를 두며, latent 폭 3,584(hidden의 0.5x), expert별 MoE hidden 3,072이고, 극단적 sparsity의 활성값 폭발과 부하 불균형을 up-projection 앞 RMSNorm, SiTU-GLU(gate lambda1 = 4, up lambda2 = 25의 tanh softcap), Quantile Balancing(expert bias를 margin의 (1-k/n)-quantile로 설정, histogram all-reduce로 근사)으로 억제한다. 비전은 SigLIP 초기화를 버리고 next-token prediction으로 처음부터 학습한 27층 401M MoonViT-V2(patch 14, head 12, RMSNorm, bias 제거)를 쓰고 2x2 pixel-shuffle로 시각 토큰을 1/4로 줄여 3584x3584까지 1M 컨텍스트에 담으며, optimizer는 Q/K/V 모멘텀을 head별로 Newton-Schulz 직교화하는 Per-Head Muon에 cosine decay(warmup 1%, weight decay 0.1)를 쓰고 컨텍스트는 8K -> 64K(사전학습) -> 256K -> 1M(cooldown) 4단계로 늘린다(총 학습 토큰수와 GPU 규모는 본문 미기재). 사후학습은 SFT(XTML chat template, 이 단계부터 MXFP4 weight/MXFP8 activation QAT) -> RL(general/general agents/coding agents 3도메인 x low/high/max 3단계 = 9개 전문가, partial rollout과 per-token 정규화로 stale 데이터 허용, 문제별 토큰예산 초과 시 보상 -1을 주는 reasoning effort 제어, 비검증 과제는 rubric 프로토콜 기반 Agentic GRM) -> MOPD(교사/학생 로그비를 clip한 per-token 보상으로 9개를 단일 모델로 통합) 3단계이며, 인프라는 FlashKDA 커널과 고정 크기 all-gather + prefix scan으로 동작하는 KDA Context Parallelism, rank당 최대 E/R개의 redundant expert만으로 완전 부하균형과 static shape를 보장하는 MoonEP, Firecracker microVM 기반 AgentENV(checkpoint 133 ms, resume 49 ms, 메모리 overcommit 최대 6.5x)로 구성된다.",
+        "experiment_setup": [
+          "평가 축은 Reasoning & Knowledge / Coding / Agentic / Vision 4개로 약 40종 공개 벤치를 쓰고, 베이스라인은 Claude Fable 5(max, fallback 포함), GPT-5.6 Sol(max, cyberguard 포함), Claude Opus 4.8(max), GPT-5.5(xhigh), 개방가중치 GLM-5.2(max)이다. Kimi K3는 reasoning effort max, temperature 1.0, 단발 과제 top-p 0.95 / 에이전트 과제 top-p 1.0이며 코딩은 Kimi Code / Claude Code / Codex 하네스 중 하나를 쓴다. 주: 원문 Table 1과 Table 2는 PDF 텍스트 추출 시 열이 밀려, 아래 수치는 본문 서술이나 delta 열로 교차확인된 값만 인용했다.",
+          "Reasoning & Knowledge: GPQA Diamond 93.5로 프런티어와 대등하나 연구급 과제는 열세다. HLE-Full은 도구 없이 43.5, 도구 사용 시 56.0으로 Fable 5와 GPT-5.6 Sol에 모두 뒤지고, CritPt는 23.4로 Fable 5(28.6), GPT-5.6 Sol, GPT-5.5보다 낮아 저자들이 개선 과제로 명시했다.",
+          "Coding: ProgramBench 77.8로 1위(GPT-5.6 Sol 77.6, Fable 5 76.8), SWE-Marathon 42.0으로 Fable 5(35.0)보다 7점 앞선다(단 H20 재보정 브랜치이며 Fable 5는 과제 35%에서 fallback 발생). Terminal-Bench 2.1은 88.3으로 GPT-5.6 Sol 88.8에 근접(Fable 5 88.0), 장기 과제 FrontierSWE는 81.2로 Fable 5(86.6)에 이어 2위, DeepSWE는 67.5(공식 리더보드 mini-SWE-agent 하네스 67.3)로 Fable 5(70.0)/GPT-5.6 Sol(73.0)에 뒤지고 GPT-5.5(67.0)/Opus 4.8(59.0)보다 앞선다.",
+          "Agentic: BrowseComp 91.2(300K 트리거 컨텍스트 압축 기준, 1M 풀컨텍스트에 압축 없이 돌리면 90.4), DeepSearchQA F1 95.0, ResearchRubrics 76.2, MCPMark-Verified 94.5, AutomationBench 30.8, SpreadsheetBench 2 34.8, tau3-Banking 33.4, Harvey Lab-AA 94.6(기준 통과율)로 다수 SOTA다. 반면 Elo 기반 지식노동 스위트는 열세로 GDPval-AA v2는 1,686으로 Fable 5(1,747)/GPT-5.6 Sol(1,736)에 이어 3위, AA-Briefcase는 1,548로 2위이며, CorpFin v2(71.6 vs 71.8)와 OSWorld-Verified(84.8 vs 85.0)는 Fable 5에 0.2점 차로 근접, OSWorld 2.0과 SaaS-Bench는 Fable 5 또는 GPT-5.6 Sol이 선두다.",
+          "Vision: 3회 평균(ZeroBench-main만 5회) 기준으로 OmniDocBench 91.1이 최고점이고, Python 도구가 성능을 크게 끌어올려 Math-Vision 94.3 -> 97.8, ZeroBench-main pass@5는 23.0(Fable 5와 동률) -> 41.0이 된다. WorldVQA는 51.0으로 Fable 5(56.7) 다음 2위이며 GPT-5.6 Sol(41.8)과 Opus 4.8(39.1)을 앞선다. MMMU-Pro 81.6 / 83.4, CharXiv(RQ) 84.8 / 91.3(도구 없음 / 도구 사용).",
+          "사내 벤치(Table 3): 강점은 오케스트레이션과 리서치형 에이전시로 Swarm Bench 76.3, Deep Research Bench 90.0이 선두이며, Kimi Code Bench 2.0은 Fable 5에만 뒤지고 Coding Experience는 1위다. Kimi Webdev Bench 블라인드 전문가 심사에서 Opus 4.8 대비 종합 승 58.6% / 무 13.8% / 패 27.6%(승-패 +31.0)이고 3D/WebGL/Shader가 +59.1로 최대 격차다. 약점은 Agent Behavior Bench, MIRA Bench, 24/7 ClawBench 2.0, Agentic Vision Bench, KWV Bench다.",
+          "사이버 보안 평가: Anthropic/OpenAI 프런티어 모델이 사이버 과제를 거부해 비교가 불가하므로 제외했다. Tier 1(취약점 발견)에서 OS 커널, DB, 웹 프레임워크, 블록체인, VPN 등 수십 개 시스템에서 수백 건의 후보를 찾아 인간 검토분의 약 70%가 진성으로 확인되고 6개 프로젝트에서 미공개 취약점 16건을 발견(원격 트리거 heap OOB write, RDMA의 Dirty-COW류 포함)했다. 반면 Tier 2(엔드투엔드 exploit)는 41개 과제 중 0건에서만 임의 코드 실행에 성공해 프런티어 사이버 모델에 못 미치며, 저자들은 이를 능력의 하한으로 규정한다.",
+          "제3자 평가(2026-07-23 기준)와 비용 효율: Artificial Analysis Intelligence Index v4.1 57.1로 580개 중 4위(Fable 5 59.9, GPT-5.6 Sol 58.9), Vals Index 74.7로 39개 중 2위(Fable 5 75.1, GPT-5.6 Sol 73.1), WebDev Arena 1,678 Elo로 99개 중 1위(개방 모델 최초 1위, Fable 5 1,634), Text Arena 1,486으로 200개 중 8위, Agent Arena 9.1로 37개 중 4위다. 비용은 BrowseComp 최고점 91.2를 과제당 $2.03(GPT-5.6 Sol의 절반, Claude 계열 max의 약 1/10)에 달성하고, Kimi Code Bench 2.0은 Fable 5보다 4.0점 낮은 대신 비용 38%이며 high effort로 Opus 4.8의 max 점수를 약 1/3 비용에 맞춘다. GDPval-AA v2는 GPT-5.6 Sol과 50 Elo 이내이면서 비용 13% 낮고 Fable 5보다 2.6x 저렴하다."
+        ],
+        "datasets": [
+          {
+            "name": "사전학습 텍스트 코퍼스 (Web Text / Code / Mathematics / Knowledge)",
+            "domain": "일반 텍스트, 코드, 수학, 지식",
+            "scale": "총 토큰수 본문 미기재. 규칙 휴리스틱 + 분류기 품질점수 + 중복제거로 필터링, 도메인별 샘플링률은 소형 모델 ablation으로 결정. 지식/수학은 K2의 rephrasing 레시피(문체와 관점 다변화 프롬프트, chunk 단위 자기회귀 생성, 원문 대조 충실도 검증)로 재작성. 배치 크기, 학습률, TPP, 모델 shape는 전용 scaling law 연구로 재조정했고 그 값은 미기재."
+          },
+          {
+            "name": "사전학습 비전 코퍼스",
+            "domain": "caption, interleaved image-text, OCR, perception, video, visual coding",
+            "scale": "규모 미기재. K2.5 분류체계를 따르며 오픈소스 컬렉션 + 사내 필터링/합성/중복제거 파이프라인. 좌표 감독은 절대값과 정규화([0,1]) 두 형식을 병기해 해상도 강건성 확보. SVG, 3D 에셋, Webpage, Game, CAD 스키매틱 등 코드-렌더링 쌍 프로그래매틱 멀티모달 데이터를 대폭 증량."
+          },
+          {
+            "name": "장문 컨텍스트 데이터",
+            "domain": "장문 문서, 장편 영상",
+            "scale": "8K -> 64K(사전학습) -> 256K -> 1M(cooldown) 4단계 커리큘럼. 정확/퍼지 중복제거, 영상은 프레임 perceptual hashing, 휴리스틱과 분류기 품질 필터, 구조 검증. 자연 장문이 희소해 upsample하고, 멀티모달 문서와 하위 과제를 permute-concat해 1M 전역을 봐야 풀리는 과제를 합성."
+          },
+          {
+            "name": "지식그래프 유도 RL 태스크 합성",
+            "domain": "지식 집약 도메인, 코딩, 비전",
+            "scale": "규모 미기재. 에이전트가 웹 탐색으로 재귀 확장하는 자기진화 DAG(조립 시 기존 노드 재사용으로 중복 최소화, 개념이 원자적이면 확장 중단). 다양한 granularity의 노드를 단독 또는 조합 샘플링해 키워드를 만들고 공개 자료를 검색, 합성 에이전트가 과제 유형을 골라 생성."
+          },
+          {
+            "name": "Kernel Optimization Tasks",
+            "domain": "GPU 커널 최적화",
+            "scale": "대규모 스위트, 정확한 개수 미기재. Flash Linear Attention 등 고품질 GitHub 저장소에서 수집, 단일 연산자부터 fused mega-kernel까지. CUDA, Triton, CuTe DSL, Gluon, ThunderKittens, TileLang과 BF16/FP8/FP4 지원. 보상은 정확도 + 성능(전문가 구현 수준 0.5, 하드웨어 roofline 접근 시 1)이며 CUDA graph replay, 입력 캐싱, 정밀도 축소 같은 reward hacking 탐지기를 병행."
+          },
+          {
+            "name": "Personal Assistant 모의 환경",
+            "domain": "장기 개인비서 워크플로 (HR, 법무, 금융)",
+            "scale": "Gmail, Notion, Slack, Canvas 등의 현실적 mock 구현. 수 시뮬레이션 일에 걸쳐 앱 전반에 수십 개 상호의존 이벤트가 분포하고, 단일 rollout이 최대 수천 tool call과 수백만 컨텍스트 토큰에 이른다. 이벤트마다 결정론적 규칙 또는 LLM 평가자 기준을 가지며 초기 워크스페이스는 에이전트가 웹 검색으로 자율 구성."
+          },
+          {
+            "name": "샌드박스 실행 규모 (AgentENV 등)",
+            "domain": "에이전트 RL 및 평가 인프라",
+            "scale": "K3 학습과 평가 전 과정에서 1,505,678개 이미지에 걸쳐 총 51,219,741개 샌드박스 생성. Firecracker microVM, OverlayBD 이미지 포맷 + 커스텀 ublk 드라이버로 sub-second 기동, 증분 checkpoint 133 ms / resume 49 ms, 메모리 overcommit 최대 6.5x. 1M 컨텍스트 RL 실험 자체는 co-located 설계로 수백 GPU 규모 내에서 수행."
+          },
+          {
+            "name": "사내 벤치마크 스위트",
+            "domain": "코딩 경험, 일반 에이전트 경험, 대화 경험",
+            "scale": "Kimi Code Bench 2.0, Kimi Webdev Bench(과제 수 미기재, 도메인은 Games / 3D-WebGL-Shader / Website-UI Clone), Coding Experience, 24/7 ClawBench 2.0, MIRA Bench, KAET, CLIF Bench, Agentic Vision Bench, Swarm Bench, Online Experience, Deep Research Bench, Finance Bench, KWV Bench, DECK Bench, Agent Behavior Bench, Faithfulness, Chat All-in-One Bench. 일부 표기상 80과제 또는 95과제 규모(각주의 fallback/refusal 카운트로 확인)."
+          }
+        ],
+        "limitations": {
+          "by_authors": [
+            "전체 성능이 최상위 상용 모델에 뒤진다고 초록과 1절에서 직접 인정한다. 대상은 Claude Fable 5와 GPT-5.6 Sol이며, 나머지 오픈/상용 모델에는 앞선다는 서술이다. 8절 결론은 '격차가 남는다'고만 쓰고 모델명은 적지 않는다.",
+            "연구급(research-level) 추론이 약점이라고 명시한다. HLE-Full은 도구 없이 43.5%, 도구 사용 56.0%로 두 상위 모델에 뒤지고, CritPt는 23.4%로 GPT-5.5에게까지 밀린다. 본문 표현은 '연구급 추론이 주요 개선 방향으로 남는다'이다.",
+            "사내(in-house) 평가가 공개 벤치보다 강약점을 더 선명하게 갈랐다고 밝히며, Agent Behavior Bench, MIRA Bench, 24/7 ClawBench 2.0, Agentic Vision Bench, KWV Bench 5개에서 선두에 뒤진다고 스스로 나열한다.",
+            "익스플로잇 개발(Tier 2) 36과제 중 14개(38.9%)만 해결했고 그중 10개가 user-space 트랙이다. 구성은 user-space 16 + 커널 20이며, 커널 트랙은 K3와 GLM-5.2 모두 3/4을 못 풀었다. 모든 과제가 인간 전문가로 해결 검증되었고 수트 전체가 약 540 전문가시간(과제당 약 15시간)으로 추정되므로 미해결분이 곧 인간 격차라고 인정한다.",
+            "익스플로잇 실패 모드 4가지를 직접 명시한다. (i) 이미 확보한 primitive에서 체인 최종 단계를 마무리 못함, (ii) 완화기법 하에서 전략 선택 실패(데이터 전용 공격이 쉬운데도 제어흐름 하이재킹 고집), (iii) 비생산적 디버깅 루프에 갇힘, (iv) 최종 산출물 검증 부족.",
+            "사이버 평가 결과를 '능력의 하한(lower bound)'으로 규정하고, 현재 모델 버전과 평가 범위에 조건부라고 단서를 단다. UK AISI/NIST CAISI 공동 평가에서도 41과제 중 0건 임의코드실행으로 프런티어 사이버 모델에 뒤진다고 인용한다.",
+            "Anthropic/OpenAI 프런티어 모델이 사이버 과제를 거부해 비교가 불가능하다며 해당 수트에서 제외했다. 결과적으로 Tier 2 베이스라인은 GLM-5.2 단독이다.",
+            "SwiGLU가 널리 쓰이지만 '경험적 효과에 대한 완전한 설명은 아직 열려 있다'고 인정하며, SiTU-GLU도 저정밀 오버플로 억제라는 공학적 동기에서 도출했다고 밝힌다.",
+            "MOPD에서 더 세밀한 top-k distillation 목적함수를 시도했으나 수렴 속도나 최종 성능 모두 뚜렷한 이득이 없었다고 음성 결과를 보고한다.",
+            "WorldVQA에서 모든 모델에 걸쳐 일관된 거부 행동이 관측되어 프롬프트 엔지니어링으로 답변을 강제했다고 밝힌다. 즉 해당 점수는 소재 그대로의 성능이 아니다."
+          ],
+          "by_claude": [
+            "핵심 주장인 '2.5x scaling efficiency'의 검증 근거가 부족하다. Figure 7의 x축은 절대 FLOPs(1e20 ~ 1e21)이지만 이는 소형 모델 스케일링 법칙 피팅 곡선이고, K3 자체의 총 학습 토큰 수, TPP 최적값, 사전학습 클러스터 규모, 총 FLOPs는 공개되지 않는다. GPU 규모 언급은 RL에 대한 '실험당 수백 GPU'가 유일하다. 외부에서 2.5배를 확인할 방법이 없다.",
+            "2.5x 이득의 분해 ablation이 없다. KDA, Block AttnRes, Stable LatentMoE, 데이터 개선, 학습 레시피 개선이 각각 몇 %를 기여했는지 표가 없고, 개별 근거는 'RMSNorm이 검증 손실과 다운스트림을 일관되게 개선' 같은 정성 서술뿐이다. 부록도 A 기여자, B SiTU-GLU, C QB 유도, D 히스토그램, E MoonEP 증명, F 챗 템플릿으로 기여도 분해표는 없다. 깊이 축과 폭 축 중 무엇이 실제 동력인지 알 수 없다.",
+            "깊이 축의 핵심인 Attention Residuals가 참고문헌 [57] 'Kimi Team. Attention Residuals. Preprint. 2026'으로만 인용된다. arXiv 번호도 URL도 없다. 같은 논문의 [63] Kimi Linear는 arXiv 2510.26692, [14] FlashKDA는 GitHub URL을 주는 것과 대조적이며 3대 축 중 하나의 원 근거에 접근할 수 없다.",
+            "벤치마크 비교의 하네스 비대칭 가능성이 있으나 근거 강도는 항목마다 다르다. 명시적으로 확인되는 것은 Agents' Last Exam 리더보드(K3=Kimi Code, GPT=Codex, Claude/GLM=Claude Code), Table 3 사내 벤치, 6.4절 비용 비교다. Table 2 코딩 항목은 '세 하네스 중 하나'라고만 적혀 모델별 배정이 불명이다. Terminal-Bench 2.1의 하네스별 최고점은 모든 모델에 동일 적용된다고 명시되어 대칭 조건이다. 반면 SWE-Marathon은 공식 v1.1 이전의 H20 재보정 브랜치, PostTrainBench는 공식 H100 대신 H20 3회 평균이라 자사 하드웨어 조건이 섞여 있다.",
+            "경쟁 모델 수치에 열화 조건이 섞여 있다. Claude Fable 5는 fallback 포함(SWE-Marathon 35% 과제에서 fallback 발생, Agents' Last Exam은 xhigh에 40% 과제가 downgraded 표기)이고 GPT-5.6 Sol은 cyberguard 포함이다. 저자들이 각주로 밝힌 점은 정직하지만, 표의 격차를 순수 능력 격차로 읽으면 과대 해석이 된다.",
+            "강점 주장의 상당 부분이 비공개 사내 벤치에 실려 있다. Swarm Bench 76.3, Deep Research Bench 90.0 등은 데이터셋과 채점 루브릭이 공개되지 않아 제3자 재현이 불가능하다. Kimi Webdev Bench의 +31.0은 Claude Opus 4.8 단독 대비이며 도메인 3종(Games +14.9, 3D/WebGL/Shader +59.1, Website/UI Clone +26.3)의 '전문가 블라인드 심사 선호'라는 주관 지표다.",
+            "사이버 이외의 전용 안전성 절이 없다. 전문에서 jailbreak, harmful, biological, chemical, misalignment, red team, safety, system card 문자열이 모두 검출되지 않고 시스템 카드에 해당하는 문서도 없다. 사내 Faithfulness(환각율) 벤치와 Table 3의 모델별 거부 횟수 각주가 유일한 인접 지표다. 3T급 가중치를 전면 공개하는 릴리스로서는 위험 문서화가 비대칭적으로 얕다.",
+            "다국어 평가가 없다. 160K vocab의 native multimodal 모델인데 언어 커버리지, 중국어/영어 외 성능, 언어별 열화에 관한 절이 없다. multilingual 관련 서술 검출 0건이다.",
+            "사전학습 전용 base 체크포인트가 공개되지 않은 것으로 보인다. 단 이는 원문 미기재 사항이며 논문은 각주 1의 moonshotai/Kimi-K3 URL만 제시한다. HuggingFace 공식 계정에 Base/Instruct 구분이 없다는 것은 외부 확인 결과다. 아키텍처 연구자가 KDA나 AttnRes 자체의 사전학습 특성을 후학습 효과와 분리해 검증할 경로가 막힌다.",
+            "공개 가중치가 SFT 단계부터 적용된 QAT 결과물이다. 다만 MXFP4는 MoE expert weights에만 적용되고 activations가 MXFP8이며, attention projections, latent MoE projections, shared experts, router는 고정밀을 유지한다고 4.1.4절이 명시한다. BF16 원본 대비 손실이 얼마인지, 고정밀 재학습이나 파인튜닝 시 어떤 제약이 생기는지에 대한 수치는 없다.",
+            "라이선스 관련 서술은 전부 원문 밖 근거다. 논문 전문에 'licen' 문자열이 0건이고 확인 가능한 것은 arXiv 게시물의 CC-BY-NC-ND 4.0뿐이다. 자체 Kimi K3 License, MaaS 누적 매출 2000만 달러 기준, MAU 1억 또는 월 매출 2000만 달러 초과 시 UI에 'Kimi K3' 표기 의무는 HuggingFace/GitHub 문서 기준의 외부 사실이며 별도 검증이 필요하다. 그 전제에서 'Open Frontier'라는 제목이 시사하는 것보다 개방 범위가 좁다는 지적은 유지된다.",
+            "1M 컨텍스트의 구간별 열화 곡선이 없다. NoPE + KDA decay로 위치 정보를 대체했다는 설계상 장문 열화 검증이 특히 중요한데, 8K에서 1M까지 needle 회수율이나 손실 곡선이 제시되지 않는다(needle, RULER 검출 0건). 장문 지표로는 AA-LCR 74.7이 유일하고 이는 Artificial Analysis 인용값이다. BrowseComp는 300K에서 compaction을 트리거하며, 무관리 1M 조건 90.4%는 6.1.3절 평가 설정 본문에 단일 수치로만 언급된다.",
+            "인프라 규모 자체가 재현 불가 수준이다. 학습/평가 동안 생성한 샌드박스가 51,219,741개, 이미지 1,505,678종이다. 다만 MoonEP(각주 3)와 AgentENV(각주 4)는 GitHub에 공개되며, 비공개로 남는 것은 사전학습 학습 코드, 1M agentic RL 프레임워크, 평가 하네스, 사내 벤치다. 즉 인프라 부품 일부는 열려 있고 전체 파이프라인 조립이 막혀 있다.",
+            "Figure 10에 'Kimi K2.6'이 비교군(0.560)으로 등장하지만 본문, 참고문헌, 부록 어디에도 소개나 인용이 없다(전문 검색상 해당 1회가 유일). 미공개 내부 모델과의 비교로 보이며 독자가 맥락을 확인할 수 없다."
+          ]
+        },
+        "reproducibility": {
+          "code": "부분 공개. 논문이 직접 URL로 밝히는 것은 FlashKDA(참고문헌 [14], github.com/MoonshotAI/FlashKDA), KDA 구현이 들어간 FLA PR #691(각주 2), MoonEP(각주 3, github.com/MoonshotAI/MoonEP), AgentENV(각주 4, github.com/kvcache-ai/AgentENV), 그리고 K3가 만든 산출물인 minitriton(각주 5)과 nano-kpu(각주 6)다. FlashKDA는 CUTLASS 기반이며 flash-linear-attention의 백엔드로 자동 디스패치된다고 밝힌다. FlashKDA API의 'lower_bound' 인자(범위 -5.0 ~ 0)가 논문의 gmin = -5 설계와 일치한다는 것은 원문에 없는 외부 확인 사항이다. GitHub MoonshotAI/Kimi-K3의 추론 배포 레시피(vLLM, SGLang, TokenSpeed 권장, OpenAI/Anthropic 호환 API)도 원문 미기재 외부 정보다. 반면 사전학습/후학습 학습 코드, 1M agentic RL 프레임워크, 평가 하네스, 사내 벤치 코드는 공개되지 않는다.",
+          "data": "미공개. 사전학습은 Web Text, Code, Mathematics, Knowledge 4개 텍스트 도메인 + 대규모 비전 코퍼스(캡션, interleaved, OCR, perception, video, visual coding)라고만 서술한다. 총 토큰 수, 도메인별 샘플링 비율, 필터 임계값, 중복제거 파라미터가 모두 없고 '작은 모델 ablation으로 결정했다'는 서술로 대체된다. 장문 데이터는 정확/퍼지 중복제거와 영상 프레임 perceptual hashing으로 정제하고 업샘플했다고만 밝힌다. 후학습 SFT/RL 데이터셋, GRM 루브릭, 사내 벤치 모두 비공개.",
+          "weights": "전체 공개. 각주 1의 HuggingFace moonshotai/Kimi-K3, 총 2.78T 파라미터 / 104.2B 활성, 1M 컨텍스트, MoonViT-V2(401M, 27층) 포함. 양자화는 MoE expert weights만 MXFP4이고 입력 activations가 MXFP8이며, attention projections, latent MoE projections, shared experts, router는 고정밀을 유지한다. SFT 단계부터 QAT를 적용한 배포용 가중치이고 BF16 원본은 논문에서 확인되지 않는다. 사전학습 전용 base 체크포인트 부재와 커뮤니티 파생(GGUF, NVFP4, FP8-BLOCK, REAP 등)은 원문 밖 외부 확인 사항이다.",
+          "license": "논문 본문에는 라이선스 조항이 전혀 없다(전문 'licen' 검출 0건). 확인 가능한 것은 arXiv 게시물 자체의 CC-BY-NC-ND 4.0(PDF 메타데이터)과 참고문헌 [14] FlashKDA의 공개 저장소 존재다. 자체 Kimi K3 License의 세부 조건, 즉 내부 사용 면제, MaaS 제공 시 라이선시와 계열사 합산 연속 12개월 누적 매출 2000만 달러 초과 시 별도 계약, MAU 1억 또는 월 매출 2000만 달러 초과 제품의 UI 'Kimi K3' 표기 의무, Moonshot 공식 제품 및 인증 추론 파트너 경유 면제, 무보증 조항은 모두 HuggingFace/GitHub 문서 기준의 외부 사실이며 원문으로는 검증되지 않는다.",
+          "note": "재현 가능성이 층위별로 크게 갈린다. 서빙/배포 재현성은 높다(가중치 + 추론 엔진 + MIT 커널). 학습 재현성은 0에 가깝다. 총 컴퓨트, 총 토큰 수, TPP 최적값, 사전학습 클러스터 규모, 데이터, 학습 코드가 전부 비공개다. 단 인프라 부품은 전부 비공개가 아니라 MoonEP와 AgentENV가 GitHub에 공개되어 있고, 막혀 있는 것은 이를 조립하는 사전학습/RL 파이프라인과 평가 하네스다. 벤치마크 재현성은 부분적이며, Table 2의 모델별 하네스 배정이 불명이고 SWE-Marathon과 PostTrainBench는 H20 재보정 환경이라 숫자 재생산이 사실상 어렵다. 검증 가능한 실질 자산은 (1) 가중치, (2) FlashKDA 커널, (3) MoonEP, (4) AgentENV, (5) Table 1의 K2 대비 아키텍처 대조표다. 3rd party 검증은 Artificial Analysis(Intelligence Index v4.1 = 57.1, 580개 중 4위), Vals AI(Vals Index 74.7%, 39개 중 2위), WebDev Arena(1,678 Elo, 99개 중 1위), Text Arena(1,486 Elo, 200개 중 8위), Agent Arena(9.1, 37개 중 4위), UK AISI/NIST CAISI 공동 사이버 평가가 존재해 자체 주장의 방향성은 외부에서 대체로 지지된다."
+        },
+        "my_learning_points": [
+          "FlashKDA(MIT)를 클론해 'lower_bound' 인자를 -5와 무제한(원 Kimi Linear의 negative-Softplus 상당)으로 바꿔가며 16-token tile 벤치를 돌려본다. 대각 tile을 Tensor Core dense matmul로 처리할 수 있게 만든 것이 순수 수학이 아니라 '누적 log-decay를 (-80, 0)에 가둬 역수를 BF16 범위에 넣는다'는 수치 범위 설계였음을 손으로 확인하는 것이 목적이다. 커널 제약이 아키텍처를 역으로 규정하는 사례를 체감할 수 있다.",
+          "K3의 Table 2를 그대로 옮겨 적고 각주 조건(K3는 Kimi Code / 경쟁사는 Claude Code, Codex, Fable 5의 fallback 35%, ALE의 downgraded 40%, H20 재보정, Terminal-Bench 하네스별 최고점)을 하나씩 제거하며 순위를 다시 매겨본다. 어떤 결론이 각주 제거만으로 흔들리는지 목록화하면, 이후 어떤 테크리포트를 읽어도 '표보다 각주를 먼저 읽는' 습관이 생긴다.",
+          "소형 MoE(예: 총 1B 미만, 64 experts, top-4)를 만들고 Stable LatentMoE의 세 요소 중 하나씩만 이식해 검증 손실을 비교한다. 우선순위는 (1) up-projection 앞 RMSNorm, (2) SiTU-GLU의 softcap, (3) Quantile Balancing이다. 논문이 제공하지 않은 분해 ablation을 축소판으로 직접 만들어보는 것이며, 극단 sparsity 안정화가 정규화에서 오는지 게이트 포화에서 오는지 라우팅 균형에서 오는지를 자기 데이터로 판별하는 훈련이 된다."
+        ],
+        "related_work": {
+          "prior": [
+            {
+              "title": "Kimi K2: Open Agentic Intelligence",
+              "arxiv": "2507.20534",
+              "relation": "직전 세대 1.04T / 32.6B MoE. K3의 비교 기준선이며 데이터 파이프라인, rephrasing 레시피, Muon + weight clipping을 그대로 계승한다. 2.5x scaling efficiency의 분모."
+            },
+            {
+              "title": "Kimi K2.5: Visual Agentic Intelligence",
+              "arxiv": "2602.02276",
+              "relation": "비전 코퍼스 taxonomy, RL 정책최적화 알고리즘, partial rollout, GRM tournament 방식, Decoupled Encoder Process(DEP)의 출처. K3는 여기서 비전 인코더 초기화 방식만 뒤집어 MoonViT-V2를 처음부터 학습한다."
+            },
+            {
+              "title": "Kimi Linear: An Expressive, Efficient Attention Architecture",
+              "arxiv": "2510.26692",
+              "relation": "KDA의 원형. chunkwise parallel form과 3:1 hybrid 구성의 출처. K3는 여기의 unbounded negative-Softplus log-decay를 scaled sigmoid + gmin = -5로 교체한 것이 핵심 변경점이다."
+            },
+            {
+              "title": "LatentMoE: Toward Optimal Accuracy per FLOP and Parameter in Mixture of Experts",
+              "arxiv": "2601.18089",
+              "relation": "Elango et al. latent 폭을 hidden과 분리해 expert 수 확장 비용을 낮추는 설계. K3의 Stable LatentMoE(latent 3,584, 896 routed experts)가 직접 확장한 토대."
+            },
+            {
+              "title": "Attention Residuals",
+              "arxiv": "미공개 preprint (Kimi Team, 2026). arXiv 번호 없음, 본문 확인 필요",
+              "relation": "깊이 축 축소의 원 근거. 층별 학습 pseudo-query로 embedding과 선행 블록 출력에 softmax attention을 거는 기법. K3는 12층 x 8블록의 Block AttnRes로 메모리/통신을 O(Ld) -> O(Nd)로 낮춰 적용한다."
+            },
+            {
+              "title": "Gated Delta Networks: Improving Mamba2 with Delta Rule",
+              "arxiv": "본문 확인 필요 (Yang, Kautz, Hatamizadeh)",
+              "relation": "delta rule + gating 계보. KDA의 채널별 forget gate가 여기의 negative-Softplus decay 매핑을 출발점으로 삼는다."
+            },
+            {
+              "title": "Muon is Scalable for LLM Training",
+              "arxiv": "2502.16982",
+              "relation": "K3의 Per-Head Muon 옵티마이저 기반. 분산 환경에서 Newton-Schulz orthogonalization을 위한 P2P 통신 설계로 이어진다."
+            },
+            {
+              "title": "DeepSeek-V3 Technical Report",
+              "arxiv": "2412.19437",
+              "relation": "MLA와 대규모 MoE 라우팅의 사실상 표준 비교군. K3의 Gated MLA와 shared/routed expert 구성이 이 계보 위에 있다."
+            },
+            {
+              "title": "DeepSeekMoE: Towards Ultimate Expert Specialization",
+              "arxiv": "2401.06066",
+              "relation": "fine-grained expert + shared expert 분리 설계의 원류. K3의 896 routed + 2 full-width shared 구성의 직계 조상."
+            }
+          ],
+          "followup": [
+            {
+              "title": "정식 후속 연구",
+              "status": "2026-08-03 시점에 K3를 확장한 공식 후속 논문은 확인되지 않았다. 본문 확인 필요."
+            },
+            {
+              "title": "Kimi K2.6",
+              "status": "본문 Figure 10에 비교군(완성도 0.560)으로만 등장하고 인용이나 설명이 없다. 별도 릴리스 존재를 시사하나 문서 확인 필요."
+            },
+            {
+              "title": "UK AISI + NIST CAISI 공동 사이버 평가",
+              "status": "참고문헌 [123]로 인용된 독립 검증. ExploitBench 32% (GLM-5.2 24%), 32단계 모의 기업망에서 17단계(GLM-5.2 11단계), 41과제 중 임의코드실행 0건. 보고서 서지 상세는 본문 확인 필요."
+            },
+            {
+              "title": "커뮤니티 파생 체크포인트",
+              "status": "HuggingFace에 unsloth/Kimi-K3-GGUF, RedHatAI/Kimi-K3-NVFP4, RedHatAI/Kimi-K3-FP8-BLOCK, nota-ai/Kimi-K3-Nota-Global-Pruned-25 및 -50, REAP 계열 expert pruning, 다수 GGUF 양자화가 존재. 3T급 가중치의 실사용 압축이 주된 파생 방향임을 보여준다."
+            },
+            {
+              "title": "FlashKDA / flash-linear-attention",
+              "status": "MoonshotAI/FlashKDA (MIT, CUTLASS 기반)와 FLA PR #691로 KDA 커널이 커뮤니티에 편입되었다. K3의 lower_bound 게이트가 후속 linear attention 구현의 기본 옵션이 될 가능성이 있다."
+            }
+          ]
+        },
+        "claude_note": "Kimi K3는 '오픈 진영이 test-time scaling에만 매달리는 동안 사전학습 축에서 1T급에 갇혀 수렴하고 있다'는 진단을 서론에서 정면으로 내놓고, 그 진단에 3T급 실물로 답한 보기 드문 리포트다. 기술적으로 가장 배울 점은 KDA의 log-decay를 negative-Softplus에서 scaled sigmoid(gmin = -5)로 바꾼 대목인데, 이는 표현력 개선이 아니라 누적 decay의 역수를 BF16 범위에 가두어 대각 tile까지 Tensor Core dense matmul로 처리하기 위한 수치 설계이며, 알고리즘이 커널 제약에 맞춰 재설계된 co-design의 교과서적 사례다. 정직성 면에서도 준수하다 - HLE-Full과 CritPt의 열위, 사내 벤치 5개의 열위, 익스플로잇 4대 실패 모드, top-k distillation의 무이득까지 스스로 적었고 경쟁 모델의 fallback과 cyberguard 조건도 각주로 밝혔다. 다만 논문의 최대 주장인 2.5x scaling efficiency는 총 토큰, TPP, GPU, FLOPs가 전부 비공개인 상태에서 정규화 곡선 하나로 지지되고, 3대 축 중 하나인 Attention Residuals는 접근 불가한 preprint 인용에 그치며, KDA/AttnRes/LatentMoE/데이터 각각의 기여를 가르는 분해 ablation이 없어 '무엇이 실제로 작동했는가'는 독자가 검증할 수 없다. 여기에 사이버 외 안전성 평가와 다국어 평가의 공백, base 체크포인트 부재, 매출 2000만 달러/MAU 1억 임계를 둔 자체 라이선스를 함께 놓으면, 이 릴리스는 '재현 가능한 연구'라기보다 '검증 가능한 제품 + 서술형 연구 보고'에 가깝다고 읽는 것이 정확하다.",
+        "analyzed_at": "2026-08-03"
+      }
+    },
+    "2407.16741": {
+      "tier2": {
+        "method_detail": "OpenHands(구 OpenDevin)는 코딩·명령줄·웹 브라우징을 사람 개발자처럼 수행하는 AI 에이전트를 만들기 위한 오픈 플랫폼으로, 핵심 추상화는 단일 step(self, state: State) 함수와 이벤트 스트림(event stream)이다. 이벤트 스트림은 과거 행동(Action)과 관찰(Observation)을 시간순으로 누적한 State의 핵심 요소로, 사용자 지시/피드백·멀티에이전트 위임 메타데이터까지 담는다. 행동 원시 타입은 IPythonRunCellAction(샌드박스 내 Python 실행), CmdRunAction(bash 실행), BrowserInteractiveAction(BrowserGym DSL 기반 웹 조작), 그리고 AgentDelegateAction·MessageAction·AgentFinishAction 등으로 정의된다. 실행 격리는 Agent Runtime으로, Docker 샌드박스 위에서 bash 쉘, Jupyter IPython 서버, Playwright 기반 Chromium을 제공한다. AgentSkills는 기본 bash/Python으로 얻기 어려운 유틸리티 툴박스로 edit_file, scroll_up/scroll_down, parse_image(비전-언어 모델 기반), parse_pdf 등을 제공한다. 멀티에이전트 협업은 AgentDelegateAction으로 구현되어 범용 CodeActAgent가 웹 태스크를 BrowsingAgent에게 위임할 수 있으며, 커뮤니티 에이전트 구현은 AgentHub에 모인다. 이 이벤트 스트림 + Docker 런타임 + AgentSkills + 위임 구조가 새 에이전트 구현·평가를 표준화하는 프레임워크를 이룬다.",
+        "experiment_setup": [
+          "벤치마크: 총 15개를 3범주로 통합 - 소프트웨어(SWE-Bench, HumanEvalFix, BIRD, BioCoder, ML-Bench, Gorilla APIBench, ToolQA), 웹(WebArena, MiniWoB++), 기타 보조(GAIA, GPQA, AgentBench, MINT, ProofWriter, Entity Deduction Arena)",
+          "평가 에이전트: CodeActAgent(v1.5/v1.8), BrowsingAgent(v1.0), GPTSwarm(v1.0) 등을 플랫폼에 재구현/통합",
+          "사용 LLM: 주로 gpt-4o(2024-05-13), claude-3-5-sonnet(20240620), gpt-4o-mini 등 프롬프트 기반(추가 파인튜닝 없음)",
+          "핵심 결과 - SWE-Bench Lite(300, 힌트 없음): CodeActAgent v1.8 + claude-3.5-sonnet = 26.0% resolve (gpt-4o 22.0%, gpt-4o-mini 7.0%) [원문 확인됨]",
+          "핵심 결과 - WebArena(812): BrowsingAgent v1.0 + claude-3.5-sonnet = 15.5% success (gpt-4o 14.8%, gpt-4o-mini 8.5%; WebArena 원논문 gpt-4-turbo baseline 14.4% 수준으로 대등) [원문 확인됨]",
+          "핵심 결과 - MiniWoB++(125 env): BrowsingAgent v1.0 + gpt-4o = 40.8%; 전문 모델 CC-NET(RL+human BC) 91.1%와 대비 [원문 확인됨]",
+          "핵심 결과 - GAIA L1 검증셋(53): GPTSwarm v1.0 + gpt-4o = 32.1% [원문 확인됨]",
+          "기타 보고 결과: HumanEvalFix 79.3%(CodeActAgent v1.5, gpt-4o, 0-shot), GPQA diamond 52.0%(v1.8, claude-3.5-sonnet), ML-Bench 76.5%(v1.5, gpt-4o, 68 인스턴스), AgentBench OS 57.6%(v1.5, gpt-4o, 144 인스턴스) [원문 확인됨]",
+          "비교군: 전문(specialist) 에이전트(SWE-Agent, AutoCodeRover, Aider 등) 및 전용 학습 모델(MiniWoB++의 CC-NET 등)과 대조"
+        ],
+        "datasets": [
+          {
+            "name": "SWE-Bench (Lite)",
+            "scale": "300 instances (Lite; full 2,294)",
+            "domain": "GitHub 이슈 해결/버그 수정 소프트웨어 엔지니어링"
+          },
+          {
+            "name": "WebArena",
+            "scale": "812 tasks",
+            "domain": "멀티도메인 실사이트 웹 브라우징/조작"
+          },
+          {
+            "name": "MiniWoB++",
+            "scale": "125 environments",
+            "domain": "합성 미니멀 웹 인터페이스 조작"
+          },
+          {
+            "name": "HumanEvalFix",
+            "scale": "164 Python instances",
+            "domain": "테스트 기반 버그 수정 코딩"
+          },
+          {
+            "name": "GAIA",
+            "scale": "466 curated tasks(3 난이도); L1 검증 53 평가",
+            "domain": "다능력 범용 어시스턴트"
+          },
+          {
+            "name": "GPQA (diamond)",
+            "scale": "198 instances",
+            "domain": "대학원 수준 과학 추론 QA"
+          },
+          {
+            "name": "AgentBench (OS subset)",
+            "scale": "144 bash instances",
+            "domain": "OS/bash 커맨드라인 상호작용"
+          },
+          {
+            "name": "BIRD",
+            "scale": "300 (dev set)",
+            "domain": "text-to-SQL"
+          },
+          {
+            "name": "BioCoder",
+            "scale": "157 Python + 50 Java",
+            "domain": "생명정보 코딩"
+          },
+          {
+            "name": "ML-Bench",
+            "scale": "68 instances (subset)",
+            "domain": "ML 리포지토리 코드 실행"
+          },
+          {
+            "name": "Gorilla APIBench",
+            "scale": "1,775 instances",
+            "domain": "API 선택"
+          },
+          {
+            "name": "MINT",
+            "scale": "225(math) + 136(code)",
+            "domain": "다중턴 도구 사용/추론"
+          },
+          {
+            "name": "ProofWriter",
+            "scale": "600 (5-hop)",
+            "domain": "논리 추론"
+          },
+          {
+            "name": "Entity Deduction Arena",
+            "scale": "200 (Things 100 + Celebrities 100)",
+            "domain": "전략적 질의 추론"
+          }
+        ],
+        "limitations": {
+          "by_authors": [
+            "현재 에이전트가 복잡·장기(long-horizon) 태스크에서 여전히 고전함(능력 상한 존재)",
+            "긴 파일 편집(long file editing) 등 특정 상황에서 성능 저하가 존재함",
+            "이미지/비디오 등 멀티모달(비전-언어) 지원이 미흡 - 향후 과제로 명시",
+            "웹 브라우징이 전문 에이전트/전용 학습 모델(예: MiniWoB++ CC-NET 91.1%) 대비 크게 열세(BrowsingAgent 40.8%, WebArena 15.5%)",
+            "안전(safety) 측면 우려 및 현 AI 에이전트가 실세계 태스크를 신뢰성 있게 수행하기 어렵다는 점 인정"
+          ],
+          "by_claude": [
+            "SWE-Bench 전체(2,294)가 아닌 Lite(300) 위주 보고이며 절대 성능(26.0%)은 신뢰성 있는 실무 자동화 수준과는 거리가 있어 상한 해석에 주의",
+            "최고 성능이 폐쇄형 상용 LLM(gpt-4o, claude-3.5-sonnet)에 크게 의존 - '오픈 플랫폼' 정체성과 성능 원천 사이에 긴장. 오픈웨이트 모델 성능은 본문 확인 필요",
+            "각 벤치마크의 세부 세팅(shot 수, 재시도 정책, 프롬프트) 및 baseline 공정성은 표를 직접 대조해야 완전 판단 가능",
+            "버전이 빠르게 바뀌어(v1.5 vs v1.8) 논문 수치와 현재 레포 성능/설계가 어긋날 수 있어 재현 시 커밋+모델 버전 고정 필요",
+            "도메인별 최고점은 여전히 전문 에이전트/전용 학습 모델에 미달 - '제너럴리스트'의 대가로서 범용성-성능 트레이드오프가 명시적으로 존재"
+          ]
+        },
+        "reproducibility": {
+          "code": "공개",
+          "weights": "해당없음(플랫폼/프레임워크로 자체 학습 가중치 없음; 상용/오픈 LLM API를 백엔드로 사용)",
+          "data": "공개(평가 벤치마크는 모두 공개된 외부 데이터셋을 통합; 통합 하네스가 레포에 포함)",
+          "license": "MIT",
+          "note": "GitHub: All-Hands-AI/OpenHands. v3 본문 기준 32K stars, 2.1K+ contributions, 188+ contributors(초록의 초기 수치 1.3K/160+ 대비 갱신됨). Docker 이미지 기반 런타임으로 환경 재현성 높음. ICLR 2025 채택(arXiv Comments 필드에서 확인). SWE-Bench 전체 2,294 인스턴스 실행 비용은 인스턴스당 $3 보수 추정 시 약 $6.9k로 원문 명시. OpenDevin→OpenHands 개명(f.k.a. OpenDevin)."
+        },
+        "my_learning_points": [
+          "에이전트 프레임워크 설계 시 '행동(Action)-관찰(Observation) 이벤트 스트림 + 단일 step(state: State) 함수' 추상화를 벤치마킹하라 - 새 에이전트/멀티에이전트 위임(AgentDelegateAction)을 최소 변경으로 붙일 수 있는 확장점이 된다.",
+          "코드 실행은 Docker 이미지 기반 격리 런타임(bash + IPython + Playwright)으로 감싸라 - 안전성과 환경 재현성을 동시에 확보하는 실전 패턴을 그대로 차용할 수 있다.",
+          "직접 재현 시 논문 수치가 아닌 특정 커밋 + 명시된 모델 버전(claude-3.5-sonnet@20240620 등)으로 고정하고, SWE-Bench는 Lite(300)로 소규모 검증 후 확장하라 - 전체 2,294 실행은 약 $6.9k 비용이 든다."
+        ],
+        "related_work": {
+          "prior": [
+            {
+              "name": "CodeAct (Executable Code Actions)",
+              "relation": "CodeActAgent의 기반 - 코드를 행동으로 실행하는 에이전트 패러다임"
+            },
+            {
+              "name": "SWE-Agent / SWE-Bench",
+              "relation": "핵심 소프트웨어 엔지니어링 벤치마크 및 비교 대상 전문 에이전트"
+            },
+            {
+              "name": "WebArena / BrowserGym",
+              "relation": "웹 브라우징 평가 환경 및 브라우저 행동 DSL 제공(BrowsingAgent 기반)"
+            },
+            {
+              "name": "AutoGPT / GPTSwarm / AutoGen 계열",
+              "relation": "범용/멀티에이전트 자율 에이전트의 선행 흐름 - 통합·비교 대상"
+            },
+            {
+              "name": "Devin (Cognition AI)",
+              "relation": "초기 영감을 준 클로즈드 AI 소프트웨어 엔지니어 - 명칭 OpenDevin의 유래"
+            }
+          ],
+          "followup": [
+            {
+              "name": "OpenHands 지속 릴리스(CodeActAgent v1.8+ 등)",
+              "relation": "논문 이후에도 레포에서 에이전트/런타임 지속 개선"
+            },
+            {
+              "name": "SWE-Bench Verified / SWE-Gym 등 후속 SE 벤치마크·학습셋",
+              "relation": "OpenHands 하네스가 후속 SE 에이전트 연구·데이터 생성의 표준 플랫폼으로 활용"
+            }
+          ]
+        },
+        "claude_note": "OpenHands(구 OpenDevin)의 가장 큰 기여는 특정 SOTA 점수가 아니라, 이벤트 스트림·Docker 런타임·AgentSkills·에이전트 위임(AgentDelegateAction/AgentHub)을 표준화해 '누구나 코딩·CLI·웹을 다루는 에이전트를 만들고 15개 벤치마크로 재평가'할 수 있게 한 오픈 인프라 그 자체다. MIT 라이선스에 32K stars, 188+ 기여자로 커뮤니티 채택이 확실하고 ICLR 2025 채택(arXiv Comments 확인)이라는 학술 검증도 받았다. 다만 SWE-Bench Lite 26.0%, WebArena 15.5%, MiniWoB++ 40.8% 같은 절대 성능은 실무 자동화와 거리가 있고, 특히 웹 도메인은 전용 학습 모델 CC-NET 91.1%에 크게 미달해 '제너럴리스트'의 성능 타협이 뚜렷하다. 또한 최고 성능이 폐쇄형 상용 LLM에 종속되어 '오픈 플랫폼' 정체성과 성능 원천 사이에 긴장이 있다. 종합하면 성능 논문이라기보다 '에이전트 연구의 공통 실험대'를 제시한 인프라 논문으로 읽는 것이 정확하며, 후속 SE 에이전트/데이터 연구의 사실상 표준 하네스가 되었다는 점에서 영향력이 크다.",
+        "analyzed_at": "2026-07-06"
+      }
+    }
+  }
+}
