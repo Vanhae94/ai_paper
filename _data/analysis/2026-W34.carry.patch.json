@@ -1,0 +1,221 @@
+{
+  "week_id": "2026-W34",
+  "papers": {
+    "2412.20138": {
+      "tier2": {
+        "method_detail": "TradingAgents는 실제 트레이딩 회사를 모사한 LLM 멀티에이전트 프레임워크로, 7개 역할을 5개 팀으로 조직한다. (1) 애널리스트 팀(Analyst Team)은 펀더멘털(fundamental)·감성(sentiment)·뉴스(news)·기술적(technical) 분석가가 각자 구조화 리포트를 생성한다. (2) 리서처 팀(Researcher Team)은 강세(bull)/약세(bear) 연구자가 자연어 토론(natural language debate)을 n라운드 진행하고, 진행자(facilitator) 에이전트가 토론 이력을 검토해 우세 관점을 선택·기록한다(원문 표현 'facilitator ... selects the prevailing perspective'). (3) 트레이더(Trader)가 이를 종합해 매매 신호를 도출한다. (4) 리스크 관리 팀(Risk Management Team)은 공격적(aggressive)·중립(neutral)·보수(conservative) 세 관점이 토론해 노출을 조정한다. (5) 펀드 매니저(Fund Manager)가 최종 승인·집행한다. 에이전트 간 통신은 '구조화 리포트'를 1차 채널로, '자연어 대화'를 2차 채널로 쓰는 하이브리드 방식이며, 공유 글로벌 에이전트 상태(global agent state)와 메모리로 과거 결정 맥락을 유지한다(명시적 reflection 모듈 여부는 본문 확인 필요). 모델은 2계층(two-tier) 전략으로, 추론 집약 노드(분석·연구·트레이딩)에는 심층사고(deep-thinking) o1-preview를, 요약·데이터 변환·검색 등에는 신속사고(quick-thinking) gpt-4o/gpt-4o-mini를 배정하고, 전 에이전트는 ReAct 프롬프팅 프레임워크를 따른다(논문 명시). LangGraph는 논문 본문이 아니라 공식 오픈소스 레포/문서에서 구현 스택으로 명시된다('built with LangGraph').",
+        "experiment_setup": [
+          "대상 종목: AAPL, GOOGL, AMZN (3종목 소규모 표본)",
+          "백테스트 기간: 2024-06-19 ~ 2024-11-19 (약 5개월) — 원문(arXiv v1) 확인. 초안의 '2024년 1~3월/88거래일'은 오류로 정정",
+          "비교군(baselines): Buy & Hold(B&H), MACD, KDJ&RSI, ZMR, SMA 등 규칙기반 전략 (강한 ML/RL 트레이딩 비교군은 없음)",
+          "평가지표: 누적수익률(CR), 연환산수익률(ARR), 샤프비율(SR), 최대낙폭(MDD)",
+          "핵심 결과(Table 1, 원문 대조 일치): AAPL CR 26.62% / ARR 30.5% / SR 8.21 / MDD 0.91%",
+          "GOOGL CR 24.36% / ARR 27.58% / SR 6.39 / MDD 1.69%; AMZN CR 23.21% / ARR 24.90% / SR 5.60 / MDD 2.11%",
+          "원문 명시 개선폭(최고 베이스라인 대비): AAPL 누적 +24.57%·연환산 +28.43%, GOOGL +16.58%/+19.49%, AMZN +6.10%/+7.30% (SR 개선폭은 원문 미제시)",
+          "거래비용·슬리피지·세금 가정은 본문에서 언급 확인 안 됨"
+        ],
+        "datasets": [
+          {
+            "name": "과거 주가 시계열(OHLCV)",
+            "scale": "3종목 × 약 5개월(2024-06-19~11-19), Yahoo Finance/EODHD 등",
+            "domain": "시장 가격 데이터"
+          },
+          {
+            "name": "뉴스 기사",
+            "scale": "Bloomberg, Yahoo, EODHD, FinnHub 등 다중 소스",
+            "domain": "금융 뉴스/거시 지표"
+          },
+          {
+            "name": "소셜미디어 감성",
+            "scale": "Reddit, X/Twitter 게시물 + 보조 LM 감성 점수",
+            "domain": "시장 심리"
+          },
+          {
+            "name": "내부자·재무 데이터",
+            "scale": "SEDI 인사이더 거래, 기업 공시·재무제표",
+            "domain": "펀더멘털"
+          },
+          {
+            "name": "기술적 지표",
+            "scale": "60개 표준 기술분석 지표(MACD, RSI, Bollinger Bands 등) — 원문 'sixty ... indicators'",
+            "domain": "기술적 분석"
+          }
+        ],
+        "limitations": {
+          "by_authors": [
+            "과거 데이터 백테스트에 한정되며 실거래(live trading) 배포는 미검증 — 향후 과제로 명시",
+            "데이터 가용성 의존: 데이터 부재가 실제 거래 부재를 의미할 수 있어 신호 누락 가능",
+            "테스트 종목 수가 3개(AAPL/GOOGL/AMZN)로 소규모",
+            "다라운드 토론에 따른 지연·API 크레딧 비용 등 운영 오버헤드 존재"
+          ],
+          "by_claude": [
+            "보고된 샤프비율(AAPL SR 8.21 등)이 실무 기준으로 비현실적으로 높음 — 약 5개월의 짧고 대체로 우호적이었던 대형 기술주 구간과 3종목 소표본에 기인한 과대추정 가능성",
+            "거래비용·슬리피지·세금 반영 여부가 본문에서 확인되지 않음 — 미반영 시 실현 성과는 크게 하락 가능",
+            "베이스라인이 B&H·규칙기반 위주라 강한 ML/RL 트레이딩 비교군이 부재해 우위 주장의 상대적 강도가 제한적",
+            "데이터 누출 통제 서술이 불명확 — 백테스트 구간(2024 하반기)은 사용 모델(gpt-4o/o1-preview, 학습 컷오프 ~2023) 이후라 단순 암기형 누출 위험은 낮은 편이나, 뉴스·검색 파이프라인의 시점정합(point-in-time) 통제(미래 기사·미래 지표 유입 차단) 여부는 본문 확인 필요",
+            "원문이 제시한 개선폭은 CR/ARR 기준이며 SR 개선폭은 없음 — 초안의 'SR +6.57 우위'는 원문 근거 없어 삭제함"
+          ]
+        },
+        "reproducibility": {
+          "code": "공개 (github.com/TauricResearch/TradingAgents, Python, CLI+패키지, 조회 시점 약 94.6k 스타 — 변동값)",
+          "weights": "해당 없음 — 자체 학습 가중치 없이 OpenAI/Anthropic/Google/xAI/DeepSeek/Qwen/Ollama 등 상용·로컬 LLM API를 호출하는 구조",
+          "data": "부분 공개 — Yahoo/FinnHub/EODHD/Reddit 등 공개 API로 수집(API 키 필요), 정제·전처리 세부는 재현 시 재구성 필요",
+          "license": "Apache-2.0 (레포 확인)",
+          "note": "코드는 완전 공개이며 레포/문서에 LangGraph 기반 구현, 다중 LLM 프로바이더·Ollama 로컬 모델, CLI가 명시됨. 상용 LLM API 키가 필요해 비용·모델 버전에 따라 결과 재현이 달라질 수 있고, 레포에 '연구 목적이며 금융/투자/트레이딩 조언 아님' 면책이 명시됨. 논문 성과 수치(Table 1)는 원문과 1:1 대조해 일치 확인함."
+        },
+        "my_learning_points": [
+          "역할 분리 + 하이브리드 통신 패턴을 직접 모사해볼 것: 구조화 리포트(1차)와 자연어 토론(2차)을 상태 그래프(예: LangGraph)로 분리하면 '데이터 수집 → 관점 토론 → 리스크 조정 → 승인/집행' 파이프라인을 재사용 가능한 템플릿으로 만들 수 있다.",
+          "2계층 모델 라우팅(deep-thinking o1-preview vs quick-thinking gpt-4o/mini)을 벤치마크할 것: 추론 노드에만 고비용 모델을 쓰고 요약·검색은 저비용 모델로 돌려 비용/성능 트레이드오프를 직접 측정하면 실전 에이전트 설계 감각을 얻는다.",
+          "화려한 수익률(SR 8.21)을 액면 그대로 믿지 말고 재현 실험을 설계할 것: 종목·기간을 넓히고 거래비용을 넣은 뒤, 특히 뉴스/지표 검색을 시점정합(point-in-time)으로 잠근 out-of-sample 백테스트를 돌려 미래정보 유입을 통제하는 검증 습관을 기른다."
+        ],
+        "related_work": {
+          "prior": [
+            {
+              "name": "ReAct (Yao et al., 2022)",
+              "relation": "전 에이전트의 추론-행동 결합 프롬프팅 기반으로 채택(논문 명시)"
+            },
+            {
+              "name": "Generative Agents (Park et al., 2023)",
+              "relation": "LLM 에이전트 사회/역할 시뮬레이션이라는 설계 철학의 선행"
+            },
+            {
+              "name": "MetaGPT / ChatDev",
+              "relation": "역할 기반 멀티에이전트 협업(SOP·구조화 통신) 프레임워크 계보의 선행"
+            },
+            {
+              "name": "FinMem / FinAgent / FinGPT",
+              "relation": "단일 에이전트 중심 금융 LLM 선행 연구(FinMem·FinAgent는 본문에서 비교/언급), 본 논문이 협업형으로 확장"
+            }
+          ],
+          "followup": [
+            {
+              "name": "TauricResearch 오픈소스 생태계 확산",
+              "relation": "레포가 조회 시점 약 94.6k 스타로 확산되며 다중 프로바이더·로컬 모델·백테스트 기능 등 후속 개발이 이어짐(후속 '논문'은 본문 밖, 확인 필요)"
+            }
+          ]
+        },
+        "claude_note": "이 분석은 초록만이 아니라 arXiv v1 HTML 전문과 GitHub 레포를 실제 조회해 작성했고, 성과 표(Table 1)의 CR/ARR/SR/MDD를 원문과 1:1 대조해 모두 일치함을 확인했다. 다만 초안에는 백테스트 기간 오류(실제 2024-06-19~11-19, 약 5개월)와 원문에 없는 'SR +6.57 우위' 계산치가 있어 정정·삭제했고, LangGraph는 논문이 아니라 레포/문서 근거로 재귀속했다. 프레임워크 자체는 역할 분리·하이브리드 통신·2계층 모델 라우팅이라는 엔지니어링 설계가 탄탄하고 Apache-2.0로 완전 공개(조회 시점 약 94.6k 스타)되어 재현·학습 가치가 높다. 반면 SR 8.21과 초저 MDD는 3종목·약 5개월의 짧고 우호적인 대형 기술주 구간, 규칙기반 위주의 약한 베이스라인, 거래비용 미명시를 고려하면 실전 성능으로 액면 수용하기 어렵다(단, 테스트 구간이 모델 학습 컷오프 이후라 단순 암기형 누출 우려는 상대적으로 작다). 요컨대 '수익률 주장'보다 '멀티에이전트 트레이딩 아키텍처의 오픈소스 레퍼런스'로서의 기여가 이 논문의 진짜 가치다.",
+        "analyzed_at": "2026-07-27"
+      }
+    },
+    "2310.10688": {
+      "tier2": {
+        "analyzed_at": "2026-06-22",
+        "method_detail": "디코더 전용(decoder-only) 트랜스포머에 '패치드-디코더' 어텐션을 쓴다. 입력 시계열을 겹치지 않는 패치(입력 패치 32 timepoints)로 잘라 각 패치를 residual block으로 토큰화한 뒤 causal self-attention으로 처리한다. 핵심 설계는 출력 패치(128 timepoints)를 입력 패치보다 길게 둔 점 — 예: 256 구간 예측에 자기회귀 단계가 8회가 아닌 2회로 줄어 추론이 효율적이다. 모델 차원 1280, 20개 레이어·16 헤드, 약 200M 파라미터(17M·70M 어블레이션 포함).",
+        "experiment_setup": [
+          "제로샷 평가 3대 벤치마크군: Monash(18개 데이터셋), Darts(8개 단변량), ETT(4개, horizon 96/192)",
+          "비교군: DeepAR·PatchTST·FEDformer/Autoformer/Informer·ARIMA·llmtime(GPT-3 기반)",
+          "학습: 모든 패치에 대한 MSE 손실 + 가변 컨텍스트 노출용 랜덤 마스킹(매 스텝 0~p-1 만큼 앞부분 마스킹 → 1~최대 길이 모두 학습)"
+        ],
+        "datasets": [
+          {
+            "name": "사전학습 코퍼스(실데이터+합성 약 50:50)",
+            "scale": "약 1000억 timepoints",
+            "domain": "Google Trends(~22k 쿼리, 2007~2022) · Wikipedia 페이지뷰(2012~2023) · M4(~10만 시계열) · Traffic/Electricity · 합성 300만 시계열×2048"
+          }
+        ],
+        "limitations": {
+          "by_authors": [
+            "원문에 명시적 '한계' 절은 두드러지지 않음"
+          ],
+          "by_claude": [
+            "점(point) 예측 위주 — 확률적(probabilistic) 예측은 '쉽다'고만 언급, 미검증",
+            "OOD 제로샷이 왜 잘 되는지에 대한 이론적 근거는 부족",
+            "평가가 3개 벤치마크군에 한정, 실패 모드·취약 도메인 분석 없음"
+          ]
+        },
+        "reproducibility": {
+          "code": "공개",
+          "weights": "공개",
+          "data": "부분",
+          "license": "Apache-2.0(레포 기준)",
+          "note": "원논문(2023)엔 공개 언급이 없었으나, 이후 google-research/timesfm로 코드·가중치 공개(★24.8k)"
+        },
+        "my_learning_points": [
+          "출력 패치를 입력보다 길게 둬 자기회귀 단계 수를 줄이는 효율 트릭 — 다른 생성 과제에도 응용 가능",
+          "랜덤 마스킹으로 1~최대까지 모든 컨텍스트 길이를 학습 → 가변 입력 강건성 확보",
+          "200M로 GPT-3(llmtime) 대비 ~1/1000 규모에서 더 나은 제로샷 — '도메인 특화 사전학습 > 범용 거대모델'의 사례"
+        ],
+        "related_work": {
+          "prior": [
+            {
+              "name": "llmtime (GPT-3로 시계열 예측)",
+              "relation": "LLM을 직접 예측에 쓴 선행 — TimesFM이 능가"
+            },
+            {
+              "name": "PatchTST",
+              "relation": "패치 기반 시계열 트랜스포머(지도학습 강baseline)"
+            }
+          ],
+          "followup": [
+            {
+              "name": "Kronos (지난주 W25)",
+              "relation": "같은 흐름의 금융 특화 시계열 파운데이션 모델"
+            }
+          ]
+        },
+        "claude_note": "출력>입력 패치, 랜덤 마스킹, 100B 규모 실+합성 코퍼스라는 단순하지만 효과적인 설계로 '시계열의 GPT'를 만든 기념비적 연구다. 지난주 Kronos와 함께 보면 시계열 파운데이션 모델이 도메인(범용→금융)을 넓혀가는 흐름이 뚜렷하다. 다만 점 예측 한정·이론적 근거 부족은 남는 숙제."
+      }
+    },
+    "2606.23050": {
+      "tier2": {
+        "analyzed_at": "2026-06-29",
+        "method_detail": "핵심은 R-SWA(Reference Sliding Window Attention). 디코딩 중 KV 캐시를 두 부분으로 유지한다 — 고정 프리픽스(시각+프롬프트 토큰, 길이 L_m)와 생성 텍스트에 대한 폭 n(기본 128)의 인과적 슬라이딩 윈도우. 캐시 크기는 C = L_m + min(n, T) ≤ L_m + n 으로, 윈도우 크기까지만 커지고 이후 '상수'다(표준 MHA는 L_m + T로 선형 증가). 시각(reference) 토큰은 상태 전이 없이 디코딩 내내 전역으로 접근 가능해, 일반 슬라이딩 윈도우와 달리 시각 특징이 '흐려지지' 않는다. 베이스라인 DeepSeek OCR의 인코더(DeepEncoder: SAM-ViT + CLIP-ViT, 16× 토큰 압축, 1024² → ~256 토큰)는 동결하고 디코더 어텐션만 R-SWA로 교체, LLM 파라미터만 학습한다. 디코더 3B(MoE로 ~500M 활성).",
+        "experiment_setup": [
+          "주 벤치마크: OmniDocBench v1.5/v1.6",
+          "비교: DeepSeek OCR(베이스라인)",
+          "장문 평가: 2~40+ 페이지 문서를 단일 forward로 전사"
+        ],
+        "datasets": [
+          {
+            "name": "문서 학습 샘플",
+            "scale": "약 200만(단일:다중 페이지 ≈ 9:1)",
+            "domain": "문서 OCR"
+          }
+        ],
+        "limitations": {
+          "by_authors": [
+            "프리필 32K 제한 — 페이지가 매우 많으면 한계(향후 128K 학습 예정)",
+            "다중페이지 모드는 Base 인코더(1024²)라 해상도 손실 → 20페이지 넘으면 edit distance 상승",
+            "학습 샘플 200만으로 제한적"
+          ],
+          "by_claude": [
+            "ASR·번역 일반화는 주장만 있고 실험 검증 없음(future work)",
+            "KV캐시 절감이 초장문에서 품질 저하와 트레이드오프"
+          ]
+        },
+        "reproducibility": {
+          "code": "공개",
+          "weights": "공개",
+          "data": "불명",
+          "license": "CC BY 4.0",
+          "note": "github.com/baidu/Unlimited-OCR, ★11.5k"
+        },
+        "my_learning_points": [
+          "'reference 토큰을 상태전이에서 제외'가 핵심 트릭 — 시각 충실도를 지키며 KV캐시를 상수화. 멀티모달 장문 디코딩에 일반 적용 가능",
+          "상수 KV캐시 = 장문 추론 비용의 근본 해법. W25 LMCache(캐시 외부 오프로딩)와 다른 각도(캐시 자체를 안 키움)",
+          "DeepSeek OCR 대비 OmniDocBench v1.5 +6.22%p, 6K 토큰 구간에서 ~35% 빠름 — 효율과 정확을 동시 개선"
+        ],
+        "related_work": {
+          "prior": [
+            {
+              "name": "DeepSeek OCR",
+              "relation": "베이스라인 — 인코더 재사용, 디코더 어텐션만 교체"
+            },
+            {
+              "name": "LMCache (W25)",
+              "relation": "KV캐시 효율화의 다른 접근(외부 오프로딩 vs 상수화)"
+            }
+          ],
+          "followup": [
+            {
+              "name": "R-SWA → ASR/번역",
+              "relation": "저자가 제시한 향후 확장(미검증)"
+            }
+          ]
+        },
+        "claude_note": "'인간은 이미 쓴 글을 다시 다 읽지 않는다'는 직관을 reference 토큰 전역 접근 + 출력 슬라이딩 윈도우로 구현해 KV캐시를 상수로 만든 영리한 설계다. 문서 파싱과 추론 효율화가 한 논문에서 만나는 점이 이번 주 '효율화가 분야를 가로지른다'는 흐름의 전형. 다만 초장문 해상도 손실·타도메인 미검증은 숙제."
+      }
+    }
+  }
+}

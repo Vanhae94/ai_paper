@@ -1,0 +1,253 @@
+{
+  "week_id": "2026-W34",
+  "papers": {
+    "2608.09888": {
+      "classify": {
+        "categories": ["Reasoning", "Efficiency/Inference"],
+        "primary_category": "Reasoning",
+        "topic_tags": ["in-context-learning", "latent-reasoning", "recurrent-memory", "arc-agi", "cost-efficiency"],
+        "method_tags": ["architecture", "inference-time"],
+        "modality": ["text"],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "150M 파라미터로 태스크당 $0.0007에 ARC-AGI 29.5%를 낸, 말하지 않고 잠재 공간에서 추론하는 모델.",
+        "problem": "추론 모델은 대개 사고 과정을 토큰으로 '말하면서'(verbalize) 성능을 얻는데, 이는 비용과 지연을 키운다. ARC-AGI처럼 규칙을 예시에서 유추해야 하는 과제에서 비용-정확도 파레토 프론티어를 넘어설 방법이 필요했다.",
+        "approach": "문맥 내 학습(in-context learning)과 순환 잠재 추론(recurrent latent reasoning)을 결합한다. 추론 시 제시된 입력이 모델의 순환 메모리를 계속 갱신하고, 모델은 중간 추론을 언어화하지 않은 채 고차원 잠재 공간에서 반복 연산으로 질의를 푼다. 공개 ARC-AGI-1 평가셋과 통제된 ARC 유사 개입(intervention)으로 '데모에서 무엇을 배우는지, 유추한 변환을 얼마나 일관되게 적용하는지, 어떤 개념이 어려운지'를 분석한다.",
+        "contributions": [
+          "문맥 내 학습 + 순환 잠재 추론을 결합한 추론 모델 제안",
+          "150M 구성으로 ARC-AGI-1 pass@2 29.5%, 태스크당 계산 추론 비용 $0.0007",
+          "기존 ARC-AGI-1 비용-정확도 파레토 프론티어 돌파(비용 효율 SOTA 주장)",
+          "통제된 ARC 유사 개입으로 학습·일반화 특성 분석"
+        ],
+        "why_now": "▲642로 이 시스템 관측 이래 최고 관심도다(직전 최고 Kimi K3 486). 거대 모델·장문 사고사슬 흐름과 정반대로 '작고 말하지 않는 추론'이 통할 수 있음을 보여, 효율화 트렌드의 극단 사례로 주목받았다.",
+        "difficulty": "고급",
+        "recommended_reader": "추론 아키텍처·ARC-AGI·효율적 추론에 관심 있는 학습자",
+        "field_tags": ["잠재추론", "문맥내학습", "ARC-AGI", "비용효율"],
+        "interest": { "upvotes": 642, "num_comments": 3, "github_stars": 3227 }
+      },
+      "learning": {
+        "key_terms": [
+          { "term": "In-Context Learning", "gloss": "가중치 갱신 없이 문맥에 주어진 예시만으로 과제를 익히는 능력" },
+          { "term": "Latent Reasoning", "gloss": "중간 사고를 토큰으로 말하지 않고 잠재 공간에서 수행하는 추론" },
+          { "term": "ARC-AGI", "gloss": "소수 예시에서 규칙을 유추해 격자 변환을 푸는 추상 추론 벤치마크" },
+          { "term": "pass@2", "gloss": "두 번의 시도 중 하나라도 정답이면 성공으로 치는 지표" }
+        ],
+        "recall_quiz": {
+          "question": "BDH-CQ가 중간 추론을 토큰으로 말하지 않고도 문제를 푸는 방식은?",
+          "answer": "추론 시 입력이 순환 메모리를 계속 갱신하고, 고차원 잠재 공간에서 반복 연산으로 질의를 푼다."
+        },
+        "spaced_review": { "flag": true, "review_due": "2026-W38" }
+      }
+    },
+
+    "2605.31264": {
+      "classify": {
+        "categories": ["LLM/Agents", "Data"],
+        "primary_category": "LLM/Agents",
+        "topic_tags": ["agent-skills", "knowledge-distillation", "personalization", "agentic-workflow"],
+        "method_tags": ["distillation", "data-centric", "prompting"],
+        "modality": ["text"],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "사람이 남긴 흔적에서 검사·수정·롤백이 가능한 '개인 기반 AI 스킬' 패키지를 자동 증류한다.",
+        "problem": "LLM 에이전트에 사람의 전문성·판단·상호작용 스타일을 담으려 해도, 실제 지식은 깔끔한 지시문이 아니라 이질적인 흔적(trace)에 흩어져 있다. 기존 메모리·페르소나 시스템은 단편만 포착하고, 스킬 프레임워크는 포장 형식만 제공할 뿐, 흔적을 검사·수정 가능한 스킬로 만드는 엔드투엔드 워크플로가 없었다.",
+        "approach": "대상 인물·역할의 자료로부터 버전 관리되는 스킬 패키지를 생성하는 trace-to-skill 증류 시스템이다. 패키지는 두 트랙으로 구성된다 — 실무 관행·멘탈모델·의사결정 휴리스틱을 담는 역량(capability) 트랙과, 커뮤니케이션 스타일·상호작용 규칙·교정 이력을 담는 경계된 행동(bounded behavior) 트랙. 패키지는 검사·호출·자연어 피드백 갱신·롤백·여러 에이전트 호스트 설치가 가능하고, 통제된 배포도 준비할 수 있다.",
+        "contributions": [
+          "흔적에서 스킬로 이어지는 엔드투엔드 증류 워크플로 제시",
+          "역량 트랙 + 경계된 행동 트랙의 이원 구조 스킬 패키지",
+          "산출물 계약(artifact contract)·교정 생애주기·배포 표면·도메인 프리셋을 갖춘 오픈소스 구현",
+          "논문 작성 시점 공개 저장소 약 18.5k 스타, 갤러리에 165명이 기여한 215개 스킬(현재 ★23.1k)"
+        ],
+        "why_now": "'스킬을 어떻게 만들고 관리할 것인가'는 W25 SkillOpt(스킬 최적화)·W33 LongHorizon(상태 관리)과 이어지는 계열이다. 이 논문은 그중 '사람의 암묵지를 스킬로 만드는' 입구를 다루며, 프롬프트나 숨은 메모리가 아니라 포터블·수정가능 패키지로 다루자는 관점이 특징이다.",
+        "difficulty": "중급",
+        "recommended_reader": "에이전트 스킬 설계·지식 관리·개인화 에이전트에 관심 있는 학습자",
+        "field_tags": ["에이전트스킬", "지식증류", "개인화", "스킬패키지"],
+        "interest": { "upvotes": 127, "num_comments": 3, "github_stars": 23136 }
+      },
+      "learning": {
+        "key_terms": [
+          { "term": "Trace", "gloss": "대화·문서·작업 기록 등 사람이 남긴 이질적 흔적 자료" },
+          { "term": "Knowledge Distillation", "gloss": "여기서는 흔적에 흩어진 암묵지를 사용 가능한 스킬로 정제하는 과정" },
+          { "term": "Artifact Contract", "gloss": "생성물이 지켜야 할 구조·형식 규약" }
+        ],
+        "recall_quiz": {
+          "question": "COLLEAGUE.SKILL이 만드는 스킬 패키지의 두 트랙은 각각 무엇을 담는가?",
+          "answer": "역량 트랙은 실무 관행·멘탈모델·의사결정 휴리스틱을, 경계된 행동 트랙은 커뮤니케이션 스타일·상호작용 규칙·교정 이력을 담는다."
+        },
+        "spaced_review": { "flag": false, "review_due": null }
+      }
+    },
+
+    "2412.20138": {
+      "classify": {
+        "categories": ["LLM/Agents"],
+        "primary_category": "LLM/Agents",
+        "topic_tags": ["agentic-workflow", "multi-agent", "financial-ai", "tool-use"],
+        "method_tags": ["prompting", "architecture"],
+        "modality": ["text"],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "트레이딩 회사 조직을 본떠 역할을 나눈 LLM 에이전트들이 토론으로 주식 매매를 결정한다.",
+        "problem": "금융 분야의 LLM 활용은 대개 단일 에이전트가 특정 작업을 처리하거나 여러 에이전트가 따로 데이터만 수집하는 수준에 머물렀다. 회사처럼 협업·토론하는 구조는 거의 탐구되지 않았다.",
+        "approach": "펀더멘털·감성·기술 분석가, 강세(Bull)·약세(Bear) 리서처, 리스크 관리팀, 트레이더 등 실제 직무를 LLM 에이전트로 구현한다. 강세·약세 에이전트가 토론하고, 트레이더가 그 결과와 과거 데이터를 종합해 매매를 결정한다.",
+        "contributions": [
+          "다중 에이전트 협업·토론 구조를 금융 트레이딩에 적용한 신규 프레임워크",
+          "베이스라인 대비 누적 수익률(cumulative returns) 향상",
+          "샤프 지수·최대 낙폭(MDD) 등 위험조정 지표 개선",
+          "코드 오픈소스(★98.6k)로 재현·확장 가능"
+        ],
+        "why_now": "2주 연속이자 10주 중 9주 등장한 최장수 논문이다. 이번 주 Kronos와 함께 'AI×금융'이 다시 2편으로 올라왔다.",
+        "difficulty": "중급",
+        "recommended_reader": "LLM 에이전트 오케스트레이션·금융 AI에 관심 있는 학습자",
+        "field_tags": ["멀티에이전트", "금융AI", "에이전트토론", "리스크관리"],
+        "interest": { "upvotes": 123, "num_comments": 4, "github_stars": 98600 }
+      },
+      "learning": {
+        "key_terms": [
+          { "term": "Multi-Agent System", "gloss": "여러 LLM 에이전트가 역할을 나눠 협업하는 구조" },
+          { "term": "Sharpe Ratio", "gloss": "위험 대비 초과수익을 재는 투자 성과 지표" },
+          { "term": "Maximum Drawdown", "gloss": "고점 대비 최대 하락폭, 손실 위험의 척도" }
+        ],
+        "recall_quiz": {
+          "question": "TradingAgents에서 강세(Bull)·약세(Bear) 에이전트는 매매 결정에 어떻게 기여하는가?",
+          "answer": "시장 상황을 두고 서로 토론하며, 트레이더 에이전트가 그 토론 결과와 과거 데이터를 종합해 최종 매매를 결정한다."
+        },
+        "spaced_review": { "flag": false, "review_due": null }
+      }
+    },
+
+    "2310.10688": {
+      "classify": {
+        "categories": ["Data"],
+        "primary_category": "Data",
+        "topic_tags": ["time-series-foundation-model", "zero-shot", "autoregressive-objective", "forecasting"],
+        "method_tags": ["pretraining", "architecture"],
+        "modality": ["multi"],
+        "confidence": "medium"
+      },
+      "tier1": {
+        "one_liner": "패치드-디코더 어텐션으로 사전학습해, 추가 학습 없이도 다양한 시계열을 예측하는 파운데이션 모델.",
+        "problem": "데이터셋마다 따로 학습하지 않고도 즉시(zero-shot) 쓸 수 있는 시계열 예측 파운데이션 모델이 필요했다. 기존엔 데이터셋별 지도학습 모델이 각각 최고 성능을 냈다.",
+        "approach": "대규모 시계열 코퍼스에 patched-decoder 스타일 어텐션 모델을 사전학습한다. 출력 패치를 입력 패치보다 길게 둬 자기회귀 단계를 줄이고, 랜덤 마스킹으로 다양한 관측 길이를 학습해 여러 예측 길이·시간 granularity에 두루 동작한다.",
+        "contributions": [
+          "시계열 예측용 디코더 전용 파운데이션 모델 제안",
+          "여러 공개 데이터셋에서 제로샷 성능이 데이터셋별 SOTA 지도학습에 근접",
+          "관측·예측 길이와 시간 granularity 변화에 두루 일반화",
+          "코드·가중치 공개(Google, ★28k)"
+        ],
+        "why_now": "이번 주 Kronos와 함께 시계열 파운데이션 모델이 2편 동반 복귀했다. W28 이후 뜸했던 이 계열이 다시 관심을 받는 신호다.",
+        "difficulty": "중급",
+        "recommended_reader": "시계열 예측·파운데이션 모델에 관심 있는 학습자",
+        "field_tags": ["시계열", "파운데이션모델", "제로샷", "예측"],
+        "interest": { "upvotes": 37, "num_comments": 1, "github_stars": 28000 }
+      },
+      "learning": {
+        "key_terms": [
+          { "term": "Zero-shot", "gloss": "별도 추가 학습 없이 바로 새 데이터에 적용하는 능력" },
+          { "term": "Patched-decoder", "gloss": "시계열을 패치 단위로 묶어 디코더로 처리하는 구조" },
+          { "term": "Temporal Granularity", "gloss": "시·일·주 등 데이터의 시간 해상도" }
+        ],
+        "recall_quiz": {
+          "question": "TimesFM이 자기회귀 단계 수를 줄이기 위해 택한 설계는?",
+          "answer": "출력 패치(128)를 입력 패치(32)보다 길게 두어 한 번에 더 긴 구간을 예측한다."
+        },
+        "spaced_review": { "flag": false, "review_due": null }
+      }
+    },
+
+    "2508.02739": {
+      "classify": {
+        "categories": ["Data"],
+        "primary_category": "Data",
+        "topic_tags": ["time-series-foundation-model", "financial-ai", "synthetic-data", "autoregressive-objective"],
+        "method_tags": ["pretraining", "architecture"],
+        "modality": ["multi"],
+        "confidence": "medium"
+      },
+      "tier1": {
+        "one_liner": "45개 거래소의 120억 캔들(K-line)로 사전학습한 금융 시계열 파운데이션 모델.",
+        "problem": "LLM식 사전학습이 시계열 파운데이션 모델(TSFM)로 확장됐지만, 금융 캔들(K-line)에는 적용이 제한적이고 비사전학습 모델보다 못한 경우도 많았다. 변동성 예측·합성데이터 생성 같은 핵심 다운스트림도 간과됐다.",
+        "approach": "연속적 시장 정보를 토큰 시퀀스로 이산화하는 전용 토크나이저로 가격 동역학·거래 활동을 보존하고, 45개 거래소의 120억+ K-line으로 자기회귀 목적함수로 사전학습한다.",
+        "contributions": [
+          "금융 K-line 전용 통합 사전학습 프레임워크 + 전용 토크나이저",
+          "제로샷 가격 예측 RankIC를 선도 TSFM 대비 +93%, 최고 비사전학습 대비 +87%",
+          "변동성 예측 MAE 9% 감소, 합성 K-line 생성 충실도 22% 향상",
+          "사전학습 모델 공개(★37.4k)"
+        ],
+        "why_now": "TimesFM과 나란히 복귀해 시계열 FM 계열의 재부상을 이끌었고, TradingAgents와 함께 'AI×금융' 축도 다시 강화했다.",
+        "difficulty": "중급",
+        "recommended_reader": "시계열·파운데이션 모델·퀀트 금융에 관심 있는 학습자",
+        "field_tags": ["시계열", "파운데이션모델", "금융AI", "합성데이터"],
+        "interest": { "upvotes": 54, "num_comments": 4, "github_stars": 37400 }
+      },
+      "learning": {
+        "key_terms": [
+          { "term": "Tokenizer", "gloss": "연속 데이터를 모델이 다룰 수 있는 이산 토큰으로 변환하는 모듈" },
+          { "term": "K-line", "gloss": "시가·고가·저가·종가를 담은 캔들 차트 데이터" },
+          { "term": "RankIC", "gloss": "예측 순위와 실제 순위의 상관. 퀀트에서 예측력 지표" }
+        ],
+        "recall_quiz": {
+          "question": "Kronos가 연속적인 시장 데이터를 모델 입력으로 만들기 위해 도입한 핵심 구성요소는?",
+          "answer": "가격 동역학과 거래 활동 패턴을 보존하며 데이터를 토큰 시퀀스로 이산화하는 전용 토크나이저."
+        },
+        "spaced_review": { "flag": false, "review_due": null }
+      }
+    },
+
+    "2606.23050": {
+      "classify": {
+        "categories": ["Multimodal", "Efficiency/Inference"],
+        "primary_category": "Multimodal",
+        "topic_tags": ["end-to-end-ocr", "kv-cache", "sliding-window-attention", "document-parsing"],
+        "method_tags": ["architecture", "inference-time"],
+        "modality": ["image", "text"],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "상수 KV 캐시(R-SWA)로 수십 페이지 문서를 한 번에 받아 적는, 인간 작업기억을 모사한 OCR 모델.",
+        "problem": "LLM을 디코더로 쓰는 엔드투엔드 OCR은 성능이 좋지만, 출력이 길어질수록 KV 캐시가 누적돼 메모리가 늘고 생성이 느려진다.",
+        "approach": "DeepSeek OCR을 베이스라인으로 디코더 어텐션을 R-SWA(Reference Sliding Window Attention)로 교체한다. 시각 토큰은 전역 접근을 유지하고 생성 텍스트만 슬라이딩 윈도우로 제한해 KV 캐시를 상수로 유지하며, 32K 길이에서 수십 페이지를 단일 forward로 전사한다.",
+        "contributions": [
+          "디코딩 내내 일정한 KV 캐시를 유지하는 R-SWA 어텐션",
+          "32K 길이에서 수십 페이지 문서를 단일 forward로 전사",
+          "OCR을 넘어 ASR·번역 등에 적용 가능한 범용 파싱 어텐션",
+          "코드·가중치 공개(Baidu, ★24k)"
+        ],
+        "why_now": "4주 연속 트렌딩으로 문서 파싱 분야의 스테디셀러가 됐다. '문서 파싱 + 추론 효율화' 결합의 지속 수요를 보여준다.",
+        "difficulty": "고급",
+        "recommended_reader": "OCR·문서 AI·추론 효율화에 관심 있는 학습자",
+        "field_tags": ["OCR", "상수KV캐시", "슬라이딩윈도우어텐션", "문서AI"],
+        "interest": { "upvotes": 83, "num_comments": 7, "github_stars": 24000 }
+      },
+      "learning": {
+        "key_terms": [
+          { "term": "KV Cache", "gloss": "어텐션 키·값을 저장해 디코딩을 가속하는 캐시. 길어지면 메모리 부담" },
+          { "term": "Sliding Window Attention", "gloss": "최근 일정 구간만 보는 어텐션으로 비용·캐시를 제한" },
+          { "term": "End-to-end OCR", "gloss": "이미지에서 텍스트를 단일 모델로 직접 뽑는 OCR" }
+        ],
+        "recall_quiz": {
+          "question": "Unlimited OCR이 긴 문서에서도 메모리·속도 저하 없이 작동하게 한 핵심 기법은?",
+          "answer": "디코더 어텐션을 R-SWA로 교체해 디코딩 내내 KV 캐시를 상수로 유지한다."
+        },
+        "spaced_review": { "flag": false, "review_due": null }
+      }
+    }
+  },
+
+  "week_summary": {
+    "headline_ko": "BDH-CQ 642표로 관측 이래 최고 — 150M·태스크당 $0.0007로 ARC-AGI 파레토 돌파, 시계열 FM 2편 동반 복귀",
+    "clusters": [
+      { "category": "Reasoning", "paper_ranks": [1], "theme_ko": "잠재 공간 순환 추론 — 작고 말하지 않는 추론(BDH-CQ)" },
+      { "category": "LLM/Agents", "paper_ranks": [2, 3], "theme_ko": "에이전트 — 사람 기반 스킬 자동 증류(COLLEAGUE.SKILL)·금융 멀티에이전트(TradingAgents)" },
+      { "category": "Data", "paper_ranks": [4, 5], "theme_ko": "시계열 파운데이션 모델 동반 복귀(TimesFM·Kronos)" },
+      { "category": "Multimodal", "paper_ranks": [6], "theme_ko": "문서 파싱(Unlimited OCR) 4주 연속" }
+    ],
+    "emerging_keywords": ["latent-reasoning", "in-context-learning", "arc-agi"],
+    "narrative_ko": "이번 주의 사건은 BDH-CQ다. 150M 파라미터로 ARC-AGI-1에서 pass@2 29.5%를 태스크당 약 $0.0007에 달성해 기존 비용-정확도 파레토 프론티어를 돌파했다고 주장하며, 업보트 642로 이 시스템 관측 이래 최고치를 기록했다(직전 최고는 W33 Kimi K3의 486). 중간 추론을 언어화하지 않고 고차원 잠재 공간에서 순환 연산으로 푼다는 점이 특히 화제였다. 두 번째 신규인 COLLEAGUE.SKILL(▲127)은 사람이 남긴 흔적에서 검사·수정 가능한 스킬 패키지를 자동 증류한다. 나머지 4편은 재등장으로, 시계열 파운데이션 모델(TimesFM·Kronos)이 오랜만에 동반 복귀했고 TradingAgents는 2주 연속, Unlimited OCR은 4주 연속을 이어갔다.",
+    "recent_trend_ko": "누적 10주차. [신호] 추론(Reasoning) 카테고리가 오랜만에 최상위로 올라왔다. 다만 BDH-CQ 1편이므로 '단발 등장'으로 보고, 잠재 추론이 흐름이 되는지는 다음 주 이후로 판단을 미룬다. [지속] LLM/Agents는 10주 연속 등장했고 누적 agentic-workflow 20회+로 최대 축을 유지한다. 특히 '스킬을 어떻게 만들고 다룰 것인가' 계열이 두터워졌다 — W25 SkillOpt(스킬 최적화), W33 LongHorizon(상태 관리)에 이어 이번 주 COLLEAGUE.SKILL(스킬 생성). [재부상] 시계열 파운데이션 모델이 TimesFM·Kronos 2편으로 W28 이후 처음 동반 복귀했고, TradingAgents까지 더해 AI×금융도 2편이다(누적 financial-ai 11회+). [지속] 문서 파싱은 Unlimited OCR로 4주 연속. [관통] 효율화가 10주째 — 이번엔 극단적 형태로, BDH-CQ가 150M·$0.0007이라는 비용 축에서 프론티어를 밀었다.",
+    "caveats_ko": "주 6편 트렌딩 표본 기준이며 HuggingFace 커뮤니티의 인기·최신 편향이 있습니다. 업보트·스타는 중요도가 아닌 '관심도' 지표로만 해석하세요. BDH-CQ의 29.5%/$0.0007과 COLLEAGUE.SKILL의 채택 수치는 저자 보고 기준이며 제3자 검증 전입니다. ARC-AGI 점수는 pass@2 기준이라 pass@1 중심 보고와 직접 비교할 수 없습니다."
+  }
+}

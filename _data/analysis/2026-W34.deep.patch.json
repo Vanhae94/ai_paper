@@ -1,0 +1,578 @@
+{
+  "week_id": "2026-W34",
+  "papers": {
+    "2508.02739": {
+      "tier2": {
+        "method_detail": "Kronos는 금융 K-line(캔들스틱) 데이터를 위한 2단계 파운데이션 모델로, 연속형 시장 정보를 이산 토큰으로 바꾸는 전용 토크나이저와 그 위에 얹은 자기회귀(autoregressive) 디코더 트랜스포머로 구성된다. 토크나이저는 3층 트랜스포머 오토인코더(d_model 256, d_ff 512, head 4)에 BSQ(Binary Spherical Quantization)를 결합해, 연속 잠재벡터를 학습 가능한 초평면에 사영하여 k비트 이진코드로 양자화한다(k=20, 총 어휘 2^20 = 1,048,576). 2^20을 그대로 예측하면 비용이 크므로 k비트를 동일 길이의 coarse/fine 두 서브토큰(k_c = k_f = k/2 = 10비트, 각 2^10)으로 인수분해하고, coarse 서브토큰만으로 복원하는 coarse loss, coarse+fine 전체 토큰으로 복원하는 fine loss, BSQ 정칙화용 양자화 loss(commitment weight beta = 0.05)를 합친 복합 목적함수로 학습해 coarse가 주요 구조를, fine이 잔차를 담도록 강제한다. 입력은 시점당 OHLCVA 6차원(Open, High, Low, Close, Volume, Amount)이며 차원별 z-score 정규화 후 [-5, 5]로 클리핑하고, 패치가 아니라 K-line 레코드 단위로 시점당 2개 서브토큰을 생성한다. 백본은 causal self-attention 기반 디코더로 RoPE 위치인코딩, Pre-LayerNorm + RMSNorm을 쓰고 최대 컨텍스트는 512 토큰이며, minute-of-day / hour-of-day / day-of-week / day-of-month / month-of-year 다섯 개 시간 특징을 각각 임베딩해 합산 후 입력 표현에 더한다. 예측은 dual-head 순차 방식으로, coarse head가 먼저 로짓을 내고 예측된 coarse 토큰 임베딩을 쿼리로 하는 cross-attention을 거쳐 fine head가 조건부 분포를 내며, 손실은 L_ar = -E[sum_t (log p(b_t^c | b_<t) + log p(b_t^f | b_<t, b_t^c))] 형태의 두 항 합이다. 모델 크기는 Kronos_small(8층, d_model 512, d_ff 1024, head 8, 24.7M), Kronos_base(12층, 832, 2048, head 16, 102.3M), Kronos_large(18층, 1664, 3072, head 32, 499.2M) 세 가지이며, AdamW + cosine 스케줄, peak LR 1e-3 / 5e-4 / 2e-4, weight decay 0.01-0.10으로 사전학습했다(총 학습 토큰 수, 스텝 수, 사용 하드웨어는 원문에 명시되지 않아 본문 확인 필요). 추론 시에는 temperature와 top-p를 둔 Monte Carlo 샘플링으로 복수 미래 경로를 뽑아 평균내는 앙상블을 쓴다(가격/수익률/투자시뮬레이션은 temp 0.6, top-p 0.90, 10 샘플; 변동성은 temp 0.9, top-p 0.90, 1 샘플; K-line 생성은 temp 1.0, top-p 0.95, 1 샘플).",
+        "experiment_setup": [
+          "평가 과제 5종: (1) 가격 시계열 예측(IC, RankIC), (2) 수익률 예측(IC, RankIC), (3) 실현변동성 예측(MAE, R2), (4) 합성 K-line 생성(다양성은 t-SNE 및 KDE 비교, 충실도는 LSTM 판별기 기반 discriminative score, 유용성은 TSTR(Train-on-Synthetic, Test-on-Real)의 IC/RankIC), (5) 투자 시뮬레이션(연율화 초과수익 AER, 정보비율 IR).",
+          "핵심 헤드라인 수치(초록 기준): zero-shot 가격 예측 RankIC가 최강 TSFM 대비 +93%, 최강 비사전학습 베이스라인 대비 +87%; 변동성 예측 MAE 약 9% 감소; 합성 K-line 생성 충실도 22% 개선. 개별 모델별 IC/RankIC 절대값 표는 부록 F(Full Experiment Results)로 넘겨져 있어 본문 확인 필요.",
+          "비교군 총 25개: 비사전학습 8종(iTransformer, TimesNet, PatchTST, NSTransformer, DLinear, FEDformer, TimeMixer, TimeXer), zero-shot TSFM 5종(TimeMOE, Moirai, TimesFM, Moment, Chronos), 계량경제 2종(ARCH, GARCH), 생성모형 3종(DiffusionTS, TimeVAE, TimeGAN), 그리고 ablation 변형 3종(Direct-AR, Prob-AR, Kronos-Parallel).",
+          "Ablation(Table 2, Kronos_small 기준) - 가격예측 IC 0.0431 / RankIC 0.0254, 수익률예측 IC 0.0665 / RankIC 0.0622, 변동성 MAE 0.0384 / R2 0.2490. 비교: Kronos-Parallel IC 0.0345 / RankIC 0.0226, Prob-AR IC 0.0179 / RankIC 0.0102. Direct-AR(연속공간 MSE 회귀) 수치는 본문 확인 필요.",
+          "Ablation 결론 3가지: (a) 이산 토큰 모델링이 연속형(Direct-AR의 MSE 회귀, Prob-AR의 Student-t 혼합분포)보다 뚜렷하게 우수, (b) coarse -> fine 순차 예측이 동시(parallel) 인수분해 예측보다 우수, (c) 어휘 크기를 키운 k=20 설정이 복원 품질과 다운스트림 예측 모두 개선.",
+          "스케일링: 24.7M -> 102.3M -> 499.2M로 모델을 키울수록 가격 예측, 변동성 예측, 생성 품질 전반에서 성능이 일관되게 개선되어 시계열 파운데이션 모델에서도 scaling law가 경험적으로 성립한다고 주장.",
+          "시간적 분리 프로토콜: 사전학습 데이터는 2024년 6월까지, 평가 구간은 2024년 7월 이후로 잘라 leakage를 차단. 다운스트림은 태스크별 파인튜닝 없이 zero-shot으로 평가.",
+          "룩백/예측 구간은 주기별로 다르게 설정(Table 8) - 예: 5분봉은 lookback 480 / horizon 96, 일봉은 lookback 40 / horizon 12.",
+          "투자 시뮬레이션: 중국 A주 대상 롱온리 전략, CSI 300에서 top-k=50 / n=5, CSI 800에서 top-k=200 / n=10, 일별 리밸런싱 제한과 거래당 0.15%의 보수적 거래비용 적용. Kronos가 AER과 IR 모두에서 최고라고 서술되나 구체 수치는 본문 확인 필요.",
+          "데이터 정제 파이프라인: 주기별 임계값(점프 0.10-0.50)으로 이상 가격 급등락 구간 제거, 거래량 0 또는 near-zero가 지속되는 저유동성 구간 제거, 종가가 장기간 고정된 정체 구간 제거. 가격 필드의 결측은 시퀀스 하드 경계로 처리하고 거래량/거래대금 결측은 0으로 대치."
+        ],
+        "datasets": [
+          {
+            "name": "Kronos 사전학습 코퍼스 (다중시장 K-line)",
+            "domain": "주식, 암호화폐, 선물, 외환 (금융 캔들스틱)",
+            "scale": "120억(12B) 개 이상 K-line 레코드, 45개 글로벌 거래소, 30개국 이상, 1분봉부터 주봉까지 7개 주기, 2024년 6월까지"
+          },
+          {
+            "name": "주식 평가 세트 (9개 거래소)",
+            "domain": "글로벌 주식",
+            "scale": "in-distribution 6곳(상하이, 나스닥, 일본, 인도, 한국, 홍콩) + out-of-distribution 3곳(인도네시아, 말레이시아, 대만). 거래소별 종목 수는 본문 확인 필요"
+          },
+          {
+            "name": "암호화폐 평가 세트 (Binance)",
+            "domain": "암호화폐 현물",
+            "scale": "Binance에서 거래 가능한 전체 현물 페어. Volume/Amount 제외, OHLC만 사용"
+          },
+          {
+            "name": "외환 평가 세트",
+            "domain": "FX",
+            "scale": "1,000개 이상 통화쌍, OHLC만 사용"
+          },
+          {
+            "name": "투자 시뮬레이션 유니버스",
+            "domain": "중국 A주",
+            "scale": "CSI 300(top-50 포트폴리오), CSI 800(top-200 포트폴리오), 거래비용 0.15%/거래"
+          },
+          {
+            "name": "평가 기간",
+            "domain": "공통 테스트 구간",
+            "scale": "2024년 7월 이후 (사전학습 컷오프 2024년 6월과 시간적으로 분리)"
+          }
+        ],
+        "limitations": {
+          "by_authors": [
+            "논문에 독립된 Limitations 섹션이 없다. 5장 Conclusion도 성과 요약만 하고 한계나 Future Work를 서술하지 않는다. 저자가 인정한 제약은 부록 곳곳에 흩어져 있다.",
+            "컨텍스트 길이 512 토큰 제한을 저자가 명시적으로 인정한다. 본문에 '자원 제약과 실제 배포 시나리오를 고려해' 최대 컨텍스트를 512로 제한했다고 적었고, 대신 주기(frequency)를 바꿔 임의 예측 지평을 커버할 수 있다고 주장한다(단기는 1분봉, 주간/월간은 일봉). 즉 긴 룩백은 아키텍처가 아니라 데이터 샘플링으로 우회한다.",
+            "서브토큰 분해 개수 n=2는 최적 탐색 결과가 아니라 파라미터 절감 대 추론 지연의 트레이드오프로 고른 값이다(Appendix H Q3, Table 12). n=4, n=5도 표에 있고 오히려 총 파라미터가 더 적지만(각각 100.5M, 101.1M 대 n=2의 102.3M), 성능 비교 없이 토큰당 추론 스텝 4배/5배라는 지연 비용만으로 배제했다.",
+            "Q1(K-line만으로 단기 가격 변동을 설명할 정보가 충분한가)에 대해 저자는 선행 문헌 인용에 그치고 '위 실증 증거에 대한 상세 논의는 본 논문의 범위를 벗어난다'고 명시적으로 회피한다. 모델의 근본 전제가 논증되지 않은 채로 남는다.",
+            "크립토와 외환 평가에서는 volume/amount를 의도적으로 제외하고 OHLC만 사용한다고 밝힌다. 다만 이를 단순한 설계 결함 자인으로 읽으면 과하다. 원문 Appendix C는 학습 중 volume과 amount를 전체 샘플의 5%에서 무작위로 0으로 만드는 정규화를 두어 '가격 정보만으로도 예측하도록' 명시적으로 훈련시킨다고 밝힌다. 따라서 OHLC 전용 평가는 신뢰할 volume 데이터가 없는 상황을 겨냥해 의도적으로 학습시킨 능력의 검증에 가깝다. 남는 한계는 6차원 OHLCVA 입력 설계가 모든 자산군에 동일하게 적용되지는 않는다는 점 자체다.",
+            "계층적(coarse/fine) 복원 손실은 표준 손실 대비 복원 품질을 개선하지 않는다. Table 9에서 MAE 0.0785 대 0.0781, MSE 0.0203 대 0.0202로 오히려 미세하게 나쁘다. 저자도 '거의 동일'(nearly identical)하다고 서술하며, 계층 구조의 목적은 정확도가 아니라 후속 자기회귀 모델의 편의라고 인정한다.",
+            "코드북 사용률이 coarse 97.66%, fine 85.25%로 fine 레벨은 14.75%가 미사용이다(Table 11, 각 서브코드북 크기 2^10). 어휘가 완전히 활용되지 않는다는 점을 저자가 표로 공개했다. 다만 저자는 이를 한계가 아니라 코드북 붕괴가 없다는 근거로 제시한다.",
+            "추론 하이퍼파라미터(temperature, top-p, 샘플 수 N)의 최적값이 태스크마다 달라(예측 T=0.6/N=10, 변동성 T=0.9/N=1, 생성 T=1.0/top-p 0.95) 별도 튜닝이 필요하다는 점을 Appendix E와 Table 6에서 인정한다.",
+            "GitHub README 면책: 제공된 파인튜닝 및 백테스트 파이프라인은 '데모이며 프로덕션 수준의 퀀트 트레이딩 시스템이 아니다'. 실전 전략에는 포트폴리오 최적화와 리스크 팩터 중립화가 추가로 필요하고, 모델이 내는 것은 원시 시그널이지 pure alpha가 아니라고 명시한다.",
+            "GitHub README 면책: finetune 디렉터리의 코드 주석 상당수가 AI 어시스턴트(Gemini 2.5 Pro)로 생성되어 부정확할 수 있으며 코드 자체를 정본으로 보라고 안내한다.",
+            "고성능 변종인 Kronos-large(499.2M)는 저장소 Model Zoo 표에서 미공개로 표시되어 있다. 논문의 최고 성능 수치를 그대로 재현할 수 있는 공개 가중치가 없다는 점을 저장소가 드러낸다.",
+            "고품질 금융 데이터가 일반 시계열과 달리 공개 풀링이 어렵다고 본문에서 밝히며, 그래서 자체 코퍼스를 처음부터 구축했다고 서술한다. 이는 곧 코퍼스 비공개의 사유이자 재현 장벽이다."
+          ],
+          "by_claude": [
+            "헤드라인 '+93% RankIC'는 절대값이 극히 작은 지표 위의 상대 개선이다. 원문 부록 실측치로 확정된다. Table 15(제로샷 TSFM) 평균 RankIC 최고값이 0.0138이고 같은 표에 0.0000, -0.0001, -0.0014, -0.0033 같은 값이 즐비하다. Table 14의 Kronos_large 평균 RankIC는 0.0267이다. 0.0138 x 1.93 = 0.0266으로 헤드라인 93%가 정확히 재현되고, 87%도 최고 full-shot 베이스라인 0.0143 x 1.87 = 0.0267로 재현된다. 즉 0.0138 -> 0.0267이라는 절대 0.013%p 수준의 이동을 93%로 표기한 것이다. 분모가 0에 가까운 상대 비율은 불안정하며 실무 의사결정에서의 의미는 완전히 별개다.",
+            "가격 시계열 IC/RankIC의 정의 자체가 퀀트 실무의 IC와 다르다. 원문 Appendix D는 '각 샘플에 대해 예측 시계열과 실제 시계열 사이의 IC/RankIC를 OHLC 4개 가격 채널 각각에 대해 계산하고 4채널 평균을 최종 지표로 보고한다'고 명시한다. 가격 레벨은 자기상관이 매우 높아 추세가 지속되기만 해도 높은 상관이 나온다. 실무의 횡단면 IC(같은 시점 종목 간 랭킹 상관)와 혼동될 여지가 큰데, 하필 헤드라인 93%가 붙은 지표가 이것이다. 반면 return forecasting 쪽은 예측 수익률 벡터와 실제 수익률 벡터 사이로 계산해 실무 IC에 훨씬 가까운데도 헤드라인에서 빠져 있다. 다만 이쪽도 '자산군-주기 내 전체 샘플 풀링'이라 엄밀한 시점별 횡단면 IC는 아니다.",
+            "실현변동성 예측이 전용 헤드가 아니라 예측된 종가 경로의 로그수익 제곱합으로 유도된다(원문 식 12). 게다가 Table 6에 따르면 이 태스크는 샘플 수 N=1, T=0.9로 단일 경로를 쓴다. 즉 변동성 추정치가 한 번의 확률적 샘플링 노이즈에 그대로 노출되고, 생성 경로의 변동성이 실제 변동성을 대리한다는 가정이 검증되지 않았다.",
+            "변동성 베이스라인이 ARCH와 GARCH뿐이다(둘 다 p,q in {1,2,3} 그리드에서 BIC로 선택). 원문 전체를 검색해도 HAR, HAR-RV, Log-HAR, EWMA는 단 한 번도 등장하지 않는다. 실현변동성 예측의 사실상 표준 벤치마크가 통째로 빠진 것이다. HAR은 GARCH보다 실현변동성에서 훨씬 강한 것으로 알려져 있어 '9% 낮은 MAE'는 약한 상대에게 얻은 우위일 수 있다. 독립 연구(arXiv 2607.05291)가 9개 TSFM을 8개 계량 벤치마크와 비교해 TTM만이 Log-HAR을 일관되게 이겼다고 보고한 점이 이 우려를 뒷받침한다(단 이 연구는 Kronos 자체를 다룬 후속 연구가 아니라 일반 TSFM 연구다).",
+            "통계적 유의성 검정과 신뢰구간이 사실상 없다. 메인 결과 표는 전부 단일 실행 점추정이다. 시드 5개와 표준편차가 등장하는 곳은 Figure 7(추론 샘플 수 절제)뿐이며 캡션에 '5회 실행 평균, 음영은 표준편차'라고 명시된다. 신호 대 잡음비가 낮다고 저자 스스로 강조한 도메인에서 이는 치명적이다. Diebold-Mariano 같은 예측 비교 검정도 없다.",
+            "백테스트 창이 짧고 단일 시장이다. 원문은 'Kronos의 사전학습 데이터가 2024년 6월까지이므로 모든 태스크의 테스트 기간은 2024년 7월에 시작한다'고만 적고 백테스트 종료일을 어디에도 명시하지 않는다(원문 확인 완료). 11개월이라는 기간은 오직 저장소 finetune/config.py의 backtest_time_range = 2024-07-01 ~ 2025-06-05에서만 나온다. 이 구간에는 중국 A주의 2024년 9-10월 급등 국면이 포함된다. 단일 시장(CSI300/CSI800), 단일 경로, 11개월로 산출한 연율화 초과수익과 IR은 레짐 의존성이 크다.",
+            "백테스트 현실성 가정이 얕다. 롱온리 top-k/drop-n에 최소 보유기간 5일과 일일 최대 n종목 매매 제한을 두고(CSI300은 k=50/n=5, CSI800은 k=200/n=10), 단일 거래비용 0.15%만 적용한다. 회전율 통제 장치는 있으나 슬리피지, 마켓 임팩트, 거래정지, A주 상하한가(+-10%) 제약은 모델링하지 않는다. 원문 전체 검색에서 slippage, market impact, price limit 관련 서술은 0건이다. 상한가 종목은 실제로 살 수 없는데 시그널 상위에 몰리기 쉬워 성과가 과대평가될 구조다. 참고로 README 면책은 포트폴리오 최적화와 리스크 팩터 중립화 부재만 인정할 뿐 이 미시구조 제약들은 언급하지 않는다.",
+            "예측 지표의 격차와 실제 포트폴리오 성과의 격차가 크게 어긋난다. Table 10에서 Kronos_large 평균 AER 0.2084 / IR 1.6491인데 Moment_large는 0.1681 / 1.3677, Moirai_large는 0.1577 / 1.2481이다. AER 기준 최고 베이스라인 대비 약 24% 우위로, 예측 단계의 93%가 투자 단계에서는 20-30% 수준으로 줄어든다. 이는 '예측 정확도가 투자 성과로 직결된다'는 본문 주장의 강도를 스스로 약화시킨다. 한편 Chronos_large는 평균 AER -0.0302 / IR -0.3384로 손실을 낸다.",
+            "이산화의 인과 기여가 분리되지 않았다. Table 2의 Kronos 대 Direct-AR/Prob-AR 비교에서 Kronos만 앙상블 샘플링(N=10)과 태스크별 T/top-p 튜닝의 혜택을 받는다. 연속형 베이스라인에 동등한 추론 예산을 준 통제 실험이 없어, 이득 중 얼마가 이산 토큰화 자체이고 얼마가 테스트타임 앙상블인지 알 수 없다. 실제로 독립 연구 VAIOM(arXiv 2607.13929)은 동일한 카테고리형 출력 목적함수 아래에서 연속 입력이 이산 토큰 입력보다 낫다고 보고한다.",
+            "Kronos 사전학습의 컴퓨트 예산이 보고되지 않는다. Table 5는 드롭아웃/LR/weight decay만 주고, 본문은 워밍업 15,000스텝과 AdamW + 코사인 스케줄, 하드웨어(3 pod x 8장 = RTX 4090D 24장)만 밝힌다. 주의할 점은 Appendix D에 'batch size 256'과 '최대 12 에폭'이 등장하지만 이는 베이스라인 모델 학습 설정이지 Kronos 사전학습 설정이 아니라는 것이다(원문 확인 완료). Kronos 자체의 총 학습 스텝, 총 학습 토큰, 배치 크기, 에폭 수, 학습 소요 시간은 전부 누락됐다. 코퍼스 규모 120억 봉만으로는 컴퓨트 대비 성능을 계산할 수 없고, 세 크기 점 3개만으로 '스케일링 법칙을 실증했다'(empirically validating the scaling laws)고 말하기에는 근거가 얇다. 각 크기가 동일 토큰 예산으로 학습됐는지도 불명이다.",
+            "누출과 생존 편향 통제가 2024년 6월 시점 컷오프 하나에 전적으로 의존한다. 원문은 이 시간 분리만 서술할 뿐 상장폐지 종목 포함 여부, 수정주가 처리 방식, 지수 구성종목의 point-in-time 반영 여부를 전혀 언급하지 않는다(원문 확인 완료, 누락 확정). 사전학습 코퍼스에 CSI300/CSI800 종목의 과거 일봉이 들어 있었을 가능성이 매우 높은데(상하이 XSHG가 in-distribution 거래소로 명시됨), 이 경우 백테스트 유니버스는 새롭지 않다.",
+            "정규화 통계의 산출 범위가 논문에 없다. 원문 Appendix C는 'D개 특징 차원 각각에 독립적으로 z-score 정규화를 적용한 뒤 [-5,5]로 클리핑한다'고만 적고, 평균/표준편차를 룩백 윈도우 내부에서 계산하는지 시계열 전체에서 계산하는지 명시하지 않는다(원문 확인 완료, 누락 확정). 전자면 문제없고 후자면 미래 정보 누출이다. 논문만으로는 판별 불가이며 코드 확인이 필요하다.",
+            "어휘 크기 결론과 실제 실험 설정이 어긋난다. 배포 토크나이저는 k=20(2^20)인데 Table 9의 토크나이저 아키텍처 절제는 명시적으로 2^18 어휘에서 수행됐다. Figure 6의 어휘-성능 곡선도 '어휘를 키우면 복원과 예측이 모두 개선된다'는 단조 개선만 서술할 뿐 포화점을 보여주지 않아 2^20이 최적이라는 근거가 되지 못한다.",
+            "저장소와 논문이 어긋난다. 논문에 없는 Kronos-mini(4.1M, 컨텍스트 2048, Kronos-Tokenizer-2k)가 저장소에 있고(원문 전체 검색에서 mini 변종 언급 0건), 논문 최고 성능인 large는 미공개다. 논문 표를 그대로 재현하려면 base까지만 가능하다.",
+            "실패 사례 분석이 전무하다. 어떤 자산군, 어떤 변동성 레짐, 어떤 유동성 구간에서 모델이 무너지는지에 대한 서술이 없다. Appendix H는 왜 잘 되는지의 사후 정당화(노이즈 억제, 이산 상태공간, 초구 기하)에 집중하고, 레짐 전환이나 극단 이벤트에서의 성능 저하는 다루지 않는다.",
+            "라이선스는 MIT지만 사전학습 데이터의 출처와 라이선스가 전혀 명시되지 않는다. 45개 거래소, 120억 봉 규모라면 유료 벤더 데이터가 섞였을 개연성이 높다. 코드/가중치가 MIT라는 사실이 데이터 유래 리스크까지 정리해주지는 않는다."
+          ]
+        },
+        "reproducibility": {
+          "code": "부분 공개. github.com/shiyu-coder/Kronos (MIT). 공개 범위는 추론 코드(model/kronos.py, KronosPredictor), 파인튜닝 파이프라인(finetune/config.py, train_tokenizer.py, train_predictor.py, qlib_data_preprocess.py, qlib_test.py), 예제 스크립트, Web UI, Qlib 기반 A주 백테스트 스크립트다. torchrun 다중 GPU 파인튜닝을 지원한다. 반면 사전학습 코드는 공개되지 않았다(저장소 최상위 디렉터리는 examples, figures, finetune, finetune_csv, model, tests, webui로 pretrain 계열 경로가 없음). 즉 파인튜닝은 재현 가능하지만 사전학습은 재현 불가.",
+          "data": "핵심 데이터 비공개. 45개 거래소, 7개 주기, 120억+ K-line 사전학습 코퍼스는 공개되지 않았고 출처 벤더도 명시되지 않는다. 저자 스스로 본문에서 '일반 시계열 파운데이션 모델 연구와 달리 잘 정제된 공개 금융 데이터가 제한적이어서 처음부터 구축했다'고 밝힌다. 평가용 데이터셋(9개 주식 거래소 = in-distribution XSHG/XNAS/XJPX/XNSE/XKRX/XHKG + OOD XIDX/XKLS/XTAI, Binance 전 현물 페어, 1000+ 외환 페어)도 비공개다. 재현 가능한 부분은 투자 시뮬레이션뿐으로, 이는 오픈소스 Qlib의 중국 A주 일봉 데이터를 사용하며 백테스트도 Qlib 엔진 안에서 수행한다. 저장소 config.py 기준 학습 2011-01-01~2022-12-31, 검증 2022-09-01~2024-06-30, 테스트 2024-04-01~2025-06-05, 백테스트 2024-07-01~2025-06-05, instrument=csi300, lookback_window=90. 주의: 논문 본문은 '테스트 기간이 2024년 7월에 시작한다'고만 적고 종료일을 명시하지 않으므로, 11개월이라는 백테스트 길이는 논문이 아니라 저장소에서만 확인된다.",
+          "weights": "부분 공개. Hugging Face NeoQuasar 조직에서 Kronos-mini(4.1M, 컨텍스트 2048, Kronos-Tokenizer-2k), Kronos-small(24.7M, 512, Kronos-Tokenizer-base), Kronos-base(102.3M, 512, Kronos-Tokenizer-base)와 각 토크나이저가 공개되어 있다. 논문 최고 성능 모델인 Kronos-large(499.2M)는 저장소 Model Zoo에 미공개로 표시되어 있어 논문 상단 수치(예: 가격 시계열 평균 RankIC 0.0267, 투자 시뮬레이션 평균 AER 0.2084 / IR 1.6491)를 그대로 재현할 수 없다. 참고로 Kronos-mini는 논문 본문에 전혀 등장하지 않는 저장소 전용 변종이다.",
+          "license": "코드 및 저장소: MIT License. 공개 체크포인트도 HF 모델 카드 기준 MIT. 사전학습 데이터의 라이선스와 출처는 논문/저장소 어디에도 명시되지 않음 -> 상업적 활용 시 데이터 유래 리스크는 별도 검토 필요.",
+          "note": "실험 환경은 이례적으로 상세하다. Kubernetes 클러스터, 동일 사양 pod 3개, pod당 CPU 96코어(Intel Xeon Gold 6330 @ 2.00GHz), RAM 200GB, NVIDIA GeForce RTX 4090D 8장 -> 총 24 GPU. Ubuntu 24.04.1 LTS, Python 3.13.2, PyTorch 2.7.0, NumPy 1.26.2, Pandas 2.2.2, Matplotlib 3.9.3, huggingface_hub 1.57.4. 하이퍼파라미터는 Table 5(드롭아웃, LR, weight decay: small 1e-3/0.01, base 5e-4/0.05, large 2e-4/0.10)와 Table 6(추론 T/top-p/N)에 공개. 옵티마이저는 AdamW + 코사인 스케줄, 워밍업은 피크의 10%에서 시작해 15,000스텝. 그러나 Kronos 사전학습의 총 스텝 수, 총 토큰 수, 배치 크기, 에폭 수, 학습 소요 시간이 모두 누락되어 컴퓨트 예산을 역산할 수 없다(원문 확인 완료). 주의: Appendix D에 나오는 'batch size 256'과 '최대 12 에폭, patience 3 조기종료'는 베이스라인 모델 학습 설정이지 Kronos 사전학습 설정이 아니다. 논문은 AAAI 2026에 채택되었고(저장소 뉴스 2025.11.10), arXiv v1은 2025.08.02 게재, 파인튜닝 스크립트는 2025.08.17 공개. 저장소는 별 약 37.5k, 포크 약 6.2k 규모다(수치는 조회 시점 의존)."
+        },
+        "my_learning_points": [
+          "비전 도메인의 양자화 기법(BSQ)을 금융 시계열로 이식한 것이 이 논문의 실질 기여다. 이산화가 회귀보다 나은 이유로 저자가 든 논거 - BSQ는 임베딩을 단위 초구에 사영한 뒤 이진화하므로 기대 왜곡이 상한으로 묶이고, 따라서 플래시 크래시 같은 이상치가 무한대 근사 오차를 만들지 못한다 - 는 노이즈가 큰 어떤 도메인에도 재사용 가능한 사고틀이다. 회귀 문제를 분류 문제로 바꾸면 이상치의 영향력에 천장이 생긴다.",
+          "대어휘 실용화 트릭: 2^20 어휘를 2^10 두 개로 인수분해하면 어휘 의존 파라미터가 1744.8M -> 3.4M로 99.8% 줄고 총 모델 크기가 1842.3M -> 102.3M으로 약 95% 감소한다(Table 12). 대가는 토큰당 추론 스텝 2배. 큰 어휘를 쓰고 싶은데 임베딩/출력 행렬이 감당 안 될 때 바로 꺼내 쓸 카드다.",
+          "서브토큰을 병렬로 예측하면 손해다. Kronos-Parallel의 RankIC 0.0226 대 순차 coarse->fine의 0.0254. 인수분해로 나눈 조각들은 조건부 의존성을 유지해야 하고, 이를 위해 예측된 coarse 토큰 임베딩을 쿼리로 하는 cross-attention을 끼워 넣었다. 인수분해는 공짜가 아니라 의존성 복원 장치를 요구한다.",
+          "계층적 손실이 복원 정확도를 올리지 않는다는 사실(Table 9: 0.0785 대 0.0781)이 오히려 교훈이다. 손실 설계의 목적이 항상 성능일 필요는 없다. 여기서는 'coarse만으로도 대략 복원되는' 표현 구조를 강제하기 위한 장치이고, 그 이득은 토크나이저가 아니라 후속 자기회귀 모델에서 회수된다. 손실 함수로 표현의 구조를 조각하는 사례로 기억해둘 만하다.",
+          "Test-time scaling이 시계열에도 통한다. 샘플 경로 N을 늘려 평균내면 IC/RankIC가 단조 개선된다(Figure 7). 생성형 예측기는 재학습 없이 추론 예산과 정확도를 맞바꿀 수 있다. 실서비스에서 지연 예산 대비 정확도 곡선을 그릴 수 있다는 뜻이라 실무적으로 가치가 크다.",
+          "샘플링 파라미터가 사실상 태스크 헤드 역할을 한다. 예측은 T=0.6/top-p 0.9/N=10, 변동성은 T=0.9/N=1, 생성은 T=1.0/top-p 0.95. 정밀도가 필요하면 분포를 날카롭게, 다양성이 필요하면 무디게. 하나의 사전학습 모델로 다목적을 커버하려면 이 축을 반드시 태스크별로 잡아야 한다. 저자는 top-p의 하드 절단보다 temperature의 전역 재조정이 더 효과적이라고 관찰했다.",
+          "사전학습 코퍼스의 도메인 혼합비를 명시적으로 조정했다. 원 코퍼스가 주식에 쏠려 있어 크립토/선물/외환의 샘플링 가중치를 올렸다. 파운데이션 모델에서 데이터 혼합비는 아키텍처만큼 중요한 하이퍼파라미터라는 점을 다시 확인.",
+          "데이터 클리닝 파이프라인이 논문의 숨은 자산이다. 주기별로 임계값을 다르게 둔다: 가격 점프 임계는 1분봉 0.10에서 주봉 0.50까지, 비유동/정체 연속 봉 허용치는 1분봉 15/45에서 주봉 0/2까지. 구조적 단절(전일 종가 대비 당일 시가 점프)로 시계열을 분할해 액면분할, 배당, 선물 롤오버 아티팩트를 격리한다. 금융 시계열 전처리 설계 시 그대로 참고할 수 있는 표다.",
+          "결측치 처리 철학이 인상적이다. 가격 필드의 결측을 채우지 않고 '경계'로 간주해 시계열을 유효 부분수열들로 쪼갠다. 부당한 보간으로 없는 패턴을 만들지 않겠다는 선택이며, 사전학습처럼 데이터가 남아도는 상황에서는 채우기보다 버리기가 옳다는 판단이다.",
+          "RoPE로 상대 위치를 주면서도, 캘린더 정보(minute/hour/weekday/day/month 다섯 개)는 별도 임베딩으로 합산해 주입한다. 금융처럼 절대 시각의 계절성(개장/폐장 효과, 월말 효과)이 실재하는 도메인에서는 상대 위치만으로 부족하다는 설계 판단.",
+          "평가 설계에서 배울 점과 반면교사가 함께 있다. 배울 점: in-distribution 거래소 6개와 OOD 거래소 3개(인도네시아, 말레이시아, 대만)를 나눠 일반화를 측정하고, 크립토/외환에서는 volume을 일부러 빼 OHLC만으로 테스트한 점. 반면교사: 메인 표 전부가 단일 실행 점추정이고 유의성 검정이 없다는 점.",
+          "헤드라인 퍼센트는 항상 절대값과 함께 읽어야 한다. RankIC 0.0254 같은 수준에서의 +93%와, 투자 시뮬레이션에서 AER 0.2084 대 0.1681(약 +24%)의 격차가 같은 모델에서 나온다. 예측 지표의 상대 개선은 포트폴리오 단계로 갈수록 급격히 희석된다는 사실 자체가 중요한 실무 지식이다.",
+          "실전 적용 시 컨텍스트 512가 첫 번째 제약이다. K-line 레코드 하나당 서브토큰 2개를 만들므로 유효 룩백은 대략 256봉 수준으로 봐야 한다(정확한 카운팅 방식은 코드 확인 필요). 5분봉 480봉 룩백 설정은 이 한계에 부딪히고, 저장소의 KronosPredictor는 초과분을 자동 절단한다. 긴 룩백이 필요하면 더 낮은 주기를 쓰거나 컨텍스트 2048인 Kronos-mini를 고려해야 한다.",
+          "재현성 실무 교훈: 코드와 가중치를 MIT로 풀어도 사전학습 코퍼스와 사전학습 코드가 없으면 '오픈'의 범위는 파인튜닝과 추론까지다. 오픈소스 파운데이션 모델을 평가할 때 확인할 체크리스트는 (1) 사전학습 코드, (2) 코퍼스, (3) 최상위 체크포인트, (4) 학습 예산 보고 네 가지이며 Kronos는 이 중 어느 것도 완전히 충족하지 않는다."
+        ],
+        "related_work": {
+          "prior": [
+            {
+              "title": "Image and Video Tokenization with Binary Spherical Quantization (BSQ)",
+              "authors": "Zhao, Xiong, Krahenbuhl (2024)",
+              "arxiv_id": "2406.07548",
+              "relation": "Kronos 토크나이저의 핵심 부품. 잠재벡터를 단위 초구에 사영 후 이진화해 암묵적 코드북을 만들고 기대 왜곡의 상한을 보장한다. Kronos는 저자 공식 구현의 하이퍼파라미터(commitment 0.05, entropy weight 1.0/1.1, entropy scale 0.05, group size 5)를 거의 그대로 가져왔다. 어휘가 커질수록 좋아진다는 관찰도 이 계열에서 물려받은 것."
+            },
+            {
+              "title": "Language Model Beats Diffusion: Tokenizer is Key to Visual Generation (LFQ / MAGVIT-v2)",
+              "authors": "Yu et al. (2023)",
+              "arxiv_id": "2310.05737",
+              "relation": "룩업 없는 양자화(LFQ)의 원류. BSQ의 직전 세대이며, Kronos는 LFQ가 정규화 없이 부호 기반 양자화를 해 이상치에 대한 오차 상한이 없다는 점을 BSQ 채택 근거로 든다. 어휘 인수분해 아이디어의 출처이기도 하다."
+            },
+            {
+              "title": "Neural Discrete Representation Learning (VQ-VAE)",
+              "authors": "van den Oord, Vinyals, Kavukcuoglu (2017)",
+              "arxiv_id": "1711.00937",
+              "relation": "이산 잠재 표현 학습의 원점. Kronos 관련연구 절이 시계열 토큰화 계보를 여기서 시작한다."
+            },
+            {
+              "title": "Chronos: Learning the Language of Time Series",
+              "authors": "Ansari et al. (2024)",
+              "arxiv_id": "2403.07815",
+              "relation": "시계열을 스케일링 + 균등 양자화로 토큰화한 TSFM. Kronos의 직접 선행이자 베이스라인. 흥미롭게도 Kronos의 투자 시뮬레이션에서 Chronos_large는 평균 AER -0.0302로 유일하게 음수를 기록해, 일반 시계열 토큰화가 금융에 그대로 이식되지 않음을 보여주는 대조군 역할을 한다."
+            },
+            {
+              "title": "Time-MoE: Billion-Scale Time Series Foundation Models with Mixture of Experts",
+              "authors": "Xiaoming et al. (2025)",
+              "arxiv_id": "2409.16040",
+              "relation": "논문이 '가장 강한 TSFM 베이스라인'으로 지목한 모델. 헤드라인 +93% RankIC의 비교 기준점이 바로 이 모델이다. 결측 가격 처리 시 시계열을 유효 부분수열로 분할하는 아이디어도 Time-MoE에서 차용했다고 밝힌다."
+            },
+            {
+              "title": "Unified Training of Universal Time Series Forecasting Transformers (Moirai)",
+              "authors": "Woo et al. (2024)",
+              "arxiv_id": "2402.02592",
+              "relation": "제로샷 TSFM 베이스라인. 투자 시뮬레이션에서 Moirai_large가 평균 AER 0.1577 / IR 1.2481로 상위권에 들어, Kronos와의 실제 포트폴리오 성과 격차가 예측 지표 격차보다 훨씬 작다는 사실을 드러낸다."
+            },
+            {
+              "title": "A decoder-only foundation model for time-series forecasting (TimesFM)",
+              "authors": "Das et al. (2024)",
+              "arxiv_id": "2310.10688",
+              "relation": "디코더 온리 TSFM 베이스라인. Kronos가 Table 3에서 지적하는 '기존 TSFM 사전학습 코퍼스 중 금융 데이터 비중이 1% 미만'이라는 논거의 대상 중 하나."
+            },
+            {
+              "title": "MOMENT: A Family of Open Time-series Foundation Models",
+              "authors": "Goswami et al. (2024)",
+              "arxiv_id": "2402.03885",
+              "relation": "제로샷 TSFM 베이스라인. 투자 시뮬레이션에서 Moment_large가 평균 AER 0.1681 / IR 1.3677로 제로샷 baseline 중 최고 성능을 냈다."
+            },
+            {
+              "title": "iTransformer: Inverted Transformers Are Effective for Time Series Forecasting",
+              "authors": "Liu et al. (2023)",
+              "arxiv_id": "2310.06625",
+              "relation": "논문이 '가장 강한 비사전학습 모델'로 지목한 풀샷 베이스라인. 헤드라인 +87%의 비교 기준점."
+            },
+            {
+              "title": "A Time Series is Worth 64 Words: Long-term Forecasting with Transformers (PatchTST)",
+              "authors": "Nie et al. (2022)",
+              "arxiv_id": "2211.14730",
+              "relation": "패치 기반 시계열 트랜스포머. Kronos는 의도적으로 패치가 아니라 K-line 레코드 단위 토큰화를 택했으므로, 설계상 대조점이 되는 선행 연구다."
+            },
+            {
+              "title": "TOTEM: TOkenized Time series EMbeddings for General Time Series Analysis",
+              "authors": "Talukder, Yue, Gkioxari (2024)",
+              "arxiv_id": "확인 필요",
+              "relation": "VQ-VAE 기반 시계열 토큰화. Kronos 관련연구에서 코드북 기반 접근의 대표로 인용되며, Kronos가 명시적 코드북 대신 암묵적 코드북(BSQ)을 택한 이유의 비교 대상이다."
+            },
+            {
+              "title": "Qlib: An AI-oriented Quantitative Investment Platform",
+              "authors": "Yang et al. (2020)",
+              "arxiv_id": "2009.11189",
+              "relation": "투자 시뮬레이션의 데이터 소스이자 백테스트 엔진. 저장소의 파인튜닝 데모 파이프라인도 전적으로 Qlib에 의존한다. 표준화된 평가라는 장점과 동시에 슬리피지/마켓임팩트 미모델링이라는 한계를 함께 물려받는다."
+            },
+            {
+              "title": "RoFormer: Enhanced Transformer with Rotary Position Embedding (RoPE)",
+              "authors": "Su et al. (2021/2024)",
+              "arxiv_id": "2104.09864",
+              "relation": "백본의 위치 인코딩. Pre-LN + RMSNorm과 함께 현대 LLM 표준 구성을 그대로 이식한 부분."
+            },
+            {
+              "title": "Time-series Generative Adversarial Networks (TimeGAN)",
+              "authors": "Yoon, Jarrett, van der Schaar (2019)",
+              "arxiv_id": "확인 필요",
+              "relation": "생성 태스크 베이스라인이자 평가 프로토콜(diversity/fidelity/usefulness, discriminative score, TSTR)의 출처. Kronos의 '생성 충실도 22% 개선' 주장이 이 프로토콜 위에서 계산된다."
+            },
+            {
+              "title": "Diffusion-TS: Interpretable Diffusion for General Time Series Generation",
+              "authors": "Yuan, Qiao (2024)",
+              "arxiv_id": "확인 필요",
+              "relation": "확산 기반 생성 베이스라인. TimeVAE(Desai et al. 2021)와 함께 생성 비교군을 이룬다."
+            }
+          ],
+          "followup": [
+            {
+              "title": "VAIOM: Continuous-Input, Discrete-Output Decoder-Only Financial Sequence Modeling",
+              "arxiv_id": "2607.13929",
+              "year": 2026,
+              "relation": "Kronos의 핵심 전제에 대한 가장 직접적인 반례. 입력 표현과 출력 우도를 분리해, 연속 다변량 금융 이벤트 벡터를 입력으로 쓰되 출력은 변동성 정규화 수익률 버킷에 대한 범주형 분포로 둔다. 검증 실험에서 '동일한 범주형 출력 목적함수 아래에서 연속 입력이 이산 토큰 입력보다 낫다'고 보고한다. 즉 Kronos의 이득이 이산 출력에서 오는지 이산 입력에서 오는지를 분리해 답한 셈이고, 결론은 입력까지 이산화할 필요는 없다는 쪽이다. 1시간 FX 봉, 0.9M 파라미터, 3시드, 2025년 두 구간 아웃오브샘플로 LightGBM 대비 이벤트당 0.029~0.043비트 개선."
+            },
+            {
+              "title": "Forecasting Realized Volatility with Time Series Foundation Models: A Comparison with Econometric Benchmarks",
+              "arxiv_id": "2607.05291",
+              "year": 2026,
+              "relation": "Kronos의 '변동성 예측 MAE 9% 개선' 주장을 재평가하게 만드는 연구. 9개 제로샷 TSFM 대 8개 계량경제 모델(HAR 계열 포함)을 주식/외환/선물 50자산, 3개 지평에서 형식적 예측 비교 검정과 함께 비교했다. 결론은 TSFM의 우위가 균일하지 않고 소수 아웃라이어 자산에 집중되며, 자산별 손실비를 평균하면 Tiny Time Mixers 하나만 근소하게 Log-HAR을 이긴다는 것. 게다가 단기 지평 우위의 상당 부분이 실제 동역학 예측이 아니라 스케일 보정 효과였다고 지적한다. Kronos가 HAR 계열을 베이스라인에서 뺀 것이 왜 문제인지를 보여준다."
+            },
+            {
+              "title": "RAVEN: A Regime-Aware Variable-context Expert Network for Financial Time Series Forecasting",
+              "arxiv_id": "2606.24062",
+              "year": 2026,
+              "relation": "Kronos의 고정 컨텍스트 512 제약을 정면으로 문제 삼는 후속 방향. 비정상 가격 프로세스에서는 최적 룩백이 시변하므로 고정 컨텍스트 윈도우가 구조적으로 부적합하다고 지적하고, 중첩 가변 길이 윈도우를 전문가에게 라우팅하는 MoE를 제안한다. Kronos가 '주기를 바꿔 우회하면 된다'고 넘어간 지점을 아키텍처로 푸는 시도."
+            },
+            {
+              "title": "Financial Numerical Prediction and Allocation as Token Generation (FinATOM)",
+              "arxiv_id": "2608.09880",
+              "year": 2026,
+              "relation": "Kronos의 '금융을 토큰 생성으로 본다'는 관점을 예측을 넘어 자산배분까지 확장. 별도 회귀/랭킹/정책 헤드 없이 인과 언어모델의 제약된 토큰 생성만으로 3스텝 수익률 예측과 5개 ETF 동적 배분을 수행한다. 2023-2025 테스트에서 5bp 거래비용 반영 순 샤프를 1.394 -> 1.494로 개선했다고 보고. Kronos가 예측에서 멈춘 지점을 의사결정까지 밀고 간 계열."
+            },
+            {
+              "title": "Time Series as Language: A Universal Tokenizer for General-Purpose Time Series Foundation Models",
+              "arxiv_id": "2606.09861",
+              "year": 2026,
+              "relation": "Kronos가 금융 전용으로 만든 토크나이저를 범용 시계열로 일반화하려는 방향. Kronos의 도메인 특화 전략과 범용 토크나이저 전략 중 어느 쪽이 옳은지에 대한 후속 논쟁의 한 축."
+            },
+            {
+              "title": "WindFM: An Open-Source Foundation Model for Zero-Shot Wind Power Forecasting",
+              "arxiv_id": "2509.06311",
+              "year": 2025,
+              "relation": "Kronos의 레시피(도메인 전용 토크나이저 + 자기회귀 사전학습 + 제로샷 다태스크)를 풍력 발전 예측으로 이식한 사례. 'K-line 전용'이라는 형식을 벗기면 이 방법론이 특정 도메인 시계열 일반에 적용 가능한 템플릿임을 보여준다."
+            },
+            {
+              "title": "Advancing Financial Engineering with Foundation Models: Progress, Applications, and Challenges",
+              "arxiv_id": "2507.18577",
+              "year": 2025,
+              "relation": "금융 파운데이션 모델 서베이. Kronos를 K-line 전용 FM의 대표 사례로 위치시키며, 이 분야의 공통 난점(데이터 비공개, 백테스트 신뢰성, 레짐 의존성)을 정리한다. Kronos를 큰 지형도 안에서 볼 때 참고할 문헌."
+            },
+            {
+              "title": "Are Foundation Models Useful for Bankruptcy Prediction?",
+              "arxiv_id": "2511.16375",
+              "year": 2025,
+              "relation": "금융 파운데이션 모델의 실효성을 회의적으로 검증하는 계열. Kronos류의 낙관적 주장에 대한 균형추 역할."
+            },
+            {
+              "title": "MEME: Modeling the Evolutionary Modes of Financial Markets",
+              "arxiv_id": "2602.11918",
+              "year": 2026,
+              "relation": "시장 레짐/모드 변화를 명시적으로 모델링하는 방향. Kronos가 다루지 않은 레짐 전환 하 성능 저하 문제에 대응하는 후속 흐름."
+            },
+            {
+              "title": "Unicorn: Scaling High-Dimensional Time Series Forecasting via Universal Correlation Modeling",
+              "arxiv_id": "2605.30376",
+              "year": 2026,
+              "relation": "Kronos가 단일 종목 시계열만 보고 종목 간 상관(횡단면 구조)을 모델링하지 않는다는 공백을 겨냥한 계열. 실제 퀀트 시그널은 횡단면 랭킹이므로 이 방향이 실무적으로 중요하다."
+            }
+          ]
+        },
+        "claude_note": "Kronos는 '금융 K-line 전용 파운데이션 모델'이라는 빈칸을 처음으로 제대로 채운 논문이고, 그 점에서 가치가 분명하다. 비전 양자화(BSQ)를 금융 시계열로 옮긴 선택, 2^20 어휘를 2^10 두 개로 인수분해해 파라미터를 99.8% 줄인 엔지니어링, coarse->fine 순차 예측으로 서브토큰 의존성을 유지한 설계, 그리고 추론 샘플 수로 정확도를 사는 test-time scaling은 모두 재사용 가치가 높다. 데이터 클리닝 파이프라인(주기별 임계값 표)과 결측을 보간하지 않고 시계열을 분할하는 처리 철학도 실무에서 그대로 가져다 쓸 만하다. 다만 검증한 결과, 이 논문의 신뢰도는 헤드라인 수치보다 상당히 낮게 잡아야 한다. 첫째, 독립된 Limitations 섹션이 아예 없고 Conclusion도 성과 요약만 한다. 저자가 인정한 한계는 컨텍스트 512 제약, n=2 인수분해가 비용 기반 선택이라는 점, 계층적 손실이 복원 품질을 개선하지 않는다는 점(Table 9), 크립토/외환에서는 volume을 빼야 한다는 점 정도로, 대부분 부록에 흩어져 있다. 오히려 GitHub README의 면책 문구가 논문보다 정직하다. 둘째, 헤드라인 '+93% RankIC'는 절대값이 0.02~0.05 수준인 지표 위의 상대 개선이고, 해당 지표(가격 시계열의 시간축 IC)는 가격 레벨의 자기상관 때문에 추세 지속만으로도 높게 나올 수 있어 퀀트 실무의 횡단면 IC와 성격이 다르다. 같은 모델의 투자 시뮬레이션에서는 Kronos_large 평균 AER 0.2084 대 Moment_large 0.1681로 격차가 20%대로 축소되는데, 이 대비가 헤드라인의 실질을 잘 보여준다. 셋째, 메인 결과가 전부 단일 실행 점추정이고 유의성 검정이 없다. 시드 5개는 Figure 7 한 곳뿐이다. 저자 스스로 신호 대 잡음비가 낮다고 강조한 도메인에서 이건 방법론적 결함에 가깝다. 넷째, 변동성 태스크는 실현변동성의 사실상 표준인 HAR 계열을 베이스라인에서 통째로 빼고 ARCH/GARCH만 썼다. 후속 연구 2607.05291이 9개 TSFM을 Log-HAR과 비교해 대부분 이기지 못한다고 보고한 것을 보면, '9% 낮은 MAE'는 약한 상대에게 얻은 우위일 개연성이 있다. 다섯째, 이산화의 인과 기여가 분리되지 않았다. Kronos만 N=10 앙상블과 태스크별 T/top-p 튜닝의 혜택을 받고 연속형 베이스라인에는 동등한 추론 예산이 주어지지 않았다. 후속 연구 VAIOM(2607.13929)이 동일한 범주형 출력 목적함수 아래에서 연속 입력이 이산 토큰 입력보다 낫다고 보고한 것은 이 의심에 실증을 붙인다. 여섯째, 백테스트가 단일 시장(중국 A주), 롱온리, 약 11개월(저장소 config 기준 2024-07-01~2025-06-05, 논문 본문에는 기간 명시 없음 -> 본문 확인 필요)이며 그 구간에 2024년 9-10월 급등이 포함된다. 상하한가와 거래정지를 모델링하지 않은 점은 A주에서 특히 성과를 부풀릴 수 있다. 재현성은 '부분 오픈'이 정확한 표현이다. MIT 라이선스로 추론과 파인튜닝 코드, mini/small/base 가중치가 풀렸고 Qlib 기반 A주 실험은 재현 가능하다. 반면 사전학습 코드는 저장소에 존재하지 않고(pretrain 경로 404 확인), 120억 봉 코퍼스와 9개 거래소 평가셋은 비공개이며, 논문 최고 성능인 large(499.2M)는 미공개다. 총 학습 스텝/토큰/배치/에폭이 전부 누락되어 컴퓨트 대비 성능도 역산할 수 없다(하드웨어는 RTX 4090D 24장으로 명시). 결국 세 크기 점 3개로 '스케일링 법칙 실증'을 주장하는 것은 과하다. 개인 학습 목적이라면 이 논문은 두 가지로 쓰는 게 좋다. 하나는 도메인 특화 토크나이저 설계의 교과서적 사례로 - BSQ 채택 논거, 어휘 인수분해 트릭, 손실로 표현 구조를 조각하는 발상 - 읽는 것. 다른 하나는 금융 ML 논문을 읽을 때의 체크리스트를 벼리는 반면교사로 읽는 것이다. 상대 % 뒤의 절대값, IC의 정확한 정의(시간축인가 횡단면인가), 베이스라인에 도메인 표준(HAR)이 들어 있는가, 시드와 신뢰구간이 있는가, 백테스트 기간과 시장이 몇 개인가, 거래 제약이 모델링되었는가. 이 여섯 개만 물어도 이 논문의 주장 강도는 상당히 조정된다. AAAI 2026 채택과 GitHub 별 37.5k는 이 모델의 실용적 수요를 보여주지만, 그것이 위 방법론적 공백을 메워주지는 않는다.",
+        "analyzed_at": "2026-08-17"
+      }
+    },
+    "2608.09888": {
+      "tier2": {
+        "method_detail": "BDH-CQ는 인컨텍스트 러닝(in-context learning)과 순환 잠재 추론(recurrent latent reasoning)을 결합한 추론 모델로, 데모 쌍을 순차적으로 흡수하면서 순환 메모리 상태를 갱신한다: 메모리 갱신 규칙은 S_t = U_theta(S_{t-1}, D_t)로 표기되며, KV 캐시처럼 고정 저장되는 것이 아니라 각 데모가 컨텍스트 상태 자체를 진화시키는 방식이다(구체적 U_theta의 함수형·차원은 proprietary로 비공개). K개 데모를 모두 흡수한 뒤 질의 처리는 3단계로 진행된다 - 인코딩 H_0 = E_theta(x*, S_K), 잠재 반복 H_{r+1} = F_theta(H_r, S_K) for r = 0..R-1, 디코딩 y_hat = G_theta(H_R) - 즉 중간 추론이 토큰으로 나오지 않고 고차원 잠재 공간 안에서만 반복 계산된다. 언어화가 불필요하다는 근거로 저자들은 CoT류가 \"모든 중간 상태를 이산 어휘로 투영하고 자기회귀적으로 방출한 뒤 다시 소비해야 계산이 이어진다\"는 병목을 지적하며, 연속 공간에 머무르면 여러 부분 가설·후보 변환을 직렬화 없이 병렬 탐색할 수 있다고 주장한다. 백본은 Pathway의 Dragon Hatchling(BDH) 계열로, 공개된 원리는 \"고차원 양(positive) 활성값, 저랭크(low-rank) 통신, 순환 연상(associative) 상태\" 세 가지뿐이며 뉴런 수·층 수·희소성 비율·업데이트 식은 모두 비공개다. 중요한 공백: 잠재 반복 횟수 R의 실제 값과 적응적 halting 여부는 본문에 명시되지 않고, LOW/MEDIUM/HIGH 세 단계의 \"reasoning effort\" 설정으로 간접 조절되는 것으로만 서술된다(고정 깊이 반복으로 추정되나 본문 확인 필요). 추론 시 파라미터 갱신은 전혀 없어 TTT(test-time training)가 아니며, 저자들은 \"평가 태스크의 데모 쌍이나 태스크 식별자는 학습에 참여하지 않고 추론 시 어떤 파라미터도 갱신되지 않는다\"고 명시한다 - 적응은 오로지 순환 메모리 진화로만 일어난다. 학습은 150M 파라미터 구성에서 선행 예시들을 순환 컨텍스트에 넣고 정답 그리드를 정확히 예측하는 목표로 수행되며, 컨텍스트 길이·그리드 토크나이제이션 방식·학습 스텝/토큰 수·학습 하드웨어는 모두 미공개다(본문 확인 필요).",
+        "experiment_setup": [
+          "메인 벤치마크: ARC-AGI-1 public evaluation set 400 태스크 / 419 test pair. 결과 pass@2 29.5% (118/400), pass@1 24.25% (97/400). 150M 파라미터 단일 구성.",
+          "비용 산정: 태스크당 약 0.85 H200 GPU-second를 실측하고 H200 시간당 $3 요율을 곱해 $0.00070/task 도출. 배치 크기·서빙 스택·GPU 이용률 가정은 미공개이며, API 과금이 아닌 자체 GPU 시간 환산이라는 점이 비교의 핵심 전제(본문 확인 필요).",
+          "pass@2 프로토콜: 독립 샘플링 2회가 아니라 랭킹된 후보를 최대 2개 제출해 둘 중 하나가 맞으면 정답 처리하는 ARC-AGI 리더보드 관행. 저자 스스로 ConceptARC 160개 입력 중 75개는 후보가 1개만 생성되고 그것이 rank-1에서 이미 정답이었다며 '두 번의 독립 시도로 해석하면 안 된다'고 경고. 후보 생성·랭킹 기준은 비공개.",
+          "파레토 비교군(출처: ARC Prize leaderboard, 2026-08-04 기준): GPT 5.6 Luna (Low) 34.2% pass@2 @ $0.040/task, HRM $1.48/task, TRM $1.76/task. BDH-CQ는 Luna 대비 약 57x 저렴, 2026-07-30 API 가격 인하(리더보드 미반영, 조정 시 약 $0.0077/task)를 감안해도 약 11x 저렴하다고 주장. 정확도 자체는 Luna보다 4.7%p 낮고 '비용-정확도 프론티어 돌파'라는 주장임에 유의.",
+          "추론 노력(effort) 스케일링: HIGH 29.5% pass@2(비용 절감 0%), MEDIUM 27%(11% 절감), LOW 21%(22% 절감). 정확도 8.5%p 하락 대비 비용 절감폭이 22%에 그쳐 스케일링 효율이 비대칭 - 절감률 정의가 본문 확인 필요.",
+          "ConceptARC 평가: 160 태스크 / 16 개념군(군당 10) / 480 test pair. test-pair pass@2 77.92% vs strict task pass@2 59.38%로 18.5%p 격차 - 추론한 변환 규칙을 같은 태스크의 모든 테스트 입력에 일관 적용하지 못한다는 증거. 군별 최고 FilledNotFilled 9/10, TopBottom2D 9/10, 최저 Copy 2/10, Order 2/10.",
+          "오염(contamination) 통제 실험: ConceptARC를 (a) 의미 있는 태스크 ID + 개념별로 묶인 배치, (b) 암호학적으로 불투명한 ID + 개념 혼합 배치 두 조건으로 재실행. 결과 374/480 test pair로 동일, strict 96/160 vs 95/160, 조건별 단독 성공이 각 6건씩으로 방향성 없음. 다만 저자들은 이것이 '학습이나 체크포인트 선택을 통한 노출을 배제하지는 못한다'고 명시.",
+          "통제된 ARC-like 개입 실험: 모델 동결 후 결정론적 Python 생성기로 난이도 사다리(ladder) 구성, 각 태스크는 데모 3개 + 홀드아웃 입력 2개(또는 테스트쌍 1개). 결과 - 전파 거리 1~8: 48/48 전량 정답(천장 없음), 복사 다중도 1~4 사이트: 48/48. 반면 순서(ordering)는 길이 6에서 29/36, 7에서 8/24, 8에서 1/24로 급락하는 상전이. 중첩(nesting) 깊이 5에서 29/36이지만 '테스트 복잡도와 같은 수준의 데모 1개'를 추가 제공하면 19/24 -> 24/24로 회복.",
+          "합성(composition) 실험: 3개 모티프 계열, 조건당 홀드아웃 출력 72개. 회전 + 재배치는 72/72로 안정적 합성, 반사(reflection)는 47/72로 불안정, 색 교환(color swap)은 합성 시 0/72로 완전 실패. 단순 색 매핑은 단독으로는 96개 출력에서 일관 적용되어, 실패는 개념 자체가 아니라 합성 능력의 한계임을 시사.",
+          "독립 검증: Bielik AI와 뉴욕대(NYU) 소속 감사자들이 문서화된 프로토콜 하에 public ARC-AGI-1의 29.5% pass@2를 재현. ConceptARC 및 수작업 제작 평가셋에 대한 별도 평가도 언급되나 본문에는 수치화되어 있지 않음.",
+          "ARC-AGI-2 수치는 없음(다음 목표로만 언급). 태스크 브리핑에 있던 github.com/pathwaycom/arc-task-gen 저장소는 논문 본문에서 확인되지 않음 - 코드/데이터 공개 언급 없음(본문 확인 필요)."
+        ],
+        "datasets": [
+          {
+            "name": "ARC-AGI-1 public evaluation set",
+            "domain": "추상 시각 추론 (메인 벤치마크)",
+            "scale": "400 태스크 / 419 test pair; pass@2 29.5% (118/400), pass@1 24.25% (97/400)"
+          },
+          {
+            "name": "ConceptARC",
+            "domain": "개념군별 추상 추론 (일반화·일관성 진단)",
+            "scale": "160 태스크 / 16 개념군(군당 10) / 480 test pair; test-pair pass@2 77.92%, strict task pass@2 59.38%. 학습 혼합에도 포함되어 있어 순수 홀드아웃이 아님에 유의"
+          },
+          {
+            "name": "ARC-AGI-1 training set",
+            "domain": "학습 데이터",
+            "scale": "규모 미기재"
+          },
+          {
+            "name": "RE-ARC",
+            "domain": "학습 데이터 (ARC 재생성 증강)",
+            "scale": "태스크 수 미기재"
+          },
+          {
+            "name": "ARC-Heavy",
+            "domain": "학습 데이터 (대규모 합성 ARC)",
+            "scale": "태스크 수 미기재"
+          },
+          {
+            "name": "ARC-GEN100K",
+            "domain": "학습 데이터 (10만 규모 합성 ARC로 추정)",
+            "scale": "논문에 명시 수치 없음, 본문 확인 필요"
+          },
+          {
+            "name": "비공개 큐레이션 예제 + 증강",
+            "domain": "학습 데이터",
+            "scale": "전량 proprietary, 규모·비율 미공개"
+          },
+          {
+            "name": "통제된 ARC-like 개입셋 (결정론적 Python 생성 ladder)",
+            "domain": "개념별 난이도 상전이 진단 (모델 동결 후 신규 생성)",
+            "scale": "축별 레벨당 6~18 태스크, 데모 3개 + 홀드아웃 2입력 구성; 전파/복사 각 48 출력, 합성 실험 조건당 72 출력"
+          }
+        ],
+        "limitations": {
+          "by_authors": [
+            "아키텍처 비공개를 논문이 스스로 명시한다: 'Dimensions, exact update rules, and implementation details remain proprietary'. 추가로 'The complete internal training recipe remains proprietary'도 있다. 잠재 반복 횟수 R의 실제 값, 적응적 halting 여부, 뉴런 수/층 수/희소성 비율은 본문 어디에도 없다. 공개된 것은 고차원 양의 활성값, 저랭크 통신, 순환 연상 상태라는 세 원리와 S_t = U_theta(S_{t-1}, D_t) / H_{r+1} = F_theta(H_r, S_K), r=0..R-1 라는 표기 수준의 수식뿐이다.",
+            "추론 일관성 결함을 저자들이 직접 보고한다. ConceptARC(160 tasks, 16 families)에서 semantic test-pair pass@2 77.92% 대비 strict task pass@2 59.38%로 약 18.5%p 격차가 있고, 160개 중 52개는 test input 일부만 맞히고 태스크로는 실패한다. 저자 표현대로 'does not yet apply the inferred transformation consistently across all inputs of a task'. Table 1 기준 ConceptARC semantic은 pass@1 45.63% / pass@2 59.38%, opaque는 45.00% / 60.00%이다.",
+            "특정 개념군이 구조적으로 약하다. Copy 계열은 semantic test-pair pass@2 기준 19/30이지만 strict task 기준 2/10에 그치고, Order 계열도 opaque 실행에서 2/10으로 보고된다. 합성(composition) 실험에서는 rotation + relocation이 72/72인 반면 reflection + relocation은 47/72, color swapping 합성은 0/72로 완전 실패한다('the model never learns to compose it with relocation'). 합성 수치의 pass@1/pass@2 기준은 본문 확인 필요.",
+            "외삽(extrapolation)이 길이에 따라 급격히 무너진다. propagation은 거리 2-8 구간에서 pass@1과 pass@2 모두 48/48을 유지하고 copying도 타깃 1-4개 구간에서 48/48이지만, ordering은 길이 6에서 29/36, 7에서 8/24, 8에서 1/24로 붕괴한다. 순환 잠재 반복이 길이 일반화를 자동으로 주지는 못한다는 뜻이다.",
+            "개입 실험의 통계적 검정력이 낮다. 저자들은 'Each ladder condition contains only 40 tasks from one puzzle family'라고 인정한다. 한 퍼즐 계열 40개짜리 조건에서 뽑은 결론을 개념 일반화 주장으로 확장하기 어렵다.",
+            "생성 태스크의 저작(authoring) 교란을 인정한다. 손으로 쓴 gravity 태스크는 80-100%인데 같은 개념의 생성판은 2.9%다. 저자들도 이 격차가 개념 난이도가 아니라 태스크 작성 방식에서 온다고 본다. 따라서 '어떤 개념이 어렵다'는 결론 자체가 생성기 설계에 오염될 수 있다.",
+            "실패 원인 규명이 원리적으로 제한된다고 저자들이 쓴다. 'The evaluator returns grids rather than a reasoning trace, so a correct rule applied incompletely is observationally indistinguishable from a narrower rule applied completely'. 잠재 추론은 중간 상태를 토큰으로 내보내지 않으므로 최종 그리드 외에 진단 신호가 없다.",
+            "공개 eval set과 생성 set 사이의 난이도 순위가 일치하지 않는다. 'Public and generated mechanic rates do not show a reliable rank correspondence (rho = 0.300 across 16 mechanics)'. 즉 자체 생성기(arc-task-gen)는 공개 세트의 대체 프록시로 쓸 수 없다는 것을 저자들이 스스로 보여준다. 생성 풀 자체에도 중복 문제가 있어 'Deduplication removed 24% of the merged generated pool, concentrated in flood fill and panel set operation'이라 보고한다.",
+            "ARC-AGI-2 결과가 없다. 'ARC-AGI-2 is the next visual-reasoning target'이라며 future work로만 언급한다. 즉 본 논문의 모든 수치는 2019년 세대 벤치마크의 공개 분할에 한정된다."
+          ],
+          "by_claude": [
+            "파레토 돌파 주장의 지표 비대칭이 가장 큰 문제다. BDH-CQ는 29.5% pass@2를 전면에 내세우지만 같은 논문 Table 1의 pass@1은 24.25%다. 반면 비교 대상은 그림 캡션에 'Data points were collected from the official ARC Prize leaderboard on August 4, 2026'라고만 적혀 있고, 각 baseline이 pass@1인지 pass@2인지 논문이 어디에도 명시하지 않음을 원문 대조로 확인했다. 자기 점수는 두 번 시도 기준, 상대 점수는 지표 불명인 상태로 'This point lies beyond the previously reported Pareto frontier: no plotted system attains at least this accuracy at equal or lower reported cost'를 주장하는 구조다. 만약 baseline 다수가 pass@1이라면 공정 비교선은 29.5%가 아니라 24.25%이고, GPT 5.6 Luna (Low)의 34.2%와의 격차는 약 5.3%p에서 약 10%p로 두 배가 된다.",
+            "평가 분할 정합성이 본문에 미명시임을 확인했다. BDH-CQ 자신은 'the 400-task public ARC-AGI-1 evaluation split'에서 측정했다고 명시하지만, 리더보드에서 가져온 데이터포인트가 public인지 semi-private인지 밝히는 문장은 논문 어디에도 없다. ARC Prize 공식 점수는 통상 semi-private에서 측정되므로 서로 다른 분할이 한 파레토 평면에 찍혔을 위험이 있으며, 저자들이 분할을 맞췄다는 서술이 없는 이상 독자가 검증할 방법이 없다.",
+            "비용 산정이 한쪽은 원가, 한쪽은 소매가다. BDH-CQ 비용은 0.85 H200 GPU-seconds라는 자사 측정 GPU 시간에 'At $3 per H200-hour'라는 임의 선택 단가를 곱한 한계 연산 원가다(0.85/3600 x 3 = $0.000708로 산술 자체는 일관된다). 반면 비교군 $0.040은 마진, 서빙 오버헤드, 안전 필터, 라우팅이 모두 포함된 상업 API 정가다. 같은 축에 놓을 수 없는 두 종류의 숫자다. 배치 크기, 동시성, KV/상태 메모리, 프리필 비용, 실패 재시도, 워밍업 등 GPU-second를 결정하는 조건이 하나도 공개되지 않아 0.85초를 외부에서 검증할 방법이 없다.",
+            "동류 비교군이 분석과 논문 서술 모두에서 뒤로 밀려 있다. 논문은 GPT 5.6 Luna (Low) 외에 HRM($1.48/task)과 TRM($1.76/task)도 플롯하는데, 이들은 BDH-CQ와 같은 ARC 특화 소형 모델 계열이므로 범용 상업 API보다 훨씬 정직한 비교 대상이다. 그럼에도 논문의 서사와 57x/11x 배수는 범용 API 대비로만 전개된다. 이들 대비 정확도와 비용 위치가 어떻게 되는지는 본문 확인 필요이며, 특화 대 특화 비교가 빠진 채로는 '아키텍처 덕분에 싸다'는 주장이 성립하지 않는다.",
+            "학습 비용이 비용 축에서 완전히 빠져 있다. 150M 모델이지만 ARC 특화 데이터(사설 큐레이션 + ARC-AGI-1 train + RE-ARC + ConceptARC + ARC-Heavy + ARC-GEN100K + 증강)로 전용 학습된 특화 모델이다. 범용 API 모델과의 태스크당 비용 비교는 이 전용 학습비를 0으로 놓아야만 성립한다. 학습 스텝, 토큰 수, 하드웨어, GPU-hour는 모두 미보고이며 'The complete internal training recipe remains proprietary'로 처리된다.",
+            "비용 우위 주장 자체가 가격 정책에 취약함을 논문이 자백한다. 2026년 7월 30일 API 80% 인하를 반영하면 57x가 약 11x로 줄어든다고 스스로 적는다. 즉 'Pareto frontier 돌파'는 아키텍처 성질이 아니라 특정 시점 가격표에 대한 상대 위치이며, 가격 인하 한 번으로 5배 축소된다. 스냅샷 주장에 'state of the art'라는 항구적 어휘를 붙인 것은 과잉이다.",
+            "pass@2의 두 후보를 어떻게 뽑는지, 그리고 $0.00070이 한 번 시도 비용인지 두 후보 생성 비용을 모두 포함하는지가 원문에 없음을 확인했다. 논문은 'producing up to two ranked candidates, receiving a score if either of the candidates is correct'라고만 쓰고 후보 생성 메커니즘을 설명하지 않는다. 만약 0.85 GPU-second가 1회 시도 비용이라면 pass@2 점수와 짝지을 실제 비용은 그 두 배여야 하며, 이 경우 파레토 위치가 이동한다.",
+            "ConceptARC가 학습 데이터이면서 동시에 행동 분석의 평가셋이다. 학습 혼합 서술('The dataset combines privately curated examples with publicly available data from the ARC-AGI-1 training set, RE-ARC, ConceptARC, ARC-Heavy, and ARC-GEN100K')에 ConceptARC가 명시적으로 포함되는데, '어떤 개념이 어려운가' 분석은 바로 그 ConceptARC 160 태스크 위에서 수행된다. 논문은 이 중복을 어디서도 인정하지 않는다. 따라서 77.92% / 59.38%는 held-out 일반화 측정이 아니라 학습 분포 내 성능일 수 있으며, 학습에서 본 데이터에서조차 Copy가 strict task 2/10이라는 점은 저자 의도보다 나쁜 신호로 읽어야 한다. 다만 통제 개입 실험은 'We generated fresh ARC-like tasks after freezing the model'로 모델 동결 후 생성한 태스크를 쓰므로, 그 부분은 오염 우려를 의식한 설계로 인정해야 공정하다.",
+            "train/eval 오염에 대한 명시적 통제 서술이 없다. 논문에 'held-out'이라는 표현은 등장하고(예: 'Propagation remains correct on 48/48 held-out outputs'), 'Deduplication removed 24% of the merged generated pool'이라는 중복 제거 보고도 있다. 그러나 이 dedup은 생성된 평가 태스크 풀 내부의 자기중복 제거일 뿐 학습셋과 공개 eval 사이의 근접 중복 검사가 아니다. ARC-AGI-1 public eval 400 태스크는 2019년부터 GitHub에 공개된 세트이고, 학습 혼합의 ARC-Heavy(BARC 계열)와 ARC-GEN100K는 공개 ARC 태스크를 씨앗으로 대량 생성한 합성 데이터다. 씨앗 집합이 train으로 한정되었는지, 'public eval 400을 학습에서 제외했다'는 문장은 원문 대조에서 확인되지 않았다.",
+            "생성 세트 결과가 오염 부재의 증거가 되지 못한다. calibrated generated 세트 37.2%, mechanic-stratified 29.8%라는 수치가 공개 eval 29.5%와 비슷하거나 높다는 점을 오염 부재 근거로 읽으려는 유혹이 있으나, 저자 자신이 보고한 rho = 0.300이라는 낮은 순위 상관은 두 분포가 서로 다른 능력을 재고 있다는 뜻이다. 게다가 생성기의 난이도 캘리브레이션을 저자가 정하므로 원하는 수치를 만들 자유도가 크다. 해당 수치들의 정확한 분모는 본문 확인 필요.",
+            "절대 성능의 위치가 논문 서술에서 흐려진다. 29.5% pass@2는 같은 그림의 GPT 5.6 Luna (Low) 34.2%보다 낮고, 이는 그 모델의 저노력 설정이다. 초록은 'establishing a new state of the art in benchmark cost efficiency'로 같은 문장 안에서 스스로 한정하므로 논문이 정확도 SOTA를 직접 주장하지는 않는다. 문제는 바로 앞 문장 'This operating point breaks through the previously reported ARC-AGI-1 cost-accuracy Pareto frontier'와 붙어 있어 인용 과정에서 한정어가 탈락하기 쉽다는 점이다. 실제 주장 범위는 '이미 후속 세대(ARC-AGI-2)로 대체된 벤치마크의 가장 공개된 분할에서, 정확도가 아닌 비용 축으로 매긴 1위'라는 세 겹 한정을 붙여야 정확하다.",
+            "'independent' 표기가 정의상 성립하지 않는다. 논문은 'An independent black-box audit conducted by co-authors from Bielik and New York University'라고 쓰는데 감사자가 공저자다. 저자 명단(Engdahl, Kosowski, Chorowski, Stamirowska, Uznanski, Jiang, Phadke, Kinas, Zhong)에 Kinas(Bielik)와 Zhong(NYU)이 실제로 포함되므로 이는 내부 검증이며 independent라는 단어를 쓸 수 없다. 반면 저장소 README가 언급하는 Lukasz Kaiser는 저자 명단에 없으므로 그 재현은 실제 외부 검증으로 인정해야 한다. 다만 어느 쪽도 ARC Prize 공식 리더보드의 semi-private 검증 절차를 거치지 않았고, 블랙박스 감사는 '같은 공개 400문항에서 같은 점수가 나온다'만 확인할 뿐 오염과 분할 문제에는 답을 주지 못한다.",
+            "잠재 추론의 해석가능성이 원리적으로 0에 가깝다. CoT 계열은 최소한 중간 토큰이 감사 가능한 인공물로 남지만, 여기서는 'Intermediate reasoning states are not decoded into language'이므로 남는 것이 최종 그리드뿐이다. 논문의 모든 분석(ConceptARC 분해, ladder 개입, mechanic 층화)은 입출력 블랙박스 행동 분석이며, 잠재 상태 H_r에 대한 probing, 선형 디코딩, 상태 궤적 시각화, 반복 r에 따른 표현 변화 추적 같은 내부 분석이 하나도 없다. 순환 상태를 쓰는 아키텍처는 오히려 그런 분석이 쉬운 편인데도 하지 않았다는 점은 비공개 정책과 해석가능성 주장의 충돌을 보여준다. 안전 관점의 CoT monitorability 포기에 대한 논의도 없다.",
+            "언어화 불필요 주장이 논증일 뿐 실험이 아니다. 연속 공간이 여러 가설을 직렬화 없이 유지할 수 있다는 주장의 근거는 인용과 개념적 서술이다. 동일 파라미터 수, 동일 학습 데이터, 동일 연산 예산에서 CoT 버전과 잠재 반복 버전을 맞붙인 통제 비교(ablation)가 없고, 잠재 반복 R을 1로 줄이는 ablation조차 없다.",
+            "reasoning effort 축이 test-time compute scaling으로 해석되지 않는다. LOW 21% / MEDIUM 27% / HIGH 29.5%인데 비용 절감은 각각 22% / 11% / 0%에 그친다. 즉 8.5%p의 정확도 차이가 22%의 비용 차이에 대응한다. 진짜 잠재 반복 깊이 R을 배수로 바꾸는 것이라면 비용도 배수로 움직여야 한다. 다만 이 노브가 무엇을 조절하는지는 원문에 없다. 논문은 'we get a model that has been exposed to different reasoning efforts during training. For inference, we can choose the level of reasoning to apply'라고만 쓴다. 따라서 '후보 수를 조절하는 것'이라는 추정은 근거가 없고, 확정할 수 있는 사실은 조절 대상이 미공개라는 점과 비용 반응이 배수적이지 않다는 점뿐이다.",
+            "in-context learning이라는 용어가 과대 적용되어 있다. 학습 데이터가 ARC 형식 데모-정답 쌍으로 채워진 상태에서 추론 시 ARC 데모를 받는 것은 학습 분포와 동일한 포맷의 few-shot 조건부 추론에 가깝다. 파라미터 갱신이 없다는 점은 사실이고 TTT가 아니라는 주장도 맞지만, 이것이 도메인 밖으로 옮겨가는 범용 ICL 능력을 뜻하지는 않는다. ARC 이외 도메인(언어, 수학, 제약 충족) 결과가 0건이므로 아키텍처 수준의 일반적 주장은 뒷받침되지 않는다.",
+            "저장소가 모델과 무관하다. github.com/pathwaycom/arc-task-gen(약 3.3k stars)는 generate_tasks.py, generate_tasks_stratified.py, describe_eval_tasks.py, label_eval_tasks.py, visualize_tasks.py, instructions.md, pixi 의존성 파일만 담은 태스크 생성기다. 모델 구현, 학습 코드, 체크포인트, 추론 하니스, 비용 측정 스크립트 중 어느 것도 없다. 별 3.3k는 재현성 지표가 아니라 주목도 지표이며, 이 저장소는 검증 대상은 주지 않고 검증 도구만 쥐어주는 구조다.",
+            "논문과 README의 수사 강도 차이는 통념과 반대 방향이다. 논문 본문이 'approximately 57x cheaper than GPT 5.6 Luna (Low)'를 먼저 제시하고 7월 30일 80% 인하 반영 시 약 11x로 축소된다고 뒤에 붙이는 반면, 저장소 README는 처음부터 11x만 쓴다. 즉 외부 커뮤니케이션이 논문보다 보수적이다. 과장의 진원지는 README가 아니라 논문 본문의 57x 헤드라인이므로, 이 결과를 인용할 때는 어느 시점 가격표 기준인지를 반드시 함께 표기해야 한다."
+          ]
+        },
+        "reproducibility": {
+          "code": "부분 공개, 그러나 모델 코드는 없음. github.com/pathwaycom/arc-task-gen(별 약 3.3k)는 ARC-AGI-1 유사 태스크 생성기이며 generate_tasks.py, generate_tasks_stratified.py, 시각화/라벨링 유틸리티, instructions.md, 표준 ARC 형식 tasks.json 출력만 포함한다. BDH-CQ 모델 구현, 학습 코드, 추론 하니스, 비용 측정 스크립트는 포함되지 않는다. 즉 논문의 어떤 정량 결과도 이 저장소만으로는 재현할 수 없다.",
+          "data": "혼합. 학습 데이터는 사설 큐레이션 예제 + 공개 데이터(ARC-AGI-1 training set, RE-ARC, ConceptARC, ARC-Heavy, ARC-GEN100K) + 추가 증강으로 서술되며, 사설 부분의 규모와 구성 비율은 비공개다. 평가는 공개 ARC-AGI-1 eval 400 태스크와 post-freeze 생성 세트(calibrated generated 400, mechanic-stratified generated 1131)를 쓴다. 생성 세트는 arc-task-gen으로 다시 만들 수 있으나 시드/파라미터가 고정 공개되지 않으면 동일 세트 복원은 어렵다. 학습셋과 평가셋 간 중복 제거 절차, 근접 중복 검사, 오염 분석 보고가 전혀 없다.",
+          "weights": "비공개. 체크포인트 미배포. 논문은 'Dimensions, exact update rules, and implementation details remain proprietary'라고 명시하며, 뉴런 수/층 수/희소성/잠재 반복 R/컨텍스트 길이/그리드 토크나이제이션/학습 스텝/학습 하드웨어가 모두 미공개다. 검증은 'deployed system'에 대한 블랙박스 감사 형태로만 이루어졌다.",
+          "license": "arc-task-gen 저장소는 MIT. 모델과 가중치에는 적용되는 라이선스 자체가 없음(배포되지 않음). 논문은 arXiv 프리프린트(2608.09888v1).",
+          "note": "실질 재현 가능성은 낮음. 재현 가능한 것은 (a) 평가용 합성 태스크 생성, (b) 공개 ARC-AGI-1 eval 400 태스크 목록 자체뿐이고, 재현 불가능한 것은 (c) 모델, (d) 29.5% pass@2, (e) 0.85 H200 GPU-seconds와 태스크당 $0.00070이다. 특히 비용 수치는 배치 구성, 동시성, 시퀀스 길이, 후보 2개 생성 포함 여부가 공개되지 않아 제3자 검증이 원천적으로 불가능하다. 저자들이 말하는 independent audit은 공저자(Bielik, NYU)에 의한 것이므로 독립성 요건을 충족하지 않으며, ARC Prize 공식 semi-private 검증도 거치지 않았다. 이 논문의 수치를 인용할 때는 'Pathway 자체 보고, 공개 분할, 자체 비용 모델' 이라는 단서를 반드시 함께 달아야 한다."
+        },
+        "my_learning_points": [
+          "순환 메모리를 KV 캐시가 아닌 '진화하는 상태'로 두는 설계 구분을 명확히 이해했다. S_t = U_theta(S_{t-1}, D_t)는 데모를 저장하는 것이 아니라 데모마다 컨텍스트 상태 자체를 갱신한다. 파라미터를 건드리지 않으므로 TTT가 아니면서도 태스크 적응이 일어나는 제3의 경로이고, 컨텍스트 길이에 선형으로 비용이 붙는 어텐션과 달리 상태 크기가 고정이라 비용 축에서 유리해진다. 비용 우위의 상당 부분이 잠재 추론이 아니라 이 순환 구조에서 나올 가능성이 크다는 점이 핵심이다.",
+          "잠재 반복 H_{r+1} = F_theta(H_r, S_K)는 '토큰 수와 연산량의 분리'라는 아이디어다. CoT는 더 생각하려면 더 많은 토큰을 뱉어야 하지만 여기서는 R만 늘리면 된다. 다만 이 논문은 그 장점을 실증하지 못했다 - effort 3단계에서 비용이 22%밖에 안 움직인 것이 그 증거다. 잠재 추론 논문을 볼 때는 '연산량 대비 정확도 곡선이 얼마나 넓게 그려지는가'를 먼저 봐야 한다는 교훈을 얻었다.",
+          "semantic pair accuracy와 strict task accuracy를 분리해 재는 평가 설계는 훔쳐올 만하다. 77.92% 대 59.38%, 그리고 '160개 중 52개가 일부 입력만 정답'이라는 통계는 단일 정확도 숫자로는 절대 안 보이는 실패 모드(변환을 추론했지만 일관 적용에 실패)를 드러낸다. 규칙 추론형 태스크를 평가할 때 태스크 단위와 인스턴스 단위를 항상 같이 보고해야 한다.",
+          "post-freeze 생성 태스크로 평가한다는 발상 자체는 좋은 오염 대책이지만, 이 논문이 스스로 낸 rho = 0.300이라는 결과가 그 한계를 정확히 보여준다. 생성 세트는 공개 세트의 난이도 순위를 재현하지 못하므로 '합성 세트에서 잘하니 오염이 없다'는 논증은 성립하지 않는다. 합성 벤치마크를 오염 방어로 쓰려면 먼저 원본과의 순위 상관을 입증해야 한다는 순서를 배웠다.",
+          "학습 데이터 목록과 평가 데이터 목록을 나란히 놓고 교집합을 확인하는 습관의 중요성. 이 논문은 ConceptARC를 4장에서 학습에 넣고 6장에서 평가에 쓴다. 초록과 결과 표만 보면 절대 안 걸리고, 두 절의 목록을 직접 대조해야만 보인다. 논문 리뷰 체크리스트에 '4장 데이터 목록 vs 5-6장 평가 목록 교집합'을 상시 항목으로 넣기로 했다.",
+          "'파레토 프론티어 돌파' 주장은 네 가지를 따로 검증해야 한다: (1) 두 축의 지표가 같은가(pass@1 vs pass@2), (2) 두 축의 측정 분할이 같은가(public vs semi-private), (3) 비용 정의가 같은가(한계 GPU 원가 vs 상업 API 정가), (4) 그 비용이 시간에 안정적인가(가격 인하 한 번에 57x가 11x로). 이 논문은 네 가지 모두에서 흔들린다. 앞으로 cost-efficiency SOTA 주장을 볼 때 그대로 쓸 수 있는 4문항 체크리스트를 얻었다.",
+          "'independent audit'이라는 단어가 붙어 있어도 감사자 명단과 저자 명단을 대조해야 한다. 여기서는 감사자가 공저자(Bielik AI, NYU 소속)라 정의상 독립 검증이 아니다. 또한 블랙박스 감사는 재현성 문제(같은 점수 나오는가)만 다루고 타당성 문제(그 점수가 무엇을 의미하는가, 오염은 없는가)는 전혀 다루지 않는다는 구분도 분명해졌다.",
+          "잠재 추론은 해석가능성과 안전 감사 가능성을 명시적으로 포기하는 선택이다. 저자 스스로 'final grids alone cannot establish where the underlying reasoning failed'라고 쓴다. 반대로 말하면 순환 상태 H_r은 probing 대상으로는 오히려 다루기 쉬운 객체인데도 내부 분석이 0건이었다 - 비공개 정책이 과학적 분석을 막은 사례로 기억해 둘 만하다. 잠재 추론 논문을 볼 때 '상태 probing 실험이 있는가'를 품질 신호로 쓰겠다.",
+          "ARC 생태계 데이터셋 지형을 정리했다: ARC-AGI-1 train/public eval/semi-private, RE-ARC(train 태스크 재생성), ConceptARC(16 concept families, 160 tasks, 개념별 진단용), ARC-Heavy(BARC 계열 대량 합성), ARC-GEN100K(대규모 생성). 이들 대부분이 공개 ARC 태스크를 씨앗으로 하므로 '공개 합성 데이터로 학습 + 공개 eval로 평가'는 구조적으로 오염 위험이 상존한다는 점을 기본 전제로 두어야 한다.",
+          "비용 우위 주장을 읽을 때 '무엇이 비용에서 빠졌는가'를 먼저 세는 습관. 여기서는 학습 비용(ARC 특화 전용 학습), 데이터 큐레이션 비용, pass@2 두 번째 후보 생성 비용(포함 여부 불명), 서빙 오버헤드가 모두 분자에서 빠져 있을 수 있다. 150M 전용 모델과 범용 API 모델을 태스크당 달러로 비교하는 것은 애초에 비교 불가능한 두 원가 구조를 한 줄에 놓는 일이다."
+        ],
+        "related_work": {
+          "prior": [
+            {
+              "name": "Dragon Hatchling (BDH) - Pathway (Kosowski et al., 2025)",
+              "relation": "본 논문의 백본. BDH-CQ의 CQ 앞에 붙은 BDH가 이 계열이다. 고차원 양의 활성값, 저랭크 통신, 순환 연상 상태라는 세 원리만 본 논문에 재인용되고 나머지는 비공개다. BDH 원 논문을 읽지 않으면 본 논문의 아키텍처 절은 사실상 내용이 없으므로 함께 읽어야 한다. 정확한 arXiv 번호는 별도 확인 필요."
+            },
+            {
+              "name": "Coconut - Chain of Continuous Thought (Hao et al., 2024)",
+              "relation": "중간 추론을 토큰으로 내보내지 않고 연속 임베딩 공간에서 이어가는 대표 선행 연구. BDH-CQ의 '언어화 불필요' 논지와 직접 계보가 닿는다. 다만 Coconut은 Transformer 위에서 hidden state를 다음 입력으로 되먹이는 방식이고 BDH-CQ는 순환 상태 자체를 진화시키는 구조라는 점이 다르다."
+            },
+            {
+              "name": "Recurrent depth / latent test-time compute scaling (Geiping et al., 2025 계열)",
+              "relation": "깊이 방향 반복으로 test-time compute를 늘리는 접근. H_{r+1} = F_theta(H_r, S_K)와 발상이 같다. 이 계열 논문들은 반복 횟수를 바꿔가며 연산-정확도 곡선을 넓게 보여주는 것이 표준인데, BDH-CQ는 R을 공개하지 않고 effort 3단계(비용 변화 22% 이내)만 제시해 비교 검증이 불가능하다. 대조군으로 반드시 같이 볼 것."
+            },
+            {
+              "name": "Chollet, On the Measure of Intelligence / ARC (2019)",
+              "relation": "벤치마크 원 논문. ARC-AGI-1의 train/public eval/semi-private 분할 설계와 '적은 데모로부터의 기술 습득 효율'이라는 측정 철학이 여기서 나온다. 공개 eval 분할이 왜 리더보드 공식 점수로 쓰이지 않는지도 이 맥락에서 이해된다."
+            },
+            {
+              "name": "ConceptARC (Moskvichev, Odouard, Mitchell, 2023)",
+              "relation": "16개 개념 계열 160 태스크의 진단용 벤치마크. 본 논문 6장 행동 분석의 주 무대이자, 동시에 4장 학습 데이터 목록에도 들어 있다는 점이 가장 큰 방법론적 문제다. 이 데이터셋의 설계 의도(개념별 일반화 진단)를 알아야 학습에 넣는 순간 진단 기능이 무력화된다는 점이 보인다."
+            },
+            {
+              "name": "RE-ARC (Hodel, 2024) / BARC-ARC-Heavy (Li et al., 2024) / ARC-GEN100K",
+              "relation": "본 논문 학습 혼합을 구성하는 ARC 합성 데이터 계열. 세 데이터셋 모두 공개 ARC 태스크를 씨앗으로 삼기 때문에, 공개 eval과의 근접 중복 여부가 오염 판단의 핵심이 된다. 각 데이터셋이 어느 분할을 씨앗으로 썼는지 원 논문에서 확인해야 본 논문의 오염 위험을 정량적으로 논할 수 있다."
+            },
+            {
+              "name": "Test-time training on ARC (Akyurek et al., 2024)",
+              "relation": "명시적 대조군. TTT는 추론 시 파라미터를 갱신해 ARC 점수를 크게 올렸는데, BDH-CQ는 '추론 시 어떤 파라미터도 갱신되지 않는다'며 순환 메모리 진화만으로 적응한다고 선을 긋는다. 두 접근의 비용 구조와 적응 메커니즘을 비교하면 BDH-CQ 비용 우위의 출처를 더 정확히 가늠할 수 있다."
+            },
+            {
+              "name": "Zhu et al. (2025), continuous thoughts and parallel search frontiers",
+              "relation": "본 논문이 '언어화 없이 여러 부분 가설을 병렬 유지할 수 있다'는 주장의 유일한 실증적 근거로 인용하는 연구. BDH-CQ 자체는 이 성질을 자기 모델에서 검증하지 않으므로, 이 인용의 조건과 범위를 원문에서 확인하는 것이 본 논문 핵심 논지의 신뢰도를 판정하는 지름길이다."
+            }
+          ],
+          "followup": [
+            {
+              "name": "지표/분할 정합 재평가 (제안)",
+              "relation": "BDH-CQ의 pass@1 24.25%를 pass@1 baseline들과, pass@2 29.5%를 pass@2 baseline들과 각각 재도시한 파레토 그림. 아울러 ARC Prize semi-private 분할에서의 공식 측정. 이 두 가지가 나오기 전까지 '파레토 돌파'는 미검증 주장으로 취급해야 한다."
+            },
+            {
+              "name": "오염 감사 (제안)",
+              "relation": "학습 혼합(RE-ARC, ConceptARC, ARC-Heavy, ARC-GEN100K, 사설 데이터)과 ARC-AGI-1 public eval 400 태스크 사이의 그리드 단위 근접 중복 검사. 그리고 ConceptARC를 학습에서 제외한 재학습본으로 6장 행동 분석을 다시 수행. 현재 '어떤 개념이 어려운가'라는 논문의 두 번째 기여는 이 재실험 없이는 성립하지 않는다."
+            },
+            {
+              "name": "잠재 반복 ablation (제안)",
+              "relation": "R을 1, 소수, 다수로 바꾸며 연산량 대비 정확도 곡선을 그리고, 동일 파라미터/데이터/연산 예산의 CoT 대조군과 맞붙이는 실험. 이것이 없으면 '언어화 불필요'는 주장에 머문다. LOW/MEDIUM/HIGH가 실제로 R을 바꾸는지, 후보 수를 바꾸는지도 여기서 밝혀져야 한다."
+            },
+            {
+              "name": "잠재 상태 해석 연구 (제안)",
+              "relation": "순환 상태 S_K와 잠재 궤적 H_0..H_R에 대한 linear probing, 반복 단계별 후보 변환 디코딩, 실패 태스크에서 어느 반복부터 궤적이 갈라지는지 추적. 저자가 '최종 그리드만으로는 실패 지점을 알 수 없다'고 인정한 공백을 정확히 메우는 방향이며, 잠재 추론 계열이 CoT monitorability를 대체하려면 반드시 필요한 작업이다."
+            },
+            {
+              "name": "ARC-AGI-2 및 도메인 이전 (제안)",
+              "relation": "저자들이 future work로 지목한 방향. ARC-AGI-2와 제약 충족, 수학/언어 추론으로의 이전. 순환 잠재 추론이 ARC 형식 특화가 아니라 아키텍처 수준의 성질인지 판정하는 결정적 시험대이며, 현재는 증거가 0건이다."
+            }
+          ]
+        },
+        "claude_note": "한 줄 요약: 아키텍처 아이디어(순환 메모리 + 잠재 반복)는 진지하게 볼 가치가 있지만, 논문이 전면에 내세운 '파레토 돌파, 비용 효율 SOTA' 주장은 지표, 분할, 비용 정의, 데이터 위생 네 군데에서 동시에 흔들리는 마케팅성 주장에 가깝다.\n\n기여를 공정하게 인정하면 두 가지다. 첫째, 150M이라는 매우 작은 모델이 ARC-AGI-1 공개 eval에서 29.5% pass@2에 도달했다는 사실 자체는 흥미롭다. 파라미터를 갱신하지 않고 순환 상태 진화만으로 태스크 적응을 시키는 경로가 실제로 작동한다는 존재 증명은 의미가 있다. 둘째, 6장의 행동 분석 설계 - semantic pair 정확도와 strict task 정확도를 분리하고(77.92% 대 59.38%), 합성 사다리(rotation+relocation 72/72 대 color swap 0/72)와 길이 외삽(ordering이 길이 8에서 1/24로 붕괴)을 통제 개입으로 재는 방식 - 은 단일 정확도로는 안 보이는 실패 모드를 드러내는 좋은 방법론이다. 이 부분은 다른 규칙 추론 평가에 그대로 이식할 만하다.\n\n그러나 핵심 주장은 다음 다섯 지점에서 무너진다.\n\n(1) 지표 비대칭. 자기 점수는 pass@2 29.5%를 쓰고, 리더보드에서 가져온 비교점들의 지표는 논문이 명시하지 않는다. 같은 논문 Table 1에 pass@1 24.25%가 있으므로 만약 baseline이 pass@1이라면 공정 비교선은 24.25%이고 GPT 5.6 Luna (Low) 34.2%와의 격차는 두 배가 된다. 정확도 축을 유리하게 잡은 상태에서 비용 축 우위를 주장하는 구조다.\n\n(2) 분할 불일치 가능성. ARC Prize 공식 리더보드 점수는 통상 semi-private에서 측정되는데 BDH-CQ는 public 400에서 측정한다. 서로 다른 분할의 점수를 한 평면에 찍는 것은 성립하지 않으며, 논문에 분할을 맞췄다는 서술은 확인되지 않는다.\n\n(3) 비용 정의 비대칭. 0.85 H200 GPU-seconds에 시간당 $3을 곱한 자사 한계 원가($0.00070)를, 마진과 서빙 오버헤드가 포함된 상업 API 정가($0.040)와 비교한다. 학습 비용은 아예 분자에 없고, ARC 특화 데이터로 전용 학습된 모델이므로 이 누락은 작지 않다. pass@2의 두 번째 후보 생성 비용이 포함되는지도 불명이다. 결정적으로 논문 스스로 API 가격 인하 반영 시 57x가 약 11x로 줄어든다고 적는데, 이는 이 '돌파'가 아키텍처 성질이 아니라 특정 시점 가격표에 대한 상대 위치임을 저자가 인정한 것이다.\n\n(4) 데이터 위생. ConceptARC가 4장 학습 혼합에 들어 있으면서 6장 행동 분석의 평가셋으로 쓰인다. 논문은 이 중복을 어디서도 언급하지 않는다. 따라서 '어떤 개념이 어려운가'라는 두 번째 기여는 held-out 측정이 아니다. 그리고 논문 전체에 contamination, leakage, memorization 같은 단어가 한 번도 나오지 않는다. 공개 eval 400 태스크를 쓰면서 공개 ARC 씨앗 기반 합성 데이터(ARC-Heavy, ARC-GEN100K)로 학습했다면 근접 중복 검사 보고는 최소 요건인데 그것이 없다. 자체 생성 세트 결과(calibrated 37.2%, stratified 29.8%)를 무오염의 방증으로 읽으려는 유혹이 있지만, 저자가 보고한 rho = 0.300이라는 낮은 순위 상관이 그 논증을 스스로 무력화한다.\n\n(5) 검증 독립성. 'independent black-box audit'의 감사자가 공저자(Bielik AI, NYU)다. 정의상 독립 검증이 아니며, 블랙박스 감사는 같은 세트에서 같은 점수가 나오는지만 확인할 뿐 오염과 분할 문제에는 답하지 못한다.\n\n질문하신 다섯 항목에 대한 판정을 정리하면: 파레토 비교는 불공정하다고 볼 근거가 충분하다(지표 불명 + 분할 불일치 가능 + 원가 대 정가 + 학습비 제외). 공개 eval 사용의 함의는 오염 분석 부재로 인해 상한선을 알 수 없는 상태이고, 특히 ConceptARC 이중 사용은 명백한 결함이다. 29.5%라는 절대 성능은 상위 시스템보다 낮으며 논문의 SOTA는 정확도가 아니라 비용 효율에 대한 것이고 그마저도 이미 대체된 세대 벤치마크의 가장 공개된 분할에 한정된다. 잠재 추론의 해석가능성 상실은 저자도 인정하는데('final grids alone cannot establish where the underlying reasoning failed'), 순환 상태 probing이 기술적으로 어렵지 않음에도 내부 분석이 0건이라는 점은 비공개 정책이 과학적 검증을 막은 사례로 읽힌다. 저장소는 예상대로 모델 코드가 아니라 태스크 생성기이며(MIT, 별 약 3.3k), 모델/가중치/학습 코드/비용 측정 스크립트 중 어느 것도 공개되지 않는다.\n\n인용 시 권고: 이 논문의 29.5%와 $0.0007을 인용할 때는 반드시 'Pathway 자체 보고, ARC-AGI-1 공개 분할, pass@2 기준, 자사 GPU 원가 모델 기준, 공저자 내부 감사'라는 다섯 단서를 함께 붙여야 한다. 아키텍처 아이디어의 학습 가치는 높지만, 성능/비용 수치는 현재 상태로는 인용 가능한 증거라기보다 검증 대기 중인 주장으로 취급하는 것이 맞다. 비공개 항목(R 값, halting, 컨텍스트 길이, 토크나이제이션, 학습 스텝/토큰/하드웨어, effort 노브의 실제 조작 대상, pass@2 후보 생성 방식)은 모두 본문에서 확인되지 않으므로 추정으로 메우지 말 것.",
+        "analyzed_at": "2026-08-17"
+      }
+    },
+    "2605.31264": {
+      "tier2": {
+        "method_detail": "COLLEAGUE.SKILL은 특정 인물이나 역할에 결부된 이질적 흔적(chat logs, work documents, email, screenshots, 공개 리서치 자료, 자막, 가벼운 사용자 서술)을 입력받아 버전 관리되는 스킬 패키지를 산출하는 person-grounded trace-to-skill distillation 워크플로다. 파이프라인은 5단계로 구성된다: (1) collectors/parsers가 원자료를 로컬 knowledge directory로 정규화, (2) analyzers가 capability, mental model, interaction style 근거를 추출, (3) builders가 구조화된 Markdown을 렌더링, (4) shared writer가 스킬 패키지를 생성, (5) 호출/설치/수정/갤러리 배포. 핵심 설계는 dual-track 분리로, capability track(work.md: 책임 범위, 워크플로, 기술 표준, 리뷰 기준, decision heuristics, 과거 업무 교훈)과 bounded behavior track(persona.md: 표현 선호, 상호작용 규칙, 경계, correction record)을 의도적으로 나눠 사실 지식, 절차적 판단, 표층 어조가 뒤섞이지 않게 한다. 산출물 계약(artifact contract, Table 1)은 SKILL.md(Part A = capability의 절차·표준·휴리스틱·태스크 패턴, Part B = behavior의 스타일·상호작용 태도·경계·correction log), work.md/persona.md(편집 가능한 원본), work_skill.md/persona_skill.md(단독 호출 가능한 서브 스킬), manifest.json(entrypoints, artifact list, compatible runtimes, slash commands, toolchain metadata), meta.json(schema, provenance, lifecycle version, correction count, compatibility)로 이뤄지며 writer가 schema version 3로 메타데이터를 정규화한다. 이 구조 덕분에 호출 모드가 full skill / capability-only / persona-only 세 갈래로 분기된다. 수정 lifecycle은 자연어 피드백(예: \"he would not say that\")을 받아 capability 이슈면 해당 섹션을 교체하는 Markdown patch를, behavior 이슈면 {scene, wrong, correct} 형태의 정규화된 correction record를 만들고, version manager가 현행 버전 아카이브 -> 패치 적용 -> lifecycle version 증가 -> 파생 산출물 재생성 순으로 처리해 rollback을 보장한다. 배포면은 Claude Code, OpenClaw, Codex, Hermes 등 다중 에이전트 호스트 설치와 옵션 갤러리 공개를 지원하고, source boundary와 provenance, consent, 접근 통제, 삭제·보존 정책을 패키지 포맷의 1급 요소로 둔다. 프리셋은 colleague(사내 설계문서, 코드리뷰, 인시던트 노트 기반 업무 실무 증류), celebrity/public-figure(1인칭 저작물·롱폼 인터뷰·문서화된 결정 등 six-dimensional research pass와 품질 점검, 자막 다운로드·오디오 전사·리서치 노트 병합 툴링 포함), relationship(사적 상호작용을 로컬 소유·비공개 기본값·삭제 보장 아래 다룸) 3종이며, 코어 파이프라인을 재사용하되 source boundary, storage root, command alias, prompt bundle만 특화한다.",
+        "experiment_setup": [
+          "정량 평가 자체가 부재하다. 논문에는 표준 벤치마크, 비교 baseline, ablation, user study, 정확도/성공률 수치가 하나도 없다. 저자들이 본문에서 '생성된 스킬이 인물을 충실히 재현하거나 downstream 업무 성과를 개선한다고 주장하지 않는다'고 명시적으로 선언한다.",
+          "기여 검증 범위는 artifact-level로 한정된다: 패키지 포맷 정의, 생성·갱신 워크플로 구현, correction/rollback 상태 노출, 다중 호스트 지원까지가 논문이 실제로 입증했다고 주장하는 전부다.",
+          "유일한 정량 근거는 배포·커뮤니티 지표(레포 접근일 2026-05-28 기준): GitHub stars 약 18.5k, 공개 스킬 215개, 기여자 165명, meta-skill 55개, 갤러리 카드 누적 public stars 100k 초과(자릿수 수준 보고). 참고로 사용자가 제시한 현재 약 23.1k stars는 논문 이후 수치이며 본문에는 없다.",
+          "실증은 3개 application case의 정성 서술로 대체된다: colleague(리뷰 기준 적용 - authentication checks, input validation, rate limiting, response schemas, sensitive-data exposure), celebrity(공개 근거 기반, 근거 한계와 출처 경계 표기), relationship(로컬 소유권, 삭제, 명시적 면책, 옵트인 공유). 케이스별 건수·평가자·점수는 미제시.",
+          "public-figure 프리셋의 quality check 항목은 mental-model coverage, limitations, expression patterns, internal tensions, grounding URLs, copyright-safety signals 6종이나, 통과율이나 자동 검사 정확도 같은 수치는 보고되지 않는다.",
+          "호환성 주장은 Claude Code, OpenClaw, Codex, Hermes 4개 호스트 설치 지원 수준이며, 호스트별 설치 성공률·지연시간·토큰 비용 비교는 없다.",
+          "저자들이 향후 과제로 남긴 검증 질문이 곧 미실시 실험 목록이다: colleague skill이 원 전문가와 동일한 리뷰 이슈를 잡아내는지, capability-only 변형이 persona 리스크 없이 유용성을 보존하는지 등 human 및 task-based study가 필요하다고 서술.",
+          "Limitations에서 source matching, task performance, emotional safety, user trust calibration 4개 축을 모두 미검증 상태로 남겨뒀다고 인정하며, correction이 편집자 편향을 각인하거나 논쟁적 흔적을 확정된 사실처럼 보이게 만들 위험도 함께 기술한다.",
+          "주의: 1차 조회 응답에는 'token budget 200,000'이라는 항목이 잡혔으나 재확인 조회에서는 본문에 해당 수치가 없다는 상반된 답이 나왔다. 원문 확인 필요."
+        ],
+        "datasets": [
+          {
+            "name": "표준 학습/평가 데이터셋 없음",
+            "domain": "해당 없음",
+            "scale": "본문에 정량 평가용 데이터셋이나 벤치마크가 전혀 기재되지 않음"
+          },
+          {
+            "name": "colleague preset 입력 흔적 (사내/사적 자료)",
+            "domain": "업무 협업 로그 및 문서",
+            "scale": "설계문서, 코드리뷰, 인시던트 노트 등 유형만 열거, 건수·용량 수치 미제시"
+          },
+          {
+            "name": "celebrity/public-figure preset 리서치 자료",
+            "domain": "공개 인물 근거 자료",
+            "scale": "1인칭 저작물, 롱폼 인터뷰, 문서화된 결정, 표현 패턴, 타임라인 근거 등 six-dimensional research pass; 수집 건수 미제시"
+          },
+          {
+            "name": "collectors 지원 소스 포맷",
+            "domain": "메신저 및 문서 export",
+            "scale": "Feishu, DingTalk, Slack, WeChat SQLite export, 이메일 아카이브, PDF, 스크린샷, Markdown, 직접 붙여넣기; 규모 수치 미제시"
+          },
+          {
+            "name": "COLLEAGUE.SKILL 갤러리 (배포 지표 출처)",
+            "domain": "공개 스킬 패키지 카탈로그",
+            "scale": "215 skills / 165 contributors / 55 meta-skills / 누적 public stars 100k 초과 (2026-05-28 기준)"
+          }
+        ],
+        "limitations": {
+          "by_authors": [
+            "아티팩트 수준 주장에 한정: 저자들은 COLLEAGUE.SKILL을 편집 가능한 아티팩트로 규정하고, 충실한 시뮬레이션도 정체성 대체물도 동의(consent)의 대리물도 아니라고 Section 9(Limitations and Responsible Deployment)에서 명시한다. 원문 표현은 'treats person-grounded skills as editable artifacts, not faithful simulations, identity substitutes, or consent proxies'이다. 생성된 스킬이 특정 인물을 충실히 재현하거나 실제 업무 성과를 개선한다는 주장은 하지 않는다고 못박는다.",
+            "미해결 영역 자체 열거: source matching(어떤 원자료가 적합한가), task performance, emotional safety, user trust calibration 네 축을 열린 문제로 남긴다고 밝힌다.",
+            "behavioral fidelity frontier: 콜리그 스킬이 원 전문가와 같은 리뷰 이슈를 잡아내는지, capability-only 변형이 persona 위험 없이 효용을 유지하는지, 관계 스킬이 과잉애착을 유발하는지, 수정이 회귀 없이 행동을 개선하는지, 공인 스킬이 동기를 환각하지 않고 근거를 인용하는지 - 모두 인간 및 태스크 기반 연구가 필요하다고 인정.",
+            "correction lifecycle의 양면성: 수정이 아티팩트를 개선할 수도 있지만 편집자 편향을 각인시키거나, 논쟁적인 원자료를 실제보다 확정된 것처럼 보이게 만들 수 있다고 Section 8 Discussion에서 인정.",
+            "celebrity/public-figure preset은 품질 점검을 포함하되 시스템 자체가 사실성을 인증하지는 않는다(does not certify factual truth by itself)고 기술.",
+            "relationship preset의 위험을 명시적으로 열거: emotional overattachment, non-consensual simulation, misuse of private chats. 대응책으로 local ownership, deletion, 명확한 disclaimer, opt-in 공유를 제시하나 이는 설계 권고 수준.",
+            "책임 있는 배포 요건을 코드 밖 조건으로 규정: explicit participation, scoped source collection, access controls, retention limits, non-mandatory use. 즉 안전성은 시스템이 강제하는 것이 아니라 운영 주체가 지켜야 하는 것.",
+            "갤러리 공개는 opt-in이어야 하며 submitter attestation, review, takedown, source-boundary label, 가시적 disclaimer가 필요하다고 '해야 한다(should)' 형태로 서술 - 구현 완료 선언이 아님.",
+            "적법한 원자료 사용, 동의, 완전한 redaction은 별도 검토(separate review)가 필요하다고 회피적으로 처리.",
+            "배포 지표의 해석 제한: 원문 갤러리 지표는 215 skills, 55 meta-skills, 165 contributors이며 저장소 18.5k stars와 누적 100k stars가 함께 제시된다. 이 수치들은 Figure 4 'Observed public deployment counters on 2026-05-28'로 특정 관측일에 고정된 스냅샷이다. 저자들은 Section 5에서 '공개 유통면(public distribution surface)의 증거일 뿐 채택 품질이나 태스크 임팩트가 아니다'라고 스스로 caveat을 단다."
+          ],
+          "by_claude": [
+            "평가가 사실상 0건이다. 벤치마크, 사용자 연구, ablation, 정량 지표가 전무하고 Section 6 Application Cases 세 건(colleague, celebrity, relationship)도 저자 스스로 '워크플로의 설계 지향 예시이지 행동 등가성 주장이 아니다(design-oriented examples of the artifact workflow, not claims of behavioral equivalence)'라고 규정한 서술형 사례다. 시스템 논문이라 해도 최소한의 정합성 점검 - 예를 들어 생성된 work.md의 각 항목이 실제 원자료에 근거하는 비율, 근거 없는 문장의 비율 - 조차 제시되지 않는다.",
+            "핵심 설계 주장인 dual-track 분리(capability track vs bounded behavior track)가 검증되지 않았다. 이 분리가 실제로 가능한지(리뷰 기준 같은 항목은 판단이자 스타일이다), 분리했을 때 무엇이 좋아지는지, capability-only 호출이 persona 위험을 실제로 낮추는지에 대한 대조 실험이 없다. 논문의 가장 큰 아이디어가 가장 검증되지 않은 부분이다.",
+            "안전장치가 코드가 아니라 문장이다. opt-in, redaction, access control, retention limit이 모두 권고형으로 기술되고, 실제 저장소에는 동의 절차나 프라이버시 정책 전용 문서가 확인되지 않으며(LICENSE, CONTRIBUTING.md, INSTALL.md 수준), README가 스스로 'This is still a demo version'이라고 밝힌다. 논문의 윤리 서술과 배포된 코드의 실제 보호 수준 사이에 격차가 있다.",
+            "고인 대상 사용에 대한 정면 논의가 빠져 있다. 저장소는 차가운 작별을 따뜻한 Skill로 바꾼다는 문구와 'Digital Life 1.0'을 전면에 내세우고, 용례로 '동료의 퇴사', '멀어진 가족과 옛 친구와 연인', '만날 수 없는 작가와 우상'을 제시한다. 이 용례에서는 대상자의 동의가 구조적으로 획득 불가능하다. 논문은 relationship preset의 동의 요구를 언급하지만 동의가 원리적으로 불가능한 케이스를 이 시스템의 대표 마케팅이 삼고 있다는 긴장을 다루지 않는다.",
+            "원자료의 대표성 편향이 다뤄지지 않는다. chat log, 문서, 이메일은 한 사람의 판단 중 '기록으로 남은 것'의 편향된 표본이다. 성공한 결정은 문서화되고 실패한 판단은 흔적이 옅으며, 말로 끝난 암묵지는 아예 없다. survivorship bias가 decision heuristics 추출을 직접 오염시키는 경로인데 파이프라인 어디에도 이를 완화하는 단계가 보이지 않는다.",
+            "correction lifecycle에 수렴 보장이 없다. version manager가 아카이브 -> 패치 -> 버전 증가 -> 파생물 재생성으로 롤백은 보장하지만, 수정이 누적될수록 아티팩트가 개선되는지 진동하는지, 상충하는 두 수정이 들어올 때 어떻게 중재되는지, correction record가 몇 개까지 확장 가능한지에 대한 서술이 확인되지 않는다. 저자 스스로 Section 8에서 편집자 편향 각인 위험을 인정한 만큼 이 부분이 가장 취약하다.",
+            "GitHub star를 abstract 본문 지표로 올린 선택이 문제적이다. caveat을 달았더라도 초록에서 18.5k라는 숫자를 먼저 보여주는 구성은 그 숫자를 설득력으로 쓰겠다는 것이다. 게다가 이 저장소는 사별과 디지털 생명이라는 정서적 소구력이 강한 프레이밍을 쓰고 있어, star 수는 기술적 유용성보다 화제성을 반영할 가능성이 크다. 논문 수치는 Figure 4 기준 2026-05-28 관측 스냅샷이며, 현재 약 23.1k로 늘었다는 사실도 품질이 아니라 확산 속도만 말해준다.",
+            "이식성(portability) 주장이 미검증이다. 논문은 Claude Code, OpenClaw, Codex, Hermes 4종 설치를 내세우고 저장소는 DeepSeek Harness를 더해 5종을 제시하지만, 호스트마다 스킬 로딩 시맨틱, 컨텍스트 주입 방식, 토큰 예산이 다르므로 동일 manifest가 동일 행동을 낸다는 보장이 없다. 호스트 간 동작 일치도 측정이 전혀 없다.",
+            "schema version 3라는 표기는 이미 두 차례 비호환 변경이 있었음을 시사한다. 기존 스킬 패키지의 마이그레이션 정책, 하위 호환 범위, 갤러리에 올라온 215개 스킬 중 구 스키마 비율에 대한 서술이 논문에서 확인되지 않는다. 버전 관리를 핵심 가치로 내세운 시스템이 자기 스키마 진화를 어떻게 다루는지가 빠져 있다.",
+            "인물 근거 스킬(person-grounded skill)이 노동 맥락에서 갖는 함의가 논의되지 않는다. 특정 직원의 판단을 패키지화해 조직이 보유 가능한 아티팩트로 만드는 일은 지식 자산의 소유권, 퇴사 후 사용, 성과 평가 활용 같은 문제를 직접 건드린다. 'non-mandatory use'라는 한 줄로 처리하기에는 큰 사안이다.",
+            "12페이지 4그림 1표 규모로, 학술 논문이라기보다 기술 백서에 가깝다. 문제 정의와 아티팩트 계약(Table 1 'Runtime artifact contract emitted by the shared writer') 설계는 명료하나, 새로운 방법론적 기여가 무엇인지를 학술적으로 방어하는 논증이 얇다. 원문은 고정된 파이프라인 단계 수를 명시하지 않고 collectors/parsers -> analyzers -> builders -> writer 구성과 Section 4의 워크플로(Creation, Correction and Update, Public-Figure Research Extension, Relationship Extension)를 서술하는데, 이는 표준적 구성이며 dual-track 분리와 correction record가 사실상 유일한 신규 요소다."
+          ]
+        },
+        "reproducibility": {
+          "code": "공개. https://github.com/titanwings/colleague-skill. 논문 기준 약 18.5k stars(Figure 4, 2026-05-28 관측), 현재 약 23.1k stars. 스킬 생성 파이프라인(collectors/parsers, analyzers, builders, shared writer)과 다중 호스트 설치 스크립트가 포함된 오픈소스 구현. 다만 README가 'This is still a demo version'이라고 밝히고 있어 논문 기술 수준과 코드 성숙도가 일치한다고 보기 어렵다.",
+          "data": "공개 데이터셋 없음. 입력이 특정 개인의 chat log, 업무 문서, 이메일, 스크린샷 등 사적 흔적이므로 원리상 벤치마크용 데이터 공개가 불가능하다. 공개 갤러리의 215 skills / 55 meta-skills / 165 contributors 산출물이 사실상 유일하게 관찰 가능한 출력 샘플이며, 이는 저자가 생성한 통제 샘플이 아니라 커뮤니티 기여물이라 품질 편차가 통제되지 않는다. 평가용 데이터, 정답 라벨, 사람 판정 결과는 애초에 존재하지 않는다.",
+          "weights": "해당 없음. 모델을 학습하지 않는 워크플로 시스템으로, 호스트 에이전트의 기반 LLM을 호출해 Markdown 아티팩트를 생성한다. 배포되는 체크포인트가 없다.",
+          "license": "코드는 MIT License, 'Copyright (c) 2026 titanwings'로 확인됨. 논문은 arXiv.org perpetual non-exclusive license. 갤러리에 공개된 개별 스킬의 라이선스와 원자료 권리 관계는 본문 확인 필요.",
+          "note": "재현 가능한 것은 파이프라인 실행 자체뿐이며 결과 재현은 원리적으로 어렵다. (1) 평가가 없으므로 재현할 수치가 없다. (2) 입력이 사적 자료라 제3자가 동일 입력을 구성할 수 없다. (3) LLM 호출 기반이라 동일 입력에도 결정론적 출력이 보장되지 않는데, 원문 확인 결과 random seed, temperature, model version pinning에 관한 언급이 논문 전체에 존재하지 않는다. 결과적으로 검증 가능한 것은 '패키지가 Table 1이 규정한 파일 구조(SKILL.md, work.md, persona.md, work_skill.md, persona_skill.md, manifest.json, meta.json)로 생성되는가'라는 형식적 수준에 머문다. 이는 시스템 논문으로서는 최소 기준을 충족하지만, 인물 근거 스킬의 품질 주장을 뒷받침하기에는 부족하다."
+        },
+        "my_learning_points": [
+          "아티팩트 계약(artifact contract)을 먼저 고정하는 설계가 강력하다. SKILL.md(Part A 능력 / Part B 행동), 편집 가능한 원본(work.md, persona.md), 단독 호출 가능한 서브 스킬(work_skill.md, persona_skill.md), manifest.json, meta.json으로 산출물을 못박으니 생성기, 수정기, 배포기가 서로 독립적으로 진화할 수 있게 된다. 프롬프트 엔지니어링이 아니라 파일 포맷 설계가 시스템의 뼈대가 된 사례로 배울 만하다.",
+          "능력과 태도를 분리해 저장하면 호출 모드가 자연스럽게 세 갈래(full / capability-only / persona-only)로 분기한다. 이는 위험 관리 수단이기도 하다. 업무에 쓸 때는 persona를 빼고, 어조가 필요할 때만 붙인다. 다만 이 분리가 실제로 깨끗하게 되는지는 별개 문제이므로, 내가 유사 시스템을 만든다면 '분리 실패 사례'를 먼저 수집해 경계 정의부터 하겠다.",
+          "자연어 피드백을 두 종류의 서로 다른 자료구조로 라우팅한 점이 실용적이다. 능력 이슈면 해당 섹션을 통째로 교체하는 Markdown 패치, 행동 이슈면 {scene, wrong, correct} 삼중항의 정규화된 correction record. 후자는 누적되어 few-shot 반례 집합처럼 작동한다. 자유 텍스트 피드백을 그대로 쌓지 않고 스키마로 강제한 것이 재사용성을 만든다.",
+          "롤백 가능성을 버전 관리자에 밀어넣은 순서 - 현행 아카이브 -> 패치 적용 -> lifecycle version 증가 -> 파생 산출물 재생성 - 는 단순하지만 중요하다. 파생 산출물(서브 스킬)을 매번 재생성한다는 점이 핵심으로, 원본과 파생물의 불일치를 구조적으로 차단한다. 다만 되돌릴 수 있다는 것과 나아진다는 것은 다르다. 수렴 보장은 별도 문제다.",
+          "저자들이 '이 논문의 주장은 아티팩트 수준 주장이다'라고 스스로 범위를 좁힌 방식은 배울 만한 서술 전략이다. 평가가 없는 시스템 논문이 신뢰를 얻는 길은 과장이 아니라 명시적 범위 축소다. 동시에 이것이 면죄부가 될 수는 없다는 점도 같이 배워야 한다. 검증되지 않은 핵심 설계(dual-track)를 기여로 내세우면서 그 검증만 미래로 미루는 구조이기 때문이다.",
+          "GitHub star를 논문 지표로 쓰는 관행에 대한 경계. 저자들이 '유통면의 증거일 뿐 채택 품질이나 태스크 임팩트가 아니다'라고 정확히 캐비어트를 달았음에도 초록에 숫자를 배치했다. 앞으로 내가 논문을 읽을 때 star, 다운로드, 컨트리뷰터 수가 나오면 그것이 무엇을 측정하지 '않는지'부터 확인하는 습관이 필요하다.",
+          "개인 흔적에서 지식을 추출할 때 survivorship bias가 가장 먼저 검토되어야 한다. 기록으로 남은 판단은 대개 성공했거나 논쟁적이었던 것이고, 조용히 옳았던 판단과 실패한 판단은 흔적이 얇다. decision heuristics를 뽑겠다면 '무엇이 기록되지 않았는가'를 보정하는 단계가 파이프라인에 반드시 있어야 한다는 것을 이 논문의 부재로부터 배웠다.",
+          "동의가 구조적으로 불가능한 사용례(고인, 공인, 과거 관계)를 시스템의 대표 용례로 삼으면 윤리 서술이 아무리 정교해도 실효가 없다. 기술 문서에서 'should be opt-in'이라고 쓰는 것과 코드가 opt-in을 강제하는 것 사이의 거리를 항상 확인해야 한다. 이 논문은 그 거리를 인정은 하되 좁히지는 않았다.",
+          "이식성 주장은 반드시 호스트 간 동작 일치도로 검증해야 한다. 동일 manifest가 여러 에이전트 호스트에 설치된다는 것은 파일이 놓인다는 뜻이지 같은 행동을 한다는 뜻이 아니다. 컨텍스트 주입 방식과 토큰 예산이 다르면 같은 SKILL.md도 다르게 읽힌다. 내가 멀티 호스트 스킬을 만든다면 최소한 동일 프롬프트에 대한 출력 일치율 측정을 붙이겠다.",
+          "schema version이 3이라는 사실 자체가 정보다. 버전 관리를 핵심 가치로 내건 시스템이 자기 스키마의 마이그레이션 정책을 논문에 쓰지 않았다면, 그 부분이 아직 정리되지 않았을 가능성이 높다. 논문에서 언급되지 않은 버전 숫자를 단서로 삼아 성숙도를 추정하는 독해법."
+        ],
+        "related_work": {
+          "prior": [
+            {
+              "name": "Agent Skills 표준 및 Claude Code (Anthropic, 2026)",
+              "relation": "본 논문이 채택한 포터블 스킬 패키징 포맷의 기반. COLLEAGUE.SKILL은 새 포맷을 만들기보다 기존 스킬 규격 위에 person-grounded 콘텐츠 계약(dual-track, correction record)을 얹는 전략을 취한다."
+            },
+            {
+              "name": "Voyager (Wang et al., 2023)",
+              "relation": "에이전트가 자기 실행 궤적(trajectory)에서 스킬 라이브러리를 축적하는 대표 연구. 본 논문은 궤적이 아니라 '사람이 남긴 흔적'에서 스킬을 뽑는다는 점을 차별점으로 내세운다."
+            },
+            {
+              "name": "SkillX: Automatically Constructing Skill Knowledge Bases for Agents (arXiv 2604.04804, 2026-04)",
+              "relation": "다층 스킬 설계, 반복 정제, 탐색적 확장으로 스킬 지식베이스를 자동 구축. AppWorld, BFCL-v3 등에서 정량 평가를 수행했다는 점에서 COLLEAGUE.SKILL의 평가 부재와 대비되는 참조점."
+            },
+            {
+              "name": "SkillGen, AutoSkill 계열 (스킬 합성 및 평생 학습)",
+              "relation": "궤적 기반 스킬 합성 및 지속 학습 흐름. 본 논문은 이들과 달리 능력과 경계된 행동을 의도적으로 분리하고 수정/롤백 상태를 외부에 노출한다고 주장."
+            },
+            {
+              "name": "RAG (Lewis et al., 2020) 및 LaMP, PersonaAgent 계열 개인화 시스템",
+              "relation": "표현을 검색 저장소나 컨텍스트 관리자, 모델 행동 안에 숨겨두는 접근. 본 논문의 대비 축은 '검사 가능한 명시적 아티팩트 vs 숨겨진 표현'이다."
+            },
+            {
+              "name": "Character-LLM, RoleLLM, SOTOPIA",
+              "relation": "프로필과 경험으로 캐릭터를 학습시키거나 롤플레이 능력을 평가하는 계열. 본 논문은 자신을 이보다 '의도적으로 더 좁은(deliberately narrower)' 문제 - 무제한 시뮬레이션이 아닌 검토 가능한 인물 근거 스킬 아티팩트 구성 - 로 위치시킨다."
+            },
+            {
+              "name": "ReAct, Toolformer, Reflexion, Self-Refine, AutoGen, AgentBench (Liu et al., 2024)",
+              "relation": "에이전트 추론/행동/자기수정 및 평가 프레임워크 배경 문헌으로 인용."
+            },
+            {
+              "name": "SkillGenBench: Benchmarking Skill Generation Pipelines for LLM Agents (arXiv 2605.18693, 2026-05-18)",
+              "relation": "본 논문보다 11일 앞서 공개된 동시기 연구. 스킬 '사용'이 아니라 '생성' 능력을 task-conditioned / task-agnostic, repository-grounded / document-grounded 축으로 벤치마킹한다. COLLEAGUE.SKILL이 비워둔 평가 축을 정확히 채우는 작업이며, 두 논문을 함께 읽으면 생성 파이프라인 품질을 어떻게 측정할지 감이 잡힌다. 본 논문이 이를 인용했는지는 본문 확인 필요."
+            }
+          ],
+          "followup": [
+            {
+              "name": "SkillChain: Closing the Loop on Skill Evolution for Image-Based E-Commerce AI Assistants (arXiv 2606.12984, 2026-06-11)",
+              "relation": "본 논문 공개 약 2주 뒤 등장. 태스크 명세로부터 스킬 생성 -> 라우팅 정렬 최적화 -> 이중 경로 평가 기반 반복 정제로 스킬 진화 루프를 닫는다. COLLEAGUE.SKILL의 correction lifecycle이 자연어 피드백에 의존하는 데 반해 여기서는 자동 평가 신호로 루프를 닫는다는 점이 대조적이다. 다만 COLLEAGUE.SKILL을 인용하는지는 확인되지 않았고 도메인(전자상거래 이미지 어시스턴트)도 다르므로 직접적 후속으로 보기는 어렵다."
+            },
+            {
+              "name": "저자들이 예고한 미수행 연구 (Section 8, 10)",
+              "relation": "논문이 스스로 남긴 후속 과제 목록이 사실상 후속 연구 로드맵이다. (1) 콜리그 스킬이 원 전문가와 동일한 리뷰 이슈를 잡아내는지 검증, (2) capability-only 변형의 효용 보존 여부, (3) 관계 스킬의 과잉애착 유발 여부, (4) 수정 누적이 회귀 없이 개선을 만드는지, (5) 공인 스킬의 근거 인용 대 동기 환각 비율. 현재까지 이를 수행한 후속 논문은 확인되지 않았다."
+            }
+          ]
+        },
+        "claude_note": "종합 평가: 설계는 명료하고 정직하지만 검증은 사실상 부재한 시스템 리포트다. 12페이지 4그림 규모로 학술 논문보다 기술 백서에 가깝다.\n\n강점. 첫째, 문제 설정이 정확하다. 인물에 결부된 실행 가능한 지식이 '깔끔한 지시문'이 아니라 이질적 흔적에 흩어져 있다는 진단은 현장 감각이 있고, 기존 메모리 시스템과 페르소나 시스템이 각각 조각만 다룬다는 위치 설정도 설득력 있다. 둘째, 아티팩트 계약(Table 1)을 먼저 고정한 설계 순서가 좋다. 프롬프트가 아니라 파일 포맷을 시스템의 뼈대로 삼았기 때문에 생성, 수정, 배포가 독립적으로 진화할 수 있다. 셋째, dual-track 분리와 {scene, wrong, correct} correction record는 실무적으로 재사용 가치가 높은 아이디어다. 자유 텍스트 피드백을 스키마로 강제해 누적 자산으로 바꿨다. 넷째, 저자들이 자기 주장 범위를 '아티팩트 수준'으로 명시적으로 좁히고, GitHub star를 '유통면의 증거일 뿐 채택 품질이나 태스크 임팩트가 아니다'라고 스스로 캐비어트를 단 태도는 이 분야에서 드물게 정직하다.\n\n약점. 첫째이자 결정적으로, 평가가 0건이다. 벤치마크도 사용자 연구도 ablation도 없고, Section 7의 세 가지 Application Cases(colleague, celebrity, relationship)마저 저자 스스로 '설계 지향 예시이지 행동 등가성 주장이 아니다'라고 규정한 서술이다. 실제 생성 산출물 예시조차 제시되지 않는다. 둘째, 논문의 핵심 기여인 dual-track 분리가 가장 검증되지 않은 부분이다. 능력과 태도가 실제로 분리 가능한지, 분리가 위험이나 효용에 어떤 차이를 만드는지, capability-only 호출이 persona 위험을 정말 줄이는지 - 어느 것도 측정되지 않았다. 셋째, 안전장치가 코드가 아니라 문장이다. opt-in, redaction, access control, retention limit이 전부 'should' 형태이고, 실제 저장소는 프라이버시 문서가 없으며 스스로를 'still a demo version'이라 부른다. 넷째, 저장소가 사별과 'Digital Life 1.0'을 전면 마케팅으로 삼는데 이 용례에서는 대상자 동의가 원리적으로 불가능하다. 논문은 이 긴장을 언급은 하되 정면으로 다루지 않는다. 다섯째, 원자료의 survivorship bias - 기록으로 남은 판단만 학습되고 조용히 옳았던 판단과 실패는 흔적이 얇다는 문제 - 를 완화하는 단계가 파이프라인에 없다.\n\n읽는 방식에 대한 권고. 이 논문은 '무엇이 검증되었는가'가 아니라 '어떤 인터페이스를 설계했는가'를 얻으러 읽어야 한다. 아티팩트 계약, 이중 트랙, 수정 레코드 스키마, 아카이브 우선 롤백 순서는 그대로 가져다 쓸 만한 설계 자산이다. 반면 성능이나 충실도에 관한 어떤 결론도 이 논문에서 끌어낼 수 없다. 평가 축이 궁금하다면 11일 앞서 나온 SkillGenBench(2605.18693)를 짝으로 읽는 편이 낫다.\n\n검증 상태. 원문(arXiv HTML), 초록, 공개 저장소(MIT, Copyright 2026 titanwings)를 직접 확인했다. 논문 수치(18.5k stars, 215 skills, 165 contributors, 100k 누적 stars, schema version 3, 도메인 프리셋 3종, 호스트 4종)는 본문에서 확인되었고, 현재 저장소 stars는 약 23.1k, README 기준 지원 호스트는 DeepSeek Harness를 포함해 5종으로 논문 시점보다 늘어났다. 반면 correction 누적 시의 수렴 특성, 스키마 마이그레이션 정책, LLM 호출의 결정성 고정 여부, SkillGenBench 인용 여부는 본문 확인 필요 항목으로 남는다.",
+        "analyzed_at": "2026-08-17"
+      }
+    }
+  }
+}
