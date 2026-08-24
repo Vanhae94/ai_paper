@@ -1,0 +1,274 @@
+{
+  "week_id": "2026-W35",
+  "papers": {
+    "2608.09888": {
+      "tier2": {
+        "method_detail": "BDH-CQ는 인컨텍스트 러닝(in-context learning)과 순환 잠재 추론(recurrent latent reasoning)을 결합한 추론 모델로, 데모 쌍을 순차적으로 흡수하면서 순환 메모리 상태를 갱신한다: 메모리 갱신 규칙은 S_t = U_theta(S_{t-1}, D_t)로 표기되며, KV 캐시처럼 고정 저장되는 것이 아니라 각 데모가 컨텍스트 상태 자체를 진화시키는 방식이다(구체적 U_theta의 함수형·차원은 proprietary로 비공개). K개 데모를 모두 흡수한 뒤 질의 처리는 3단계로 진행된다 - 인코딩 H_0 = E_theta(x*, S_K), 잠재 반복 H_{r+1} = F_theta(H_r, S_K) for r = 0..R-1, 디코딩 y_hat = G_theta(H_R) - 즉 중간 추론이 토큰으로 나오지 않고 고차원 잠재 공간 안에서만 반복 계산된다. 언어화가 불필요하다는 근거로 저자들은 CoT류가 \"모든 중간 상태를 이산 어휘로 투영하고 자기회귀적으로 방출한 뒤 다시 소비해야 계산이 이어진다\"는 병목을 지적하며, 연속 공간에 머무르면 여러 부분 가설·후보 변환을 직렬화 없이 병렬 탐색할 수 있다고 주장한다. 백본은 Pathway의 Dragon Hatchling(BDH) 계열로, 공개된 원리는 \"고차원 양(positive) 활성값, 저랭크(low-rank) 통신, 순환 연상(associative) 상태\" 세 가지뿐이며 뉴런 수·층 수·희소성 비율·업데이트 식은 모두 비공개다. 중요한 공백: 잠재 반복 횟수 R의 실제 값과 적응적 halting 여부는 본문에 명시되지 않고, LOW/MEDIUM/HIGH 세 단계의 \"reasoning effort\" 설정으로 간접 조절되는 것으로만 서술된다(고정 깊이 반복으로 추정되나 본문 확인 필요). 추론 시 파라미터 갱신은 전혀 없어 TTT(test-time training)가 아니며, 저자들은 \"평가 태스크의 데모 쌍이나 태스크 식별자는 학습에 참여하지 않고 추론 시 어떤 파라미터도 갱신되지 않는다\"고 명시한다 - 적응은 오로지 순환 메모리 진화로만 일어난다. 학습은 150M 파라미터 구성에서 선행 예시들을 순환 컨텍스트에 넣고 정답 그리드를 정확히 예측하는 목표로 수행되며, 컨텍스트 길이·그리드 토크나이제이션 방식·학습 스텝/토큰 수·학습 하드웨어는 모두 미공개다(본문 확인 필요).",
+        "experiment_setup": [
+          "메인 벤치마크: ARC-AGI-1 public evaluation set 400 태스크 / 419 test pair. 결과 pass@2 29.5% (118/400), pass@1 24.25% (97/400). 150M 파라미터 단일 구성.",
+          "비용 산정: 태스크당 약 0.85 H200 GPU-second를 실측하고 H200 시간당 $3 요율을 곱해 $0.00070/task 도출. 배치 크기·서빙 스택·GPU 이용률 가정은 미공개이며, API 과금이 아닌 자체 GPU 시간 환산이라는 점이 비교의 핵심 전제(본문 확인 필요).",
+          "pass@2 프로토콜: 독립 샘플링 2회가 아니라 랭킹된 후보를 최대 2개 제출해 둘 중 하나가 맞으면 정답 처리하는 ARC-AGI 리더보드 관행. 저자 스스로 ConceptARC 160개 입력 중 75개는 후보가 1개만 생성되고 그것이 rank-1에서 이미 정답이었다며 '두 번의 독립 시도로 해석하면 안 된다'고 경고. 후보 생성·랭킹 기준은 비공개.",
+          "파레토 비교군(출처: ARC Prize leaderboard, 2026-08-04 기준): GPT 5.6 Luna (Low) 34.2% pass@2 @ $0.040/task, HRM $1.48/task, TRM $1.76/task. BDH-CQ는 Luna 대비 약 57x 저렴, 2026-07-30 API 가격 인하(리더보드 미반영, 조정 시 약 $0.0077/task)를 감안해도 약 11x 저렴하다고 주장. 정확도 자체는 Luna보다 4.7%p 낮고 '비용-정확도 프론티어 돌파'라는 주장임에 유의.",
+          "추론 노력(effort) 스케일링: HIGH 29.5% pass@2(비용 절감 0%), MEDIUM 27%(11% 절감), LOW 21%(22% 절감). 정확도 8.5%p 하락 대비 비용 절감폭이 22%에 그쳐 스케일링 효율이 비대칭 - 절감률 정의가 본문 확인 필요.",
+          "ConceptARC 평가: 160 태스크 / 16 개념군(군당 10) / 480 test pair. test-pair pass@2 77.92% vs strict task pass@2 59.38%로 18.5%p 격차 - 추론한 변환 규칙을 같은 태스크의 모든 테스트 입력에 일관 적용하지 못한다는 증거. 군별 최고 FilledNotFilled 9/10, TopBottom2D 9/10, 최저 Copy 2/10, Order 2/10.",
+          "오염(contamination) 통제 실험: ConceptARC를 (a) 의미 있는 태스크 ID + 개념별로 묶인 배치, (b) 암호학적으로 불투명한 ID + 개념 혼합 배치 두 조건으로 재실행. 결과 374/480 test pair로 동일, strict 96/160 vs 95/160, 조건별 단독 성공이 각 6건씩으로 방향성 없음. 다만 저자들은 이것이 '학습이나 체크포인트 선택을 통한 노출을 배제하지는 못한다'고 명시.",
+          "통제된 ARC-like 개입 실험: 모델 동결 후 결정론적 Python 생성기로 난이도 사다리(ladder) 구성, 각 태스크는 데모 3개 + 홀드아웃 입력 2개(또는 테스트쌍 1개). 결과 - 전파 거리 1~8: 48/48 전량 정답(천장 없음), 복사 다중도 1~4 사이트: 48/48. 반면 순서(ordering)는 길이 6에서 29/36, 7에서 8/24, 8에서 1/24로 급락하는 상전이. 중첩(nesting) 깊이 5에서 29/36이지만 '테스트 복잡도와 같은 수준의 데모 1개'를 추가 제공하면 19/24 -> 24/24로 회복.",
+          "합성(composition) 실험: 3개 모티프 계열, 조건당 홀드아웃 출력 72개. 회전 + 재배치는 72/72로 안정적 합성, 반사(reflection)는 47/72로 불안정, 색 교환(color swap)은 합성 시 0/72로 완전 실패. 단순 색 매핑은 단독으로는 96개 출력에서 일관 적용되어, 실패는 개념 자체가 아니라 합성 능력의 한계임을 시사.",
+          "독립 검증: Bielik AI와 뉴욕대(NYU) 소속 감사자들이 문서화된 프로토콜 하에 public ARC-AGI-1의 29.5% pass@2를 재현. ConceptARC 및 수작업 제작 평가셋에 대한 별도 평가도 언급되나 본문에는 수치화되어 있지 않음.",
+          "ARC-AGI-2 수치는 없음(다음 목표로만 언급). 태스크 브리핑에 있던 github.com/pathwaycom/arc-task-gen 저장소는 논문 본문에서 확인되지 않음 - 코드/데이터 공개 언급 없음(본문 확인 필요)."
+        ],
+        "datasets": [
+          {
+            "name": "ARC-AGI-1 public evaluation set",
+            "domain": "추상 시각 추론 (메인 벤치마크)",
+            "scale": "400 태스크 / 419 test pair; pass@2 29.5% (118/400), pass@1 24.25% (97/400)"
+          },
+          {
+            "name": "ConceptARC",
+            "domain": "개념군별 추상 추론 (일반화·일관성 진단)",
+            "scale": "160 태스크 / 16 개념군(군당 10) / 480 test pair; test-pair pass@2 77.92%, strict task pass@2 59.38%. 학습 혼합에도 포함되어 있어 순수 홀드아웃이 아님에 유의"
+          },
+          {
+            "name": "ARC-AGI-1 training set",
+            "domain": "학습 데이터",
+            "scale": "규모 미기재"
+          },
+          {
+            "name": "RE-ARC",
+            "domain": "학습 데이터 (ARC 재생성 증강)",
+            "scale": "태스크 수 미기재"
+          },
+          {
+            "name": "ARC-Heavy",
+            "domain": "학습 데이터 (대규모 합성 ARC)",
+            "scale": "태스크 수 미기재"
+          },
+          {
+            "name": "ARC-GEN100K",
+            "domain": "학습 데이터 (10만 규모 합성 ARC로 추정)",
+            "scale": "논문에 명시 수치 없음, 본문 확인 필요"
+          },
+          {
+            "name": "비공개 큐레이션 예제 + 증강",
+            "domain": "학습 데이터",
+            "scale": "전량 proprietary, 규모·비율 미공개"
+          },
+          {
+            "name": "통제된 ARC-like 개입셋 (결정론적 Python 생성 ladder)",
+            "domain": "개념별 난이도 상전이 진단 (모델 동결 후 신규 생성)",
+            "scale": "축별 레벨당 6~18 태스크, 데모 3개 + 홀드아웃 2입력 구성; 전파/복사 각 48 출력, 합성 실험 조건당 72 출력"
+          }
+        ],
+        "limitations": {
+          "by_authors": [
+            "아키텍처 비공개를 논문이 스스로 명시한다: 'Dimensions, exact update rules, and implementation details remain proprietary'. 추가로 'The complete internal training recipe remains proprietary'도 있다. 잠재 반복 횟수 R의 실제 값, 적응적 halting 여부, 뉴런 수/층 수/희소성 비율은 본문 어디에도 없다. 공개된 것은 고차원 양의 활성값, 저랭크 통신, 순환 연상 상태라는 세 원리와 S_t = U_theta(S_{t-1}, D_t) / H_{r+1} = F_theta(H_r, S_K), r=0..R-1 라는 표기 수준의 수식뿐이다.",
+            "추론 일관성 결함을 저자들이 직접 보고한다. ConceptARC(160 tasks, 16 families)에서 semantic test-pair pass@2 77.92% 대비 strict task pass@2 59.38%로 약 18.5%p 격차가 있고, 160개 중 52개는 test input 일부만 맞히고 태스크로는 실패한다. 저자 표현대로 'does not yet apply the inferred transformation consistently across all inputs of a task'. Table 1 기준 ConceptARC semantic은 pass@1 45.63% / pass@2 59.38%, opaque는 45.00% / 60.00%이다.",
+            "특정 개념군이 구조적으로 약하다. Copy 계열은 semantic test-pair pass@2 기준 19/30이지만 strict task 기준 2/10에 그치고, Order 계열도 opaque 실행에서 2/10으로 보고된다. 합성(composition) 실험에서는 rotation + relocation이 72/72인 반면 reflection + relocation은 47/72, color swapping 합성은 0/72로 완전 실패한다('the model never learns to compose it with relocation'). 합성 수치의 pass@1/pass@2 기준은 본문 확인 필요.",
+            "외삽(extrapolation)이 길이에 따라 급격히 무너진다. propagation은 거리 2-8 구간에서 pass@1과 pass@2 모두 48/48을 유지하고 copying도 타깃 1-4개 구간에서 48/48이지만, ordering은 길이 6에서 29/36, 7에서 8/24, 8에서 1/24로 붕괴한다. 순환 잠재 반복이 길이 일반화를 자동으로 주지는 못한다는 뜻이다.",
+            "개입 실험의 통계적 검정력이 낮다. 저자들은 'Each ladder condition contains only 40 tasks from one puzzle family'라고 인정한다. 한 퍼즐 계열 40개짜리 조건에서 뽑은 결론을 개념 일반화 주장으로 확장하기 어렵다.",
+            "생성 태스크의 저작(authoring) 교란을 인정한다. 손으로 쓴 gravity 태스크는 80-100%인데 같은 개념의 생성판은 2.9%다. 저자들도 이 격차가 개념 난이도가 아니라 태스크 작성 방식에서 온다고 본다. 따라서 '어떤 개념이 어렵다'는 결론 자체가 생성기 설계에 오염될 수 있다.",
+            "실패 원인 규명이 원리적으로 제한된다고 저자들이 쓴다. 'The evaluator returns grids rather than a reasoning trace, so a correct rule applied incompletely is observationally indistinguishable from a narrower rule applied completely'. 잠재 추론은 중간 상태를 토큰으로 내보내지 않으므로 최종 그리드 외에 진단 신호가 없다.",
+            "공개 eval set과 생성 set 사이의 난이도 순위가 일치하지 않는다. 'Public and generated mechanic rates do not show a reliable rank correspondence (rho = 0.300 across 16 mechanics)'. 즉 자체 생성기(arc-task-gen)는 공개 세트의 대체 프록시로 쓸 수 없다는 것을 저자들이 스스로 보여준다. 생성 풀 자체에도 중복 문제가 있어 'Deduplication removed 24% of the merged generated pool, concentrated in flood fill and panel set operation'이라 보고한다.",
+            "ARC-AGI-2 결과가 없다. 'ARC-AGI-2 is the next visual-reasoning target'이라며 future work로만 언급한다. 즉 본 논문의 모든 수치는 2019년 세대 벤치마크의 공개 분할에 한정된다."
+          ],
+          "by_claude": [
+            "파레토 돌파 주장의 지표 비대칭이 가장 큰 문제다. BDH-CQ는 29.5% pass@2를 전면에 내세우지만 같은 논문 Table 1의 pass@1은 24.25%다. 반면 비교 대상은 그림 캡션에 'Data points were collected from the official ARC Prize leaderboard on August 4, 2026'라고만 적혀 있고, 각 baseline이 pass@1인지 pass@2인지 논문이 어디에도 명시하지 않음을 원문 대조로 확인했다. 자기 점수는 두 번 시도 기준, 상대 점수는 지표 불명인 상태로 'This point lies beyond the previously reported Pareto frontier: no plotted system attains at least this accuracy at equal or lower reported cost'를 주장하는 구조다. 만약 baseline 다수가 pass@1이라면 공정 비교선은 29.5%가 아니라 24.25%이고, GPT 5.6 Luna (Low)의 34.2%와의 격차는 약 5.3%p에서 약 10%p로 두 배가 된다.",
+            "평가 분할 정합성이 본문에 미명시임을 확인했다. BDH-CQ 자신은 'the 400-task public ARC-AGI-1 evaluation split'에서 측정했다고 명시하지만, 리더보드에서 가져온 데이터포인트가 public인지 semi-private인지 밝히는 문장은 논문 어디에도 없다. ARC Prize 공식 점수는 통상 semi-private에서 측정되므로 서로 다른 분할이 한 파레토 평면에 찍혔을 위험이 있으며, 저자들이 분할을 맞췄다는 서술이 없는 이상 독자가 검증할 방법이 없다.",
+            "비용 산정이 한쪽은 원가, 한쪽은 소매가다. BDH-CQ 비용은 0.85 H200 GPU-seconds라는 자사 측정 GPU 시간에 'At $3 per H200-hour'라는 임의 선택 단가를 곱한 한계 연산 원가다(0.85/3600 x 3 = $0.000708로 산술 자체는 일관된다). 반면 비교군 $0.040은 마진, 서빙 오버헤드, 안전 필터, 라우팅이 모두 포함된 상업 API 정가다. 같은 축에 놓을 수 없는 두 종류의 숫자다. 배치 크기, 동시성, KV/상태 메모리, 프리필 비용, 실패 재시도, 워밍업 등 GPU-second를 결정하는 조건이 하나도 공개되지 않아 0.85초를 외부에서 검증할 방법이 없다.",
+            "동류 비교군이 분석과 논문 서술 모두에서 뒤로 밀려 있다. 논문은 GPT 5.6 Luna (Low) 외에 HRM($1.48/task)과 TRM($1.76/task)도 플롯하는데, 이들은 BDH-CQ와 같은 ARC 특화 소형 모델 계열이므로 범용 상업 API보다 훨씬 정직한 비교 대상이다. 그럼에도 논문의 서사와 57x/11x 배수는 범용 API 대비로만 전개된다. 이들 대비 정확도와 비용 위치가 어떻게 되는지는 본문 확인 필요이며, 특화 대 특화 비교가 빠진 채로는 '아키텍처 덕분에 싸다'는 주장이 성립하지 않는다.",
+            "학습 비용이 비용 축에서 완전히 빠져 있다. 150M 모델이지만 ARC 특화 데이터(사설 큐레이션 + ARC-AGI-1 train + RE-ARC + ConceptARC + ARC-Heavy + ARC-GEN100K + 증강)로 전용 학습된 특화 모델이다. 범용 API 모델과의 태스크당 비용 비교는 이 전용 학습비를 0으로 놓아야만 성립한다. 학습 스텝, 토큰 수, 하드웨어, GPU-hour는 모두 미보고이며 'The complete internal training recipe remains proprietary'로 처리된다.",
+            "비용 우위 주장 자체가 가격 정책에 취약함을 논문이 자백한다. 2026년 7월 30일 API 80% 인하를 반영하면 57x가 약 11x로 줄어든다고 스스로 적는다. 즉 'Pareto frontier 돌파'는 아키텍처 성질이 아니라 특정 시점 가격표에 대한 상대 위치이며, 가격 인하 한 번으로 5배 축소된다. 스냅샷 주장에 'state of the art'라는 항구적 어휘를 붙인 것은 과잉이다.",
+            "pass@2의 두 후보를 어떻게 뽑는지, 그리고 $0.00070이 한 번 시도 비용인지 두 후보 생성 비용을 모두 포함하는지가 원문에 없음을 확인했다. 논문은 'producing up to two ranked candidates, receiving a score if either of the candidates is correct'라고만 쓰고 후보 생성 메커니즘을 설명하지 않는다. 만약 0.85 GPU-second가 1회 시도 비용이라면 pass@2 점수와 짝지을 실제 비용은 그 두 배여야 하며, 이 경우 파레토 위치가 이동한다.",
+            "ConceptARC가 학습 데이터이면서 동시에 행동 분석의 평가셋이다. 학습 혼합 서술('The dataset combines privately curated examples with publicly available data from the ARC-AGI-1 training set, RE-ARC, ConceptARC, ARC-Heavy, and ARC-GEN100K')에 ConceptARC가 명시적으로 포함되는데, '어떤 개념이 어려운가' 분석은 바로 그 ConceptARC 160 태스크 위에서 수행된다. 논문은 이 중복을 어디서도 인정하지 않는다. 따라서 77.92% / 59.38%는 held-out 일반화 측정이 아니라 학습 분포 내 성능일 수 있으며, 학습에서 본 데이터에서조차 Copy가 strict task 2/10이라는 점은 저자 의도보다 나쁜 신호로 읽어야 한다. 다만 통제 개입 실험은 'We generated fresh ARC-like tasks after freezing the model'로 모델 동결 후 생성한 태스크를 쓰므로, 그 부분은 오염 우려를 의식한 설계로 인정해야 공정하다.",
+            "train/eval 오염에 대한 명시적 통제 서술이 없다. 논문에 'held-out'이라는 표현은 등장하고(예: 'Propagation remains correct on 48/48 held-out outputs'), 'Deduplication removed 24% of the merged generated pool'이라는 중복 제거 보고도 있다. 그러나 이 dedup은 생성된 평가 태스크 풀 내부의 자기중복 제거일 뿐 학습셋과 공개 eval 사이의 근접 중복 검사가 아니다. ARC-AGI-1 public eval 400 태스크는 2019년부터 GitHub에 공개된 세트이고, 학습 혼합의 ARC-Heavy(BARC 계열)와 ARC-GEN100K는 공개 ARC 태스크를 씨앗으로 대량 생성한 합성 데이터다. 씨앗 집합이 train으로 한정되었는지, 'public eval 400을 학습에서 제외했다'는 문장은 원문 대조에서 확인되지 않았다.",
+            "생성 세트 결과가 오염 부재의 증거가 되지 못한다. calibrated generated 세트 37.2%, mechanic-stratified 29.8%라는 수치가 공개 eval 29.5%와 비슷하거나 높다는 점을 오염 부재 근거로 읽으려는 유혹이 있으나, 저자 자신이 보고한 rho = 0.300이라는 낮은 순위 상관은 두 분포가 서로 다른 능력을 재고 있다는 뜻이다. 게다가 생성기의 난이도 캘리브레이션을 저자가 정하므로 원하는 수치를 만들 자유도가 크다. 해당 수치들의 정확한 분모는 본문 확인 필요.",
+            "절대 성능의 위치가 논문 서술에서 흐려진다. 29.5% pass@2는 같은 그림의 GPT 5.6 Luna (Low) 34.2%보다 낮고, 이는 그 모델의 저노력 설정이다. 초록은 'establishing a new state of the art in benchmark cost efficiency'로 같은 문장 안에서 스스로 한정하므로 논문이 정확도 SOTA를 직접 주장하지는 않는다. 문제는 바로 앞 문장 'This operating point breaks through the previously reported ARC-AGI-1 cost-accuracy Pareto frontier'와 붙어 있어 인용 과정에서 한정어가 탈락하기 쉽다는 점이다. 실제 주장 범위는 '이미 후속 세대(ARC-AGI-2)로 대체된 벤치마크의 가장 공개된 분할에서, 정확도가 아닌 비용 축으로 매긴 1위'라는 세 겹 한정을 붙여야 정확하다.",
+            "'independent' 표기가 정의상 성립하지 않는다. 논문은 'An independent black-box audit conducted by co-authors from Bielik and New York University'라고 쓰는데 감사자가 공저자다. 저자 명단(Engdahl, Kosowski, Chorowski, Stamirowska, Uznanski, Jiang, Phadke, Kinas, Zhong)에 Kinas(Bielik)와 Zhong(NYU)이 실제로 포함되므로 이는 내부 검증이며 independent라는 단어를 쓸 수 없다. 반면 저장소 README가 언급하는 Lukasz Kaiser는 저자 명단에 없으므로 그 재현은 실제 외부 검증으로 인정해야 한다. 다만 어느 쪽도 ARC Prize 공식 리더보드의 semi-private 검증 절차를 거치지 않았고, 블랙박스 감사는 '같은 공개 400문항에서 같은 점수가 나온다'만 확인할 뿐 오염과 분할 문제에는 답을 주지 못한다.",
+            "잠재 추론의 해석가능성이 원리적으로 0에 가깝다. CoT 계열은 최소한 중간 토큰이 감사 가능한 인공물로 남지만, 여기서는 'Intermediate reasoning states are not decoded into language'이므로 남는 것이 최종 그리드뿐이다. 논문의 모든 분석(ConceptARC 분해, ladder 개입, mechanic 층화)은 입출력 블랙박스 행동 분석이며, 잠재 상태 H_r에 대한 probing, 선형 디코딩, 상태 궤적 시각화, 반복 r에 따른 표현 변화 추적 같은 내부 분석이 하나도 없다. 순환 상태를 쓰는 아키텍처는 오히려 그런 분석이 쉬운 편인데도 하지 않았다는 점은 비공개 정책과 해석가능성 주장의 충돌을 보여준다. 안전 관점의 CoT monitorability 포기에 대한 논의도 없다.",
+            "언어화 불필요 주장이 논증일 뿐 실험이 아니다. 연속 공간이 여러 가설을 직렬화 없이 유지할 수 있다는 주장의 근거는 인용과 개념적 서술이다. 동일 파라미터 수, 동일 학습 데이터, 동일 연산 예산에서 CoT 버전과 잠재 반복 버전을 맞붙인 통제 비교(ablation)가 없고, 잠재 반복 R을 1로 줄이는 ablation조차 없다.",
+            "reasoning effort 축이 test-time compute scaling으로 해석되지 않는다. LOW 21% / MEDIUM 27% / HIGH 29.5%인데 비용 절감은 각각 22% / 11% / 0%에 그친다. 즉 8.5%p의 정확도 차이가 22%의 비용 차이에 대응한다. 진짜 잠재 반복 깊이 R을 배수로 바꾸는 것이라면 비용도 배수로 움직여야 한다. 다만 이 노브가 무엇을 조절하는지는 원문에 없다. 논문은 'we get a model that has been exposed to different reasoning efforts during training. For inference, we can choose the level of reasoning to apply'라고만 쓴다. 따라서 '후보 수를 조절하는 것'이라는 추정은 근거가 없고, 확정할 수 있는 사실은 조절 대상이 미공개라는 점과 비용 반응이 배수적이지 않다는 점뿐이다.",
+            "in-context learning이라는 용어가 과대 적용되어 있다. 학습 데이터가 ARC 형식 데모-정답 쌍으로 채워진 상태에서 추론 시 ARC 데모를 받는 것은 학습 분포와 동일한 포맷의 few-shot 조건부 추론에 가깝다. 파라미터 갱신이 없다는 점은 사실이고 TTT가 아니라는 주장도 맞지만, 이것이 도메인 밖으로 옮겨가는 범용 ICL 능력을 뜻하지는 않는다. ARC 이외 도메인(언어, 수학, 제약 충족) 결과가 0건이므로 아키텍처 수준의 일반적 주장은 뒷받침되지 않는다.",
+            "저장소가 모델과 무관하다. github.com/pathwaycom/arc-task-gen(약 3.3k stars)는 generate_tasks.py, generate_tasks_stratified.py, describe_eval_tasks.py, label_eval_tasks.py, visualize_tasks.py, instructions.md, pixi 의존성 파일만 담은 태스크 생성기다. 모델 구현, 학습 코드, 체크포인트, 추론 하니스, 비용 측정 스크립트 중 어느 것도 없다. 별 3.3k는 재현성 지표가 아니라 주목도 지표이며, 이 저장소는 검증 대상은 주지 않고 검증 도구만 쥐어주는 구조다.",
+            "논문과 README의 수사 강도 차이는 통념과 반대 방향이다. 논문 본문이 'approximately 57x cheaper than GPT 5.6 Luna (Low)'를 먼저 제시하고 7월 30일 80% 인하 반영 시 약 11x로 축소된다고 뒤에 붙이는 반면, 저장소 README는 처음부터 11x만 쓴다. 즉 외부 커뮤니케이션이 논문보다 보수적이다. 과장의 진원지는 README가 아니라 논문 본문의 57x 헤드라인이므로, 이 결과를 인용할 때는 어느 시점 가격표 기준인지를 반드시 함께 표기해야 한다."
+          ]
+        },
+        "reproducibility": {
+          "code": "부분 공개, 그러나 모델 코드는 없음. github.com/pathwaycom/arc-task-gen(별 약 3.3k)는 ARC-AGI-1 유사 태스크 생성기이며 generate_tasks.py, generate_tasks_stratified.py, 시각화/라벨링 유틸리티, instructions.md, 표준 ARC 형식 tasks.json 출력만 포함한다. BDH-CQ 모델 구현, 학습 코드, 추론 하니스, 비용 측정 스크립트는 포함되지 않는다. 즉 논문의 어떤 정량 결과도 이 저장소만으로는 재현할 수 없다.",
+          "data": "혼합. 학습 데이터는 사설 큐레이션 예제 + 공개 데이터(ARC-AGI-1 training set, RE-ARC, ConceptARC, ARC-Heavy, ARC-GEN100K) + 추가 증강으로 서술되며, 사설 부분의 규모와 구성 비율은 비공개다. 평가는 공개 ARC-AGI-1 eval 400 태스크와 post-freeze 생성 세트(calibrated generated 400, mechanic-stratified generated 1131)를 쓴다. 생성 세트는 arc-task-gen으로 다시 만들 수 있으나 시드/파라미터가 고정 공개되지 않으면 동일 세트 복원은 어렵다. 학습셋과 평가셋 간 중복 제거 절차, 근접 중복 검사, 오염 분석 보고가 전혀 없다.",
+          "weights": "비공개. 체크포인트 미배포. 논문은 'Dimensions, exact update rules, and implementation details remain proprietary'라고 명시하며, 뉴런 수/층 수/희소성/잠재 반복 R/컨텍스트 길이/그리드 토크나이제이션/학습 스텝/학습 하드웨어가 모두 미공개다. 검증은 'deployed system'에 대한 블랙박스 감사 형태로만 이루어졌다.",
+          "license": "arc-task-gen 저장소는 MIT. 모델과 가중치에는 적용되는 라이선스 자체가 없음(배포되지 않음). 논문은 arXiv 프리프린트(2608.09888v1).",
+          "note": "실질 재현 가능성은 낮음. 재현 가능한 것은 (a) 평가용 합성 태스크 생성, (b) 공개 ARC-AGI-1 eval 400 태스크 목록 자체뿐이고, 재현 불가능한 것은 (c) 모델, (d) 29.5% pass@2, (e) 0.85 H200 GPU-seconds와 태스크당 $0.00070이다. 특히 비용 수치는 배치 구성, 동시성, 시퀀스 길이, 후보 2개 생성 포함 여부가 공개되지 않아 제3자 검증이 원천적으로 불가능하다. 저자들이 말하는 independent audit은 공저자(Bielik, NYU)에 의한 것이므로 독립성 요건을 충족하지 않으며, ARC Prize 공식 semi-private 검증도 거치지 않았다. 이 논문의 수치를 인용할 때는 'Pathway 자체 보고, 공개 분할, 자체 비용 모델' 이라는 단서를 반드시 함께 달아야 한다."
+        },
+        "my_learning_points": [
+          "순환 메모리를 KV 캐시가 아닌 '진화하는 상태'로 두는 설계 구분을 명확히 이해했다. S_t = U_theta(S_{t-1}, D_t)는 데모를 저장하는 것이 아니라 데모마다 컨텍스트 상태 자체를 갱신한다. 파라미터를 건드리지 않으므로 TTT가 아니면서도 태스크 적응이 일어나는 제3의 경로이고, 컨텍스트 길이에 선형으로 비용이 붙는 어텐션과 달리 상태 크기가 고정이라 비용 축에서 유리해진다. 비용 우위의 상당 부분이 잠재 추론이 아니라 이 순환 구조에서 나올 가능성이 크다는 점이 핵심이다.",
+          "잠재 반복 H_{r+1} = F_theta(H_r, S_K)는 '토큰 수와 연산량의 분리'라는 아이디어다. CoT는 더 생각하려면 더 많은 토큰을 뱉어야 하지만 여기서는 R만 늘리면 된다. 다만 이 논문은 그 장점을 실증하지 못했다 - effort 3단계에서 비용이 22%밖에 안 움직인 것이 그 증거다. 잠재 추론 논문을 볼 때는 '연산량 대비 정확도 곡선이 얼마나 넓게 그려지는가'를 먼저 봐야 한다는 교훈을 얻었다.",
+          "semantic pair accuracy와 strict task accuracy를 분리해 재는 평가 설계는 훔쳐올 만하다. 77.92% 대 59.38%, 그리고 '160개 중 52개가 일부 입력만 정답'이라는 통계는 단일 정확도 숫자로는 절대 안 보이는 실패 모드(변환을 추론했지만 일관 적용에 실패)를 드러낸다. 규칙 추론형 태스크를 평가할 때 태스크 단위와 인스턴스 단위를 항상 같이 보고해야 한다.",
+          "post-freeze 생성 태스크로 평가한다는 발상 자체는 좋은 오염 대책이지만, 이 논문이 스스로 낸 rho = 0.300이라는 결과가 그 한계를 정확히 보여준다. 생성 세트는 공개 세트의 난이도 순위를 재현하지 못하므로 '합성 세트에서 잘하니 오염이 없다'는 논증은 성립하지 않는다. 합성 벤치마크를 오염 방어로 쓰려면 먼저 원본과의 순위 상관을 입증해야 한다는 순서를 배웠다.",
+          "학습 데이터 목록과 평가 데이터 목록을 나란히 놓고 교집합을 확인하는 습관의 중요성. 이 논문은 ConceptARC를 4장에서 학습에 넣고 6장에서 평가에 쓴다. 초록과 결과 표만 보면 절대 안 걸리고, 두 절의 목록을 직접 대조해야만 보인다. 논문 리뷰 체크리스트에 '4장 데이터 목록 vs 5-6장 평가 목록 교집합'을 상시 항목으로 넣기로 했다.",
+          "'파레토 프론티어 돌파' 주장은 네 가지를 따로 검증해야 한다: (1) 두 축의 지표가 같은가(pass@1 vs pass@2), (2) 두 축의 측정 분할이 같은가(public vs semi-private), (3) 비용 정의가 같은가(한계 GPU 원가 vs 상업 API 정가), (4) 그 비용이 시간에 안정적인가(가격 인하 한 번에 57x가 11x로). 이 논문은 네 가지 모두에서 흔들린다. 앞으로 cost-efficiency SOTA 주장을 볼 때 그대로 쓸 수 있는 4문항 체크리스트를 얻었다.",
+          "'independent audit'이라는 단어가 붙어 있어도 감사자 명단과 저자 명단을 대조해야 한다. 여기서는 감사자가 공저자(Bielik AI, NYU 소속)라 정의상 독립 검증이 아니다. 또한 블랙박스 감사는 재현성 문제(같은 점수 나오는가)만 다루고 타당성 문제(그 점수가 무엇을 의미하는가, 오염은 없는가)는 전혀 다루지 않는다는 구분도 분명해졌다.",
+          "잠재 추론은 해석가능성과 안전 감사 가능성을 명시적으로 포기하는 선택이다. 저자 스스로 'final grids alone cannot establish where the underlying reasoning failed'라고 쓴다. 반대로 말하면 순환 상태 H_r은 probing 대상으로는 오히려 다루기 쉬운 객체인데도 내부 분석이 0건이었다 - 비공개 정책이 과학적 분석을 막은 사례로 기억해 둘 만하다. 잠재 추론 논문을 볼 때 '상태 probing 실험이 있는가'를 품질 신호로 쓰겠다.",
+          "ARC 생태계 데이터셋 지형을 정리했다: ARC-AGI-1 train/public eval/semi-private, RE-ARC(train 태스크 재생성), ConceptARC(16 concept families, 160 tasks, 개념별 진단용), ARC-Heavy(BARC 계열 대량 합성), ARC-GEN100K(대규모 생성). 이들 대부분이 공개 ARC 태스크를 씨앗으로 하므로 '공개 합성 데이터로 학습 + 공개 eval로 평가'는 구조적으로 오염 위험이 상존한다는 점을 기본 전제로 두어야 한다.",
+          "비용 우위 주장을 읽을 때 '무엇이 비용에서 빠졌는가'를 먼저 세는 습관. 여기서는 학습 비용(ARC 특화 전용 학습), 데이터 큐레이션 비용, pass@2 두 번째 후보 생성 비용(포함 여부 불명), 서빙 오버헤드가 모두 분자에서 빠져 있을 수 있다. 150M 전용 모델과 범용 API 모델을 태스크당 달러로 비교하는 것은 애초에 비교 불가능한 두 원가 구조를 한 줄에 놓는 일이다."
+        ],
+        "related_work": {
+          "prior": [
+            {
+              "name": "Dragon Hatchling (BDH) - Pathway (Kosowski et al., 2025)",
+              "relation": "본 논문의 백본. BDH-CQ의 CQ 앞에 붙은 BDH가 이 계열이다. 고차원 양의 활성값, 저랭크 통신, 순환 연상 상태라는 세 원리만 본 논문에 재인용되고 나머지는 비공개다. BDH 원 논문을 읽지 않으면 본 논문의 아키텍처 절은 사실상 내용이 없으므로 함께 읽어야 한다. 정확한 arXiv 번호는 별도 확인 필요."
+            },
+            {
+              "name": "Coconut - Chain of Continuous Thought (Hao et al., 2024)",
+              "relation": "중간 추론을 토큰으로 내보내지 않고 연속 임베딩 공간에서 이어가는 대표 선행 연구. BDH-CQ의 '언어화 불필요' 논지와 직접 계보가 닿는다. 다만 Coconut은 Transformer 위에서 hidden state를 다음 입력으로 되먹이는 방식이고 BDH-CQ는 순환 상태 자체를 진화시키는 구조라는 점이 다르다."
+            },
+            {
+              "name": "Recurrent depth / latent test-time compute scaling (Geiping et al., 2025 계열)",
+              "relation": "깊이 방향 반복으로 test-time compute를 늘리는 접근. H_{r+1} = F_theta(H_r, S_K)와 발상이 같다. 이 계열 논문들은 반복 횟수를 바꿔가며 연산-정확도 곡선을 넓게 보여주는 것이 표준인데, BDH-CQ는 R을 공개하지 않고 effort 3단계(비용 변화 22% 이내)만 제시해 비교 검증이 불가능하다. 대조군으로 반드시 같이 볼 것."
+            },
+            {
+              "name": "Chollet, On the Measure of Intelligence / ARC (2019)",
+              "relation": "벤치마크 원 논문. ARC-AGI-1의 train/public eval/semi-private 분할 설계와 '적은 데모로부터의 기술 습득 효율'이라는 측정 철학이 여기서 나온다. 공개 eval 분할이 왜 리더보드 공식 점수로 쓰이지 않는지도 이 맥락에서 이해된다."
+            },
+            {
+              "name": "ConceptARC (Moskvichev, Odouard, Mitchell, 2023)",
+              "relation": "16개 개념 계열 160 태스크의 진단용 벤치마크. 본 논문 6장 행동 분석의 주 무대이자, 동시에 4장 학습 데이터 목록에도 들어 있다는 점이 가장 큰 방법론적 문제다. 이 데이터셋의 설계 의도(개념별 일반화 진단)를 알아야 학습에 넣는 순간 진단 기능이 무력화된다는 점이 보인다."
+            },
+            {
+              "name": "RE-ARC (Hodel, 2024) / BARC-ARC-Heavy (Li et al., 2024) / ARC-GEN100K",
+              "relation": "본 논문 학습 혼합을 구성하는 ARC 합성 데이터 계열. 세 데이터셋 모두 공개 ARC 태스크를 씨앗으로 삼기 때문에, 공개 eval과의 근접 중복 여부가 오염 판단의 핵심이 된다. 각 데이터셋이 어느 분할을 씨앗으로 썼는지 원 논문에서 확인해야 본 논문의 오염 위험을 정량적으로 논할 수 있다."
+            },
+            {
+              "name": "Test-time training on ARC (Akyurek et al., 2024)",
+              "relation": "명시적 대조군. TTT는 추론 시 파라미터를 갱신해 ARC 점수를 크게 올렸는데, BDH-CQ는 '추론 시 어떤 파라미터도 갱신되지 않는다'며 순환 메모리 진화만으로 적응한다고 선을 긋는다. 두 접근의 비용 구조와 적응 메커니즘을 비교하면 BDH-CQ 비용 우위의 출처를 더 정확히 가늠할 수 있다."
+            },
+            {
+              "name": "Zhu et al. (2025), continuous thoughts and parallel search frontiers",
+              "relation": "본 논문이 '언어화 없이 여러 부분 가설을 병렬 유지할 수 있다'는 주장의 유일한 실증적 근거로 인용하는 연구. BDH-CQ 자체는 이 성질을 자기 모델에서 검증하지 않으므로, 이 인용의 조건과 범위를 원문에서 확인하는 것이 본 논문 핵심 논지의 신뢰도를 판정하는 지름길이다."
+            }
+          ],
+          "followup": [
+            {
+              "name": "지표/분할 정합 재평가 (제안)",
+              "relation": "BDH-CQ의 pass@1 24.25%를 pass@1 baseline들과, pass@2 29.5%를 pass@2 baseline들과 각각 재도시한 파레토 그림. 아울러 ARC Prize semi-private 분할에서의 공식 측정. 이 두 가지가 나오기 전까지 '파레토 돌파'는 미검증 주장으로 취급해야 한다."
+            },
+            {
+              "name": "오염 감사 (제안)",
+              "relation": "학습 혼합(RE-ARC, ConceptARC, ARC-Heavy, ARC-GEN100K, 사설 데이터)과 ARC-AGI-1 public eval 400 태스크 사이의 그리드 단위 근접 중복 검사. 그리고 ConceptARC를 학습에서 제외한 재학습본으로 6장 행동 분석을 다시 수행. 현재 '어떤 개념이 어려운가'라는 논문의 두 번째 기여는 이 재실험 없이는 성립하지 않는다."
+            },
+            {
+              "name": "잠재 반복 ablation (제안)",
+              "relation": "R을 1, 소수, 다수로 바꾸며 연산량 대비 정확도 곡선을 그리고, 동일 파라미터/데이터/연산 예산의 CoT 대조군과 맞붙이는 실험. 이것이 없으면 '언어화 불필요'는 주장에 머문다. LOW/MEDIUM/HIGH가 실제로 R을 바꾸는지, 후보 수를 바꾸는지도 여기서 밝혀져야 한다."
+            },
+            {
+              "name": "잠재 상태 해석 연구 (제안)",
+              "relation": "순환 상태 S_K와 잠재 궤적 H_0..H_R에 대한 linear probing, 반복 단계별 후보 변환 디코딩, 실패 태스크에서 어느 반복부터 궤적이 갈라지는지 추적. 저자가 '최종 그리드만으로는 실패 지점을 알 수 없다'고 인정한 공백을 정확히 메우는 방향이며, 잠재 추론 계열이 CoT monitorability를 대체하려면 반드시 필요한 작업이다."
+            },
+            {
+              "name": "ARC-AGI-2 및 도메인 이전 (제안)",
+              "relation": "저자들이 future work로 지목한 방향. ARC-AGI-2와 제약 충족, 수학/언어 추론으로의 이전. 순환 잠재 추론이 ARC 형식 특화가 아니라 아키텍처 수준의 성질인지 판정하는 결정적 시험대이며, 현재는 증거가 0건이다."
+            }
+          ]
+        },
+        "claude_note": "한 줄 요약: 아키텍처 아이디어(순환 메모리 + 잠재 반복)는 진지하게 볼 가치가 있지만, 논문이 전면에 내세운 '파레토 돌파, 비용 효율 SOTA' 주장은 지표, 분할, 비용 정의, 데이터 위생 네 군데에서 동시에 흔들리는 마케팅성 주장에 가깝다.\n\n기여를 공정하게 인정하면 두 가지다. 첫째, 150M이라는 매우 작은 모델이 ARC-AGI-1 공개 eval에서 29.5% pass@2에 도달했다는 사실 자체는 흥미롭다. 파라미터를 갱신하지 않고 순환 상태 진화만으로 태스크 적응을 시키는 경로가 실제로 작동한다는 존재 증명은 의미가 있다. 둘째, 6장의 행동 분석 설계 - semantic pair 정확도와 strict task 정확도를 분리하고(77.92% 대 59.38%), 합성 사다리(rotation+relocation 72/72 대 color swap 0/72)와 길이 외삽(ordering이 길이 8에서 1/24로 붕괴)을 통제 개입으로 재는 방식 - 은 단일 정확도로는 안 보이는 실패 모드를 드러내는 좋은 방법론이다. 이 부분은 다른 규칙 추론 평가에 그대로 이식할 만하다.\n\n그러나 핵심 주장은 다음 다섯 지점에서 무너진다.\n\n(1) 지표 비대칭. 자기 점수는 pass@2 29.5%를 쓰고, 리더보드에서 가져온 비교점들의 지표는 논문이 명시하지 않는다. 같은 논문 Table 1에 pass@1 24.25%가 있으므로 만약 baseline이 pass@1이라면 공정 비교선은 24.25%이고 GPT 5.6 Luna (Low) 34.2%와의 격차는 두 배가 된다. 정확도 축을 유리하게 잡은 상태에서 비용 축 우위를 주장하는 구조다.\n\n(2) 분할 불일치 가능성. ARC Prize 공식 리더보드 점수는 통상 semi-private에서 측정되는데 BDH-CQ는 public 400에서 측정한다. 서로 다른 분할의 점수를 한 평면에 찍는 것은 성립하지 않으며, 논문에 분할을 맞췄다는 서술은 확인되지 않는다.\n\n(3) 비용 정의 비대칭. 0.85 H200 GPU-seconds에 시간당 $3을 곱한 자사 한계 원가($0.00070)를, 마진과 서빙 오버헤드가 포함된 상업 API 정가($0.040)와 비교한다. 학습 비용은 아예 분자에 없고, ARC 특화 데이터로 전용 학습된 모델이므로 이 누락은 작지 않다. pass@2의 두 번째 후보 생성 비용이 포함되는지도 불명이다. 결정적으로 논문 스스로 API 가격 인하 반영 시 57x가 약 11x로 줄어든다고 적는데, 이는 이 '돌파'가 아키텍처 성질이 아니라 특정 시점 가격표에 대한 상대 위치임을 저자가 인정한 것이다.\n\n(4) 데이터 위생. ConceptARC가 4장 학습 혼합에 들어 있으면서 6장 행동 분석의 평가셋으로 쓰인다. 논문은 이 중복을 어디서도 언급하지 않는다. 따라서 '어떤 개념이 어려운가'라는 두 번째 기여는 held-out 측정이 아니다. 그리고 논문 전체에 contamination, leakage, memorization 같은 단어가 한 번도 나오지 않는다. 공개 eval 400 태스크를 쓰면서 공개 ARC 씨앗 기반 합성 데이터(ARC-Heavy, ARC-GEN100K)로 학습했다면 근접 중복 검사 보고는 최소 요건인데 그것이 없다. 자체 생성 세트 결과(calibrated 37.2%, stratified 29.8%)를 무오염의 방증으로 읽으려는 유혹이 있지만, 저자가 보고한 rho = 0.300이라는 낮은 순위 상관이 그 논증을 스스로 무력화한다.\n\n(5) 검증 독립성. 'independent black-box audit'의 감사자가 공저자(Bielik AI, NYU)다. 정의상 독립 검증이 아니며, 블랙박스 감사는 같은 세트에서 같은 점수가 나오는지만 확인할 뿐 오염과 분할 문제에는 답하지 못한다.\n\n질문하신 다섯 항목에 대한 판정을 정리하면: 파레토 비교는 불공정하다고 볼 근거가 충분하다(지표 불명 + 분할 불일치 가능 + 원가 대 정가 + 학습비 제외). 공개 eval 사용의 함의는 오염 분석 부재로 인해 상한선을 알 수 없는 상태이고, 특히 ConceptARC 이중 사용은 명백한 결함이다. 29.5%라는 절대 성능은 상위 시스템보다 낮으며 논문의 SOTA는 정확도가 아니라 비용 효율에 대한 것이고 그마저도 이미 대체된 세대 벤치마크의 가장 공개된 분할에 한정된다. 잠재 추론의 해석가능성 상실은 저자도 인정하는데('final grids alone cannot establish where the underlying reasoning failed'), 순환 상태 probing이 기술적으로 어렵지 않음에도 내부 분석이 0건이라는 점은 비공개 정책이 과학적 검증을 막은 사례로 읽힌다. 저장소는 예상대로 모델 코드가 아니라 태스크 생성기이며(MIT, 별 약 3.3k), 모델/가중치/학습 코드/비용 측정 스크립트 중 어느 것도 공개되지 않는다.\n\n인용 시 권고: 이 논문의 29.5%와 $0.0007을 인용할 때는 반드시 'Pathway 자체 보고, ARC-AGI-1 공개 분할, pass@2 기준, 자사 GPU 원가 모델 기준, 공저자 내부 감사'라는 다섯 단서를 함께 붙여야 한다. 아키텍처 아이디어의 학습 가치는 높지만, 성능/비용 수치는 현재 상태로는 인용 가능한 증거라기보다 검증 대기 중인 주장으로 취급하는 것이 맞다. 비공개 항목(R 값, halting, 컨텍스트 길이, 토크나이제이션, 학습 스텝/토큰/하드웨어, effort 노브의 실제 조작 대상, pass@2 후보 생성 방식)은 모두 본문에서 확인되지 않으므로 추정으로 메우지 말 것.",
+        "analyzed_at": "2026-08-17"
+      }
+    },
+    "2412.20138": {
+      "tier2": {
+        "method_detail": "TradingAgents는 실제 트레이딩 회사를 모사한 LLM 멀티에이전트 프레임워크로, 7개 역할을 5개 팀으로 조직한다. (1) 애널리스트 팀(Analyst Team)은 펀더멘털(fundamental)·감성(sentiment)·뉴스(news)·기술적(technical) 분석가가 각자 구조화 리포트를 생성한다. (2) 리서처 팀(Researcher Team)은 강세(bull)/약세(bear) 연구자가 자연어 토론(natural language debate)을 n라운드 진행하고, 진행자(facilitator) 에이전트가 토론 이력을 검토해 우세 관점을 선택·기록한다(원문 표현 'facilitator ... selects the prevailing perspective'). (3) 트레이더(Trader)가 이를 종합해 매매 신호를 도출한다. (4) 리스크 관리 팀(Risk Management Team)은 공격적(aggressive)·중립(neutral)·보수(conservative) 세 관점이 토론해 노출을 조정한다. (5) 펀드 매니저(Fund Manager)가 최종 승인·집행한다. 에이전트 간 통신은 '구조화 리포트'를 1차 채널로, '자연어 대화'를 2차 채널로 쓰는 하이브리드 방식이며, 공유 글로벌 에이전트 상태(global agent state)와 메모리로 과거 결정 맥락을 유지한다(명시적 reflection 모듈 여부는 본문 확인 필요). 모델은 2계층(two-tier) 전략으로, 추론 집약 노드(분석·연구·트레이딩)에는 심층사고(deep-thinking) o1-preview를, 요약·데이터 변환·검색 등에는 신속사고(quick-thinking) gpt-4o/gpt-4o-mini를 배정하고, 전 에이전트는 ReAct 프롬프팅 프레임워크를 따른다(논문 명시). LangGraph는 논문 본문이 아니라 공식 오픈소스 레포/문서에서 구현 스택으로 명시된다('built with LangGraph').",
+        "experiment_setup": [
+          "대상 종목: AAPL, GOOGL, AMZN (3종목 소규모 표본)",
+          "백테스트 기간: 2024-06-19 ~ 2024-11-19 (약 5개월) — 원문(arXiv v1) 확인. 초안의 '2024년 1~3월/88거래일'은 오류로 정정",
+          "비교군(baselines): Buy & Hold(B&H), MACD, KDJ&RSI, ZMR, SMA 등 규칙기반 전략 (강한 ML/RL 트레이딩 비교군은 없음)",
+          "평가지표: 누적수익률(CR), 연환산수익률(ARR), 샤프비율(SR), 최대낙폭(MDD)",
+          "핵심 결과(Table 1, 원문 대조 일치): AAPL CR 26.62% / ARR 30.5% / SR 8.21 / MDD 0.91%",
+          "GOOGL CR 24.36% / ARR 27.58% / SR 6.39 / MDD 1.69%; AMZN CR 23.21% / ARR 24.90% / SR 5.60 / MDD 2.11%",
+          "원문 명시 개선폭(최고 베이스라인 대비): AAPL 누적 +24.57%·연환산 +28.43%, GOOGL +16.58%/+19.49%, AMZN +6.10%/+7.30% (SR 개선폭은 원문 미제시)",
+          "거래비용·슬리피지·세금 가정은 본문에서 언급 확인 안 됨"
+        ],
+        "datasets": [
+          {
+            "name": "과거 주가 시계열(OHLCV)",
+            "scale": "3종목 × 약 5개월(2024-06-19~11-19), Yahoo Finance/EODHD 등",
+            "domain": "시장 가격 데이터"
+          },
+          {
+            "name": "뉴스 기사",
+            "scale": "Bloomberg, Yahoo, EODHD, FinnHub 등 다중 소스",
+            "domain": "금융 뉴스/거시 지표"
+          },
+          {
+            "name": "소셜미디어 감성",
+            "scale": "Reddit, X/Twitter 게시물 + 보조 LM 감성 점수",
+            "domain": "시장 심리"
+          },
+          {
+            "name": "내부자·재무 데이터",
+            "scale": "SEDI 인사이더 거래, 기업 공시·재무제표",
+            "domain": "펀더멘털"
+          },
+          {
+            "name": "기술적 지표",
+            "scale": "60개 표준 기술분석 지표(MACD, RSI, Bollinger Bands 등) — 원문 'sixty ... indicators'",
+            "domain": "기술적 분석"
+          }
+        ],
+        "limitations": {
+          "by_authors": [
+            "과거 데이터 백테스트에 한정되며 실거래(live trading) 배포는 미검증 — 향후 과제로 명시",
+            "데이터 가용성 의존: 데이터 부재가 실제 거래 부재를 의미할 수 있어 신호 누락 가능",
+            "테스트 종목 수가 3개(AAPL/GOOGL/AMZN)로 소규모",
+            "다라운드 토론에 따른 지연·API 크레딧 비용 등 운영 오버헤드 존재"
+          ],
+          "by_claude": [
+            "보고된 샤프비율(AAPL SR 8.21 등)이 실무 기준으로 비현실적으로 높음 — 약 5개월의 짧고 대체로 우호적이었던 대형 기술주 구간과 3종목 소표본에 기인한 과대추정 가능성",
+            "거래비용·슬리피지·세금 반영 여부가 본문에서 확인되지 않음 — 미반영 시 실현 성과는 크게 하락 가능",
+            "베이스라인이 B&H·규칙기반 위주라 강한 ML/RL 트레이딩 비교군이 부재해 우위 주장의 상대적 강도가 제한적",
+            "데이터 누출 통제 서술이 불명확 — 백테스트 구간(2024 하반기)은 사용 모델(gpt-4o/o1-preview, 학습 컷오프 ~2023) 이후라 단순 암기형 누출 위험은 낮은 편이나, 뉴스·검색 파이프라인의 시점정합(point-in-time) 통제(미래 기사·미래 지표 유입 차단) 여부는 본문 확인 필요",
+            "원문이 제시한 개선폭은 CR/ARR 기준이며 SR 개선폭은 없음 — 초안의 'SR +6.57 우위'는 원문 근거 없어 삭제함"
+          ]
+        },
+        "reproducibility": {
+          "code": "공개 (github.com/TauricResearch/TradingAgents, Python, CLI+패키지, 조회 시점 약 94.6k 스타 — 변동값)",
+          "weights": "해당 없음 — 자체 학습 가중치 없이 OpenAI/Anthropic/Google/xAI/DeepSeek/Qwen/Ollama 등 상용·로컬 LLM API를 호출하는 구조",
+          "data": "부분 공개 — Yahoo/FinnHub/EODHD/Reddit 등 공개 API로 수집(API 키 필요), 정제·전처리 세부는 재현 시 재구성 필요",
+          "license": "Apache-2.0 (레포 확인)",
+          "note": "코드는 완전 공개이며 레포/문서에 LangGraph 기반 구현, 다중 LLM 프로바이더·Ollama 로컬 모델, CLI가 명시됨. 상용 LLM API 키가 필요해 비용·모델 버전에 따라 결과 재현이 달라질 수 있고, 레포에 '연구 목적이며 금융/투자/트레이딩 조언 아님' 면책이 명시됨. 논문 성과 수치(Table 1)는 원문과 1:1 대조해 일치 확인함."
+        },
+        "my_learning_points": [
+          "역할 분리 + 하이브리드 통신 패턴을 직접 모사해볼 것: 구조화 리포트(1차)와 자연어 토론(2차)을 상태 그래프(예: LangGraph)로 분리하면 '데이터 수집 → 관점 토론 → 리스크 조정 → 승인/집행' 파이프라인을 재사용 가능한 템플릿으로 만들 수 있다.",
+          "2계층 모델 라우팅(deep-thinking o1-preview vs quick-thinking gpt-4o/mini)을 벤치마크할 것: 추론 노드에만 고비용 모델을 쓰고 요약·검색은 저비용 모델로 돌려 비용/성능 트레이드오프를 직접 측정하면 실전 에이전트 설계 감각을 얻는다.",
+          "화려한 수익률(SR 8.21)을 액면 그대로 믿지 말고 재현 실험을 설계할 것: 종목·기간을 넓히고 거래비용을 넣은 뒤, 특히 뉴스/지표 검색을 시점정합(point-in-time)으로 잠근 out-of-sample 백테스트를 돌려 미래정보 유입을 통제하는 검증 습관을 기른다."
+        ],
+        "related_work": {
+          "prior": [
+            {
+              "name": "ReAct (Yao et al., 2022)",
+              "relation": "전 에이전트의 추론-행동 결합 프롬프팅 기반으로 채택(논문 명시)"
+            },
+            {
+              "name": "Generative Agents (Park et al., 2023)",
+              "relation": "LLM 에이전트 사회/역할 시뮬레이션이라는 설계 철학의 선행"
+            },
+            {
+              "name": "MetaGPT / ChatDev",
+              "relation": "역할 기반 멀티에이전트 협업(SOP·구조화 통신) 프레임워크 계보의 선행"
+            },
+            {
+              "name": "FinMem / FinAgent / FinGPT",
+              "relation": "단일 에이전트 중심 금융 LLM 선행 연구(FinMem·FinAgent는 본문에서 비교/언급), 본 논문이 협업형으로 확장"
+            }
+          ],
+          "followup": [
+            {
+              "name": "TauricResearch 오픈소스 생태계 확산",
+              "relation": "레포가 조회 시점 약 94.6k 스타로 확산되며 다중 프로바이더·로컬 모델·백테스트 기능 등 후속 개발이 이어짐(후속 '논문'은 본문 밖, 확인 필요)"
+            }
+          ]
+        },
+        "claude_note": "이 분석은 초록만이 아니라 arXiv v1 HTML 전문과 GitHub 레포를 실제 조회해 작성했고, 성과 표(Table 1)의 CR/ARR/SR/MDD를 원문과 1:1 대조해 모두 일치함을 확인했다. 다만 초안에는 백테스트 기간 오류(실제 2024-06-19~11-19, 약 5개월)와 원문에 없는 'SR +6.57 우위' 계산치가 있어 정정·삭제했고, LangGraph는 논문이 아니라 레포/문서 근거로 재귀속했다. 프레임워크 자체는 역할 분리·하이브리드 통신·2계층 모델 라우팅이라는 엔지니어링 설계가 탄탄하고 Apache-2.0로 완전 공개(조회 시점 약 94.6k 스타)되어 재현·학습 가치가 높다. 반면 SR 8.21과 초저 MDD는 3종목·약 5개월의 짧고 우호적인 대형 기술주 구간, 규칙기반 위주의 약한 베이스라인, 거래비용 미명시를 고려하면 실전 성능으로 액면 수용하기 어렵다(단, 테스트 구간이 모델 학습 컷오프 이후라 단순 암기형 누출 우려는 상대적으로 작다). 요컨대 '수익률 주장'보다 '멀티에이전트 트레이딩 아키텍처의 오픈소스 레퍼런스'로서의 기여가 이 논문의 진짜 가치다.",
+        "analyzed_at": "2026-07-27"
+      }
+    }
+  }
+}

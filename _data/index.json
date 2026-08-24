@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-18T09:08:58+09:00",
+  "generated_at": "2026-08-24T11:11:23+09:00",
   "weeks_covered": [
     "2026-W25",
     "2026-W26",
@@ -11,7 +11,8 @@
     "2026-W31",
     "2026-W32",
     "2026-W33",
-    "2026-W34"
+    "2026-W34",
+    "2026-W35"
   ],
   "category_timeseries": {
     "LLM/Agents": {
@@ -24,7 +25,8 @@
       "2026-W31": 2,
       "2026-W32": 1,
       "2026-W33": 4,
-      "2026-W34": 2
+      "2026-W34": 2,
+      "2026-W35": 1
     },
     "Data": {
       "2026-W25": 1,
@@ -46,7 +48,8 @@
       "2026-W34": 1
     },
     "Efficiency/Inference": {
-      "2026-W25": 1
+      "2026-W25": 1,
+      "2026-W35": 1
     },
     "Embodied/World Models": {
       "2026-W27": 1,
@@ -58,10 +61,18 @@
     "Vision": {
       "2026-W31": 1,
       "2026-W32": 2,
-      "2026-W33": 1
+      "2026-W33": 1,
+      "2026-W35": 1
     },
     "Reasoning": {
-      "2026-W34": 1
+      "2026-W34": 1,
+      "2026-W35": 1
+    },
+    "Safety": {
+      "2026-W35": 1
+    },
+    "Evaluation/Benchmarks": {
+      "2026-W35": 1
     }
   },
   "category_upvote_weighted": {
@@ -75,7 +86,8 @@
       "2026-W31": 377,
       "2026-W32": 431,
       "2026-W33": 851,
-      "2026-W34": 250
+      "2026-W34": 250,
+      "2026-W35": 124
     },
     "Data": {
       "2026-W25": 41,
@@ -97,7 +109,8 @@
       "2026-W34": 83
     },
     "Efficiency/Inference": {
-      "2026-W25": 5
+      "2026-W25": 5,
+      "2026-W35": 80
     },
     "Embodied/World Models": {
       "2026-W27": 21,
@@ -109,15 +122,23 @@
     "Vision": {
       "2026-W31": 68,
       "2026-W32": 46,
-      "2026-W33": 89
+      "2026-W33": 89,
+      "2026-W35": 69
     },
     "Reasoning": {
-      "2026-W34": 642
+      "2026-W34": 642,
+      "2026-W35": 710
+    },
+    "Safety": {
+      "2026-W35": 15
+    },
+    "Evaluation/Benchmarks": {
+      "2026-W35": 18
     }
   },
   "keyword_freq": {
     "agentic-workflow": {
-      "count": 22,
+      "count": 24,
       "weeks": [
         "2026-W25",
         "2026-W26",
@@ -128,12 +149,13 @@
         "2026-W31",
         "2026-W32",
         "2026-W33",
-        "2026-W34"
+        "2026-W34",
+        "2026-W35"
       ],
       "first_seen": "2026-W25"
     },
     "multi-agent": {
-      "count": 9,
+      "count": 10,
       "weeks": [
         "2026-W25",
         "2026-W26",
@@ -143,12 +165,13 @@
         "2026-W30",
         "2026-W31",
         "2026-W33",
-        "2026-W34"
+        "2026-W34",
+        "2026-W35"
       ],
       "first_seen": "2026-W25"
     },
     "financial-ai": {
-      "count": 13,
+      "count": 14,
       "weeks": [
         "2026-W25",
         "2026-W26",
@@ -159,12 +182,13 @@
         "2026-W31",
         "2026-W32",
         "2026-W33",
-        "2026-W34"
+        "2026-W34",
+        "2026-W35"
       ],
       "first_seen": "2026-W25"
     },
     "tool-use": {
-      "count": 17,
+      "count": 18,
       "weeks": [
         "2026-W25",
         "2026-W26",
@@ -174,7 +198,8 @@
         "2026-W30",
         "2026-W31",
         "2026-W33",
-        "2026-W34"
+        "2026-W34",
+        "2026-W35"
       ],
       "first_seen": "2026-W25"
     },
@@ -308,12 +333,13 @@
       "first_seen": "2026-W25"
     },
     "reinforcement-learning": {
-      "count": 4,
+      "count": 5,
       "weeks": [
         "2026-W25",
         "2026-W26",
         "2026-W32",
-        "2026-W33"
+        "2026-W33",
+        "2026-W35"
       ],
       "first_seen": "2026-W25"
     },
@@ -807,37 +833,42 @@
       "first_seen": "2026-W33"
     },
     "in-context-learning": {
-      "count": 1,
+      "count": 2,
       "weeks": [
-        "2026-W34"
+        "2026-W34",
+        "2026-W35"
       ],
       "first_seen": "2026-W34"
     },
     "latent-reasoning": {
-      "count": 1,
+      "count": 2,
       "weeks": [
-        "2026-W34"
+        "2026-W34",
+        "2026-W35"
       ],
       "first_seen": "2026-W34"
     },
     "recurrent-memory": {
-      "count": 1,
+      "count": 2,
       "weeks": [
-        "2026-W34"
+        "2026-W34",
+        "2026-W35"
       ],
       "first_seen": "2026-W34"
     },
     "arc-agi": {
-      "count": 1,
+      "count": 2,
       "weeks": [
-        "2026-W34"
+        "2026-W34",
+        "2026-W35"
       ],
       "first_seen": "2026-W34"
     },
     "cost-efficiency": {
-      "count": 1,
+      "count": 2,
       "weeks": [
-        "2026-W34"
+        "2026-W34",
+        "2026-W35"
       ],
       "first_seen": "2026-W34"
     },
@@ -847,6 +878,111 @@
         "2026-W34"
       ],
       "first_seen": "2026-W34"
+    },
+    "moe-serving": {
+      "count": 1,
+      "weeks": [
+        "2026-W35"
+      ],
+      "first_seen": "2026-W35"
+    },
+    "edge-inference": {
+      "count": 1,
+      "weeks": [
+        "2026-W35"
+      ],
+      "first_seen": "2026-W35"
+    },
+    "cpu-gpu-offloading": {
+      "count": 1,
+      "weeks": [
+        "2026-W35"
+      ],
+      "first_seen": "2026-W35"
+    },
+    "agentic-state-reuse": {
+      "count": 1,
+      "weeks": [
+        "2026-W35"
+      ],
+      "first_seen": "2026-W35"
+    },
+    "4d-reconstruction": {
+      "count": 1,
+      "weeks": [
+        "2026-W35"
+      ],
+      "first_seen": "2026-W35"
+    },
+    "gaussian-splatting": {
+      "count": 1,
+      "weeks": [
+        "2026-W35"
+      ],
+      "first_seen": "2026-W35"
+    },
+    "video-diffusion": {
+      "count": 1,
+      "weeks": [
+        "2026-W35"
+      ],
+      "first_seen": "2026-W35"
+    },
+    "novel-view-synthesis": {
+      "count": 1,
+      "weeks": [
+        "2026-W35"
+      ],
+      "first_seen": "2026-W35"
+    },
+    "red-teaming": {
+      "count": 1,
+      "weeks": [
+        "2026-W35"
+      ],
+      "first_seen": "2026-W35"
+    },
+    "agent-security": {
+      "count": 1,
+      "weeks": [
+        "2026-W35"
+      ],
+      "first_seen": "2026-W35"
+    },
+    "model-context-protocol": {
+      "count": 1,
+      "weeks": [
+        "2026-W35"
+      ],
+      "first_seen": "2026-W35"
+    },
+    "supply-chain-audit": {
+      "count": 1,
+      "weeks": [
+        "2026-W35"
+      ],
+      "first_seen": "2026-W35"
+    },
+    "verification": {
+      "count": 1,
+      "weeks": [
+        "2026-W35"
+      ],
+      "first_seen": "2026-W35"
+    },
+    "llm-as-judge": {
+      "count": 1,
+      "weeks": [
+        "2026-W35"
+      ],
+      "first_seen": "2026-W35"
+    },
+    "test-time-compute": {
+      "count": 1,
+      "weeks": [
+        "2026-W35"
+      ],
+      "first_seen": "2026-W35"
     }
   },
   "paper_week_map": {
@@ -877,7 +1013,11 @@
     "2608.03974": "2026-W33",
     "2608.01964": "2026-W33",
     "2608.09888": "2026-W34",
-    "2605.31264": "2026-W34"
+    "2605.31264": "2026-W34",
+    "2608.16157": "2026-W35",
+    "2608.20335": "2026-W35",
+    "2606.31227": "2026-W35",
+    "2607.05391": "2026-W35"
   },
   "paper_weeks": {
     "2412.20138": [
@@ -889,7 +1029,8 @@
       "2026-W30",
       "2026-W31",
       "2026-W33",
-      "2026-W34"
+      "2026-W34",
+      "2026-W35"
     ],
     "2605.23904": [
       "2026-W25",
@@ -991,10 +1132,23 @@
       "2026-W33"
     ],
     "2608.09888": [
-      "2026-W34"
+      "2026-W34",
+      "2026-W35"
     ],
     "2605.31264": [
       "2026-W34"
+    ],
+    "2608.16157": [
+      "2026-W35"
+    ],
+    "2608.20335": [
+      "2026-W35"
+    ],
+    "2606.31227": [
+      "2026-W35"
+    ],
+    "2607.05391": [
+      "2026-W35"
     ]
   },
   "per_week": {
@@ -1147,10 +1301,25 @@
       ],
       "headline_ko": "BDH-CQ 642표로 관측 이래 최고 — 150M·태스크당 $0.0007로 ARC-AGI 파레토 돌파, 시계열 FM 2편 동반 복귀",
       "analyzed": true
+    },
+    "2026-W35": {
+      "month_folder": "2026.08",
+      "date_range_ko": "2026-08-24 ~ 08-30",
+      "paper_count": 6,
+      "total_upvotes": 1016,
+      "top_tags": [
+        "agentic-workflow",
+        "4d-reconstruction",
+        "agent-security",
+        "agentic-state-reuse",
+        "arc-agi"
+      ],
+      "headline_ko": "BDH-CQ 710표로 2주 연속 최고 경신 — 보안(레드티밍)·검증이 처음 나란히 등장, 753B를 워크스테이션 1장에 돌리는 엣지 서빙까지",
+      "analyzed": true
     }
   },
   "totals": {
-    "papers": 60,
-    "weeks": 10
+    "papers": 66,
+    "weeks": 11
   }
 }

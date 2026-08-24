@@ -1,0 +1,763 @@
+[
+  {
+    "paper": {
+      "id": "2608.16157",
+      "authors": [
+        {
+          "_id": "6a83ccb0675db694db8cd51b",
+          "name": "Shuo Yang",
+          "hidden": false
+        },
+        {
+          "_id": "6a83ccb0675db694db8cd51c",
+          "user": {
+            "_id": "670d34451de84e5d8870570e",
+            "avatarUrl": "/avatars/21f6b758f1a6f60f8bcc4a8ce9cdb96e.svg",
+            "isPro": false,
+            "fullname": "jasonfan",
+            "user": "jasonfxz",
+            "type": "user",
+            "name": "jasonfxz"
+          },
+          "name": "Xiaoze Fan",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-08-21T13:18:14.603Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a83ccb0675db694db8cd51d",
+          "name": "Melissa Pan",
+          "hidden": false
+        },
+        {
+          "_id": "6a83ccb0675db694db8cd51e",
+          "name": "Haocheng Xi",
+          "hidden": false
+        },
+        {
+          "_id": "6a83ccb0675db694db8cd51f",
+          "name": "Zhe Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a83ccb0675db694db8cd520",
+          "name": "Shanlin Sun",
+          "hidden": false
+        },
+        {
+          "_id": "6a83ccb0675db694db8cd521",
+          "name": "Kurt Keutzer",
+          "hidden": false
+        },
+        {
+          "_id": "6a83ccb0675db694db8cd522",
+          "name": "Song Han",
+          "hidden": false
+        },
+        {
+          "_id": "6a83ccb0675db694db8cd523",
+          "name": "Matei Zaharia",
+          "hidden": false
+        },
+        {
+          "_id": "6a83ccb0675db694db8cd524",
+          "name": "Chenfeng Xu",
+          "hidden": false
+        },
+        {
+          "_id": "6a83ccb0675db694db8cd525",
+          "name": "Ion Stoica",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2026-08-17T00:00:00.000Z",
+      "submittedOnDailyAt": "2026-08-19T00:00:00.000Z",
+      "title": "FreeToken: Efficient Edge-Native MoE Serving with Bandwidth-Adaptive Execution",
+      "submittedOnDailyBy": {
+        "_id": "642b970ceb31218a5f204a29",
+        "avatarUrl": "/avatars/582287f477bbb1a0842787145e375fd3.svg",
+        "isPro": false,
+        "fullname": "andy-yang",
+        "user": "andy-yang",
+        "type": "user",
+        "name": "andy-yang"
+      },
+      "summary": "Frontier open-weight models are increasingly available, but serving them still largely assumes datacenter infrastructure. We present FreeToken, an edge-native MoE serving system that treats a personal machine not as a small GPU, but as a unified, elastic inference platform. FreeToken co-designs the full serving stack, including model layout and loading, expert residency, CPU--GPU execution, agentic state reuse, and runtime memory management, around two realities of local AI: agent workloads continuously change their execution pattern, and edge hardware exposes heterogeneous resources whose balance differs from machine to machine. Rather than committing to a fixed offloading strategy, FreeToken continuously maps computation and model state onto the resources actually available. FreeToken supports more than 20 MoE models and real coding and tool-using agents across hardware ranging from an 8GB laptop GPU to a single workstation GPU. More importantly, it changes what these machines can practically serve, from a 35B model on a laptop to a 284B model on a gaming desktop and the 753B GLM-5.2 on a single workstation GPU. FreeToken turns open weights into deployable local software, making the machines users already own a practical platform for frontier-scale intelligence. We release the system at flashml.ai.",
+      "upvotes": 80,
+      "discussionId": "6a83ccb0675db694db8cd526",
+      "projectPage": "https://www.flashml.ai/",
+      "githubRepo": "https://github.com/FlashML-org/FreeToken",
+      "githubRepoAddedBy": "user",
+      "ai_summary": "FreeToken is an edge-native Mixture-of-Experts serving system that dynamically maps computation and model state onto heterogeneous local hardware to run large open-weight models on personal machines.",
+      "ai_keywords": [
+        "MoE serving",
+        "expert residency",
+        "CPU-GPU execution",
+        "agentic state reuse",
+        "runtime memory management",
+        "offloading strategy",
+        "open-weight models"
+      ],
+      "ai_summary_model": "thinkingmachines/Inkling-Small",
+      "githubStars": 3241,
+      "organization": {
+        "_id": "66b1baeff10262fc4fa61961",
+        "name": "UCBerkeley",
+        "fullname": "University of California, Berkeley",
+        "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/63f425c3a096536aeab42dea/bxNKEkprdm5JI1wkjmNAL.png"
+      }
+    },
+    "publishedAt": "2026-08-16T20:00:00.000Z",
+    "title": "FreeToken: Efficient Edge-Native MoE Serving with Bandwidth-Adaptive Execution",
+    "summary": "Frontier open-weight models are increasingly available, but serving them still largely assumes datacenter infrastructure. We present FreeToken, an edge-native MoE serving system that treats a personal machine not as a small GPU, but as a unified, elastic inference platform. FreeToken co-designs the full serving stack, including model layout and loading, expert residency, CPU--GPU execution, agentic state reuse, and runtime memory management, around two realities of local AI: agent workloads continuously change their execution pattern, and edge hardware exposes heterogeneous resources whose balance differs from machine to machine. Rather than committing to a fixed offloading strategy, FreeToken continuously maps computation and model state onto the resources actually available. FreeToken supports more than 20 MoE models and real coding and tool-using agents across hardware ranging from an 8GB laptop GPU to a single workstation GPU. More importantly, it changes what these machines can practically serve, from a 35B model on a laptop to a 284B model on a gaming desktop and the 753B GLM-5.2 on a single workstation GPU. FreeToken turns open weights into deployable local software, making the machines users already own a practical platform for frontier-scale intelligence. We release the system at flashml.ai.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2608.16157.png",
+    "numComments": 2,
+    "submittedBy": {
+      "_id": "642b970ceb31218a5f204a29",
+      "avatarUrl": "/avatars/582287f477bbb1a0842787145e375fd3.svg",
+      "fullname": "andy-yang",
+      "name": "andy-yang",
+      "type": "user",
+      "isPro": false,
+      "isHf": false,
+      "isHfAdmin": false,
+      "isMod": false,
+      "followerCount": 4,
+      "isUserFollowing": false
+    },
+    "organization": {
+      "_id": "66b1baeff10262fc4fa61961",
+      "name": "UCBerkeley",
+      "fullname": "University of California, Berkeley",
+      "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/63f425c3a096536aeab42dea/bxNKEkprdm5JI1wkjmNAL.png"
+    },
+    "isAuthorParticipating": false
+  },
+  {
+    "paper": {
+      "id": "2608.09888",
+      "authors": [
+        {
+          "_id": "6a7af16fb7183653340c11cd",
+          "user": {
+            "_id": "66d17d0d2fa8a088dc6992b3",
+            "avatarUrl": "/avatars/0aeb72e86b49d85db5577b507751147a.svg",
+            "isPro": false,
+            "fullname": "Björn Engdahl",
+            "user": "bjornengdahl",
+            "type": "user",
+            "name": "bjornengdahl"
+          },
+          "name": "Björn Engdahl",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-08-11T16:45:04.704Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a7af16fb7183653340c11ce",
+          "user": {
+            "_id": "63a48fe7658851481f766a24",
+            "avatarUrl": "/avatars/4d1738e80fd7677a81197fb158ba8c44.svg",
+            "isPro": false,
+            "fullname": "Adrian Kosowski",
+            "user": "dxtrous",
+            "type": "user",
+            "name": "dxtrous"
+          },
+          "name": "Adrian Kosowski",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-08-12T00:45:04.441Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a7af16fb7183653340c11cf",
+          "user": {
+            "_id": "651310e3b7994cff61d71320",
+            "avatarUrl": "/avatars/161cb412c7cb284fa7483e790807e4d3.svg",
+            "isPro": false,
+            "fullname": "Jan Chorowski",
+            "user": "janchorowski",
+            "type": "user",
+            "name": "janchorowski"
+          },
+          "name": "Jan Chorowski",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-08-11T16:45:04.695Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a7af16fb7183653340c11d0",
+          "user": {
+            "_id": "68dd50bb9d2cc46fef645799",
+            "avatarUrl": "/avatars/699f84aa771851854a4201cb1df3543b.svg",
+            "isPro": false,
+            "fullname": "Zuzanna Stamirowska",
+            "user": "Brain-synapse",
+            "type": "user",
+            "name": "Brain-synapse"
+          },
+          "name": "Zuzanna Stamirowska",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-08-11T16:45:04.700Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a7af16fb7183653340c11d1",
+          "name": "Przemysław Uznański",
+          "hidden": false
+        },
+        {
+          "_id": "6a7af16fb7183653340c11d2",
+          "name": "Junlin Jiang",
+          "hidden": false
+        },
+        {
+          "_id": "6a7af16fb7183653340c11d3",
+          "user": {
+            "_id": "63924fd62bfa48413aa0caec",
+            "avatarUrl": "/avatars/9ebf245b9ca187a213a2b15f7853ea08.svg",
+            "isPro": false,
+            "fullname": "Rohan Phadke",
+            "user": "rohanphadke",
+            "type": "user",
+            "name": "rohanphadke"
+          },
+          "name": "Rohan Phadke",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-08-12T00:45:04.516Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a7af16fb7183653340c11d4",
+          "user": {
+            "_id": "61786d0b038518aa2827c6b7",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/61786d0b038518aa2827c6b7/d1UnfivoVreYebS5JM3P9.jpeg",
+            "isPro": false,
+            "fullname": "Remek Kinas",
+            "user": "Remek",
+            "type": "user",
+            "name": "Remek"
+          },
+          "name": "Remigiusz Kinas",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-08-21T13:14:47.826Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a7af16fb7183653340c11d5",
+          "user": {
+            "_id": "67f9669837a74b52e3789326",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/no-auth/8pKQWDFb56H6LN1YZnhTc.png",
+            "isPro": false,
+            "fullname": "Richard Z",
+            "user": "chardizard",
+            "type": "user",
+            "name": "chardizard"
+          },
+          "name": "Richard Zhong",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-08-21T13:14:49.752Z",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2026-08-10T00:00:00.000Z",
+      "submittedOnDailyAt": "2026-08-11T00:00:00.000Z",
+      "title": "BDH-CQ: In-Context Learning with Recurrent Latent Reasoning",
+      "submittedOnDailyBy": {
+        "_id": "651310e3b7994cff61d71320",
+        "avatarUrl": "/avatars/161cb412c7cb284fa7483e790807e4d3.svg",
+        "isPro": false,
+        "fullname": "Jan Chorowski",
+        "user": "janchorowski",
+        "type": "user",
+        "name": "janchorowski"
+      },
+      "summary": "We introduce BDH-CQ, a reasoning model that combines in-context learning with recurrent latent reasoning. Inputs presented at inference time continuously update the model's recurrent memory; the model then solves a query through iterative computation in a high-dimensional latent space, without verbalizing its intermediate reasoning. We evaluate the model on the public ARC-AGI-1 evaluation set and use controlled ARC-like interventions to study what it learns from demonstrations, how consistently it applies an inferred transformation, and which concepts remain difficult. A 150M-parameter configuration reaches 29.5% pass@2 at a computed inference cost of \\$0.0007 per task. This operating point breaks through the previously reported ARC-AGI-1 cost-accuracy Pareto frontier, establishing a new state of the art in benchmark cost efficiency.",
+      "upvotes": 710,
+      "discussionId": "6a7af170b7183653340c11d6",
+      "projectPage": "https://pathway.com/blog/pathway-150m-model-breaks-arc-agi-1-cost-efficiency-frontier",
+      "githubRepo": "https://github.com/pathwaycom/arc-task-gen",
+      "githubRepoAddedBy": "user",
+      "ai_summary": "A 150M-parameter reasoning model using recurrent latent reasoning and in-context learning achieves a new cost-accuracy frontier on ARC-AGI-1.",
+      "ai_keywords": [
+        "in-context learning",
+        "recurrent latent reasoning",
+        "high-dimensional latent space",
+        "ARC-AGI-1",
+        "cost-accuracy Pareto frontier"
+      ],
+      "ai_summary_model": "thinkingmachines/Inkling-Small",
+      "githubStars": 4879,
+      "organization": {
+        "_id": "6697b1a8b981e21b48bc575f",
+        "name": "pathwaycom",
+        "fullname": "Pathway",
+        "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/6697aead07b36ccd016f0888/nOEvf0HpKBQJcVDfljgAc.png"
+      }
+    },
+    "publishedAt": "2026-08-09T20:00:00.000Z",
+    "title": "BDH-CQ: In-Context Learning with Recurrent Latent Reasoning",
+    "summary": "We introduce BDH-CQ, a reasoning model that combines in-context learning with recurrent latent reasoning. Inputs presented at inference time continuously update the model's recurrent memory; the model then solves a query through iterative computation in a high-dimensional latent space, without verbalizing its intermediate reasoning. We evaluate the model on the public ARC-AGI-1 evaluation set and use controlled ARC-like interventions to study what it learns from demonstrations, how consistently it applies an inferred transformation, and which concepts remain difficult. A 150M-parameter configuration reaches 29.5% pass@2 at a computed inference cost of \\$0.0007 per task. This operating point breaks through the previously reported ARC-AGI-1 cost-accuracy Pareto frontier, establishing a new state of the art in benchmark cost efficiency.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2608.09888.png",
+    "numComments": 5,
+    "submittedBy": {
+      "_id": "651310e3b7994cff61d71320",
+      "avatarUrl": "/avatars/161cb412c7cb284fa7483e790807e4d3.svg",
+      "fullname": "Jan Chorowski",
+      "name": "janchorowski",
+      "type": "user",
+      "isPro": false,
+      "isHf": false,
+      "isHfAdmin": false,
+      "isMod": false,
+      "followerCount": 14,
+      "isUserFollowing": false
+    },
+    "organization": {
+      "_id": "6697b1a8b981e21b48bc575f",
+      "name": "pathwaycom",
+      "fullname": "Pathway",
+      "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/6697aead07b36ccd016f0888/nOEvf0HpKBQJcVDfljgAc.png"
+    },
+    "isAuthorParticipating": true
+  },
+  {
+    "paper": {
+      "id": "2608.20335",
+      "authors": [
+        {
+          "_id": "6a87ac1289e517cbfd75dbad",
+          "name": "Yudong Jin",
+          "hidden": false
+        },
+        {
+          "_id": "6a87ac1289e517cbfd75dbae",
+          "name": "Tao Xie",
+          "hidden": false
+        },
+        {
+          "_id": "6a87ac1289e517cbfd75dbaf",
+          "name": "Qihang Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "6a87ac1289e517cbfd75dbb0",
+          "name": "Zehong Shen",
+          "hidden": false
+        },
+        {
+          "_id": "6a87ac1289e517cbfd75dbb1",
+          "name": "Zhen Xu",
+          "hidden": false
+        },
+        {
+          "_id": "6a87ac1289e517cbfd75dbb2",
+          "name": "Yujun Shen",
+          "hidden": false
+        },
+        {
+          "_id": "6a87ac1289e517cbfd75dbb3",
+          "name": "Hujun Bao",
+          "hidden": false
+        },
+        {
+          "_id": "6a87ac1289e517cbfd75dbb4",
+          "name": "Xiaowei Zhou",
+          "hidden": false
+        },
+        {
+          "_id": "6a87ac1289e517cbfd75dbb5",
+          "name": "Yinghao Xu",
+          "hidden": false
+        }
+      ],
+      "mediaUrls": [
+        "https://cdn-uploads.huggingface.co/production/uploads/649958942ca6f96c8b8c1076/fKfNzciKY1L3I3XwM6SfY.mp4"
+      ],
+      "publishedAt": "2026-08-20T00:00:00.000Z",
+      "submittedOnDailyAt": "2026-08-21T00:00:00.000Z",
+      "title": "4DAnyone: Create Anyone in 4D from a Casual Monocular Video",
+      "submittedOnDailyBy": {
+        "_id": "649958942ca6f96c8b8c1076",
+        "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/649958942ca6f96c8b8c1076/olfLIqNryaog1nAnQPwkN.jpeg",
+        "isPro": false,
+        "fullname": "Yudong Jin",
+        "user": "krahets",
+        "type": "user",
+        "name": "krahets"
+      },
+      "summary": "We present 4DAnyone, a framework for reconstructing 4D humans from an uncalibrated monocular video by generating reconstruction-grade multiview-consistent videos and lifting them into 4D Gaussian Splatting (4DGS). Existing camera-controlled video diffusion models synthesize plausible novel-view videos but fail to maintain consistency when scaled to the tens of target views required for 4DGS reconstruction. We identify this failure as a bounded-attention-context problem: when target views exceed the capacity of a single DiT forward pass, they must be split into groups, exposing two coupled bottlenecks. On the reference-context side, conditioning on all previously generated views grows as O(N), weakening cross-view appearance guidance. On the target-context side, disjoint groups cannot directly exchange information, causing global structural drift. 4DAnyone addresses both bottlenecks with two complementary designs: Reference Context Packing (RCP) compresses growing reference views into a fixed-length mixed-resolution context with O(1) reference-context complexity, while Target Context Routing (TCR) rotates target-view groupings during denoising to share context across groups at high-noise steps and stabilize details at low-noise steps. We further build the MVGameHuman dataset using our in-house game engine and combine it with light-stage and in-the-wild video datasets for training. Experiments on DNA-Rendering and DyMVHumans show that 4DAnyone outperforms prior methods in both novel-view video quality and downstream 4DGS reconstruction, with robust in-the-wild generalization. See our project page for video results and source code: https://4danyone.github.io.",
+      "upvotes": 69,
+      "discussionId": "6a87ac1389e517cbfd75dbb6",
+      "projectPage": "https://4danyone.github.io/",
+      "githubRepo": "https://github.com/ant-research/4DAnyone",
+      "githubRepoAddedBy": "user",
+      "ai_summary": "4DAnyone reconstructs 4D humans from monocular video by generating multiview-consistent videos and lifting them into 4D Gaussian Splatting, using reference and target context designs to overcome scaling bottlenecks.",
+      "ai_keywords": [
+        "4D Gaussian Splatting",
+        "video diffusion models",
+        "DiT",
+        "bounded-attention-context",
+        "Reference Context Packing",
+        "Target Context Routing",
+        "multiview-consistent video generation",
+        "4D human reconstruction"
+      ],
+      "ai_summary_model": "thinkingmachines/Inkling-Small",
+      "githubStars": 492,
+      "organization": {
+        "_id": "649824ccd52ece311d51c847",
+        "name": "AntResearch",
+        "fullname": "Ant Research",
+        "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/67440b1a180c3ec6c12c0b04/WeqzW2XDKtm1NGbttcZtI.png"
+      }
+    },
+    "publishedAt": "2026-08-19T20:00:00.000Z",
+    "title": "4DAnyone: Create Anyone in 4D from a Casual Monocular Video",
+    "summary": "We present 4DAnyone, a framework for reconstructing 4D humans from an uncalibrated monocular video by generating reconstruction-grade multiview-consistent videos and lifting them into 4D Gaussian Splatting (4DGS). Existing camera-controlled video diffusion models synthesize plausible novel-view videos but fail to maintain consistency when scaled to the tens of target views required for 4DGS reconstruction. We identify this failure as a bounded-attention-context problem: when target views exceed the capacity of a single DiT forward pass, they must be split into groups, exposing two coupled bottlenecks. On the reference-context side, conditioning on all previously generated views grows as O(N), weakening cross-view appearance guidance. On the target-context side, disjoint groups cannot directly exchange information, causing global structural drift. 4DAnyone addresses both bottlenecks with two complementary designs: Reference Context Packing (RCP) compresses growing reference views into a fixed-length mixed-resolution context with O(1) reference-context complexity, while Target Context Routing (TCR) rotates target-view groupings during denoising to share context across groups at high-noise steps and stabilize details at low-noise steps. We further build the MVGameHuman dataset using our in-house game engine and combine it with light-stage and in-the-wild video datasets for training. Experiments on DNA-Rendering and DyMVHumans show that 4DAnyone outperforms prior methods in both novel-view video quality and downstream 4DGS reconstruction, with robust in-the-wild generalization. See our project page for video results and source code: https://4danyone.github.io.",
+    "mediaUrls": [
+      "https://cdn-uploads.huggingface.co/production/uploads/649958942ca6f96c8b8c1076/fKfNzciKY1L3I3XwM6SfY.mp4"
+    ],
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2608.20335.png",
+    "numComments": 7,
+    "submittedBy": {
+      "_id": "649958942ca6f96c8b8c1076",
+      "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/649958942ca6f96c8b8c1076/olfLIqNryaog1nAnQPwkN.jpeg",
+      "fullname": "Yudong Jin",
+      "name": "krahets",
+      "type": "user",
+      "isPro": false,
+      "isHf": false,
+      "isHfAdmin": false,
+      "isMod": false,
+      "followerCount": 8,
+      "isUserFollowing": false
+    },
+    "organization": {
+      "_id": "649824ccd52ece311d51c847",
+      "name": "AntResearch",
+      "fullname": "Ant Research",
+      "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/67440b1a180c3ec6c12c0b04/WeqzW2XDKtm1NGbttcZtI.png"
+    },
+    "isAuthorParticipating": false
+  },
+  {
+    "paper": {
+      "id": "2606.31227",
+      "authors": [
+        {
+          "_id": "6a471e766ee372f6920de2da",
+          "name": "Yong Yang",
+          "hidden": false
+        },
+        {
+          "_id": "6a471e766ee372f6920de2db",
+          "name": "Xing Zheng",
+          "hidden": false
+        },
+        {
+          "_id": "6a471e766ee372f6920de2dc",
+          "name": "Huiyu Wu",
+          "hidden": false
+        },
+        {
+          "_id": "6a471e766ee372f6920de2dd",
+          "name": "Huangsheng Cheng",
+          "hidden": false
+        },
+        {
+          "_id": "6a471e766ee372f6920de2de",
+          "name": "Xiaorong Shi",
+          "hidden": false
+        },
+        {
+          "_id": "6a471e766ee372f6920de2df",
+          "name": "Jing Guo",
+          "hidden": false
+        },
+        {
+          "_id": "6a471e766ee372f6920de2e0",
+          "name": "Bo Yang",
+          "hidden": false
+        },
+        {
+          "_id": "6a471e766ee372f6920de2e1",
+          "name": "Yi Zhou",
+          "hidden": false
+        },
+        {
+          "_id": "6a471e766ee372f6920de2e2",
+          "user": {
+            "_id": "6a61f27af6b5a8f16f0277af",
+            "avatarUrl": "/avatars/197abee0edb281154f32fa8c4bee1029.svg",
+            "isPro": false,
+            "fullname": "wu",
+            "user": "xiangfanwu",
+            "type": "user",
+            "name": "xiangfanwu"
+          },
+          "name": "Xiangfan Wu",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-07-28T08:55:03.534Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a471e766ee372f6920de2e3",
+          "user": {
+            "_id": "650fc649dc509ae7d7d58215",
+            "avatarUrl": "/avatars/7bb8d9048ff604cf7475e52c33ec780e.svg",
+            "isPro": false,
+            "fullname": "Zonghao Ying",
+            "user": "Zonghao2025",
+            "type": "user",
+            "name": "Zonghao2025"
+          },
+          "name": "Zonghao Ying",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-07-05T21:10:22.133Z",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2026-06-30T00:00:00.000Z",
+      "submittedOnDailyAt": "2026-07-06T00:00:00.000Z",
+      "title": "Securing the AI Agent: A Unified Framework for Multi-Layer Agent Red Teaming",
+      "submittedOnDailyBy": {
+        "_id": "650fc649dc509ae7d7d58215",
+        "avatarUrl": "/avatars/7bb8d9048ff604cf7475e52c33ec780e.svg",
+        "isPro": false,
+        "fullname": "Zonghao Ying",
+        "user": "Zonghao2025",
+        "type": "user",
+        "name": "Zonghao2025"
+      },
+      "summary": "The fast growth of open-source AI infrastructure, from model serving engines and agent platforms to the Model Context Protocol (MCP) ecosystem and the language models themselves, has outpaced the security tooling available to defend it. We present AI-Infra-Guard, an open-source framework that organizes AI red teaming around a single observation: the attack surface of an AI agent is stratified across layers (infrastructure, protocol/tool, agent behavior, and model), and no single detection paradigm fits all of them. The framework therefore matches a paradigm to each layer, from deterministic rule matching over 75+ AI components and 1{,}400+ vulnerability rules, through LLM-driven agentic auditing of MCP servers and agent-skill packages and multi-turn black-box agent red teaming, to a jailbreak harness with 26+ attack operators over sixteen datasets. To our knowledge it is the only open-source framework to span all of these, including supply-chain auditing of the agent skills that increasingly extend AI agents. We release AI-Infra-Guard as open source so that layer-paradigm matching can serve as a practical foundation for agent security and a shared base for the community to build on.",
+      "upvotes": 15,
+      "discussionId": "6a471e776ee372f6920de2e4",
+      "projectPage": "https://matrix.tencent.com/clawscan/",
+      "githubRepo": "https://github.com/Tencent/AI-Infra-Guard",
+      "githubRepoAddedBy": "user",
+      "ai_summary": "AI-Infra-Guard is an open-source framework that addresses AI infrastructure security through layered detection paradigms spanning infrastructure, protocol, agent behavior, and model layers.",
+      "ai_keywords": [
+        "AI red teaming",
+        "Model Context Protocol",
+        "LLM-driven agentic auditing",
+        "black-box agent red teaming",
+        "jailbreak harness",
+        "supply-chain auditing",
+        "layer-paradigm matching"
+      ],
+      "ai_summary_model": "Qwen/Qwen2.5-Coder-32B-Instruct",
+      "githubStars": 5653,
+      "organization": {
+        "_id": "66543b6e420092799d2f625c",
+        "name": "tencent",
+        "fullname": "Tencent",
+        "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/5dd96eb166059660ed1ee413/Lp3m-XLpjQGwBItlvn69q.png"
+      }
+    },
+    "publishedAt": "2026-06-29T20:00:00.000Z",
+    "title": "Securing the AI Agent: A Unified Framework for Multi-Layer Agent Red Teaming",
+    "summary": "The fast growth of open-source AI infrastructure, from model serving engines and agent platforms to the Model Context Protocol (MCP) ecosystem and the language models themselves, has outpaced the security tooling available to defend it. We present AI-Infra-Guard, an open-source framework that organizes AI red teaming around a single observation: the attack surface of an AI agent is stratified across layers (infrastructure, protocol/tool, agent behavior, and model), and no single detection paradigm fits all of them. The framework therefore matches a paradigm to each layer, from deterministic rule matching over 75+ AI components and 1{,}400+ vulnerability rules, through LLM-driven agentic auditing of MCP servers and agent-skill packages and multi-turn black-box agent red teaming, to a jailbreak harness with 26+ attack operators over sixteen datasets. To our knowledge it is the only open-source framework to span all of these, including supply-chain auditing of the agent skills that increasingly extend AI agents. We release AI-Infra-Guard as open source so that layer-paradigm matching can serve as a practical foundation for agent security and a shared base for the community to build on.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2606.31227.png",
+    "numComments": 2,
+    "submittedBy": {
+      "_id": "650fc649dc509ae7d7d58215",
+      "avatarUrl": "/avatars/7bb8d9048ff604cf7475e52c33ec780e.svg",
+      "fullname": "Zonghao Ying",
+      "name": "Zonghao2025",
+      "type": "user",
+      "isPro": false,
+      "isHf": false,
+      "isHfAdmin": false,
+      "isMod": false,
+      "followerCount": 3,
+      "isUserFollowing": false
+    },
+    "organization": {
+      "_id": "66543b6e420092799d2f625c",
+      "name": "tencent",
+      "fullname": "Tencent",
+      "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/5dd96eb166059660ed1ee413/Lp3m-XLpjQGwBItlvn69q.png"
+    },
+    "isAuthorParticipating": true
+  },
+  {
+    "paper": {
+      "id": "2412.20138",
+      "authors": [
+        {
+          "_id": "6847673b3ec10bdd8ab4dd5e",
+          "user": {
+            "_id": "619b6a24030b707ff1f05dee",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/619b6a24030b707ff1f05dee/8FZjePfOuTtN3uvTmaEg5.jpeg",
+            "isPro": false,
+            "fullname": "Yijia Xiao",
+            "user": "Yijia-Xiao",
+            "type": "user",
+            "name": "Yijia-Xiao"
+          },
+          "name": "Yijia Xiao",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-08-08T16:45:04.607Z",
+          "hidden": false
+        },
+        {
+          "_id": "6847673b3ec10bdd8ab4dd5f",
+          "name": "Edward Sun",
+          "hidden": false
+        },
+        {
+          "_id": "6847673b3ec10bdd8ab4dd60",
+          "name": "Di Luo",
+          "hidden": false
+        },
+        {
+          "_id": "6847673b3ec10bdd8ab4dd61",
+          "name": "Wei Wang",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2024-12-28T12:54:06.000Z",
+      "title": "TradingAgents: Multi-Agents LLM Financial Trading Framework",
+      "summary": "Significant progress has been made in automated problem-solving using\nsocieties of agents powered by large language models (LLMs). In finance,\nefforts have largely focused on single-agent systems handling specific tasks or\nmulti-agent frameworks independently gathering data. However, the multi-agent\nsystems' potential to replicate real-world trading firms' collaborative\ndynamics remains underexplored. TradingAgents proposes a novel stock trading\nframework inspired by trading firms, featuring LLM-powered agents in\nspecialized roles such as fundamental analysts, sentiment analysts, technical\nanalysts, and traders with varied risk profiles. The framework includes Bull\nand Bear researcher agents assessing market conditions, a risk management team\nmonitoring exposure, and traders synthesizing insights from debates and\nhistorical data to make informed decisions. By simulating a dynamic,\ncollaborative trading environment, this framework aims to improve trading\nperformance. Detailed architecture and extensive experiments reveal its\nsuperiority over baseline models, with notable improvements in cumulative\nreturns, Sharpe ratio, and maximum drawdown, highlighting the potential of\nmulti-agent LLM frameworks in financial trading. TradingAgents is available at\nhttps://github.com/TauricResearch/TradingAgents.",
+      "upvotes": 124,
+      "discussionId": "6847673c3ec10bdd8ab4dd62",
+      "githubRepo": "https://github.com/tauricresearch/tradingagents",
+      "githubRepoAddedBy": "auto",
+      "ai_summary": "A multi-agent framework using large language models for stock trading simulates real-world trading firms, improving performance metrics like cumulative returns and Sharpe ratio.",
+      "ai_keywords": [
+        "large language models",
+        "LLM",
+        "multi-agent systems",
+        "fundamental analysts",
+        "sentiment analysts",
+        "technical analysts",
+        "traders",
+        "risk management",
+        "cumulative returns",
+        "Sharpe ratio",
+        "maximum drawdown"
+      ],
+      "ai_summary_model": "Qwen/Qwen2.5-Coder-32B-Instruct",
+      "githubStars": 99478
+    },
+    "publishedAt": "2024-12-28T07:54:06.000Z",
+    "title": "TradingAgents: Multi-Agents LLM Financial Trading Framework",
+    "summary": "Significant progress has been made in automated problem-solving using\nsocieties of agents powered by large language models (LLMs). In finance,\nefforts have largely focused on single-agent systems handling specific tasks or\nmulti-agent frameworks independently gathering data. However, the multi-agent\nsystems' potential to replicate real-world trading firms' collaborative\ndynamics remains underexplored. TradingAgents proposes a novel stock trading\nframework inspired by trading firms, featuring LLM-powered agents in\nspecialized roles such as fundamental analysts, sentiment analysts, technical\nanalysts, and traders with varied risk profiles. The framework includes Bull\nand Bear researcher agents assessing market conditions, a risk management team\nmonitoring exposure, and traders synthesizing insights from debates and\nhistorical data to make informed decisions. By simulating a dynamic,\ncollaborative trading environment, this framework aims to improve trading\nperformance. Detailed architecture and extensive experiments reveal its\nsuperiority over baseline models, with notable improvements in cumulative\nreturns, Sharpe ratio, and maximum drawdown, highlighting the potential of\nmulti-agent LLM frameworks in financial trading. TradingAgents is available at\nhttps://github.com/TauricResearch/TradingAgents.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2412.20138.png",
+    "numComments": 4,
+    "isAuthorParticipating": false
+  },
+  {
+    "paper": {
+      "id": "2607.05391",
+      "authors": [
+        {
+          "_id": "6a4c7e1a25849b193a834285",
+          "name": "Jacky Kwok",
+          "hidden": false
+        },
+        {
+          "_id": "6a4c7e1a25849b193a834286",
+          "name": "Shulu Li",
+          "hidden": false
+        },
+        {
+          "_id": "6a4c7e1a25849b193a834287",
+          "name": "Pranav Atreya",
+          "hidden": false
+        },
+        {
+          "_id": "6a4c7e1a25849b193a834288",
+          "name": "Yuejiang Liu",
+          "hidden": false
+        },
+        {
+          "_id": "6a4c7e1a25849b193a834289",
+          "name": "Yixing Jiang",
+          "hidden": false
+        },
+        {
+          "_id": "6a4c7e1a25849b193a83428a",
+          "name": "Chelsea Finn",
+          "hidden": false
+        },
+        {
+          "_id": "6a4c7e1a25849b193a83428b",
+          "name": "Marco Pavone",
+          "hidden": false
+        },
+        {
+          "_id": "6a4c7e1a25849b193a83428c",
+          "name": "Ion Stoica",
+          "hidden": false
+        },
+        {
+          "_id": "6a4c7e1a25849b193a83428d",
+          "name": "Azalia Mirhoseini",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2026-07-06T00:00:00.000Z",
+      "submittedOnDailyAt": "2026-07-07T00:00:00.000Z",
+      "title": "LLM-as-a-Verifier: A General-Purpose Verification Framework",
+      "submittedOnDailyBy": {
+        "_id": "6039478ab3ecf716b1a5fd4d",
+        "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/6039478ab3ecf716b1a5fd4d/_Thy4E7taiSYBLKxEKJbT.jpeg",
+        "isPro": true,
+        "fullname": "taesiri",
+        "user": "taesiri",
+        "type": "user",
+        "name": "taesiri"
+      },
+      "summary": "Scaling pre-training, post-training, and test-time compute have become the central paradigms for improving the capabilities of LLMs. In this work, we identify verification, the ability to determine the correctness of a solution, as a new scaling axis. To unlock this and demonstrate its effectiveness, we introduce LLM-as-a-Verifier, a general-purpose verification framework that provides fine-grained feedback for agentic tasks without requiring additional training. Unlike standard LM judges that prompt LLMs to produce discrete scores for candidate solutions, LLM-as-a-Verifier computes the expectation over the distribution of scoring token logits to generate continuous scores. This probabilistic formulation enables verification to scale along multiple dimensions: (1) score granularity, (2) repeated evaluation, and (3) criteria decomposition. In particular, we show that scaling the scoring granularity leads to better separation between positive and negative solutions, resulting in more calibrated comparisons. Moreover, scaling repeated evaluation and criteria decomposition consistently lead to additional gains in verification accuracy through variance and complexity reduction. We further introduce a cost-efficient ranking algorithm for selecting the best solution among candidates using the verifier's continuous scores. LLM-as-a-Verifier achieves state-of-the-art performance on Terminal-Bench V2 (86.5%), SWE-Bench Verified (78.2%), RoboRewardBench (87.4%), and MedAgentBench (73.3%). Beyond verification, the fine-grained signals from LLM-as-a-Verifier can also serve as a proxy for estimating task progress. We build an extension for Claude Code, enabling developers to monitor and improve their own agentic systems. Finally, we show that LLM-as-a-Verifier can provide dense feedback for RL, improving the sample efficiency of SAC and GRPO on robotics and mathematical reasoning benchmarks.",
+      "upvotes": 18,
+      "discussionId": "6a4c7e1b25849b193a83428e",
+      "projectPage": "https://llm-as-a-verifier.com/",
+      "githubRepo": "https://github.com/llm-as-a-verifier/llm-as-a-verifier",
+      "githubRepoAddedBy": "user",
+      "ai_summary": "LLM-as-a-Verifier introduces a probabilistic verification framework that scales across multiple dimensions to improve solution correctness assessment and agent performance across various benchmarks.",
+      "ai_keywords": [
+        "LLM-as-a-Verifier",
+        "verification",
+        "agentic tasks",
+        "continuous scores",
+        "scoring token logits",
+        "score granularity",
+        "repeated evaluation",
+        "criteria decomposition",
+        "terminal-bench v2",
+        "swe-bench verified",
+        "roborewardbench",
+        "medagentbench",
+        "cost-efficient ranking algorithm",
+        "reinforcement learning",
+        "sac",
+        "grpo",
+        "robotics benchmarks",
+        "mathematical reasoning benchmarks"
+      ],
+      "ai_summary_model": "Qwen/Qwen2.5-Coder-32B-Instruct",
+      "githubStars": 2674
+    },
+    "publishedAt": "2026-07-05T20:00:00.000Z",
+    "title": "LLM-as-a-Verifier: A General-Purpose Verification Framework",
+    "summary": "Scaling pre-training, post-training, and test-time compute have become the central paradigms for improving the capabilities of LLMs. In this work, we identify verification, the ability to determine the correctness of a solution, as a new scaling axis. To unlock this and demonstrate its effectiveness, we introduce LLM-as-a-Verifier, a general-purpose verification framework that provides fine-grained feedback for agentic tasks without requiring additional training. Unlike standard LM judges that prompt LLMs to produce discrete scores for candidate solutions, LLM-as-a-Verifier computes the expectation over the distribution of scoring token logits to generate continuous scores. This probabilistic formulation enables verification to scale along multiple dimensions: (1) score granularity, (2) repeated evaluation, and (3) criteria decomposition. In particular, we show that scaling the scoring granularity leads to better separation between positive and negative solutions, resulting in more calibrated comparisons. Moreover, scaling repeated evaluation and criteria decomposition consistently lead to additional gains in verification accuracy through variance and complexity reduction. We further introduce a cost-efficient ranking algorithm for selecting the best solution among candidates using the verifier's continuous scores. LLM-as-a-Verifier achieves state-of-the-art performance on Terminal-Bench V2 (86.5%), SWE-Bench Verified (78.2%), RoboRewardBench (87.4%), and MedAgentBench (73.3%). Beyond verification, the fine-grained signals from LLM-as-a-Verifier can also serve as a proxy for estimating task progress. We build an extension for Claude Code, enabling developers to monitor and improve their own agentic systems. Finally, we show that LLM-as-a-Verifier can provide dense feedback for RL, improving the sample efficiency of SAC and GRPO on robotics and mathematical reasoning benchmarks.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2607.05391.png",
+    "numComments": 1,
+    "submittedBy": {
+      "_id": "6039478ab3ecf716b1a5fd4d",
+      "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/6039478ab3ecf716b1a5fd4d/_Thy4E7taiSYBLKxEKJbT.jpeg",
+      "fullname": "taesiri",
+      "name": "taesiri",
+      "type": "user",
+      "isPro": true,
+      "isHf": false,
+      "isHfAdmin": false,
+      "isMod": false,
+      "followerCount": 364,
+      "isUserFollowing": false
+    },
+    "isAuthorParticipating": false
+  }
+]

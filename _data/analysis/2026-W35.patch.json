@@ -1,0 +1,254 @@
+{
+  "week_id": "2026-W35",
+  "papers": {
+    "2608.16157": {
+      "classify": {
+        "categories": ["Efficiency/Inference"],
+        "primary_category": "Efficiency/Inference",
+        "topic_tags": ["moe-serving", "edge-inference", "cpu-gpu-offloading", "agentic-state-reuse"],
+        "method_tags": ["inference-time", "architecture"],
+        "modality": ["text"],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "개인 PC를 탄력적 추론 플랫폼으로 재해석해, 워크스테이션 GPU 1장에 753B MoE까지 돌리는 엣지 서빙 시스템.",
+        "problem": "프런티어 공개 가중치 모델이 늘었지만 서빙은 여전히 데이터센터 인프라를 전제한다. 로컬 AI에는 두 가지 현실이 있다 — 에이전트 워크로드는 실행 패턴이 계속 바뀌고, 엣지 하드웨어는 기기마다 자원 균형이 다르다.",
+        "approach": "FreeToken은 개인 머신을 '작은 GPU'가 아니라 통합·탄력적 추론 플랫폼으로 보고 서빙 스택 전체를 공동 설계한다 — 모델 레이아웃·로딩, 전문가 상주(expert residency), CPU-GPU 실행, 에이전트 상태 재사용, 런타임 메모리 관리. 고정된 오프로딩 전략을 택하지 않고, 실제 가용 자원에 계산과 모델 상태를 계속 재배치한다.",
+        "contributions": [
+          "20개 이상 MoE 모델과 실제 코딩·툴 사용 에이전트 지원",
+          "8GB 노트북 GPU에서 워크스테이션 GPU까지 아우르는 실행",
+          "노트북 35B, 게이밍 데스크톱 284B, 워크스테이션 GPU 1장에 753B GLM-5.2 구동",
+          "공개 가중치를 '배포 가능한 로컬 소프트웨어'로 전환, flashml.ai로 공개"
+        ],
+        "why_now": "효율화가 11주째 관통하는 흐름의 새 방향이다. 지금까지의 효율화가 '모델을 작게'였다면, 이번엔 '큰 모델을 내 기계에서 돌리기'다. 프런티어 공개 가중치(Kimi K3·GLM-5.2)가 쏟아지는 상황과 정확히 맞물린다.",
+        "difficulty": "고급",
+        "recommended_reader": "LLM 서빙·MoE 추론 최적화·로컬 AI 배포에 관심 있는 학습자",
+        "field_tags": ["MoE서빙", "엣지추론", "오프로딩", "로컬AI"],
+        "interest": { "upvotes": 80, "num_comments": 2, "github_stars": 3241 }
+      },
+      "learning": {
+        "key_terms": [
+          { "term": "Expert Residency", "gloss": "MoE의 어떤 전문가를 GPU에 상주시킬지 결정하는 문제" },
+          { "term": "Offloading", "gloss": "GPU에 안 올라가는 가중치·상태를 CPU/디스크로 내리는 기법" },
+          { "term": "Agentic State Reuse", "gloss": "에이전트 루프에서 반복되는 상태(KV 등)를 재사용해 비용 절감" }
+        ],
+        "recall_quiz": {
+          "question": "FreeToken이 고정 오프로딩 전략을 쓰지 않는 이유는?",
+          "answer": "에이전트 워크로드는 실행 패턴이 계속 변하고 기기마다 자원 균형이 달라, 실제 가용 자원에 계산·상태를 계속 재배치해야 하기 때문이다."
+        },
+        "spaced_review": { "flag": false, "review_due": null }
+      }
+    },
+
+    "2608.09888": {
+      "classify": {
+        "categories": ["Reasoning", "Efficiency/Inference"],
+        "primary_category": "Reasoning",
+        "topic_tags": ["in-context-learning", "latent-reasoning", "recurrent-memory", "arc-agi", "cost-efficiency"],
+        "method_tags": ["architecture", "inference-time"],
+        "modality": ["text"],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "150M 파라미터로 태스크당 $0.0007에 ARC-AGI 29.5%(pass@2)를 낸, 말하지 않고 잠재 공간에서 추론하는 모델.",
+        "problem": "추론 모델은 대개 사고 과정을 토큰으로 말하면서 성능을 얻는데, 이는 비용과 지연을 키운다. ARC-AGI처럼 예시에서 규칙을 유추하는 과제에서 비용-정확도 프론티어를 넘어설 방법이 필요했다.",
+        "approach": "문맥 내 학습과 순환 잠재 추론을 결합한다. 추론 시 입력이 순환 메모리를 계속 갱신하고, 중간 추론을 언어화하지 않은 채 고차원 잠재 공간의 반복 연산으로 질의를 푼다. 공개 ARC-AGI-1 평가셋과 통제된 ARC 유사 개입으로 학습·일반화 특성을 분석한다.",
+        "contributions": [
+          "문맥 내 학습 + 순환 잠재 추론을 결합한 추론 모델 제안",
+          "150M 구성으로 ARC-AGI-1 pass@2 29.5%(pass@1 24.25%), 태스크당 계산 비용 $0.0007",
+          "비용 효율 축에서 기존 파레토 프론티어 돌파 주장(정확도 SOTA는 아님)",
+          "통제된 ARC 유사 개입으로 개념별 강약점 분석"
+        ],
+        "why_now": "▲642에서 710으로 2주 연속 최고 기록을 경신했다. '작고 말하지 않는 추론'이라는 반(反)주류 방향이 커뮤니티의 최대 관심사임을 보여준다. 다만 파레토 주장은 지표·분할·비용 산정에 여러 한정이 붙는다(심층 참조).",
+        "difficulty": "고급",
+        "recommended_reader": "추론 아키텍처·ARC-AGI·효율적 추론에 관심 있는 학습자",
+        "field_tags": ["잠재추론", "문맥내학습", "ARC-AGI", "비용효율"],
+        "interest": { "upvotes": 710, "num_comments": 5, "github_stars": 4900 }
+      },
+      "learning": {
+        "key_terms": [
+          { "term": "In-Context Learning", "gloss": "가중치 갱신 없이 문맥의 예시만으로 과제를 익히는 능력" },
+          { "term": "Latent Reasoning", "gloss": "중간 사고를 토큰으로 말하지 않고 잠재 공간에서 수행하는 추론" },
+          { "term": "pass@2", "gloss": "두 번의 시도 중 하나라도 정답이면 성공으로 치는 지표" }
+        ],
+        "recall_quiz": {
+          "question": "BDH-CQ의 '파레토 돌파' 주장을 인용할 때 반드시 함께 밝혀야 할 두 가지는?",
+          "answer": "자기 점수는 pass@2(29.5%)이고 pass@1은 24.25%라는 점, 그리고 비용이 자사 GPU 원가($3/H200-시간)와 상업 API 정가를 비교한 값이라는 점."
+        },
+        "spaced_review": { "flag": true, "review_due": "2026-W38" }
+      }
+    },
+
+    "2608.20335": {
+      "classify": {
+        "categories": ["Vision", "Embodied/World Models"],
+        "primary_category": "Vision",
+        "topic_tags": ["4d-reconstruction", "gaussian-splatting", "video-diffusion", "novel-view-synthesis"],
+        "method_tags": ["architecture", "data-centric"],
+        "modality": ["video", "3d"],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "일상적인 단안 영상 한 편에서 사람을 4D로 복원하는, 어텐션 문맥 한계를 정면 돌파한 프레임워크.",
+        "problem": "카메라 제어형 비디오 확산 모델은 그럴듯한 새 시점 영상을 만들지만, 4DGS 재구성에 필요한 수십 개 시점 규모로 확장하면 일관성이 무너진다. 저자들은 이를 '경계된 어텐션 문맥(bounded-attention-context)' 문제로 규정한다 — 목표 시점이 단일 DiT forward 용량을 넘으면 그룹으로 쪼개야 하고, 참조 문맥은 O(N)으로 커져 외형 안내가 약해지고, 분리된 목표 그룹끼리 정보를 교환할 수 없어 전역 구조가 표류한다.",
+        "approach": "두 설계로 양쪽 병목을 푼다. RCP(Reference Context Packing)는 늘어나는 참조 시점을 고정 길이 혼합 해상도 문맥으로 압축해 참조 문맥 복잡도를 O(1)로 만든다. TCR(Target Context Routing)은 디노이징 중 목표 시점 그룹 구성을 회전시켜, 고노이즈 단계에서 그룹 간 문맥을 공유하고 저노이즈 단계에서 디테일을 안정화한다. 자체 게임 엔진으로 MVGameHuman 데이터셋을 만들어 라이트스테이지·인더와일드 데이터와 함께 학습한다.",
+        "contributions": [
+          "다시점 확장 실패를 '경계된 어텐션 문맥' 문제로 규정",
+          "RCP로 참조 문맥 복잡도 O(N) -> O(1)",
+          "TCR로 그룹 간 문맥 공유 및 전역 구조 표류 완화",
+          "MVGameHuman 데이터셋 구축, DNA-Rendering·DyMVHumans에서 기존 기법 능가"
+        ],
+        "why_now": "생성 모달리티 릴레이가 이번엔 4D 인체 복원으로 왔다. 특히 '어텐션 문맥 한계'를 병목으로 명시하고 O(1) 압축으로 푼 점은, 문서(Unlimited OCR)·3D(LingBot-Map)에서 본 문맥·캐시 압축 흐름과 같은 계열이다.",
+        "difficulty": "고급",
+        "recommended_reader": "3D·4D 비전, 비디오 확산, 가우시안 스플래팅에 관심 있는 학습자",
+        "field_tags": ["4D복원", "가우시안스플래팅", "비디오확산", "단안영상"],
+        "interest": { "upvotes": 69, "num_comments": 7, "github_stars": 492 }
+      },
+      "learning": {
+        "key_terms": [
+          { "term": "4D Gaussian Splatting", "gloss": "시간축까지 포함해 장면을 가우시안 집합으로 표현·렌더링" },
+          { "term": "Monocular Video", "gloss": "단일 카메라로 찍은 보정되지 않은 영상" },
+          { "term": "Novel-view Synthesis", "gloss": "촬영하지 않은 새 시점의 영상을 합성" }
+        ],
+        "recall_quiz": {
+          "question": "4DAnyone이 지적한 '경계된 어텐션 문맥' 문제의 두 병목은?",
+          "answer": "참조 문맥이 O(N)으로 커져 외형 안내가 약해지는 것, 그리고 분리된 목표 시점 그룹끼리 정보를 교환할 수 없어 전역 구조가 표류하는 것."
+        },
+        "spaced_review": { "flag": false, "review_due": null }
+      }
+    },
+
+    "2606.31227": {
+      "classify": {
+        "categories": ["Safety", "LLM/Agents"],
+        "primary_category": "Safety",
+        "topic_tags": ["red-teaming", "agent-security", "model-context-protocol", "supply-chain-audit"],
+        "method_tags": ["architecture", "prompting"],
+        "modality": ["text"],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "에이전트 공격면을 4개 층으로 나누고 층마다 다른 탐지 패러다임을 붙인 오픈소스 레드티밍 프레임워크.",
+        "problem": "모델 서빙 엔진·에이전트 플랫폼·MCP 생태계·모델 자체까지 오픈소스 AI 인프라가 빠르게 커졌지만, 이를 방어할 보안 도구가 따라오지 못했다.",
+        "approach": "AI-Infra-Guard는 하나의 관찰에서 출발한다 — AI 에이전트의 공격면은 인프라, 프로토콜/도구, 에이전트 행동, 모델의 층으로 갈리고 단일 탐지 패러다임으로는 전부 커버할 수 없다. 그래서 층마다 패러다임을 맞춘다: 75개 이상 AI 구성요소와 1,400개 이상 취약점 규칙에 대한 결정론적 규칙 매칭, MCP 서버와 에이전트 스킬 패키지에 대한 LLM 주도 에이전틱 감사, 다중 턴 블랙박스 에이전트 레드티밍, 그리고 16개 데이터셋에 26개 이상 공격 연산자를 갖춘 탈옥 하니스.",
+        "contributions": [
+          "공격면을 4층으로 계층화하고 층-패러다임 매칭을 제안",
+          "규칙 매칭(75+ 구성요소, 1,400+ 규칙) + LLM 에이전틱 감사 + 블랙박스 레드티밍 + 탈옥 하니스 통합",
+          "에이전트를 확장하는 '스킬'의 공급망 감사까지 포함(저자 주장으로는 유일)",
+          "오픈소스 공개로 커뮤니티 공동 기반 제공"
+        ],
+        "why_now": "이 시스템 11주 관측에서 Safety 카테고리가 처음 1차 카테고리로 등장했다. 에이전트·스킬·MCP가 급팽창한 만큼 공격면도 커졌고, 특히 '스킬 공급망 감사'는 우리처럼 스킬을 만들어 쓰는 입장에서 직접 관련된 주제다.",
+        "difficulty": "중급",
+        "recommended_reader": "AI 보안·레드티밍·MCP·에이전트 운영에 관심 있는 학습자",
+        "field_tags": ["레드티밍", "에이전트보안", "MCP", "공급망감사"],
+        "interest": { "upvotes": 15, "num_comments": 2, "github_stars": 5653 }
+      },
+      "learning": {
+        "key_terms": [
+          { "term": "Red Teaming", "gloss": "공격자 관점에서 취약점을 능동적으로 찾는 보안 점검" },
+          { "term": "MCP", "gloss": "Model Context Protocol. 에이전트가 외부 도구·데이터에 연결되는 표준" },
+          { "term": "Supply-chain Audit", "gloss": "외부에서 가져온 구성요소(여기선 스킬 패키지)의 안전성 점검" }
+        ],
+        "recall_quiz": {
+          "question": "AI-Infra-Guard가 전제하는 '층-패러다임 매칭'의 4개 층은?",
+          "answer": "인프라, 프로토콜/도구, 에이전트 행동, 모델. 각 층에 규칙 매칭·에이전틱 감사·블랙박스 레드티밍·탈옥 하니스를 맞춘다."
+        },
+        "spaced_review": { "flag": false, "review_due": null }
+      }
+    },
+
+    "2412.20138": {
+      "classify": {
+        "categories": ["LLM/Agents"],
+        "primary_category": "LLM/Agents",
+        "topic_tags": ["agentic-workflow", "multi-agent", "financial-ai", "tool-use"],
+        "method_tags": ["prompting", "architecture"],
+        "modality": ["text"],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "트레이딩 회사 조직을 본떠 역할을 나눈 LLM 에이전트들이 토론으로 주식 매매를 결정한다.",
+        "problem": "금융 분야의 LLM 활용은 대개 단일 에이전트가 특정 작업을 처리하거나 여러 에이전트가 따로 데이터만 수집하는 수준에 머물렀다. 회사처럼 협업·토론하는 구조는 거의 탐구되지 않았다.",
+        "approach": "펀더멘털·감성·기술 분석가, 강세(Bull)·약세(Bear) 리서처, 리스크 관리팀, 트레이더 등 실제 직무를 LLM 에이전트로 구현한다. 강세·약세 에이전트가 토론하고, 트레이더가 그 결과와 과거 데이터를 종합해 매매를 결정한다.",
+        "contributions": [
+          "다중 에이전트 협업·토론 구조를 금융 트레이딩에 적용한 신규 프레임워크",
+          "베이스라인 대비 누적 수익률 향상",
+          "샤프 지수·최대 낙폭(MDD) 등 위험조정 지표 개선",
+          "코드 오픈소스(★99.5k)로 재현·확장 가능"
+        ],
+        "why_now": "3주 연속이자 11주 중 10주 등장한 최장수 논문이다. 스타 10만 개에 근접하며 실사용 관심도 계속 커지고 있다.",
+        "difficulty": "중급",
+        "recommended_reader": "LLM 에이전트 오케스트레이션·금융 AI에 관심 있는 학습자",
+        "field_tags": ["멀티에이전트", "금융AI", "에이전트토론", "리스크관리"],
+        "interest": { "upvotes": 124, "num_comments": 4, "github_stars": 99500 }
+      },
+      "learning": {
+        "key_terms": [
+          { "term": "Multi-Agent System", "gloss": "여러 LLM 에이전트가 역할을 나눠 협업하는 구조" },
+          { "term": "Sharpe Ratio", "gloss": "위험 대비 초과수익을 재는 투자 성과 지표" },
+          { "term": "Maximum Drawdown", "gloss": "고점 대비 최대 하락폭, 손실 위험의 척도" }
+        ],
+        "recall_quiz": {
+          "question": "TradingAgents에서 강세·약세 에이전트는 매매 결정에 어떻게 기여하는가?",
+          "answer": "시장 상황을 두고 서로 토론하며, 트레이더 에이전트가 그 결과와 과거 데이터를 종합해 최종 매매를 결정한다."
+        },
+        "spaced_review": { "flag": false, "review_due": null }
+      }
+    },
+
+    "2607.05391": {
+      "classify": {
+        "categories": ["Evaluation/Benchmarks", "LLM/Agents"],
+        "primary_category": "Evaluation/Benchmarks",
+        "topic_tags": ["verification", "llm-as-judge", "test-time-compute", "agentic-workflow", "reinforcement-learning"],
+        "method_tags": ["inference-time", "rl"],
+        "modality": ["text"],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "채점 토큰 로짓의 기대값으로 연속 점수를 내어, '검증'을 새로운 스케일링 축으로 만든 프레임워크.",
+        "problem": "사전학습·사후학습·테스트타임 컴퓨트가 LLM 성능 향상의 주된 축이 됐다. 저자들은 여기에 '검증(verification, 해답의 정확성을 판단하는 능력)'을 새 스케일링 축으로 제시한다. 기존 LM 저지는 이산 점수를 프롬프트로 뽑아 분해능이 낮다.",
+        "approach": "추가 학습 없이 에이전트 과제에 세밀한 피드백을 준다. 이산 점수 대신 채점 토큰 로짓 분포에 대한 기대값을 계산해 연속 점수를 만든다. 이 확률적 정식화로 검증이 세 방향으로 확장된다 — (1) 점수 분해능, (2) 반복 평가, (3) 기준 분해. 분해능을 키우면 정답·오답 분리가 좋아져 비교가 더 잘 보정되고, 반복 평가와 기준 분해는 분산·복잡도를 줄여 정확도를 높인다. 연속 점수로 최적 후보를 고르는 비용 효율 랭킹 알고리즘도 제안한다.",
+        "contributions": [
+          "검증을 새 스케일링 축으로 제시하고 로짓 기대값 기반 연속 점수 도입",
+          "Terminal-Bench V2 86.5%, SWE-Bench Verified 78.2%, RoboRewardBench 87.4%, MedAgentBench 73.3% (SOTA 주장)",
+          "세밀한 신호를 과제 진행률 추정 대리 지표로 활용, Claude Code 확장 제공",
+          "RL에 밀집 보상으로 제공해 SAC·GRPO의 표본 효율 개선"
+        ],
+        "why_now": "에이전트 신뢰성 계열의 핵심 조각이다. W33 LongHorizon-Harness가 '감사자로 검증'을 구조로 풀었다면, 이 논문은 '검증 신호 자체'를 정밀화한다. 이번 주 레드티밍(AI-Infra-Guard)과 함께 검증·보안이 한 주에 2편 올랐다.",
+        "difficulty": "고급",
+        "recommended_reader": "평가 방법론·LLM 저지·에이전트 검증·RL 보상 설계에 관심 있는 학습자",
+        "field_tags": ["검증", "LLM저지", "테스트타임스케일링", "밀집보상"],
+        "interest": { "upvotes": 18, "num_comments": 1, "github_stars": 2674 }
+      },
+      "learning": {
+        "key_terms": [
+          { "term": "LLM-as-a-Judge", "gloss": "LLM에게 해답을 채점하게 하는 평가 방식" },
+          { "term": "Logit Expectation", "gloss": "점수 토큰들의 확률 분포에 대한 기대값으로 연속 점수를 산출" },
+          { "term": "Dense Reward", "gloss": "RL에서 매 단계 주어지는 촘촘한 보상 신호" }
+        ],
+        "recall_quiz": {
+          "question": "LLM-as-a-Verifier가 기존 LM 저지와 다른 핵심 차이와, 그로 인해 가능해진 세 가지 확장은?",
+          "answer": "이산 점수 대신 채점 토큰 로짓의 기대값으로 연속 점수를 낸다. 이로써 점수 분해능·반복 평가·기준 분해 세 방향으로 확장된다."
+        },
+        "spaced_review": { "flag": true, "review_due": "2026-W39" }
+      }
+    }
+  },
+
+  "week_summary": {
+    "headline_ko": "BDH-CQ 710표로 2주 연속 최고 경신 — 보안(레드티밍)·검증이 처음 나란히 등장, 753B를 워크스테이션 1장에 돌리는 엣지 서빙까지",
+    "clusters": [
+      { "category": "Reasoning", "paper_ranks": [2], "theme_ko": "잠재 순환 추론(BDH-CQ) 2주 연속, 관심도 최고 경신" },
+      { "category": "Efficiency/Inference", "paper_ranks": [1], "theme_ko": "엣지 MoE 서빙 — 큰 모델을 내 기계에서(FreeToken)" },
+      { "category": "Safety", "paper_ranks": [4], "theme_ko": "에이전트 레드티밍 — 4층 공격면·스킬 공급망 감사(AI-Infra-Guard)" },
+      { "category": "Evaluation/Benchmarks", "paper_ranks": [6], "theme_ko": "검증을 스케일링 축으로(LLM-as-a-Verifier)" },
+      { "category": "Vision", "paper_ranks": [3], "theme_ko": "단안 영상에서 4D 인체 복원(4DAnyone)" },
+      { "category": "LLM/Agents", "paper_ranks": [5], "theme_ko": "금융 멀티에이전트(TradingAgents) 3주 연속" }
+    ],
+    "emerging_keywords": ["red-teaming", "verification", "moe-serving", "agent-security"],
+    "narrative_ko": "이번 주는 신규 4편으로 구성이 크게 바뀌었다. BDH-CQ는 ▲642에서 710으로 2주 연속 최고 기록을 경신했고, 나머지는 서로 다른 축의 신규 논문들이다. FreeToken은 개인 머신을 탄력적 추론 플랫폼으로 재해석해 노트북 35B·게이밍 데스크톱 284B·워크스테이션 GPU 1장에 753B GLM-5.2까지 돌린다. AI-Infra-Guard는 에이전트 공격면을 인프라·프로토콜/도구·에이전트 행동·모델 4층으로 나눠 층마다 다른 탐지 패러다임을 붙이고, 에이전트 스킬의 공급망 감사까지 포함한다. LLM-as-a-Verifier는 채점 토큰 로짓의 기대값으로 연속 점수를 만들어 검증을 새 스케일링 축으로 제시한다. 4DAnyone은 단안 영상에서 4D 인체를 복원하며 다시점 확장 실패를 '경계된 어텐션 문맥' 문제로 규정했다.",
+    "recent_trend_ko": "누적 11주차. [신규 축] 이 시스템 관측 이래 처음으로 Safety(AI-Infra-Guard)와 Evaluation(LLM-as-a-Verifier)이 1차 카테고리로 나란히 올랐다. 두 편 모두 '에이전트를 어떻게 신뢰할 것인가'를 다루며, W33 LongHorizon-Harness(상태 검증)와 함께 신뢰성 계열을 이룬다 — 구조(하니스)·신호(검증)·공격면(레드티밍)의 세 각도가 채워진 셈이다. [최고 관심 2주 연속] BDH-CQ가 642 -> 710으로 올라 잠재 추론이 단발이 아님을 보였다. 다만 파레토 주장의 한정(pass@2 대 pass@1, GPU 원가 대 API 정가)은 그대로다. [효율화의 방향 전환] 11주 내내 관통한 효율화가 이번엔 '모델을 작게'가 아니라 '큰 모델을 내 기계에서'로 갔다(FreeToken). 프런티어 공개 가중치가 쏟아지는 상황의 자연스러운 귀결이다. [지속] TradingAgents 3주 연속(11주 중 10주), 문맥·캐시 압축 계열은 4DAnyone의 O(1) 참조 압축으로 이어졌다. [약화] 이번 주 LLM/Agents는 1편으로 줄었으나, 보안·검증 2편이 사실상 에이전트 주제이므로 실질 비중은 유지된다고 본다.",
+    "caveats_ko": "주 6편 트렌딩 표본 기준이며 HuggingFace 커뮤니티의 인기·최신 편향이 있습니다. 업보트·스타는 중요도가 아닌 '관심도' 지표로만 해석하세요. FreeToken의 753B 구동, LLM-as-a-Verifier의 SOTA 수치, AI-Infra-Guard의 '유일한 프레임워크' 주장은 모두 저자 보고 기준이며 제3자 검증 전입니다. BDH-CQ 관련 수치는 심층 분석의 한정 사항을 함께 참조하세요."
+  }
+}
