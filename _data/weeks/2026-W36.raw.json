@@ -1,0 +1,1277 @@
+[
+  {
+    "paper": {
+      "id": "2608.16157",
+      "authors": [
+        {
+          "_id": "6a83ccb0675db694db8cd51b",
+          "name": "Shuo Yang",
+          "hidden": false
+        },
+        {
+          "_id": "6a83ccb0675db694db8cd51c",
+          "user": {
+            "_id": "670d34451de84e5d8870570e",
+            "avatarUrl": "/avatars/21f6b758f1a6f60f8bcc4a8ce9cdb96e.svg",
+            "isPro": false,
+            "fullname": "jasonfan",
+            "user": "jasonfxz",
+            "type": "user",
+            "name": "jasonfxz"
+          },
+          "name": "Xiaoze Fan",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-08-21T13:18:14.603Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a83ccb0675db694db8cd51d",
+          "name": "Melissa Pan",
+          "hidden": false
+        },
+        {
+          "_id": "6a83ccb0675db694db8cd51e",
+          "name": "Haocheng Xi",
+          "hidden": false
+        },
+        {
+          "_id": "6a83ccb0675db694db8cd51f",
+          "name": "Zhe Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a83ccb0675db694db8cd520",
+          "name": "Shanlin Sun",
+          "hidden": false
+        },
+        {
+          "_id": "6a83ccb0675db694db8cd521",
+          "name": "Kurt Keutzer",
+          "hidden": false
+        },
+        {
+          "_id": "6a83ccb0675db694db8cd522",
+          "name": "Song Han",
+          "hidden": false
+        },
+        {
+          "_id": "6a83ccb0675db694db8cd523",
+          "name": "Matei Zaharia",
+          "hidden": false
+        },
+        {
+          "_id": "6a83ccb0675db694db8cd524",
+          "name": "Chenfeng Xu",
+          "hidden": false
+        },
+        {
+          "_id": "6a83ccb0675db694db8cd525",
+          "name": "Ion Stoica",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2026-08-17T00:00:00.000Z",
+      "submittedOnDailyAt": "2026-08-19T00:00:00.000Z",
+      "title": "FreeToken: Efficient Edge-Native MoE Serving with Bandwidth-Adaptive Execution",
+      "submittedOnDailyBy": {
+        "_id": "642b970ceb31218a5f204a29",
+        "avatarUrl": "/avatars/582287f477bbb1a0842787145e375fd3.svg",
+        "isPro": false,
+        "fullname": "andy-yang",
+        "user": "andy-yang",
+        "type": "user",
+        "name": "andy-yang"
+      },
+      "summary": "Frontier open-weight models are increasingly available, but serving them still largely assumes datacenter infrastructure. We present FreeToken, an edge-native MoE serving system that treats a personal machine not as a small GPU, but as a unified, elastic inference platform. FreeToken co-designs the full serving stack, including model layout and loading, expert residency, CPU--GPU execution, agentic state reuse, and runtime memory management, around two realities of local AI: agent workloads continuously change their execution pattern, and edge hardware exposes heterogeneous resources whose balance differs from machine to machine. Rather than committing to a fixed offloading strategy, FreeToken continuously maps computation and model state onto the resources actually available. FreeToken supports more than 20 MoE models and real coding and tool-using agents across hardware ranging from an 8GB laptop GPU to a single workstation GPU. More importantly, it changes what these machines can practically serve, from a 35B model on a laptop to a 284B model on a gaming desktop and the 753B GLM-5.2 on a single workstation GPU. FreeToken turns open weights into deployable local software, making the machines users already own a practical platform for frontier-scale intelligence. We release the system at flashml.ai.",
+      "upvotes": 104,
+      "discussionId": "6a83ccb0675db694db8cd526",
+      "projectPage": "https://www.flashml.ai/",
+      "githubRepo": "https://github.com/FlashML-org/FreeToken",
+      "githubRepoAddedBy": "user",
+      "ai_summary": "FreeToken is an edge-native Mixture-of-Experts serving system that dynamically maps computation and model state onto heterogeneous local hardware to run large open-weight models on personal machines.",
+      "ai_keywords": [
+        "MoE serving",
+        "expert residency",
+        "CPU-GPU execution",
+        "agentic state reuse",
+        "runtime memory management",
+        "offloading strategy",
+        "open-weight models"
+      ],
+      "ai_summary_model": "thinkingmachines/Inkling-Small",
+      "githubStars": 10590,
+      "organization": {
+        "_id": "66b1baeff10262fc4fa61961",
+        "name": "UCBerkeley",
+        "fullname": "University of California, Berkeley",
+        "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/63f425c3a096536aeab42dea/bxNKEkprdm5JI1wkjmNAL.png"
+      }
+    },
+    "publishedAt": "2026-08-16T20:00:00.000Z",
+    "title": "FreeToken: Efficient Edge-Native MoE Serving with Bandwidth-Adaptive Execution",
+    "summary": "Frontier open-weight models are increasingly available, but serving them still largely assumes datacenter infrastructure. We present FreeToken, an edge-native MoE serving system that treats a personal machine not as a small GPU, but as a unified, elastic inference platform. FreeToken co-designs the full serving stack, including model layout and loading, expert residency, CPU--GPU execution, agentic state reuse, and runtime memory management, around two realities of local AI: agent workloads continuously change their execution pattern, and edge hardware exposes heterogeneous resources whose balance differs from machine to machine. Rather than committing to a fixed offloading strategy, FreeToken continuously maps computation and model state onto the resources actually available. FreeToken supports more than 20 MoE models and real coding and tool-using agents across hardware ranging from an 8GB laptop GPU to a single workstation GPU. More importantly, it changes what these machines can practically serve, from a 35B model on a laptop to a 284B model on a gaming desktop and the 753B GLM-5.2 on a single workstation GPU. FreeToken turns open weights into deployable local software, making the machines users already own a practical platform for frontier-scale intelligence. We release the system at flashml.ai.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2608.16157.png",
+    "numComments": 2,
+    "submittedBy": {
+      "_id": "642b970ceb31218a5f204a29",
+      "avatarUrl": "/avatars/582287f477bbb1a0842787145e375fd3.svg",
+      "fullname": "andy-yang",
+      "name": "andy-yang",
+      "type": "user",
+      "isPro": false,
+      "isHf": false,
+      "isHfAdmin": false,
+      "isMod": false,
+      "followerCount": 4,
+      "isUserFollowing": false
+    },
+    "organization": {
+      "_id": "66b1baeff10262fc4fa61961",
+      "name": "UCBerkeley",
+      "fullname": "University of California, Berkeley",
+      "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/63f425c3a096536aeab42dea/bxNKEkprdm5JI1wkjmNAL.png"
+    },
+    "isAuthorParticipating": false
+  },
+  {
+    "paper": {
+      "id": "2608.09888",
+      "authors": [
+        {
+          "_id": "6a7af16fb7183653340c11cd",
+          "user": {
+            "_id": "66d17d0d2fa8a088dc6992b3",
+            "avatarUrl": "/avatars/0aeb72e86b49d85db5577b507751147a.svg",
+            "isPro": false,
+            "fullname": "Björn Engdahl",
+            "user": "bjornengdahl",
+            "type": "user",
+            "name": "bjornengdahl"
+          },
+          "name": "Björn Engdahl",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-08-11T16:45:04.704Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a7af16fb7183653340c11ce",
+          "user": {
+            "_id": "63a48fe7658851481f766a24",
+            "avatarUrl": "/avatars/4d1738e80fd7677a81197fb158ba8c44.svg",
+            "isPro": false,
+            "fullname": "Adrian Kosowski",
+            "user": "dxtrous",
+            "type": "user",
+            "name": "dxtrous"
+          },
+          "name": "Adrian Kosowski",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-08-12T00:45:04.441Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a7af16fb7183653340c11cf",
+          "user": {
+            "_id": "651310e3b7994cff61d71320",
+            "avatarUrl": "/avatars/161cb412c7cb284fa7483e790807e4d3.svg",
+            "isPro": false,
+            "fullname": "Jan Chorowski",
+            "user": "janchorowski",
+            "type": "user",
+            "name": "janchorowski"
+          },
+          "name": "Jan Chorowski",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-08-11T16:45:04.695Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a7af16fb7183653340c11d0",
+          "user": {
+            "_id": "68dd50bb9d2cc46fef645799",
+            "avatarUrl": "/avatars/699f84aa771851854a4201cb1df3543b.svg",
+            "isPro": false,
+            "fullname": "Zuzanna Stamirowska",
+            "user": "Brain-synapse",
+            "type": "user",
+            "name": "Brain-synapse"
+          },
+          "name": "Zuzanna Stamirowska",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-08-11T16:45:04.700Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a7af16fb7183653340c11d1",
+          "name": "Przemysław Uznański",
+          "hidden": false
+        },
+        {
+          "_id": "6a7af16fb7183653340c11d2",
+          "name": "Junlin Jiang",
+          "hidden": false
+        },
+        {
+          "_id": "6a7af16fb7183653340c11d3",
+          "user": {
+            "_id": "63924fd62bfa48413aa0caec",
+            "avatarUrl": "/avatars/9ebf245b9ca187a213a2b15f7853ea08.svg",
+            "isPro": false,
+            "fullname": "Rohan Phadke",
+            "user": "rohanphadke",
+            "type": "user",
+            "name": "rohanphadke"
+          },
+          "name": "Rohan Phadke",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-08-12T00:45:04.516Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a7af16fb7183653340c11d4",
+          "user": {
+            "_id": "61786d0b038518aa2827c6b7",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/61786d0b038518aa2827c6b7/d1UnfivoVreYebS5JM3P9.jpeg",
+            "isPro": false,
+            "fullname": "Remek Kinas",
+            "user": "Remek",
+            "type": "user",
+            "name": "Remek"
+          },
+          "name": "Remigiusz Kinas",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-08-21T13:14:47.826Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a7af16fb7183653340c11d5",
+          "user": {
+            "_id": "67f9669837a74b52e3789326",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/no-auth/8pKQWDFb56H6LN1YZnhTc.png",
+            "isPro": false,
+            "fullname": "Richard Z",
+            "user": "chardizard",
+            "type": "user",
+            "name": "chardizard"
+          },
+          "name": "Richard Zhong",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-08-21T13:14:49.752Z",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2026-08-10T00:00:00.000Z",
+      "submittedOnDailyAt": "2026-08-11T00:00:00.000Z",
+      "title": "BDH-CQ: In-Context Learning with Recurrent Latent Reasoning",
+      "submittedOnDailyBy": {
+        "_id": "651310e3b7994cff61d71320",
+        "avatarUrl": "/avatars/161cb412c7cb284fa7483e790807e4d3.svg",
+        "isPro": false,
+        "fullname": "Jan Chorowski",
+        "user": "janchorowski",
+        "type": "user",
+        "name": "janchorowski"
+      },
+      "summary": "We introduce BDH-CQ, a reasoning model that combines in-context learning with recurrent latent reasoning. Inputs presented at inference time continuously update the model's recurrent memory; the model then solves a query through iterative computation in a high-dimensional latent space, without verbalizing its intermediate reasoning. We evaluate the model on the public ARC-AGI-1 evaluation set and use controlled ARC-like interventions to study what it learns from demonstrations, how consistently it applies an inferred transformation, and which concepts remain difficult. A 150M-parameter configuration reaches 29.5% pass@2 at a computed inference cost of \\$0.0007 per task. This operating point breaks through the previously reported ARC-AGI-1 cost-accuracy Pareto frontier, establishing a new state of the art in benchmark cost efficiency.",
+      "upvotes": 765,
+      "discussionId": "6a7af170b7183653340c11d6",
+      "projectPage": "https://pathway.com/blog/pathway-150m-model-breaks-arc-agi-1-cost-efficiency-frontier",
+      "githubRepo": "https://github.com/pathwaycom/arc-task-gen",
+      "githubRepoAddedBy": "admin",
+      "ai_summary": "A 150M-parameter reasoning model using recurrent latent reasoning and in-context learning achieves a new cost-accuracy frontier on ARC-AGI-1.",
+      "ai_keywords": [
+        "in-context learning",
+        "recurrent latent reasoning",
+        "high-dimensional latent space",
+        "ARC-AGI-1",
+        "cost-accuracy Pareto frontier"
+      ],
+      "ai_summary_model": "thinkingmachines/Inkling-Small",
+      "githubStars": 9391,
+      "organization": {
+        "_id": "6697b1a8b981e21b48bc575f",
+        "name": "pathwaycom",
+        "fullname": "Pathway",
+        "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/6697aead07b36ccd016f0888/nOEvf0HpKBQJcVDfljgAc.png"
+      }
+    },
+    "publishedAt": "2026-08-09T20:00:00.000Z",
+    "title": "BDH-CQ: In-Context Learning with Recurrent Latent Reasoning",
+    "summary": "We introduce BDH-CQ, a reasoning model that combines in-context learning with recurrent latent reasoning. Inputs presented at inference time continuously update the model's recurrent memory; the model then solves a query through iterative computation in a high-dimensional latent space, without verbalizing its intermediate reasoning. We evaluate the model on the public ARC-AGI-1 evaluation set and use controlled ARC-like interventions to study what it learns from demonstrations, how consistently it applies an inferred transformation, and which concepts remain difficult. A 150M-parameter configuration reaches 29.5% pass@2 at a computed inference cost of \\$0.0007 per task. This operating point breaks through the previously reported ARC-AGI-1 cost-accuracy Pareto frontier, establishing a new state of the art in benchmark cost efficiency.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2608.09888.png",
+    "numComments": 5,
+    "submittedBy": {
+      "_id": "651310e3b7994cff61d71320",
+      "avatarUrl": "/avatars/161cb412c7cb284fa7483e790807e4d3.svg",
+      "fullname": "Jan Chorowski",
+      "name": "janchorowski",
+      "type": "user",
+      "isPro": false,
+      "isHf": false,
+      "isHfAdmin": false,
+      "isMod": false,
+      "followerCount": 15,
+      "isUserFollowing": false
+    },
+    "organization": {
+      "_id": "6697b1a8b981e21b48bc575f",
+      "name": "pathwaycom",
+      "fullname": "Pathway",
+      "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/6697aead07b36ccd016f0888/nOEvf0HpKBQJcVDfljgAc.png"
+    },
+    "isAuthorParticipating": true
+  },
+  {
+    "paper": {
+      "id": "2412.20138",
+      "authors": [
+        {
+          "_id": "6847673b3ec10bdd8ab4dd5e",
+          "user": {
+            "_id": "619b6a24030b707ff1f05dee",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/619b6a24030b707ff1f05dee/8FZjePfOuTtN3uvTmaEg5.jpeg",
+            "isPro": false,
+            "fullname": "Yijia Xiao",
+            "user": "Yijia-Xiao",
+            "type": "user",
+            "name": "Yijia-Xiao"
+          },
+          "name": "Yijia Xiao",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-08-08T16:45:04.607Z",
+          "hidden": false
+        },
+        {
+          "_id": "6847673b3ec10bdd8ab4dd5f",
+          "name": "Edward Sun",
+          "hidden": false
+        },
+        {
+          "_id": "6847673b3ec10bdd8ab4dd60",
+          "name": "Di Luo",
+          "hidden": false
+        },
+        {
+          "_id": "6847673b3ec10bdd8ab4dd61",
+          "name": "Wei Wang",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2024-12-28T12:54:06.000Z",
+      "title": "TradingAgents: Multi-Agents LLM Financial Trading Framework",
+      "summary": "Significant progress has been made in automated problem-solving using\nsocieties of agents powered by large language models (LLMs). In finance,\nefforts have largely focused on single-agent systems handling specific tasks or\nmulti-agent frameworks independently gathering data. However, the multi-agent\nsystems' potential to replicate real-world trading firms' collaborative\ndynamics remains underexplored. TradingAgents proposes a novel stock trading\nframework inspired by trading firms, featuring LLM-powered agents in\nspecialized roles such as fundamental analysts, sentiment analysts, technical\nanalysts, and traders with varied risk profiles. The framework includes Bull\nand Bear researcher agents assessing market conditions, a risk management team\nmonitoring exposure, and traders synthesizing insights from debates and\nhistorical data to make informed decisions. By simulating a dynamic,\ncollaborative trading environment, this framework aims to improve trading\nperformance. Detailed architecture and extensive experiments reveal its\nsuperiority over baseline models, with notable improvements in cumulative\nreturns, Sharpe ratio, and maximum drawdown, highlighting the potential of\nmulti-agent LLM frameworks in financial trading. TradingAgents is available at\nhttps://github.com/TauricResearch/TradingAgents.",
+      "upvotes": 126,
+      "discussionId": "6847673c3ec10bdd8ab4dd62",
+      "githubRepo": "https://github.com/tauricresearch/tradingagents",
+      "githubRepoAddedBy": "auto",
+      "ai_summary": "A multi-agent framework using large language models for stock trading simulates real-world trading firms, improving performance metrics like cumulative returns and Sharpe ratio.",
+      "ai_keywords": [
+        "large language models",
+        "LLM",
+        "multi-agent systems",
+        "fundamental analysts",
+        "sentiment analysts",
+        "technical analysts",
+        "traders",
+        "risk management",
+        "cumulative returns",
+        "Sharpe ratio",
+        "maximum drawdown"
+      ],
+      "ai_summary_model": "Qwen/Qwen2.5-Coder-32B-Instruct",
+      "githubStars": 102019
+    },
+    "publishedAt": "2024-12-28T07:54:06.000Z",
+    "title": "TradingAgents: Multi-Agents LLM Financial Trading Framework",
+    "summary": "Significant progress has been made in automated problem-solving using\nsocieties of agents powered by large language models (LLMs). In finance,\nefforts have largely focused on single-agent systems handling specific tasks or\nmulti-agent frameworks independently gathering data. However, the multi-agent\nsystems' potential to replicate real-world trading firms' collaborative\ndynamics remains underexplored. TradingAgents proposes a novel stock trading\nframework inspired by trading firms, featuring LLM-powered agents in\nspecialized roles such as fundamental analysts, sentiment analysts, technical\nanalysts, and traders with varied risk profiles. The framework includes Bull\nand Bear researcher agents assessing market conditions, a risk management team\nmonitoring exposure, and traders synthesizing insights from debates and\nhistorical data to make informed decisions. By simulating a dynamic,\ncollaborative trading environment, this framework aims to improve trading\nperformance. Detailed architecture and extensive experiments reveal its\nsuperiority over baseline models, with notable improvements in cumulative\nreturns, Sharpe ratio, and maximum drawdown, highlighting the potential of\nmulti-agent LLM frameworks in financial trading. TradingAgents is available at\nhttps://github.com/TauricResearch/TradingAgents.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2412.20138.png",
+    "numComments": 6,
+    "isAuthorParticipating": true
+  },
+  {
+    "paper": {
+      "id": "2608.23552",
+      "authors": [
+        {
+          "_id": "6a8d069e5add2537c32e96d8",
+          "user": {
+            "_id": "6658e1c8ce1b2838885b2d7f",
+            "avatarUrl": "/avatars/8623555f14b62f40fd372da20cb59ccc.svg",
+            "isPro": false,
+            "fullname": "Seth Karten",
+            "user": "milkkarten",
+            "type": "user",
+            "name": "milkkarten"
+          },
+          "name": "Seth Karten",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-08-25T08:13:58.652Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a8d069e5add2537c32e96d9",
+          "user": {
+            "_id": "67bcaba1608ec2bdb922e8ec",
+            "avatarUrl": "/avatars/ed6a3495586b3aaadd298a3d2d6cda59.svg",
+            "isPro": false,
+            "fullname": "Alex Zhang",
+            "user": "a1zhang",
+            "type": "user",
+            "name": "a1zhang"
+          },
+          "name": "Alex L. Zhang",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-08-25T16:10:54.555Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a8d069e5add2537c32e96da",
+          "user": {
+            "_id": "67569d247dd34a4adcc73d2a",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/67569d247dd34a4adcc73d2a/hBqwLQtK43ftyfHLW6PQJ.jpeg",
+            "isPro": false,
+            "fullname": "Kevin Thomas",
+            "user": "kevinjosethomas",
+            "type": "user",
+            "name": "kevinjosethomas"
+          },
+          "name": "Kevin Thomas",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-08-29T16:45:04.922Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a8d069e5add2537c32e96db",
+          "user": {
+            "_id": "64f5e17e095cabd5e82e6fb5",
+            "avatarUrl": "/avatars/f82337208e4ea3e50394752a50c41e7e.svg",
+            "isPro": false,
+            "fullname": "Sebastian  Müller",
+            "user": "snimu",
+            "type": "user",
+            "name": "snimu"
+          },
+          "name": "Sebastian Müller",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-08-25T08:45:04.063Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a8d069e5add2537c32e96dc",
+          "user": {
+            "_id": "651e96991b97c9f33d26bde6",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/651e96991b97c9f33d26bde6/-Bqs6qrmz0yCfwtB2e-6q.jpeg",
+            "isPro": false,
+            "fullname": "Elie Bakouch",
+            "user": "eliebak",
+            "type": "user",
+            "name": "eliebak"
+          },
+          "name": "Elie Bakouch",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-08-25T16:10:54.548Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a8d069e5add2537c32e96dd",
+          "user": {
+            "_id": "642c54a5b09c70b36de03071",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/642c54a5b09c70b36de03071/EwQyQmust01dgkdRMtYFt.jpeg",
+            "isPro": true,
+            "fullname": "rasdani",
+            "user": "rasdani",
+            "type": "user",
+            "name": "rasdani"
+          },
+          "name": "Daniel Auras",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-08-25T16:11:13.835Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a8d069e5add2537c32e96de",
+          "user": {
+            "_id": "64944cf67853dd12c3bcaf80",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/64944cf67853dd12c3bcaf80/NW2I8UqdDZwJTkIEYEeWU.jpeg",
+            "isPro": false,
+            "fullname": "Mika Senghaas",
+            "user": "mikasenghaas",
+            "type": "user",
+            "name": "mikasenghaas"
+          },
+          "name": "Mika Senghaas",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-08-26T00:45:05.102Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a8d069e5add2537c32e96df",
+          "name": "Fares Obeid",
+          "hidden": false
+        },
+        {
+          "_id": "6a8d069e5add2537c32e96e0",
+          "name": "Konstantin Dunas",
+          "hidden": false
+        },
+        {
+          "_id": "6a8d069e5add2537c32e96e1",
+          "name": "Johannes Hagemann",
+          "hidden": false
+        },
+        {
+          "_id": "6a8d069e5add2537c32e96e2",
+          "name": "Sami Jaghouar",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2026-08-24T00:00:00.000Z",
+      "submittedOnDailyAt": "2026-08-25T00:00:00.000Z",
+      "title": "Prime Agent: A Self-Improving RLM Harness",
+      "submittedOnDailyBy": {
+        "_id": "6658e1c8ce1b2838885b2d7f",
+        "avatarUrl": "/avatars/8623555f14b62f40fd372da20cb59ccc.svg",
+        "isPro": false,
+        "fullname": "Seth Karten",
+        "user": "milkkarten",
+        "type": "user",
+        "name": "milkkarten"
+      },
+      "summary": "Language models are sequential processors, but long-horizon agency requires external information and computation beyond model weights and active context. Prime Agent is an open-source harness for long-horizon evaluation and coding-agent workflows. A persistent IPython REPL follows the Recursive Language Model abstraction for programmatic context processing and test-time compute, while Continual Harness preserves histories, memories, skills, prompts, and subagent specifications across trajectories. Recursive subagents coordinate through direct agent-to-agent communication, and the Agents View lets humans inspect and manage daemon-backed sessions. Prime Agent standardizes execution, recovery, verification, and resource accounting while leaving strategy construction to the model. This low-friction, expressive membrane prevents harness failures from becoming model failures and pushes measurement toward the model's true maximal underlying capability. Prime Agent raises ARC-AGI-3 RHAE Best@1 from 30% to 95.5% and matches or exceeds native and popular harnesses across long-context coding, GPU-kernel generation, emulator construction, and autonomous nanoGPT speedruns. On Factorio, we find refinement allows for continuous technology progression and dedicated subagents enable parallelized work. Code is available at https://github.com/PrimeIntellect-ai/prime-agent.",
+      "upvotes": 47,
+      "discussionId": "6a8d069e5add2537c32e96e3",
+      "projectPage": "https://www.primeintellect.ai/blog/prime-agent",
+      "githubRepo": "https://github.com/PrimeIntellect-ai/prime-agent",
+      "githubRepoAddedBy": "user",
+      "ai_summary": "Prime Agent is an open-source harness that uses recursive subagents, persistent computation, and agent-to-agent coordination to extend language models' long-horizon capabilities across coding and reasoning tasks.",
+      "ai_keywords": [
+        "Recursive Language Model",
+        "test-time compute",
+        "subagents",
+        "agent-to-agent communication",
+        "daemon-backed sessions",
+        "ARC-AGI-3",
+        "long-context coding",
+        "GPU-kernel generation",
+        "nanoGPT"
+      ],
+      "ai_summary_model": "thinkingmachines/Inkling-Small",
+      "githubStars": 19375,
+      "organization": {
+        "_id": "656ec1d908bd4deb79a0ba70",
+        "name": "PrimeIntellect",
+        "fullname": "Prime Intellect",
+        "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/61e020e4a343274bb132e138/H2mcdPRWtl4iKLd-OYYBc.jpeg"
+      }
+    },
+    "publishedAt": "2026-08-23T20:00:00.000Z",
+    "title": "Prime Agent: A Self-Improving RLM Harness",
+    "summary": "Language models are sequential processors, but long-horizon agency requires external information and computation beyond model weights and active context. Prime Agent is an open-source harness for long-horizon evaluation and coding-agent workflows. A persistent IPython REPL follows the Recursive Language Model abstraction for programmatic context processing and test-time compute, while Continual Harness preserves histories, memories, skills, prompts, and subagent specifications across trajectories. Recursive subagents coordinate through direct agent-to-agent communication, and the Agents View lets humans inspect and manage daemon-backed sessions. Prime Agent standardizes execution, recovery, verification, and resource accounting while leaving strategy construction to the model. This low-friction, expressive membrane prevents harness failures from becoming model failures and pushes measurement toward the model's true maximal underlying capability. Prime Agent raises ARC-AGI-3 RHAE Best@1 from 30% to 95.5% and matches or exceeds native and popular harnesses across long-context coding, GPU-kernel generation, emulator construction, and autonomous nanoGPT speedruns. On Factorio, we find refinement allows for continuous technology progression and dedicated subagents enable parallelized work. Code is available at https://github.com/PrimeIntellect-ai/prime-agent.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2608.23552.png",
+    "numComments": 2,
+    "submittedBy": {
+      "_id": "6658e1c8ce1b2838885b2d7f",
+      "avatarUrl": "/avatars/8623555f14b62f40fd372da20cb59ccc.svg",
+      "fullname": "Seth Karten",
+      "name": "milkkarten",
+      "type": "user",
+      "isPro": false,
+      "isHf": false,
+      "isHfAdmin": false,
+      "isMod": false,
+      "followerCount": 4,
+      "isUserFollowing": false
+    },
+    "organization": {
+      "_id": "656ec1d908bd4deb79a0ba70",
+      "name": "PrimeIntellect",
+      "fullname": "Prime Intellect",
+      "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/61e020e4a343274bb132e138/H2mcdPRWtl4iKLd-OYYBc.jpeg"
+    },
+    "isAuthorParticipating": true
+  },
+  {
+    "paper": {
+      "id": "2608.24053",
+      "authors": [
+        {
+          "_id": "6a8e57c47bc881afa25f30e6",
+          "user": {
+            "_id": "6564a2ceedae9c33b7654a1f",
+            "avatarUrl": "/avatars/42f09356a1282896573ccb44830cd327.svg",
+            "isPro": false,
+            "fullname": "JUNJIE ZHOU",
+            "user": "JUNJIE99",
+            "type": "user",
+            "name": "JUNJIE99"
+          },
+          "name": "Junjie Zhou",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-08-26T16:45:04.506Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a8e57c47bc881afa25f30e7",
+          "user": {
+            "_id": "6315e03a915d0b8068322bdc",
+            "avatarUrl": "/avatars/05e602f1f12cd3827a9774236f4a6025.svg",
+            "isPro": false,
+            "fullname": "Ke Mei",
+            "user": "kekekeke",
+            "type": "user",
+            "name": "kekekeke"
+          },
+          "name": "Ke Mei",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-08-27T08:45:04.868Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a8e57c47bc881afa25f30e8",
+          "name": "Lei Li",
+          "hidden": false
+        },
+        {
+          "_id": "6a8e57c47bc881afa25f30e9",
+          "name": "Tianyi Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a8e57c47bc881afa25f30ea",
+          "name": "Fengyun Rao",
+          "hidden": false
+        },
+        {
+          "_id": "6a8e57c47bc881afa25f30eb",
+          "name": "Jing Lyu",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2026-08-25T00:00:00.000Z",
+      "submittedOnDailyAt": "2026-08-26T00:00:00.000Z",
+      "title": "WeMM-Embedding: WeChat Multi-Modal Embedding Technical Report",
+      "submittedOnDailyBy": {
+        "_id": "6564a2ceedae9c33b7654a1f",
+        "avatarUrl": "/avatars/42f09356a1282896573ccb44830cd327.svg",
+        "isPro": false,
+        "fullname": "JUNJIE ZHOU",
+        "user": "JUNJIE99",
+        "type": "user",
+        "name": "JUNJIE99"
+      },
+      "summary": "Universal multimodal embeddings are becoming a core component of modern AI systems, enabling heterogeneous content to be represented in a shared space for applications such as retrieval, recommendation, classification, and agentic systems. In this report, we present WeMM-Embedding, a family of universal multimodal embedding models supporting text, images, videos, visual documents, and arbitrarily interleaved multimodal inputs with flexible output dimensions. The family comprises 2B, 4B, and 9B variants and is trained in two stages: a large-scale multimodal alignment stage, followed by a refinement stage using curated data, fine-grained relevance supervision, and cross-scale knowledge transfer. Across extensive evaluations, WeMM-Embedding achieves leading performance on multiple public benchmarks. Notably, the 2B variant already surpasses the previously leading 8B open-source baseline on MMEB-v2, while the 9B variant further achieves a new state-of-the-art overall score of 80.6. WeMM-Embedding also demonstrates strong practical performance across WeChat applications, with substantial gains on a 26-task in-house benchmark and consistent improvements across 14 online A/B tests. It has been deployed at scale across recommendation and search applications, including WeChat Channels, Official Accounts, Moments, and e-commerce services. We have released the model weights and code to facilitate future research at https://github.com/Tencent/WeMM-Embedding.",
+      "upvotes": 68,
+      "discussionId": "6a8e57c57bc881afa25f30ec",
+      "projectPage": "https://github.com/Tencent/WeMM-Embedding",
+      "githubRepo": "https://github.com/Tencent/WeMM-Embedding",
+      "githubRepoAddedBy": "user",
+      "ai_summary": "WeMM-Embedding is a family of universal multimodal embedding models that align text, images, videos, and interleaved inputs in a shared space, achieving state-of-the-art retrieval and recommendation performance across public benchmarks and large-scale WeChat applications.",
+      "ai_keywords": [
+        "multimodal embeddings",
+        "cross-scale knowledge transfer",
+        "fine-grained relevance supervision",
+        "MMEB-v2",
+        "universal multimodal embedding models"
+      ],
+      "ai_summary_model": "thinkingmachines/Inkling-Small",
+      "githubStars": 998,
+      "organization": {
+        "_id": "66543b6e420092799d2f625c",
+        "name": "tencent",
+        "fullname": "Tencent",
+        "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/5dd96eb166059660ed1ee413/Lp3m-XLpjQGwBItlvn69q.png"
+      }
+    },
+    "publishedAt": "2026-08-24T20:00:00.000Z",
+    "title": "WeMM-Embedding: WeChat Multi-Modal Embedding Technical Report",
+    "summary": "Universal multimodal embeddings are becoming a core component of modern AI systems, enabling heterogeneous content to be represented in a shared space for applications such as retrieval, recommendation, classification, and agentic systems. In this report, we present WeMM-Embedding, a family of universal multimodal embedding models supporting text, images, videos, visual documents, and arbitrarily interleaved multimodal inputs with flexible output dimensions. The family comprises 2B, 4B, and 9B variants and is trained in two stages: a large-scale multimodal alignment stage, followed by a refinement stage using curated data, fine-grained relevance supervision, and cross-scale knowledge transfer. Across extensive evaluations, WeMM-Embedding achieves leading performance on multiple public benchmarks. Notably, the 2B variant already surpasses the previously leading 8B open-source baseline on MMEB-v2, while the 9B variant further achieves a new state-of-the-art overall score of 80.6. WeMM-Embedding also demonstrates strong practical performance across WeChat applications, with substantial gains on a 26-task in-house benchmark and consistent improvements across 14 online A/B tests. It has been deployed at scale across recommendation and search applications, including WeChat Channels, Official Accounts, Moments, and e-commerce services. We have released the model weights and code to facilitate future research at https://github.com/Tencent/WeMM-Embedding.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2608.24053.png",
+    "numComments": 2,
+    "submittedBy": {
+      "_id": "6564a2ceedae9c33b7654a1f",
+      "avatarUrl": "/avatars/42f09356a1282896573ccb44830cd327.svg",
+      "fullname": "JUNJIE ZHOU",
+      "name": "JUNJIE99",
+      "type": "user",
+      "isPro": false,
+      "isHf": false,
+      "isHfAdmin": false,
+      "isMod": false,
+      "followerCount": 21,
+      "isUserFollowing": false
+    },
+    "organization": {
+      "_id": "66543b6e420092799d2f625c",
+      "name": "tencent",
+      "fullname": "Tencent",
+      "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/5dd96eb166059660ed1ee413/Lp3m-XLpjQGwBItlvn69q.png"
+    },
+    "isAuthorParticipating": true
+  },
+  {
+    "paper": {
+      "id": "2608.23283",
+      "authors": [
+        {
+          "_id": "6a8cfcc28dd056518b7f5451",
+          "name": "Apodex Team",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f5452",
+          "name": "B. An",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f5453",
+          "name": "B. Li",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f5454",
+          "name": "B. Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f5455",
+          "user": {
+            "_id": "67650cf72943d9aaa00e09a4",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/no-auth/ZzseQXH87tve_onJveAwz.png",
+            "isPro": false,
+            "fullname": "Bingni Zhang",
+            "user": "AudreyBN",
+            "type": "user",
+            "name": "AudreyBN"
+          },
+          "name": "B. Zhang",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-08-25T16:10:54.533Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f5456",
+          "name": "B. L. Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f5457",
+          "user": {
+            "_id": "629327c51ae2138079f19964",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/1653811728868-629327c51ae2138079f19964.jpeg",
+            "isPro": false,
+            "fullname": "Jeremy Feng",
+            "user": "JeremyFeng",
+            "type": "user",
+            "name": "JeremyFeng"
+          },
+          "name": "C. Feng",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-08-25T16:11:11.735Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f5458",
+          "user": {
+            "_id": "6a8d063e878978b28c539914",
+            "avatarUrl": "/avatars/87365f1f86cd7d866ddad3aab238ae56.svg",
+            "isPro": false,
+            "fullname": "Ethan WEI",
+            "user": "Aruseito01",
+            "type": "user",
+            "name": "Aruseito01"
+          },
+          "name": "C. Wei",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-08-25T08:14:11.795Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f5459",
+          "name": "C. Xue",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f545a",
+          "name": "C. Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f545b",
+          "name": "D. Ng",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f545c",
+          "name": "D. Ye",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f545d",
+          "name": "E. Min",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f545e",
+          "name": "F. Chen",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f545f",
+          "name": "F. Liu",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f5460",
+          "name": "F. Yang",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f5461",
+          "name": "F. Ye",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f5462",
+          "name": "H. Xu",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f5463",
+          "user": {
+            "_id": "690bca2f91fe8ea7642220e7",
+            "avatarUrl": "/avatars/145994af26851864c7a226b7321bcefd.svg",
+            "isPro": false,
+            "fullname": "Haotian Yang",
+            "user": "HaotianYang",
+            "type": "user",
+            "name": "HaotianYang"
+          },
+          "name": "H. Yang",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-08-25T16:10:54.542Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f5464",
+          "name": "H. Ye",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f5465",
+          "name": "H. Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f5466",
+          "name": "H. Zhao",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f5467",
+          "name": "J. Li",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f5468",
+          "user": {
+            "_id": "650488e454b989666d042a49",
+            "avatarUrl": "/avatars/3dc79c6f1a9dce872636dddd38a04670.svg",
+            "isPro": false,
+            "fullname": "Jiacheng Lin",
+            "user": "linjc16",
+            "type": "user",
+            "name": "linjc16"
+          },
+          "name": "J. Lin",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-08-25T08:14:17.161Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f5469",
+          "name": "J. Xia",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f546a",
+          "user": {
+            "_id": "6763dadd396e4cbdd6ab9a54",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/no-auth/ver55upgXTsPn7_dFJaIY.png",
+            "isPro": false,
+            "fullname": "Jin Kaiming",
+            "user": "jkm1104",
+            "type": "user",
+            "name": "jkm1104"
+          },
+          "name": "K. Jin",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-08-28T13:22:35.827Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f546b",
+          "user": {
+            "_id": "66b979d9088299999ab714b7",
+            "avatarUrl": "/avatars/28f941da791e51788a4d8e2321c00ded.svg",
+            "isPro": false,
+            "fullname": "Kevin Wang",
+            "user": "Huanyu123",
+            "type": "user",
+            "name": "Huanyu123"
+          },
+          "name": "K. Wang",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-08-25T08:14:09.761Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f546c",
+          "name": "K. Yang",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f546d",
+          "name": "L. Bing",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f546e",
+          "name": "L. Lei",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f546f",
+          "user": {
+            "_id": "677f945ea82c316db164a180",
+            "avatarUrl": "/avatars/50ec99d971564944de3b1d9c17d50cfd.svg",
+            "isPro": false,
+            "fullname": "Liangcai Su",
+            "user": "HKU-Liangcai",
+            "type": "user",
+            "name": "HKU-Liangcai"
+          },
+          "name": "L. Su",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-08-25T08:14:21.791Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f5470",
+          "name": "Le. Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f5471",
+          "name": "Lu. Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f5472",
+          "name": "N. Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f5473",
+          "name": "Q. Ren",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f5474",
+          "name": "Q. Yang",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f5475",
+          "name": "R. Li",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f5476",
+          "name": "S. Bai",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f5477",
+          "name": "S. Du",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f5478",
+          "name": "S. Li",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f5479",
+          "name": "S. Lin",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f547a",
+          "name": "S. Nie",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f547b",
+          "name": "S. Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f547c",
+          "user": {
+            "_id": "65b5e502e02a17f0f871c863",
+            "avatarUrl": "/avatars/f52352c897f13ba5d3fd44f7400e88c1.svg",
+            "isPro": false,
+            "fullname": "Shiyang Zhang",
+            "user": "harrysyz",
+            "type": "user",
+            "name": "harrysyz"
+          },
+          "name": "S. Zhang",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-08-25T08:14:15.555Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f547d",
+          "name": "S. Z. Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f547e",
+          "name": "Ta. Q. Fang",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f547f",
+          "name": "Ti. Q. Fang",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f5480",
+          "name": "W. Fang",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f5481",
+          "name": "W. Li",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f5482",
+          "name": "W. Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f5483",
+          "name": "X. Chen",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f5484",
+          "name": "X. Li",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f5485",
+          "name": "X. Tang",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f5486",
+          "name": "X. Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f5487",
+          "name": "X. Xu",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f5488",
+          "name": "X. Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f5489",
+          "name": "X. Q. Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f548a",
+          "user": {
+            "_id": "64b73f9317570fdff9b0d1c4",
+            "avatarUrl": "/avatars/62124ae3e929b53f99f37e97226a877d.svg",
+            "isPro": false,
+            "fullname": "Wang Xinyu",
+            "user": "oriuta",
+            "type": "user",
+            "name": "oriuta"
+          },
+          "name": "X. Y. Wang",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-08-28T13:22:42.240Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f548b",
+          "name": "Y. Deng",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f548c",
+          "name": "Y. Gao",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f548d",
+          "name": "Y. Hu",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f548e",
+          "user": {
+            "_id": "6569474501c02495cec2cbae",
+            "avatarUrl": "/avatars/5d383738269a092192f3822d0248fd43.svg",
+            "isPro": false,
+            "fullname": "Yibo Li",
+            "user": "liushiliushi",
+            "type": "user",
+            "name": "liushiliushi"
+          },
+          "name": "Y. Li",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-08-25T08:14:13.656Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f548f",
+          "name": "Y. Sui",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f5490",
+          "name": "Y. Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f5491",
+          "name": "Y. Xiao",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f5492",
+          "name": "Y. Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f5493",
+          "name": "Z. Chen",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f5494",
+          "user": {
+            "_id": "68e5cd2af7b5b87f951fdb13",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/no-auth/Cuf7wio5ENpxWys6fNa3W.png",
+            "isPro": false,
+            "fullname": "CHENG ZIMING",
+            "user": "HarrytheOrange2",
+            "type": "user",
+            "name": "HarrytheOrange2"
+          },
+          "name": "Z. Cheng",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-08-25T16:11:09.493Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f5495",
+          "name": "Z. Feng",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f5496",
+          "user": {
+            "_id": "62ffa3f8311cad266f9af236",
+            "avatarUrl": "/avatars/203dac40bc546ee25a01d8715a4b3049.svg",
+            "isPro": false,
+            "fullname": "Zhenwen Liang",
+            "user": "invokerliang",
+            "type": "user",
+            "name": "invokerliang"
+          },
+          "name": "Z. Liang",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-08-25T08:14:19.945Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a8cfcc28dd056518b7f5497",
+          "name": "Z. Zhang",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2026-08-24T00:00:00.000Z",
+      "submittedOnDailyAt": "2026-08-25T00:00:00.000Z",
+      "title": "Apodex 1.1: Scaling Agentic Intelligence for Complex Work",
+      "submittedOnDailyBy": {
+        "_id": "64b73f9317570fdff9b0d1c4",
+        "avatarUrl": "/avatars/62124ae3e929b53f99f37e97226a877d.svg",
+        "isPro": false,
+        "fullname": "Wang Xinyu",
+        "user": "oriuta",
+        "type": "user",
+        "name": "oriuta"
+      },
+      "summary": "General-purpose language models can reason and synthesize knowledge, but complex work also requires sustained interaction with files, information sources, and executable code, together with state maintenance, failure recovery, and verifiable delivery. We call this working capability: sustained, verifiable progress toward a real-world objective. Apodex 1.1 develops this capability along two complementary dimensions. Environment Scaling expands the diversity and verifiability of executable file, search, and code environments, while Agentic Coordination Scaling trains agents to decompose long-horizon tasks, delegate parallel work, integrate asynchronous results, and replan. A shared execution harness and AgentOS maintain task state and provenance across tools and agents, and training turns environment trajectories and coordination traces into reliable behavior. Across complex professional work, finance, scientific research, mathematics, coding, and search, Apodex 1.1 reaches the leading performance band despite using a substantially smaller model than many frontier systems. The 35B-parameter Apodex 1.1 Mini further retains strong working capability in a locally deployable form. These results ground agentic intelligence in useful, verifiable work completed over time and advance our goal of building a Heavy-Duty Solver for ambitious, long-running tasks.",
+      "upvotes": 204,
+      "discussionId": "6a8cfcc38dd056518b7f5498",
+      "projectPage": "https://www.apodex.com/blog/apodex-1.1-scaling-agentic-intelligence-for-complex-work",
+      "githubRepo": "https://github.com/ApodexAI/FrontierAgent",
+      "githubRepoAddedBy": "user",
+      "ai_summary": "Apodex 1.1 improves sustained, verifiable progress on complex real-world tasks by scaling executable environments and training agents to coordinate long-horizon work with state maintenance and recovery.",
+      "ai_keywords": [
+        "agentic coordination scaling",
+        "environment scaling",
+        "execution harness",
+        "AgentOS",
+        "long-horizon task decomposition",
+        "asynchronous integration",
+        "trajectory training"
+      ],
+      "ai_summary_model": "thinkingmachines/Inkling-Small",
+      "githubStars": 1328,
+      "organization": {
+        "_id": "69e06d3f92a1019939f7e7a0",
+        "name": "apodex",
+        "fullname": "Apodex",
+        "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/68bf96f0ca298a370d66adbb/T4Bt5ELjozQxgkKsHM_gg.jpeg"
+      }
+    },
+    "publishedAt": "2026-08-23T20:00:00.000Z",
+    "title": "Apodex 1.1: Scaling Agentic Intelligence for Complex Work",
+    "summary": "General-purpose language models can reason and synthesize knowledge, but complex work also requires sustained interaction with files, information sources, and executable code, together with state maintenance, failure recovery, and verifiable delivery. We call this working capability: sustained, verifiable progress toward a real-world objective. Apodex 1.1 develops this capability along two complementary dimensions. Environment Scaling expands the diversity and verifiability of executable file, search, and code environments, while Agentic Coordination Scaling trains agents to decompose long-horizon tasks, delegate parallel work, integrate asynchronous results, and replan. A shared execution harness and AgentOS maintain task state and provenance across tools and agents, and training turns environment trajectories and coordination traces into reliable behavior. Across complex professional work, finance, scientific research, mathematics, coding, and search, Apodex 1.1 reaches the leading performance band despite using a substantially smaller model than many frontier systems. The 35B-parameter Apodex 1.1 Mini further retains strong working capability in a locally deployable form. These results ground agentic intelligence in useful, verifiable work completed over time and advance our goal of building a Heavy-Duty Solver for ambitious, long-running tasks.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2608.23283.png",
+    "numComments": 3,
+    "submittedBy": {
+      "_id": "64b73f9317570fdff9b0d1c4",
+      "avatarUrl": "/avatars/62124ae3e929b53f99f37e97226a877d.svg",
+      "fullname": "Wang Xinyu",
+      "name": "oriuta",
+      "type": "user",
+      "isPro": false,
+      "isHf": false,
+      "isHfAdmin": false,
+      "isMod": false,
+      "followerCount": 10,
+      "isUserFollowing": false
+    },
+    "organization": {
+      "_id": "69e06d3f92a1019939f7e7a0",
+      "name": "apodex",
+      "fullname": "Apodex",
+      "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/68bf96f0ca298a370d66adbb/T4Bt5ELjozQxgkKsHM_gg.jpeg"
+    },
+    "isAuthorParticipating": true
+  }
+]

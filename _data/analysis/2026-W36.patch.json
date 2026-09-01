@@ -1,0 +1,252 @@
+{
+  "week_id": "2026-W36",
+  "papers": {
+    "2608.16157": {
+      "classify": {
+        "categories": ["Efficiency/Inference"],
+        "primary_category": "Efficiency/Inference",
+        "topic_tags": ["moe-serving", "edge-inference", "cpu-gpu-offloading", "agentic-state-reuse"],
+        "method_tags": ["inference-time", "architecture"],
+        "modality": ["text"],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "개인 PC를 탄력적 추론 플랫폼으로 재해석해, 워크스테이션 GPU 1장에 753B MoE까지 돌리는 엣지 서빙 시스템.",
+        "problem": "프런티어 공개 가중치 모델이 늘었지만 서빙은 여전히 데이터센터 인프라를 전제한다. 로컬 AI에는 두 현실이 있다 — 에이전트 워크로드는 실행 패턴이 계속 바뀌고, 엣지 하드웨어는 기기마다 자원 균형이 다르다.",
+        "approach": "모델 레이아웃·로딩, 전문가 상주, CPU-GPU 실행, 에이전트 상태 재사용, 런타임 메모리 관리를 함께 설계한다. 고정 오프로딩 전략 대신 실제 가용 자원(실측 대역폭 비율)에 계산과 모델 상태를 계속 재배치한다.",
+        "contributions": [
+          "20개 이상 MoE 모델과 실제 코딩·툴 사용 에이전트 지원",
+          "8GB 노트북 GPU에서 워크스테이션 GPU까지 아우르는 실행",
+          "노트북 35B, 게이밍 데스크톱 284B, 워크스테이션 GPU 1장에 753B GLM-5.2 구동",
+          "코드 공개(Apache-2.0), 스타 2주 만에 3.2k에서 10.6k로 급증"
+        ],
+        "why_now": "2주 연속 트렌딩하며 스타가 3배 이상 뛰었다. 프런티어 공개 가중치가 쏟아지는 상황에서 '큰 모델을 내 기계에서 돌린다'는 수요가 실제로 크다는 신호다.",
+        "difficulty": "고급",
+        "recommended_reader": "LLM 서빙·MoE 추론 최적화·로컬 AI 배포에 관심 있는 학습자",
+        "field_tags": ["MoE서빙", "엣지추론", "오프로딩", "로컬AI"],
+        "interest": { "upvotes": 104, "num_comments": 2, "github_stars": 10600 }
+      },
+      "learning": {
+        "key_terms": [
+          { "term": "Expert Residency", "gloss": "MoE의 어떤 전문가를 GPU에 상주시킬지 결정하는 문제" },
+          { "term": "Offloading", "gloss": "GPU에 안 올라가는 가중치·상태를 CPU/디스크로 내리는 기법" },
+          { "term": "Agentic State Reuse", "gloss": "에이전트 루프에서 반복되는 상태(KV 등)를 재사용해 비용 절감" }
+        ],
+        "recall_quiz": {
+          "question": "FreeToken이 고정 오프로딩 전략을 쓰지 않는 이유는?",
+          "answer": "에이전트 워크로드는 실행 패턴이 계속 변하고 기기마다 자원 균형이 달라, 실제 가용 자원에 계산·상태를 계속 재배치해야 하기 때문이다."
+        },
+        "spaced_review": { "flag": false, "review_due": null }
+      }
+    },
+
+    "2608.09888": {
+      "classify": {
+        "categories": ["Reasoning", "Efficiency/Inference"],
+        "primary_category": "Reasoning",
+        "topic_tags": ["in-context-learning", "latent-reasoning", "recurrent-memory", "arc-agi", "cost-efficiency"],
+        "method_tags": ["architecture", "inference-time"],
+        "modality": ["text"],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "150M 파라미터로 태스크당 $0.0007에 ARC-AGI 29.5%(pass@2)를 낸, 말하지 않고 잠재 공간에서 추론하는 모델.",
+        "problem": "추론 모델은 대개 사고 과정을 토큰으로 말하면서 성능을 얻는데, 이는 비용과 지연을 키운다. 예시에서 규칙을 유추하는 과제에서 비용-정확도 프론티어를 넘어설 방법이 필요했다.",
+        "approach": "문맥 내 학습과 순환 잠재 추론을 결합한다. 추론 시 입력이 순환 메모리를 계속 갱신하고, 중간 추론을 언어화하지 않은 채 고차원 잠재 공간의 반복 연산으로 질의를 푼다.",
+        "contributions": [
+          "문맥 내 학습 + 순환 잠재 추론을 결합한 추론 모델 제안",
+          "150M 구성으로 ARC-AGI-1 pass@2 29.5%(pass@1 24.25%), 태스크당 계산 비용 $0.0007",
+          "비용 효율 축에서 파레토 프론티어 돌파 주장(정확도 SOTA는 아님)",
+          "통제된 ARC 유사 개입으로 개념별 강약점 분석"
+        ],
+        "why_now": "642 -> 710 -> 765로 3주 연속 최고 기록을 경신했다. 이 시스템 관측 이래 유례없는 지속 관심이며, '작고 말하지 않는 추론'이 커뮤니티의 최대 화두임을 보여준다. 다만 파레토 주장의 한정(pass@2 대 pass@1, 자사 GPU 원가 대 상업 API 정가)은 그대로다.",
+        "difficulty": "고급",
+        "recommended_reader": "추론 아키텍처·ARC-AGI·효율적 추론에 관심 있는 학습자",
+        "field_tags": ["잠재추론", "문맥내학습", "ARC-AGI", "비용효율"],
+        "interest": { "upvotes": 765, "num_comments": 5, "github_stars": 9400 }
+      },
+      "learning": {
+        "key_terms": [
+          { "term": "In-Context Learning", "gloss": "가중치 갱신 없이 문맥의 예시만으로 과제를 익히는 능력" },
+          { "term": "Latent Reasoning", "gloss": "중간 사고를 토큰으로 말하지 않고 잠재 공간에서 수행하는 추론" },
+          { "term": "pass@2", "gloss": "두 번의 시도 중 하나라도 정답이면 성공으로 치는 지표" }
+        ],
+        "recall_quiz": {
+          "question": "BDH-CQ의 '파레토 돌파' 주장을 인용할 때 반드시 함께 밝혀야 할 두 가지는?",
+          "answer": "자기 점수는 pass@2(29.5%)이고 pass@1은 24.25%라는 점, 그리고 비용이 자사 GPU 원가와 상업 API 정가를 비교한 값이라는 점."
+        },
+        "spaced_review": { "flag": true, "review_due": "2026-W38" }
+      }
+    },
+
+    "2412.20138": {
+      "classify": {
+        "categories": ["LLM/Agents"],
+        "primary_category": "LLM/Agents",
+        "topic_tags": ["agentic-workflow", "multi-agent", "financial-ai", "tool-use"],
+        "method_tags": ["prompting", "architecture"],
+        "modality": ["text"],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "트레이딩 회사 조직을 본떠 역할을 나눈 LLM 에이전트들이 토론으로 주식 매매를 결정한다.",
+        "problem": "금융 분야의 LLM 활용은 대개 단일 에이전트가 특정 작업을 처리하거나 여러 에이전트가 따로 데이터만 수집하는 수준에 머물렀다. 회사처럼 협업·토론하는 구조는 거의 탐구되지 않았다.",
+        "approach": "펀더멘털·감성·기술 분석가, 강세(Bull)·약세(Bear) 리서처, 리스크 관리팀, 트레이더 등 실제 직무를 LLM 에이전트로 구현한다. 강세·약세 에이전트가 토론하고, 트레이더가 그 결과와 과거 데이터를 종합해 매매를 결정한다.",
+        "contributions": [
+          "다중 에이전트 협업·토론 구조를 금융 트레이딩에 적용한 신규 프레임워크",
+          "베이스라인 대비 누적 수익률 향상",
+          "샤프 지수·최대 낙폭(MDD) 등 위험조정 지표 개선",
+          "코드 오픈소스, 스타 10만 개 돌파(★102k)"
+        ],
+        "why_now": "4주 연속이자 12주 중 11주 등장한 최장수 논문이다. 이번 주 스타 10만 개를 넘어서며 실사용 저변이 계속 확대되고 있다.",
+        "difficulty": "중급",
+        "recommended_reader": "LLM 에이전트 오케스트레이션·금융 AI에 관심 있는 학습자",
+        "field_tags": ["멀티에이전트", "금융AI", "에이전트토론", "리스크관리"],
+        "interest": { "upvotes": 126, "num_comments": 6, "github_stars": 102000 }
+      },
+      "learning": {
+        "key_terms": [
+          { "term": "Multi-Agent System", "gloss": "여러 LLM 에이전트가 역할을 나눠 협업하는 구조" },
+          { "term": "Sharpe Ratio", "gloss": "위험 대비 초과수익을 재는 투자 성과 지표" },
+          { "term": "Maximum Drawdown", "gloss": "고점 대비 최대 하락폭, 손실 위험의 척도" }
+        ],
+        "recall_quiz": {
+          "question": "TradingAgents에서 강세·약세 에이전트는 매매 결정에 어떻게 기여하는가?",
+          "answer": "시장 상황을 두고 서로 토론하며, 트레이더 에이전트가 그 결과와 과거 데이터를 종합해 최종 매매를 결정한다."
+        },
+        "spaced_review": { "flag": false, "review_due": null }
+      }
+    },
+
+    "2608.23552": {
+      "classify": {
+        "categories": ["LLM/Agents", "Evaluation/Benchmarks"],
+        "primary_category": "LLM/Agents",
+        "topic_tags": ["agent-harness", "recursive-language-model", "test-time-compute", "subagents", "long-horizon-reasoning"],
+        "method_tags": ["architecture", "inference-time"],
+        "modality": ["text"],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "하니스 실패가 모델 실패로 둔갑하지 않게 만들어, ARC-AGI-3를 30%에서 95.5%로 끌어올린 오픈소스 하니스.",
+        "problem": "언어 모델은 순차 처리기지만, 장기 지평 에이전시는 모델 가중치와 활성 컨텍스트를 넘어서는 외부 정보·연산을 요구한다. 문제는 하니스가 부실하면 모델의 진짜 능력이 아니라 하니스의 한계가 측정된다는 점이다.",
+        "approach": "지속적 IPython REPL이 RLM(Recursive Language Model) 추상을 따라 프로그래밍 방식의 컨텍스트 처리와 테스트타임 컴퓨트를 제공하고, Continual Harness가 히스토리·메모리·스킬·프롬프트·서브에이전트 명세를 궤적 간에 보존한다. 재귀적 서브에이전트들이 에이전트 간 직접 통신으로 조율하며, Agents View로 사람이 데몬 기반 세션을 점검·관리한다. 실행·복구·검증·자원 회계는 표준화하되 전략 구성은 모델에 맡긴다.",
+        "contributions": [
+          "하니스 실패와 모델 실패를 분리하는 '저마찰 표현력 있는 막(membrane)' 설계",
+          "ARC-AGI-3 RHAE Best@1을 30%에서 95.5%로 향상",
+          "장문 코딩·GPU 커널 생성·에뮬레이터 구축·자율 nanoGPT 스피드런에서 기존 하니스와 대등하거나 우수",
+          "Factorio에서 서브에이전트 병렬화로 지속적 기술 진행 확인, 코드 공개(★19.4k)"
+        ],
+        "why_now": "에이전트 하니스 계열이 이번 주 2편(Prime Agent·Apodex)으로 늘었다. W33 LongHorizon-Harness의 문제의식('상태 관리 실패가 성능으로 오인된다')과 정확히 같은 계열이며, 여기서는 '측정을 모델의 진짜 최대 능력 쪽으로 밀어붙인다'는 평가론적 관점이 더해졌다.",
+        "difficulty": "고급",
+        "recommended_reader": "에이전트 하니스·평가 설계·서브에이전트 오케스트레이션에 관심 있는 학습자",
+        "field_tags": ["에이전트하니스", "RLM", "서브에이전트", "테스트타임컴퓨트"],
+        "interest": { "upvotes": 47, "num_comments": 2, "github_stars": 19375 }
+      },
+      "learning": {
+        "key_terms": [
+          { "term": "Harness", "gloss": "에이전트의 실행 루프·도구·상태를 감싸는 실행 골격" },
+          { "term": "RLM (Recursive Language Model)", "gloss": "모델이 컨텍스트를 프로그래밍 방식으로 처리·재귀 호출하는 추상" },
+          { "term": "Best@1", "gloss": "단 한 번의 시도 결과로 평가하는 지표" }
+        ],
+        "recall_quiz": {
+          "question": "Prime Agent가 표준화하는 것과 모델에 맡기는 것은 각각 무엇인가?",
+          "answer": "실행·복구·검증·자원 회계는 하니스가 표준화하고, 전략 구성은 모델에 맡긴다."
+        },
+        "spaced_review": { "flag": true, "review_due": "2026-W40" }
+      }
+    },
+
+    "2608.24053": {
+      "classify": {
+        "categories": ["Multimodal", "Data"],
+        "primary_category": "Multimodal",
+        "topic_tags": ["multimodal-embedding", "retrieval", "knowledge-distillation", "interleaved-input"],
+        "method_tags": ["pretraining", "finetuning", "distillation"],
+        "modality": ["multi"],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "텍스트·이미지·영상·문서를 한 공간에 담는 범용 멀티모달 임베딩, 2B가 기존 8B를 넘어서고 9B로 SOTA.",
+        "problem": "범용 멀티모달 임베딩은 검색·추천·분류·에이전트 시스템의 핵심 부품이 됐다. 이질적 콘텐츠를 공유 공간에 표현하되, 실서비스에서 쓸 만한 크기와 성능을 함께 확보해야 한다.",
+        "approach": "텍스트·이미지·영상·시각 문서와 임의로 섞인 멀티모달 입력을 지원하고 출력 차원을 유연하게 조절한다. 2B·4B·9B 변종을 2단계로 학습한다 — 대규모 멀티모달 정렬 단계, 그다음 큐레이션 데이터·세밀한 관련성 감독·교차 스케일 지식 전이를 쓰는 정제 단계.",
+        "contributions": [
+          "텍스트·이미지·영상·문서·인터리브 입력을 아우르는 2B/4B/9B 임베딩 계열",
+          "2B가 기존 최고 8B 오픈소스 베이스라인을 MMEB-v2에서 상회",
+          "9B가 MMEB-v2 종합 80.6으로 신규 SOTA 주장",
+          "사내 26개 태스크 벤치마크 개선과 14건 온라인 A/B 향상, WeChat 채널·공식계정·모먼츠·커머스에 대규모 배포, 가중치·코드 공개"
+        ],
+        "why_now": "생성 모델 위주였던 최근 흐름에서 오랜만에 '표현(임베딩)'이 올라왔다. 특히 대규모 실서비스 배포와 A/B 결과를 함께 제시한 점이, 벤치마크 중심 논문들과 대비되는 실전 신호다.",
+        "difficulty": "중급",
+        "recommended_reader": "멀티모달 검색·추천·RAG 파이프라인 설계에 관심 있는 학습자",
+        "field_tags": ["멀티모달임베딩", "검색", "지식전이", "실서비스배포"],
+        "interest": { "upvotes": 68, "num_comments": 2, "github_stars": 998 }
+      },
+      "learning": {
+        "key_terms": [
+          { "term": "Embedding", "gloss": "콘텐츠를 벡터 공간의 점으로 표현해 유사도 계산을 가능하게 함" },
+          { "term": "MMEB", "gloss": "Massive Multimodal Embedding Benchmark. 멀티모달 임베딩 종합 평가" },
+          { "term": "Cross-scale Knowledge Transfer", "gloss": "큰 모델의 지식을 작은 모델로 옮겨 소형 변종 성능을 끌어올리는 기법" }
+        ],
+        "recall_quiz": {
+          "question": "WeMM-Embedding의 2단계 학습은 각각 무엇인가?",
+          "answer": "대규모 멀티모달 정렬 단계, 그다음 큐레이션 데이터·세밀한 관련성 감독·교차 스케일 지식 전이를 쓰는 정제 단계."
+        },
+        "spaced_review": { "flag": false, "review_due": null }
+      }
+    },
+
+    "2608.23283": {
+      "classify": {
+        "categories": ["LLM/Agents"],
+        "primary_category": "LLM/Agents",
+        "topic_tags": ["agentic-workflow", "environment-scaling", "agent-harness", "long-horizon-reasoning", "tool-use"],
+        "method_tags": ["rl", "architecture", "data-centric"],
+        "modality": ["text"],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "'검증 가능한 진척'을 능력으로 정의하고, 환경과 협업을 함께 스케일링해 훨씬 작은 모델로 선두권에 든 에이전트.",
+        "problem": "범용 언어 모델은 추론·지식 종합은 하지만, 복잡한 실무는 파일·정보원·실행 코드와의 지속적 상호작용에 더해 상태 유지, 실패 복구, 검증 가능한 산출을 요구한다. 저자들은 이를 '작업 능력(working capability) — 실제 목표를 향한 지속적이고 검증 가능한 진척'으로 정의한다.",
+        "approach": "두 축으로 능력을 키운다. Environment Scaling은 실행 가능한 파일·검색·코드 환경의 다양성과 검증 가능성을 확장하고, Agentic Coordination Scaling은 장기 과제를 분해하고 병렬 작업을 위임하며 비동기 결과를 통합하고 재계획하도록 학습시킨다. 공유 실행 하니스와 AgentOS가 도구·에이전트 전반의 작업 상태와 출처(provenance)를 유지하며, 환경 궤적과 협업 트레이스를 학습으로 돌려 행동을 안정화한다.",
+        "contributions": [
+          "'작업 능력'을 검증 가능한 진척으로 정의하고 두 스케일링 축 제시",
+          "AgentOS로 도구·에이전트 간 작업 상태와 출처 유지",
+          "전문 실무·금융·과학 연구·수학·코딩·검색에서 선두 성능대 도달(훨씬 작은 모델로)",
+          "35B Apodex 1.1 Mini가 로컬 배포 가능한 형태로 작업 능력 유지"
+        ],
+        "why_now": "▲204로 이번 주 2위다. Prime Agent와 함께 '하니스·상태 관리'가 두 편 올랐고, 특히 AgentOS라는 이름으로 상태·출처 관리를 전면에 내세운 점이 W33 LongHorizon·W29 EverMemOS와 같은 계열임을 보여준다.",
+        "difficulty": "고급",
+        "recommended_reader": "에이전트 학습·환경 설계·장기 과제 오케스트레이션에 관심 있는 학습자",
+        "field_tags": ["에이전트스케일링", "환경설계", "AgentOS", "작업능력"],
+        "interest": { "upvotes": 204, "num_comments": 3, "github_stars": 1328 }
+      },
+      "learning": {
+        "key_terms": [
+          { "term": "Environment Scaling", "gloss": "학습에 쓰는 실행 환경의 다양성·검증 가능성을 키우는 접근" },
+          { "term": "Provenance", "gloss": "결과가 어디서 어떻게 나왔는지의 출처 기록" },
+          { "term": "Working Capability", "gloss": "실제 목표를 향한 지속적이고 검증 가능한 진척 능력" }
+        ],
+        "recall_quiz": {
+          "question": "Apodex 1.1이 '작업 능력'을 키우는 두 스케일링 축은?",
+          "answer": "Environment Scaling(실행 환경의 다양성·검증 가능성 확장)과 Agentic Coordination Scaling(분해·위임·비동기 통합·재계획 학습)."
+        },
+        "spaced_review": { "flag": false, "review_due": null }
+      }
+    }
+  },
+
+  "week_summary": {
+    "headline_ko": "BDH-CQ 765표로 3주 연속 최고 경신 — 에이전트 하니스가 2편(Prime Agent·Apodex)으로 계열을 굳히다",
+    "clusters": [
+      { "category": "LLM/Agents", "paper_ranks": [3, 4, 6], "theme_ko": "에이전트 3편 — 하니스(Prime Agent)·환경/협업 스케일링(Apodex)·금융 멀티에이전트(TradingAgents 4주 연속)" },
+      { "category": "Reasoning", "paper_ranks": [2], "theme_ko": "잠재 순환 추론(BDH-CQ) 3주 연속, 관심도 최고 경신" },
+      { "category": "Efficiency/Inference", "paper_ranks": [1], "theme_ko": "엣지 MoE 서빙(FreeToken) 2주 연속, 스타 3배 급증" },
+      { "category": "Multimodal", "paper_ranks": [5], "theme_ko": "범용 멀티모달 임베딩(WeMM-Embedding) — 표현 계열의 오랜만의 등장" }
+    ],
+    "emerging_keywords": ["agent-harness", "environment-scaling", "recursive-language-model"],
+    "narrative_ko": "이번 주의 축은 두 갈래다. 하나는 BDH-CQ로, 642에서 710을 거쳐 765까지 3주 연속 최고 기록을 경신하며 유례없는 지속 관심을 보였다. 다른 하나는 에이전트 하니스다 — Prime Agent는 지속 IPython REPL과 재귀 서브에이전트로 '하니스 실패가 모델 실패로 둔갑하는 것'을 막아 ARC-AGI-3 RHAE Best@1을 30%에서 95.5%로 끌어올렸고, Apodex 1.1(▲204)은 Environment Scaling과 Agentic Coordination Scaling 두 축에 AgentOS의 상태·출처 관리를 더해 훨씬 작은 모델로 선두 성능대에 들었다고 주장한다. FreeToken은 2주 연속으로 스타가 3.2k에서 10.6k로 뛰었고, TradingAgents는 4주 연속에 스타 10만 개를 돌파했다. WeMM-Embedding은 생성 일색이던 최근 흐름에서 오랜만에 '표현'을 들고 나와 2B로 기존 8B를 넘고 9B로 MMEB-v2 80.6 SOTA를 주장한다.",
+    "recent_trend_ko": "누적 12주차. [계열 확립] '에이전트 하니스·상태 관리'가 이번 주 2편으로 늘며 확실한 계열이 됐다 — W29 EverMemOS(메모리), W33 LongHorizon-Harness(상태 검증), W34 COLLEAGUE.SKILL(스킬 생성), W35 LLM-as-a-Verifier(검증 신호)에 이어 W36 Prime Agent(하니스 표준화)와 Apodex(AgentOS·환경 스케일링)가 붙었다. 공통 문제의식은 하나다: 모델 능력과 별개로 '실행 골격과 상태 관리'가 성능을 좌우한다. [최고 관심 3주 연속] BDH-CQ 642 -> 710 -> 765. 단발이 아니라 지속 화제이며, 잠재 추론이 실제 연구 흐름으로 자리 잡는지 지켜볼 지점이다. [지속] LLM/Agents는 12주 연속 최대 축(누적 agentic-workflow 25회+), TradingAgents 4주 연속(12주 중 11주). [로컬 실행 수요] FreeToken 스타 3배 급증은 '공개 가중치를 내 기계에서'라는 수요가 실제로 크다는 방증이다. [오랜만] 멀티모달 임베딩(표현 학습)이 생성 중심 흐름 사이에서 다시 등장했다.",
+    "caveats_ko": "주 6편 트렌딩 표본 기준이며 HuggingFace 커뮤니티의 인기·최신 편향이 있습니다. 업보트·스타는 중요도가 아닌 '관심도' 지표로만 해석하세요. Prime Agent의 ARC-AGI-3 30%->95.5%, Apodex의 '선두 성능대' 주장, WeMM-Embedding의 MMEB-v2 80.6은 모두 저자 보고 기준이며 제3자 검증 전입니다. 특히 하니스 논문의 성능 향상은 하니스 자체 기여와 백본 모델 기여를 분리해서 읽어야 합니다."
+  }
+}
