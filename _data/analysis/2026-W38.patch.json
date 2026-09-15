@@ -1,0 +1,282 @@
+{
+  "week_id": "2026-W38",
+  "papers": {
+    "2412.20138": {
+      "title_ko": "TradingAgents: 멀티에이전트 LLM 금융 트레이딩 프레임워크",
+      "classify": {
+        "categories": ["LLM/Agents"],
+        "primary_category": "LLM/Agents",
+        "topic_tags": ["agentic-workflow", "multi-agent", "financial-ai", "tool-use"],
+        "method_tags": ["prompting", "architecture"],
+        "modality": ["text"],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "실제 트레이딩 회사처럼 역할을 나눈 LLM 에이전트들이 토론으로 주식 매매를 결정한다.",
+        "problem": "금융 분야의 LLM 활용은 단일 에이전트가 한 가지 작업을 처리하거나 여러 에이전트가 자료를 따로 모으는 수준에 머무는 경우가 많다. 실제 트레이딩 조직처럼 서로 다른 관점이 충돌하고 위험을 통제하는 협업 구조는 충분히 탐구되지 않았다.",
+        "approach": "펀더멘털·감성·기술 분석가와 강세(Bull)·약세(Bear) 리서처, 리스크 관리자, 트레이더를 각각 LLM 에이전트로 구현한다. 강세와 약세 에이전트가 시장 상황을 토론하고, 트레이더가 그 논쟁과 과거 데이터를 종합해 행동을 선택한다. 별도의 리스크 관리 팀이 노출 수준을 점검해 공격적·중립적·보수적 관점을 의사결정에 반영한다.",
+        "contributions": [
+          "실제 트레이딩 회사의 역할 분담과 토론 구조를 재현한 멀티에이전트 프레임워크",
+          "베이스라인보다 높은 누적 수익률과 Sharpe Ratio를 보고",
+          "Maximum Drawdown까지 함께 평가해 수익뿐 아니라 위험 조정 성과를 비교",
+          "코드 공개, GitHub 약 10.5만 스타로 장기간 높은 실사용 관심 유지"
+        ],
+        "why_now": "수집된 13개 주차 중 12개 주차에 등장한 최장수 논문이다. W37은 수집하지 않아 연속 여부를 판정할 수 없지만, 관측 공백 뒤에도 다시 1위에 오른 사실은 금융 멀티에이전트가 일시적 화제를 넘어 구현 참고점으로 굳어졌음을 보여준다.",
+        "difficulty": "중급",
+        "recommended_reader": "LLM 에이전트 오케스트레이션과 금융 AI의 구조·평가에 관심 있는 학습자",
+        "field_tags": ["멀티에이전트", "금융AI", "에이전트토론", "리스크관리"],
+        "interest": {
+          "upvotes": 133,
+          "num_comments": 6,
+          "github_stars": 105416
+        }
+      },
+      "learning": {
+        "key_terms": [
+          {"term": "Multi-Agent System", "gloss": "여러 에이전트가 역할을 나누고 정보를 교환해 하나의 목표를 수행하는 구조"},
+          {"term": "Sharpe Ratio", "gloss": "변동성이라는 위험을 감수한 만큼 초과수익을 얻었는지 나타내는 지표"},
+          {"term": "Maximum Drawdown", "gloss": "투자 가치가 고점에서 저점까지 가장 크게 떨어진 비율"}
+        ],
+        "recall_quiz": {
+          "question": "TradingAgents가 단일 금융 에이전트와 가장 크게 다른 설계는 무엇인가?",
+          "answer": "전문 분석가, 강세·약세 리서처, 리스크 관리자와 트레이더가 역할을 나누고 토론 결과를 최종 매매에 반영한다는 점이다."
+        },
+        "spaced_review": {"flag": false, "review_due": null}
+      }
+    },
+    "2608.17906": {
+      "title_ko": "AutoResearch: 통찰은 넣고 환각은 빼는 자율 연구 시스템",
+      "classify": {
+        "categories": ["LLM/Agents", "Evaluation/Benchmarks"],
+        "primary_category": "LLM/Agents",
+        "topic_tags": ["agentic-workflow", "autonomous-research", "evidence-grounded", "multi-agent", "experiment-auditing"],
+        "method_tags": ["architecture", "prompting", "data-centric"],
+        "modality": ["text", "multi"],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "연구 아이디어 생성부터 실험·감사까지 연결해, 그럴듯한 결론이 증거 없이 통과하지 못하게 한다.",
+        "problem": "자율 연구 에이전트가 긴 워크플로를 실행할 수 있어도 아이디어가 과학적으로 타당하고 실험 결과가 신뢰할 만하다는 보장은 없다. 자동화된 실험의 오류나 과장된 해석이 다음 단계의 전제가 되면 연구 전체가 빠르게 잘못된 방향으로 갈 수 있다.",
+        "approach": "Idea Generation 단계는 최신 연구 신호와 축적된 도메인 지식을 합치고, 다른 문제로 옮길 수 있는 기계적 통찰을 찾아 검증 가능한 연구 계획을 만든다. 여러 모델이 후보를 생성하고 교차 검토(cross-review)해 아이디어를 다듬는다. Idea Execution 단계에서는 조정된 에이전트들이 실험을 분해·구현·진단하며, 독립적인 증거 기반 검토가 결과를 확인한 뒤에만 계속·수정·종료를 결정한다.",
+        "contributions": [
+          "아이디어 생성과 실행을 하나의 증거 중심 자율 연구 루프로 연결",
+          "RSICD에서 생성 아이디어로 mean Recall을 32.84에서 34.69로 개선",
+          "감사로 확인된 문제 이벤트가 5건으로, 비교 자율 연구 시스템의 11~27건보다 적었다고 보고",
+          "교차모달 검색·시스템 최적화·벤치마크 기반 머신러닝에서 실행 가능한 연구 진척을 시연"
+        ],
+        "why_now": "최근 하니스 연구가 장기 상태·검증·복구를 다뤘다면, AutoResearch는 같은 원리를 과학 연구의 아이디어 형성과 실험 수용 기준까지 확장한다. 코드를 잘 실행하는 에이전트에서 한 걸음 더 나아가 '어떤 결론을 믿을 것인가'가 핵심 경쟁축으로 이동하는 신호다.",
+        "difficulty": "고급",
+        "recommended_reader": "자율 연구 에이전트, 실험 자동화, 증거 기반 검증 파이프라인에 관심 있는 학습자",
+        "field_tags": ["자율연구", "실험감사", "증거기반검증", "멀티에이전트"],
+        "interest": {
+          "upvotes": 22,
+          "num_comments": 2,
+          "github_stars": 4323
+        }
+      },
+      "learning": {
+        "key_terms": [
+          {"term": "Cross-review", "gloss": "여러 모델이나 역할이 서로의 아이디어와 근거를 교차 점검하는 절차"},
+          {"term": "Evidence-based Review", "gloss": "실행자의 주장보다 재현 가능한 측정과 관찰 증거로 결론을 판정하는 검토"},
+          {"term": "Audit-confirmed Issue", "gloss": "독립 감사 과정에서 실제 문제로 확인된 실험·해석 오류 사건"}
+        ],
+        "recall_quiz": {
+          "question": "AutoResearch의 두 단계는 각각 어떤 종류의 환각을 줄이려 하는가?",
+          "answer": "Idea Generation은 근거 없는 연구 아이디어를 줄이고, Idea Execution은 신뢰할 수 없는 실험 결과나 과장된 결론이 수용되는 것을 막는다."
+        },
+        "spaced_review": {"flag": true, "review_due": "2026-W40"}
+      }
+    },
+    "2403.08299": {
+      "title_ko": "AutoDev: 자동화된 AI 주도 소프트웨어 개발",
+      "classify": {
+        "categories": ["LLM/Agents", "Safety"],
+        "primary_category": "LLM/Agents",
+        "topic_tags": ["agentic-workflow", "autonomous-agents", "code-execution", "software-engineering", "sandboxing"],
+        "method_tags": ["architecture", "prompting"],
+        "modality": ["text"],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "코드 제안을 넘어 빌드·실행·테스트·Git까지 수행하는 자율 개발 에이전트를 Docker 안에 가둔다.",
+        "problem": "기존 AI 코딩 도구는 코드 조각 추천과 파일 편집에 집중해 IDE가 제공하는 빌드, 테스트, 실행, 버전 관리 기능을 충분히 활용하지 못했다. 자율성을 높일수록 잘못된 명령과 파일 접근으로부터 사용자의 코드와 환경을 보호할 실행 경계도 필요하다.",
+        "approach": "사용자가 복잡한 소프트웨어 목표를 주면 자율 AI 에이전트가 계획을 세우고 파일 검색·편집, 빌드, 실행, 테스트, Git 작업을 수행한다. 컴파일러 출력과 테스트 로그, 정적 분석 결과를 다시 문맥으로 받아 다음 행동을 결정한다. 모든 작업은 Docker 컨테이너에 격리하고, 사용자가 허용·금지 명령과 작업 범위를 지정하는 guardrail을 둔다.",
+        "contributions": [
+          "IDE 수준의 개발 도구를 하나의 자율 계획·실행 루프로 통합",
+          "HumanEval 코드 생성 Pass@1 91.5%를 보고",
+          "HumanEval 테스트 생성 Pass@1 87.8%를 보고",
+          "Docker 격리와 사용자 정의 허용·차단 정책으로 실행 안전 경계 제시"
+        ],
+        "why_now": "W29·W30 이후 다시 등장해, 이번 주 AutoResearch·OpenDevin과 함께 '제안형 코파일럿에서 실행형 에이전트로'의 전환을 재확인시킨다. 다만 2024년 논문인 만큼 최신 코딩 에이전트와의 직접 성능 비교보다 자율 실행과 격리 설계의 초기 기준점으로 읽는 편이 좋다.",
+        "difficulty": "중급",
+        "recommended_reader": "코딩 에이전트의 실행 루프와 샌드박스·권한 설계를 공부하려는 개발자",
+        "field_tags": ["코딩에이전트", "Docker격리", "자동테스트", "개발자동화"],
+        "interest": {
+          "upvotes": 19,
+          "num_comments": 2,
+          "github_stars": 0
+        }
+      },
+      "learning": {
+        "key_terms": [
+          {"term": "Pass@1", "gloss": "모델이 첫 번째로 생성한 답 하나가 테스트를 통과하는 비율"},
+          {"term": "Sandbox", "gloss": "에이전트의 코드와 명령을 호스트 환경에서 격리해 실행하는 통제 공간"},
+          {"term": "Guardrail", "gloss": "허용·금지 행동을 명시해 에이전트의 실행 범위를 제한하는 정책"}
+        ],
+        "recall_quiz": {
+          "question": "AutoDev가 일반 코드 추천 도구보다 더 자율적인 이유와 그 위험을 줄이는 장치는?",
+          "answer": "빌드·실행·테스트·Git까지 직접 수행하며, Docker 격리와 사용자 정의 명령 정책으로 그 실행 위험을 제한한다."
+        },
+        "spaced_review": {"flag": false, "review_due": null}
+      }
+    },
+    "2503.08638": {
+      "title_ko": "YuE: 장문 음악 생성을 위한 오픈 파운데이션 모델 스케일링",
+      "classify": {
+        "categories": ["Multimodal", "Data"],
+        "primary_category": "Multimodal",
+        "topic_tags": ["audio-generation", "music-generation", "long-form-audio", "lyrics-to-song", "in-context-learning"],
+        "method_tags": ["architecture", "pretraining", "finetuning"],
+        "modality": ["text", "audio", "multi"],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "가사와 반주를 분리해 예측하고 구조를 단계적으로 조건화해 최대 5분짜리 노래를 생성한다.",
+        "problem": "가사에서 완성된 노래를 만드는 장문 음악 생성은 보컬과 반주가 섞인 신호, 긴 구간의 가사 정렬, 곡 전체 구조 유지가 동시에 필요하다. 짧은 클립에서 잘 들리는 모델도 수분 길이에서는 반복·구조 붕괴·가사 불일치가 쉽게 나타난다.",
+        "approach": "LLaMA2 계열을 바탕으로 수조 단위 토큰까지 학습한 오픈 음악 파운데이션 모델군을 제안한다. Track-decoupled next-token prediction으로 보컬과 반주가 뒤섞인 신호를 분리해 다루고, Structural Progressive Conditioning으로 장문 가사와 곡 구조를 단계적으로 맞춘다. 멀티태스크·다단계 사전학습과 음악용 in-context learning을 결합해 스타일 변환과 양방향 생성을 지원한다.",
+        "contributions": [
+          "가사 정렬과 곡 구조를 유지하며 최대 5분의 장문 음악 생성",
+          "일부 독점 시스템과 대등하거나 더 높은 음악성·보컬 민첩성을 보였다고 보고",
+          "반주를 보존한 장르·언어 스타일 변환과 양방향 생성 지원",
+          "생성 표현을 음악 이해에 재사용해 MARBLE 벤치마크에서 기존 최고 방법과 대등·우세 보고"
+        ],
+        "why_now": "AuK와 함께 이번 주 6편 중 2편이 오디오 생성이며, W29의 오디오 언어모델과 W32의 장문 음성 생성 흐름이 음악·편집까지 넓어졌다. 생성 품질만이 아니라 긴 구조, 제어 가능성, 오픈 가중치가 경쟁 포인트로 이동하고 있다.",
+        "difficulty": "고급",
+        "recommended_reader": "음악 생성, 오디오 토큰화, 장문 생성 모델의 구조적 일관성에 관심 있는 학습자",
+        "field_tags": ["장문음악생성", "가사투송", "오디오파운데이션", "스타일변환"],
+        "interest": {
+          "upvotes": 76,
+          "num_comments": 3,
+          "github_stars": 7910
+        }
+      },
+      "learning": {
+        "key_terms": [
+          {"term": "Track-decoupled Prediction", "gloss": "보컬과 반주 트랙을 분리된 예측 대상으로 다뤄 혼합 신호의 간섭을 줄이는 방식"},
+          {"term": "Structural Progressive Conditioning", "gloss": "가사와 곡의 장기 구조 정보를 단계적으로 조건에 넣어 정렬을 유지하는 기법"},
+          {"term": "MARBLE", "gloss": "음악 표현이 다양한 이해 과제에 얼마나 잘 전이되는지 평가하는 벤치마크"}
+        ],
+        "recall_quiz": {
+          "question": "YuE가 장문 lyrics-to-song의 두 핵심 난제를 각각 어떤 기법으로 다루는가?",
+          "answer": "혼합된 보컬·반주는 track-decoupled prediction으로, 긴 가사와 곡 구조의 정렬은 structural progressive conditioning으로 다룬다."
+        },
+        "spaced_review": {"flag": true, "review_due": "2026-W40"}
+      }
+    },
+    "2609.08936": {
+      "title_ko": "AuK: 음성 생성과 편집을 통합한 오픈소스 파운데이션 모델",
+      "classify": {
+        "categories": ["Multimodal", "Efficiency/Inference"],
+        "primary_category": "Multimodal",
+        "topic_tags": ["speech-synthesis", "audio-editing", "rectified-flow", "multimodal-generation", "distillation"],
+        "method_tags": ["architecture", "pretraining", "rl", "distillation"],
+        "modality": ["text", "audio", "multi"],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "자연어 지시와 오디오 문맥 하나로 음성 생성·내용 수정·복원·화자 표현 편집을 통합한다.",
+        "problem": "음성 생성, 내용 편집, 잡음 제거, 감정·말투 변경과 음향 환경 편집은 보통 서로 다른 모델과 인터페이스를 요구한다. 하나의 모델로 통합하려면 의미적 지시와 세밀한 음향 조건을 함께 이해하면서도 추론 비용을 감당할 수 있어야 한다.",
+        "approach": "멀티모달 LLM이 자연어의 의미 조건을 만들고, 음성·일반 오디오·음악을 함께 학습한 VAE가 음향 조건을 표현한다. 생성기는 dual-stream MMDiT 뒤에 single-stream DiT를 잇는 hybrid rectified-flow Transformer다. 생성 전용 워밍업 뒤 생성·편집을 공동 사전학습하고, 편집에는 인간 피드백 선호 최적화, 음성 생성에는 보상 기반 강화학습을 적용한다. 마지막으로 consistency initialization과 task-routed Decoupled DMD로 4-step AuK-Flash를 증류한다.",
+        "contributions": [
+          "5개 작업군을 약 30.3억 instruction-audio 인스턴스와 유효 감독 195만 시간으로 통합 학습",
+          "음성 생성·내용 편집·향상/분리·준언어적 편집·음향 편집을 단일 자연어 인터페이스로 제공",
+          "AuK-Flash가 CFG 없이 4-step 추론하며 동일 조건에서 전체 모델 대비 4.5배 wall-clock 가속",
+          "코드와 모델 가중치를 모두 공개한다고 명시"
+        ],
+        "why_now": "이번 주 최다인 218표를 받은 논문으로, 오디오 분야의 관심이 단순 TTS에서 자연어 기반 범용 편집으로 옮겨가는 신호다. 거대한 통합 학습과 후학습뿐 아니라 4-step 증류까지 한 리포트에 묶은 점은 '기능 확장과 배포 효율을 동시에 요구하는' 최근 생성 모델 흐름을 잘 보여준다.",
+        "difficulty": "고급",
+        "recommended_reader": "음성 생성·편집, flow matching, few-step 확산 증류를 함께 공부하려는 학습자",
+        "field_tags": ["음성생성", "오디오편집", "RectifiedFlow", "확산증류"],
+        "interest": {
+          "upvotes": 218,
+          "num_comments": 3,
+          "github_stars": 761
+        }
+      },
+      "learning": {
+        "key_terms": [
+          {"term": "MMDiT", "gloss": "여러 모달리티의 토큰 스트림을 함께 주의집중하도록 설계한 멀티모달 Diffusion Transformer"},
+          {"term": "Rectified Flow", "gloss": "데이터와 노이즈 사이의 비교적 곧은 확률 흐름을 학습하는 생성 모델 목적함수"},
+          {"term": "Decoupled DMD", "gloss": "분포 매칭 증류의 역할을 분리해 적은 생성 단계에서도 품질을 유지하려는 증류 방식"}
+        ],
+        "recall_quiz": {
+          "question": "AuK에서 의미 조건, 음향 조건, 최종 생성을 각각 담당하는 구성요소는?",
+          "answer": "멀티모달 LLM이 의미 조건, 공동 학습 VAE가 음향 조건, hybrid rectified-flow Transformer가 최종 생성을 담당한다."
+        },
+        "spaced_review": {"flag": true, "review_due": "2026-W40"}
+      }
+    },
+    "2407.16741": {
+      "title_ko": "OpenDevin: 범용 AI 소프트웨어 개발자를 위한 오픈 플랫폼",
+      "classify": {
+        "categories": ["LLM/Agents", "Evaluation/Benchmarks"],
+        "primary_category": "LLM/Agents",
+        "topic_tags": ["agentic-workflow", "ai-agents", "code-execution", "software-engineering", "tool-use"],
+        "method_tags": ["architecture", "prompting"],
+        "modality": ["text"],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "코드·터미널·웹을 한 작업공간에 묶어, 서로 다른 개발 에이전트와 벤치마크를 교체 가능한 플랫폼으로 만든다.",
+        "problem": "강력한 개발 에이전트를 만들려면 코드 작성뿐 아니라 명령줄, 브라우저, 샌드박스, 다중 에이전트 조율과 평가가 하나의 실행 환경에서 맞물려야 한다. 개별 데모 중심 구현은 에이전트와 벤치마크를 공정하게 비교하고 재사용하기 어렵다.",
+        "approach": "에이전트가 인간 개발자처럼 코드를 작성하고 명령줄을 조작하며 웹을 탐색할 수 있는 통합 플랫폼을 제공한다. 샌드박스 기반 코드 실행, 여러 에이전트 간 조정, SWE-Bench·WebArena를 포함한 평가 어댑터를 공통 인터페이스로 묶는다. 특정 모델 하나보다 에이전트 구현과 환경, 평가를 교체 가능한 오픈 생태계로 만드는 데 초점을 둔다.",
+        "contributions": [
+          "코드 편집·터미널·브라우저를 결합한 범용 소프트웨어 에이전트 플랫폼",
+          "안전한 샌드박스 실행과 멀티에이전트 조정 기능 제공",
+          "SWE-Bench·WebArena 등 15개 도전적 과제를 하나의 평가 틀에 통합",
+          "MIT 라이선스와 대규모 커뮤니티, GitHub 약 8.8만 스타"
+        ],
+        "why_now": "수집된 13개 주차 중 6개 주차에 등장한 반복 논문이며 AutoDev와 나란히 돌아왔다. 최근 하니스·상태 관리 논문들이 강조한 실행 골격을 실제 오픈소스 생태계에서 구현해 온 대표 기준점이라는 점에서 관심이 이어지는 것으로 보인다.",
+        "difficulty": "중급",
+        "recommended_reader": "코딩 에이전트 플랫폼, 샌드박스, 벤치마크 어댑터 구조를 공부하려는 개발자",
+        "field_tags": ["코딩에이전트", "오픈플랫폼", "샌드박스", "에이전트평가"],
+        "interest": {
+          "upvotes": 86,
+          "num_comments": 7,
+          "github_stars": 87815
+        }
+      },
+      "learning": {
+        "key_terms": [
+          {"term": "Agent Platform", "gloss": "서로 다른 에이전트·도구·환경·평가를 공통 인터페이스로 연결하는 실행 기반"},
+          {"term": "SWE-Bench", "gloss": "실제 GitHub 이슈를 해결해 테스트 통과 여부로 코딩 에이전트를 평가하는 벤치마크"},
+          {"term": "WebArena", "gloss": "현실적인 웹사이트 환경에서 브라우징 에이전트의 과제 수행을 평가하는 벤치마크"}
+        ],
+        "recall_quiz": {
+          "question": "OpenDevin의 핵심 기여를 특정 코딩 모델의 성능이 아니라 플랫폼 관점에서 설명하면?",
+          "answer": "코드·터미널·웹·샌드박스·다중 에이전트·평가 벤치마크를 교체 가능한 공통 실행 환경으로 통합한 것이다."
+        },
+        "spaced_review": {"flag": false, "review_due": null}
+      }
+    }
+  },
+  "week_summary": {
+    "headline_ko": "에이전트·개발 자동화 4편과 오디오 생성 2편 — 실행의 신뢰성과 생성의 통합이 이번 주를 양분했다",
+    "clusters": [
+      {
+        "category": "LLM/Agents",
+        "paper_ranks": [1, 2, 3, 6],
+        "theme_ko": "에이전트 4편 — 금융 협업, 자율 연구, 자동 개발, 오픈 실행 플랫폼으로 실무 전 과정을 확장"
+      },
+      {
+        "category": "Multimodal",
+        "paper_ranks": [4, 5],
+        "theme_ko": "오디오 2편 — 5분 음악 생성과 자연어 기반 범용 음성 편집, 모두 오픈 모델과 장기·통합 제어를 강조"
+      }
+    ],
+    "emerging_keywords": ["audio-generation", "long-form-audio"],
+    "narrative_ko": "이번 주 6편은 놀라울 만큼 명확하게 갈렸다. TradingAgents·AutoResearch·AutoDev·OpenDevin 등 4편(66.7%)이 에이전트와 실행 시스템이고, YuE·AuK 2편(33.3%)은 음악·음성 생성이다. 에이전트 축에서는 단순 툴 호출보다 신뢰할 수 있는 실행이 중심이다. AutoResearch는 RSICD mean Recall 32.84→34.69와 감사 문제 5건 대 비교군 11~27건을 제시하고, AutoDev와 OpenDevin은 빌드·테스트·터미널·웹을 샌드박스 안에서 수행한다. 오디오 축에서는 YuE가 최대 5분 장문 음악을, 이번 주 최다 218표의 AuK가 5개 작업군·약 30.3억 인스턴스·195만 시간 감독과 4-step 4.5배 가속을 전면에 내세웠다.",
+    "recent_trend_ko": "누적 13회 관측 기준, LLM/Agents는 모든 관측 주차에 등장한 가장 지속적인 축이며 이번 주에도 4편으로 과반을 차지했다. 다만 초점은 W33~W36의 하니스·상태 관리에서 실제 연구와 개발을 끝까지 수행하고 결과를 감사하는 실행형 시스템으로 이동했다. TradingAgents는 13개 관측 주차 중 12개, OpenDevin은 6개, AutoDev는 3개 주차에 등장해 오래된 오픈 에이전트 프로젝트가 계속 기준점으로 소환되고 있다. 오디오는 W29의 오디오 언어모델, W30의 경량 ASR, W32의 장문 음성 생성에 이어 W38에서 음악·범용 편집 2편으로 재등장했다. 반면 W37을 수집하지 않았으므로 직전 주 대비 상승·하락이나 연속 등장으로 해석하지 않는다.",
+    "caveats_ko": "주 6편의 HuggingFace 트렌딩 표본은 커뮤니티의 인기·최신성 편향을 강하게 받으며, 업보트와 GitHub 스타는 연구 중요도가 아닌 관심도 지표다. W37 데이터가 없어 W36→W38 사이의 연속성은 판정할 수 없다. AutoResearch의 감사 건수, YuE의 독점 모델 대비 품질, AuK의 선두 성능과 4.5배 가속은 모두 초록의 저자 보고 기준이며 심층 원문 검증 전이다. 2024년의 TradingAgents·AutoDev·OpenDevin은 최신 절대 성능보다 구조와 생태계의 지속 관심을 보여주는 신호로 읽어야 한다."
+  }
+}

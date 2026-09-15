@@ -1,0 +1,240 @@
+{
+  "week_id": "2026-W38",
+  "papers": {
+    "2608.17906": {
+      "tier2": {
+        "method_detail": "AutoResearch는 자율 연구를 아이디어 생성과 아이디어 실행이라는 두 단계의 증거 중심 루프로 분해한다. 아이디어 생성 단계는 논문·코드 저장소·기술 미디어·소셜 신호와 내부 큐레이션 지식베이스를 함께 검색하고, 여러 모델이 한 연구 신호를 서로 다른 문제 영역의 메커니즘으로 옮길 수 있는지 독립적으로 제안한다. 현재 구현은 3개의 frontier 모델이 후보를 만들고 3개의 리뷰어가 각각을 평가하며, 최소 2개의 긍정 리뷰를 받은 후보만 실행 계획으로 넘긴다. 출력은 가설 h와 실행 가능한 계획 p의 쌍이며, 계획에는 검증 가능한 수용 기준과 필요한 실험이 포함된다. 아이디어 실행 단계에서는 계획을 의존성 그래프 G_p=(T,R)로 바꾸고, 선행 작업이 끝난 태스크를 병렬 실행한다. 매 라운드의 상태는 계획·코드·로그·측정값·체크포인트·리뷰·근거·결정을 영속 기록하며, 실행자와 별도의 리뷰어·비평자가 신선한 컨텍스트에서 결과를 다시 점검한다. 리뷰어는 구현과 프로토콜의 충실도를, 비평자는 결과가 주장과 실제로 연결되는지를 확인하고 PASS/PARTIAL/FAIL을 반환한다. 실패하면 DIAGNOSE-REVISE-RERUN으로 되돌아가며, 근거가 존재할 때만 주장을 수용한다(Accept(c) => 존재하는 e가 Supports(e,c)=1). 마지막 결정은 Continue, Revise, Scale, Stop 중 하나로 기록하고 부정적 결과도 유효한 연구 결과로 보존한다.",
+        "experiment_setup": [
+          "비교 시스템: The AI Scientist, Agent Laboratory, R&D-Agent, AutoResearchClaw. 동일한 목표와 과제별 실험 계약을 사용하고, 최종 성과뿐 아니라 감사에서 확인된 문제 이벤트 수와 산출물 무결성을 함께 비교.",
+          "RSICD 교차모달 검색: mean Recall이 기본 32.84에서 단계별로 33.89, 34.04, 최종 34.69로 상승(+1.85). 제안 아이디어는 전역 정렬, 텍스트 유도 국소 집계, 엔티티-위치 연관을 결합.",
+          "RSICD 감사 결과: AutoResearch의 감사 확인 문제 이벤트는 5건으로 보고되었고 R&D-Agent 11건, AutoResearchClaw 15건, Agent Laboratory 18건, The AI Scientist 27건과 비교됨. 이 수치는 정확성 자체가 아니라 감사 범위에서 발견된 문제 사건 수임.",
+          "행렬 곱셈 최적화: 1024x1024 FP32, 200ms 미만, 두 참조 구현 대비 상대 오차 1e-5 미만, 실제 wall-clock 10회에서 변동계수 20% 미만을 계약으로 설정. 초기 실험은 CPU 시간과 경과 시간을 혼동해 안정성 검증에 실패했고, 프로토콜을 고친 뒤 3.4ms·626 GFLOPS·약 58배의 속도 여유를 보고.",
+          "행렬 곱셈 감사 이벤트: AutoResearch 4건, R&D-Agent 5건, Agent Laboratory 5건, AutoResearchClaw 7건, The AI Scientist 8건으로 보고.",
+          "Kaggle형 태스크: Titanic 정확도 0.822 -> 0.843으로 목표 0.830을 넘어 확장, House Prices RMSLE 0.2008 -> 0.1251로 개선했지만 목표 0.120에 미달해 수정, Disaster Tweets F1 0.763 -> 0.805로 상승했으나 목표 0.835에 못 미치고 개선이 정체되어 중단·부정적 결과 보존.",
+          "규모 관찰: 단일 서버(2x Intel Xeon Platinum 8563C, 98코어/196스레드, 8x NVIDIA L20, 944GiB RAM)에서 7일 동안 약 2,584개 후보 아이디어를 만들고 약 355개를 실험 큐에 넣었으며, 약 22개 자동 실험과 약 14개 경험적으로 검증된 아이디어를 보고.",
+          "실행 루프의 핵심 측정은 아이디어 수보다 증거 연결과 감사 이벤트에 놓여 있다. 그러나 컴포넌트별 ablation, 반복 실행 분산, 실제 토큰·벽시계 비용은 본문 표에서 충분히 분리되어 있지 않음."
+        ],
+        "datasets": [
+          {
+            "name": "외부 연구 신호 코퍼스",
+            "scale": "논문·코드 저장소·기술 미디어·X/Xiaohongshu 등, 정확한 규모와 샘플링 비율은 미공개",
+            "domain": "최신 연구 동향과 구현 신호 탐색"
+          },
+          {
+            "name": "내부 큐레이션 지식베이스",
+            "scale": "축적된 도메인 지식과 과거 실행 기록, 정확한 규모 미공개",
+            "domain": "아이디어 생성·메커니즘 전이·실험 계획"
+          },
+          {
+            "name": "RSICD",
+            "scale": "교차모달 이미지-텍스트 검색 벤치마크, 정확한 사용 분할과 태스크 수는 본문 표 확인 필요",
+            "domain": "이미지-문장 검색 및 표현 정렬"
+          },
+          {
+            "name": "행렬 곱셈 최적화 태스크",
+            "scale": "1024x1024 FP32 행렬과 참조 구현 2종, wall-clock 10회 안정성 평가",
+            "domain": "시스템 최적화·수치 정확도·실행 안정성"
+          },
+          {
+            "name": "Kaggle형 실험 태스크",
+            "scale": "Titanic, House Prices, Disaster Tweets 3개 과제",
+            "domain": "탭ुल러 예측·자연어 분류·실험 목표 달성"
+          }
+        ],
+        "limitations": {
+          "by_authors": [
+            "시스템은 외부 연구 신호의 품질과 범위, 축적된 지식, 명시적인 실험 기준에 의존하며, 이 입력이 부족하면 좋은 연구 아이디어나 결론을 보장할 수 없음.",
+            "자동화된 연구 시스템의 결론이 항상 옳다고 보장하지 않으며, 실험 결과와 해석은 독립적인 검토와 재현 가능한 증거를 필요로 함.",
+            "현재의 규모 실험은 한 대의 대형 서버에서 수행되었고, 장기적으로는 실행 결과가 지식 상태에 다시 반영되는 지속적 피드백이 필요함.",
+            "실험 기준을 충족하지 못한 결과나 부정적 결과도 연구 기록으로 남겨야 하며, 모든 아이디어를 끝까지 실행하는 구조가 아님."
+          ],
+          "by_claude": [
+            "감사에서 발견된 문제 이벤트가 적다는 사실은 결론의 정확성이나 재현성을 직접 측정하지 않는다. 감사 범위, 오류 탐지 민감도, 문제의 심각도가 함께 공개되지 않아 5건 대 11~27건을 품질 순위로 읽으면 안 됨.",
+            "비교 시스템과 외부 모델의 실행 하니스·프롬프트·예산·재시도 조건이 완전히 동일한지 제3자가 확인하기 어렵다. 따라서 성능과 감사 이벤트 비교는 시스템 전체 비교로 해석해야 하며, 순수 모델 능력의 대결로 환산하기 어려움.",
+            "RSICD의 최종 mean Recall 34.69는 시작점 32.84보다 +1.85 개선이지만, 아이디어 생성·실험·감사 각 구성요소의 기여를 분리한 ablation이 부족하다. 여러 모델을 더 많이 호출한 효과와 연구 아이디어 자체의 효과도 분리되지 않음.",
+            "반복 횟수, 신뢰구간, 시드, 작업별 변동이 충분히 보고되지 않아 작은 과제군에서의 수치 차이를 일반화하기 어렵다. 약 2,584개 후보와 약 22개 자동 실험의 선택 과정도 공개되지 않아 선택 편향을 배제할 수 없음.",
+            "태스크당 토큰 비용·벽시계 시간·GPU 비용과 사람 검토 비용이 분리 보고되지 않는다. 다중 생성·교차 리뷰·재실행을 포함한 시스템이 더 정확해도 연구자 입장에서 경제적인지는 아직 검증되지 않음.",
+            "연구 주제는 RSICD, 시스템 최적화, 소규모 Kaggle 태스크에 집중되어 있다. 장기 과학 실험, 실험실 장비, 비정형 질적 연구, 다른 학문 분야에서도 같은 감사 구조가 작동하는지는 확인되지 않음.",
+            "공식 저장소는 Alpha 단계이며 넓은 도구 권한과 폐기 가능한 격리 환경을 전제로 한다. 코드·셸·외부 신호를 함께 다루므로 프롬프트 인젝션, 자격증명 노출, 악성 의존성, 잘못된 연구 산출물의 배포 위험은 별도 보안 경계가 필요함.",
+            "아이디어 생성의 '메커니즘 전이'가 실제로 새롭고 유용한 통찰인지, 기존 연구의 조합인지, 그리고 후속 심사에서 살아남는지는 논문의 단기 자동 실험 수치만으로 판단하기 어려움."
+          ]
+        },
+        "reproducibility": {
+          "code": "공개 — 공식 GitHub 저장소 EvoMap/AutoResearch에 신호 수집·아이디어 생성·리뷰·계획·실행 상태·비평·blind review를 디스크에 기록하는 워크플로가 포함됨. Claude Code와 Ralph Loop 기반 실행 경로, 복구 가능한 체크포인트와 결과 파일 구조를 제공.",
+          "weights": "해당 없음 — 자체 사전학습 모델 가중치를 공개하는 논문이 아니라 여러 frontier 모델과 코딩 에이전트를 조합하는 시스템. 사용하는 모델 API와 모델별 접근 권한이 재현성에 영향을 줌.",
+          "data": "부분 공개 — 실행 예시와 연구 신호 처리 구조는 공개되지만 내부 큐레이션 지식베이스, 전체 SFT/RL·프롬프트 코퍼스, 실제 7일 실행 로그와 선택된 2,584개 후보 전체는 공개되지 않음. RSICD와 공개 Kaggle 태스크는 외부에서 접근 가능.",
+          "license": "Apache-2.0 (공식 EvoMap/AutoResearch 코드 저장소 기준). 사용하는 모델 API·데이터·외부 저장소는 각각의 이용 조건을 별도로 따라야 함.",
+          "note": "서빙이나 추론 가중치 재현보다 오케스트레이션 재현이 핵심인 시스템 논문이다. 저장소를 실행하면 파일 기반 상태·리뷰·체크포인트 패턴은 확인할 수 있지만, 동일한 모델 엔드포인트·시점별 외부 신호·비공개 지식베이스·대규모 GPU 자원이 없으면 논문의 수치와 동일한 결과를 기대하기 어렵다. README도 결론의 정확성을 보장하지 않는다고 명시한다."
+        },
+        "my_learning_points": [
+          "연구 자동화 프롬프트에 반드시 수용 기준을 먼저 적어라. 목표 점수·허용 오차·반복 횟수·측정 시계를 실행 전에 고정하고, 결과가 목표를 넘었을 때만 '개선'이라고 부르면 에이전트가 유리한 지표만 골라 결론을 만드는 일을 줄일 수 있다.",
+          "실행자와 검증자를 분리하고 검증자에게 실행 궤적 전체를 보여주지 않는 설계를 실험해보라. 새 컨텍스트의 리뷰어가 코드·로그·산출물만 근거로 주장을 반박하게 하면, 에이전트가 스스로 만든 설명을 사실처럼 재사용하는 오류를 줄일 수 있다.",
+          "연구 상태를 대화 컨텍스트가 아니라 파일 기반 레코드로 외부화하라. 계획 그래프, 실험 상태, 근거, 결정, 실패 원인을 각각 구조화해 두면 컨텍스트 압축이나 재시작 뒤에도 왜 다음 실험을 해야 하는지 복원할 수 있다.",
+          "감사 이벤트 수와 성능 점수를 별도 축으로 기록하라. 오류가 적게 발견된 시스템이 더 정확하다고 단정하지 말고, 독립 재현 성공률·검증 가능한 주장 비율·비용·사람 검토 시간을 함께 평가하는 습관이 필요하다."
+        ],
+        "related_work": {
+          "prior": [
+            {
+              "name": "The AI Scientist",
+              "relation": "아이디어 생성부터 코드·실험·논문 초안까지 자동화한 자율 연구 시스템의 직접 비교 대상"
+            },
+            {
+              "name": "Agent Laboratory",
+              "relation": "문헌 조사·실험·작성 역할을 나눈 연구 에이전트 시스템으로 감사 이벤트 비교 대상"
+            },
+            {
+              "name": "R&D-Agent",
+              "relation": "연구개발 태스크의 계획·코딩·실험 자동화 흐름으로 RSICD와 시스템 최적화 비교군"
+            },
+            {
+              "name": "AutoResearchClaw",
+              "relation": "자율 연구 실행과 산출물 생성을 연결한 비교 시스템"
+            },
+            {
+              "name": "ReAct / CodeAct 계열",
+              "relation": "추론·행동·관찰 루프를 실행 가능한 연구 태스크와 도구 사용으로 확장하는 기반 패턴"
+            }
+          ],
+          "followup": [
+            {
+              "name": "증거 그래프와 provenance-aware research agents",
+              "relation": "주장·실험·로그·산출물의 연결을 구조화해 자동 연구 결과의 감사 가능성을 높이는 후속 방향"
+            },
+            {
+              "name": "장기 실행 연구 하니스와 sandbox 보안",
+              "relation": "실험 상태 복구, 권한 최소화, 외부 신호 오염 방지를 결합해야 실제 연구 환경으로 확장 가능"
+            },
+            {
+              "name": "독립 재현·사람 심사와 결합한 AI 연구 평가",
+              "relation": "자동 감사 이벤트보다 결론의 재현성과 학술적 유용성을 직접 검증하는 평가 축"
+            }
+          ]
+        },
+        "claude_note": "AutoResearch의 핵심은 '논문을 써주는 모델'이 아니라, 연구 아이디어가 실행 가능한 계획으로 바뀌고 결과가 독립적인 근거를 남길 때만 다음 단계로 넘어가게 만드는 운영 규칙이다. RSICD mean Recall 32.84→34.69, 행렬 곱셈의 3.4ms·626 GFLOPS, Kaggle 태스크의 목표 도달·수정·중단 사례를 한 루프 안에 넣은 점은 연구 하니스를 공부하기 좋은 구체성을 가진다. 다만 5건의 감사 문제 이벤트가 11~27건보다 적다는 주장은 정확성의 대리 지표가 아니며, 비용·분산·구성요소별 기여·독립 검증이 부족하다. 약 2,584개 후보에서 22개 자동 실험으로 좁혀지는 선택 과정도 결과에 큰 영향을 줄 수 있다. 따라서 이 논문은 '자율 연구가 이미 과학자를 대체했다'는 증거보다, 아이디어·실험·감사·상태 기록을 연결하는 설계 청사진으로 읽는 것이 정확하다. 개인 학습 프로젝트에 적용한다면 주간 논문 분석에서도 주장-근거-검증 상태를 파일로 남기고, 심층 분석의 핵심 수치만 독립 검토하는 방식부터 이식할 가치가 있다.",
+        "analyzed_at": "2026-09-14"
+      }
+    },
+    "2609.08936": {
+      "tier2": {
+        "method_detail": "AuK는 음성 생성과 오디오 편집을 하나의 instruction-conditioned foundation model로 통합한다. 의미 조건은 Qwen2.5-Omni 기반 멀티모달 LLM에서 얻고, 24kHz waveform을 50Hz의 64차원 latent로 바꾸는 공동 학습 Audio VAE가 세밀한 음향 조건을 표현한다. 생성기는 FLUX 계열의 hybrid rectified-flow Transformer로, 앞쪽 M개의 dual-stream MMDiT 블록에서 semantic stream과 acoustic target/reference stream을 함께 주의집중시킨 뒤 N개의 single-stream DiT 블록에서 통합 처리한다. 사전학습은 speech generation만 쓰는 50k-step 워밍업 후 generation과 editing을 함께 쓰는 600k-step 단계로 진행하며, 두 번째 단계의 태스크 비율은 음성 생성 28.10%, content editing 23.02%, enhancement/separation 23.17%, paralinguistic editing 21.75%, acoustic editing 3.96%다. 음성 생성에는 flow matching, 편집에는 지시·참조 오디오·마스크 구간 조건을 사용하고, 편집 선호 최적화와 음성 생성 보상 기반 RL을 별도로 적용한다. 후처리에서는 consistency initialization으로 학생 모델을 시작한 뒤 task-routed Decoupled DMD를 적용한다. separation 태스크는 분포 증류에서 제외하고 clean latent에 대한 지도 회귀를 사용해 분리 품질이 무너지지 않게 한다. 최종 AuK는 32 NFE와 CFG 2.0을 쓰고, AuK-Flash는 consistency와 DMD로 4 NFE까지 줄이며 CFG를 제거한다.",
+        "experiment_setup": [
+          "VAE 재구성: Seed-TTS-Eval 음성, AudioSet 2,000개 클립, MUSDB18-HQ 음악에서 PESQ·STOI·Mel·STFT를 측정. AuK-VAE가 네 지표 모두에서 비교 VAE보다 높은 결과를 보고.",
+          "Zero-shot TTS: 3회 평가 평균 기준 AuK 오류율/WER 2.65%, 화자 유사도 0.795; AuK-Flash 2.85%/0.790. Qwen3-TTS 평균 오류율 3.07%와 비교하며, AuK는 Seed-TTS 계열의 화자 유사도 0.778에서 0.795로 개선.",
+          "Instruction TTS: DSD-ZH 83.37로 최고, DSD-EN 81.60. Flash는 82.40으로 영어에서 Qwen3-TTS-VD와 동률 수준을 보고.",
+          "MMAE 및 SpeechEditBench: AuK의 MMAE IFR/CR/EMR은 48.23/88.11/12.44, Flash는 46.62/86.41/13.85. SpeechEditBench에서 AuK content 91.83, prosody 71.33, paralinguistic 38.50, acoustic 37.07을 보고하고 Flash는 paralinguistic 39.25로 최고.",
+          "Ming-Freeform-Audio-Edit: 중국어/영어 full setting에서 AuK WER 3.09/3.96, 편집 정확도 91.47/85.25로 Ming-UniAudio보다 우수하다고 보고. acoustic WER도 2.02/3.48로 낮고, Flash는 일부 화자 유사도 지표에서 강점.",
+          "향상·분리: DNS Challenge에서 AuK dWER 2.66, RE-USE 3.31. CHiME4에서 Flash WER 7.84, Libri2Mix에서 AuK WER/PER 9.12/6.63. VCTK-SR에서는 Flash가 7개 지표 중 6개에서 최고를 보고.",
+          "추론 가속: 동일한 하드웨어·오디오 길이·배치 조건에서 AuK-Flash 4 NFE가 전체 AuK 대비 4.5배 wall-clock 단축. 속도 비교는 matched setting의 저자 보고이며 모든 하드웨어·길이·태스크에 보장되는 배수가 아님.",
+          "후학습 검증: 편집 선호 최적화는 818개 informative group, 9,080개 평가 후보를 사용. 음성 생성 보상은 30,000개 균형 샘플과 Qwen2.5-Omni-7B 기반 reward model, speaker similarity와 content reward를 함께 사용하고 Flow-GRPO로 최적화."
+        ],
+        "datasets": [
+          {
+            "name": "통합 instruction-audio 학습 코퍼스",
+            "scale": "약 30.3억 instruction-audio 인스턴스, 약 195만 시간의 유효 감독",
+            "domain": "speech generation, content editing, enhancement/separation, paralinguistic editing, acoustic editing 5개 작업군"
+          },
+          {
+            "name": "Audio VAE 학습 코퍼스",
+            "scale": "약 300만 시간, speech/music/general audio 비율 6:3:1, 24kHz 1.28초 세그먼트",
+            "domain": "음성·음악·일반 오디오의 재구성과 음향 latent 학습"
+          },
+          {
+            "name": "편집·증강 데이터 파이프라인",
+            "scale": "X-VC timbre editing, 13개 중국어 지역·방언 accent, 39개 nonverbal event, content/lyric editing, RIR·채널 열화 등을 조합. 개별 원천별 전체 규모는 제한적으로 공개",
+            "domain": "화자·억양·비언어음·내용·가사·잡음·잔향·분리 대상 제어"
+          },
+          {
+            "name": "후학습 선호·보상 데이터",
+            "scale": "편집 818 informative groups/9,080 rated candidates; instruction TTS reward 30,000 balanced samples",
+            "domain": "사람 선호, 내용 정확도, 화자 유사도, 발화 스타일 보상"
+          },
+          {
+            "name": "평가 벤치마크",
+            "scale": "Seed-TTS-Eval, DSD-ZH/EN, MMAE, SpeechEditBench, Ming-Freeform-Audio-Edit, DNS Challenge, CHiME4, Libri2Mix, VCTK-SR 등",
+            "domain": "TTS·음성 편집·준언어·음향 편집·향상·분리·화자 보존"
+          }
+        ],
+        "limitations": {
+          "by_authors": [
+            "자연어를 그대로 받는 native free-form instruction following은 아직 강하지 않으며, 실제 시스템은 ASR·언어 예측·태스크 분류·파라미터 범위 검증을 포함하는 Prompt Enhancer로 지시를 학습 분포에 맞게 재작성함.",
+            "Prompt Enhancer가 없으면 자유 형식의 복합 지시를 안정적으로 수행하기 어렵고, 여러 편집 요구를 조합하는 일반화는 아직 해결되지 않은 문제로 남음.",
+            "중국어 억양에서 영어 억양으로의 전이와 whisper 편집에서 whisper 생성으로의 전이는 발견 실험에서 주로 정성적으로 제시되며, 광범위한 정량 다국어 검증은 아님.",
+            "분리 태스크는 Decoupled DMD가 음질을 훼손할 수 있어 증류 경로에서 제외하고 clean latent 지도 회귀로 처리해야 함. 하나의 가속 목적함수가 모든 오디오 작업에 동일하게 적용되지는 않음.",
+            "전체 AuK와 AuK-Flash는 서로 다른 추론 단계 수와 guidance 설정을 사용하므로, 속도뿐 아니라 작업별 품질과 기능 보존을 함께 비교해야 함."
+          ],
+          "by_claude": [
+            "약 30.3억 인스턴스와 195만 시간 감독은 규모가 매우 크지만, 공개·사내·합성 데이터의 정확한 구성, 중복 제거, 라이선스, 필터 기준이 모두 재현 가능한 수준으로 공개되지는 않음. VAE의 약 300만 시간 코퍼스와 instruction 감독 시간도 서로 다른 집계이므로 한 숫자로 합치면 안 됨.",
+            "4.5배 wall-clock 단축은 동일 하드웨어·길이·배치의 matched 조건에서 나온 저자 보고다. GPU 종류, 동시성, 오디오 길이, 태스크별 NFE와 품질 임계값이 달라지면 배수는 변할 수 있으며, 4-step이 32-step과 모든 기능에서 동등하다는 뜻은 아님.",
+            "AuK와 AuK-Flash 사이에 분명한 트레이드오프가 있다. Flash는 일부 paralinguistic·향상·화자 유사도 지표에서 강하지만, 전체 모델은 TTS 오류율·일부 편집 지표에서 더 좋다. 단일 '최고 모델' 순위보다 작업별 Pareto 곡선으로 읽어야 함.",
+            "Prompt Enhancer가 외부 LLM·ASR·규칙 검증을 추가하는 구조라서, 자연어 한 줄을 오디오로 바꾸는 실제 제품 성능은 AuK 본체만의 성능이 아니다. Prompt Enhancer의 오류와 지연, 모델 버전 의존성이 별도 평가되어야 함.",
+            "평가 지표가 서로 다른 작업별 자동 지표에 분산되어 있고, 주관적 편집 품질·자연스러움·음악성에 대한 대규모 독립 인간평가나 하나의 종합 품질 지표는 제한적이다. 저자 제공 기준에서 baseline 우위가 모든 태스크와 언어에 일반화된다고 단정하기 어려움.",
+            "256 GPU, 600k-step 공동 사전학습, 별도 RL·증류 단계가 필요한 대규모 레시피라 개인 연구자가 처음부터 재현하기 어렵다. 공개 코드와 가중치는 추론·추가 실험을 가능하게 하지만 학습 재현성과는 다름.",
+            "화자 음성 복제와 감정·억양·내용 편집을 하나로 제공하는 모델은 사칭·동의 없는 음성 조작·오디오 허위정보 위험이 있다. 논문에서 안전 필터, provenance, 워터마킹, 악용 평가가 핵심 기여로 다뤄지지 않는 점은 실제 배포에서 별도 보완이 필요함.",
+            "중국어·영어 중심 평가가 많아 저자들이 말하는 다국어·cross-task 전이의 범위를 넓게 일반화하기 어렵다. 방언·저자원 언어·코드스위칭·장시간 대화에서 성능은 추가 검증이 필요함."
+          ]
+        },
+        "reproducibility": {
+          "code": "공개 — 공식 GitHub Tencent-Hunyuan/AuK에 src, 학습·추론 스크립트, 문서와 체크포인트 사용 경로가 포함되며 AuK와 AuK-Flash 추론을 지원. 2026년 9월 기준 MLX Apple Silicon, CPU offload, SGLang-Omni 경로도 저장소에서 안내됨.",
+          "weights": "공개 — 공식 Hugging Face의 tencent/AuK 및 tencent/AuK-Flash 체크포인트와 저장소의 다운로드·실행 안내가 제공됨. Qwen2.5-Omni 기반 의미 인코더와 관련 의존 모델은 각각의 모델 카드 조건을 따름.",
+          "data": "부분 공개 — 코드·가중치·평가 방법은 공개되지만 30.3억 instruction-audio 인스턴스, 195만 시간 감독, 사내 억양·편집·합성 데이터 전체는 배포되지 않음. 공개 벤치마크와 일부 데이터 구축 절차로 추론 재현은 가능하나 학습 데이터 재현은 불가.",
+          "license": "공식 저장소 LICENSE와 Hugging Face 모델 카드에 코드·가중치별 조건이 제시되므로 상업 이용 여부는 해당 문서를 각각 확인해야 함. 논문·의존 모델·데이터 원천의 라이선스가 하나로 자동 통합되는 것은 아님.",
+          "note": "AuK는 공개 추론 실험을 시작하기 좋은 오픈 릴리스지만, 256 GPU 학습 인프라와 비공개 데이터 때문에 처음부터 같은 모델을 재학습하는 수준의 재현성은 없다. 또한 AuK 본체와 Prompt Enhancer, Qwen2.5-Omni 계열, 외부 평가 모델의 버전을 함께 고정해야 논문 수치에 가까운 결과를 얻을 수 있다."
+        },
+        "my_learning_points": [
+          "하나의 오디오 모델에 의미 조건과 음향 조건을 분리해 넣는 설계를 공부하라. 텍스트 지시는 MLLM의 의미 표현으로, 참조 음성·마스크·목표 파형은 VAE latent로 처리하면 생성과 편집을 같은 backbone에 얹을 수 있다는 구조적 교훈이 있다.",
+          "멀티태스크 학습에서 작업별 데이터 비율과 출력 목표를 명시적으로 관리하라. AuK의 5개 task mixture처럼 생성·편집·향상·분리의 샘플 비중을 기록하고, 전체 평균 대신 작업별 지표를 따로 남겨 한 작업의 개선이 다른 작업의 붕괴를 가리지 않게 해야 한다.",
+          "few-step 증류를 적용할 때 하나의 DMD 목적함수를 모든 태스크에 강제하지 마라. AuK가 separation을 task-routed 경로로 분리한 것처럼, 생성·편집·분리는 품질 보존 조건이 다르므로 증류 목적과 평가를 작업별로 설계해야 한다.",
+          "속도 보고에는 반드시 기능·품질 표를 붙여라. 32-step 대비 4-step의 NFE와 wall-clock만 기록하지 말고 WER, 화자 유사도, 내용·스타일·음향 편집 정확도, 실패 유형을 함께 측정해야 실제 배포 가능한 가속인지 판단할 수 있다."
+        ],
+        "related_work": {
+          "prior": [
+            {
+              "name": "Qwen2.5-Omni",
+              "relation": "AuK의 의미 조건을 제공하는 멀티모달 LLM 인코더 기반"
+            },
+            {
+              "name": "F5-TTS / Seed-TTS / Qwen3-TTS",
+              "relation": "zero-shot·instruction TTS와 참조 화자 유사도 비교의 주요 계보 및 baseline"
+            },
+            {
+              "name": "FLUX / MMDiT",
+              "relation": "semantic stream과 acoustic stream을 결합하는 dual-stream·single-stream Transformer 설계의 구조적 기반"
+            },
+            {
+              "name": "Rectified Flow / Flow Matching",
+              "relation": "오디오 latent의 생성 속도장을 학습하고 ODE로 샘플링하는 핵심 생성 목적"
+            },
+            {
+              "name": "DMD·Decoupled DMD·Consistency Distillation",
+              "relation": "32 NFE teacher를 4 NFE AuK-Flash로 줄이는 가속·증류의 직접 기반"
+            },
+            {
+              "name": "Flow-GRPO",
+              "relation": "내용 정확도·화자 유사도·스타일 보상을 결합한 음성 생성 후학습 최적화"
+            },
+            {
+              "name": "Ming-UniAudio / Step-Audio-EditX",
+              "relation": "범용 음성·오디오 편집과 비교되는 최신 통합 모델 계보"
+            }
+          ],
+          "followup": [
+            {
+              "name": "task-routed audio foundation model",
+              "relation": "생성·편집·향상·분리별로 서로 다른 조건과 손실을 선택하는 확장 방향"
+            },
+            {
+              "name": "native free-form audio instruction following",
+              "relation": "Prompt Enhancer 의존을 줄이고 복합 자연어 지시를 본체가 직접 해석하는 후속 과제"
+            },
+            {
+              "name": "audio provenance and safety",
+              "relation": "음성 복제·편집 모델의 동의 관리, 워터마킹, 조작 탐지와 함께 배포하는 안전 연구 축"
+            }
+          ]
+        },
+        "claude_note": "AuK는 TTS 하나를 개선한 논문이라기보다, 의미 지시·참조 오디오·마스크·음향 조건을 하나의 latent flow 모델에 넣어 생성과 편집을 같은 인터페이스로 통합하려는 시도다. 약 30.3억 instruction-audio 인스턴스, 5개 작업군, 인간 선호·RL·task-routed DMD를 한 레시피에 묶은 규모와 설계는 현재 오디오 파운데이션 모델이 어디로 가는지 보여준다. 동시에 4.5배 가속은 단순한 공짜 성능 향상이 아니다. AuK-Flash는 4 NFE·무 CFG로 배포성을 얻는 대신 작업별 지표가 전체 AuK와 다르게 움직이고, Prompt Enhancer가 실제 사용의 중요한 부분을 차지한다. 공개 코드·가중치는 추론 학습에 유리하지만 데이터와 학습 컴퓨트는 닫혀 있어 완전 재현은 어렵다. 더구나 화자 복제와 자연어 편집의 오남용 위험이 크므로, 기술적으로는 매력적인 통합 모델이지만 제품화 관점에서는 품질 표와 함께 동의·출처·안전 계층을 설계해야 한다.",
+        "analyzed_at": "2026-09-14"
+      }
+    }
+  }
+}

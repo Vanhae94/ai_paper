@@ -1,0 +1,188 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "ai-paper-trends/week.schema.json",
+  "title": "주차별 논문 분석 기록 (_data/weeks/YYYY-Wnn.json)",
+  "description": "fetch_papers.py가 raw + 골격을 생성하고, Claude가 classify/tier1/tier2/learning/week_summary를 채운다. render.py가 이 파일을 읽어 HTML을 생성한다. raw는 절대 수정 금지(증거). 나머지는 재생성 가능.",
+  "type": "object",
+  "required": ["schema_version", "week_id", "month_folder", "collected_at", "source", "papers"],
+  "properties": {
+    "schema_version": { "type": "integer", "const": 1 },
+    "week_id": { "type": "string", "pattern": "^[0-9]{4}-W[0-9]{2}$", "description": "ISO 주차. 정렬·중복판정 1차 키." },
+    "date_range_ko": { "type": "string", "description": "사람이 읽는 날짜 범위, 예: '2026-06-15 ~ 06-21'" },
+    "month_folder": { "type": "string", "pattern": "^[0-9]{4}\\.[0-9]{2}$", "description": "그 주 월요일이 속한 월. 예: '2026.06'" },
+    "collected_at": { "type": "string", "description": "수집 시각 ISO8601" },
+    "source": { "type": "string" },
+    "paper_count": { "type": "integer" },
+    "papers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "rank", "raw", "links"],
+        "properties": {
+          "id": { "type": "string", "description": "arxiv ID" },
+          "title": { "type": "string" },
+          "title_ko": { "type": ["string", "null"], "description": "Claude가 채우는 한국어 제목(선택)" },
+          "authors": { "type": "array", "items": { "type": "string" } },
+          "published_at": { "type": ["string", "null"] },
+          "rank": { "type": "integer", "description": "트렌딩 순위 1..N" },
+
+          "raw": {
+            "type": "object",
+            "description": "HF API 원본 필드(평탄화). 불변.",
+            "properties": {
+              "summary": { "type": "string" },
+              "ai_summary": { "type": "string" },
+              "ai_keywords": { "type": "array", "items": { "type": "string" } },
+              "upvotes": { "type": "integer" },
+              "num_comments": { "type": "integer" },
+              "github_repo": { "type": ["string", "null"] },
+              "github_stars": { "type": "integer" },
+              "project_page": { "type": ["string", "null"] }
+            }
+          },
+
+          "links": {
+            "type": "array",
+            "description": "null URL 항목은 제외하여 빈 버튼 방지. fetch가 기본 3종(HF/arxiv/PDF)+조건부(GitHub/Project) 생성.",
+            "items": {
+              "type": "object",
+              "required": ["rank", "label", "url"],
+              "properties": {
+                "rank": { "type": "integer" },
+                "label": { "type": "string" },
+                "url": { "type": "string" }
+              }
+            }
+          },
+
+          "classify": {
+            "type": ["object", "null"],
+            "description": "Claude가 채움. taxonomy.json 기준.",
+            "properties": {
+              "categories": { "type": "array", "maxItems": 2, "items": { "type": "string" } },
+              "primary_category": { "type": "string" },
+              "topic_tags": { "type": "array", "items": { "type": "string" }, "description": "ai_keywords를 keyword_aliases로 정규화한 표준형" },
+              "method_tags": { "type": "array", "items": { "type": "string" } },
+              "modality": { "type": "array", "items": { "type": "string" } },
+              "confidence": { "type": "string", "enum": ["high", "medium", "low"] }
+            }
+          },
+
+          "tier1": {
+            "type": ["object", "null"],
+            "description": "1차 분석(초록+ai_summary 기반, 6편 전부). 스캔용 — 짧게.",
+            "properties": {
+              "one_liner": { "type": "string", "description": "40~70자 한 줄 핵심" },
+              "problem": { "type": "string", "description": "2~3문장" },
+              "approach": { "type": "string", "description": "3~4문장. 기법명 원어 병기" },
+              "contributions": { "type": "array", "items": { "type": "string" }, "description": "불릿 2~4개, 가능하면 수치" },
+              "why_now": { "type": "string", "description": "2~3문장. 트렌드 관점 — 이 시스템의 정체성" },
+              "difficulty": { "type": "string", "enum": ["입문", "중급", "고급"] },
+              "recommended_reader": { "type": "string" },
+              "field_tags": { "type": "array", "items": { "type": "string" }, "description": "3~5개 한국어 태그" },
+              "interest": {
+                "type": "object",
+                "properties": {
+                  "upvotes": { "type": "integer" },
+                  "num_comments": { "type": "integer" },
+                  "github_stars": { "type": "integer" }
+                }
+              }
+            }
+          },
+
+          "tier2": {
+            "type": ["object", "null"],
+            "description": "2차 심층(arxiv 원문, 관심 표시 논문만). null이면 카드의 심층 섹션 숨김.",
+            "properties": {
+              "analyzed_at": { "type": "string" },
+              "method_detail": { "type": "string" },
+              "experiment_setup": { "type": "array", "items": { "type": "string" } },
+              "datasets": { "type": "array", "items": { "type": "object" } },
+              "limitations": {
+                "type": "object",
+                "properties": {
+                  "by_authors": { "type": "array", "items": { "type": "string" } },
+                  "by_claude": { "type": "array", "items": { "type": "string" } }
+                }
+              },
+              "reproducibility": {
+                "type": "object",
+                "properties": {
+                  "code": { "type": "string" },
+                  "weights": { "type": "string" },
+                  "data": { "type": "string" },
+                  "license": { "type": "string" },
+                  "note": { "type": "string" }
+                }
+              },
+              "my_learning_points": { "type": "array", "items": { "type": "string" } },
+              "related_work": {
+                "type": "object",
+                "properties": {
+                  "prior": { "type": "array", "items": { "type": "object" } },
+                  "followup": { "type": "array", "items": { "type": "object" } }
+                }
+              },
+              "claude_note": { "type": "string", "description": "3~5문장 종합 비평" }
+            }
+          },
+
+          "learning": {
+            "type": ["object", "null"],
+            "description": "능동 학습 장치(개인 학습 최적화).",
+            "properties": {
+              "key_terms": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "term": { "type": "string" },
+                    "gloss": { "type": "string", "description": "한 줄 뜻" }
+                  }
+                }
+              },
+              "recall_quiz": {
+                "type": "object",
+                "properties": {
+                  "question": { "type": "string" },
+                  "answer": { "type": "string" }
+                }
+              },
+              "spaced_review": {
+                "type": "object",
+                "properties": {
+                  "flag": { "type": "boolean" },
+                  "review_due": { "type": ["string", "null"] }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "week_summary": {
+      "type": ["object", "null"],
+      "description": "Claude가 채우는 주차 인사이트.",
+      "properties": {
+        "headline_ko": { "type": "string", "description": "이번 주 한 줄 트렌드(히어로에 노출)" },
+        "clusters": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "category": { "type": "string" },
+              "paper_ranks": { "type": "array", "items": { "type": "integer" } },
+              "theme_ko": { "type": "string" }
+            }
+          }
+        },
+        "emerging_keywords": { "type": "array", "items": { "type": "string" } },
+        "narrative_ko": { "type": "string", "description": "3~5문장. 반드시 정량 근거 인용." },
+        "recent_trend_ko": { "type": "string", "description": "최근 동향 섹션 본문. 콜드스타트 시 '기준선 수립 중'." },
+        "caveats_ko": { "type": "string", "description": "표본 한계 경고. 상시 노출." }
+      }
+    }
+  }
+}

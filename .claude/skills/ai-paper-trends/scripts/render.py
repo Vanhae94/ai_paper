@@ -134,7 +134,11 @@ def build_card(paper, idx, cat_labels, streak=1):
     # 배지
     badges = [f'<span class="badge badge--up">▲ {short(raw.get("upvotes"))}</span>',
               f'<span class="badge badge--cm">💬 {raw.get("num_comments", 0)}</span>']
-    if raw.get("github_stars"):
+    has_github_link = any(
+        "github.com" in str(link.get("url", "")).lower()
+        for link in (paper.get("links") or [])
+    )
+    if raw.get("github_stars") and has_github_link:
         badges.append(f'<span class="badge badge--star">★ {short(raw["github_stars"])}</span>')
     if streak and streak >= 2:
         badges.insert(0, f'<span class="badge badge--streak">🔁 {streak}주 연속</span>')
@@ -397,19 +401,28 @@ def render_week(root, week_id, taxonomy, index_data):
     ws = week.get("week_summary") or {}
 
     # 연속 등장(streak): 이번 주에서 거슬러 올라가며 연속으로 트렌딩한 주차 수
-    weeks_covered = (index_data or {}).get("weeks_covered") or []
     paper_weeks = (index_data or {}).get("paper_weeks") or {}
 
     def streak_for(pid):
         appears = set(paper_weeks.get(pid, []))
         appears.add(week_id)  # 이번 주는 당연히 포함
-        if week_id not in weeks_covered:
+        match = re.fullmatch(r"(\d{4})-W(\d{2})", week_id)
+        if not match:
             return 1
-        i = weeks_covered.index(week_id)
+        try:
+            monday = datetime.date.fromisocalendar(
+                int(match.group(1)), int(match.group(2)), 1
+            )
+        except ValueError:
+            return 1
         s = 0
-        while i >= 0 and weeks_covered[i] in appears:
+        while True:
+            iso = monday.isocalendar()
+            candidate = f"{iso.year}-W{iso.week:02d}"
+            if candidate not in appears:
+                break
             s += 1
-            i -= 1
+            monday -= datetime.timedelta(days=7)
         return s
 
     cards = "\n".join(build_card(p, i + 1, cat_labels, streak_for(p.get("id"))) for i, p in enumerate(papers))
