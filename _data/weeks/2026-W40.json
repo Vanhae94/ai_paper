@@ -1,0 +1,1091 @@
+{
+  "schema_version": 1,
+  "week_id": "2026-W40",
+  "date_range_ko": "2026-09-28 ~ 2026-10-04",
+  "month_folder": "2026.09",
+  "collected_at": "2026-09-30T20:00:09+09:00",
+  "source": "huggingface daily_papers?sort=trending&limit=6",
+  "paper_count": 6,
+  "papers": [
+    {
+      "id": "2412.20138",
+      "title": "TradingAgents: Multi-Agents LLM Financial Trading Framework",
+      "title_ko": "TradingAgents: 멀티에이전트 LLM 금융 트레이딩 프레임워크",
+      "authors": [
+        "Yijia Xiao",
+        "Edward Sun",
+        "Di Luo",
+        "Wei Wang"
+      ],
+      "published_at": "2024-12-28T07:54:06.000Z",
+      "rank": 1,
+      "raw": {
+        "summary": "Significant progress has been made in automated problem-solving using\nsocieties of agents powered by large language models (LLMs). In finance,\nefforts have largely focused on single-agent systems handling specific tasks or\nmulti-agent frameworks independently gathering data. However, the multi-agent\nsystems' potential to replicate real-world trading firms' collaborative\ndynamics remains underexplored. TradingAgents proposes a novel stock trading\nframework inspired by trading firms, featuring LLM-powered agents in\nspecialized roles such as fundamental analysts, sentiment analysts, technical\nanalysts, and traders with varied risk profiles. The framework includes Bull\nand Bear researcher agents assessing market conditions, a risk management team\nmonitoring exposure, and traders synthesizing insights from debates and\nhistorical data to make informed decisions. By simulating a dynamic,\ncollaborative trading environment, this framework aims to improve trading\nperformance. Detailed architecture and extensive experiments reveal its\nsuperiority over baseline models, with notable improvements in cumulative\nreturns, Sharpe ratio, and maximum drawdown, highlighting the potential of\nmulti-agent LLM frameworks in financial trading. TradingAgents is available at\nhttps://github.com/TauricResearch/TradingAgents.",
+        "ai_summary": "A multi-agent framework using large language models for stock trading simulates real-world trading firms, improving performance metrics like cumulative returns and Sharpe ratio.",
+        "ai_keywords": [
+          "large language models",
+          "LLM",
+          "multi-agent systems",
+          "fundamental analysts",
+          "sentiment analysts",
+          "technical analysts",
+          "traders",
+          "risk management",
+          "cumulative returns",
+          "Sharpe ratio",
+          "maximum drawdown"
+        ],
+        "upvotes": 148,
+        "num_comments": 6,
+        "github_repo": "https://github.com/tauricresearch/tradingagents",
+        "github_stars": 109269,
+        "project_page": null
+      },
+      "links": [
+        {
+          "rank": 1,
+          "label": "HF 토론·요약",
+          "url": "https://huggingface.co/papers/2412.20138"
+        },
+        {
+          "rank": 2,
+          "label": "arXiv 초록",
+          "url": "https://arxiv.org/abs/2412.20138"
+        },
+        {
+          "rank": 3,
+          "label": "PDF 원문",
+          "url": "https://arxiv.org/pdf/2412.20138"
+        },
+        {
+          "rank": 4,
+          "label": "코드(GitHub)",
+          "url": "https://github.com/tauricresearch/tradingagents"
+        }
+      ],
+      "classify": {
+        "categories": [
+          "LLM/Agents"
+        ],
+        "primary_category": "LLM/Agents",
+        "topic_tags": [
+          "agentic-workflow",
+          "multi-agent",
+          "financial-ai",
+          "tool-use"
+        ],
+        "method_tags": [
+          "prompting",
+          "architecture"
+        ],
+        "modality": [
+          "text"
+        ],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "실제 트레이딩 회사처럼 역할을 나눈 LLM 에이전트들이 토론으로 주식 매매를 결정한다.",
+        "problem": "금융 분야의 LLM 활용은 단일 에이전트가 한 가지 작업을 처리하거나 여러 에이전트가 자료를 따로 모으는 수준에 머무는 경우가 많다. 실제 트레이딩 조직처럼 서로 다른 관점이 충돌하고 위험을 통제하는 협업 구조는 충분히 탐구되지 않았다.",
+        "approach": "펀더멘털·감성·기술 분석가와 강세(Bull)·약세(Bear) 리서처, 리스크 관리자, 트레이더를 각각 LLM 에이전트로 구현한다. 강세와 약세 에이전트가 시장 상황을 토론하고, 트레이더가 그 논쟁과 과거 데이터를 종합해 행동을 선택한다. 별도의 리스크 관리 팀이 노출 수준을 점검해 공격적·중립적·보수적 관점을 의사결정에 반영한다.",
+        "contributions": [
+          "실제 트레이딩 회사의 역할 분담과 토론 구조를 재현한 멀티에이전트 프레임워크",
+          "베이스라인보다 높은 누적 수익률과 Sharpe Ratio를 보고",
+          "Maximum Drawdown까지 함께 평가해 수익뿐 아니라 위험 조정 성과를 비교",
+          "코드 공개, GitHub 약 10.9만 스타로 W38(약 10.5만) 이후에도 관심 증가"
+        ],
+        "why_now": "수집된 14개 주차 중 W32를 뺀 13개 주차에 등장한 최장수 논문으로, 이번에도 트렌딩 순서 1위다(▲133 -> 148). W39를 수집하지 않아 연속 여부는 판정하지 않지만, 관측 공백을 두 번 건너서도 매번 돌아온다는 점에서 금융 멀티에이전트의 구현 참고점이라는 지위는 이제 '화제'가 아니라 '상수'에 가깝다.",
+        "difficulty": "중급",
+        "recommended_reader": "LLM 에이전트 오케스트레이션과 금융 AI의 구조·평가에 관심 있는 학습자",
+        "field_tags": [
+          "멀티에이전트",
+          "금융AI",
+          "에이전트토론",
+          "리스크관리"
+        ],
+        "interest": {
+          "upvotes": 148,
+          "num_comments": 6,
+          "github_stars": 109269
+        }
+      },
+      "tier2": {
+        "method_detail": "TradingAgents는 실제 트레이딩 회사를 모사한 LLM 멀티에이전트 프레임워크로, 7개 역할을 5개 팀으로 조직한다. (1) 애널리스트 팀(Analyst Team)은 펀더멘털(fundamental)·감성(sentiment)·뉴스(news)·기술적(technical) 분석가가 각자 구조화 리포트를 생성한다. (2) 리서처 팀(Researcher Team)은 강세(bull)/약세(bear) 연구자가 자연어 토론(natural language debate)을 n라운드 진행하고, 진행자(facilitator) 에이전트가 토론 이력을 검토해 우세 관점을 선택·기록한다(원문 표현 'facilitator ... selects the prevailing perspective'). (3) 트레이더(Trader)가 이를 종합해 매매 신호를 도출한다. (4) 리스크 관리 팀(Risk Management Team)은 공격적(aggressive)·중립(neutral)·보수(conservative) 세 관점이 토론해 노출을 조정한다. (5) 펀드 매니저(Fund Manager)가 최종 승인·집행한다. 에이전트 간 통신은 '구조화 리포트'를 1차 채널로, '자연어 대화'를 2차 채널로 쓰는 하이브리드 방식이며, 공유 글로벌 에이전트 상태(global agent state)와 메모리로 과거 결정 맥락을 유지한다(명시적 reflection 모듈 여부는 본문 확인 필요). 모델은 2계층(two-tier) 전략으로, 추론 집약 노드(분석·연구·트레이딩)에는 심층사고(deep-thinking) o1-preview를, 요약·데이터 변환·검색 등에는 신속사고(quick-thinking) gpt-4o/gpt-4o-mini를 배정하고, 전 에이전트는 ReAct 프롬프팅 프레임워크를 따른다(논문 명시). LangGraph는 논문 본문이 아니라 공식 오픈소스 레포/문서에서 구현 스택으로 명시된다('built with LangGraph').",
+        "experiment_setup": [
+          "대상 종목: AAPL, GOOGL, AMZN (3종목 소규모 표본)",
+          "백테스트 기간: 2024-06-19 ~ 2024-11-19 (약 5개월) — 원문(arXiv v1) 확인. 초안의 '2024년 1~3월/88거래일'은 오류로 정정",
+          "비교군(baselines): Buy & Hold(B&H), MACD, KDJ&RSI, ZMR, SMA 등 규칙기반 전략 (강한 ML/RL 트레이딩 비교군은 없음)",
+          "평가지표: 누적수익률(CR), 연환산수익률(ARR), 샤프비율(SR), 최대낙폭(MDD)",
+          "핵심 결과(Table 1, 원문 대조 일치): AAPL CR 26.62% / ARR 30.5% / SR 8.21 / MDD 0.91%",
+          "GOOGL CR 24.36% / ARR 27.58% / SR 6.39 / MDD 1.69%; AMZN CR 23.21% / ARR 24.90% / SR 5.60 / MDD 2.11%",
+          "원문 명시 개선폭(최고 베이스라인 대비): AAPL 누적 +24.57%·연환산 +28.43%, GOOGL +16.58%/+19.49%, AMZN +6.10%/+7.30% (SR 개선폭은 원문 미제시)",
+          "거래비용·슬리피지·세금 가정은 본문에서 언급 확인 안 됨"
+        ],
+        "datasets": [
+          {
+            "name": "과거 주가 시계열(OHLCV)",
+            "scale": "3종목 × 약 5개월(2024-06-19~11-19), Yahoo Finance/EODHD 등",
+            "domain": "시장 가격 데이터"
+          },
+          {
+            "name": "뉴스 기사",
+            "scale": "Bloomberg, Yahoo, EODHD, FinnHub 등 다중 소스",
+            "domain": "금융 뉴스/거시 지표"
+          },
+          {
+            "name": "소셜미디어 감성",
+            "scale": "Reddit, X/Twitter 게시물 + 보조 LM 감성 점수",
+            "domain": "시장 심리"
+          },
+          {
+            "name": "내부자·재무 데이터",
+            "scale": "SEDI 인사이더 거래, 기업 공시·재무제표",
+            "domain": "펀더멘털"
+          },
+          {
+            "name": "기술적 지표",
+            "scale": "60개 표준 기술분석 지표(MACD, RSI, Bollinger Bands 등) — 원문 'sixty ... indicators'",
+            "domain": "기술적 분석"
+          }
+        ],
+        "limitations": {
+          "by_authors": [
+            "과거 데이터 백테스트에 한정되며 실거래(live trading) 배포는 미검증 — 향후 과제로 명시",
+            "데이터 가용성 의존: 데이터 부재가 실제 거래 부재를 의미할 수 있어 신호 누락 가능",
+            "테스트 종목 수가 3개(AAPL/GOOGL/AMZN)로 소규모",
+            "다라운드 토론에 따른 지연·API 크레딧 비용 등 운영 오버헤드 존재"
+          ],
+          "by_claude": [
+            "보고된 샤프비율(AAPL SR 8.21 등)이 실무 기준으로 비현실적으로 높음 — 약 5개월의 짧고 대체로 우호적이었던 대형 기술주 구간과 3종목 소표본에 기인한 과대추정 가능성",
+            "거래비용·슬리피지·세금 반영 여부가 본문에서 확인되지 않음 — 미반영 시 실현 성과는 크게 하락 가능",
+            "베이스라인이 B&H·규칙기반 위주라 강한 ML/RL 트레이딩 비교군이 부재해 우위 주장의 상대적 강도가 제한적",
+            "데이터 누출 통제 서술이 불명확 — 백테스트 구간(2024 하반기)은 사용 모델(gpt-4o/o1-preview, 학습 컷오프 ~2023) 이후라 단순 암기형 누출 위험은 낮은 편이나, 뉴스·검색 파이프라인의 시점정합(point-in-time) 통제(미래 기사·미래 지표 유입 차단) 여부는 본문 확인 필요",
+            "원문이 제시한 개선폭은 CR/ARR 기준이며 SR 개선폭은 없음 — 초안의 'SR +6.57 우위'는 원문 근거 없어 삭제함"
+          ]
+        },
+        "reproducibility": {
+          "code": "공개 (github.com/TauricResearch/TradingAgents, Python, CLI+패키지, 조회 시점 약 94.6k 스타 — 변동값)",
+          "weights": "해당 없음 — 자체 학습 가중치 없이 OpenAI/Anthropic/Google/xAI/DeepSeek/Qwen/Ollama 등 상용·로컬 LLM API를 호출하는 구조",
+          "data": "부분 공개 — Yahoo/FinnHub/EODHD/Reddit 등 공개 API로 수집(API 키 필요), 정제·전처리 세부는 재현 시 재구성 필요",
+          "license": "Apache-2.0 (레포 확인)",
+          "note": "코드는 완전 공개이며 레포/문서에 LangGraph 기반 구현, 다중 LLM 프로바이더·Ollama 로컬 모델, CLI가 명시됨. 상용 LLM API 키가 필요해 비용·모델 버전에 따라 결과 재현이 달라질 수 있고, 레포에 '연구 목적이며 금융/투자/트레이딩 조언 아님' 면책이 명시됨. 논문 성과 수치(Table 1)는 원문과 1:1 대조해 일치 확인함."
+        },
+        "my_learning_points": [
+          "역할 분리 + 하이브리드 통신 패턴을 직접 모사해볼 것: 구조화 리포트(1차)와 자연어 토론(2차)을 상태 그래프(예: LangGraph)로 분리하면 '데이터 수집 → 관점 토론 → 리스크 조정 → 승인/집행' 파이프라인을 재사용 가능한 템플릿으로 만들 수 있다.",
+          "2계층 모델 라우팅(deep-thinking o1-preview vs quick-thinking gpt-4o/mini)을 벤치마크할 것: 추론 노드에만 고비용 모델을 쓰고 요약·검색은 저비용 모델로 돌려 비용/성능 트레이드오프를 직접 측정하면 실전 에이전트 설계 감각을 얻는다.",
+          "화려한 수익률(SR 8.21)을 액면 그대로 믿지 말고 재현 실험을 설계할 것: 종목·기간을 넓히고 거래비용을 넣은 뒤, 특히 뉴스/지표 검색을 시점정합(point-in-time)으로 잠근 out-of-sample 백테스트를 돌려 미래정보 유입을 통제하는 검증 습관을 기른다."
+        ],
+        "related_work": {
+          "prior": [
+            {
+              "name": "ReAct (Yao et al., 2022)",
+              "relation": "전 에이전트의 추론-행동 결합 프롬프팅 기반으로 채택(논문 명시)"
+            },
+            {
+              "name": "Generative Agents (Park et al., 2023)",
+              "relation": "LLM 에이전트 사회/역할 시뮬레이션이라는 설계 철학의 선행"
+            },
+            {
+              "name": "MetaGPT / ChatDev",
+              "relation": "역할 기반 멀티에이전트 협업(SOP·구조화 통신) 프레임워크 계보의 선행"
+            },
+            {
+              "name": "FinMem / FinAgent / FinGPT",
+              "relation": "단일 에이전트 중심 금융 LLM 선행 연구(FinMem·FinAgent는 본문에서 비교/언급), 본 논문이 협업형으로 확장"
+            }
+          ],
+          "followup": [
+            {
+              "name": "TauricResearch 오픈소스 생태계 확산",
+              "relation": "레포가 조회 시점 약 94.6k 스타로 확산되며 다중 프로바이더·로컬 모델·백테스트 기능 등 후속 개발이 이어짐(후속 '논문'은 본문 밖, 확인 필요)"
+            }
+          ]
+        },
+        "claude_note": "이 분석은 초록만이 아니라 arXiv v1 HTML 전문과 GitHub 레포를 실제 조회해 작성했고, 성과 표(Table 1)의 CR/ARR/SR/MDD를 원문과 1:1 대조해 모두 일치함을 확인했다. 다만 초안에는 백테스트 기간 오류(실제 2024-06-19~11-19, 약 5개월)와 원문에 없는 'SR +6.57 우위' 계산치가 있어 정정·삭제했고, LangGraph는 논문이 아니라 레포/문서 근거로 재귀속했다. 프레임워크 자체는 역할 분리·하이브리드 통신·2계층 모델 라우팅이라는 엔지니어링 설계가 탄탄하고 Apache-2.0로 완전 공개(조회 시점 약 94.6k 스타)되어 재현·학습 가치가 높다. 반면 SR 8.21과 초저 MDD는 3종목·약 5개월의 짧고 우호적인 대형 기술주 구간, 규칙기반 위주의 약한 베이스라인, 거래비용 미명시를 고려하면 실전 성능으로 액면 수용하기 어렵다(단, 테스트 구간이 모델 학습 컷오프 이후라 단순 암기형 누출 우려는 상대적으로 작다). 요컨대 '수익률 주장'보다 '멀티에이전트 트레이딩 아키텍처의 오픈소스 레퍼런스'로서의 기여가 이 논문의 진짜 가치다.",
+        "analyzed_at": "2026-07-27"
+      },
+      "learning": {
+        "key_terms": [
+          {
+            "term": "Bull/Bear Debate",
+            "gloss": "강세와 약세 관점을 맡은 에이전트가 논쟁해 한쪽 편향을 줄이는 의사결정 구조"
+          },
+          {
+            "term": "Sharpe Ratio",
+            "gloss": "변동성이라는 위험을 감수한 만큼 초과수익을 얻었는지 나타내는 지표"
+          },
+          {
+            "term": "Backtest",
+            "gloss": "과거 시장 데이터에 전략을 적용해 성과를 모의 측정하는 평가 방식"
+          }
+        ],
+        "recall_quiz": {
+          "question": "TradingAgents가 보고한 AAPL Sharpe Ratio 8.21을 실전 성능으로 액면 수용하기 어려운 이유를 두 가지 이상 들면?",
+          "answer": "AAPL·GOOGL·AMZN 3종목과 약 5개월(2024-06~11)이라는 짧고 우호적인 구간, 규칙기반 위주의 약한 베이스라인, 거래비용·슬리피지 반영 여부가 본문에서 확인되지 않는다는 점이다(W31 심층 분석 기준)."
+        },
+        "spaced_review": {
+          "flag": false,
+          "review_due": null
+        }
+      }
+    },
+    {
+      "id": "2609.24972",
+      "title": "RRSI: Regularized Recursive Self-Improvement of Agent Harnesses",
+      "title_ko": "RRSI: 정규화된 재귀적 자기개선으로 에이전트 하니스 진화시키기",
+      "authors": [
+        "Peng Xia",
+        "Rujun Han",
+        "Zifeng Wang",
+        "Yanfei Chen",
+        "Yufan Zhang",
+        "Yoonho Lee",
+        "Chengsong Huang",
+        "Han Yu",
+        "Zhongying CuiZhu",
+        "Yifei Ming",
+        "Huaxiu Yao",
+        "Burak Gokturk",
+        "Tomas Pfister",
+        "Chen-Yu Lee"
+      ],
+      "published_at": "2026-09-20T20:00:00.000Z",
+      "rank": 2,
+      "raw": {
+        "summary": "An LLM agent's capability is largely magnified by its harness, namely the prompts, control flow, tooling, memory, and context management surrounding the frozen backbone model. Recent methods increasingly automate this process by iteratively proposing and selecting component-wise edits of an agent harness, practically establishing a form of recursive self-improvement (RSI) at the agent-system level. However, such recursive evolution may overfit by memorizing the training tasks, showing large in-distribution gains that shrink or even vanish on out-of-distribution benchmarks. We introduce Regularized Recursive Self-Improvement of Agent Harnesses (RRSI), which incorporates the principles of regularizations into harness self-improvement by constraining the evolution candidate proposal and selection. The proposer operates with a temporally annealed budget, limiting how many edits a candidate can bundle, and it encourages unexplored trajectories based on evolution history. The selector is equipped with a critic and a pruner: the critic screens benchmark-specific proposals, while the pruner, removes changes that are too small, too expensive, or no longer useful. Together these constraints favor reusable agent mechanisms over benchmark-specific ones or even noises. Across eight benchmarks spanning coding, agentic workspace and engineering design tasks, RRSI gains up to 14.1 points on the split it evolves against and up to 4.7 points on the five out-of-distribution benchmarks, while producing a harness that runs on 30% fewer policy tokens than the unregularized evolution. Code is available at https://github.com/google-research/rrsi and project page is https://regularized-rsi.com/.",
+        "ai_summary": "",
+        "ai_keywords": [],
+        "upvotes": 218,
+        "num_comments": 2,
+        "github_repo": "https://github.com/google-research/rrsi",
+        "github_stars": 966,
+        "project_page": "https://regularized-rsi.com/"
+      },
+      "links": [
+        {
+          "rank": 1,
+          "label": "HF 토론·요약",
+          "url": "https://huggingface.co/papers/2609.24972"
+        },
+        {
+          "rank": 2,
+          "label": "arXiv 초록",
+          "url": "https://arxiv.org/abs/2609.24972"
+        },
+        {
+          "rank": 3,
+          "label": "PDF 원문",
+          "url": "https://arxiv.org/pdf/2609.24972"
+        },
+        {
+          "rank": 4,
+          "label": "코드(GitHub)",
+          "url": "https://github.com/google-research/rrsi"
+        },
+        {
+          "rank": 5,
+          "label": "프로젝트 페이지",
+          "url": "https://regularized-rsi.com/"
+        }
+      ],
+      "classify": {
+        "categories": [
+          "LLM/Agents"
+        ],
+        "primary_category": "LLM/Agents",
+        "topic_tags": [
+          "agent-harness",
+          "self-refinement",
+          "agentic-workflow",
+          "out-of-distribution-generalization",
+          "regularization"
+        ],
+        "method_tags": [
+          "prompting",
+          "inference-time"
+        ],
+        "modality": [
+          "text"
+        ],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "하니스를 스스로 고치며 진화하는 에이전트가 학습 과제에 과적합하지 않도록 제안과 선택에 정규화를 건다.",
+        "problem": "에이전트의 능력은 고정된 백본 모델을 둘러싼 프롬프트·제어 흐름·도구·메모리·컨텍스트 관리, 즉 하니스(harness)에 크게 좌우된다. 최근에는 하니스의 구성요소별 수정안을 반복 제안·선택하는 자동화, 곧 시스템 수준의 재귀적 자기개선(RSI)이 늘고 있다. 그러나 이런 진화는 학습 과제를 암기해, 분포 내에서는 크게 오르다가 분포 밖 벤치마크에서는 이득이 줄거나 사라지는 과적합을 일으킨다.",
+        "approach": "하니스 자기개선의 후보 제안(proposal)과 선택(selection) 양쪽에 정규화(regularization) 원리를 넣는다. 제안기(proposer)는 시간에 따라 줄어드는(temporally annealed) 예산으로 한 후보가 묶을 수 있는 수정 개수를 제한하고, 진화 이력을 보고 아직 탐색하지 않은 경로를 장려한다. 선택기(selector)에는 벤치마크 특화 제안을 걸러내는 비평가(critic)와, 너무 작거나 비싸거나 더는 쓸모없어진 변경을 제거하는 가지치기기(pruner)가 붙는다. 이 제약들이 벤치마크 전용 트릭이나 잡음보다 재사용 가능한 에이전트 메커니즘을 선호하게 만든다.",
+        "contributions": [
+          "하니스 자기개선의 과적합(분포 내 이득이 분포 밖에서 소멸)을 문제로 명시하고 정규화로 다루는 프레임 제시",
+          "코딩·에이전틱 워크스페이스·엔지니어링 설계 8개 벤치마크에서, 진화 대상 분할 최대 +14.1점, 분포 밖 5개 벤치마크 최대 +4.7점",
+          "정규화하지 않은 진화 대비 정책 토큰 30% 절감된 하니스 산출",
+          "Google Research 코드 공개(GitHub 약 1천 스타)와 프로젝트 페이지"
+        ],
+        "why_now": "이번 주 최다 ▲218로, W33 LongHorizon-Harness와 W36 Prime Agent(자기개선 RLM 하니스)로 이어진 하니스 흐름의 다음 질문을 던진다. 하니스가 성능을 좌우한다는 데까지는 합의가 섰고, 이제 '스스로 고친 하니스가 정말 일반화되는가'가 쟁점이 됐다. 8월 종합에서 짚은 '헤드라인 수치와 조건의 거리'가 이 논문에서는 아예 연구 주제가 된 셈이다.",
+        "difficulty": "고급",
+        "recommended_reader": "에이전트 하니스·스킬·프롬프트를 반복 개선하며 쓰는 개발자, 자동 에이전트 최적화의 평가 설계에 관심 있는 학습자",
+        "field_tags": [
+          "에이전트하니스",
+          "자기개선",
+          "과적합",
+          "일반화",
+          "정규화"
+        ],
+        "interest": {
+          "upvotes": 218,
+          "num_comments": 2,
+          "github_stars": 966
+        }
+      },
+      "tier2": null,
+      "learning": {
+        "key_terms": [
+          {
+            "term": "Agent Harness",
+            "gloss": "고정된 모델을 감싸는 프롬프트·제어 흐름·도구·메모리·컨텍스트 관리의 실행 골격"
+          },
+          {
+            "term": "Recursive Self-Improvement (RSI)",
+            "gloss": "시스템이 자기 구성요소의 수정안을 스스로 제안·선택하며 반복적으로 개선하는 과정"
+          },
+          {
+            "term": "Out-of-Distribution (OOD)",
+            "gloss": "개선이나 학습에 쓰지 않은 분포의 과제. 진짜 일반화 여부를 판정하는 기준"
+          }
+        ],
+        "recall_quiz": {
+          "question": "RRSI는 하니스 진화의 과적합을 막기 위해 제안 단계와 선택 단계에 각각 어떤 제약을 거는가?",
+          "answer": "제안 단계에서는 시간에 따라 줄어드는 예산으로 한 후보가 묶는 수정 개수를 제한하고 미탐색 경로를 장려하며, 선택 단계에서는 비평가가 벤치마크 특화 제안을 거르고 가지치기기가 너무 작거나 비싸거나 쓸모없어진 변경을 제거한다."
+        },
+        "spaced_review": {
+          "flag": true,
+          "review_due": "2026-W42"
+        }
+      }
+    },
+    {
+      "id": "2604.09557",
+      "title": "SPEED-Bench: A Unified and Diverse Benchmark for Speculative Decoding",
+      "title_ko": "SPEED-Bench: 추측 디코딩을 위한 통합·다양성 벤치마크",
+      "authors": [
+        "Talor Abramovich",
+        "Maor Ashkenazi",
+        "Carl",
+        "Putterman",
+        "Benjamin Chislett",
+        "Tiyasa Mitra",
+        "Bita Darvish Rouhani",
+        "Ran Zilberstein",
+        "Yonatan Geifman"
+      ],
+      "published_at": "2026-02-09T19:00:00.000Z",
+      "rank": 3,
+      "raw": {
+        "summary": "Speculative Decoding (SD) has emerged as a critical technique for accelerating Large Language Model (LLM) inference. Unlike deterministic system optimizations, SD performance is inherently data-dependent, meaning that diverse and representative workloads are essential for accurately measuring its effectiveness. Existing benchmarks suffer from limited task diversity, inadequate support for throughput-oriented evaluation, and a reliance on high-level implementations that fail to reflect production environments. To address this, we introduce SPEED-Bench, a comprehensive suite designed to standardize SD evaluation across diverse semantic domains and realistic serving regimes. SPEED-Bench offers a carefully curated Qualitative data split, selected by prioritizing semantic diversity across the data samples. Additionally, it includes a Throughput data split, allowing speedup evaluation across a range of concurrencies, from latency-sensitive low-batch settings to throughput-oriented high-load scenarios. By integrating with production engines like vLLM and TensorRT-LLM, SPEED-Bench allows practitioners to analyze system behaviors often masked by other benchmarks. We highlight this by quantifying how synthetic inputs overestimate real-world throughput, identifying batch-size dependent optimal draft lengths and biases in low-diversity data, and analyzing the caveats of vocabulary pruning in state-of-the-art drafters. We release SPEED-Bench to establish a unified evaluation standard for practical comparisons of SD algorithms.",
+        "ai_summary": "Speculative Decoding evaluation requires diverse workloads to accurately measure performance, which existing benchmarks lack, prompting the introduction of SPEED-Bench for standardized assessment across semantic domains and serving regimes.",
+        "ai_keywords": [
+          "Speculative Decoding",
+          "Large Language Model",
+          "inference",
+          "benchmarking",
+          "throughput evaluation",
+          "semantic diversity",
+          "production engines",
+          "vLLM",
+          "TensorRT-LLM",
+          "draft length",
+          "vocabulary pruning"
+        ],
+        "upvotes": 16,
+        "num_comments": 2,
+        "github_repo": "https://github.com/NVIDIA/Model-Optimizer",
+        "github_stars": 5080,
+        "project_page": "https://huggingface.co/blog/nvidia/speed-bench"
+      },
+      "links": [
+        {
+          "rank": 1,
+          "label": "HF 토론·요약",
+          "url": "https://huggingface.co/papers/2604.09557"
+        },
+        {
+          "rank": 2,
+          "label": "arXiv 초록",
+          "url": "https://arxiv.org/abs/2604.09557"
+        },
+        {
+          "rank": 3,
+          "label": "PDF 원문",
+          "url": "https://arxiv.org/pdf/2604.09557"
+        },
+        {
+          "rank": 4,
+          "label": "코드(GitHub)",
+          "url": "https://github.com/NVIDIA/Model-Optimizer"
+        },
+        {
+          "rank": 5,
+          "label": "프로젝트 페이지",
+          "url": "https://huggingface.co/blog/nvidia/speed-bench"
+        }
+      ],
+      "classify": {
+        "categories": [
+          "Efficiency/Inference",
+          "Evaluation/Benchmarks"
+        ],
+        "primary_category": "Efficiency/Inference",
+        "topic_tags": [
+          "speculative-decoding",
+          "benchmark",
+          "llm-serving",
+          "inference-acceleration"
+        ],
+        "method_tags": [
+          "inference-time",
+          "data-centric"
+        ],
+        "modality": [
+          "text"
+        ],
+        "confidence": "medium"
+      },
+      "tier1": {
+        "one_liner": "추측 디코딩의 속도 이득은 데이터에 따라 달라지므로, 의미 다양성과 실제 서빙 부하를 모두 담은 표준 벤치마크를 만든다.",
+        "problem": "추측 디코딩(Speculative Decoding, SD)은 LLM 추론 가속의 핵심 기법이지만, 결정론적 시스템 최적화와 달리 성능이 입력 데이터에 따라 달라진다. 기존 벤치마크는 과제 다양성이 부족하고, 처리량 중심 평가를 제대로 지원하지 못하며, 실제 운영 환경을 반영하지 못하는 고수준 구현에 의존한다.",
+        "approach": "의미적 다양성을 우선해 선별한 Qualitative 분할과, 저배치 지연 민감 상황부터 고부하 처리량 중심 상황까지 동시성(concurrency) 범위를 바꿔가며 속도 향상을 재는 Throughput 분할을 함께 제공한다. vLLM과 TensorRT-LLM 같은 실제 운영 엔진과 통합해, 다른 벤치마크에서 가려지던 시스템 동작을 분석할 수 있게 한다.",
+        "contributions": [
+          "의미 다양성 기반 Qualitative 분할과 동시성 범위별 Throughput 분할을 갖춘 SD 평가 표준",
+          "합성 입력이 실제 처리량을 과대평가한다는 점을 정량화",
+          "최적 드래프트 길이가 배치 크기에 따라 달라지고, 저다양성 데이터에 편향이 있음을 확인",
+          "최신 드래프터의 어휘 가지치기(vocabulary pruning)에 따르는 주의점 분석"
+        ],
+        "why_now": "W35~W36 FreeToken이 서빙 계층을 개인 기계로 끌어내린 데 이어, 이번 주에는 같은 서빙 계층의 '측정'이 올라왔다. 가속 기법의 헤드라인 배수가 합성 입력과 특정 배치 크기에서 나온 값일 수 있다는 지적은, 8월에 반복 확인한 '수치가 성립하는 조건을 먼저 보라'는 교훈의 추론 최적화 버전이다.",
+        "difficulty": "중급",
+        "recommended_reader": "LLM 서빙·추론 가속을 실제로 도입하거나 벤치마크 수치를 비교해야 하는 엔지니어",
+        "field_tags": [
+          "추측디코딩",
+          "추론가속",
+          "벤치마크",
+          "LLM서빙"
+        ],
+        "interest": {
+          "upvotes": 16,
+          "num_comments": 2,
+          "github_stars": 5080
+        }
+      },
+      "tier2": null,
+      "learning": {
+        "key_terms": [
+          {
+            "term": "Speculative Decoding",
+            "gloss": "작은 드래프트 모델이 여러 토큰을 먼저 제안하고 큰 모델이 한 번에 검증해 생성을 가속하는 기법"
+          },
+          {
+            "term": "Draft Length",
+            "gloss": "드래프트 모델이 한 번에 제안하는 토큰 수. 너무 길면 거절이 늘고 짧으면 이득이 작다"
+          },
+          {
+            "term": "Concurrency",
+            "gloss": "서버가 동시에 처리하는 요청 수. 저배치 지연 중심과 고부하 처리량 중심의 최적 설정이 다르다"
+          }
+        ],
+        "recall_quiz": {
+          "question": "SPEED-Bench가 추측 디코딩 평가에 Qualitative 분할과 Throughput 분할을 따로 두는 이유는?",
+          "answer": "SD의 속도 이득은 입력의 의미 분포에 따라 달라지므로 다양성을 따로 재야 하고, 동시에 저배치부터 고부하까지 동시성에 따라 최적 설정과 이득이 바뀌므로 서빙 부하 축도 따로 재야 하기 때문이다."
+        },
+        "spaced_review": {
+          "flag": false,
+          "review_due": null
+        }
+      }
+    },
+    {
+      "id": "2609.05415",
+      "title": "UniMate: One Unified Model to Animate Diverse Skeletons",
+      "title_ko": "UniMate: 어떤 골격이든 하나의 모델로 애니메이션하기",
+      "authors": [
+        "Linzhan Mou",
+        "Jiahui Lei",
+        "Zhiyang Dou",
+        "Chenyue Cai",
+        "Chaoyue Song",
+        "Adam Finkelstein",
+        "Szymon Rusinkiewicz"
+      ],
+      "published_at": "2026-09-03T20:00:00.000Z",
+      "rank": 4,
+      "raw": {
+        "summary": "Recent advances in automatic rigging now deliver animation-ready 3D assets at scale, yet generating the motion to drive them remains a bottleneck. Existing learned animators are topology-constrained: they rely on category-specific templates or require per-skeleton fine-tuning and reference motions at inference. We present UniMate, a unified foundation model that synthesizes articulated motion for arbitrary skeletons from a rigged 3D asset and a text prompt, with no test-time optimization or per-skeleton retraining. UniMate introduces a topology-aware diffusion transformer, which integrates skeletal topology into attention via three mechanisms: (1) a graph-aware attention bias from pairwise joint relations and geodesic distances; (2) a spectral rotary position embedding generalizing RoPE to arbitrary kinematic trees via the graph Laplacian; and (3) a global topological conditioner attention-pooled from the rest-pose skeleton. We also curate UniML3D, 13,006 motion sequences spanning bipedal, quadrupedal, avian, marine, insectoid, serpentine, and articulated rigid objects with unified canonicalization and text pairing. Trained on this dataset, UniMate outperforms state-of-the-art baselines in quality, generalization, and efficiency, and supports zero-shot cross-topology transfer, in-betweening, expansion, and text-guided editing. Our project page is available at https://linzhanmou.com/unimate/.",
+        "ai_summary": "UniMate is a unified diffusion transformer that generates articulated motion for arbitrary skeletons from text and rigged 3D assets without per-skeleton retraining, using topology-aware attention and a large curated motion dataset.",
+        "ai_keywords": [
+          "topology-aware diffusion transformer",
+          "graph-aware attention bias",
+          "spectral rotary position embedding",
+          "graph Laplacian",
+          "global topological conditioner",
+          "UniML3D",
+          "zero-shot cross-topology transfer",
+          "in-betweening",
+          "text-guided editing"
+        ],
+        "upvotes": 16,
+        "num_comments": 2,
+        "github_repo": "https://github.com/Friedrich-M/UniMate",
+        "github_stars": 634,
+        "project_page": "https://linzhanmou.com/unimate/"
+      },
+      "links": [
+        {
+          "rank": 1,
+          "label": "HF 토론·요약",
+          "url": "https://huggingface.co/papers/2609.05415"
+        },
+        {
+          "rank": 2,
+          "label": "arXiv 초록",
+          "url": "https://arxiv.org/abs/2609.05415"
+        },
+        {
+          "rank": 3,
+          "label": "PDF 원문",
+          "url": "https://arxiv.org/pdf/2609.05415"
+        },
+        {
+          "rank": 4,
+          "label": "코드(GitHub)",
+          "url": "https://github.com/Friedrich-M/UniMate"
+        },
+        {
+          "rank": 5,
+          "label": "프로젝트 페이지",
+          "url": "https://linzhanmou.com/unimate/"
+        }
+      ],
+      "classify": {
+        "categories": [
+          "Vision",
+          "Data"
+        ],
+        "primary_category": "Vision",
+        "topic_tags": [
+          "motion-generation",
+          "character-animation",
+          "diffusion-transformer",
+          "graph-aware-attention"
+        ],
+        "method_tags": [
+          "architecture",
+          "data-centric"
+        ],
+        "modality": [
+          "3d",
+          "text"
+        ],
+        "confidence": "medium"
+      },
+      "tier1": {
+        "one_liner": "리깅된 3D 에셋과 텍스트만 주면, 골격 구조가 무엇이든 재학습 없이 동작을 생성하는 통합 모션 모델.",
+        "problem": "자동 리깅 기술로 애니메이션 준비가 된 3D 에셋은 대량으로 만들 수 있게 됐지만, 그것을 움직일 모션 생성은 여전히 병목이다. 기존 학습형 애니메이터는 골격 위상(topology)에 묶여 있어, 카테고리별 템플릿에 의존하거나 골격마다 미세조정과 추론 시 참조 모션이 필요하다.",
+        "approach": "골격 위상을 어텐션에 통합한 위상 인지 디퓨전 트랜스포머(topology-aware diffusion transformer)를 제안한다. 관절 쌍 관계와 측지 거리(geodesic distance)로 만든 그래프 인지 어텐션 편향, 그래프 라플라시안(graph Laplacian)으로 RoPE를 임의의 운동학 트리에 일반화한 스펙트럴 회전 위치 임베딩, 휴지 자세 골격에서 어텐션 풀링한 전역 위상 조건기의 세 장치를 쓴다. 이족·사족·조류·해양·곤충·뱀형·관절형 강체를 아우르는 13,006개 모션 시퀀스의 UniML3D 데이터셋을 통일된 정규화와 텍스트 쌍으로 구축해 학습한다.",
+        "contributions": [
+          "추론 시 최적화나 골격별 재학습 없이 임의 골격에 동작을 합성하는 통합 파운데이션 모델",
+          "그래프 인지 어텐션 편향·스펙트럴 RoPE·전역 위상 조건기로 위상 정보를 트랜스포머에 주입",
+          "7개 형태군, 13,006개 시퀀스의 UniML3D 데이터셋 구축",
+          "제로샷 교차 위상 전이, 중간 동작 생성(in-betweening), 확장, 텍스트 기반 편집 지원"
+        ],
+        "why_now": "W32 TRELLIS.2가 3D 형상과 재질 생성을, W35 4DAnyone이 영상에서 4D 인체 복원을 보여준 데 이어, 이번엔 만들어진 3D 에셋을 '움직이는' 단계가 올라왔다. 3D 파이프라인의 병목이 형상에서 모션으로 옮겨가고 있다는 신호로 읽을 수 있다. 다만 ▲16으로 관심도는 이번 주 최저 수준이다.",
+        "difficulty": "고급",
+        "recommended_reader": "3D 생성·애니메이션 파이프라인, 그래프 구조를 트랜스포머에 넣는 위치 인코딩 설계에 관심 있는 학습자",
+        "field_tags": [
+          "모션생성",
+          "3D애니메이션",
+          "디퓨전트랜스포머",
+          "그래프위치인코딩"
+        ],
+        "interest": {
+          "upvotes": 16,
+          "num_comments": 2,
+          "github_stars": 634
+        }
+      },
+      "tier2": null,
+      "learning": {
+        "key_terms": [
+          {
+            "term": "Kinematic Tree",
+            "gloss": "관절이 부모-자식 관계로 연결된 골격 구조. 생물·물체마다 모양이 다르다"
+          },
+          {
+            "term": "Graph Laplacian",
+            "gloss": "그래프의 연결 구조를 담은 행렬. 고유벡터로 노드의 위치 같은 좌표를 만들 수 있다"
+          },
+          {
+            "term": "RoPE",
+            "gloss": "회전 위치 임베딩. 토큰 사이의 상대 위치를 어텐션에 회전 변환으로 반영하는 기법"
+          }
+        ],
+        "recall_quiz": {
+          "question": "UniMate가 일반 RoPE를 그대로 쓰지 않고 그래프 라플라시안 기반 스펙트럴 RoPE로 일반화한 이유는?",
+          "answer": "일반 RoPE는 순서가 있는 1차원 시퀀스 위치를 가정하지만, 골격은 형태마다 다른 트리 구조라서 관절 간 위치 관계를 그래프 구조에서 직접 얻어야 하기 때문이다."
+        },
+        "spaced_review": {
+          "flag": false,
+          "review_due": null
+        }
+      }
+    },
+    {
+      "id": "2407.16741",
+      "title": "OpenDevin: An Open Platform for AI Software Developers as Generalist\n  Agents",
+      "title_ko": "OpenDevin: 범용 AI 소프트웨어 개발자를 위한 오픈 플랫폼",
+      "authors": [
+        "Xingyao Wang",
+        "Boxuan Li",
+        "Yufan Song",
+        "Frank F. Xu",
+        "Xiangru Tang",
+        "Mingchen Zhuge",
+        "Jiayi Pan",
+        "Yueqi Song",
+        "Bowen Li",
+        "Jaskirat Singh",
+        "Hoang H. Tran",
+        "Fuqiang Li",
+        "Ren Ma",
+        "Mingzhang Zheng",
+        "Bill Qian",
+        "Yanjun Shao",
+        "Niklas Muennighoff",
+        "Yizhe Zhang",
+        "Binyuan Hui",
+        "Junyang Lin",
+        "Robert Brennan",
+        "Hao Peng",
+        "Heng Ji",
+        "Graham Neubig"
+      ],
+      "published_at": "2024-07-23T13:50:43.000Z",
+      "rank": 5,
+      "raw": {
+        "summary": "Software is one of the most powerful tools that we humans have at our\ndisposal; it allows a skilled programmer to interact with the world in complex\nand profound ways. At the same time, thanks to improvements in large language\nmodels (LLMs), there has also been a rapid development in AI agents that\ninteract with and affect change in their surrounding environments. In this\npaper, we introduce OpenDevin, a platform for the development of powerful and\nflexible AI agents that interact with the world in similar ways to those of a\nhuman developer: by writing code, interacting with a command line, and browsing\nthe web. We describe how the platform allows for the implementation of new\nagents, safe interaction with sandboxed environments for code execution,\ncoordination between multiple agents, and incorporation of evaluation\nbenchmarks. Based on our currently incorporated benchmarks, we perform an\nevaluation of agents over 15 challenging tasks, including software engineering\n(e.g., SWE-Bench) and web browsing (e.g., WebArena), among others. Released\nunder the permissive MIT license, OpenDevin is a community project spanning\nacademia and industry with more than 1.3K contributions from over 160\ncontributors and will improve going forward.",
+        "ai_summary": "OpenDevin is a platform for developing AI agents that interact with the world by writing code, using command lines, and browsing the web, with support for multiple agents and evaluation benchmarks.",
+        "ai_keywords": [
+          "large language models",
+          "OpenDevin",
+          "AI agents",
+          "code execution",
+          "sandboxed environments",
+          "evaluation benchmarks",
+          "SWE-Bench",
+          "WebArena"
+        ],
+        "upvotes": 89,
+        "num_comments": 7,
+        "github_repo": "https://github.com/opendevin/opendevin",
+        "github_stars": 89560,
+        "project_page": null
+      },
+      "links": [
+        {
+          "rank": 1,
+          "label": "HF 토론·요약",
+          "url": "https://huggingface.co/papers/2407.16741"
+        },
+        {
+          "rank": 2,
+          "label": "arXiv 초록",
+          "url": "https://arxiv.org/abs/2407.16741"
+        },
+        {
+          "rank": 3,
+          "label": "PDF 원문",
+          "url": "https://arxiv.org/pdf/2407.16741"
+        },
+        {
+          "rank": 4,
+          "label": "코드(GitHub)",
+          "url": "https://github.com/opendevin/opendevin"
+        }
+      ],
+      "classify": {
+        "categories": [
+          "LLM/Agents",
+          "Evaluation/Benchmarks"
+        ],
+        "primary_category": "LLM/Agents",
+        "topic_tags": [
+          "agentic-workflow",
+          "ai-agents",
+          "code-execution",
+          "software-engineering",
+          "tool-use"
+        ],
+        "method_tags": [
+          "architecture",
+          "prompting"
+        ],
+        "modality": [
+          "text"
+        ],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "코드·터미널·웹을 한 작업공간에 묶어, 서로 다른 개발 에이전트와 벤치마크를 교체 가능한 플랫폼으로 만든다.",
+        "problem": "강력한 개발 에이전트를 만들려면 코드 작성뿐 아니라 명령줄, 브라우저, 샌드박스, 다중 에이전트 조율과 평가가 하나의 실행 환경에서 맞물려야 한다. 개별 데모 중심 구현은 에이전트와 벤치마크를 공정하게 비교하고 재사용하기 어렵다.",
+        "approach": "에이전트가 인간 개발자처럼 코드를 작성하고 명령줄을 조작하며 웹을 탐색할 수 있는 통합 플랫폼을 제공한다. 샌드박스 기반 코드 실행, 여러 에이전트 간 조정, SWE-Bench·WebArena를 포함한 평가 어댑터를 공통 인터페이스로 묶는다. 특정 모델 하나보다 에이전트 구현과 환경, 평가를 교체 가능한 오픈 생태계로 만드는 데 초점을 둔다.",
+        "contributions": [
+          "코드 편집·터미널·브라우저를 결합한 범용 소프트웨어 에이전트 플랫폼",
+          "안전한 샌드박스 실행과 멀티에이전트 조정 기능 제공",
+          "SWE-Bench·WebArena 등 15개 도전적 과제를 하나의 평가 틀에 통합",
+          "MIT 라이선스와 대규모 커뮤니티, GitHub 약 9.0만 스타"
+        ],
+        "why_now": "수집된 14개 주차 중 7개 주차에 등장했고, W38에 이어 이번 주도 올랐다(▲86 -> 89). 이번 주에는 하니스를 자동으로 진화시키는 RRSI와 나란히 놓이면서, OpenDevin의 이벤트 스트림·샌드박스 런타임 같은 구조가 바로 그런 자동 개선의 '대상'이 되는 실행 골격이라는 점이 더 선명해졌다.",
+        "difficulty": "중급",
+        "recommended_reader": "코딩 에이전트 플랫폼, 샌드박스, 벤치마크 어댑터 구조를 공부하려는 개발자",
+        "field_tags": [
+          "코딩에이전트",
+          "오픈플랫폼",
+          "샌드박스",
+          "에이전트평가"
+        ],
+        "interest": {
+          "upvotes": 89,
+          "num_comments": 7,
+          "github_stars": 89560
+        }
+      },
+      "tier2": {
+        "method_detail": "OpenHands(구 OpenDevin)는 코딩·명령줄·웹 브라우징을 사람 개발자처럼 수행하는 AI 에이전트를 만들기 위한 오픈 플랫폼으로, 핵심 추상화는 단일 step(self, state: State) 함수와 이벤트 스트림(event stream)이다. 이벤트 스트림은 과거 행동(Action)과 관찰(Observation)을 시간순으로 누적한 State의 핵심 요소로, 사용자 지시/피드백·멀티에이전트 위임 메타데이터까지 담는다. 행동 원시 타입은 IPythonRunCellAction(샌드박스 내 Python 실행), CmdRunAction(bash 실행), BrowserInteractiveAction(BrowserGym DSL 기반 웹 조작), 그리고 AgentDelegateAction·MessageAction·AgentFinishAction 등으로 정의된다. 실행 격리는 Agent Runtime으로, Docker 샌드박스 위에서 bash 쉘, Jupyter IPython 서버, Playwright 기반 Chromium을 제공한다. AgentSkills는 기본 bash/Python으로 얻기 어려운 유틸리티 툴박스로 edit_file, scroll_up/scroll_down, parse_image(비전-언어 모델 기반), parse_pdf 등을 제공한다. 멀티에이전트 협업은 AgentDelegateAction으로 구현되어 범용 CodeActAgent가 웹 태스크를 BrowsingAgent에게 위임할 수 있으며, 커뮤니티 에이전트 구현은 AgentHub에 모인다. 이 이벤트 스트림 + Docker 런타임 + AgentSkills + 위임 구조가 새 에이전트 구현·평가를 표준화하는 프레임워크를 이룬다.",
+        "experiment_setup": [
+          "벤치마크: 총 15개를 3범주로 통합 - 소프트웨어(SWE-Bench, HumanEvalFix, BIRD, BioCoder, ML-Bench, Gorilla APIBench, ToolQA), 웹(WebArena, MiniWoB++), 기타 보조(GAIA, GPQA, AgentBench, MINT, ProofWriter, Entity Deduction Arena)",
+          "평가 에이전트: CodeActAgent(v1.5/v1.8), BrowsingAgent(v1.0), GPTSwarm(v1.0) 등을 플랫폼에 재구현/통합",
+          "사용 LLM: 주로 gpt-4o(2024-05-13), claude-3-5-sonnet(20240620), gpt-4o-mini 등 프롬프트 기반(추가 파인튜닝 없음)",
+          "핵심 결과 - SWE-Bench Lite(300, 힌트 없음): CodeActAgent v1.8 + claude-3.5-sonnet = 26.0% resolve (gpt-4o 22.0%, gpt-4o-mini 7.0%) [원문 확인됨]",
+          "핵심 결과 - WebArena(812): BrowsingAgent v1.0 + claude-3.5-sonnet = 15.5% success (gpt-4o 14.8%, gpt-4o-mini 8.5%; WebArena 원논문 gpt-4-turbo baseline 14.4% 수준으로 대등) [원문 확인됨]",
+          "핵심 결과 - MiniWoB++(125 env): BrowsingAgent v1.0 + gpt-4o = 40.8%; 전문 모델 CC-NET(RL+human BC) 91.1%와 대비 [원문 확인됨]",
+          "핵심 결과 - GAIA L1 검증셋(53): GPTSwarm v1.0 + gpt-4o = 32.1% [원문 확인됨]",
+          "기타 보고 결과: HumanEvalFix 79.3%(CodeActAgent v1.5, gpt-4o, 0-shot), GPQA diamond 52.0%(v1.8, claude-3.5-sonnet), ML-Bench 76.5%(v1.5, gpt-4o, 68 인스턴스), AgentBench OS 57.6%(v1.5, gpt-4o, 144 인스턴스) [원문 확인됨]",
+          "비교군: 전문(specialist) 에이전트(SWE-Agent, AutoCodeRover, Aider 등) 및 전용 학습 모델(MiniWoB++의 CC-NET 등)과 대조"
+        ],
+        "datasets": [
+          {
+            "name": "SWE-Bench (Lite)",
+            "scale": "300 instances (Lite; full 2,294)",
+            "domain": "GitHub 이슈 해결/버그 수정 소프트웨어 엔지니어링"
+          },
+          {
+            "name": "WebArena",
+            "scale": "812 tasks",
+            "domain": "멀티도메인 실사이트 웹 브라우징/조작"
+          },
+          {
+            "name": "MiniWoB++",
+            "scale": "125 environments",
+            "domain": "합성 미니멀 웹 인터페이스 조작"
+          },
+          {
+            "name": "HumanEvalFix",
+            "scale": "164 Python instances",
+            "domain": "테스트 기반 버그 수정 코딩"
+          },
+          {
+            "name": "GAIA",
+            "scale": "466 curated tasks(3 난이도); L1 검증 53 평가",
+            "domain": "다능력 범용 어시스턴트"
+          },
+          {
+            "name": "GPQA (diamond)",
+            "scale": "198 instances",
+            "domain": "대학원 수준 과학 추론 QA"
+          },
+          {
+            "name": "AgentBench (OS subset)",
+            "scale": "144 bash instances",
+            "domain": "OS/bash 커맨드라인 상호작용"
+          },
+          {
+            "name": "BIRD",
+            "scale": "300 (dev set)",
+            "domain": "text-to-SQL"
+          },
+          {
+            "name": "BioCoder",
+            "scale": "157 Python + 50 Java",
+            "domain": "생명정보 코딩"
+          },
+          {
+            "name": "ML-Bench",
+            "scale": "68 instances (subset)",
+            "domain": "ML 리포지토리 코드 실행"
+          },
+          {
+            "name": "Gorilla APIBench",
+            "scale": "1,775 instances",
+            "domain": "API 선택"
+          },
+          {
+            "name": "MINT",
+            "scale": "225(math) + 136(code)",
+            "domain": "다중턴 도구 사용/추론"
+          },
+          {
+            "name": "ProofWriter",
+            "scale": "600 (5-hop)",
+            "domain": "논리 추론"
+          },
+          {
+            "name": "Entity Deduction Arena",
+            "scale": "200 (Things 100 + Celebrities 100)",
+            "domain": "전략적 질의 추론"
+          }
+        ],
+        "limitations": {
+          "by_authors": [
+            "현재 에이전트가 복잡·장기(long-horizon) 태스크에서 여전히 고전함(능력 상한 존재)",
+            "긴 파일 편집(long file editing) 등 특정 상황에서 성능 저하가 존재함",
+            "이미지/비디오 등 멀티모달(비전-언어) 지원이 미흡 - 향후 과제로 명시",
+            "웹 브라우징이 전문 에이전트/전용 학습 모델(예: MiniWoB++ CC-NET 91.1%) 대비 크게 열세(BrowsingAgent 40.8%, WebArena 15.5%)",
+            "안전(safety) 측면 우려 및 현 AI 에이전트가 실세계 태스크를 신뢰성 있게 수행하기 어렵다는 점 인정"
+          ],
+          "by_claude": [
+            "SWE-Bench 전체(2,294)가 아닌 Lite(300) 위주 보고이며 절대 성능(26.0%)은 신뢰성 있는 실무 자동화 수준과는 거리가 있어 상한 해석에 주의",
+            "최고 성능이 폐쇄형 상용 LLM(gpt-4o, claude-3.5-sonnet)에 크게 의존 - '오픈 플랫폼' 정체성과 성능 원천 사이에 긴장. 오픈웨이트 모델 성능은 본문 확인 필요",
+            "각 벤치마크의 세부 세팅(shot 수, 재시도 정책, 프롬프트) 및 baseline 공정성은 표를 직접 대조해야 완전 판단 가능",
+            "버전이 빠르게 바뀌어(v1.5 vs v1.8) 논문 수치와 현재 레포 성능/설계가 어긋날 수 있어 재현 시 커밋+모델 버전 고정 필요",
+            "도메인별 최고점은 여전히 전문 에이전트/전용 학습 모델에 미달 - '제너럴리스트'의 대가로서 범용성-성능 트레이드오프가 명시적으로 존재"
+          ]
+        },
+        "reproducibility": {
+          "code": "공개",
+          "weights": "해당없음(플랫폼/프레임워크로 자체 학습 가중치 없음; 상용/오픈 LLM API를 백엔드로 사용)",
+          "data": "공개(평가 벤치마크는 모두 공개된 외부 데이터셋을 통합; 통합 하네스가 레포에 포함)",
+          "license": "MIT",
+          "note": "GitHub: All-Hands-AI/OpenHands. v3 본문 기준 32K stars, 2.1K+ contributions, 188+ contributors(초록의 초기 수치 1.3K/160+ 대비 갱신됨). Docker 이미지 기반 런타임으로 환경 재현성 높음. ICLR 2025 채택(arXiv Comments 필드에서 확인). SWE-Bench 전체 2,294 인스턴스 실행 비용은 인스턴스당 $3 보수 추정 시 약 $6.9k로 원문 명시. OpenDevin→OpenHands 개명(f.k.a. OpenDevin)."
+        },
+        "my_learning_points": [
+          "에이전트 프레임워크 설계 시 '행동(Action)-관찰(Observation) 이벤트 스트림 + 단일 step(state: State) 함수' 추상화를 벤치마킹하라 - 새 에이전트/멀티에이전트 위임(AgentDelegateAction)을 최소 변경으로 붙일 수 있는 확장점이 된다.",
+          "코드 실행은 Docker 이미지 기반 격리 런타임(bash + IPython + Playwright)으로 감싸라 - 안전성과 환경 재현성을 동시에 확보하는 실전 패턴을 그대로 차용할 수 있다.",
+          "직접 재현 시 논문 수치가 아닌 특정 커밋 + 명시된 모델 버전(claude-3.5-sonnet@20240620 등)으로 고정하고, SWE-Bench는 Lite(300)로 소규모 검증 후 확장하라 - 전체 2,294 실행은 약 $6.9k 비용이 든다."
+        ],
+        "related_work": {
+          "prior": [
+            {
+              "name": "CodeAct (Executable Code Actions)",
+              "relation": "CodeActAgent의 기반 - 코드를 행동으로 실행하는 에이전트 패러다임"
+            },
+            {
+              "name": "SWE-Agent / SWE-Bench",
+              "relation": "핵심 소프트웨어 엔지니어링 벤치마크 및 비교 대상 전문 에이전트"
+            },
+            {
+              "name": "WebArena / BrowserGym",
+              "relation": "웹 브라우징 평가 환경 및 브라우저 행동 DSL 제공(BrowsingAgent 기반)"
+            },
+            {
+              "name": "AutoGPT / GPTSwarm / AutoGen 계열",
+              "relation": "범용/멀티에이전트 자율 에이전트의 선행 흐름 - 통합·비교 대상"
+            },
+            {
+              "name": "Devin (Cognition AI)",
+              "relation": "초기 영감을 준 클로즈드 AI 소프트웨어 엔지니어 - 명칭 OpenDevin의 유래"
+            }
+          ],
+          "followup": [
+            {
+              "name": "OpenHands 지속 릴리스(CodeActAgent v1.8+ 등)",
+              "relation": "논문 이후에도 레포에서 에이전트/런타임 지속 개선"
+            },
+            {
+              "name": "SWE-Bench Verified / SWE-Gym 등 후속 SE 벤치마크·학습셋",
+              "relation": "OpenHands 하네스가 후속 SE 에이전트 연구·데이터 생성의 표준 플랫폼으로 활용"
+            }
+          ]
+        },
+        "claude_note": "OpenHands(구 OpenDevin)의 가장 큰 기여는 특정 SOTA 점수가 아니라, 이벤트 스트림·Docker 런타임·AgentSkills·에이전트 위임(AgentDelegateAction/AgentHub)을 표준화해 '누구나 코딩·CLI·웹을 다루는 에이전트를 만들고 15개 벤치마크로 재평가'할 수 있게 한 오픈 인프라 그 자체다. MIT 라이선스에 32K stars, 188+ 기여자로 커뮤니티 채택이 확실하고 ICLR 2025 채택(arXiv Comments 확인)이라는 학술 검증도 받았다. 다만 SWE-Bench Lite 26.0%, WebArena 15.5%, MiniWoB++ 40.8% 같은 절대 성능은 실무 자동화와 거리가 있고, 특히 웹 도메인은 전용 학습 모델 CC-NET 91.1%에 크게 미달해 '제너럴리스트'의 성능 타협이 뚜렷하다. 또한 최고 성능이 폐쇄형 상용 LLM에 종속되어 '오픈 플랫폼' 정체성과 성능 원천 사이에 긴장이 있다. 종합하면 성능 논문이라기보다 '에이전트 연구의 공통 실험대'를 제시한 인프라 논문으로 읽는 것이 정확하며, 후속 SE 에이전트/데이터 연구의 사실상 표준 하네스가 되었다는 점에서 영향력이 크다.",
+        "analyzed_at": "2026-07-06"
+      },
+      "learning": {
+        "key_terms": [
+          {
+            "term": "Event Stream",
+            "gloss": "에이전트의 행동(Action)과 관찰(Observation)을 시간순으로 쌓은 상태 기록. OpenDevin 설계의 중심 추상화"
+          },
+          {
+            "term": "Agent Delegation",
+            "gloss": "범용 에이전트가 웹 탐색처럼 특화된 하위 작업을 다른 에이전트에게 넘기는 구조"
+          },
+          {
+            "term": "SWE-Bench Lite",
+            "gloss": "SWE-Bench 전체 2,294개 중 300개로 구성한 축약판. 결과 해석 시 전체판과 구분해야 한다"
+          }
+        ],
+        "recall_quiz": {
+          "question": "OpenDevin의 한 스텝을 구성하는 핵심 추상화와, 웹 작업을 다른 에이전트에 넘기는 방식은 무엇인가?",
+          "answer": "State의 핵심인 이벤트 스트림(행동과 관찰의 시간순 누적)을 입력으로 step 함수가 다음 행동을 내고, 웹 작업은 AgentDelegateAction으로 BrowsingAgent에 위임한다(W28 심층 분석 기준)."
+        },
+        "spaced_review": {
+          "flag": false,
+          "review_due": null
+        }
+      }
+    },
+    {
+      "id": "2309.06180",
+      "title": "Efficient Memory Management for Large Language Model Serving with\n  PagedAttention",
+      "title_ko": "PagedAttention: 대규모 언어모델 서빙을 위한 효율적 메모리 관리 (vLLM)",
+      "authors": [
+        "Woosuk Kwon",
+        "Zhuohan Li",
+        "Siyuan Zhuang",
+        "Ying Sheng",
+        "Lianmin Zheng",
+        "Cody Hao Yu",
+        "Joseph E. Gonzalez",
+        "Hao Zhang",
+        "Ion Stoica"
+      ],
+      "published_at": "2023-09-12T08:50:04.000Z",
+      "rank": 6,
+      "raw": {
+        "summary": "High throughput serving of large language models (LLMs) requires batching\nsufficiently many requests at a time. However, existing systems struggle\nbecause the key-value cache (KV cache) memory for each request is huge and\ngrows and shrinks dynamically. When managed inefficiently, this memory can be\nsignificantly wasted by fragmentation and redundant duplication, limiting the\nbatch size. To address this problem, we propose PagedAttention, an attention\nalgorithm inspired by the classical virtual memory and paging techniques in\noperating systems. On top of it, we build vLLM, an LLM serving system that\nachieves (1) near-zero waste in KV cache memory and (2) flexible sharing of KV\ncache within and across requests to further reduce memory usage. Our\nevaluations show that vLLM improves the throughput of popular LLMs by\n2-4times with the same level of latency compared to the state-of-the-art\nsystems, such as FasterTransformer and Orca. The improvement is more pronounced\nwith longer sequences, larger models, and more complex decoding algorithms.\nvLLM's source code is publicly available at\nhttps://github.com/vllm-project/vllm",
+        "ai_summary": "PagedAttention algorithm and vLLM system enhance the throughput of large language models by efficiently managing memory and reducing waste in the key-value cache.",
+        "ai_keywords": [
+          "PagedAttention",
+          "key-value cache",
+          "KV cache",
+          "vLLM",
+          "virtual memory",
+          "paging techniques",
+          "attention algorithm",
+          "memory management",
+          "throughput improvement",
+          "FasterTransformer",
+          "Orca"
+        ],
+        "upvotes": 75,
+        "num_comments": 1,
+        "github_repo": "https://github.com/vllm-project/vllm",
+        "github_stars": 86094,
+        "project_page": null
+      },
+      "links": [
+        {
+          "rank": 1,
+          "label": "HF 토론·요약",
+          "url": "https://huggingface.co/papers/2309.06180"
+        },
+        {
+          "rank": 2,
+          "label": "arXiv 초록",
+          "url": "https://arxiv.org/abs/2309.06180"
+        },
+        {
+          "rank": 3,
+          "label": "PDF 원문",
+          "url": "https://arxiv.org/pdf/2309.06180"
+        },
+        {
+          "rank": 4,
+          "label": "코드(GitHub)",
+          "url": "https://github.com/vllm-project/vllm"
+        }
+      ],
+      "classify": {
+        "categories": [
+          "Efficiency/Inference"
+        ],
+        "primary_category": "Efficiency/Inference",
+        "topic_tags": [
+          "kv-cache",
+          "llm-serving",
+          "paged-attention",
+          "memory-management"
+        ],
+        "method_tags": [
+          "inference-time"
+        ],
+        "modality": [
+          "text"
+        ],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "운영체제의 가상 메모리·페이징을 KV 캐시에 적용해 메모리 낭비를 거의 없애고 LLM 서빙 처리량을 2~4배 올린다.",
+        "problem": "LLM을 높은 처리량으로 서빙하려면 많은 요청을 한 번에 배치해야 한다. 그런데 요청마다 KV 캐시 메모리가 매우 크고 동적으로 늘었다 줄어, 비효율적으로 관리하면 단편화(fragmentation)와 중복 복제로 메모리가 크게 낭비되고 배치 크기가 제한된다.",
+        "approach": "운영체제의 고전적 가상 메모리와 페이징 기법에서 착안한 어텐션 알고리즘 PagedAttention을 제안한다. KV 캐시를 고정 크기 블록 단위로 나눠 연속 메모리가 아니어도 저장할 수 있게 하고, 그 위에 LLM 서빙 시스템 vLLM을 구축한다. vLLM은 KV 캐시 메모리 낭비를 거의 0으로 줄이고, 요청 내부와 요청 간에 KV 캐시를 유연하게 공유해 메모리 사용을 더 줄인다.",
+        "contributions": [
+          "가상 메모리·페이징 개념을 KV 캐시 관리에 이식한 PagedAttention 알고리즘",
+          "KV 캐시 낭비를 거의 없애고 요청 내·간 공유를 지원하는 서빙 시스템 vLLM",
+          "같은 지연 수준에서 FasterTransformer·Orca 대비 처리량 2~4배 향상",
+          "긴 시퀀스, 큰 모델, 복잡한 디코딩 알고리즘일수록 이득이 커짐"
+        ],
+        "why_now": "2023년 논문이지만 이 시스템에서는 첫 등장이다. W25 LMCache(KV 캐시 계층), W35~W36 FreeToken(엣지 MoE 서빙)으로 이어진 서빙 계층 관심이 이번 주 SPEED-Bench와 함께 그 토대 논문까지 소환한 모양새다. kv-cache 키워드도 W34 이후 관측 3회(W35·W36·W38) 공백을 깨고 돌아왔다.",
+        "difficulty": "중급",
+        "recommended_reader": "LLM 서빙의 병목과 KV 캐시를 원리부터 이해하고 싶은 학습자, 로컬·서버 추론 엔진을 다루는 개발자",
+        "field_tags": [
+          "LLM서빙",
+          "KV캐시",
+          "메모리관리",
+          "vLLM"
+        ],
+        "interest": {
+          "upvotes": 75,
+          "num_comments": 1,
+          "github_stars": 86094
+        }
+      },
+      "tier2": null,
+      "learning": {
+        "key_terms": [
+          {
+            "term": "KV Cache",
+            "gloss": "이전 토큰의 Key·Value를 저장해 매 토큰마다 재계산하지 않게 하는 메모리. 서빙 메모리의 대부분을 차지한다"
+          },
+          {
+            "term": "Paging",
+            "gloss": "메모리를 고정 크기 블록으로 나눠 물리적으로 흩어져 있어도 논리적으로 연속처럼 쓰게 하는 운영체제 기법"
+          },
+          {
+            "term": "Fragmentation",
+            "gloss": "할당 단위와 실제 사용량이 어긋나 쓰지 못하고 버려지는 메모리 조각"
+          }
+        ],
+        "recall_quiz": {
+          "question": "PagedAttention이 KV 캐시 메모리 낭비를 줄이는 핵심 아이디어는 무엇이며, 그 결과 서빙 처리량이 오르는 이유는?",
+          "answer": "KV 캐시를 고정 크기 블록으로 나눠 비연속 메모리에 저장하는 페이징 방식으로 단편화와 중복을 줄이고, 아낀 메모리만큼 더 많은 요청을 한 배치에 넣을 수 있어 처리량이 오른다."
+        },
+        "spaced_review": {
+          "flag": true,
+          "review_due": "2026-W42"
+        }
+      }
+    }
+  ],
+  "week_summary": {
+    "headline_ko": "에이전트 3편과 서빙 2편 — 스스로 고치는 하니스엔 과적합 브레이크가, 추론 서빙엔 측정 기준이 붙었다",
+    "clusters": [
+      {
+        "category": "LLM/Agents",
+        "paper_ranks": [
+          1,
+          2,
+          5
+        ],
+        "theme_ko": "에이전트 3편 — 금융 협업(TradingAgents)과 오픈 개발 플랫폼(OpenDevin)이라는 오래된 기준점 위에, 하니스 자기개선의 과적합을 정면으로 다루는 RRSI가 올라섰다"
+      },
+      {
+        "category": "Efficiency/Inference",
+        "paper_ranks": [
+          3,
+          6
+        ],
+        "theme_ko": "서빙 2편 — vLLM의 토대인 PagedAttention과, 그 vLLM·TensorRT-LLM 위에서 추측 디코딩의 실제 이득을 재는 SPEED-Bench"
+      }
+    ],
+    "emerging_keywords": [
+      "agent-harness"
+    ],
+    "narrative_ko": "이번 주 6편은 에이전트 3편(50%), 효율·추론최적화 2편, 비전 1편으로 나뉜다. 가장 큰 관심(▲218)을 받은 RRSI는 하니스 자동 진화가 진화 대상 분할에서 최대 +14.1점을 얻는 동안 분포 밖 5개 벤치마크에서는 최대 +4.7점에 그치는 격차 자체를 문제로 삼고, 제안 예산 감쇠·비평가·가지치기기로 이를 억제하면서 정책 토큰을 30% 줄였다고 보고한다. 효율·추론최적화는 관측 이래 처음으로 한 주에 2편이 올랐는데, vLLM의 토대인 PagedAttention(같은 지연에서 처리량 2~4배)과 그 vLLM·TensorRT-LLM 위에서 추측 디코딩을 재며 합성 입력이 처리량을 과대평가한다고 지적한 SPEED-Bench다. 여기에 수집 14주 중 13주째 등장한 TradingAgents(▲148)와 7주째인 OpenDevin(▲89)이 기준점 자리를 지켰고, UniMate는 임의 골격 모션 생성으로 W32·W35의 3D 흐름을 이었다. 두 흐름의 공통분모는 '헤드라인 수치가 어떤 조건에서 나왔는가'를 연구 대상으로 끌어올렸다는 점이다.",
+    "recent_trend_ko": "누적 14회 관측(W25~W36, W38, W40) 기준, LLM/Agents는 14주 전부 등장한 유일한 카테고리이고 agentic-workflow도 누적 33회로 14주 모두 등장했다. 부상 신호는 두 갈래다. 첫째, agent-harness가 W36(Prime Agent·Apodex 1.1)과 W40(RRSI) 서로 다른 두 주에 등장해, 질문이 '하니스를 어떻게 설계하나'에서 '자동으로 고친 하니스가 일반화되나'로 한 단계 나아갔다. 둘째, 효율·추론최적화는 최근 4회 관측(W35·W36·W38·W40) 중 3회 등장해 지속 기준을 충족했고 이번 주 2편은 관측 이래 한 주 최다다. 반대로 1차 카테고리 기준 임바디드·월드모델은 W31 이후 7회 관측, document-parsing 키워드는 W34 이후 4회 관측 동안 등장하지 않아 식어가는 쪽이다. W37·W39를 수집하지 않았으므로 직전 비교는 2주 간격인 W38 대비이며, 연속 등장 배지는 달력 주 기준이라 이번 주에는 붙지 않는다.",
+    "caveats_ko": "주 6편의 HuggingFace 트렌딩 표본은 인기·최신성 편향을 강하게 받으며, 업보트와 GitHub 스타는 연구 중요도가 아닌 관심도 지표다. W37·W39 두 주가 비어 있어 추세 판정은 수집된 주차끼리의 비교이고 실제 흐름보다 거칠다. RRSI의 +14.1점·+4.7점과 토큰 30% 절감은 초록의 '최대' 기준 저자 보고치이며, 백본 모델과 벤치마크별 분산은 원문 확인 전이다. SPEED-Bench 카드의 GitHub 스타(약 5.1천)는 NVIDIA Model-Optimizer 저장소 전체의 수치라 벤치마크 자체의 관심도로 읽으면 안 된다. PagedAttention(2023)·OpenDevin(2024)·TradingAgents(2024)는 최신 성과가 아니라 기반 기술과 생태계에 대한 지속 관심의 신호로 읽어야 한다."
+  }
+}

@@ -1,0 +1,239 @@
+{
+  "week_id": "2026-W40",
+  "papers": {
+    "2412.20138": {
+      "title_ko": "TradingAgents: 멀티에이전트 LLM 금융 트레이딩 프레임워크",
+      "classify": {
+        "categories": ["LLM/Agents"],
+        "primary_category": "LLM/Agents",
+        "topic_tags": ["agentic-workflow", "multi-agent", "financial-ai", "tool-use"],
+        "method_tags": ["prompting", "architecture"],
+        "modality": ["text"],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "실제 트레이딩 회사처럼 역할을 나눈 LLM 에이전트들이 토론으로 주식 매매를 결정한다.",
+        "problem": "금융 분야의 LLM 활용은 단일 에이전트가 한 가지 작업을 처리하거나 여러 에이전트가 자료를 따로 모으는 수준에 머무는 경우가 많다. 실제 트레이딩 조직처럼 서로 다른 관점이 충돌하고 위험을 통제하는 협업 구조는 충분히 탐구되지 않았다.",
+        "approach": "펀더멘털·감성·기술 분석가와 강세(Bull)·약세(Bear) 리서처, 리스크 관리자, 트레이더를 각각 LLM 에이전트로 구현한다. 강세와 약세 에이전트가 시장 상황을 토론하고, 트레이더가 그 논쟁과 과거 데이터를 종합해 행동을 선택한다. 별도의 리스크 관리 팀이 노출 수준을 점검해 공격적·중립적·보수적 관점을 의사결정에 반영한다.",
+        "contributions": [
+          "실제 트레이딩 회사의 역할 분담과 토론 구조를 재현한 멀티에이전트 프레임워크",
+          "베이스라인보다 높은 누적 수익률과 Sharpe Ratio를 보고",
+          "Maximum Drawdown까지 함께 평가해 수익뿐 아니라 위험 조정 성과를 비교",
+          "코드 공개, GitHub 약 10.9만 스타로 W38(약 10.5만) 이후에도 관심 증가"
+        ],
+        "why_now": "수집된 14개 주차 중 W32를 뺀 13개 주차에 등장한 최장수 논문으로, 이번에도 트렌딩 순서 1위다(▲133 -> 148). W39를 수집하지 않아 연속 여부는 판정하지 않지만, 관측 공백을 두 번 건너서도 매번 돌아온다는 점에서 금융 멀티에이전트의 구현 참고점이라는 지위는 이제 '화제'가 아니라 '상수'에 가깝다.",
+        "difficulty": "중급",
+        "recommended_reader": "LLM 에이전트 오케스트레이션과 금융 AI의 구조·평가에 관심 있는 학습자",
+        "field_tags": ["멀티에이전트", "금융AI", "에이전트토론", "리스크관리"],
+        "interest": { "upvotes": 148, "num_comments": 6, "github_stars": 109269 }
+      },
+      "learning": {
+        "key_terms": [
+          { "term": "Bull/Bear Debate", "gloss": "강세와 약세 관점을 맡은 에이전트가 논쟁해 한쪽 편향을 줄이는 의사결정 구조" },
+          { "term": "Sharpe Ratio", "gloss": "변동성이라는 위험을 감수한 만큼 초과수익을 얻었는지 나타내는 지표" },
+          { "term": "Backtest", "gloss": "과거 시장 데이터에 전략을 적용해 성과를 모의 측정하는 평가 방식" }
+        ],
+        "recall_quiz": {
+          "question": "TradingAgents가 보고한 AAPL Sharpe Ratio 8.21을 실전 성능으로 액면 수용하기 어려운 이유를 두 가지 이상 들면?",
+          "answer": "AAPL·GOOGL·AMZN 3종목과 약 5개월(2024-06~11)이라는 짧고 우호적인 구간, 규칙기반 위주의 약한 베이스라인, 거래비용·슬리피지 반영 여부가 본문에서 확인되지 않는다는 점이다(W31 심층 분석 기준)."
+        },
+        "spaced_review": { "flag": false, "review_due": null }
+      }
+    },
+    "2609.24972": {
+      "title_ko": "RRSI: 정규화된 재귀적 자기개선으로 에이전트 하니스 진화시키기",
+      "classify": {
+        "categories": ["LLM/Agents"],
+        "primary_category": "LLM/Agents",
+        "topic_tags": ["agent-harness", "self-refinement", "agentic-workflow", "out-of-distribution-generalization", "regularization"],
+        "method_tags": ["prompting", "inference-time"],
+        "modality": ["text"],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "하니스를 스스로 고치며 진화하는 에이전트가 학습 과제에 과적합하지 않도록 제안과 선택에 정규화를 건다.",
+        "problem": "에이전트의 능력은 고정된 백본 모델을 둘러싼 프롬프트·제어 흐름·도구·메모리·컨텍스트 관리, 즉 하니스(harness)에 크게 좌우된다. 최근에는 하니스의 구성요소별 수정안을 반복 제안·선택하는 자동화, 곧 시스템 수준의 재귀적 자기개선(RSI)이 늘고 있다. 그러나 이런 진화는 학습 과제를 암기해, 분포 내에서는 크게 오르다가 분포 밖 벤치마크에서는 이득이 줄거나 사라지는 과적합을 일으킨다.",
+        "approach": "하니스 자기개선의 후보 제안(proposal)과 선택(selection) 양쪽에 정규화(regularization) 원리를 넣는다. 제안기(proposer)는 시간에 따라 줄어드는(temporally annealed) 예산으로 한 후보가 묶을 수 있는 수정 개수를 제한하고, 진화 이력을 보고 아직 탐색하지 않은 경로를 장려한다. 선택기(selector)에는 벤치마크 특화 제안을 걸러내는 비평가(critic)와, 너무 작거나 비싸거나 더는 쓸모없어진 변경을 제거하는 가지치기기(pruner)가 붙는다. 이 제약들이 벤치마크 전용 트릭이나 잡음보다 재사용 가능한 에이전트 메커니즘을 선호하게 만든다.",
+        "contributions": [
+          "하니스 자기개선의 과적합(분포 내 이득이 분포 밖에서 소멸)을 문제로 명시하고 정규화로 다루는 프레임 제시",
+          "코딩·에이전틱 워크스페이스·엔지니어링 설계 8개 벤치마크에서, 진화 대상 분할 최대 +14.1점, 분포 밖 5개 벤치마크 최대 +4.7점",
+          "정규화하지 않은 진화 대비 정책 토큰 30% 절감된 하니스 산출",
+          "Google Research 코드 공개(GitHub 약 1천 스타)와 프로젝트 페이지"
+        ],
+        "why_now": "이번 주 최다 ▲218로, W33 LongHorizon-Harness와 W36 Prime Agent(자기개선 RLM 하니스)로 이어진 하니스 흐름의 다음 질문을 던진다. 하니스가 성능을 좌우한다는 데까지는 합의가 섰고, 이제 '스스로 고친 하니스가 정말 일반화되는가'가 쟁점이 됐다. 8월 종합에서 짚은 '헤드라인 수치와 조건의 거리'가 이 논문에서는 아예 연구 주제가 된 셈이다.",
+        "difficulty": "고급",
+        "recommended_reader": "에이전트 하니스·스킬·프롬프트를 반복 개선하며 쓰는 개발자, 자동 에이전트 최적화의 평가 설계에 관심 있는 학습자",
+        "field_tags": ["에이전트하니스", "자기개선", "과적합", "일반화", "정규화"],
+        "interest": { "upvotes": 218, "num_comments": 2, "github_stars": 966 }
+      },
+      "learning": {
+        "key_terms": [
+          { "term": "Agent Harness", "gloss": "고정된 모델을 감싸는 프롬프트·제어 흐름·도구·메모리·컨텍스트 관리의 실행 골격" },
+          { "term": "Recursive Self-Improvement (RSI)", "gloss": "시스템이 자기 구성요소의 수정안을 스스로 제안·선택하며 반복적으로 개선하는 과정" },
+          { "term": "Out-of-Distribution (OOD)", "gloss": "개선이나 학습에 쓰지 않은 분포의 과제. 진짜 일반화 여부를 판정하는 기준" }
+        ],
+        "recall_quiz": {
+          "question": "RRSI는 하니스 진화의 과적합을 막기 위해 제안 단계와 선택 단계에 각각 어떤 제약을 거는가?",
+          "answer": "제안 단계에서는 시간에 따라 줄어드는 예산으로 한 후보가 묶는 수정 개수를 제한하고 미탐색 경로를 장려하며, 선택 단계에서는 비평가가 벤치마크 특화 제안을 거르고 가지치기기가 너무 작거나 비싸거나 쓸모없어진 변경을 제거한다."
+        },
+        "spaced_review": { "flag": true, "review_due": "2026-W42" }
+      }
+    },
+    "2604.09557": {
+      "title_ko": "SPEED-Bench: 추측 디코딩을 위한 통합·다양성 벤치마크",
+      "classify": {
+        "categories": ["Efficiency/Inference", "Evaluation/Benchmarks"],
+        "primary_category": "Efficiency/Inference",
+        "topic_tags": ["speculative-decoding", "benchmark", "llm-serving", "inference-acceleration"],
+        "method_tags": ["inference-time", "data-centric"],
+        "modality": ["text"],
+        "confidence": "medium"
+      },
+      "tier1": {
+        "one_liner": "추측 디코딩의 속도 이득은 데이터에 따라 달라지므로, 의미 다양성과 실제 서빙 부하를 모두 담은 표준 벤치마크를 만든다.",
+        "problem": "추측 디코딩(Speculative Decoding, SD)은 LLM 추론 가속의 핵심 기법이지만, 결정론적 시스템 최적화와 달리 성능이 입력 데이터에 따라 달라진다. 기존 벤치마크는 과제 다양성이 부족하고, 처리량 중심 평가를 제대로 지원하지 못하며, 실제 운영 환경을 반영하지 못하는 고수준 구현에 의존한다.",
+        "approach": "의미적 다양성을 우선해 선별한 Qualitative 분할과, 저배치 지연 민감 상황부터 고부하 처리량 중심 상황까지 동시성(concurrency) 범위를 바꿔가며 속도 향상을 재는 Throughput 분할을 함께 제공한다. vLLM과 TensorRT-LLM 같은 실제 운영 엔진과 통합해, 다른 벤치마크에서 가려지던 시스템 동작을 분석할 수 있게 한다.",
+        "contributions": [
+          "의미 다양성 기반 Qualitative 분할과 동시성 범위별 Throughput 분할을 갖춘 SD 평가 표준",
+          "합성 입력이 실제 처리량을 과대평가한다는 점을 정량화",
+          "최적 드래프트 길이가 배치 크기에 따라 달라지고, 저다양성 데이터에 편향이 있음을 확인",
+          "최신 드래프터의 어휘 가지치기(vocabulary pruning)에 따르는 주의점 분석"
+        ],
+        "why_now": "W35~W36 FreeToken이 서빙 계층을 개인 기계로 끌어내린 데 이어, 이번 주에는 같은 서빙 계층의 '측정'이 올라왔다. 가속 기법의 헤드라인 배수가 합성 입력과 특정 배치 크기에서 나온 값일 수 있다는 지적은, 8월에 반복 확인한 '수치가 성립하는 조건을 먼저 보라'는 교훈의 추론 최적화 버전이다.",
+        "difficulty": "중급",
+        "recommended_reader": "LLM 서빙·추론 가속을 실제로 도입하거나 벤치마크 수치를 비교해야 하는 엔지니어",
+        "field_tags": ["추측디코딩", "추론가속", "벤치마크", "LLM서빙"],
+        "interest": { "upvotes": 16, "num_comments": 2, "github_stars": 5080 }
+      },
+      "learning": {
+        "key_terms": [
+          { "term": "Speculative Decoding", "gloss": "작은 드래프트 모델이 여러 토큰을 먼저 제안하고 큰 모델이 한 번에 검증해 생성을 가속하는 기법" },
+          { "term": "Draft Length", "gloss": "드래프트 모델이 한 번에 제안하는 토큰 수. 너무 길면 거절이 늘고 짧으면 이득이 작다" },
+          { "term": "Concurrency", "gloss": "서버가 동시에 처리하는 요청 수. 저배치 지연 중심과 고부하 처리량 중심의 최적 설정이 다르다" }
+        ],
+        "recall_quiz": {
+          "question": "SPEED-Bench가 추측 디코딩 평가에 Qualitative 분할과 Throughput 분할을 따로 두는 이유는?",
+          "answer": "SD의 속도 이득은 입력의 의미 분포에 따라 달라지므로 다양성을 따로 재야 하고, 동시에 저배치부터 고부하까지 동시성에 따라 최적 설정과 이득이 바뀌므로 서빙 부하 축도 따로 재야 하기 때문이다."
+        },
+        "spaced_review": { "flag": false, "review_due": null }
+      }
+    },
+    "2609.05415": {
+      "title_ko": "UniMate: 어떤 골격이든 하나의 모델로 애니메이션하기",
+      "classify": {
+        "categories": ["Vision", "Data"],
+        "primary_category": "Vision",
+        "topic_tags": ["motion-generation", "character-animation", "diffusion-transformer", "graph-aware-attention"],
+        "method_tags": ["architecture", "data-centric"],
+        "modality": ["3d", "text"],
+        "confidence": "medium"
+      },
+      "tier1": {
+        "one_liner": "리깅된 3D 에셋과 텍스트만 주면, 골격 구조가 무엇이든 재학습 없이 동작을 생성하는 통합 모션 모델.",
+        "problem": "자동 리깅 기술로 애니메이션 준비가 된 3D 에셋은 대량으로 만들 수 있게 됐지만, 그것을 움직일 모션 생성은 여전히 병목이다. 기존 학습형 애니메이터는 골격 위상(topology)에 묶여 있어, 카테고리별 템플릿에 의존하거나 골격마다 미세조정과 추론 시 참조 모션이 필요하다.",
+        "approach": "골격 위상을 어텐션에 통합한 위상 인지 디퓨전 트랜스포머(topology-aware diffusion transformer)를 제안한다. 관절 쌍 관계와 측지 거리(geodesic distance)로 만든 그래프 인지 어텐션 편향, 그래프 라플라시안(graph Laplacian)으로 RoPE를 임의의 운동학 트리에 일반화한 스펙트럴 회전 위치 임베딩, 휴지 자세 골격에서 어텐션 풀링한 전역 위상 조건기의 세 장치를 쓴다. 이족·사족·조류·해양·곤충·뱀형·관절형 강체를 아우르는 13,006개 모션 시퀀스의 UniML3D 데이터셋을 통일된 정규화와 텍스트 쌍으로 구축해 학습한다.",
+        "contributions": [
+          "추론 시 최적화나 골격별 재학습 없이 임의 골격에 동작을 합성하는 통합 파운데이션 모델",
+          "그래프 인지 어텐션 편향·스펙트럴 RoPE·전역 위상 조건기로 위상 정보를 트랜스포머에 주입",
+          "7개 형태군, 13,006개 시퀀스의 UniML3D 데이터셋 구축",
+          "제로샷 교차 위상 전이, 중간 동작 생성(in-betweening), 확장, 텍스트 기반 편집 지원"
+        ],
+        "why_now": "W32 TRELLIS.2가 3D 형상과 재질 생성을, W35 4DAnyone이 영상에서 4D 인체 복원을 보여준 데 이어, 이번엔 만들어진 3D 에셋을 '움직이는' 단계가 올라왔다. 3D 파이프라인의 병목이 형상에서 모션으로 옮겨가고 있다는 신호로 읽을 수 있다. 다만 ▲16으로 관심도는 이번 주 최저 수준이다.",
+        "difficulty": "고급",
+        "recommended_reader": "3D 생성·애니메이션 파이프라인, 그래프 구조를 트랜스포머에 넣는 위치 인코딩 설계에 관심 있는 학습자",
+        "field_tags": ["모션생성", "3D애니메이션", "디퓨전트랜스포머", "그래프위치인코딩"],
+        "interest": { "upvotes": 16, "num_comments": 2, "github_stars": 634 }
+      },
+      "learning": {
+        "key_terms": [
+          { "term": "Kinematic Tree", "gloss": "관절이 부모-자식 관계로 연결된 골격 구조. 생물·물체마다 모양이 다르다" },
+          { "term": "Graph Laplacian", "gloss": "그래프의 연결 구조를 담은 행렬. 고유벡터로 노드의 위치 같은 좌표를 만들 수 있다" },
+          { "term": "RoPE", "gloss": "회전 위치 임베딩. 토큰 사이의 상대 위치를 어텐션에 회전 변환으로 반영하는 기법" }
+        ],
+        "recall_quiz": {
+          "question": "UniMate가 일반 RoPE를 그대로 쓰지 않고 그래프 라플라시안 기반 스펙트럴 RoPE로 일반화한 이유는?",
+          "answer": "일반 RoPE는 순서가 있는 1차원 시퀀스 위치를 가정하지만, 골격은 형태마다 다른 트리 구조라서 관절 간 위치 관계를 그래프 구조에서 직접 얻어야 하기 때문이다."
+        },
+        "spaced_review": { "flag": false, "review_due": null }
+      }
+    },
+    "2407.16741": {
+      "title_ko": "OpenDevin: 범용 AI 소프트웨어 개발자를 위한 오픈 플랫폼",
+      "classify": {
+        "categories": ["LLM/Agents", "Evaluation/Benchmarks"],
+        "primary_category": "LLM/Agents",
+        "topic_tags": ["agentic-workflow", "ai-agents", "code-execution", "software-engineering", "tool-use"],
+        "method_tags": ["architecture", "prompting"],
+        "modality": ["text"],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "코드·터미널·웹을 한 작업공간에 묶어, 서로 다른 개발 에이전트와 벤치마크를 교체 가능한 플랫폼으로 만든다.",
+        "problem": "강력한 개발 에이전트를 만들려면 코드 작성뿐 아니라 명령줄, 브라우저, 샌드박스, 다중 에이전트 조율과 평가가 하나의 실행 환경에서 맞물려야 한다. 개별 데모 중심 구현은 에이전트와 벤치마크를 공정하게 비교하고 재사용하기 어렵다.",
+        "approach": "에이전트가 인간 개발자처럼 코드를 작성하고 명령줄을 조작하며 웹을 탐색할 수 있는 통합 플랫폼을 제공한다. 샌드박스 기반 코드 실행, 여러 에이전트 간 조정, SWE-Bench·WebArena를 포함한 평가 어댑터를 공통 인터페이스로 묶는다. 특정 모델 하나보다 에이전트 구현과 환경, 평가를 교체 가능한 오픈 생태계로 만드는 데 초점을 둔다.",
+        "contributions": [
+          "코드 편집·터미널·브라우저를 결합한 범용 소프트웨어 에이전트 플랫폼",
+          "안전한 샌드박스 실행과 멀티에이전트 조정 기능 제공",
+          "SWE-Bench·WebArena 등 15개 도전적 과제를 하나의 평가 틀에 통합",
+          "MIT 라이선스와 대규모 커뮤니티, GitHub 약 9.0만 스타"
+        ],
+        "why_now": "수집된 14개 주차 중 7개 주차에 등장했고, W38에 이어 이번 주도 올랐다(▲86 -> 89). 이번 주에는 하니스를 자동으로 진화시키는 RRSI와 나란히 놓이면서, OpenDevin의 이벤트 스트림·샌드박스 런타임 같은 구조가 바로 그런 자동 개선의 '대상'이 되는 실행 골격이라는 점이 더 선명해졌다.",
+        "difficulty": "중급",
+        "recommended_reader": "코딩 에이전트 플랫폼, 샌드박스, 벤치마크 어댑터 구조를 공부하려는 개발자",
+        "field_tags": ["코딩에이전트", "오픈플랫폼", "샌드박스", "에이전트평가"],
+        "interest": { "upvotes": 89, "num_comments": 7, "github_stars": 89560 }
+      },
+      "learning": {
+        "key_terms": [
+          { "term": "Event Stream", "gloss": "에이전트의 행동(Action)과 관찰(Observation)을 시간순으로 쌓은 상태 기록. OpenDevin 설계의 중심 추상화" },
+          { "term": "Agent Delegation", "gloss": "범용 에이전트가 웹 탐색처럼 특화된 하위 작업을 다른 에이전트에게 넘기는 구조" },
+          { "term": "SWE-Bench Lite", "gloss": "SWE-Bench 전체 2,294개 중 300개로 구성한 축약판. 결과 해석 시 전체판과 구분해야 한다" }
+        ],
+        "recall_quiz": {
+          "question": "OpenDevin의 한 스텝을 구성하는 핵심 추상화와, 웹 작업을 다른 에이전트에 넘기는 방식은 무엇인가?",
+          "answer": "State의 핵심인 이벤트 스트림(행동과 관찰의 시간순 누적)을 입력으로 step 함수가 다음 행동을 내고, 웹 작업은 AgentDelegateAction으로 BrowsingAgent에 위임한다(W28 심층 분석 기준)."
+        },
+        "spaced_review": { "flag": false, "review_due": null }
+      }
+    },
+    "2309.06180": {
+      "title_ko": "PagedAttention: 대규모 언어모델 서빙을 위한 효율적 메모리 관리 (vLLM)",
+      "classify": {
+        "categories": ["Efficiency/Inference"],
+        "primary_category": "Efficiency/Inference",
+        "topic_tags": ["kv-cache", "llm-serving", "paged-attention", "memory-management"],
+        "method_tags": ["inference-time"],
+        "modality": ["text"],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "운영체제의 가상 메모리·페이징을 KV 캐시에 적용해 메모리 낭비를 거의 없애고 LLM 서빙 처리량을 2~4배 올린다.",
+        "problem": "LLM을 높은 처리량으로 서빙하려면 많은 요청을 한 번에 배치해야 한다. 그런데 요청마다 KV 캐시 메모리가 매우 크고 동적으로 늘었다 줄어, 비효율적으로 관리하면 단편화(fragmentation)와 중복 복제로 메모리가 크게 낭비되고 배치 크기가 제한된다.",
+        "approach": "운영체제의 고전적 가상 메모리와 페이징 기법에서 착안한 어텐션 알고리즘 PagedAttention을 제안한다. KV 캐시를 고정 크기 블록 단위로 나눠 연속 메모리가 아니어도 저장할 수 있게 하고, 그 위에 LLM 서빙 시스템 vLLM을 구축한다. vLLM은 KV 캐시 메모리 낭비를 거의 0으로 줄이고, 요청 내부와 요청 간에 KV 캐시를 유연하게 공유해 메모리 사용을 더 줄인다.",
+        "contributions": [
+          "가상 메모리·페이징 개념을 KV 캐시 관리에 이식한 PagedAttention 알고리즘",
+          "KV 캐시 낭비를 거의 없애고 요청 내·간 공유를 지원하는 서빙 시스템 vLLM",
+          "같은 지연 수준에서 FasterTransformer·Orca 대비 처리량 2~4배 향상",
+          "긴 시퀀스, 큰 모델, 복잡한 디코딩 알고리즘일수록 이득이 커짐"
+        ],
+        "why_now": "2023년 논문이지만 이 시스템에서는 첫 등장이다. W25 LMCache(KV 캐시 계층), W35~W36 FreeToken(엣지 MoE 서빙)으로 이어진 서빙 계층 관심이 이번 주 SPEED-Bench와 함께 그 토대 논문까지 소환한 모양새다. kv-cache 키워드도 W34 이후 관측 3회(W35·W36·W38) 공백을 깨고 돌아왔다.",
+        "difficulty": "중급",
+        "recommended_reader": "LLM 서빙의 병목과 KV 캐시를 원리부터 이해하고 싶은 학습자, 로컬·서버 추론 엔진을 다루는 개발자",
+        "field_tags": ["LLM서빙", "KV캐시", "메모리관리", "vLLM"],
+        "interest": { "upvotes": 75, "num_comments": 1, "github_stars": 86094 }
+      },
+      "learning": {
+        "key_terms": [
+          { "term": "KV Cache", "gloss": "이전 토큰의 Key·Value를 저장해 매 토큰마다 재계산하지 않게 하는 메모리. 서빙 메모리의 대부분을 차지한다" },
+          { "term": "Paging", "gloss": "메모리를 고정 크기 블록으로 나눠 물리적으로 흩어져 있어도 논리적으로 연속처럼 쓰게 하는 운영체제 기법" },
+          { "term": "Fragmentation", "gloss": "할당 단위와 실제 사용량이 어긋나 쓰지 못하고 버려지는 메모리 조각" }
+        ],
+        "recall_quiz": {
+          "question": "PagedAttention이 KV 캐시 메모리 낭비를 줄이는 핵심 아이디어는 무엇이며, 그 결과 서빙 처리량이 오르는 이유는?",
+          "answer": "KV 캐시를 고정 크기 블록으로 나눠 비연속 메모리에 저장하는 페이징 방식으로 단편화와 중복을 줄이고, 아낀 메모리만큼 더 많은 요청을 한 배치에 넣을 수 있어 처리량이 오른다."
+        },
+        "spaced_review": { "flag": true, "review_due": "2026-W42" }
+      }
+    }
+  }
+}
