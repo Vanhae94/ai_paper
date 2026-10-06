@@ -88,5 +88,35 @@ class LinkRenderingTests(unittest.TestCase):
         self.assertNotIn("badge--star", card)
 
 
+class InsightRenderingTests(unittest.TestCase):
+    def test_sparkline_stops_at_the_report_week(self):
+        week = {"week_id": "2026-W33", "papers": [], "week_summary": {}}
+        index_data = {
+            "per_week": {
+                "2026-W32": {"total_upvotes": 780},
+                "2026-W33": {"total_upvotes": 1019},
+                "2026-W34": {"total_upvotes": 1066},
+            }
+        }
+
+        insight = render.build_insight(week, index_data)
+
+        self.assertIn(">W33<", insight)
+        self.assertNotIn(">W34<", insight)
+
+
+class DeepRenderingTests(unittest.TestCase):
+    def test_blank_lines_split_long_text_into_paragraphs(self):
+        t2 = {
+            "method_detail": "첫 문단 <a>.\n\n둘째 문단.",
+            "claude_note": "한 문단뿐.",
+        }
+
+        deep = render.build_deep(t2)
+
+        self.assertIn("<p>첫 문단 &lt;a&gt;.</p><p>둘째 문단.</p>", deep)
+        self.assertIn("<p>한 문단뿐.</p>", deep)
+
+
 if __name__ == "__main__":
     unittest.main()

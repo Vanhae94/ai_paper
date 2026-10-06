@@ -6,6 +6,12 @@
       "runtimeExecutable": "py",
       "runtimeArgs": ["-m", "http.server", "8765"],
       "port": 8765
+    },
+    {
+      "name": "papers-alt",
+      "runtimeExecutable": "py",
+      "runtimeArgs": ["-m", "http.server", "8766"],
+      "port": 8766
     }
   ]
 }

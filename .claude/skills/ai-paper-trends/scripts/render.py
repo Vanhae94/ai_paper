@@ -35,6 +35,12 @@ def esc(s):
     return html.escape(str(s if s is not None else ""))
 
 
+def paras(s):
+    """빈 줄로 구분된 긴 글(method_detail 등)을 <p> 여러 개로 나눈다."""
+    chunks = [c.strip() for c in re.split(r"\n\s*\n", str(s or "")) if c.strip()]
+    return "".join(f"<p>{esc(c)}</p>" for c in chunks)
+
+
 def short(n):
     try:
         n = int(n)
@@ -249,7 +255,7 @@ def first_sentence_or_full(text):
 def build_deep(t2):
     parts = ['<details class="deep"><summary><span class="caret">▸</span> 🔬 심층 분석 보기</summary><div class="deep__body">']
     if t2.get("method_detail"):
-        parts.append(f'<h4>방법 상세</h4><p>{esc(t2["method_detail"])}</p>')
+        parts.append(f'<h4>방법 상세</h4>{paras(t2["method_detail"])}')
     if t2.get("experiment_setup"):
         lis = "".join(f"<li>{esc(x)}</li>" for x in t2["experiment_setup"])
         parts.append(f'<h4>실험 셋업</h4><ul>{lis}</ul>')
@@ -291,7 +297,7 @@ def build_deep(t2):
             lis += f'<li>→ {esc(x.get("name",""))}: {esc(x.get("relation",""))}</li>'
         parts.append(f'<h4>연결 연구</h4><ul>{lis}</ul>')
     if t2.get("claude_note"):
-        parts.append(f'<h4>Claude 종합 코멘트</h4><p>{esc(t2["claude_note"])}</p>')
+        parts.append(f'<h4>Claude 종합 코멘트</h4>{paras(t2["claude_note"])}')
     parts.append("</div></details>")
     return "".join(parts)
 
@@ -374,8 +380,10 @@ def build_insight(week, index_data):
 
     spark = ""
     per_week = (index_data or {}).get("per_week") or {}
+    # 리포트 주차 시점까지만(as-of) — 과거 주를 재렌더해도 미래 주차가 섞이지 않게
+    cutoff = week.get("week_id") or max(per_week, default="")
     if per_week:
-        pts = [(w, per_week[w].get("total_upvotes", 0)) for w in sorted(per_week)]
+        pts = [(w, per_week[w].get("total_upvotes", 0)) for w in sorted(per_week) if w <= cutoff]
         spark = build_sparkline(pts)
 
     return (

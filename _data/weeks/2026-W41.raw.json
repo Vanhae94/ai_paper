@@ -1,0 +1,759 @@
+[
+  {
+    "paper": {
+      "id": "2609.18063",
+      "authors": [
+        {
+          "_id": "6aab6e211d9cc4dec796250c",
+          "user": {
+            "_id": "63ec492b6ef3ce22b88a40e8",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/no-auth/losyEyB6XLMUkXgKs_GFC.png",
+            "isPro": false,
+            "fullname": "yumu",
+            "user": "bupalinyu",
+            "type": "user",
+            "name": "bupalinyu"
+          },
+          "name": "Yu Lin",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-09-17T09:09:45.608Z",
+          "hidden": false
+        },
+        {
+          "_id": "6aab6e211d9cc4dec796250d",
+          "user": {
+            "_id": "64361bcaf81a16e74367d2e2",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/64361bcaf81a16e74367d2e2/N4pdqBd4DqIx71t8IWaWD.png",
+            "isPro": false,
+            "fullname": "wanglamao",
+            "user": "wanglamao",
+            "type": "user",
+            "name": "wanglamao"
+          },
+          "name": "Yiming Wang",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-09-18T14:00:26.917Z",
+          "hidden": false
+        },
+        {
+          "_id": "6aab6e211d9cc4dec796250e",
+          "user": {
+            "_id": "63413355e5071b0c5cc91cda",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/63413355e5071b0c5cc91cda/P5if_w7mXfPGPq8QtALjF.png",
+            "isPro": false,
+            "fullname": "cai",
+            "user": "chua",
+            "type": "user",
+            "name": "chua"
+          },
+          "name": "Runyuan Cai",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-09-18T14:00:24.425Z",
+          "hidden": false
+        },
+        {
+          "_id": "6aab6e211d9cc4dec796250f",
+          "name": "Hanze Liu",
+          "hidden": false
+        },
+        {
+          "_id": "6aab6e211d9cc4dec7962510",
+          "name": "Xiaodong Zeng",
+          "hidden": false
+        }
+      ],
+      "mediaUrls": [
+        "https://cdn-uploads.huggingface.co/production/uploads/63ec492b6ef3ce22b88a40e8/rC6RhuvirSlar0MGZ-qJB.mp4"
+      ],
+      "publishedAt": "2026-09-16T00:00:00.000Z",
+      "submittedOnDailyAt": "2026-09-17T00:00:00.000Z",
+      "title": "The Other Half of the Memory Wall: Serving 35B MoEs from SSD with Trained Routing Prediction",
+      "submittedOnDailyBy": {
+        "_id": "63ec492b6ef3ce22b88a40e8",
+        "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/no-auth/losyEyB6XLMUkXgKs_GFC.png",
+        "isPro": false,
+        "fullname": "yumu",
+        "user": "bupalinyu",
+        "type": "user",
+        "name": "bupalinyu"
+      },
+      "summary": "Mixture-of-experts (MoE) inference on consumer hardware is bounded by weight memory: a 35B-class model is 19.5GB at 4-bit, and sparsity shrinks the compute per token, not the bytes that must be held. Naive offloading to SSD does not help on its own, because layer N+1's experts must be chosen before layer N's output exists, so the reads cannot start early enough to hide behind compute. We present Edge0, a streaming MoE inference engine that closes the gap with a prerouter: a per-layer head predicts the next layer's routing one token ahead, and the prediction is consumed as the routing itself, so the staged expert set equals the routed set and nothing is dropped. An unmerged recovery LoRA, trained on the student path, pays back the quality lost to int4 quantization and routing replacement. On a single 24GB machine, Edge0\n  serves a 35B MoE at 20tok/s inside 3GiB of peak active memory, within a few points of its fp16 teacher on average across five public benchmarks. An 8B tier runs on the same framework, and the framework, checkpoints, and adapters are open source.",
+      "upvotes": 22,
+      "discussionId": "6aab6e211d9cc4dec7962511",
+      "githubRepo": "https://github.com/Edge0-AI/edge0",
+      "githubRepoAddedBy": "user",
+      "githubStars": 3085,
+      "organization": {
+        "_id": "6a9a75862d11e1c1a13dec37",
+        "name": "Edge0",
+        "fullname": "Edge0",
+        "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/64361bcaf81a16e74367d2e2/D5QI700pnaujz5PeWE6MX.jpeg"
+      }
+    },
+    "publishedAt": "2026-09-15T20:00:00.000Z",
+    "title": "The Other Half of the Memory Wall: Serving 35B MoEs from SSD with Trained Routing Prediction",
+    "summary": "Mixture-of-experts (MoE) inference on consumer hardware is bounded by weight memory: a 35B-class model is 19.5GB at 4-bit, and sparsity shrinks the compute per token, not the bytes that must be held. Naive offloading to SSD does not help on its own, because layer N+1's experts must be chosen before layer N's output exists, so the reads cannot start early enough to hide behind compute. We present Edge0, a streaming MoE inference engine that closes the gap with a prerouter: a per-layer head predicts the next layer's routing one token ahead, and the prediction is consumed as the routing itself, so the staged expert set equals the routed set and nothing is dropped. An unmerged recovery LoRA, trained on the student path, pays back the quality lost to int4 quantization and routing replacement. On a single 24GB machine, Edge0\n  serves a 35B MoE at 20tok/s inside 3GiB of peak active memory, within a few points of its fp16 teacher on average across five public benchmarks. An 8B tier runs on the same framework, and the framework, checkpoints, and adapters are open source.",
+    "mediaUrls": [
+      "https://cdn-uploads.huggingface.co/production/uploads/63ec492b6ef3ce22b88a40e8/rC6RhuvirSlar0MGZ-qJB.mp4"
+    ],
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2609.18063.png",
+    "numComments": 4,
+    "submittedBy": {
+      "_id": "63ec492b6ef3ce22b88a40e8",
+      "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/no-auth/losyEyB6XLMUkXgKs_GFC.png",
+      "fullname": "yumu",
+      "name": "bupalinyu",
+      "type": "user",
+      "isPro": false,
+      "isHf": false,
+      "isHfAdmin": false,
+      "isMod": false,
+      "followerCount": 7,
+      "isUserFollowing": false
+    },
+    "organization": {
+      "_id": "6a9a75862d11e1c1a13dec37",
+      "name": "Edge0",
+      "fullname": "Edge0",
+      "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/64361bcaf81a16e74367d2e2/D5QI700pnaujz5PeWE6MX.jpeg"
+    },
+    "isAuthorParticipating": true
+  },
+  {
+    "paper": {
+      "id": "2609.05415",
+      "authors": [
+        {
+          "_id": "6a9e16a1de5ea82090db64fc",
+          "user": {
+            "_id": "6811d0f933558457e1c0a8d5",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/6811d0f933558457e1c0a8d5/c_TpawdUaUmwQ7jjJUrbY.png",
+            "isPro": true,
+            "fullname": "Linzhan Mou",
+            "user": "Linzhan",
+            "type": "user",
+            "name": "Linzhan"
+          },
+          "name": "Linzhan Mou",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-09-07T08:45:04.206Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a9e16a1de5ea82090db64fd",
+          "name": "Jiahui Lei",
+          "hidden": false
+        },
+        {
+          "_id": "6a9e16a1de5ea82090db64fe",
+          "name": "Zhiyang Dou",
+          "hidden": false
+        },
+        {
+          "_id": "6a9e16a1de5ea82090db64ff",
+          "name": "Chenyue Cai",
+          "hidden": false
+        },
+        {
+          "_id": "6a9e16a1de5ea82090db6500",
+          "name": "Chaoyue Song",
+          "hidden": false
+        },
+        {
+          "_id": "6a9e16a1de5ea82090db6501",
+          "name": "Adam Finkelstein",
+          "hidden": false
+        },
+        {
+          "_id": "6a9e16a1de5ea82090db6502",
+          "name": "Szymon Rusinkiewicz",
+          "hidden": false
+        }
+      ],
+      "mediaUrls": [
+        "https://cdn-uploads.huggingface.co/production/uploads/noauth/TJX4eqjnS_rcNajWctZ_e.png"
+      ],
+      "publishedAt": "2026-09-04T00:00:00.000Z",
+      "submittedOnDailyAt": "2026-09-07T00:00:00.000Z",
+      "title": "UniMate: One Unified Model to Animate Diverse Skeletons",
+      "submittedOnDailyBy": {
+        "_id": "6811d0f933558457e1c0a8d5",
+        "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/6811d0f933558457e1c0a8d5/c_TpawdUaUmwQ7jjJUrbY.png",
+        "isPro": true,
+        "fullname": "Linzhan Mou",
+        "user": "Linzhan",
+        "type": "user",
+        "name": "Linzhan"
+      },
+      "summary": "Recent advances in automatic rigging now deliver animation-ready 3D assets at scale, yet generating the motion to drive them remains a bottleneck. Existing learned animators are topology-constrained: they rely on category-specific templates or require per-skeleton fine-tuning and reference motions at inference. We present UniMate, a unified foundation model that synthesizes articulated motion for arbitrary skeletons from a rigged 3D asset and a text prompt, with no test-time optimization or per-skeleton retraining. UniMate introduces a topology-aware diffusion transformer, which integrates skeletal topology into attention via three mechanisms: (1) a graph-aware attention bias from pairwise joint relations and geodesic distances; (2) a spectral rotary position embedding generalizing RoPE to arbitrary kinematic trees via the graph Laplacian; and (3) a global topological conditioner attention-pooled from the rest-pose skeleton. We also curate UniML3D, 13,006 motion sequences spanning bipedal, quadrupedal, avian, marine, insectoid, serpentine, and articulated rigid objects with unified canonicalization and text pairing. Trained on this dataset, UniMate outperforms state-of-the-art baselines in quality, generalization, and efficiency, and supports zero-shot cross-topology transfer, in-betweening, expansion, and text-guided editing. Our project page is available at https://linzhanmou.com/unimate/.",
+      "upvotes": 22,
+      "discussionId": "6a9e16a1de5ea82090db6503",
+      "projectPage": "https://linzhanmou.com/unimate/",
+      "githubRepo": "https://github.com/Friedrich-M/UniMate",
+      "githubRepoAddedBy": "user",
+      "ai_summary": "UniMate is a unified diffusion transformer that generates articulated motion for arbitrary skeletons from text and rigged 3D assets without per-skeleton retraining, using topology-aware attention and a large curated motion dataset.",
+      "ai_keywords": [
+        "topology-aware diffusion transformer",
+        "graph-aware attention bias",
+        "spectral rotary position embedding",
+        "graph Laplacian",
+        "global topological conditioner",
+        "UniML3D",
+        "zero-shot cross-topology transfer",
+        "in-betweening",
+        "text-guided editing"
+      ],
+      "ai_summary_model": "thinkingmachines/Inkling-Small",
+      "githubStars": 1453,
+      "organization": {
+        "_id": "64374111a701a7e744c02b0e",
+        "name": "princetonu",
+        "fullname": "Princeton University",
+        "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/68e396f2b5bb631e9b2fac9a/b3xXusq8Zz3ej8Z6fRTSZ.png"
+      }
+    },
+    "publishedAt": "2026-09-03T20:00:00.000Z",
+    "title": "UniMate: One Unified Model to Animate Diverse Skeletons",
+    "summary": "Recent advances in automatic rigging now deliver animation-ready 3D assets at scale, yet generating the motion to drive them remains a bottleneck. Existing learned animators are topology-constrained: they rely on category-specific templates or require per-skeleton fine-tuning and reference motions at inference. We present UniMate, a unified foundation model that synthesizes articulated motion for arbitrary skeletons from a rigged 3D asset and a text prompt, with no test-time optimization or per-skeleton retraining. UniMate introduces a topology-aware diffusion transformer, which integrates skeletal topology into attention via three mechanisms: (1) a graph-aware attention bias from pairwise joint relations and geodesic distances; (2) a spectral rotary position embedding generalizing RoPE to arbitrary kinematic trees via the graph Laplacian; and (3) a global topological conditioner attention-pooled from the rest-pose skeleton. We also curate UniML3D, 13,006 motion sequences spanning bipedal, quadrupedal, avian, marine, insectoid, serpentine, and articulated rigid objects with unified canonicalization and text pairing. Trained on this dataset, UniMate outperforms state-of-the-art baselines in quality, generalization, and efficiency, and supports zero-shot cross-topology transfer, in-betweening, expansion, and text-guided editing. Our project page is available at https://linzhanmou.com/unimate/.",
+    "mediaUrls": [
+      "https://cdn-uploads.huggingface.co/production/uploads/noauth/TJX4eqjnS_rcNajWctZ_e.png"
+    ],
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2609.05415.png",
+    "numComments": 2,
+    "submittedBy": {
+      "_id": "6811d0f933558457e1c0a8d5",
+      "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/6811d0f933558457e1c0a8d5/c_TpawdUaUmwQ7jjJUrbY.png",
+      "fullname": "Linzhan Mou",
+      "name": "Linzhan",
+      "type": "user",
+      "isPro": true,
+      "isHf": false,
+      "isHfAdmin": false,
+      "isMod": false,
+      "followerCount": 11,
+      "isUserFollowing": false
+    },
+    "organization": {
+      "_id": "64374111a701a7e744c02b0e",
+      "name": "princetonu",
+      "fullname": "Princeton University",
+      "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/68e396f2b5bb631e9b2fac9a/b3xXusq8Zz3ej8Z6fRTSZ.png"
+    },
+    "isAuthorParticipating": true
+  },
+  {
+    "paper": {
+      "id": "2412.20138",
+      "authors": [
+        {
+          "_id": "6847673b3ec10bdd8ab4dd5e",
+          "user": {
+            "_id": "619b6a24030b707ff1f05dee",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/619b6a24030b707ff1f05dee/8FZjePfOuTtN3uvTmaEg5.jpeg",
+            "isPro": false,
+            "fullname": "Yijia Xiao",
+            "user": "Yijia-Xiao",
+            "type": "user",
+            "name": "Yijia-Xiao"
+          },
+          "name": "Yijia Xiao",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-08-08T16:45:04.607Z",
+          "hidden": false
+        },
+        {
+          "_id": "6847673b3ec10bdd8ab4dd5f",
+          "name": "Edward Sun",
+          "hidden": false
+        },
+        {
+          "_id": "6847673b3ec10bdd8ab4dd60",
+          "name": "Di Luo",
+          "hidden": false
+        },
+        {
+          "_id": "6847673b3ec10bdd8ab4dd61",
+          "name": "Wei Wang",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2024-12-28T12:54:06.000Z",
+      "title": "TradingAgents: Multi-Agents LLM Financial Trading Framework",
+      "summary": "Significant progress has been made in automated problem-solving using\nsocieties of agents powered by large language models (LLMs). In finance,\nefforts have largely focused on single-agent systems handling specific tasks or\nmulti-agent frameworks independently gathering data. However, the multi-agent\nsystems' potential to replicate real-world trading firms' collaborative\ndynamics remains underexplored. TradingAgents proposes a novel stock trading\nframework inspired by trading firms, featuring LLM-powered agents in\nspecialized roles such as fundamental analysts, sentiment analysts, technical\nanalysts, and traders with varied risk profiles. The framework includes Bull\nand Bear researcher agents assessing market conditions, a risk management team\nmonitoring exposure, and traders synthesizing insights from debates and\nhistorical data to make informed decisions. By simulating a dynamic,\ncollaborative trading environment, this framework aims to improve trading\nperformance. Detailed architecture and extensive experiments reveal its\nsuperiority over baseline models, with notable improvements in cumulative\nreturns, Sharpe ratio, and maximum drawdown, highlighting the potential of\nmulti-agent LLM frameworks in financial trading. TradingAgents is available at\nhttps://github.com/TauricResearch/TradingAgents.",
+      "upvotes": 149,
+      "discussionId": "6847673c3ec10bdd8ab4dd62",
+      "githubRepo": "https://github.com/tauricresearch/tradingagents",
+      "githubRepoAddedBy": "auto",
+      "ai_summary": "A multi-agent framework using large language models for stock trading simulates real-world trading firms, improving performance metrics like cumulative returns and Sharpe ratio.",
+      "ai_keywords": [
+        "large language models",
+        "LLM",
+        "multi-agent systems",
+        "fundamental analysts",
+        "sentiment analysts",
+        "technical analysts",
+        "traders",
+        "risk management",
+        "cumulative returns",
+        "Sharpe ratio",
+        "maximum drawdown"
+      ],
+      "ai_summary_model": "Qwen/Qwen2.5-Coder-32B-Instruct",
+      "githubStars": 109870
+    },
+    "publishedAt": "2024-12-28T07:54:06.000Z",
+    "title": "TradingAgents: Multi-Agents LLM Financial Trading Framework",
+    "summary": "Significant progress has been made in automated problem-solving using\nsocieties of agents powered by large language models (LLMs). In finance,\nefforts have largely focused on single-agent systems handling specific tasks or\nmulti-agent frameworks independently gathering data. However, the multi-agent\nsystems' potential to replicate real-world trading firms' collaborative\ndynamics remains underexplored. TradingAgents proposes a novel stock trading\nframework inspired by trading firms, featuring LLM-powered agents in\nspecialized roles such as fundamental analysts, sentiment analysts, technical\nanalysts, and traders with varied risk profiles. The framework includes Bull\nand Bear researcher agents assessing market conditions, a risk management team\nmonitoring exposure, and traders synthesizing insights from debates and\nhistorical data to make informed decisions. By simulating a dynamic,\ncollaborative trading environment, this framework aims to improve trading\nperformance. Detailed architecture and extensive experiments reveal its\nsuperiority over baseline models, with notable improvements in cumulative\nreturns, Sharpe ratio, and maximum drawdown, highlighting the potential of\nmulti-agent LLM frameworks in financial trading. TradingAgents is available at\nhttps://github.com/TauricResearch/TradingAgents.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2412.20138.png",
+    "numComments": 6,
+    "isAuthorParticipating": true
+  },
+  {
+    "paper": {
+      "id": "2609.33325",
+      "authors": [
+        {
+          "_id": "6abb68f49e8c2556a1025b87",
+          "user": {
+            "_id": "67bf2f9ce82742547900e2d7",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/67bf2f9ce82742547900e2d7/Hqm-e_Nz5xCJbKWRZuRs_.jpeg",
+            "isPro": false,
+            "fullname": "Siran Peng",
+            "user": "PSRben",
+            "type": "user",
+            "name": "PSRben"
+          },
+          "name": "Siran Peng",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-09-29T16:17:36.287Z",
+          "hidden": false
+        },
+        {
+          "_id": "6abb68f49e8c2556a1025b88",
+          "user": {
+            "_id": "67595bfcbd2f3e37980ab95d",
+            "avatarUrl": "/avatars/5c796cb39f341065b92b4eba71c1b635.svg",
+            "isPro": false,
+            "fullname": "Tesseract Zhang",
+            "user": "Tesserac1",
+            "type": "user",
+            "name": "Tesserac1"
+          },
+          "name": "Tianshuo Zhang",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-09-29T16:17:34.284Z",
+          "hidden": false
+        },
+        {
+          "_id": "6abb68f49e8c2556a1025b89",
+          "name": "Tianyu Fu",
+          "hidden": false
+        },
+        {
+          "_id": "6abb68f49e8c2556a1025b8a",
+          "name": "Weisong Zhao",
+          "hidden": false
+        },
+        {
+          "_id": "6abb68f49e8c2556a1025b8b",
+          "name": "Haoyuan Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "6abb68f49e8c2556a1025b8c",
+          "name": "Jiankuo Zhao",
+          "hidden": false
+        },
+        {
+          "_id": "6abb68f49e8c2556a1025b8d",
+          "name": "Minghui Wu",
+          "hidden": false
+        },
+        {
+          "_id": "6abb68f49e8c2556a1025b8e",
+          "name": "Ping Jiang",
+          "hidden": false
+        },
+        {
+          "_id": "6abb68f49e8c2556a1025b8f",
+          "name": "Xiangyu Zhu",
+          "hidden": false
+        },
+        {
+          "_id": "6abb68f49e8c2556a1025b90",
+          "user": {
+            "_id": "648fcdbb5f123c3910a941c9",
+            "avatarUrl": "/avatars/31b9f313eeb366b381f51550cbb27fa6.svg",
+            "isPro": false,
+            "fullname": "Zhao",
+            "user": "Lonicera",
+            "type": "user",
+            "name": "Lonicera"
+          },
+          "name": "Chenxu Zhao",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-09-30T13:51:25.916Z",
+          "hidden": false
+        },
+        {
+          "_id": "6abb68f49e8c2556a1025b91",
+          "name": "Zhen Lei",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2026-09-27T00:00:00.000Z",
+      "submittedOnDailyAt": "2026-09-29T00:00:00.000Z",
+      "title": "VisionHOPE: Visual Backbones as Self-Modifying Learning Systems",
+      "submittedOnDailyBy": {
+        "_id": "67bf2f9ce82742547900e2d7",
+        "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/67bf2f9ce82742547900e2d7/Hqm-e_Nz5xCJbKWRZuRs_.jpeg",
+        "isPro": false,
+        "fullname": "Siran Peng",
+        "user": "PSRben",
+        "type": "user",
+        "name": "PSRben"
+      },
+      "summary": "Visual backbones have evolved from Convolutional Neural Networks (CNNs) with local aggregation to Vision Transformers (ViTs) with global interactions, State-Space Models (SSMs) with input-dependent state transitions, and Test-Time Training (TTT) layers that adapt an inner learner while processing an image. Across this progression, visual computation has become increasingly adaptive to each input, yet the rules governing that adaptation remain largely prescribed by the trained backbone. We introduce VisionHOPE, the first generic visual backbone formulated as a self-modifying learning system, in which what the model remembers and how it learns co-evolve within an image. Building on the self-referential construction of Nested Learning (NL), VisionHOPE realizes this co-evolution through five coupled memories that store content, generate key and value representations, and govern learning rate and retention. These memories evolve jointly as visual context accumulates along each scan. However, directly applying the unconstrained self-referential update to a visual backbone leads to instability. We therefore derive a stability-matched step-size control scheme that combines a soft cap on self-referential injection with a spectral clamp on the retained memory transition, and prove that the resulting memory dynamics are non-expansive along each scan. For two-dimensional feature maps, we adapt NL's chunk formulation by aligning chunks with image rows and columns across four directional scans. The proposed VisionHOPE achieves competitive results on ImageNet-1K, COCO, and ADE20K, establishing self-modifying learning systems as a practical foundation for general-purpose visual backbones. The code is available at https://github.com/PSRben/VisionHOPE.",
+      "upvotes": 322,
+      "discussionId": "6abb68f49e8c2556a1025b92",
+      "githubRepo": "https://github.com/PSRben/VisionHOPE",
+      "githubRepoAddedBy": "user",
+      "githubStars": 741,
+      "organization": {
+        "_id": "69c65a9e3b5bbcceca48c75b",
+        "name": "Mininglamp-2718",
+        "fullname": "Mininglamp Technology",
+        "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/69c656d25cf6c8ac26073013/sJ_pUHr_6G89GHJK5qPm7.png"
+      }
+    },
+    "publishedAt": "2026-09-26T20:00:00.000Z",
+    "title": "VisionHOPE: Visual Backbones as Self-Modifying Learning Systems",
+    "summary": "Visual backbones have evolved from Convolutional Neural Networks (CNNs) with local aggregation to Vision Transformers (ViTs) with global interactions, State-Space Models (SSMs) with input-dependent state transitions, and Test-Time Training (TTT) layers that adapt an inner learner while processing an image. Across this progression, visual computation has become increasingly adaptive to each input, yet the rules governing that adaptation remain largely prescribed by the trained backbone. We introduce VisionHOPE, the first generic visual backbone formulated as a self-modifying learning system, in which what the model remembers and how it learns co-evolve within an image. Building on the self-referential construction of Nested Learning (NL), VisionHOPE realizes this co-evolution through five coupled memories that store content, generate key and value representations, and govern learning rate and retention. These memories evolve jointly as visual context accumulates along each scan. However, directly applying the unconstrained self-referential update to a visual backbone leads to instability. We therefore derive a stability-matched step-size control scheme that combines a soft cap on self-referential injection with a spectral clamp on the retained memory transition, and prove that the resulting memory dynamics are non-expansive along each scan. For two-dimensional feature maps, we adapt NL's chunk formulation by aligning chunks with image rows and columns across four directional scans. The proposed VisionHOPE achieves competitive results on ImageNet-1K, COCO, and ADE20K, establishing self-modifying learning systems as a practical foundation for general-purpose visual backbones. The code is available at https://github.com/PSRben/VisionHOPE.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2609.33325.png",
+    "numComments": 2,
+    "submittedBy": {
+      "_id": "67bf2f9ce82742547900e2d7",
+      "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/67bf2f9ce82742547900e2d7/Hqm-e_Nz5xCJbKWRZuRs_.jpeg",
+      "fullname": "Siran Peng",
+      "name": "PSRben",
+      "type": "user",
+      "isPro": false,
+      "isHf": false,
+      "isHfAdmin": false,
+      "isMod": false,
+      "followerCount": 132,
+      "isUserFollowing": false
+    },
+    "organization": {
+      "_id": "69c65a9e3b5bbcceca48c75b",
+      "name": "Mininglamp-2718",
+      "fullname": "Mininglamp Technology",
+      "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/69c656d25cf6c8ac26073013/sJ_pUHr_6G89GHJK5qPm7.png"
+    },
+    "isAuthorParticipating": true
+  },
+  {
+    "paper": {
+      "id": "2510.22200",
+      "authors": [
+        {
+          "_id": "690036a622d452aac6dd4356",
+          "name": "Meituan LongCat Team",
+          "hidden": false
+        },
+        {
+          "_id": "690036a622d452aac6dd4357",
+          "name": "Xunliang Cai",
+          "hidden": false
+        },
+        {
+          "_id": "690036a622d452aac6dd4358",
+          "name": "Qilong Huang",
+          "hidden": false
+        },
+        {
+          "_id": "690036a622d452aac6dd4359",
+          "name": "Zhuoliang Kang",
+          "hidden": false
+        },
+        {
+          "_id": "690036a622d452aac6dd435a",
+          "name": "Hongyu Li",
+          "hidden": false
+        },
+        {
+          "_id": "690036a622d452aac6dd435b",
+          "name": "Shijun Liang",
+          "hidden": false
+        },
+        {
+          "_id": "690036a622d452aac6dd435c",
+          "name": "Liya Ma",
+          "hidden": false
+        },
+        {
+          "_id": "690036a622d452aac6dd435d",
+          "user": {
+            "_id": "63a018f8e648d425374504ef",
+            "avatarUrl": "/avatars/4ff1f273ec6c65689b0443c8398ecaa2.svg",
+            "isPro": false,
+            "fullname": "Siyu Ren",
+            "user": "Roy0702",
+            "type": "user",
+            "name": "Roy0702"
+          },
+          "name": "Siyu Ren",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-05-28T15:37:31.543Z",
+          "hidden": false
+        },
+        {
+          "_id": "690036a622d452aac6dd435e",
+          "name": "Xiaoming Wei",
+          "hidden": false
+        },
+        {
+          "_id": "690036a622d452aac6dd435f",
+          "name": "Rixu Xie",
+          "hidden": false
+        },
+        {
+          "_id": "690036a622d452aac6dd4360",
+          "name": "Tong Zhang",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2025-10-25T07:41:02.000Z",
+      "submittedOnDailyAt": "2025-10-28T00:00:00.000Z",
+      "title": "LongCat-Video Technical Report",
+      "submittedOnDailyBy": {
+        "_id": "6039478ab3ecf716b1a5fd4d",
+        "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/6039478ab3ecf716b1a5fd4d/_Thy4E7taiSYBLKxEKJbT.jpeg",
+        "isPro": true,
+        "fullname": "taesiri",
+        "user": "taesiri",
+        "type": "user",
+        "name": "taesiri"
+      },
+      "summary": "Video generation is a critical pathway toward world models, with efficient\nlong video inference as a key capability. Toward this end, we introduce\nLongCat-Video, a foundational video generation model with 13.6B parameters,\ndelivering strong performance across multiple video generation tasks. It\nparticularly excels in efficient and high-quality long video generation,\nrepresenting our first step toward world models. Key features include: Unified\narchitecture for multiple tasks: Built on the Diffusion Transformer (DiT)\nframework, LongCat-Video supports Text-to-Video, Image-to-Video, and\nVideo-Continuation tasks with a single model; Long video generation:\nPretraining on Video-Continuation tasks enables LongCat-Video to maintain high\nquality and temporal coherence in the generation of minutes-long videos;\nEfficient inference: LongCat-Video generates 720p, 30fps videos within minutes\nby employing a coarse-to-fine generation strategy along both the temporal and\nspatial axes. Block Sparse Attention further enhances efficiency, particularly\nat high resolutions; Strong performance with multi-reward RLHF: Multi-reward\nRLHF training enables LongCat-Video to achieve performance on par with the\nlatest closed-source and leading open-source models. Code and model weights are\npublicly available to accelerate progress in the field.",
+      "upvotes": 43,
+      "discussionId": "690036a722d452aac6dd4361",
+      "githubRepo": "https://github.com/meituan-longcat/LongCat-Video",
+      "githubRepoAddedBy": "user",
+      "ai_summary": "LongCat-Video, a 13.6B parameter video generation model based on the Diffusion Transformer framework, excels in efficient and high-quality long video generation across multiple tasks using unified architecture, coarse-to-fine generation, and block sparse attention.",
+      "ai_keywords": [
+        "Diffusion Transformer",
+        "Text-to-Video",
+        "Image-to-Video",
+        "Video-Continuation",
+        "temporal coherence",
+        "coarse-to-fine generation",
+        "block sparse attention",
+        "multi-reward RLHF"
+      ],
+      "ai_summary_model": "Qwen/Qwen2.5-Coder-32B-Instruct",
+      "githubStars": 8962,
+      "organization": {
+        "_id": "68b28d79a176a9beb30d2049",
+        "name": "meituan-longcat",
+        "fullname": "LongCat",
+        "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/68a2a29ab9d4c5698e02c747/CDCAx7X7rXDt7xjI-DoxG.png"
+      }
+    },
+    "publishedAt": "2025-10-25T03:41:02.000Z",
+    "title": "LongCat-Video Technical Report",
+    "summary": "Video generation is a critical pathway toward world models, with efficient\nlong video inference as a key capability. Toward this end, we introduce\nLongCat-Video, a foundational video generation model with 13.6B parameters,\ndelivering strong performance across multiple video generation tasks. It\nparticularly excels in efficient and high-quality long video generation,\nrepresenting our first step toward world models. Key features include: Unified\narchitecture for multiple tasks: Built on the Diffusion Transformer (DiT)\nframework, LongCat-Video supports Text-to-Video, Image-to-Video, and\nVideo-Continuation tasks with a single model; Long video generation:\nPretraining on Video-Continuation tasks enables LongCat-Video to maintain high\nquality and temporal coherence in the generation of minutes-long videos;\nEfficient inference: LongCat-Video generates 720p, 30fps videos within minutes\nby employing a coarse-to-fine generation strategy along both the temporal and\nspatial axes. Block Sparse Attention further enhances efficiency, particularly\nat high resolutions; Strong performance with multi-reward RLHF: Multi-reward\nRLHF training enables LongCat-Video to achieve performance on par with the\nlatest closed-source and leading open-source models. Code and model weights are\npublicly available to accelerate progress in the field.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2510.22200.png",
+    "numComments": 5,
+    "submittedBy": {
+      "_id": "6039478ab3ecf716b1a5fd4d",
+      "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/6039478ab3ecf716b1a5fd4d/_Thy4E7taiSYBLKxEKJbT.jpeg",
+      "fullname": "taesiri",
+      "name": "taesiri",
+      "type": "user",
+      "isPro": true,
+      "isHf": false,
+      "isHfAdmin": false,
+      "isMod": false,
+      "followerCount": 396,
+      "isUserFollowing": false
+    },
+    "organization": {
+      "_id": "68b28d79a176a9beb30d2049",
+      "name": "meituan-longcat",
+      "fullname": "LongCat",
+      "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/68a2a29ab9d4c5698e02c747/CDCAx7X7rXDt7xjI-DoxG.png"
+    },
+    "isAuthorParticipating": false
+  },
+  {
+    "paper": {
+      "id": "2309.06180",
+      "authors": [
+        {
+          "_id": "650114d996ec8a5218886621",
+          "user": {
+            "_id": "6458733caa426bae5e079b7b",
+            "avatarUrl": "/avatars/990d0c21e28f973290ce429f62156031.svg",
+            "isPro": false,
+            "fullname": "Woosuk Kwon",
+            "user": "wskwon",
+            "type": "user",
+            "name": "wskwon"
+          },
+          "name": "Woosuk Kwon",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2023-09-13T07:28:58.381Z",
+          "hidden": false
+        },
+        {
+          "_id": "650114d996ec8a5218886622",
+          "user": {
+            "_id": "649dd1fae16abbd8fd7a3bdf",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/noauth/2t1p0Ku7qmNcSapRdzxv9.jpeg",
+            "isPro": false,
+            "fullname": "Zhuohan  Li",
+            "user": "zhuohan123",
+            "type": "user",
+            "name": "zhuohan123"
+          },
+          "name": "Zhuohan Li",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2023-09-13T07:29:05.538Z",
+          "hidden": false
+        },
+        {
+          "_id": "650114d996ec8a5218886623",
+          "name": "Siyuan Zhuang",
+          "hidden": false
+        },
+        {
+          "_id": "650114d996ec8a5218886624",
+          "user": {
+            "_id": "6455b969654d8bccae50736c",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/6455b969654d8bccae50736c/WsK0_sbQSVeosi-fh-O_U.jpeg",
+            "isPro": false,
+            "fullname": "Ying Sheng",
+            "user": "ying1123",
+            "type": "user",
+            "name": "ying1123"
+          },
+          "name": "Ying Sheng",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2023-09-13T07:29:40.177Z",
+          "hidden": false
+        },
+        {
+          "_id": "650114d996ec8a5218886625",
+          "name": "Lianmin Zheng",
+          "hidden": false
+        },
+        {
+          "_id": "650114d996ec8a5218886626",
+          "user": {
+            "_id": "64763d68288784ce9aba1cc7",
+            "avatarUrl": "/avatars/84033af4466f5469c6264e7bff9f6819.svg",
+            "isPro": false,
+            "fullname": "Cody Yu",
+            "user": "comaniac",
+            "type": "user",
+            "name": "comaniac"
+          },
+          "name": "Cody Hao Yu",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2023-09-14T07:31:46.459Z",
+          "hidden": false
+        },
+        {
+          "_id": "650114d996ec8a5218886627",
+          "user": {
+            "_id": "645d2e8401f4eaab2a0878ce",
+            "avatarUrl": "/avatars/1273c5fb607b4b622a746a42692fa632.svg",
+            "isPro": false,
+            "fullname": "Joseph E. Gonzalez",
+            "user": "ProfJoeyG",
+            "type": "user",
+            "name": "ProfJoeyG"
+          },
+          "name": "Joseph E. Gonzalez",
+          "status": "admin_assigned",
+          "statusLastChangedAt": "2023-09-13T07:30:30.707Z",
+          "hidden": false
+        },
+        {
+          "_id": "650114d996ec8a5218886628",
+          "user": {
+            "_id": "62d363143eebd640a4fa41fa",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/62d363143eebd640a4fa41fa/pvPwXlJ5OOb-UIfmffv4E.jpeg",
+            "isPro": false,
+            "fullname": "Hao Zhang",
+            "user": "zhisbug",
+            "type": "user",
+            "name": "zhisbug"
+          },
+          "name": "Hao Zhang",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2025-01-01T20:15:04.984Z",
+          "hidden": false
+        },
+        {
+          "_id": "650114d996ec8a5218886629",
+          "name": "Ion Stoica",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2023-09-12T12:50:04.000Z",
+      "submittedOnDailyAt": "2023-09-13T00:00:00.000Z",
+      "title": "Efficient Memory Management for Large Language Model Serving with\n  PagedAttention",
+      "submittedOnDailyBy": {
+        "_id": "60f1abe7544c2adfd699860c",
+        "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/1674929746905-60f1abe7544c2adfd699860c.jpeg",
+        "isPro": false,
+        "fullname": "AK",
+        "user": "akhaliq",
+        "type": "user",
+        "name": "akhaliq"
+      },
+      "summary": "High throughput serving of large language models (LLMs) requires batching\nsufficiently many requests at a time. However, existing systems struggle\nbecause the key-value cache (KV cache) memory for each request is huge and\ngrows and shrinks dynamically. When managed inefficiently, this memory can be\nsignificantly wasted by fragmentation and redundant duplication, limiting the\nbatch size. To address this problem, we propose PagedAttention, an attention\nalgorithm inspired by the classical virtual memory and paging techniques in\noperating systems. On top of it, we build vLLM, an LLM serving system that\nachieves (1) near-zero waste in KV cache memory and (2) flexible sharing of KV\ncache within and across requests to further reduce memory usage. Our\nevaluations show that vLLM improves the throughput of popular LLMs by\n2-4times with the same level of latency compared to the state-of-the-art\nsystems, such as FasterTransformer and Orca. The improvement is more pronounced\nwith longer sequences, larger models, and more complex decoding algorithms.\nvLLM's source code is publicly available at\nhttps://github.com/vllm-project/vllm",
+      "upvotes": 76,
+      "discussionId": "650114d996ec8a5218886638",
+      "githubRepo": "https://github.com/vllm-project/vllm",
+      "githubRepoAddedBy": "auto",
+      "ai_summary": "PagedAttention algorithm and vLLM system enhance the throughput of large language models by efficiently managing memory and reducing waste in the key-value cache.",
+      "ai_keywords": [
+        "PagedAttention",
+        "key-value cache",
+        "KV cache",
+        "vLLM",
+        "virtual memory",
+        "paging techniques",
+        "attention algorithm",
+        "memory management",
+        "throughput improvement",
+        "FasterTransformer",
+        "Orca"
+      ],
+      "ai_summary_model": "Qwen/Qwen2.5-Coder-32B-Instruct",
+      "githubStars": 86094
+    },
+    "publishedAt": "2023-09-12T08:50:04.000Z",
+    "title": "Efficient Memory Management for Large Language Model Serving with\n  PagedAttention",
+    "summary": "High throughput serving of large language models (LLMs) requires batching\nsufficiently many requests at a time. However, existing systems struggle\nbecause the key-value cache (KV cache) memory for each request is huge and\ngrows and shrinks dynamically. When managed inefficiently, this memory can be\nsignificantly wasted by fragmentation and redundant duplication, limiting the\nbatch size. To address this problem, we propose PagedAttention, an attention\nalgorithm inspired by the classical virtual memory and paging techniques in\noperating systems. On top of it, we build vLLM, an LLM serving system that\nachieves (1) near-zero waste in KV cache memory and (2) flexible sharing of KV\ncache within and across requests to further reduce memory usage. Our\nevaluations show that vLLM improves the throughput of popular LLMs by\n2-4times with the same level of latency compared to the state-of-the-art\nsystems, such as FasterTransformer and Orca. The improvement is more pronounced\nwith longer sequences, larger models, and more complex decoding algorithms.\nvLLM's source code is publicly available at\nhttps://github.com/vllm-project/vllm",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2309.06180.png",
+    "numComments": 1,
+    "submittedBy": {
+      "_id": "60f1abe7544c2adfd699860c",
+      "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/1674929746905-60f1abe7544c2adfd699860c.jpeg",
+      "fullname": "AK",
+      "name": "akhaliq",
+      "type": "user",
+      "isPro": false,
+      "isHf": true,
+      "isHfAdmin": false,
+      "isMod": false,
+      "followerCount": 10317,
+      "isUserFollowing": false
+    },
+    "isAuthorParticipating": false
+  }
+]
