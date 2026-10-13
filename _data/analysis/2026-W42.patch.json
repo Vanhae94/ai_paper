@@ -1,0 +1,441 @@
+{
+  "week_id": "2026-W42",
+  "papers": {
+    "2610.13912": {
+      "title_ko": "RSI-Anything: 월드모델로 재귀적 자기개선을 여는 범용 프레임워크",
+      "classify": {
+        "categories": [
+          "LLM/Agents",
+          "Embodied/World Models"
+        ],
+        "primary_category": "LLM/Agents",
+        "topic_tags": [
+          "self-refinement",
+          "world-model",
+          "jepa",
+          "agentic-workflow",
+          "ai-for-science"
+        ],
+        "method_tags": [
+          "data-centric",
+          "inference-time"
+        ],
+        "modality": [
+          "multi"
+        ],
+        "confidence": "medium"
+      },
+      "tier1": {
+        "one_liner": "예측형 월드모델로 외부 피드백을 받을 행동을 고르고, 검사를 통과한 갱신만 남기는 자기개선 틀을 여러 분야에 적용한다.",
+        "problem": "재귀적 자기개선(RSI)은 상호작용 경험을 지속적인 개선으로 바꾸려는 목표지만, 외부 피드백은 비싸다. 월드모델의 예측으로 피드백을 아끼려 해도, 정책이 바뀌어 갈수록 그 예측을 믿기 어려워질 수 있다.",
+        "approach": "JEPA-Anything 위에 구축한 범용 프레임워크로, 예측형 월드모델이 행동 선택과 학습 데이터 선택을 이끈다. 실제로 관측한 피드백은 정책이나 워크플로를 개선하는 데 쓰이는 동시에 월드모델을 조건부로 적응시키는 데도 쓰인다. 갱신된 정책-월드모델 쌍을 남길지는 구성요소 검사(component check)와 호환성 검사(compatibility check)가 정한다. 다만 심층 분석 결과 학습 데이터 선택은 정의만 있고 실험에 쓰였다는 보고가 없으며, 검사의 수치 기준과 판정 결과도 논문에 없다.",
+        "contributions": [
+          "코드 수리(CodeContests 200과제, 코더 고정)에서 무작위 26.0%, 정적 검증기 26.3% -> 고정 월드모델 선택 29.2%(정적 검증기 대비 +2.83%p, 95% 구간 [+0.17, +5.50]) -> 적응 월드모델 31.2%. 테스트 호출은 과제당 3.71-3.72회로 비슷하고, '적응'은 평가 중 갱신이 아니라 미리 재학습한 체크포인트다(저장소 기준)",
+          "GUI는 MiniWoB++ 단일 과제 100개 인스턴스에서 성공률 51% -> 99%, 평균 행동 39.4% 감소지만, 저장소상 보고 컨트롤러는 월드모델을 쓰지 않아 상승은 정책 미세조정에서 왔다(월드모델 값으로 고르는 컨트롤러는 49% -> 98%). 실험실 계획은 5개 정책 버전에서 21.80% -> 46.01%로 최고 참조 시스템보다 0.69%p 높다",
+          "반응 최적화의 평균 최고 수율 96.15%(베이지안 최적화 82.16%)는 저장소 기록상 이미 측정된 후보 321개를 40회 예산으로 재생한 오프라인 평가이고, 96.15%는 후보 풀의 최댓값이다(다른 스크린 20회 예산에서는 93.0% 대 87.5%)",
+          "면역학 응용은 같은 그룹의 선행 논문(arXiv 2609.14709) 결과를 다시 제시한 것으로 치료 가설은 실험 검증 전이며, GitHub 코드(Apache-2.0)와 HF 체크포인트 모음은 공개됐지만 면역학 자원과 OSWorld 코드는 없다"
+        ],
+        "why_now": "W36 Prime Agent(자기개선 하니스), W40 RRSI(정규화된 하니스 자기개선)에 이어 자기개선을 정면으로 내건 논문이다. RRSI가 '고친 것이 분포 밖에서도 통하나'를 비평가와 가지치기기로 다뤘다면, RSI-Anything은 비싼 외부 피드백을 월드모델 예측으로 아끼면서 갱신을 남길지 검사로 거르는 틀을 제안한다(심층 분석상 그 검사의 수치 기준과 판정 결과는 보고되지 않음). 자기개선의 쟁점이 '무엇을 고치나'에서 '무엇으로 검증하고 무엇을 남기나'로 옮겨 가는 흐름으로 읽힌다.",
+        "difficulty": "고급",
+        "recommended_reader": "에이전트 자기개선 루프와 검증 설계에 관심 있는 개발자, AI를 과학 실험에 쓰는 방식에 관심 있는 학습자",
+        "field_tags": [
+          "재귀적자기개선",
+          "월드모델",
+          "JEPA",
+          "AI과학"
+        ],
+        "interest": {
+          "upvotes": 30,
+          "num_comments": 2,
+          "github_stars": 446
+        }
+      },
+      "learning": {
+        "key_terms": [
+          {
+            "term": "Recursive Self-Improvement (RSI)",
+            "gloss": "시스템이 상호작용 경험으로 자기 정책이나 워크플로를 반복해서 고쳐 나가는 과정"
+          },
+          {
+            "term": "JEPA",
+            "gloss": "입력을 그대로 복원하는 대신 표현 공간에서 결과를 예측하도록 학습하는 구조(Joint-Embedding Predictive Architecture)"
+          },
+          {
+            "term": "World Model",
+            "gloss": "행동의 결과를 미리 예측하는 모델. 이 논문에서는 어떤 행동에 비싼 외부 피드백을 쓸지 고르는 데 쓰이고, 그 피드백으로 스스로도 개선된다"
+          }
+        ],
+        "recall_quiz": {
+          "question": "이 논문 5장이 결과로 뒷받침된다고 정리한 월드모델의 두 역할과, 갱신된 정책-월드모델 쌍을 남길지 정하는 장치는?",
+          "answer": "어떤 행동이 외부 피드백을 받을지 정하는 데 정보를 주는 역할과, 그 피드백으로 스스로 개선될 수 있는 예측기 역할이다. 쌍의 유지는 구성요소 검사와 호환성 검사가 정하지만, 논문은 그 수치 기준과 실제 판정 결과를 보고하지 않는다(초록의 학습 데이터 선택은 정의만 있고 실험 보고는 없음)."
+        },
+        "spaced_review": {
+          "flag": true,
+          "review_due": "2026-W44"
+        }
+      }
+    },
+    "2403.08299": {
+      "title_ko": "AutoDev: 자동화된 AI 주도 소프트웨어 개발",
+      "classify": {
+        "categories": [
+          "LLM/Agents",
+          "Safety"
+        ],
+        "primary_category": "LLM/Agents",
+        "topic_tags": [
+          "agentic-workflow",
+          "autonomous-agents",
+          "code-execution",
+          "software-engineering",
+          "sandboxing"
+        ],
+        "method_tags": [
+          "architecture",
+          "prompting"
+        ],
+        "modality": [
+          "text"
+        ],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "코드 제안을 넘어 빌드·실행·테스트·Git까지 수행하는 자율 개발 에이전트를 Docker 안에 가둔다.",
+        "problem": "기존 AI 코딩 도구는 코드 조각 추천과 파일 편집에 집중해 IDE가 제공하는 빌드, 테스트, 실행, 버전 관리 기능을 충분히 활용하지 못했다. 자율성을 높일수록 잘못된 명령과 파일 접근으로부터 사용자의 코드와 환경을 보호할 실행 경계도 필요하다.",
+        "approach": "사용자가 복잡한 소프트웨어 목표를 주면 자율 AI 에이전트가 계획을 세우고 파일 검색·편집, 빌드, 실행, 테스트, Git 작업을 수행한다. 컴파일러 출력과 테스트 로그, 정적 분석 결과를 다시 문맥으로 받아 다음 행동을 결정한다. 모든 작업은 Docker 컨테이너에 격리하고, 사용자가 허용·금지 명령과 작업 범위를 지정하는 guardrail을 둔다.",
+        "contributions": [
+          "IDE 수준의 개발 도구를 하나의 자율 계획·실행 루프로 통합",
+          "HumanEval 코드 생성 Pass@1 91.5%를 보고",
+          "HumanEval 테스트 생성 Pass@1 87.8%를 보고",
+          "Docker 격리와 사용자 정의 허용·차단 정책으로 실행 안전 경계 제시"
+        ],
+        "why_now": "W29·W30·W38에 이어 네 번째 등장이다(▲19 -> 22). 이번 주 에이전트 3편 중 유일한 2024년 논문으로, 월드모델로 자기개선을 거르는 RSI-Anything과 기기 전체를 다루는 nanoMuse 옆에서 '샌드박스 안에서 빌드·테스트까지 수행하는 개발 에이전트'의 기준점으로 다시 소환됐다. 최신 코딩 에이전트와의 성능 비교보다 자율 실행과 격리 설계의 초기 레퍼런스로 읽는 편이 맞다.",
+        "difficulty": "중급",
+        "recommended_reader": "코딩 에이전트의 실행 루프와 샌드박스·권한 설계를 공부하려는 개발자",
+        "field_tags": [
+          "코딩에이전트",
+          "Docker격리",
+          "자동테스트",
+          "개발자동화"
+        ],
+        "interest": {
+          "upvotes": 22,
+          "num_comments": 2,
+          "github_stars": 26546
+        }
+      },
+      "learning": {
+        "key_terms": [
+          {
+            "term": "Pass@1",
+            "gloss": "모델이 첫 번째로 생성한 답 하나가 테스트를 통과하는 비율"
+          },
+          {
+            "term": "Sandbox",
+            "gloss": "에이전트의 코드와 명령을 호스트 환경에서 격리해 실행하는 통제 공간"
+          },
+          {
+            "term": "Guardrail",
+            "gloss": "허용·금지 행동을 명시해 에이전트의 실행 범위를 제한하는 정책"
+          }
+        ],
+        "recall_quiz": {
+          "question": "AutoDev 프레임워크를 이루는 네 가지 핵심 축은 무엇인가?",
+          "answer": "대화를 관리하는 Conversation Manager, 파일 편집·검색·빌드·테스트·Git 명령을 담은 Tools Library, 여러 에이전트를 조율하는 Agent Scheduler, 모든 명령을 Docker 안에서 실행하는 Evaluation Environment다(W29 심층 분석 기준)."
+        },
+        "spaced_review": {
+          "flag": false,
+          "review_due": null
+        }
+      }
+    },
+    "2609.18063": {
+      "title_ko": "메모리 벽의 나머지 절반: 학습된 라우팅 예측으로 35B MoE를 SSD에서 서빙하기 (Edge0)",
+      "classify": {
+        "categories": [
+          "Efficiency/Inference"
+        ],
+        "primary_category": "Efficiency/Inference",
+        "topic_tags": [
+          "moe-serving",
+          "edge-inference",
+          "mixture-of-experts",
+          "routing-prediction",
+          "quantization"
+        ],
+        "method_tags": [
+          "inference-time",
+          "distillation"
+        ],
+        "modality": [
+          "text"
+        ],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "SSD 스트리밍과 라우팅 예측을 결합한 엔진으로, 24GB Mac mini에서 35B MoE를 초당 약 20토큰에 돌린다.",
+        "problem": "소비자 하드웨어에서 MoE 추론의 한계는 가중치 메모리다. 35B급 모델은 4비트로도 19.5GB이고, 희소성은 토큰당 연산량을 줄일 뿐 메모리에 올려둬야 할 바이트 수는 줄이지 못한다. 전문가를 SSD로 내리는 단순 오프로딩도 소용이 없는데, N+1층의 전문가는 N층 출력이 나와야 정해지므로 읽기를 연산 뒤에 숨길 만큼 일찍 시작할 수 없기 때문이다.",
+        "approach": "스트리밍 MoE 추론 엔진 Edge0는 층마다 붙인 예측 헤드인 프리라우터(prerouter)가 다음 층의 라우팅을 한 토큰 앞서 예측한다. 핵심은 이 예측을 참고용이 아니라 라우팅 그 자체로 사용한다는 점이다. 그래서 미리 올려둔(staged) 전문가 집합과 실제로 라우팅된 집합이 정확히 같아 빠지는 전문가가 없다. int4 양자화와 라우팅 대체로 잃은 품질은, 학생 경로(student path)에서 학습해 병합하지 않은 채 쓰는 복구 LoRA(recovery LoRA)로 되찾는다.",
+        "contributions": [
+          "다음 층 라우팅을 한 토큰 앞서 예측하고 그 예측을 실제 라우팅으로 쓰는 프리라우터로 SSD 읽기를 연산과 겹침(가중치가 메모리에 안 들어가는 16GB 기기에서 decode +80-84%, 24GB 기기에서는 약 2.5%)",
+          "Mac mini M4 Pro 24GB(Apple Silicon 통합 메모리)에서 K=4로 재학습한 35B MoE를 배치 1 기준 초당 20.4토큰, MLX allocator 기준 최대 활성 메모리 2.9GiB로 서빙",
+          "5개 공개 벤치마크 평균에서 fp16 base 대비 35B 약 4점, 8B 2.8점 하락(복구 LoRA로 int4 양자화와 라우팅 대체 손실 보전). 단 AIME는 35B -6.1점, 8B -10.0점으로 손실이 큼",
+          "같은 프레임워크의 8B 티어 제공, 추론 프레임워크·체크포인트·어댑터 오픈소스(GitHub 약 4.6천 스타). 학습 코드와 데이터는 공개되지 않음"
+        ],
+        "why_now": "W41에 이어 2주 연속 등장했고 관심도도 올랐다(▲22 -> 26, GitHub 스타 약 3.1천 -> 4.6천으로 약 1.5배). 지난주 심층 분석으로 '24GB 기기'가 Apple Silicon 통합 메모리이고, 예측기의 큰 이득은 모델이 메모리에 들어가지 않는 16GB 기기에서 나온다는 점이 확인됐다. 이번 주에는 2020년 PyTorch DDP와 함께 효율 카테고리 2편을 이뤄, 효율·추론최적화가 W40부터 3주 연속 2편씩 오르는 데 기여했다.",
+        "difficulty": "고급",
+        "recommended_reader": "로컬 PC에서 큰 MoE 모델을 돌려보려는 개발자, 추론 엔진의 메모리 계층(VRAM·RAM·SSD) 설계에 관심 있는 학습자",
+        "field_tags": [
+          "MoE서빙",
+          "엣지추론",
+          "SSD오프로딩",
+          "라우팅예측",
+          "양자화"
+        ],
+        "interest": {
+          "upvotes": 26,
+          "num_comments": 4,
+          "github_stars": 4605
+        }
+      },
+      "learning": {
+        "key_terms": [
+          {
+            "term": "Mixture-of-Experts (MoE)",
+            "gloss": "여러 전문가 서브네트워크 중 일부만 토큰마다 골라 쓰는 구조. 연산은 줄지만 전체 가중치는 어딘가에 있어야 한다"
+          },
+          {
+            "term": "Prerouter",
+            "gloss": "다음 층에서 어떤 전문가가 쓰일지 한 토큰 앞서 예측하는 층별 헤드. Edge0에서는 그 예측이 곧 실제 라우팅이 된다"
+          },
+          {
+            "term": "Recovery LoRA",
+            "gloss": "양자화나 구조 변경으로 잃은 품질을 되찾기 위해 덧붙여 학습하는 저랭크 어댑터"
+          }
+        ],
+        "recall_quiz": {
+          "question": "Edge0의 프리라우터가 24GB Mac mini에서는 약 2.5%, 16GB MacBook에서는 +80% 이상의 decode 이득을 낸 이유는?",
+          "answer": "프리라우터의 이득은 SSD 읽기 대기 시간을 줄이는 만큼 나오는데, 가중치가 메모리에 다 들어가지 않는 16GB 기기에서는 스트리밍 대기가 커서 줄일 몫이 크고, 24GB 기기에서는 그 몫이 작기 때문이다(W41 심층 분석 기준)."
+        },
+        "spaced_review": {
+          "flag": false,
+          "review_due": null
+        }
+      }
+    },
+    "2006.15704": {
+      "title_ko": "PyTorch Distributed: 데이터 병렬 학습 가속의 설계와 경험",
+      "classify": {
+        "categories": [
+          "Efficiency/Inference"
+        ],
+        "primary_category": "Efficiency/Inference",
+        "topic_tags": [
+          "distributed-training",
+          "data-parallelism",
+          "communication-overlap",
+          "gradient-bucketing"
+        ],
+        "method_tags": [
+          "architecture"
+        ],
+        "modality": [],
+        "confidence": "medium"
+      },
+      "tier1": {
+        "one_liner": "그래디언트 버킷팅·계산-통신 중첩·동기화 생략으로 PyTorch DDP를 256 GPU까지 거의 선형으로 확장한 설계 보고.",
+        "problem": "큰 데이터와 큰 모델을 학습하려면 학습을 더 많은 연산 자원으로 늘려야 하고, 데이터 병렬화는 원리가 단순하고 적용 범위가 넓어 널리 쓰인다. 하지만 각 장치가 만든 그래디언트를 반복마다 통신해 모델 복제본을 맞춰야 하므로, 계산과 통신 사이의 미묘한 의존성 때문에 효율을 끌어올리기가 쉽지 않다.",
+        "approach": "PyTorch의 분산 데이터 병렬(DDP) 모듈은 모델을 장치마다 복제해 그래디언트를 독립적으로 계산한 뒤 반복마다 통신으로 맞춘다. v1.5 기준으로 그래디언트를 묶어 보내는 버킷팅(bucketing gradients), 계산과 통신을 겹치는 중첩(overlapping computation with communication), 그래디언트 동기화를 건너뛰는 기법(skipping gradient synchronization)을 기본 제공한다. 논문은 이 모듈의 설계·구현·평가를 정리한다.",
+        "contributions": [
+          "PyTorch DDP 모듈의 설계·구현·평가를 정리한 시스템 논문",
+          "그래디언트 버킷팅, 계산-통신 중첩, 그래디언트 동기화 생략을 기본 기능으로 제공(v1.5 기준)",
+          "적절히 설정하면 256 GPU에서 거의 선형에 가까운 확장성을 보고",
+          "코드는 PyTorch 본체에 포함(카드의 GitHub 스타 약 10.5만은 PyTorch 저장소 전체 수치)"
+        ],
+        "why_now": "2020년 논문으로 이 시스템에는 처음 등장한다. W40·W41의 PagedAttention(2023)에 이어 '시스템 고전'이 다시 소환된 사례로, 효율·추론최적화가 W40부터 3주 연속 2편씩 오르는 데 한몫했다. 다만 추론이 아니라 학습 쪽 효율이라, 서빙 중심이던 최근 흐름과는 결이 조금 다르다.",
+        "difficulty": "중급",
+        "recommended_reader": "여러 GPU로 학습을 늘려 보려 하거나 분산 학습의 원리를 처음 정리하려는 학습자",
+        "field_tags": [
+          "분산학습",
+          "데이터병렬",
+          "PyTorch",
+          "통신최적화"
+        ],
+        "interest": {
+          "upvotes": 13,
+          "num_comments": 0,
+          "github_stars": 104736
+        }
+      },
+      "learning": {
+        "key_terms": [
+          {
+            "term": "Data Parallelism",
+            "gloss": "모델을 장치마다 복제하고 데이터를 나눠 계산한 뒤 그래디언트를 동기화해 복제본을 맞추는 병렬 학습 방식"
+          },
+          {
+            "term": "Gradient Bucketing",
+            "gloss": "작은 그래디언트 텐서들을 묶어(버킷) 한 번에 통신해 통신 횟수와 지연을 줄이는 기법"
+          },
+          {
+            "term": "Computation-Communication Overlap",
+            "gloss": "그래디언트 계산이 끝나기를 기다리지 않고 준비된 부분부터 통신해 대기 시간을 숨기는 기법"
+          }
+        ],
+        "recall_quiz": {
+          "question": "PyTorch DDP가 계산과 통신의 의존성 문제를 다루려고 v1.5에서 기본 제공한 세 가지 기법은?",
+          "answer": "그래디언트 버킷팅, 계산과 통신의 중첩, 그래디언트 동기화 생략이다."
+        },
+        "spaced_review": {
+          "flag": false,
+          "review_due": null
+        }
+      }
+    },
+    "2609.33757": {
+      "title_ko": "YuE2: 기호 음악 생성과 오디오 음악 생성을 프런티어 품질로 통합",
+      "classify": {
+        "categories": [
+          "Multimodal"
+        ],
+        "primary_category": "Multimodal",
+        "topic_tags": [
+          "music-generation",
+          "audio-generation",
+          "symbolic-music",
+          "mixture-of-transformers"
+        ],
+        "method_tags": [
+          "pretraining",
+          "architecture"
+        ],
+        "modality": [
+          "audio",
+          "text"
+        ],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "읽을 수 있는 악보를 먼저 쓰고 그 악보로 노래 전체를 만들어, 기호 음악과 오디오 음악 생성을 한 모델로 묶는다.",
+        "problem": "기호(symbolic) 음악 모델은 선율·화성·리듬·형식을 명시적으로 다루지만 완성된 녹음 직전에서 멈추고, 오디오 모델은 완성된 노래를 만들지만 작곡 과정은 암묵적으로 남긴다. 두 장점을 한 시스템에서 함께 얻기 어렵다.",
+        "approach": "하나의 AR-NAR Mixture-of-Transformers(MoT) 모델이 먼저 선율과 화성을 담은 읽을 수 있는 악보를 쓰고, 이를 의미 음악 토큰(semantic music tokens)으로 확장한 뒤 노래 전체 오디오로 구현하는 기호 계획(symbolic planning)을 쓴다. 정렬된 악보가 없는 녹음에서 이 과정을 배우기 위해, 의미 감독을 주는 MERT2와 기호 감독을 주는 SheetSage2를 함께 만들었다. 같은 체크포인트가 악보 편집을 따르고, 외부 언어모델이 사용자 피드백을 작곡 수정으로 옮기는 에이전트형 음악 편집도 지원한다.",
+        "contributions": [
+          "같은 체크포인트 비교에서 전문가들이 기호 계획 쪽을 전체 선호의 49.3%로 택함(계획 없음 34.6%)",
+          "WildSongBench의 SongBench Global Avg 6.73으로 평가한 공개 베이스라인을 모두 넘고, 8개 후보 중 선택(best-of-8) 시 6.96",
+          "전문가 청취에서 best-of-8이 Suno v4.5보다 선호되고 Suno v5와는 거의 비슷한 선호",
+          "MERT2는 MARBLE 15개 지표 중 14개에서 기존 최고를 넘고, SheetSage2는 리드시트 전사 비교 15개 중 12개에서 선두라고 보고"
+        ],
+        "why_now": "이번 주 최다 ▲233으로, W38에 오른 YuE의 후속작이다. W38의 YuE·AuK에 이어 오디오 생성이 다시 올라왔고, 이번엔 '읽을 수 있는 악보'라는 중간 표현을 두어 사람과 외부 언어모델이 작곡을 편집할 수 있게 했다는 점이 눈에 띈다. 생성 결과를 사람이 읽고 고칠 수 있는 중간 산출물로 나누는 방향은 에이전트 쪽의 계획-실행 분리와도 닮았다.",
+        "difficulty": "고급",
+        "recommended_reader": "음악·오디오 생성, 기호 표현과 신경망 생성의 결합에 관심 있는 학습자",
+        "field_tags": [
+          "음악생성",
+          "기호음악",
+          "오디오생성",
+          "MoT"
+        ],
+        "interest": {
+          "upvotes": 233,
+          "num_comments": 3,
+          "github_stars": 11788
+        }
+      },
+      "learning": {
+        "key_terms": [
+          {
+            "term": "Symbolic Music",
+            "gloss": "음표·화성·리듬처럼 악보 형태로 명시된 음악 표현"
+          },
+          {
+            "term": "Mixture-of-Transformers (MoT)",
+            "gloss": "역할이나 모달리티마다 별도 파라미터를 둔 트랜스포머들을 한 모델 안에서 함께 쓰는 구조"
+          },
+          {
+            "term": "Best-of-N",
+            "gloss": "여러 후보를 생성한 뒤 가장 좋은 것을 고르는 방식. 단일 생성 성능과 구분해 읽어야 한다"
+          }
+        ],
+        "recall_quiz": {
+          "question": "YuE2가 기호 모델과 오디오 모델의 장점을 합치려고 생성 과정을 어떤 세 단계로 나누는가?",
+          "answer": "선율과 화성을 담은 읽을 수 있는 악보를 먼저 쓰고, 이를 의미 음악 토큰으로 확장한 뒤, 노래 전체 오디오로 구현한다."
+        },
+        "spaced_review": {
+          "flag": false,
+          "review_due": null
+        }
+      }
+    },
+    "2610.08699": {
+      "title_ko": "nanoMuse: 내가 가진 모든 기기를 위한 오픈소스 개인 에이전트",
+      "classify": {
+        "categories": [
+          "LLM/Agents"
+        ],
+        "primary_category": "LLM/Agents",
+        "topic_tags": [
+          "personal-agent",
+          "gui-agent",
+          "memory-systems",
+          "agentic-workflow"
+        ],
+        "method_tags": [
+          "architecture",
+          "prompting"
+        ],
+        "modality": [
+          "multi"
+        ],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "Meta Muse의 오픈 대응물을 표방한 개인 에이전트로, 기기마다 에이전트를 두고 릴레이로 대화를 이어 화면까지 조작한다.",
+        "problem": "저자들은 2011년의 비서가 답하고 기다렸고 2023년의 에이전트가 작업 하나를 하고 멈췄다면, 2026년 9월 Meta의 Muse는 계정·기기·기억과 이어지는 대화를 갖춘 1인용 에이전트를 보여줬지만 벤더 클라우드 안의 폐쇄형이고 미국에서만 판매된다고 정리한다. 사람의 계정과 기기에서 몇 주씩 행동하고 기억하며 필요할 때 먼저 말을 걸고 자기 행동을 해명해야 하는 이런 에이전트는 모델이 아니라 소프트웨어라는 것이 저자들의 관점이다. 초록은 지금까지 오픈 대응물이 없었다고 쓰지만 본문 표 1은 CopilotKit의 OpenMuse(MIT, 서버형)와 휴대폰 위의 OpenMinis 같은 오픈 프로젝트를 이미 열거하므로, 이 주장은 '여러 기기를 하나로 잇고 휴대폰 화면까지 조작하는 완결형 오픈 개인 에이전트는 없었다'는 좁은 뜻으로 읽어야 한다.",
+        "approach": "개인 에이전트를 계정·기기·파일에서 몇 주씩 일하고 로그·장부·권한 목록으로 해명하는 프로그램으로 정의하고, 그것이 어떠해야 하는지를 5개 질문과 3개 시간 지평으로 제시한다(4절, 저자 스스로 의견이라 명시). Muse의 구조는 Meta 공개 문서 4건, 출시 클라이언트 관찰, 프로덕션 시스템 프롬프트 사본(입수 경위는 본문에도 없고 저자들도 출처를 검증할 수 없다고 밝힘)을 근거로 진술마다 documented·prompt·observed·inferred를 붙여 읽어 낸다. 오픈 대응물 nanoMuse(GPL-3.0, 논문 기준 v0.1.40)는 기기마다 완결된 에이전트를 두고 누구나 운영할 수 있는 선택적 릴레이(relay)로 대화를 동기화하며, 기본으로 꺼져 있는 손(Hands)으로 Android 휴대폰과 데스크톱 화면을 조작한다(iPhone 불가). 모든 도구 호출은 규칙 기반 Sentinel(저자 표현으로 권한 경계가 아닌 정책 경계)을 거치고, 메모리는 사람이 읽고 고칠 수 있게 두며(휴대폰은 Markdown 파일), 모델은 사용자가 고른다.",
+        "contributions": [
+          "개인 에이전트의 정의와 2011~2026년 역사를 정리하고, 그것이 어떠해야 하는지를 5개 질문과 3개 시간 지평으로 제시(4절은 저자 의견으로 명시)",
+          "폐쇄형 Muse의 구조를 공개 문서·클라이언트 관찰·출처를 검증할 수 없는 프롬프트 사본으로 읽고, 진술마다 documented·prompt·observed·inferred를 표시",
+          "기기마다 에이전트를 두고 선택적 릴레이로 대화를 이으며 Android 휴대폰과 데스크톱 화면을 조작하고, 모든 도구 호출을 규칙 기반 Sentinel로 거르는 GPL-3.0 오픈소스 개인 에이전트 nanoMuse",
+          "크기(릴리스 파일·설치·메모리 측정)와 비용(추정)만 표로 내고 과제 성공률은 아직 없다고 명시하며, 출처가 남는 메모리와 화면 조작 평가 세트·전용 오픈 모델은 로드맵에 둠"
+        ],
+        "why_now": "이번 주 ▲111로 두 번째로 큰 관심을 받았다. 저자들이 2026년 9월 Meta가 내놓았다고 소개한 폐쇄형 개인 에이전트 Muse의 오픈 대응물을 표방한다는 점에서, 9월까지 에이전트 논문들이 다룬 하니스·검증·자기개선의 관심이 한 사람의 기기와 계정 전체라는 생활 범위로도 넓어지는 장면으로 읽힌다. 다만 과제 성공률 같은 정량 평가가 아직 없고(저자 명시) Muse에 대한 서술도 저자 쪽 기술이라, 성능 논문보다 시스템 보고서이자 설계 입장문으로 보는 편이 정확하다.",
+        "difficulty": "중급",
+        "recommended_reader": "개인 비서형 에이전트, 기기 화면 제어, 메모리·권한 설계에 관심 있는 개발자",
+        "field_tags": [
+          "개인에이전트",
+          "GUI제어",
+          "파일메모리",
+          "오픈소스"
+        ],
+        "interest": {
+          "upvotes": 111,
+          "num_comments": 2,
+          "github_stars": 967
+        }
+      },
+      "learning": {
+        "key_terms": [
+          {
+            "term": "Personal Agent",
+            "gloss": "한 사람의 계정과 기기에서 행동하고 몇 주에 걸쳐 기억하며, 필요할 때 먼저 말을 걸고 자기 행동에 책임지는 소프트웨어 에이전트"
+          },
+          {
+            "term": "Sentinel",
+            "gloss": "Muse의 안전 구조에서 이름을 딴 관문. 모든 도구 호출이 규칙 순서에 따라 허용·질문·거부된다. Muse에서는 에이전트 바깥의 권한 경계이고, nanoMuse에서는 저자 표현으로 그보다 약한 정책 경계다"
+          },
+          {
+            "term": "Relay",
+            "gloss": "여러 기기가 하나의 대화를 공유하도록 메시지를 중계하는 서버. nanoMuse에서는 선택 사항이며 누구나 직접 운영할 수 있다"
+          }
+        ],
+        "recall_quiz": {
+          "question": "본문(5절)이 꼽는, nanoMuse가 Muse와 다른 점 네 가지는? 그리고 Sentinel과 파일 메모리는 왜 답이 아닌가?",
+          "answer": "Android 휴대폰 화면을 조작하는 손, VM이 아닌 기기 위에서 휴대폰과 컴퓨터를 조작하는 것, 릴레이까지 포함해 모든 부분이 공개된 것, 사용자가 고르는 모델이다. Sentinel(권한 경계로서는 Muse 쪽이 더 강함)과 사람이 열어 고치는 메모리 파일은 Muse에도 이미 있다."
+        },
+        "spaced_review": {
+          "flag": true,
+          "review_due": "2026-W44"
+        }
+      }
+    }
+  }
+}

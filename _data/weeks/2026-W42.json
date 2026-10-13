@@ -1,0 +1,1212 @@
+{
+  "schema_version": 1,
+  "week_id": "2026-W42",
+  "date_range_ko": "2026-10-12 ~ 10-18",
+  "month_folder": "2026.10",
+  "collected_at": "2026-10-13T13:11:21+09:00",
+  "source": "huggingface daily_papers?sort=trending&limit=6",
+  "paper_count": 6,
+  "papers": [
+    {
+      "id": "2610.13912",
+      "title": "RSI-Anything: Unlocking Recursive Self-Improvement with World Models",
+      "title_ko": "RSI-Anything: 월드모델로 재귀적 자기개선을 여는 범용 프레임워크",
+      "authors": [
+        "Taoyong Cui",
+        "Pinxian Zeng",
+        "Wanghan Xu",
+        "Hao Xiao",
+        "Shuhan Xue",
+        "Qiang Gao",
+        "Wanli Ouyang",
+        "Pheng Ann Heng",
+        "Zhenfei Yin",
+        "Yingcheng Wu",
+        "Ling Yang"
+      ],
+      "published_at": "2026-10-08T20:00:00.000Z",
+      "rank": 1,
+      "raw": {
+        "summary": "Recursive self-improvement (RSI) aims to transform interaction experience into persistent improvements, yet external feedback is costly and world-model predictions may become unreliable as policies evolve. We introduce RSI-Anything, a domain-general framework built on JEPA-Anything that uses predictive world models to guide action and learning-data selection. Observed feedback drives policy or workflow improvement and conditional world-model adaptation, while component and compatibility checks govern the retention of updated policy-model pairs. Across diverse computational and scientific domains, RSI-Anything demonstrates substantial gains. In code repair, with the coder fixed, success increases from 26.3% with a static verifier to 29.2% through predictive selection and 31.2% after world-model adaptation, at comparable test usage. Graphical user interface (GUI) evaluations showed higher task completion, while average actions decrease by 39.4%. Across five successive policy versions, laboratory-planning scores more than double from 21.80% to 46.01%. In reaction optimization, RSI-Anything achieves 96.15% mean best observed yield versus 82.16% for Bayesian optimization under the same 40-experiment budget. An end-to-end immune-science application further connects workflow evolution and predictive modeling with therapeutic hypothesis generation. These results demonstrate how predictive world models and retained system updates enable recursive improvement across diverse environments.",
+        "ai_summary": "",
+        "ai_keywords": [],
+        "upvotes": 30,
+        "num_comments": 2,
+        "github_repo": "https://github.com/Gen-Verse/RSI-Anything",
+        "github_stars": 446,
+        "project_page": "https://huggingface.co/datasets/Gen-Verse/RSI-Anything"
+      },
+      "links": [
+        {
+          "rank": 1,
+          "label": "HF 토론·요약",
+          "url": "https://huggingface.co/papers/2610.13912"
+        },
+        {
+          "rank": 2,
+          "label": "arXiv 초록",
+          "url": "https://arxiv.org/abs/2610.13912"
+        },
+        {
+          "rank": 3,
+          "label": "PDF 원문",
+          "url": "https://arxiv.org/pdf/2610.13912"
+        },
+        {
+          "rank": 4,
+          "label": "코드(GitHub)",
+          "url": "https://github.com/Gen-Verse/RSI-Anything"
+        },
+        {
+          "rank": 5,
+          "label": "프로젝트 페이지",
+          "url": "https://huggingface.co/datasets/Gen-Verse/RSI-Anything"
+        }
+      ],
+      "classify": {
+        "categories": [
+          "LLM/Agents",
+          "Embodied/World Models"
+        ],
+        "primary_category": "LLM/Agents",
+        "topic_tags": [
+          "self-refinement",
+          "world-model",
+          "jepa",
+          "agentic-workflow",
+          "ai-for-science"
+        ],
+        "method_tags": [
+          "data-centric",
+          "inference-time"
+        ],
+        "modality": [
+          "multi"
+        ],
+        "confidence": "medium"
+      },
+      "tier1": {
+        "one_liner": "예측형 월드모델로 외부 피드백을 받을 행동을 고르고, 검사를 통과한 갱신만 남기는 자기개선 틀을 여러 분야에 적용한다.",
+        "problem": "재귀적 자기개선(RSI)은 상호작용 경험을 지속적인 개선으로 바꾸려는 목표지만, 외부 피드백은 비싸다. 월드모델의 예측으로 피드백을 아끼려 해도, 정책이 바뀌어 갈수록 그 예측을 믿기 어려워질 수 있다.",
+        "approach": "JEPA-Anything 위에 구축한 범용 프레임워크로, 예측형 월드모델이 행동 선택과 학습 데이터 선택을 이끈다. 실제로 관측한 피드백은 정책이나 워크플로를 개선하는 데 쓰이는 동시에 월드모델을 조건부로 적응시키는 데도 쓰인다. 갱신된 정책-월드모델 쌍을 남길지는 구성요소 검사(component check)와 호환성 검사(compatibility check)가 정한다. 다만 심층 분석 결과 학습 데이터 선택은 정의만 있고 실험에 쓰였다는 보고가 없으며, 검사의 수치 기준과 판정 결과도 논문에 없다.",
+        "contributions": [
+          "코드 수리(CodeContests 200과제, 코더 고정)에서 무작위 26.0%, 정적 검증기 26.3% -> 고정 월드모델 선택 29.2%(정적 검증기 대비 +2.83%p, 95% 구간 [+0.17, +5.50]) -> 적응 월드모델 31.2%. 테스트 호출은 과제당 3.71-3.72회로 비슷하고, '적응'은 평가 중 갱신이 아니라 미리 재학습한 체크포인트다(저장소 기준)",
+          "GUI는 MiniWoB++ 단일 과제 100개 인스턴스에서 성공률 51% -> 99%, 평균 행동 39.4% 감소지만, 저장소상 보고 컨트롤러는 월드모델을 쓰지 않아 상승은 정책 미세조정에서 왔다(월드모델 값으로 고르는 컨트롤러는 49% -> 98%). 실험실 계획은 5개 정책 버전에서 21.80% -> 46.01%로 최고 참조 시스템보다 0.69%p 높다",
+          "반응 최적화의 평균 최고 수율 96.15%(베이지안 최적화 82.16%)는 저장소 기록상 이미 측정된 후보 321개를 40회 예산으로 재생한 오프라인 평가이고, 96.15%는 후보 풀의 최댓값이다(다른 스크린 20회 예산에서는 93.0% 대 87.5%)",
+          "면역학 응용은 같은 그룹의 선행 논문(arXiv 2609.14709) 결과를 다시 제시한 것으로 치료 가설은 실험 검증 전이며, GitHub 코드(Apache-2.0)와 HF 체크포인트 모음은 공개됐지만 면역학 자원과 OSWorld 코드는 없다"
+        ],
+        "why_now": "W36 Prime Agent(자기개선 하니스), W40 RRSI(정규화된 하니스 자기개선)에 이어 자기개선을 정면으로 내건 논문이다. RRSI가 '고친 것이 분포 밖에서도 통하나'를 비평가와 가지치기기로 다뤘다면, RSI-Anything은 비싼 외부 피드백을 월드모델 예측으로 아끼면서 갱신을 남길지 검사로 거르는 틀을 제안한다(심층 분석상 그 검사의 수치 기준과 판정 결과는 보고되지 않음). 자기개선의 쟁점이 '무엇을 고치나'에서 '무엇으로 검증하고 무엇을 남기나'로 옮겨 가는 흐름으로 읽힌다.",
+        "difficulty": "고급",
+        "recommended_reader": "에이전트 자기개선 루프와 검증 설계에 관심 있는 개발자, AI를 과학 실험에 쓰는 방식에 관심 있는 학습자",
+        "field_tags": [
+          "재귀적자기개선",
+          "월드모델",
+          "JEPA",
+          "AI과학"
+        ],
+        "interest": {
+          "upvotes": 30,
+          "num_comments": 2,
+          "github_stars": 446
+        }
+      },
+      "tier2": {
+        "method_detail": "JEPA-Anything은 같은 그룹의 직전 연구다(arXiv 2609.20800, 2026-09-17, 제1저자 Taoyong Cui 포함 저자 7명 중복). JEPA를 확장해 잠재 목표를 상보적 요인으로 나누는 직교 예측 분해(OPF)를 쓰고, 요인별 예측기를 따로 학습한 뒤 완전한 잠재 상태로 다시 합성한다. 학습 목표는 요인 예측에 직교성·표현 정규화를 더한 형태다(2.2절). 본 논문은 이를 z_t=E(s_t,c), z_hat=F(z_t,a_t,c)와 점 예측 또는 분포를 내는 판독 R로 일반화하고 도메인마다 어댑터를 붙인다. 코드 수리의 W1은 Qwen2.5-Coder-3B-Instruct에 LoRA를 달아 후보-테스트 쌍마다 실행 결과 5개 클래스 확률을 낸다. 저장소 기준 GUI 월드모델은 같은 3B 인코더(LoRA rank 16), EMA 타깃(0.996), OPF(폭 256, 64x4 그룹), 판독 헤드로 이뤄지고 실제 다음 상태와 전문가 후속 궤적으로 학습된다.\n\n행동 선택은 이렇게 돈다. 정책이 후보를 제안하면 각 후보에 결과 예측(지원 시 제한된 롤아웃)을 붙이고, 검증기가 유효성·효용 성분·출처·불확실성을 기록한다. 무효 후보를 빼고 R=sum(w*r)-lambda*U(불확실성 벌점은 선택)로 순위를 매겨 남은 피드백 예산에 맞는 후보만 실제로 실행하며, 실행된 후보만 예측-관측 쌍을 남긴다. 저장소 구현을 보면 코드 수리는 'P(전체 테스트 통과)+0.25x예측 통과 비율'로 수정안 4개와 현재 프로그램을 비교해 엄격히 높을 때만 교체하고, 실험실 계획은 4B 정책이 낸 후보 4개(탐욕 1개, 샘플 3개)를 월드모델이 예측 품질·개선·위험·불확실성으로 고른다. GUI는 정책 점수에 월드모델 값을 alpha 비율로 섞는데, 보고된 컨트롤러는 개발 집합에서 alpha=0이 골라져 월드모델을 아예 호출하지 않는다. 학습 데이터 선택은 증거를 E0(규칙 검사)·E1(모델 예측)·E2(시뮬레이터)·E3(외부 측정)로 표시하고, 상상 궤적은 유효성·최소 효용·불확실성 상한·허용 증거 조건을 모두 통과해야 학습에 들어간다(식 8). 다만 이 경로를 쓴 실험은 보고되지 않는다.\n\n조건부 월드모델 적응은 현재 버전이 낸 예측(저장본 또는 재계산)만으로 오차·보정·드리프트·커버리지를 평가해 reliable, unreliable, insufficient 중 하나로 판정한다. 적응은 unreliable이고 적응 데이터가 충분하며 남은 예산이 예상 비용 이상일 때만 시도하고, 커버리지가 부족하면 insufficient로 보고 적응하지 않는다(식 10-12). 어느 실험도 이 판정 결과를 보고하지 않고, 저장소 코드에도 이 트리거는 없다. GUI는 제안마다 월드모델을 늘 재학습하고, 코드 수리는 4단계를 판정 없이 차례로 학습한다.\n\n유지 단계에서 구성요소 검사는 후보 정책의 과제 효용·제약 또는 후보 예측기의 예측 품질을 현재 버전과 게이트 데이터로 비교하고, 쌍 검사는 조립된 새 쌍의 의사결정과 새 정책 후보에서의 예측기 적합성을 현재 쌍과 같은 조건에서 비교한다. 구성요소 검사에 실패하면 그 구성요소만, 쌍 검사에 실패하면 쌍 전체를 현재 버전으로 유지한다(식 13-18). 논문에는 수치 임계값이 없고, GUI 저장소 프로토콜에만 '개발 집합 50개에서 성공률 +0.04 이상이고 비용 1.2배 이하면 승격, 월드모델 혼합 제어는 +0.04 이상이고 비용 4배 이하일 때만 켜고 아니면 alpha=0으로 후퇴'라는 값이 있다. 코드상 GUI 승격은 새 정책·새 월드모델·선택 컨트롤러를 한 묶음으로 개발 집합에서 비교하는 단일 판정이며, 월드모델만 따로 보는 구성요소 검사는 없다(rsi.py).\n\n개선 방식은 도메인마다 다르다. 코드 수리는 코더를 고정하고 W1만 학습 과제의 실행 기록으로 4단계 오프라인 학습(초기 32,920건 뒤 7,872, 41,088, 22,192건으로 순차 갱신)하며 평가 중 최적화 갱신은 없다(저장소). GUI는 ReasonFlux-Coder-7B LoRA를 성공 에피소드 행동만으로 SFT(신규 최대 256개 행동과 같은 수의 재생, 1 epoch)하고 월드모델을 재학습한 제안 2개를 차례로 승격했다. 실험실 계획의 4B 정책 갱신 방법은 논문에도 저장소에도 없다. 반응 최적화는 저장소 기준 같은 스크린의 다른 반응군 4,709행으로 판독기를 미리 맞춘 뒤 예측을 고정하고 기대 개선(EI)으로 다음 조건을 고른다. 면역학은 선행 연구의 Agent Genesis 워크플로 탐색을 재정리한 것이다.",
+        "experiment_setup": [
+          "구성(3장, 표 4, 6장 서두): 코드 수리·GUI·실험실 계획·반응 최적화 4개 도메인과 면역학 응용 1건. 저자 스스로 각 실험이 전체 프로토콜의 서로 다른 부분만 구현한다고 밝힌다. 논문에는 GPU·시간·비용 보고가 없고, 저장소에 기록된 환경은 NVIDIA A800 80GB(코드 수리 8장, GUI 기본 3장)다.",
+          "코드 수리 설정(3.1절, 6.1절): CodeContests 200과제 x 시드 3개=600회, 정책 ReasonFlux-Coder-7B 고정(CURE 논문 산출물), 라운드당 수정안 4개 중 1개만 실행, 최대 3라운드, 온라인 테스트가 피드백을 주고 숨김 테스트가 최종 성공을 판정. 비교군은 Random-K, capacity-matched 정적 검증기(구조·학습 데이터는 논문 전문과 저장소 문서·코드에서 정의나 구현을 찾지 못함), 고정 월드모델(CURE-WM-Lite), 적응 월드모델.",
+          "코드 수리 결과(표 2, 그림 3b-d): 숨김 테스트 전체 통과율 Random-K 26.0%, 정적 검증기 26.3%, 고정 월드모델 29.2%(175/600), 적응 월드모델 31.2%. 과제당 온라인 테스트 호출 3.72/3.72/3.71/3.72회가 '비슷한 테스트 사용량'의 실체다. 고정 월드모델 대 정적 검증기의 짝지은 차이는 +2.83%p(95% 구간 [+0.17, +5.50], 과제 단위 군집 재표집), 순위 정확도 66.5% -> 72.8%, 5클래스 Brier 0.488 -> 0.358. 적응 대 고정 +2.0%p에는 구간이 없다.",
+          "코드 전이(그림 3e,f, 6.1절): APPS Introductory 1,000문제와 LiveCodeBench v6 1,055문제, 시드 0-2, 공개 테스트를 모두 통과하면 수리 중단. 최종 성공률은 초기 프로그램 37.90%/25.24%, 무작위 선택 44.07%/31.18%, 정적 검증기 44.00%/30.74%, RSI-Anything 46.37%/33.05%. 두 벤치마크 모두 정적 검증기가 무작위보다 낮다. 논문은 이 구성을 JEPA-Anything 기반 후보 선택이라고만 쓰고 고정·적응 중 어느 것인지 밝히지 않으며, HF에는 CodeContests용과 어댑터·판독 헤드가 다른 전이용 체크포인트(transfer_final)가 따로 있다.",
+          "GUI MiniWoB++(3.2절, 그림 4c,e-g, 저장소 RESULTS.md): click-checkboxes 단일 과제, 시험 인스턴스 100개(시드 270000-270099), 120초·최대 8행동 안에 모든 체크박스가 맞고 제출돼야 성공. 기준 -> 1차 갱신 -> 2차 갱신 성공률 51% -> 79% -> 99%, 평균 행동 5.30 -> 2.93 -> 3.21(기준 대비 39.4% 감소), 반복 클릭 237 -> 2 -> 0, 오제출 에피소드 9 -> 21 -> 1. 월드모델 값으로만 순위를 매기는 World-based control은 49% -> 96% -> 98%.",
+          "GUI 저장소 세부(RESULTS.md, PROTOCOL.md, 소스): RSI-Anything로 보고된 컨트롤러는 개발 집합에서 고른 alpha=0, 즉 정책 순위만 따르며, 코드상 alpha=0이면 월드모델 예측을 아예 호출하지 않는다(experiment.py). 갱신용 경험 수집도 같은 컨트롤러로 했다(rsi.py). 정책·월드모델 신구 4조합 교차 평가에서 이 컨트롤러의 월드모델 교체 효과는 0.00%p, 정책 단독 갱신 효과는 +28%p([18, 38])와 +20%p([13, 28])다. 반대로 월드모델 값으로 고르는 제어에서는 월드모델 교체가 이득을 냈다(1차 갱신, 구 정책 고정 시 49% -> 95%). 기본 정책 후보 풀을 쓰는 세 고정 OPF 월드모델을 각각 한 번 갱신하면 순수 월드모델 제어가 630개 확인 집합에서 평균 43.81% -> 97.04%(+53.23%p, [50.26, 56.30])로 오른다. 같은 과제 템플릿의 다른 100개 코호트에서 손으로 짠 규칙 컨트롤러는 100%, 평균 2.87행동. 정책 학습 시드는 1개이고 월드모델 학습에는 전문가 시연과 전문가 후속 궤적이 쓰인다.",
+          "OSWorld(3.2절, 그림 4d): 초기 에이전트 대비 상대 성공률 향상 RSI-Anything +18.4%, RLAnything +12.3%, RSI-Anything의 RLAnything 대비 +5.5%(상대 향상=100x(s_method/s_ref-1)%). 절대 성공률, 기반 모델, 과제 부분집합, 반복 수는 논문과 저장소 docs/benchmarks.md 어디에도 없고, 저장소 전체 파일 트리에도 OSWorld 코드가 없다.",
+          "실험실 계획(3.3절, 표 3, 6.1절): LabHorizon F200 Level-2 200과제. Final Score는 벤치마크 정의상 AST 파서로 계산한 행동 순서 유사도와 파라미터 정확도의 평균이며 자동 채점이다(LabHorizon README). 한 개선 과정의 4B 정책 5개 버전이 21.80% -> 38.03% -> 41.99% -> 44.56% -> 46.01%(+24.21%p). 학습된 Qwen3.6-35B-A3B Actor와 Gemini 3.1 Pro Simulator/Selector로 된 참조 시스템 45.32%보다 +0.69%p, Level-1 정확도 0.700 대 0.665. 직접 프롬프팅 기준선(GPT-5.5 0.2276, Gemini 3.1 Pro 0.3263, Grok 4.3 0.3244 등)과 참조 시스템 값은 벤치마크 리더보드에서 옮긴 것이다. 저장소 기준 이 시스템은 Qwen3.5-4B-Base에 PEFT 어댑터(P4)를 단 정책이 후보 4개를 내고 JEPA 월드모델이 하나를 고르는 구조이며, 어댑터·월드모델은 시드 1401-1403 세 벌이 있으나 논문 수치가 어느 시드의 값인지 평균인지는 밝혀져 있지 않다.",
+          "반응 최적화(3.4절, 그림 6, 6.1절): Suzuki-Miyaura 두 스크린, 기준선은 베이지안 최적화(Shields et al. 2021). GC 스크린(Pd-NHC-DMS 전촉매, 4-chloroanisole 커플링) 20회 후 최고 수율 93.0% 대 87.5%(+5.5%p), flow LC-MS 스크린(Pd(OAc)2, 기질 1c와 2b) 40회 후 평균 최고 수율 96.15% 대 82.16%(+13.99%p). 수율 예측기는 ReactionT5 백본에 JEPA-Anything 설계를 결합한 어댑터다.",
+          "반응 최적화 저장소 세부(results/evaluation.json, README): 평가 유형은 '측정된 스크리닝 수율의 오프라인 순차 재생', 후보 321개, 100회 실행(시드 4001-4100), 초기 관측 8개 포함 총 40개. 후보 풀 최고 수율이 96.15%이고 100회 모두 10번째 관측까지 찾았다(96회는 정확히 10번째, 평균 9.94번째). 판독기는 같은 스크린의 다른 14개 반응군 4,709행으로 학습한 ExtraTrees(목표 321행은 학습·보정 선택에 미사용), 예측은 탐색 중 고정, 획득 함수는 EI. 관측 9 시점 평균은 80.14%로 논문 그림 6e의 라벨 95.06%와 달라, 저장소 평가가 논문 그림과 같은 실행은 아닌 것으로 보인다.",
+          "면역학 응용(3.5절, 6.1절, 6.2절): Agent Genesis가 과학 에이전트 워크플로를 탐색해 행동 조건부 면역 월드모델을 만들고, 분석 에이전트가 고정 파라미터로 시뮬레이션과 자기수정을 수행해 SIRP-alpha 억제와 IL-36-gamma 축 조절 병용을 전향적 가설로 지명했다. 이 논문에는 정량 평가가 없고 평가 설정은 Cui et al. 2026a(arXiv 2609.14709)로 넘기며, 가설은 실험 검증 전이다(5장).",
+          "통계와 절제(6.2절): 구간 추정은 코드 수리의 고정 월드모델 대 정적 검증기 1건뿐이고, APPS/LCB는 3시드 평균(3,000/3,165회), LabHorizon은 200과제 평균, 화학은 실행별 누적 최고값을 보고한다. 전문을 ablat, variance, GPU, hour로 검색한 결과 별도 절제 절과 계산 비용 보고는 없었다. 코드 수리의 4개 비교가 예측 선택과 적응의 부분 절제 역할을 할 뿐, 유지 검사(구성요소·쌍)를 끈 비교는 어느 도메인에도 없다."
+        ],
+        "datasets": [
+          {
+            "name": "CodeContests (200과제 부분집합)",
+            "domain": "코드 수리",
+            "scale": "200과제 x 시드 3개 = 600회 평가, 온라인 테스트(피드백)와 숨김 테스트(최종 판정) 분리"
+          },
+          {
+            "name": "APPS Introductory",
+            "domain": "코드 수리 전이 평가",
+            "scale": "1,000문제 x 시드 3개 = 3,000회"
+          },
+          {
+            "name": "LiveCodeBench v6",
+            "domain": "코드 수리 전이 평가",
+            "scale": "1,055문제 x 시드 3개 = 3,165회"
+          },
+          {
+            "name": "코드 수리 월드모델 학습 전이 기록(저장소 자산)",
+            "domain": "W1 예측기 학습",
+            "scale": "4단계 32,920 / 7,872 / 41,088 / 22,192건, 평가 자산 약 64MB와 학습 보충 약 236MB"
+          },
+          {
+            "name": "MiniWoB++ click-checkboxes",
+            "domain": "GUI 상호작용",
+            "scale": "단일 과제 템플릿, RSI 시험 100개, 월드 시험 100개, 확인 630개, 개발 50개 등 시드로 분리된 코호트(저장소 PROTOCOL.md)"
+          },
+          {
+            "name": "OSWorld",
+            "domain": "데스크톱 GUI",
+            "scale": "과제 수와 부분집합 미보고, 상대 향상만 제시"
+          },
+          {
+            "name": "LabHorizon F200 Level-2",
+            "domain": "실험실 프로토콜 계획",
+            "scale": "200과제(LabHorizon 리더보드의 200개 시험 분할로 README상 현재 버전은 v20260510-repaired이나 논문은 버전을 밝히지 않음), Level-1 다음 행동 정확도 병기. HF에는 Level-1 3D Asset Perception 사본(학습 3,000, 시험 200) 포함"
+          },
+          {
+            "name": "Suzuki-Miyaura flow LC-MS 스크린(Pd(OAc)2, 기질 1c 6-OTf-Q와 2b boronic ester)",
+            "domain": "반응 조건 최적화(오프라인 재생)",
+            "scale": "후보 321개(5,030행 필터링 스크리닝 표의 한 반응군), 보조 학습 4,709행(14개 반응군), 100회 실행, 예산 40회. 측정 수율은 공개 자산에 없음"
+          },
+          {
+            "name": "Suzuki-Miyaura GC 스크린(Pd-NHC-DMS, 4-chloroanisole와 4-(trifluoromethyl)phenylboronic acid)",
+            "domain": "반응 조건 최적화",
+            "scale": "20회 실험 비교, 후보 풀 크기와 실행 수 미보고, 저장소 자산 없음"
+          },
+          {
+            "name": "면역 섭동·환자 데이터(Cui et al. 2026a)",
+            "domain": "면역학 응용",
+            "scale": "이 논문에는 미보고(선행 논문으로 위임), 공개 자원 없음"
+          }
+        ],
+        "limitations": {
+          "by_authors": [
+            "정책과 월드모델이 한 과제 안에서 지속적으로 서로를 개선한다는 점을 입증하려면 합동 다회차 평가가 더 필요하다고 명시한다. 즉 저자도 지속적 상호 개선은 아직 입증되지 않았다고 본다(5장 Discussion).",
+            "실험들이 전체 프로토콜의 서로 다른 부분만 구현한다고 밝힌다. 코드 수리는 코더 고정 상태에서 예측 선택과 예측기 적응만, 실험실 계획은 정책 버전 추적만, GUI는 정책과 월드모델을 함께 갱신하며 완료율과 행동 지표를, 화학은 피드백 유도 탐색만, 면역학은 하류 분석에서 예측기를 고정한 채 다룬다(6장 서두, 표 4).",
+            "실험실 결과는 프로토콜 정합 계획만 평가하며, 신뢰할 만한 물리적 실행은 해당 장비와 워크플로에서 따로 평가해야 한다고 적는다(5장).",
+            "화학 결과는 보고된 실험 예산 아래 Suzuki-Miyaura 두 스크린에 한정되고, 면역학 응용의 치료 가설은 실험 검증을 기다린다고 명시한다(5장).",
+            "피드백이 선택된 후보에서만 나오므로 신뢰도 결론은 관측·커버된 후보 범위로 제한되고, 커버리지가 부족하면 신뢰 근거가 아니라 insufficient로 처리한다고 적는다(2.4절). GUI 1차 갱신 구성이 행동 수는 2.93으로 가장 적었지만 오제출 에피소드가 21개로 늘었다는 불리한 결과도 함께 보고한다(3.2절, 그림 4g).",
+            "저장소 문서도 한계를 스스로 밝힌다. 반응 최적화 README는 96.15%가 한 반응 맥락과 그 스크린 후보 풀에 한정된 평가라고 쓰고, 코드 수리 재현 문서는 전체 에폭 재학습을 패키징 중 돌리지 않았으며 기준 체크포인트가 엄격한 직교성·요인 독립성 검사를 통과하지 못했다고 적는다. GUI VERIFICATION.md도 공개 패키지로 전체 GPU 재학습은 하지 않았다고 쓴다."
+          ],
+          "by_claude": [
+            "GUI 헤드라인은 월드모델이 행동을 고른 결과가 아니다. 저장소 RESULTS.md에 따르면 보고된 51% -> 79% -> 99%는 개발 집합에서 고른 alpha=0 컨트롤러(정책 순위만 사용)의 값이고, 코드상 alpha=0이면 월드모델을 호출하지 않으며 갱신용 경험 수집도 같은 컨트롤러로 했다(experiment.py, rsi.py). 신구 월드모델을 바꿔 끼운 교차 평가에서 이 컨트롤러의 변화는 0.00%p이고 상승은 성공 에피소드 SFT(+28%p, +20%p)에서 왔다. 같은 과제 템플릿의 다른 100개 인스턴스에서 규칙 컨트롤러가 100%(평균 2.87행동)를 내므로 과제 자체도 쉽다. OSWorld는 절대 성공률·기반 모델·과제 수·코드가 없어 검증할 수 없다. 공정하게 보면 월드모델 갱신 자체는 효과가 컸고(세 고정 OPF 모델의 순수 월드모델 제어가 630개 확인 집합에서 43.81% -> 97.04%, +53.23%p [50.26, 56.30]), 월드모델 혼합 여부를 개발 집합 이득과 비용으로 정하는 절차가 alpha=0을 고른 것은 유지 규칙이 작동한 사례로도 읽힌다. 개발 집합 50개로 고르고 두 제안을 시험 전에 고정한 설계도 시험 집합 선택 편향을 막는다.",
+            "화학의 96.15% 대 82.16%는 RSI 루프보다 사전 정보(보조 데이터로 학습해 고정한 예측)의 효과가 크다고 읽는 것이 타당하다. 저장소 evaluation.json상 이는 측정된 스크린의 오프라인 재생이고, 판독기는 같은 스크린의 다른 14개 반응군 4,709행으로 학습됐으며, 예측은 탐색 중 고정이고, 100회 모두 10번째 관측까지(96회는 정확히 10번째) 후보 풀 최댓값을 찾았다. 즉 대부분 모델이 고른 두 번째 조건이 최적이었다. 베이지안 최적화가 같은 보조 데이터를 받았는지는 논문과 저장소 어디에도 없고(reaction_optimization 폴더에 BO 코드도 없음) 정보량이 다른 비교일 수 있으며, JEPA 특징을 뺀 one-hot 조건 ExtraTrees 같은 단순 기준선과의 절제도 없다. 목표 반응군 321행을 학습과 보정 선택에서 뺀 점과 100회 재생을 봉인 기록으로 다시 계산해 검증한 점은 인정할 만하다.",
+            "코드 수리 이득은 작고 기준선이 약하다. 정적 검증기는 CodeContests에서 무작위보다 0.3%p 높을 뿐이고 APPS와 LCB에서는 오히려 낮다. 고정 월드모델의 +2.83%p는 구간 하한이 +0.17%p로 0에 가깝고, 적응의 +2.0%p는 구간이 없다. 저장소상 최종 체크포인트는 초기 단계 뒤 3단계(7,872 + 41,088 + 22,192 = 71,152건)를 더 학습한 것이고 고정 월드모델(CURE-WM-Lite)이 어느 체크포인트인지는 문서에 없어, 예측기에 들인 데이터·계산 증가와 '조건부 적응' 효과가 분리되지 않는다. '비슷한 테스트 사용량'도 온라인 테스트 호출만 세며 라운드마다 3B 모델로 5개 예측을 내는 비용은 빠져 있다. 반면 예측 품질 개선(순위 정확도 66.5% -> 72.8%, Brier 0.488 -> 0.358)은 이득의 경로를 뒷받침하고, 저장소는 숨김 테스트 판정 전에 600개 결정을 봉인했으며 학습 메타데이터에 최종 200과제 라벨 미사용을 기록한다.",
+            "논문의 핵심 기여인 유지 메커니즘(신뢰도 기반 조건부 적응, 구성요소·쌍 검사, 식 10-18)은 논문 실험으로는 거의 검증되지 않는다. 논문에는 수치 임계값도 판정 결과 보고도 없고, 검사나 신뢰도 트리거를 끈 비교가 어느 도메인에도 없다. 구현에서 확인되는 판정은 GUI의 '개발 50개에서 +0.04(2과제) 이상, 비용 1.2배 이하' 승격과 혼합 제어 선택뿐인데, 승격은 새 정책·새 월드모델·컨트롤러를 한 묶음으로 비교하는 단일 판정이라 월드모델만 따로 보는 구성요소 검사가 없고 기준도 잡음에 민감하다. GUI는 제안마다 월드모델을 늘 재학습하고 조건부 실행은 확인 평가(파일럿 이득 0.05 이상)에만 쓴다. 코드 수리는 소스(training.py)에서도 reliable/unreliable 판정 없이 고정 순서로 4단계를 학습하며 개발 집합 평가는 보고서로만 남는다. 저장소 문서는 기준 체크포인트가 엄격한 직교성·요인 독립성 검사를 통과하지 못했다고 적어, OPF가 의도한 요인 분리도 엄격 기준으로는 이 체크포인트에서 확인되지 않았다. 계산 비용 보고도 없다.",
+            "실험실 계획의 5개 버전 상승은 갱신 방법·데이터가 공개되지 않아 해석이 어렵다. 논문은 4B 정책의 기반 모델과 학습 방식, 'development feedback'이 F200과 분리되는지, 수치가 어느 시드의 값인지를 밝히지 않는다. 유지된 버전만 보고하므로 게이트가 같은 벤치마크를 봤다면 단조 증가는 선택의 결과일 수 있다. 참조 대비 +0.69%p에는 구간이 없고, 참조 수치는 벤치마크 리더보드에서 옮겨 왔다. 다만 4B 정책과 작은 월드모델 선택기로 학습된 35B-A3B Actor와 Gemini 3.1 Pro를 쓰는 참조 시스템과 비슷한 점수를 낸 것은 의미가 있다. GitHub에는 추론 코드만, HF에는 월드모델 체크포인트(시드 1401-1403)만 있고 4B 정책 어댑터와 학습 코드는 둘 다 없다."
+          ]
+        },
+        "reproducibility": {
+          "code": "공개, 단 도메인마다 범위가 다르다. GitHub Gen-Verse/RSI-Anything의 tasks/ 아래 code_repair(4단계 학습, 기록 입력 평가, 자산 검증), gui(MiniWoB++ 수집·학습·교차 평가·통계 재계산 전체 파이프라인), laboratory_planning(추론 전용), reaction_optimization(고정 예측표 기반 EI 추천과 검증 스크립트), immune_science_v2(README만, 'Coming soon')가 있다. 전체 파일 트리를 확인한 결과 OSWorld 코드, 베이지안 최적화 기준선 코드, 정적 검증기·Random-K 기준선 구현, GC 스크린 자산, 4B 계획 정책 학습 코드는 없다. 공용 CLI(rsi plan/run/report)는 code_repair와 gui만 지원하고, 코드 수리 실행기는 Linux namespace(runuser, unshare, nobody 계정)를 요구한다.",
+          "weights": "Hugging Face Gen-Verse/RSI-Anything에 공개되지만 모델 저장소가 아니라 dataset 저장소다(논문 머리말 'Models' 링크가 이곳). 코드 수리 codecontests_final과 transfer_final(3B 인코더용 LoRA 약 29.5MB와 판독 헤드), GUI 정책 LoRA(약 40.4MB)와 월드모델 LoRA, 실험실 계획 월드모델 앙상블 3개(seed 1401-1403, 각 약 1.6MB, CPU 실행), ReactionT5-JEPA 체크포인트(약 807MB)가 있다. 실험실 계획 4B 정책 어댑터(P4)는 없고, 반응 체크포인트는 HF 설명상 C-N coupling용이며, 면역학은 MODEL_INDEX에서 'planned'다. 기반 모델 ReasonFlux-Coder-7B와 Qwen2.5-Coder-3B-Instruct는 고정 리비전으로 따로 내려받는다(GUI 전체 약 22GB).",
+          "data": "코드 수리 자산(평가용 약 64MB, 학습 보충 약 236MB; CodeContests 200과제 판정 자료, 기록된 후보·실행 기록, 학습 전이 기록, 월드모델 체크포인트 4개 포함), GUI 보고 통계 재계산용 엔드포인트 롤아웃 기록 7,980개, Suzuki 후보 321개 예측표(측정 수율 라벨 미포함), LabHorizon Level-1 사본(학습 3,000, 시험 200)이 공개된다. Suzuki 스크리닝 원자료의 출처는 읽은 문서에서 확인되지 않았고 면역학 데이터는 공개되지 않았다.",
+          "license": "프로젝트 코드 Apache-2.0(LICENSE, LICENSE_STATUS.md, HF LICENSE). 월드모델 백본 Qwen2.5-Coder-3B-Instruct와 그 적응 가중치는 Qwen Research License로 비상업 연구·평가용이다(docs/ASSET_CARD.md). ReasonFlux-Coder-7B는 모델 카드상 MIT, CodeContests 비코드 자료와 파생 전이 기록은 CC BY 4.0, MiniWoB++와 ReactionT5는 MIT, LabHorizon Level-1 사본은 원 카드상 MIT. 논문은 arXiv perpetual non-exclusive license. HF 카드 YAML에는 license 필드가 없다.",
+          "note": "재현 수준이 도메인별로 갈린다. GUI는 코호트 시드, 임계값, 교차 평가, 부트스트랩 구간과 엔드포인트 기록 7,980개가 공개돼 보고 통계를 CPU로 재계산할 수 있지만, 공개 패키지로 전체 GPU 재학습은 하지 않았다고 VERIFICATION.md가 밝힌다. 코드 수리는 기록 입력으로 600개 결정을 재현해 188/600(31.33%)을 얻는데 논문의 31.2%와 1건 다르고, 전체 에폭 재학습은 패키징 중 실행되지 않았으며, 기준 체크포인트가 엄격 직교성·요인 독립성 검사를 통과하지 못했다고 적혀 있다. 반응 최적화는 고정 예측표로 다음 조건 추천은 돌릴 수 있지만 측정 수율이 공개 자산에 없어 96.15% 재생 평가 자체는 다시 돌릴 수 없다. 기록 환경은 A800 80GB GPU(코드 수리 8장, GUI 3-6장)다. GPU 없이 CPU로 바로 돌릴 수 있는 것은 실험실 계획 후보 선택, Suzuki EI 추천, GUI 보고 통계 재계산과 브라우저 스모크 검사, HF 반응 수율 예측기 추론 정도이고, 코드 수리와 GUI 전체 파이프라인은 Linux와 CUDA GPU가 필요하며 Windows 네이티브 지원은 문서에 없다. OSWorld, 실험실 정책 학습, GC 스크린, 면역학은 공개 자산으로 재현할 수 없다."
+        },
+        "my_learning_points": [
+          "스킬·프롬프트 개정에 GUI 구현식 승격 게이트를 본떠 걸어라. 이 규칙은 논문 본문이 아니라 저장소 tasks/gui/docs/PROTOCOL.md에 있다. 개발 집합 50개에서 성공률이 +0.04 이상 오르고 비용이 현 버전의 1.2배 이하일 때만 새 버전을 승격하고, 탈락 후보도 교차 평가해 기록하며, 두 제안을 시험 집합을 열기 전에 고정했다. 실행: ai-paper-trends 스킬을 고칠 때마다 과거 주차 논문으로 고정 개발 묶음과 별도 보류 묶음을 정하고, 같은 논문을 구·신 버전으로 돌려 체크리스트 통과율과 세션 토큰을 짝지어 비교한 뒤 통과율이 오르고 토큰이 1.2배 이하일 때만 SKILL.md를 교체하며, 탈락안은 git 브랜치로 남겨라. 50개 중 0.04는 2건 차이라 잡음에 약하고, 스킬 전체를 수십 번 다시 돌리는 것은 비용이 크다. 그러니 스키마 검증·금지 문자 검사·수치 출처 대조처럼 싼 결정적 검사를 개발 묶음 판정에 먼저 쓰고, 차이가 애매하면 현 버전을 유지하라.",
+          "개선 원인을 2x2 교차 평가로 분리하고, 자동화 루프보다 규칙 기준선을 먼저 재라. GUI 저장소(RESULTS.md)는 구·신 정책 x 구·신 월드모델 4조합을 같은 100개 인스턴스에서 돌려, 보고 컨트롤러(alpha=0)의 상승은 전부 정책 SFT(+28%p, +20%p)에서 왔고 월드모델 교체 효과는 0.00%p임을 보였다. 같은 표에서 월드모델 값으로 고르는 컨트롤러는 반대로 월드모델 교체가 이득을 냈다(1차 갱신에서 구 정책 고정 시 49% -> 95%). 어느 구성요소의 공인지는 그 구성요소를 실제로 쓰는 경로가 정한다는 뜻이다. 같은 과제 템플릿의 다른 100개 인스턴스에서 규칙 컨트롤러는 100%였다. 실행: 메인 프롬프트(정책 역할)와 검토 서브에이전트(검증기 역할)를 함께 바꿨다면 4조합을 같은 입력으로 돌려 이득의 출처를 확인하고, 이득이 없는 쪽은 되돌려라. 새 자동화 루프를 평가하기 전에는 grep·정규식·스키마 검사 같은 결정적 기준선 점수를 먼저 기록해 루프가 그 선을 넘는지부터 보라.",
+          "예측과 관측을 분리하고 출처와 버전을 기록하라. 이 논문은 증거를 E0(규칙 검사)·E1(모델 예측)·E2(시뮬레이터)·E3(외부 측정)로 구분하고, 신뢰도 추정에는 현재 버전이 낸 예측만 쓰며 이전 버전 예측을 섞지 않는다(2.3-2.4절). 이번 분석에서도 초록의 96.15%가 측정 수율의 오프라인 재생이고 GUI 99%가 월드모델 값을 쓰지 않은 컨트롤러 값이라는 사실은 저장소 기록을 봐야 드러났다. 실행: 논문 정리 JSON의 각 수치에 출처 유형(초록/본문/그림 판독/저장소 기록/Claude 추론)과 그 수치를 만든 스킬 버전 필드를 붙이고, 스킬을 고친 뒤에는 고정 표본 논문을 새 버전으로 다시 돌려 출처 유형별 오류율을 비교하라. 검증 서브에이전트처럼 후보를 미리 거르는 단계를 더했다면 표 2처럼 항목당 실제 검증 호출 수를 성공률과 함께 기록해 이득이 검증을 더 쓴 결과인지 가려라. W1 같은 학습형 예측기(3B 인코더와 LoRA, 원 실험은 A800 80GB)를 로컬에서 만드는 일은 GPU 사양을 확인한 뒤로 미루고, 먼저 규칙 검사 결과와 Claude 판정을 구분해 쌓는 기록부터 시작하라."
+        ],
+        "related_work": {
+          "prior": [
+            {
+              "title": "JEPA-Anything: Learning Predictive Models across Different Worlds",
+              "id": "arXiv:2609.20800",
+              "relation": "같은 그룹(제1저자 Taoyong Cui, 저자 7명 중복)의 직전 연구로 본 논문 월드모델의 기반인 OPF를 제안했다. 초록에 나열된 평가 도메인은 비전, 생물학, 임상 궤적, 제어, 분자동역학, 물리장, 기상 7개로 코드·GUI·실험실 계획·반응 수율은 없으며, 이 어댑터들은 RSI-Anything 저장소에 JEPA 코어를 내장한 형태로 구현돼 있다."
+            },
+            {
+              "title": "An immune world model for multiscale forecasting and therapeutic hypothesis generation",
+              "id": "arXiv:2609.14709",
+              "relation": "면역학 응용의 원 출처. 진화형 AI Scientist가 면역 월드모델을 구축하고 IL-36-gamma와 SIRP-alpha 억제 병용 가설을 지명했다. 본 논문 3.5절과 그림 7은 이를 재정리한 것이며 평가 설정도 이 논문으로 위임된다."
+            },
+            {
+              "title": "Co-evolving LLM Coder and Unit Tester via Reinforcement Learning (CURE)",
+              "id": "arXiv:2506.03136",
+              "relation": "코드 수리에서 고정 정책으로 쓴 ReasonFlux-Coder-7B의 출처다(4.2절). 고정 월드모델 구성의 이름 CURE-WM-Lite도 CURE를 가리키는 것으로 보이나 논문은 유래를 설명하지 않는다. 저자 Ling Yang이 겹치는 같은 계열 연구다."
+            },
+            {
+              "title": "RLAnything: Forge Environment, Policy, and Reward Model in Completely Dynamic RL System",
+              "id": "arXiv:2602.02488",
+              "relation": "정책·보상모델·환경을 함께 최적화하는 선행 연구로 OSWorld 비교 기준선이다. 본 논문은 여기에 월드모델 신뢰도와 정책-모델 호환성을 유지 결정에 명시적으로 넣은 점을 차별점으로 든다(4.2절)."
+            },
+            {
+              "title": "Darwin Godel Machine: Open-Ended Evolution of Self-Improving Agents",
+              "id": "arXiv:2505.22954",
+              "relation": "에이전트 구현을 반복 수정하고 경험적으로 검증된 개선만 남기는 RSI 선행 사례(4.1절). RSI-Anything의 유지 검사는 이 '검증 후 보존'에 예측기 신뢰도와 쌍 호환성 조건을 더한 형태로 읽을 수 있다."
+            }
+          ],
+          "followup": []
+        },
+        "claude_note": "새로운 점은 자기개선의 단위를 정책 하나가 아니라 정책-월드모델 쌍으로 잡고, 현재 버전 예측만으로 신뢰도를 평가해 예측기를 조건부로 적응시키며, 구성요소·쌍 호환성 검사로 유지 여부를 정하는 절차를 도메인 공통 형식으로 정리했다는 것이다. 그러나 이 형식 전체가 한 실험에서 돈 증거는 없고, 저자도 각 실험이 프로토콜의 일부만 구현하며 정책과 월드모델의 지속적 상호 개선에는 합동 다회차 평가가 더 필요하다고 쓴다. 증거 강도는 도메인별로 다르다. 코드 수리는 코더 고정과 온라인 테스트 호출 3.71-3.72회 조건에서 26.3% -> 29.2% -> 31.2%로 일관되고 예측 품질도 좋아졌지만(순위 정확도 66.5% -> 72.8%) 이득이 작고 구간은 한 비교에만 있다. GUI 99%와 39.4%는 월드모델 값을 쓰지 않는 alpha=0 컨트롤러가 규칙으로도 100% 풀리는 단일 과제에서 낸 값이고 상승은 정책 SFT에서 왔다. 다만 같은 저장소에서 월드모델 갱신 자체는 월드모델 값으로 고르는 제어의 성공률을 크게 올렸다(세 고정 OPF 모델, 630개 확인 집합 평균 43.81% -> 97.04%). 화학 96.15%는 보조 4,709행으로 학습해 고정한 예측이 측정 스크린 재생에서 후보 풀 최댓값을 찾은 결과다. 실험실 계획은 4B 정책이 학습된 35B-A3B Actor와 Gemini 3.1 Pro로 된 참조 시스템과 비슷한 수준(+0.69%p)에 이르렀고, 면역학은 선행 논문의 미검증 가설을 다시 소개한 것이다. 저장소는 프로토콜, 교차 평가, 부트스트랩 구간, 통과하지 못한 직교성 검사까지 공개해 논문보다 훨씬 자세하며, 초록만으로는 알 수 없는 조건이 그 기록에서 드러난다. 인용할 때는 'RSI 프레임워크 제안과 도메인별 부분 실증'으로 소개하고 수치는 조건과 함께 쓴다. 예: CodeContests 200과제 x 3시드, ReasonFlux-Coder-7B 고정, 후보 4개와 최대 3라운드에서 29.2%(정적 검증기 대비 +2.83%p, 95% 구간 [+0.17, +5.50]). 화학 수치는 '오프라인 재생, 후보 풀 최댓값'으로 명시한다.",
+        "analyzed_at": "2026-10-13"
+      },
+      "learning": {
+        "key_terms": [
+          {
+            "term": "Recursive Self-Improvement (RSI)",
+            "gloss": "시스템이 상호작용 경험으로 자기 정책이나 워크플로를 반복해서 고쳐 나가는 과정"
+          },
+          {
+            "term": "JEPA",
+            "gloss": "입력을 그대로 복원하는 대신 표현 공간에서 결과를 예측하도록 학습하는 구조(Joint-Embedding Predictive Architecture)"
+          },
+          {
+            "term": "World Model",
+            "gloss": "행동의 결과를 미리 예측하는 모델. 이 논문에서는 어떤 행동에 비싼 외부 피드백을 쓸지 고르는 데 쓰이고, 그 피드백으로 스스로도 개선된다"
+          }
+        ],
+        "recall_quiz": {
+          "question": "이 논문 5장이 결과로 뒷받침된다고 정리한 월드모델의 두 역할과, 갱신된 정책-월드모델 쌍을 남길지 정하는 장치는?",
+          "answer": "어떤 행동이 외부 피드백을 받을지 정하는 데 정보를 주는 역할과, 그 피드백으로 스스로 개선될 수 있는 예측기 역할이다. 쌍의 유지는 구성요소 검사와 호환성 검사가 정하지만, 논문은 그 수치 기준과 실제 판정 결과를 보고하지 않는다(초록의 학습 데이터 선택은 정의만 있고 실험 보고는 없음)."
+        },
+        "spaced_review": {
+          "flag": true,
+          "review_due": "2026-W44"
+        }
+      }
+    },
+    {
+      "id": "2403.08299",
+      "title": "AutoDev: Automated AI-Driven Development",
+      "title_ko": "AutoDev: 자동화된 AI 주도 소프트웨어 개발",
+      "authors": [
+        "Michele Tufano",
+        "Anisha Agarwal",
+        "Jinu Jang",
+        "Roshanak Zilouchian Moghaddam",
+        "Neel Sundaresan"
+      ],
+      "published_at": "2024-03-13T03:12:03.000Z",
+      "rank": 2,
+      "raw": {
+        "summary": "The landscape of software development has witnessed a paradigm shift with the\nadvent of AI-powered assistants, exemplified by GitHub Copilot. However,\nexisting solutions are not leveraging all the potential capabilities available\nin an IDE such as building, testing, executing code, git operations, etc.\nTherefore, they are constrained by their limited capabilities, primarily\nfocusing on suggesting code snippets and file manipulation within a chat-based\ninterface. To fill this gap, we present AutoDev, a fully automated AI-driven\nsoftware development framework, designed for autonomous planning and execution\nof intricate software engineering tasks. AutoDev enables users to define\ncomplex software engineering objectives, which are assigned to AutoDev's\nautonomous AI Agents to achieve. These AI agents can perform diverse operations\non a codebase, including file editing, retrieval, build processes, execution,\ntesting, and git operations. They also have access to files, compiler output,\nbuild and testing logs, static analysis tools, and more. This enables the AI\nAgents to execute tasks in a fully automated manner with a comprehensive\nunderstanding of the contextual information required. Furthermore, AutoDev\nestablishes a secure development environment by confining all operations within\nDocker containers. This framework incorporates guardrails to ensure user\nprivacy and file security, allowing users to define specific permitted or\nrestricted commands and operations within AutoDev. In our evaluation, we tested\nAutoDev on the HumanEval dataset, obtaining promising results with 91.5% and\n87.8% of Pass@1 for code generation and test generation respectively,\ndemonstrating its effectiveness in automating software engineering tasks while\nmaintaining a secure and user-controlled development environment.",
+        "ai_summary": "AutoDev is an AI-driven software development framework that automates complex engineering tasks within a secure Docker environment, achieving high performance in code and test generation.",
+        "ai_keywords": [
+          "autonomous AI Agents",
+          "Docker containers",
+          "HumanEval dataset",
+          "Pass@1",
+          "code generation",
+          "test generation"
+        ],
+        "upvotes": 22,
+        "num_comments": 2,
+        "github_repo": "https://github.com/vxcontrol/pentagi",
+        "github_stars": 26546,
+        "project_page": null
+      },
+      "links": [
+        {
+          "rank": 1,
+          "label": "HF 토론·요약",
+          "url": "https://huggingface.co/papers/2403.08299"
+        },
+        {
+          "rank": 2,
+          "label": "arXiv 초록",
+          "url": "https://arxiv.org/abs/2403.08299"
+        },
+        {
+          "rank": 3,
+          "label": "PDF 원문",
+          "url": "https://arxiv.org/pdf/2403.08299"
+        }
+      ],
+      "classify": {
+        "categories": [
+          "LLM/Agents",
+          "Safety"
+        ],
+        "primary_category": "LLM/Agents",
+        "topic_tags": [
+          "agentic-workflow",
+          "autonomous-agents",
+          "code-execution",
+          "software-engineering",
+          "sandboxing"
+        ],
+        "method_tags": [
+          "architecture",
+          "prompting"
+        ],
+        "modality": [
+          "text"
+        ],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "코드 제안을 넘어 빌드·실행·테스트·Git까지 수행하는 자율 개발 에이전트를 Docker 안에 가둔다.",
+        "problem": "기존 AI 코딩 도구는 코드 조각 추천과 파일 편집에 집중해 IDE가 제공하는 빌드, 테스트, 실행, 버전 관리 기능을 충분히 활용하지 못했다. 자율성을 높일수록 잘못된 명령과 파일 접근으로부터 사용자의 코드와 환경을 보호할 실행 경계도 필요하다.",
+        "approach": "사용자가 복잡한 소프트웨어 목표를 주면 자율 AI 에이전트가 계획을 세우고 파일 검색·편집, 빌드, 실행, 테스트, Git 작업을 수행한다. 컴파일러 출력과 테스트 로그, 정적 분석 결과를 다시 문맥으로 받아 다음 행동을 결정한다. 모든 작업은 Docker 컨테이너에 격리하고, 사용자가 허용·금지 명령과 작업 범위를 지정하는 guardrail을 둔다.",
+        "contributions": [
+          "IDE 수준의 개발 도구를 하나의 자율 계획·실행 루프로 통합",
+          "HumanEval 코드 생성 Pass@1 91.5%를 보고",
+          "HumanEval 테스트 생성 Pass@1 87.8%를 보고",
+          "Docker 격리와 사용자 정의 허용·차단 정책으로 실행 안전 경계 제시"
+        ],
+        "why_now": "W29·W30·W38에 이어 네 번째 등장이다(▲19 -> 22). 이번 주 에이전트 3편 중 유일한 2024년 논문으로, 월드모델로 자기개선을 거르는 RSI-Anything과 기기 전체를 다루는 nanoMuse 옆에서 '샌드박스 안에서 빌드·테스트까지 수행하는 개발 에이전트'의 기준점으로 다시 소환됐다. 최신 코딩 에이전트와의 성능 비교보다 자율 실행과 격리 설계의 초기 레퍼런스로 읽는 편이 맞다.",
+        "difficulty": "중급",
+        "recommended_reader": "코딩 에이전트의 실행 루프와 샌드박스·권한 설계를 공부하려는 개발자",
+        "field_tags": [
+          "코딩에이전트",
+          "Docker격리",
+          "자동테스트",
+          "개발자동화"
+        ],
+        "interest": {
+          "upvotes": 22,
+          "num_comments": 2,
+          "github_stars": 26546
+        }
+      },
+      "tier2": {
+        "method_detail": "AutoDev은 자율 AI 에이전트가 IDE 전반의 기능(파일 편집·검색·빌드·실행·테스트·git)을 직접 조작하도록 오케스트레이션하는 프레임워크로, 네 개의 핵심 축(Conversation Manager, Tools Library, Agent Scheduler, Evaluation Environment)으로 구성된다. (1) Conversation Manager는 사용자·에이전트 대화를 관리하며 하위 모듈로 에이전트 응답에서 명령·인자를 정해진 포맷으로 파싱하는 Parser, 실행 환경의 출력을 처리·구조화하는 Output Organizer, 종료 시점을 결정하는 Conversation Conclusion을 둔다. (2) Agent Scheduler는 Round Robin / Token-Based / Priority-Based 협업 알고리즘으로 다중 에이전트를 조율한다. (3) Tools Library는 File Editing(write/edit/insert/delete), Retrieval(grep/find/ls/embedding 기반 스니펫 검색), Build & Execution, Testing & Validation(테스트·린터·버그탐지), Git(commit/push/merge에 대한 세분화된 권한 설정), Communication(talk/ask/stop)의 6개 명령 범주를 제공한다. (4) Evaluation Environment는 Docker 컨테이너 안에서 모든 명령을 안전하게 실행하는 샌드박스다. 사용자는 YAML 설정으로 에이전트별 허용/제한 명령(guardrails)과 페르소나·역할(예: Developer, Reviewer)을 선언하며, 기본 설정 또는 세분화 권한을 선택할 수 있다. 평가에서는 gpt-4-1106-preview 단일 에이전트를 사용했고, 에이전트가 명령을 내면 환경이 실행 후 파일 내용·컴파일러 출력·빌드/테스트 로그·정적분석 결과를 다시 대화 이력으로 되돌려 반복(iterative) 개선하는 폐루프 구조다.",
+        "experiment_setup": [
+          "벤치마크: HumanEval(164개 수기 프로그래밍 문제, 각 문제는 함수 시그니처+docstring+본문+평균 7.7개 단위테스트). 테스트 생성 평가에는 인간 솔루션은 사용하고 인간 작성 테스트는 폐기한 뒤 focal method에 대한 테스트를 생성하도록 지시하는 변형본 사용.",
+          "모델: GPT-4(gpt-4-1106-preview) 단일 에이전트. 추가 학습 없음. (완전 자율 평가를 위해 human feedback용 ask 명령은 비활성화)",
+          "비교군: LATS(Language Agent Tree Search), Reflexion, zero-shot GPT-4 베이스라인.",
+          "코드 생성(RQ1): AutoDev 91.5% Pass@1(Extra Training X) vs LATS 94.4%(Extra Training O) vs Reflexion 91.0%(Extra Training O) vs zero-shot GPT-4 67.0%. zero-shot 대비 약 30% 상대 개선. 본문은 'second-best position', 초록은 '추가 학습 데이터 없이 top-3'로 표현(양립).",
+          "테스트 생성(RQ2): AutoDev Pass@1 87.8% vs 베이스라인 75% vs 인간 100%. 전체 커버리지 88.8% vs 74%(베이스라인) vs 99.4%(인간). 단, '통과한 테스트만의 커버리지'는 AutoDev·베이스라인 모두 ~99.3%로 거의 동일. 베이스라인 대비 약 17% 상대 개선.",
+          "효율(RQ3): 태스크당 평균 명령 수 5.5(코드생성)/6.5(테스트생성). 코드생성 명령 분포 write 1.8, test 1.7, stop 0.92, 잘못된 명령 0.25. 토큰 사용 1,656(코드)/1,863(테스트) vs 베이스라인 약 200(코드)~373(테스트) 토큰(다중 추론 호출로 인한 오버헤드)."
+        ],
+        "datasets": [
+          {
+            "name": "HumanEval",
+            "scale": "164개 문제, 문제당 평균 7.7개 단위테스트",
+            "domain": "함수 단위 파이썬 코드 생성 벤치마크"
+          },
+          {
+            "name": "HumanEval (test-generation 변형)",
+            "scale": "동일 164개 기반, 인간 솔루션 사용·인간 작성 테스트 폐기 후 focal method 테스트 생성",
+            "domain": "단위테스트 자동 생성 평가"
+          }
+        ],
+        "limitations": {
+          "by_authors": [
+            "HumanEval이 상대적으로 단순해 본 평가는 단일 GPT-4 에이전트로만 수행함(다중 에이전트 협업은 향후 확장 대상).",
+            "다중 에이전트 협업으로의 확장을 복잡한 태스크용 향후 과제로 명시(완전 검증은 미완).",
+            "더 어렵고 현실적인 데이터셋(예: Copilot Evaluation Harness)으로 평가 확장 필요.",
+            "가장 빈번한(most prevalent) 잘못된 명령은 에이전트가 자연어와 코드/명령을 섞어 출력하는 파싱 문제.",
+            "Docker 기반 평가 환경이 직접 CLI 대비 오버헤드가 커 'major execution cost'(주요 실행 비용) 요인이며, 다중 추론 호출도 단일 호출 방식 대비 비용 증가 요인.",
+            "human-in-the-loop의 더 깊은 통합, IDE 챗봇화, CI/CD·PR 리뷰 플랫폼 통합은 향후 과제."
+          ],
+          "by_claude": [
+            "결과표에서 LATS/Reflexion을 'Extra Training 필요'로 표기(원문 확인됨)했으나, 두 방법은 사실상 추론 시점의 탐색(MCTS)·언어적 피드백 기법에 가까워 '학습'이라는 프레이밍은 논쟁의 여지가 있음(정의 관점에 따라 해석 상이).",
+            "평가가 HumanEval 단일 벤치마크·단일 에이전트에 국한되어, 프레임워크의 핵심 세일즈포인트인 실제 리포지토리 규모의 멀티파일/의존성 태스크·다중 에이전트·git 워크플로 성능은 정량 미검증.",
+            "zero-shot 베이스라인 67.0%는 gpt-4-1106-preview의 통상 HumanEval 성능 대비 낮은 편이라, 베이스라인 프롬프트/설정 조건 확인 필요(본문 상세 부족).",
+            "guardrails(허용/제한 명령·YAML)의 실제 보안·프라이버시 효과나 우회 사례에 대한 정량 평가는 본문에 부재.",
+            "테스트생성에서 '통과 테스트 커버리지'는 베이스라인과 사실상 동일(~99.3%)하므로, 개선의 본질은 커버리지가 아니라 통과율(Pass@1)에 있음을 유의."
+          ]
+        },
+        "reproducibility": {
+          "code": "비공개/불명 — 논문 본문(arXiv HTML v1)에 코드·리포지토리 링크·오픈소스 공개 계획 언급 없음. 공식 레포/스타 수 확인 불가.",
+          "weights": "해당 없음 — 자체 학습 모델 없이 GPT-4 API(gpt-4-1106-preview) 사용.",
+          "data": "부분 공개 — HumanEval은 공개 데이터셋이나, 테스트생성 변형본/스캐폴딩·하니스 스크립트 공개 여부는 불명.",
+          "license": "불명 — 라이선스 명시 없음(저자진은 Microsoft 소속으로 알려진 연구자들이며 사내 프로토타입으로 추정, 본문에 라이선스·공개 조항 없음).",
+          "note": "arXiv HTML 본문(섹션·결과표 인용 포함)까지 대조 확인함(초록 기반 아님). 재현하려면 GPT-4 API 접근, Docker 샌드박스, YAML guardrail 설정, HumanEval 하니스 및 테스트생성 변형을 직접 재구성해야 하며 저자 제공 코드는 확인되지 않음."
+        },
+        "my_learning_points": [
+          "에이전트에 '도구 = 명령 카테고리(편집/검색/빌드/테스트/git/통신)'로 노출하고 실행 로그(파일 내용·컴파일러 출력·테스트/정적분석 결과)를 다시 컨텍스트로 되먹이는 폐루프 설계를 그대로 벤치마킹할 것 — LLM 단독 생성보다 반복 실행·검증이 Pass@1을 67%→91.5%로 끌어올린 핵심.",
+          "YAML 기반 allow/deny guardrail + Docker 샌드박스를 코딩 에이전트의 기본 안전장치로 채택하되, Docker가 본문서 '주요 실행 비용'으로 지목된 만큼 컨테이너 재사용/캐싱 등 오버헤드 절감 전략을 함께 설계할 것.",
+          "'자연어와 명령 혼합'이 최빈 실패 원인이었으므로, 에이전트 출력 포맷을 엄격히 강제(구조화 파서·정규식/함수호출 스키마)하고 잘못된 명령 비율(여기선 태스크당 0.25)을 상시 평가 지표로 추적할 것."
+        ],
+        "related_work": {
+          "prior": [
+            {
+              "name": "Auto-GPT",
+              "relation": "GPT+동반봇으로 목표 자율 수행; AutoDev은 이를 SE 특화 도구로 확장"
+            },
+            {
+              "name": "LATS (Language Agent Tree Search)",
+              "relation": "MCTS 기반 계획·행동·추론; HumanEval 94.4%로 상위 비교군(원문서 Extra Training으로 분류)"
+            },
+            {
+              "name": "Reflexion",
+              "relation": "언어적 피드백을 에피소드 메모리로 강화; 91.0% 비교군(원문서 Extra Training으로 분류)"
+            },
+            {
+              "name": "AutoGen",
+              "relation": "LLM 워크플로·다중 에이전트 대화 오케스트레이션; AutoDev은 직접 리포 조작 능력을 추가"
+            },
+            {
+              "name": "GitHub Copilot",
+              "relation": "기존 AI 코딩 어시스턴트지만 빌드/테스트/실행/git 등 전체 IDE 기능 미활용 — AutoDev의 문제의식 출발점"
+            }
+          ],
+          "followup": [
+            {
+              "name": "Copilot Evaluation Harness",
+              "relation": "저자들이 향후 더 현실적 평가로 확장하겠다고 본문에 명시한 벤치마크(후속 방향)"
+            },
+            {
+              "name": "SWE-bench 계열 리포지토리 레벨 에이전트",
+              "relation": "AutoDev이 목표한 실제 리포 규모 자율 SE의 후속 흐름으로 이어짐(Claude 관점 맥락화, 원문 언급 아님)"
+            }
+          ]
+        },
+        "claude_note": "arXiv HTML 본문(섹션·결과표·한계 인용 포함)까지 대조 검증한 분석이며 초록 기반이 아니다. Microsoft 소속 연구진(Tufano 외 4인)의 이 논문은 '전체 IDE 기능을 명령 도구로 노출 + Docker 샌드박스 + YAML guardrail'이라는 실용적 아키텍처를 제시하고 HumanEval에서 코드생성 91.5%/테스트생성 87.8% Pass@1을 보고하며, 초안의 모든 정량 수치는 원문과 일치함을 확인했다. 다만 기여는 새 모델·알고리즘이 아니라 잘 설계된 에이전트-도구 오케스트레이션 프레임워크에 가깝고, 평가가 HumanEval 단일·단일 에이전트에 국한되어 프레임워크의 핵심 세일즈포인트(다중 에이전트·현실 리포 규모·git 워크플로)는 정작 정량 검증이 얇다는 한계가 뚜렷하다. 코드/데이터 공개나 라이선스 언급이 없어 재현성은 보수적으로 '비공개/불명'으로 보아야 하며, LATS/Reflexion을 'Extra Training'으로 분류한 비교 프레이밍과 zero-shot 67% 베이스라인의 이례적 저점은 재확인 여지가 있다. 학습 자료로는 '실행 로그 되먹임 폐루프'와 'guardrail+샌드박스' 설계 패턴을 벤치마킹하는 용도로 가치가 높다.",
+        "analyzed_at": "2026-07-13"
+      },
+      "learning": {
+        "key_terms": [
+          {
+            "term": "Pass@1",
+            "gloss": "모델이 첫 번째로 생성한 답 하나가 테스트를 통과하는 비율"
+          },
+          {
+            "term": "Sandbox",
+            "gloss": "에이전트의 코드와 명령을 호스트 환경에서 격리해 실행하는 통제 공간"
+          },
+          {
+            "term": "Guardrail",
+            "gloss": "허용·금지 행동을 명시해 에이전트의 실행 범위를 제한하는 정책"
+          }
+        ],
+        "recall_quiz": {
+          "question": "AutoDev 프레임워크를 이루는 네 가지 핵심 축은 무엇인가?",
+          "answer": "대화를 관리하는 Conversation Manager, 파일 편집·검색·빌드·테스트·Git 명령을 담은 Tools Library, 여러 에이전트를 조율하는 Agent Scheduler, 모든 명령을 Docker 안에서 실행하는 Evaluation Environment다(W29 심층 분석 기준)."
+        },
+        "spaced_review": {
+          "flag": false,
+          "review_due": null
+        }
+      }
+    },
+    {
+      "id": "2609.18063",
+      "title": "The Other Half of the Memory Wall: Serving 35B MoEs from SSD with Trained Routing Prediction",
+      "title_ko": "메모리 벽의 나머지 절반: 학습된 라우팅 예측으로 35B MoE를 SSD에서 서빙하기 (Edge0)",
+      "authors": [
+        "Yu Lin",
+        "Yiming Wang",
+        "Runyuan Cai",
+        "Hanze Liu",
+        "Xiaodong Zeng"
+      ],
+      "published_at": "2026-09-15T20:00:00.000Z",
+      "rank": 3,
+      "raw": {
+        "summary": "Mixture-of-experts (MoE) inference on consumer hardware is bounded by weight memory: a 35B-class model is 19.5GB at 4-bit, and sparsity shrinks the compute per token, not the bytes that must be held. Naive offloading to SSD does not help on its own, because layer N+1's experts must be chosen before layer N's output exists, so the reads cannot start early enough to hide behind compute. We present Edge0, a streaming MoE inference engine that closes the gap with a prerouter: a per-layer head predicts the next layer's routing one token ahead, and the prediction is consumed as the routing itself, so the staged expert set equals the routed set and nothing is dropped. An unmerged recovery LoRA, trained on the student path, pays back the quality lost to int4 quantization and routing replacement. On a single 24GB machine, Edge0\n  serves a 35B MoE at 20tok/s inside 3GiB of peak active memory, within a few points of its fp16 teacher on average across five public benchmarks. An 8B tier runs on the same framework, and the framework, checkpoints, and adapters are open source.",
+        "ai_summary": "",
+        "ai_keywords": [],
+        "upvotes": 26,
+        "num_comments": 4,
+        "github_repo": "https://github.com/Edge0-AI/edge0",
+        "github_stars": 4605,
+        "project_page": null
+      },
+      "links": [
+        {
+          "rank": 1,
+          "label": "HF 토론·요약",
+          "url": "https://huggingface.co/papers/2609.18063"
+        },
+        {
+          "rank": 2,
+          "label": "arXiv 초록",
+          "url": "https://arxiv.org/abs/2609.18063"
+        },
+        {
+          "rank": 3,
+          "label": "PDF 원문",
+          "url": "https://arxiv.org/pdf/2609.18063"
+        },
+        {
+          "rank": 4,
+          "label": "코드(GitHub)",
+          "url": "https://github.com/Edge0-AI/edge0"
+        }
+      ],
+      "classify": {
+        "categories": [
+          "Efficiency/Inference"
+        ],
+        "primary_category": "Efficiency/Inference",
+        "topic_tags": [
+          "moe-serving",
+          "edge-inference",
+          "mixture-of-experts",
+          "routing-prediction",
+          "quantization"
+        ],
+        "method_tags": [
+          "inference-time",
+          "distillation"
+        ],
+        "modality": [
+          "text"
+        ],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "SSD 스트리밍과 라우팅 예측을 결합한 엔진으로, 24GB Mac mini에서 35B MoE를 초당 약 20토큰에 돌린다.",
+        "problem": "소비자 하드웨어에서 MoE 추론의 한계는 가중치 메모리다. 35B급 모델은 4비트로도 19.5GB이고, 희소성은 토큰당 연산량을 줄일 뿐 메모리에 올려둬야 할 바이트 수는 줄이지 못한다. 전문가를 SSD로 내리는 단순 오프로딩도 소용이 없는데, N+1층의 전문가는 N층 출력이 나와야 정해지므로 읽기를 연산 뒤에 숨길 만큼 일찍 시작할 수 없기 때문이다.",
+        "approach": "스트리밍 MoE 추론 엔진 Edge0는 층마다 붙인 예측 헤드인 프리라우터(prerouter)가 다음 층의 라우팅을 한 토큰 앞서 예측한다. 핵심은 이 예측을 참고용이 아니라 라우팅 그 자체로 사용한다는 점이다. 그래서 미리 올려둔(staged) 전문가 집합과 실제로 라우팅된 집합이 정확히 같아 빠지는 전문가가 없다. int4 양자화와 라우팅 대체로 잃은 품질은, 학생 경로(student path)에서 학습해 병합하지 않은 채 쓰는 복구 LoRA(recovery LoRA)로 되찾는다.",
+        "contributions": [
+          "다음 층 라우팅을 한 토큰 앞서 예측하고 그 예측을 실제 라우팅으로 쓰는 프리라우터로 SSD 읽기를 연산과 겹침(가중치가 메모리에 안 들어가는 16GB 기기에서 decode +80-84%, 24GB 기기에서는 약 2.5%)",
+          "Mac mini M4 Pro 24GB(Apple Silicon 통합 메모리)에서 K=4로 재학습한 35B MoE를 배치 1 기준 초당 20.4토큰, MLX allocator 기준 최대 활성 메모리 2.9GiB로 서빙",
+          "5개 공개 벤치마크 평균에서 fp16 base 대비 35B 약 4점, 8B 2.8점 하락(복구 LoRA로 int4 양자화와 라우팅 대체 손실 보전). 단 AIME는 35B -6.1점, 8B -10.0점으로 손실이 큼",
+          "같은 프레임워크의 8B 티어 제공, 추론 프레임워크·체크포인트·어댑터 오픈소스(GitHub 약 4.6천 스타). 학습 코드와 데이터는 공개되지 않음"
+        ],
+        "why_now": "W41에 이어 2주 연속 등장했고 관심도도 올랐다(▲22 -> 26, GitHub 스타 약 3.1천 -> 4.6천으로 약 1.5배). 지난주 심층 분석으로 '24GB 기기'가 Apple Silicon 통합 메모리이고, 예측기의 큰 이득은 모델이 메모리에 들어가지 않는 16GB 기기에서 나온다는 점이 확인됐다. 이번 주에는 2020년 PyTorch DDP와 함께 효율 카테고리 2편을 이뤄, 효율·추론최적화가 W40부터 3주 연속 2편씩 오르는 데 기여했다.",
+        "difficulty": "고급",
+        "recommended_reader": "로컬 PC에서 큰 MoE 모델을 돌려보려는 개발자, 추론 엔진의 메모리 계층(VRAM·RAM·SSD) 설계에 관심 있는 학습자",
+        "field_tags": [
+          "MoE서빙",
+          "엣지추론",
+          "SSD오프로딩",
+          "라우팅예측",
+          "양자화"
+        ],
+        "interest": {
+          "upvotes": 26,
+          "num_comments": 4,
+          "github_stars": 4605
+        }
+      },
+      "tier2": {
+        "method_detail": "Edge0는 MoE의 routed expert 가중치를 RAM이 아니라 SSD에 두고, int4 per-layer stacked safetensors를 mmap으로 열어 필요한 byte range만 읽는 스트리밍 추론 엔진이다(3.1절). 35B 티어(Qwen3.6-35B-A3B 기반, 40층 x 256 experts)는 층당 expert 가중치가 453 MB(expert 1개 1.77 MB), routed expert 전체가 18 GB로 19.5 GB 체크포인트의 대부분을 차지한다. 핫 데이터는 OS page cache가 들고, 피크 메모리는 파라미터 수가 아니라 active set을 따른다.\n\n실행 경로는 네 가지다. exact(on-demand 번들 빌드, 정확성 기준), staged(고정 슬롯 double buffering, decode 주력. 라우팅 인덱스를 slot table로 매핑하고 incr_stack으로 바뀐 expert만 제자리 갱신), hot(층별 LRU 상주 hot expert, miss 시 exact로 fallback), whole-layer(prefill에서 층 전체 expert를 9번의 직접 read로 일괄 로드)다. 모든 경로는 down(silu(gate(x))·up(x))를 같은 quantized gather 커널로 계산하며 dequantized reference 대비 relative L2 1% 미만(측정 잔차 약 0.24%)으로 테스트된다.\n\n핵심은 prerouter다. 층 N+1의 expert 선택은 층 N 출력이 있어야 정해지므로 순진한 스트리밍은 매 층마다 디스크 지연에 막힌다. Edge0는 '이중 shift'를 쓴다. 층 N이 소유한 head가 토큰 t에서 층 N의 post-attention norm 출력을 보고 토큰 t+1의 층 N+1 라우팅을 예측한다. 한 스텝당 한 번의 flush로 모든 staged 층(35B 32개, 8B 16개)을 한꺼번에 예측하므로 SSD read가 한 decode step 전체와 겹친다. 같은 토큰 안에서 미리 고르는 Pre-gated MoE 방식은 이 엔진에서 스텝당 30-100 ms의 동기화 비용이 들어 plain LRU보다도 느렸다고 저자들은 보고한다. head 구조는 fc1 -> erf-gelu -> fc2에 linear residual을 더한 것이며, residual은 다음 층 router 가중치로 warm-start한다. 입력은 hidden state와 두 개의 top-k one-hot(이번 토큰과 이전 토큰에서 이 층이 실제 고른 expert)을 이어 붙인 것으로 35B는 2048+2x256=2560차원, hidden 512, fp16이다. 35B는 head 33개(owner 6-38), 8B는 16개다.\n\nPrediction-as-routing이 가장 중요한 설계다. decode 시 MoE 층은 원래 router 대신 prerouter logits를 같은 softmax-topk 또는 sigmoid-group 수식에 넣어 라우팅한다. 예측 집합이 곧 라우팅 집합이므로 staged 슬롯과 정확히 일치하고 drop이나 fallback load가 없다. 즉 '오예측'이라는 사건 자체가 런타임에 존재하지 않고, 원본 모델과 다른 expert를 쓰는 근사 오차가 그대로 모델 동작에 반영된다. 이 비용은 학습에서 갚는다. head 입력은 학습 때는 실제 라우팅, 추론 때는 자기 예측이라는 feature drift가 있는데 head를 재학습하지 않고 LoRA가 흡수하게 둔다. 예측 정확도(hit rate, top-k overlap)는 본문 전체에서 수치로 보고되지 않으며, 저자들은 router 일치도를 더 쫓는 것은 잘못된 목표이고 학생 라우팅에서 언어모델이 좋은 텍스트를 내는지가 중요하다고 주장한다.\n\nRecovery LoRA(r=16, alpha=32)는 attention, linear-attention, shared-expert projection에만 붙고 routed expert에는 붙지 않는다(스트리밍되며 교체 가능해야 하므로). 서빙은 unmerged로 y = W_int4(x) + (alpha/r)·B·A·x 병렬 delta다. LoRA delta(RMS 약 1e-3)가 4-bit group step보다 작아 병합 후 재양자화하면 효과가 attention projection에서 34%, dense projection에서 2%, logits 수준에서 18%만 남기 때문이다. unmerged 비용은 어댑터 42 MB, decode 시간 차이는 측정되지 않을 정도라고 한다. 양자화는 expert 가중치 int4 affine group-64다.\n\n학습은 3단계이며 모두 4-bit 배포 체크포인트를 dequantize한 bf16 재구성 위에서 base를 고정한 채 진행한다. Phase 1은 head만 다음 층의 실제 router logits를 모방하도록 distill한다. Phase 2는 prerouter 라우팅을 켠 student path 전체 forward로 약 2M행의 teacher 생성 텍스트에 SFT한다(distill만 한 체크포인트는 반복·붕괴된 텍스트를 냈다고 함). Phase 3은 on-policy distillation으로 학생이 생성하고 원래 fp16 base가 teacher로 채점하며, teacher top-k 토큰에 reverse KL과 tail 항을 쓴다. 약 200k행(Phase 2의 1/10)에서 수렴한다. 이 구조 덕에 35B 티어는 base의 K=8 대신 K=4로 재학습해 출시됐다.",
+        "experiment_setup": [
+          "하드웨어(5.1절, Table 1): '단일 24GB 머신'은 Mac mini M4 Pro 24 GB unified memory(Apple Silicon)다. prerouter A/B(5.3절, Table 3-4, Figure 3)는 MacBook M2 16 GB unified memory에서 돌렸다. 18.4 GiB 릴리스 디렉터리(19.5 GB int4 base + 어댑터·head 0.2 GB)가 메모리에 들어가지 않는 조건이다. SSD 종류·용량·대역폭과 macOS 버전은 본문에서 명시되지 않는다. MLX 버전은 0.30.4-0.30.6이다.",
+          "20 tok/s 조건(Table 1 캡션, 6장): 35B 티어 K=4 production profile, 한 번에 1요청(FIFO 직렬, 배치 없음), 각 arm 별도 프로세스, warm 상태, arm 순서 회전, 3라운드 median이다. 메모리는 short context에서 측정했다. 디코드 측정의 정확한 context 길이와 생성 토큰 수는 원문에서 확인되지 않는다. prefill은 별도로 3.1k 토큰 프롬프트에서 측정했다(warm은 한 프로세스 안에서, cold는 프로세스 시작 후 첫 요청).",
+          "핵심 성능(Table 1): 35B는 decode 20.4 tok/s, prefill cold/warm 113/140 tok/s, peak active memory 2.9 GiB다. 8B(Ling 3.0 tiny, MLA+MoE, 24층 x 128 experts, K=8)는 decode 28.0 tok/s, prefill 500/1102 tok/s, 1.5 GiB다. 8B는 shared LRU를 64에서 1024 bundle로 키우면 약 0.9 GiB를 더 쓰고 31.8 tok/s가 된다. 같은 Mac mini에서 35B의 prerouter를 끄면 19.9 tok/s로, 이 머신에서 prerouter 이득은 약 2.5%다. prerouter off arm이 on-demand인지 staged인지 등 구성은 원문에 적혀 있지 않다.",
+          "유일한 외부 시스템 baseline(3.1절, 5.4절)은 같은 Mac mini에서 19.5 GB 4-bit 가중치를 전부 상주시킨 vanilla mlx-lm 서버다. 결과는 3.9 tok/s, 18.2 GiB 점유다. 저자 각주는 같은 머신, 같은 decode protocol, think-mode on이라고 밝힌다. Edge0는 20.4 tok/s, 2.9 GiB로 '5배 빠르고 메모리는 1/6-1/7'이라고 주장한다. 단 resident baseline의 routing K는 명시되지 않았고 Edge0는 K=4 재학습 프로파일이다. 저자들은 resident 쪽이 메모리 부족으로 paging한다고 설명한다. llama.cpp --cpu-moe, PowerInfer, Mixtral-offloading, MoE-Infinity, FlexGen은 관련연구에서 인용만 하고 수치 비교는 없다.",
+          "prerouter A/B(Table 3, MacBook M2 16GB): on-demand 대비 prerouter decode는 K=2 4.8 -> 8.6(+80%), K=4 3.5 -> 6.4(+82%), K=8 1.8 -> 3.3(+84%)이다. 메인 스레드의 expert load 대기 시간(스텝당, 층 합산)은 K=2 154.9 -> 46.5 ms, K=4 244.0 -> 101.9 ms, K=8 575.0 -> 211.6 ms다. K=8 on-demand 합 575.0 ms가 스텝 559.1 ms보다 큰데, 층 간 load가 겹치기 때문이다. 디스크 read는 스텝의 최대 12%, 프로세스는 8코어 중 약 1코어, GPU는 35-41%를 써서 어떤 자원도 포화되지 않았다고 보고한다. 3라운드 median이며 3/3 라운드가 일치했다(Figure 3 캡션).",
+          "routing width A/B(4장, Table 3): 같은 16GB 머신의 같은 세션에서, 같은 가중치로 K=8을 K=4로 줄이면 prerouter arm decode가 3.3 -> 6.4 tok/s로 거의 2배가 되고 peak active memory도 줄어든다. on-demand arm은 1.8 -> 3.5다. 저자들은 재학습한 K=4 티어가 Table 2 품질을 유지한다고 주장한다. 24GB Mac mini에서 35B를 K=8로 측정한 수치는 없다.",
+          "I/O 비용(Table 4): 스텝당 read 바이트(prerouter vs on-demand)는 K=2 29.5 vs 30.4 MiB, K=8 125.1 vs 126.9 MiB로 거의 같다. K=4만 58.9 vs 50.9 MiB로 16% 많다. prerouter는 더 적고 크고 차가운 load를 낸다. K=8 기준 load당 1.40 MiB·90% cold vs 0.32 MiB·20% cold이고, 스텝당 load 수는 89.5 vs 398.6이다. load 비용 모델은 1.17 ms + 1.33 ms x cold 비율로, 측정값을 0.13 ms 이내로 재현한다. 인접 토큰 간 expert 집합 겹침은 약 1/4이다.",
+          "메모리 대가(5.3절): unreclaimable MLX 할당은 on-demand 1.72/1.73/1.79 GiB, prerouter 2.33/2.60/3.22 GiB다(K=2/4/8). Process RSS(파일 기반 expert 페이지 포함)는 on-demand 5.29/6.12/6.18 GiB, prerouter 4.91/5.61/6.39 GiB다. K=8에서 prerouter arm은 1.43 GiB를 더 쥐고 page cache는 1.15 GiB 줄어든다. 저자들이 밝힌 미적용 개선 여지는 두 가지다. bundle과 stacked view 이중 사본을 없애면 K=8에서 약 0.45 GiB를 돌려받고, 메인 스레드 동기 fill(K=8에서 62.5 ms/step)을 다른 스레드로 옮길 수 있다. 둘 다 측정 구성에는 반영되지 않았다.",
+          "품질 평가(5.1-5.2절, Table 2): OpenCompass를 compute server에서 돌려 Edge0(int4 + adapters + prerouter routing)와 원래 fp16 base를 동일 설정으로 평가했다. sampling, temperature, max tokens, AIME 반복 횟수 등 세부 설정은 원문에서 확인되지 않는다. 35B: AIME 2026 86.6 vs 92.7(-6.1), HumanEval 90.9 vs 95.1(-4.2), GPQA-Diamond 79.8 vs 81.8(-2.0), MMLU-Pro 81.0 vs 84.6(-3.6), IFBench 57.9 vs 61.7(-3.8), 평균 79.2 vs 83.2. 8B: AIME 63.3 vs 73.3(-10.0), HumanEval 91.5 vs 92.7(-1.2), GPQA-D 70.7 vs 71.2(-0.5), MMLU-Pro 70.1 vs 65.8(+4.3), IFBench 53.9 vs 60.6(-6.7), 평균 69.9 vs 72.7.",
+          "측정 신뢰성 주의(5.1절): 저자들은 이 하드웨어에서 single-shot 벤치마크가 run 간 +-40%, 16GB 머신에서는 세션 간 최대 2.3배 차이가 난다고 밝힌다. 그래서 같은 세션 교차 A/B만 증거로 쓴다.",
+          "Appendix B: incr_stack(sticky-slot 제자리 갱신)은 별도 A/B에서 decode를 +34% 올렸다. K=8 구성에서 native routing 대비 전체 출시 파이프라인은 6.8 -> 12.5 tok/s였다. 저자 스스로 이전 캠페인의 다른 구성이라 Table 3와 비교할 수 없다고 밝힌다. 6장에 따르면 40층 forward의 CPU측 graph building 44 ms/step이 decode 하한이다.",
+          "저장소 문서와 논문의 구성 불일치: docs/models/edge0-8b.md는 8B 배포 프로파일에서 staged decode를 끈다고 적는다(staged=False). 이유는 deployment verification에서 staged decode가 출력을 저하시켰기 때문이며, 대신 prerouter가 다음 토큰 expert prefetch를 직접 구동한다. 논문 3.2절은 8B가 K=8, 층당 8개 staged slot으로 돈다고 적는다. docs/models/edge0-35b.md는 35B 프로파일이 on-demand prefill(full_layer_prefill=False)이라고 적지만, 논문은 두 티어 모두 prefill에 whole-layer 경로를 쓴다고 적는다. Table 1이 어느 구성으로 측정됐는지는 확인되지 않는다."
+        ],
+        "datasets": [
+          {
+            "name": "Phase 2 SFT 코퍼스 (teacher-generated text)",
+            "domain": "일반 텍스트(teacher가 생성). 프롬프트 출처와 teacher 모델명은 원문에서 확인되지 않음",
+            "scale": "약 2M rows"
+          },
+          {
+            "name": "Phase 3 on-policy distillation 데이터 (student 생성, fp16 base가 채점)",
+            "domain": "student 자체 생성 텍스트",
+            "scale": "약 200k rows (Phase 2의 1/10)"
+          },
+          {
+            "name": "AIME 2026",
+            "domain": "수학 추론 (평가)",
+            "scale": "문항 수 원문에서 확인되지 않음"
+          },
+          {
+            "name": "HumanEval",
+            "domain": "코드 생성 (평가)",
+            "scale": "원문에 명시 없음"
+          },
+          {
+            "name": "GPQA-Diamond",
+            "domain": "대학원 수준 과학 QA (평가)",
+            "scale": "원문에 명시 없음"
+          },
+          {
+            "name": "MMLU-Pro",
+            "domain": "다분야 지식 (평가)",
+            "scale": "원문에 명시 없음"
+          },
+          {
+            "name": "IFBench",
+            "domain": "지시 따르기 (평가)",
+            "scale": "원문에 명시 없음"
+          }
+        ],
+        "limitations": {
+          "by_authors": [
+            "단일 요청 직렬 처리: Edge0는 한 번에 한 요청만 FIFO로 처리하며 배치 서빙을 하지 않는다. 배치는 expert working set을 바꾸는데 이는 per-request 프로파일이 모델링하지 않는다고 저자들이 적는다. 20.4 tok/s를 포함한 모든 처리량 수치가 batch 1 조건이다 (6장, Table 1 캡션).",
+            "CPU측 하한: 40층 forward의 graph building이 스텝당 44 ms이고 이는 스토리지 쪽 최적화로 줄일 수 없는 decode 하한이라고 저자들이 명시한다 (6장).",
+            "prefetch 이득의 조건 의존성과 메모리 대가: prerouter 이득은 제거하는 대기 시간에 비례하므로 hot cache나 빠른 스토리지에서는 줄어들고, 인접 토큰이 한 층의 expert 중 약 1/4만 공유하므로 재사용에 상한이 있다. 대가는 page cache에서 가져오는 unreclaimable residency로, K=8에서 prerouter arm이 MLX 메모리를 1.43 GiB 더 쥐고 page cache는 1.15 GiB 줄었다. 실제로 24GB Mac mini에서는 prerouter off 19.9 vs on 20.4 tok/s다 (6장, 5.3절, Table 1 캡션).",
+            "측정 구성의 미완 최적화: stager가 같은 가중치의 bundle과 stacked view 두 사본을 들고 있어 K=8에서 약 0.45 GiB가 낭비되고, incremental stacking fill이 메인 스레드에서 동기 실행되어 K=8에서 스텝당 62.5 ms가 든다고 저자들이 'Two levers not yet pulled'로 밝힌다. 두 개선 모두 측정 구성에 포함되지 않았다 (5.3절).",
+            "품질 손실이 긴 추론에 집중: 35B 티어 AIME -6.1점(86.6 vs 92.7), 8B 티어 AIME -10.0점, 8B IFBench -6.7점을 저자들이 직접 한계로 적는다. HF 모델 카드 두 개는 별도로 tool use와 multi-step planning 등 agent 능력이 약하고, 성능 수치는 MLX Apple Silicon 측정이며 iOS/Android/Windows 엔진은 아직 성숙 중이라고 경고한다. 35B 카드는 긴 context에서 KV cache로 3 GiB를 넘는다고도 적는다 (6장, Table 2, HF 모델 카드 Limitations).",
+            "구현 범위와 측정 신뢰성: MLX가 유일한 구현 백엔드이고 CUDA는 아키텍처만 있고 코드는 없다(6장, README 로드맵상 2026 Q4). 또 이 하드웨어에서 single-shot 벤치마크는 run 간 +-40%, 16GB 머신은 세션 간 최대 2.3배 편차가 있어 같은 세션 교차 A/B만 증거로 쓴다고 밝힌다 (5.1절)."
+          ],
+          "by_claude": [
+            "헤드라인 성능의 원인 귀속이 흐리다. abstract는 prerouter가 SSD 지연을 숨긴다는 서사를 쓰지만, 20.4 tok/s를 낸 24GB Mac mini에서 prerouter를 끄면 19.9 tok/s로 측정 기여는 약 0.5 tok/s(약 2.5%)다. off arm이 정확히 어떤 구성인지는 원문에 없다. +80-84% 이득(Table 3)은 가중치가 메모리에 들어가지 않는 16GB MacBook M2에서, 절대 속도 3.3-8.6 tok/s 수준으로만 나온다. 같은 16GB 머신에서 K=8을 K=4로 줄이면 decode가 3.3 -> 6.4 tok/s로 거의 2배가 되고(4장, Table 3), incr_stack도 +34%를 보인다(Appendix B, 다른 측정 캠페인). 그래서 출시 티어 속도의 상당 부분은 routing width 축소와 스트리밍 경로 최적화에서 온다고 보는 것이 논문 자체 데이터와 맞는다. 다만 24GB Mac mini에서 각 요소의 기여를 분해한 측정은 없고, 저자들은 정확한 집합을 공급할 prerouter 없이는 staging만으로 배포 가능한 구성이 아니라고 반론한다(5.3절).",
+            "외부 baseline이 사실상 하나다. 비교 대상은 같은 Mac mini에서 19.5 GB를 전부 상주시켜 paging이 일어나는 vanilla mlx-lm(3.9 tok/s, 18.2 GiB)뿐이다. 저자 각주는 같은 머신, 같은 decode protocol이라고만 밝히고 routing K는 명시하지 않아 K=4 Edge0와 동일 조건인지 알 수 없다. llama.cpp --cpu-moe, MoE-Infinity, PowerInfer, Mixtral-offloading은 인용만 있고 수치 비교가 없다. Pre-gated MoE 계열은 자기 엔진 안에서 same-token 변형을 측정해 스텝당 30-100 ms 비용으로 plain LRU보다 느렸다고 서술하지만, 표나 원 시스템 수치는 제시하지 않는다. '5배 빠르다'는 이 단일 비교에 한정해 읽어야 한다. 다만 저자들이 resident baseline이 이 하드웨어에서 빠른 기준이 아닌 이유를 3.1절에서 직접 설명한다는 점은 공정하게 밝혀 둔다.",
+            "Prediction-as-routing의 동작 변화 평가가 부족하다. 35B는 40층 중 32층, 8B는 24층 중 16층이 이전 토큰 시점의 예측으로 라우팅되고, 35B는 K도 8 -> 4로 바뀐다. 그런데 router 일치도, top-k overlap, 출력 분포 KL 같은 지표는 본문 전체에서 수치로 보고되지 않고, 평가는 5개 벤치마크 점수뿐이다. 저자들은 router 일치도를 쫓는 것이 잘못된 목표라고 근거를 들어 주장하지만, 그렇다면 언어모델 출력 수준의 차이를 더 넓게 측정해야 한다. 원본 대비 편차는 벤치마크 밖(장문 생성, 다국어, agent 작업)에서 드러날 수 있으나 이를 측정한 결과는 없고, HF 카드도 agent 능력이 약하다고 인정한다. 벤치마크의 sampling, temperature, max tokens, AIME 반복 횟수도 원문에서 확인되지 않아 -6.1 같은 격차의 분산을 판단할 수 없다.",
+            "재현성 공백. 저장소 전체 파일 트리(1131 경로)를 train, distill, sft, opencompass로 검색한 결과, 추론 엔진, 벤치 스크립트(python/examples/bench.py), 학습된 어댑터와 head만 있고 prerouter head distill, LoRA SFT, on-policy distillation, OpenCompass 평가 코드는 없다. docs/prerouter.md는 heads.py가 별도의 training implementation에서 가져온 것이라고 적어 학습 구현이 비공개임을 시사한다. Phase 2 약 2M행 데이터의 프롬프트 출처, 학습 compute, learning rate와 step 수도 원문에서 확인되지 않는다. 따라서 다른 MoE에 prerouter를 새로 학습시키려면 논문 서술만 보고 재구성해야 한다.",
+            "측정 조건과 공개 자료의 불일치. SSD 모델·대역폭과 macOS 버전이 명시되지 않아, SSD에 의존하는 시스템인데도 하드웨어 일반화가 어렵다. README와 HF 카드는 다른 프로토콜(약 3.3k 토큰 프롬프트 후 200 decode 토큰, 2 runs)로 35B 14.9-17.7 tok/s, 8B 23.9-25.3 tok/s, 8B peak 1.0 GiB를 적어 논문의 20.4, 28.0 tok/s, 1.5 GiB와 다르다. 차이의 일부는 조건 차이로 보이지만 두 수치를 조정하는 설명은 없다. README의 35B 체크포인트 약 23 GB 표기도 논문 19.5 GB, HF 파일 합계 약 19.7 GB(어댑터와 head 포함)와 다르다. 또 저장소 문서는 8B에서 staged decode가 출력을 저하시켜 끈다고 적고(docs/models/edge0-8b.md) 35B는 on-demand prefill이라고 적어(docs/models/edge0-35b.md), 논문 3.2절의 배포 구성 서술과 충돌한다. '3 GiB peak active memory'는 MLX allocator peak로 page cache와 mmap 파일 페이지를 빼고 잰 값이며, 16GB 실험의 Process RSS는 4.91-6.39 GiB였다."
+          ]
+        },
+        "reproducibility": {
+          "code": "공개. https://github.com/Edge0-AI/edge0 에 Python 프레임워크(MLX, Apple Silicon 전용 참조 구현), macOS(Rust), iOS(Swift + MLX Swift), Android(Kotlin), Windows(C++ + Vulkan, pinned llama.cpp + 8개 패치: 공통 6개, Windows 전용 2개) 엔진이 있다. 저장소 전체 파일 트리(1131 경로)를 train, distill, sft, opencompass로 검색한 결과 prerouter head 학습, LoRA SFT, on-policy distillation, OpenCompass 평가 스크립트는 없다. python/scripts에는 e2e_smoke, fetch_models, generate_example, strip_vision_weights, upload_hf, verify_alignment가 있고, python/examples/bench.py로 tok/s를 측정할 수 있다. Windows 엔진의 prerouter는 windows/serve/prefetch.h 기준 실제 gate를 바꾸지 않는 advisory prefetch이고 기본은 비활성(E0_PREROUTER 환경변수)이다. CUDA 백엔드는 README 로드맵상 2026 Q4 예정이다.",
+          "weights": "공개. Hugging Face Edge0/Edge0-35B-A3B-preview (base Qwen/Qwen3.6-35B-A3B, HF API 파일 합계 약 19.74 GB, lora_edge0_35b.safetensors 42.4 MB, prerouter_edge0_35b.safetensors 138.4 MB 포함)와 Edge0/Edge0-8B-A1B-preview (base inclusionAI/Ling-3.0-tiny-base, 파일 합계 약 4.60 GB, lora 16.4 MB, prerouter 38.8 MB). 둘 다 preview 릴리스이고 ModelScope 미러도 있다. README는 35B 디스크 사용량을 약 23 GB, 8B를 약 4.2 GB로 적어 논문(19.5/4.5 GB)과 수치가 다르다.",
+          "data": "미공개로 판단. repo 전체 검색, README, HF 모델 카드 두 개, 논문 전문에서 학습 데이터(Phase 2 약 2M행 teacher 생성 텍스트, Phase 3 약 200k행 on-policy 데이터) 공개 언급을 찾지 못했다. 평가 벤치마크(AIME 2026, HumanEval, GPQA-Diamond, MMLU-Pro, IFBench)는 공개 벤치마크지만 OpenCompass 설정은 원문에서 확인되지 않는다.",
+          "license": "Apache-2.0. 저장소 LICENSE 파일이 Apache License 2.0 원문이고 논문 7장 Artifacts도 Apache-2.0을 명시한다. 하위 디렉터리별 NOTICE 파일에 third-party 코드가 표기된다. HF 모델 카드 두 개도 메타데이터상 apache-2.0이다. base 모델(Qwen3.6-35B-A3B, Ling 3.0 tiny)의 자체 라이선스 조건은 이번에 확인하지 않았다.",
+          "note": "추론 재현(공개 체크포인트와 bench.py로 Mac에서 tok/s 측정)은 가능하다. 다만 결과가 SSD와 메모리 조건에 크게 의존하고, 저자들도 run 간 +-40% 편차를 경고한다. README의 측정 프로토콜도 논문과 달라 수치가 일치하지 않는다(35B 14.9-17.7 vs 20.4 tok/s). 방법 재현(다른 MoE에 prerouter와 recovery LoRA를 학습)은 학습 코드, 데이터, 하이퍼파라미터가 공개되지 않아 어렵다. Windows에서는 Python/MLX 엔진이 동작하지 않는다. 별도 Windows 앱(Vulkan, GGUF Q4_1, expert CPU mmap -cmoe)은 LoRA를 별도 GGUF adapter로 런타임 적용하지만, prerouter는 routing gate를 바꾸지 않는 advisory prefetch이자 기본 비활성 기능이라 논문의 prediction-as-routing을 구현하지 않는다. 이 앱의 참고 수치(35B decode 약 27.7 tok/s)는 48GB RAM 기준 머신의 warm-RAM 측정이라 SSD 스트리밍 조건이 아니며, 같은 조건의 vanilla llama.cpp와 속도가 거의 같다고 저자 문서가 밝힌다. 설치 파일 미서명, 엔진 미번들 등 미성숙 상태도 README에 명시돼 있다."
+        },
+        "my_learning_points": [
+          "로컬 모델 속도는 single-shot으로 측정하지 말 것. 저자들은 같은 하드웨어에서 single-shot 벤치마크가 run 간 +-40%, 16GB 머신에서 세션 간 최대 2.3배 차이가 난다고 보고한다. 그래서 각 arm을 별도 프로세스로 띄우고, arm 순서를 회전하고, 두 arm이 같은 토큰 시퀀스를 재생하게 한 뒤 warm 상태 3라운드 median을 내는 같은 세션 교차 A/B만 증거로 쓴다. 같은 저자들의 README 수치(3.3k 프롬프트 후 200 토큰, 2 runs)가 논문 수치보다 2.7-5.5 tok/s 낮은 것 자체가 프로토콜 차이의 영향을 보여 준다. Windows PC에서 llama.cpp 옵션(예: -cmoe, -ngl)이나 양자화 포맷을 비교할 때 이 절차를 작은 PowerShell 스크립트로 만들어 두면, 트렌드 시스템이 논문의 tok/s 주장을 검증할 때도 같은 기준을 쓸 수 있다.",
+          "offloading·prefetch 기법의 효과는 먼저 '모델이 메모리에 들어가느냐'로 갈린다. 같은 prerouter가 가중치를 다 담지 못하는 16GB MacBook M2에서는 decode +80-84%(K=4 기준 3.5 -> 6.4 tok/s)지만, 24GB Mac mini에서는 19.9 -> 20.4 tok/s로 약 2.5%다. 반면 같은 16GB 머신에서 routing width를 K=8에서 K=4로 줄이자 decode가 거의 2배가 됐다. 활성 expert 수가 토큰마다 옮겨야 할 바이트 양을 직접 정하기 때문이다. 따라서 35B급 MoE를 로컬에서 돌리려면 먼저 RAM(또는 unified memory) 용량과 int4 체크포인트 크기(35B 약 19.5 GB)를 비교하고, 모자랄 때만 SSD 스트리밍류 기법을 고려하는 것이 순서다. repo의 Windows 참고 수치(35B decode 약 27.7 tok/s)도 48GB RAM에 모델이 다 올라간 warm-RAM 조건이며, README는 16GB 이하에서 35B가 paging-bound라고 적는다. GPU 유무와 SSD 속도는 본인 환경에서 직접 측정해야 하며, 논문은 SSD 사양을 명시하지 않았다.",
+          "양자화 모델에 LoRA를 붙일 때 병합 후 재양자화를 기본값으로 쓰지 말 것. 저자들은 LoRA delta(RMS 약 1e-3)가 int4 group-64 step보다 작아서, 병합·재양자화하면 효과가 attention projection 34%, dense projection 2%, logits 18%만 남는다고 측정했다. unmerged 병렬 delta(어댑터 42 MB)는 decode 시간 차가 측정되지 않을 정도라고 보고한다. repo의 Windows 앱도 MLX LoRA를 별도 GGUF adapter로 변환해 llama.cpp에 런타임 adapter로 넘기므로(windows/tools/lora_mlx_to_gguf.py) 같은 원칙을 따른다. 로컬에서 GGUF 등 4-bit 모델에 자체 LoRA를 쓸 때는 런타임 어댑터 로딩(llama.cpp의 --lora 인자)을 먼저 시도하고, 병합본과 품질을 같은 프롬프트 세트로 비교하는 습관을 들이면 된다. 단 Windows 앱은 prerouter를 advisory prefetch로만 쓰므로(기본 비활성) student routing 경로에서 학습한 LoRA가 원래 gate 위에서 돌게 되고, 이때 Table 2 품질이 유지되는지는 확인되지 않았다(코드 주석과 논문 서술을 비교한 추론). HF 카드도 agent 능력(tool use, multi-step planning)이 약하다고 경고하므로, Claude Code 서브에이전트의 로컬 대체 모델로 쓰기 전에 별도 검증이 필요하다."
+        ],
+        "related_work": {
+          "prior": [
+            {
+              "title": "Pre-gated MoE: An Algorithm-System Co-Design for Fast and Scalable Mixture-of-Expert Inference",
+              "id": "arXiv:2308.12066 (ISCA 2024)",
+              "relation": "같은 토큰 안에서 다음 층 expert를 미리 고르는 pre-gating 방식이다. Edge0는 이런 same-token 변형이 자기 엔진에서 스텝당 30-100 ms의 동기화 비용 때문에 plain LRU보다 느렸다고 보고하고, 다음 토큰을 예측하는 이중 shift로 대체한다."
+            },
+            {
+              "title": "Post-Trained MoE Can Skip Half Experts via Self-Distillation",
+              "id": "arXiv:2605.18643",
+              "relation": "저자들이 접근법상 가장 가깝다고 꼽은 연구다. 사후 학습한 MoE가 그에 맞춰 학습되면 expert 수를 절반으로 줄여도 견딘다는 관찰이며, Edge0의 routing 대체 학습과 K=8 -> 4 재학습이 같은 관찰을 prediction-as-routing에 적용한 것이라고 저자들은 설명한다."
+            },
+            {
+              "title": "Fast Inference of Mixture-of-Experts Language Models with Offloading (Eliseev, Mazur)",
+              "id": "arXiv:2312.17238",
+              "relation": "Mixtral expert를 LRU 캐시와 speculative expert loading으로 offload하는 선행 시스템이다. Edge0는 자기 hot 경로가 같은 popularity 캐시 계열이라며 인용만 하고 수치 비교는 하지 않는다."
+            },
+            {
+              "title": "MoE-Infinity: Efficient MoE Inference on Personal Machines with Sparsity-Aware Expert Cache",
+              "id": "arXiv:2401.14361",
+              "relation": "개인 기기용 expert 캐시·prefetch 시스템으로 문제 설정이 같다. Edge0와의 수치 비교는 없다."
+            },
+            {
+              "title": "PowerInfer: Fast Large Language Model Serving with a Consumer-grade GPU",
+              "id": "arXiv:2312.12456",
+              "relation": "hot/cold neuron 분리로 소비자 GPU와 CPU에 가중치를 나누는 접근이다. Edge0의 hot expert 경로가 같은 hot/cold 분리라고 저자들이 직접 적는다. 인용만 있고 수치 비교는 없다."
+            },
+            {
+              "title": "FlexGen: High-Throughput Generative Inference of Large Language Models with a Single GPU",
+              "id": "arXiv:2303.06865",
+              "relation": "GPU/CPU/디스크 계층으로 가중치와 KV를 offload하는 처리량 지향 배치 서빙의 대표 선행 연구다. Edge0는 배치 1 지연 지향이라 목표가 다르다."
+            }
+          ],
+          "followup": []
+        },
+        "claude_note": "이 논문의 진짜 새로운 점은 prerouter 예측을 prefetch 힌트가 아니라 실제 라우팅으로 쓰는 prediction-as-routing이다. 예측 집합이 곧 사용 집합이므로 오예측 fallback 경로가 사라지고, 그 대가인 원본 모델과의 동작 차이는 recovery LoRA와 on-policy distillation으로 학습 단계에서 갚는다. 4-bit 위에 LoRA를 병합하지 않는 이유를 잔존율(34%, 2%, 18%)로 측정해 보인 점도 실용적이다. 반면 증거의 강도는 헤드라인보다 약하다. '단일 24GB 머신'은 GPU VRAM이 아니라 Mac mini M4 Pro의 unified memory다. 20.4 tok/s는 batch 1, short context, warm, 3라운드 median이고, base의 K=8이 아닌 K=4 재학습 프로파일 조건이다. 이 머신에서 prerouter의 측정 기여는 약 2.5%뿐이고, +80% 이상은 16GB 기기에서만 나온다. 같은 16GB 기기에서는 K=8을 K=4로 줄이는 것만으로 decode가 약 2배가 됐다. '3 GiB'는 MLX allocator peak로 page cache를 뺀 값이다. 외부 비교는 paging이 일어나는 vanilla mlx-lm 하나뿐이고, router 일치도나 출력 분포 차이는 보고되지 않는다. 품질 격차는 평균 3.9/2.8점이지만 AIME에서는 -6.1/-10.0점으로 크다. 그밖에 SSD 사양 미공개, 학습 코드 부재(저장소 전체 트리 확인), README·HF 카드·저장소 문서와의 수치·구성 불일치(8B staged decode 비활성 등)가 남는다. Windows 앱은 prerouter를 advisory prefetch로만 쓰므로 논문 방법을 Windows에서 재현한 것으로 볼 수 없다. 인용할 때는 'Apple Silicon 24GB unified memory Mac mini에서 Qwen3.6-35B-A3B를 K=4로 재학습한 int4 변형이 배치 1 decode 약 20 tok/s를 냈고, 다섯 벤치마크 평균 약 4점 하락(AIME는 6점 이상)'처럼 조건과 손실을 함께 적는 것이 정확하다.",
+        "analyzed_at": "2026-10-06"
+      },
+      "learning": {
+        "key_terms": [
+          {
+            "term": "Mixture-of-Experts (MoE)",
+            "gloss": "여러 전문가 서브네트워크 중 일부만 토큰마다 골라 쓰는 구조. 연산은 줄지만 전체 가중치는 어딘가에 있어야 한다"
+          },
+          {
+            "term": "Prerouter",
+            "gloss": "다음 층에서 어떤 전문가가 쓰일지 한 토큰 앞서 예측하는 층별 헤드. Edge0에서는 그 예측이 곧 실제 라우팅이 된다"
+          },
+          {
+            "term": "Recovery LoRA",
+            "gloss": "양자화나 구조 변경으로 잃은 품질을 되찾기 위해 덧붙여 학습하는 저랭크 어댑터"
+          }
+        ],
+        "recall_quiz": {
+          "question": "Edge0의 프리라우터가 24GB Mac mini에서는 약 2.5%, 16GB MacBook에서는 +80% 이상의 decode 이득을 낸 이유는?",
+          "answer": "프리라우터의 이득은 SSD 읽기 대기 시간을 줄이는 만큼 나오는데, 가중치가 메모리에 다 들어가지 않는 16GB 기기에서는 스트리밍 대기가 커서 줄일 몫이 크고, 24GB 기기에서는 그 몫이 작기 때문이다(W41 심층 분석 기준)."
+        },
+        "spaced_review": {
+          "flag": false,
+          "review_due": null
+        }
+      }
+    },
+    {
+      "id": "2006.15704",
+      "title": "PyTorch Distributed: Experiences on Accelerating Data Parallel Training",
+      "title_ko": "PyTorch Distributed: 데이터 병렬 학습 가속의 설계와 경험",
+      "authors": [
+        "Shen Li",
+        "Yanli Zhao",
+        "Rohan Varma",
+        "Omkar Salpekar",
+        "Pieter Noordhuis",
+        "Teng Li",
+        "Adam Paszke",
+        "Jeff Smith",
+        "Brian Vaughan",
+        "Pritam Damania",
+        "Soumith Chintala"
+      ],
+      "published_at": "2020-06-28T16:39:45.000Z",
+      "rank": 4,
+      "raw": {
+        "summary": "This paper presents the design, implementation, and evaluation of the PyTorch\ndistributed data parallel module. PyTorch is a widely-adopted scientific\ncomputing package used in deep learning research and applications. Recent\nadvances in deep learning argue for the value of large datasets and large\nmodels, which necessitates the ability to scale out model training to more\ncomputational resources. Data parallelism has emerged as a popular solution for\ndistributed training thanks to its straightforward principle and broad\napplicability. In general, the technique of distributed data parallelism\nreplicates the model on every computational resource to generate gradients\nindependently and then communicates those gradients at each iteration to keep\nmodel replicas consistent. Despite the conceptual simplicity of the technique,\nthe subtle dependencies between computation and communication make it\nnon-trivial to optimize the distributed training efficiency. As of v1.5,\nPyTorch natively provides several techniques to accelerate distributed data\nparallel, including bucketing gradients, overlapping computation with\ncommunication, and skipping gradient synchronization. Evaluations show that,\nwhen configured appropriately, the PyTorch distributed data parallel module\nattains near-linear scalability using 256 GPUs.",
+        "ai_summary": "The PyTorch distributed data parallel module optimizes large-scale model training using techniques like gradient bucketing, computation-communication overlap, and selective synchronization to achieve near-linear scalability.",
+        "ai_keywords": [
+          "distributed data parallel",
+          "PyTorch",
+          "gradient bucketing",
+          "computation-communication overlap",
+          "selective synchronization"
+        ],
+        "upvotes": 13,
+        "num_comments": 0,
+        "github_repo": "https://github.com/pytorch/pytorch",
+        "github_stars": 104736,
+        "project_page": null
+      },
+      "links": [
+        {
+          "rank": 1,
+          "label": "HF 토론·요약",
+          "url": "https://huggingface.co/papers/2006.15704"
+        },
+        {
+          "rank": 2,
+          "label": "arXiv 초록",
+          "url": "https://arxiv.org/abs/2006.15704"
+        },
+        {
+          "rank": 3,
+          "label": "PDF 원문",
+          "url": "https://arxiv.org/pdf/2006.15704"
+        },
+        {
+          "rank": 4,
+          "label": "코드(GitHub)",
+          "url": "https://github.com/pytorch/pytorch"
+        }
+      ],
+      "classify": {
+        "categories": [
+          "Efficiency/Inference"
+        ],
+        "primary_category": "Efficiency/Inference",
+        "topic_tags": [
+          "distributed-training",
+          "data-parallelism",
+          "communication-overlap",
+          "gradient-bucketing"
+        ],
+        "method_tags": [
+          "architecture"
+        ],
+        "modality": [],
+        "confidence": "medium"
+      },
+      "tier1": {
+        "one_liner": "그래디언트 버킷팅·계산-통신 중첩·동기화 생략으로 PyTorch DDP를 256 GPU까지 거의 선형으로 확장한 설계 보고.",
+        "problem": "큰 데이터와 큰 모델을 학습하려면 학습을 더 많은 연산 자원으로 늘려야 하고, 데이터 병렬화는 원리가 단순하고 적용 범위가 넓어 널리 쓰인다. 하지만 각 장치가 만든 그래디언트를 반복마다 통신해 모델 복제본을 맞춰야 하므로, 계산과 통신 사이의 미묘한 의존성 때문에 효율을 끌어올리기가 쉽지 않다.",
+        "approach": "PyTorch의 분산 데이터 병렬(DDP) 모듈은 모델을 장치마다 복제해 그래디언트를 독립적으로 계산한 뒤 반복마다 통신으로 맞춘다. v1.5 기준으로 그래디언트를 묶어 보내는 버킷팅(bucketing gradients), 계산과 통신을 겹치는 중첩(overlapping computation with communication), 그래디언트 동기화를 건너뛰는 기법(skipping gradient synchronization)을 기본 제공한다. 논문은 이 모듈의 설계·구현·평가를 정리한다.",
+        "contributions": [
+          "PyTorch DDP 모듈의 설계·구현·평가를 정리한 시스템 논문",
+          "그래디언트 버킷팅, 계산-통신 중첩, 그래디언트 동기화 생략을 기본 기능으로 제공(v1.5 기준)",
+          "적절히 설정하면 256 GPU에서 거의 선형에 가까운 확장성을 보고",
+          "코드는 PyTorch 본체에 포함(카드의 GitHub 스타 약 10.5만은 PyTorch 저장소 전체 수치)"
+        ],
+        "why_now": "2020년 논문으로 이 시스템에는 처음 등장한다. W40·W41의 PagedAttention(2023)에 이어 '시스템 고전'이 다시 소환된 사례로, 효율·추론최적화가 W40부터 3주 연속 2편씩 오르는 데 한몫했다. 다만 추론이 아니라 학습 쪽 효율이라, 서빙 중심이던 최근 흐름과는 결이 조금 다르다.",
+        "difficulty": "중급",
+        "recommended_reader": "여러 GPU로 학습을 늘려 보려 하거나 분산 학습의 원리를 처음 정리하려는 학습자",
+        "field_tags": [
+          "분산학습",
+          "데이터병렬",
+          "PyTorch",
+          "통신최적화"
+        ],
+        "interest": {
+          "upvotes": 13,
+          "num_comments": 0,
+          "github_stars": 104736
+        }
+      },
+      "tier2": null,
+      "learning": {
+        "key_terms": [
+          {
+            "term": "Data Parallelism",
+            "gloss": "모델을 장치마다 복제하고 데이터를 나눠 계산한 뒤 그래디언트를 동기화해 복제본을 맞추는 병렬 학습 방식"
+          },
+          {
+            "term": "Gradient Bucketing",
+            "gloss": "작은 그래디언트 텐서들을 묶어(버킷) 한 번에 통신해 통신 횟수와 지연을 줄이는 기법"
+          },
+          {
+            "term": "Computation-Communication Overlap",
+            "gloss": "그래디언트 계산이 끝나기를 기다리지 않고 준비된 부분부터 통신해 대기 시간을 숨기는 기법"
+          }
+        ],
+        "recall_quiz": {
+          "question": "PyTorch DDP가 계산과 통신의 의존성 문제를 다루려고 v1.5에서 기본 제공한 세 가지 기법은?",
+          "answer": "그래디언트 버킷팅, 계산과 통신의 중첩, 그래디언트 동기화 생략이다."
+        },
+        "spaced_review": {
+          "flag": false,
+          "review_due": null
+        }
+      }
+    },
+    {
+      "id": "2609.33757",
+      "title": "YuE2: Unifying Symbolic and Audio Music Generation at Frontier Quality",
+      "title_ko": "YuE2: 기호 음악 생성과 오디오 음악 생성을 프런티어 품질로 통합",
+      "authors": [
+        "Ruibin Yuan",
+        "Jiahao Pan",
+        "Junyan Jiang",
+        "Zhiyue Wu",
+        "Ziya Zhou",
+        "Jiankai Sun",
+        "Yizhi Li",
+        "Ge Zhang",
+        "Yicheng Gu",
+        "Zeyue Tian",
+        "Junyu Dai",
+        "Hanfeng Lin",
+        "Kai Li",
+        "Shangda Wu",
+        "Xuanjie Liu",
+        "Jiaming Wang",
+        "Zihan Liu",
+        "Yue Wang",
+        "Yinghao Ma",
+        "Hanzhi Yin",
+        "Kangrui Chen",
+        "Xinyue Zhang",
+        "Ziyang Ma",
+        "Mengqi Liao",
+        "Hejia Zhao",
+        "Guowei Huang",
+        "Chao Yan",
+        "Lei Ke",
+        "Jianwei Yu",
+        "Bei Liu",
+        "Joe Guo",
+        "Liumeng Xue",
+        "Gus Xia",
+        "Wei Xue",
+        "Yike Guo"
+      ],
+      "published_at": "2026-09-26T20:00:00.000Z",
+      "rank": 5,
+      "raw": {
+        "summary": "Symbolic models make melody, harmony, rhythm, and form explicit but typically stop before a finished recording; audio models produce complete songs while leaving composition implicit. We introduce YuE2, which unifies symbolic and audio music generation at frontier quality through symbolic planning. A single AR-NAR Mixture-of-Transformers (MoT) first writes a readable score specifying melody and harmony, expands it into semantic music tokens, and realizes it as full-song audio. In comparisons using the same checkpoint, experts prefer symbolic planning for overall quality and musicality, with 49.3% of overall preferences versus 34.6% without planning. Experts also favor the unified model over a separate language model and diffusion Transformer. On WildSongBench, YuE2 scores 6.73 on SongBench Global Avg, exceeding all evaluated public baselines. Selecting from eight candidates (best-of-8), YuE2 reaches 6.96, the highest observed mean among all evaluated systems. Expert listening further establishes its competitiveness with proprietary song generators, favoring best-of-8 over Suno v4.5 and yielding nearly balanced preferences against Suno v5. To learn this generation process from recordings without aligned scores, we introduce MERT2 and SheetSage2 to supply semantic and symbolic supervision. MERT2 sets a new state of the art in music representation learning, surpassing previous best results on 14 of 15 MARBLE metrics; SheetSage2 leads 12 of 15 benchmark-metric pairs in our lead-sheet transcription comparison. The same checkpoint follows score edits while largely preserving unedited musical content and generates zero-shot covers without cover-specific training. Its readable score also enables agentic music editing, with external language models translating user feedback into revisions of the composition.",
+        "ai_summary": "",
+        "ai_keywords": [],
+        "upvotes": 233,
+        "num_comments": 3,
+        "github_repo": "https://github.com/multimodal-art-projection/YuE",
+        "github_stars": 11788,
+        "project_page": "https://map-yue2.github.io/"
+      },
+      "links": [
+        {
+          "rank": 1,
+          "label": "HF 토론·요약",
+          "url": "https://huggingface.co/papers/2609.33757"
+        },
+        {
+          "rank": 2,
+          "label": "arXiv 초록",
+          "url": "https://arxiv.org/abs/2609.33757"
+        },
+        {
+          "rank": 3,
+          "label": "PDF 원문",
+          "url": "https://arxiv.org/pdf/2609.33757"
+        },
+        {
+          "rank": 4,
+          "label": "코드(GitHub)",
+          "url": "https://github.com/multimodal-art-projection/YuE"
+        },
+        {
+          "rank": 5,
+          "label": "프로젝트 페이지",
+          "url": "https://map-yue2.github.io/"
+        }
+      ],
+      "classify": {
+        "categories": [
+          "Multimodal"
+        ],
+        "primary_category": "Multimodal",
+        "topic_tags": [
+          "music-generation",
+          "audio-generation",
+          "symbolic-music",
+          "mixture-of-transformers"
+        ],
+        "method_tags": [
+          "pretraining",
+          "architecture"
+        ],
+        "modality": [
+          "audio",
+          "text"
+        ],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "읽을 수 있는 악보를 먼저 쓰고 그 악보로 노래 전체를 만들어, 기호 음악과 오디오 음악 생성을 한 모델로 묶는다.",
+        "problem": "기호(symbolic) 음악 모델은 선율·화성·리듬·형식을 명시적으로 다루지만 완성된 녹음 직전에서 멈추고, 오디오 모델은 완성된 노래를 만들지만 작곡 과정은 암묵적으로 남긴다. 두 장점을 한 시스템에서 함께 얻기 어렵다.",
+        "approach": "하나의 AR-NAR Mixture-of-Transformers(MoT) 모델이 먼저 선율과 화성을 담은 읽을 수 있는 악보를 쓰고, 이를 의미 음악 토큰(semantic music tokens)으로 확장한 뒤 노래 전체 오디오로 구현하는 기호 계획(symbolic planning)을 쓴다. 정렬된 악보가 없는 녹음에서 이 과정을 배우기 위해, 의미 감독을 주는 MERT2와 기호 감독을 주는 SheetSage2를 함께 만들었다. 같은 체크포인트가 악보 편집을 따르고, 외부 언어모델이 사용자 피드백을 작곡 수정으로 옮기는 에이전트형 음악 편집도 지원한다.",
+        "contributions": [
+          "같은 체크포인트 비교에서 전문가들이 기호 계획 쪽을 전체 선호의 49.3%로 택함(계획 없음 34.6%)",
+          "WildSongBench의 SongBench Global Avg 6.73으로 평가한 공개 베이스라인을 모두 넘고, 8개 후보 중 선택(best-of-8) 시 6.96",
+          "전문가 청취에서 best-of-8이 Suno v4.5보다 선호되고 Suno v5와는 거의 비슷한 선호",
+          "MERT2는 MARBLE 15개 지표 중 14개에서 기존 최고를 넘고, SheetSage2는 리드시트 전사 비교 15개 중 12개에서 선두라고 보고"
+        ],
+        "why_now": "이번 주 최다 ▲233으로, W38에 오른 YuE의 후속작이다. W38의 YuE·AuK에 이어 오디오 생성이 다시 올라왔고, 이번엔 '읽을 수 있는 악보'라는 중간 표현을 두어 사람과 외부 언어모델이 작곡을 편집할 수 있게 했다는 점이 눈에 띈다. 생성 결과를 사람이 읽고 고칠 수 있는 중간 산출물로 나누는 방향은 에이전트 쪽의 계획-실행 분리와도 닮았다.",
+        "difficulty": "고급",
+        "recommended_reader": "음악·오디오 생성, 기호 표현과 신경망 생성의 결합에 관심 있는 학습자",
+        "field_tags": [
+          "음악생성",
+          "기호음악",
+          "오디오생성",
+          "MoT"
+        ],
+        "interest": {
+          "upvotes": 233,
+          "num_comments": 3,
+          "github_stars": 11788
+        }
+      },
+      "tier2": null,
+      "learning": {
+        "key_terms": [
+          {
+            "term": "Symbolic Music",
+            "gloss": "음표·화성·리듬처럼 악보 형태로 명시된 음악 표현"
+          },
+          {
+            "term": "Mixture-of-Transformers (MoT)",
+            "gloss": "역할이나 모달리티마다 별도 파라미터를 둔 트랜스포머들을 한 모델 안에서 함께 쓰는 구조"
+          },
+          {
+            "term": "Best-of-N",
+            "gloss": "여러 후보를 생성한 뒤 가장 좋은 것을 고르는 방식. 단일 생성 성능과 구분해 읽어야 한다"
+          }
+        ],
+        "recall_quiz": {
+          "question": "YuE2가 기호 모델과 오디오 모델의 장점을 합치려고 생성 과정을 어떤 세 단계로 나누는가?",
+          "answer": "선율과 화성을 담은 읽을 수 있는 악보를 먼저 쓰고, 이를 의미 음악 토큰으로 확장한 뒤, 노래 전체 오디오로 구현한다."
+        },
+        "spaced_review": {
+          "flag": false,
+          "review_due": null
+        }
+      }
+    },
+    {
+      "id": "2610.08699",
+      "title": "nanoMuse: An Open-Source Personal Agent for Every Device You Own",
+      "title_ko": "nanoMuse: 내가 가진 모든 기기를 위한 오픈소스 개인 에이전트",
+      "authors": [
+        "Guangyi Liu",
+        "Yong Liu",
+        "Jiangning Zhang"
+      ],
+      "published_at": "2026-10-05T20:00:00.000Z",
+      "rank": 6,
+      "raw": {
+        "summary": "Assistants from 2011 answered and waited, and agents from 2023 did a task and stopped. In September 2026 Meta's Muse showed an agent for one person, with accounts, devices, memory and a conversation that lasts, closed, in a vendor's cloud, in one country. Such an agent is expected to act on a person's accounts and devices, remember them across weeks, speak first when it is worth it, and answer for what it did. It is a kind of software, not a model, and until now had no open counterpart. This report defines the personal agent in five questions and three horizons. It reads how Muse is built from Meta's public record and a copy of its production prompt, each statement marked by its source. It then presents nanoMuse, the open-source counterpart under the GPL-3.0, one agent on every device a person owns, with hands on the phone's screen and the computer's. They share one conversation over a relay anyone can run; every action goes through a Sentinel, memory is files the person can read, and the model is their choice. Its size and cost are given as estimates. What is open, memory with provenance, an evaluation suite for the hands and an open model for them, is set out as a roadmap.",
+        "ai_summary": "",
+        "ai_keywords": [],
+        "upvotes": 111,
+        "num_comments": 2,
+        "github_repo": "https://github.com/nano-muse/nanoMuse",
+        "github_stars": 967,
+        "project_page": "https://nanomuse.cn/"
+      },
+      "links": [
+        {
+          "rank": 1,
+          "label": "HF 토론·요약",
+          "url": "https://huggingface.co/papers/2610.08699"
+        },
+        {
+          "rank": 2,
+          "label": "arXiv 초록",
+          "url": "https://arxiv.org/abs/2610.08699"
+        },
+        {
+          "rank": 3,
+          "label": "PDF 원문",
+          "url": "https://arxiv.org/pdf/2610.08699"
+        },
+        {
+          "rank": 4,
+          "label": "코드(GitHub)",
+          "url": "https://github.com/nano-muse/nanoMuse"
+        },
+        {
+          "rank": 5,
+          "label": "프로젝트 페이지",
+          "url": "https://nanomuse.cn/"
+        }
+      ],
+      "classify": {
+        "categories": [
+          "LLM/Agents"
+        ],
+        "primary_category": "LLM/Agents",
+        "topic_tags": [
+          "personal-agent",
+          "gui-agent",
+          "memory-systems",
+          "agentic-workflow"
+        ],
+        "method_tags": [
+          "architecture",
+          "prompting"
+        ],
+        "modality": [
+          "multi"
+        ],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "Meta Muse의 오픈 대응물을 표방한 개인 에이전트로, 기기마다 에이전트를 두고 릴레이로 대화를 이어 화면까지 조작한다.",
+        "problem": "저자들은 2011년의 비서가 답하고 기다렸고 2023년의 에이전트가 작업 하나를 하고 멈췄다면, 2026년 9월 Meta의 Muse는 계정·기기·기억과 이어지는 대화를 갖춘 1인용 에이전트를 보여줬지만 벤더 클라우드 안의 폐쇄형이고 미국에서만 판매된다고 정리한다. 사람의 계정과 기기에서 몇 주씩 행동하고 기억하며 필요할 때 먼저 말을 걸고 자기 행동을 해명해야 하는 이런 에이전트는 모델이 아니라 소프트웨어라는 것이 저자들의 관점이다. 초록은 지금까지 오픈 대응물이 없었다고 쓰지만 본문 표 1은 CopilotKit의 OpenMuse(MIT, 서버형)와 휴대폰 위의 OpenMinis 같은 오픈 프로젝트를 이미 열거하므로, 이 주장은 '여러 기기를 하나로 잇고 휴대폰 화면까지 조작하는 완결형 오픈 개인 에이전트는 없었다'는 좁은 뜻으로 읽어야 한다.",
+        "approach": "개인 에이전트를 계정·기기·파일에서 몇 주씩 일하고 로그·장부·권한 목록으로 해명하는 프로그램으로 정의하고, 그것이 어떠해야 하는지를 5개 질문과 3개 시간 지평으로 제시한다(4절, 저자 스스로 의견이라 명시). Muse의 구조는 Meta 공개 문서 4건, 출시 클라이언트 관찰, 프로덕션 시스템 프롬프트 사본(입수 경위는 본문에도 없고 저자들도 출처를 검증할 수 없다고 밝힘)을 근거로 진술마다 documented·prompt·observed·inferred를 붙여 읽어 낸다. 오픈 대응물 nanoMuse(GPL-3.0, 논문 기준 v0.1.40)는 기기마다 완결된 에이전트를 두고 누구나 운영할 수 있는 선택적 릴레이(relay)로 대화를 동기화하며, 기본으로 꺼져 있는 손(Hands)으로 Android 휴대폰과 데스크톱 화면을 조작한다(iPhone 불가). 모든 도구 호출은 규칙 기반 Sentinel(저자 표현으로 권한 경계가 아닌 정책 경계)을 거치고, 메모리는 사람이 읽고 고칠 수 있게 두며(휴대폰은 Markdown 파일), 모델은 사용자가 고른다.",
+        "contributions": [
+          "개인 에이전트의 정의와 2011~2026년 역사를 정리하고, 그것이 어떠해야 하는지를 5개 질문과 3개 시간 지평으로 제시(4절은 저자 의견으로 명시)",
+          "폐쇄형 Muse의 구조를 공개 문서·클라이언트 관찰·출처를 검증할 수 없는 프롬프트 사본으로 읽고, 진술마다 documented·prompt·observed·inferred를 표시",
+          "기기마다 에이전트를 두고 선택적 릴레이로 대화를 이으며 Android 휴대폰과 데스크톱 화면을 조작하고, 모든 도구 호출을 규칙 기반 Sentinel로 거르는 GPL-3.0 오픈소스 개인 에이전트 nanoMuse",
+          "크기(릴리스 파일·설치·메모리 측정)와 비용(추정)만 표로 내고 과제 성공률은 아직 없다고 명시하며, 출처가 남는 메모리와 화면 조작 평가 세트·전용 오픈 모델은 로드맵에 둠"
+        ],
+        "why_now": "이번 주 ▲111로 두 번째로 큰 관심을 받았다. 저자들이 2026년 9월 Meta가 내놓았다고 소개한 폐쇄형 개인 에이전트 Muse의 오픈 대응물을 표방한다는 점에서, 9월까지 에이전트 논문들이 다룬 하니스·검증·자기개선의 관심이 한 사람의 기기와 계정 전체라는 생활 범위로도 넓어지는 장면으로 읽힌다. 다만 과제 성공률 같은 정량 평가가 아직 없고(저자 명시) Muse에 대한 서술도 저자 쪽 기술이라, 성능 논문보다 시스템 보고서이자 설계 입장문으로 보는 편이 정확하다.",
+        "difficulty": "중급",
+        "recommended_reader": "개인 비서형 에이전트, 기기 화면 제어, 메모리·권한 설계에 관심 있는 개발자",
+        "field_tags": [
+          "개인에이전트",
+          "GUI제어",
+          "파일메모리",
+          "오픈소스"
+        ],
+        "interest": {
+          "upvotes": 111,
+          "num_comments": 2,
+          "github_stars": 967
+        }
+      },
+      "tier2": {
+        "method_detail": "정의와 규범. 서론은 개인 에이전트를 한 사람의 계정·기기·파일에서 그를 대신해 몇 주씩, 일부는 그가 없을 때 일하고, 나중에 로그·장부(ledger)·보유 권한 목록으로 해명하는 프로그램으로 정의한다. 4절은 스스로 '의견'이라 밝히며 다섯 질문(무엇을 아는가, 어디서 행동하는가, 누구에게 답하는가, 어떻게 배우는가, 비용과 거버넌스)을 세 지평(2026년에 있는 것, 오픈 대응물이 다음에 더할 것, 몇 년 가는 에이전트)에 걸쳐 답하고, 5절의 nanoMuse가 그 대부분에 못 미친다고 쓴다.\n\nMuse 읽기. 근거는 Meta 공개 문서 4건, 출시 클라이언트 관찰, 2026년 10월에 읽었다는 프로덕션 시스템 프롬프트 사본이며 진술마다 documented·prompt·observed·inferred를 붙인다. 사본은 재현하지 않고 한 번에 몇 단어까지만 인용한다는 자기 제한만 밝힐 뿐 입수 경위는 쓰지 않고, 7절은 그 출처를 공개 문서·클라이언트와의 일관성 이상으로 검증할 수 없으며 프롬프트는 배포마다 바뀐다고 인정한다. 입수와 사용에 관한 법적·윤리적 논의는 없다.\n\n기기와 릴레이. v0.1.40은 Android 앱(OpenMinis 수정본: 샌드박스 Alpine Linux, 셸, 브라우저, MCP, 스킬, 예약 작업), iOS 앱(TestFlight, 손 없음), macOS·Windows·Linux 데스크톱(DeepSeek Harness를 감싼 Electron 앱, Python 런타임 내장), 웹 앱, 릴레이 nanoMuse Cloud로 이뤄진다. 논문 설명으로는 기기마다 완결된 에이전트와 Sentinel이 있고 서로를 도구로 부르며, 넘겨받은 작업은 받은 기기의 Sentinel 아래서 돌아 권한을 빌려줄 수 없다. 저장소 문서상 각 기기는 릴레이의 /v1/hub에 바깥쪽 WebSocket 하나를 열어 두고, 릴레이는 같은 계정의 기기 사이에서만 프레임을 라우팅한다. 릴레이는 Python 프로세스 하나와 SQLite 파일 하나이며, 커뮤니티 릴레이는 프로젝트가 운영하고 Docker로 셀프호스팅할 수 있다.\n\n손. 에이전트는 skill·CLI·MCP -> 로그인된 페이지 -> 브라우저 -> 화면 순서의 사다리에서 되는 가장 낮은 단을 쓰고, 화면 단(Hands)은 기본 꺼져 있다. 스크린샷 하나에 행동 하나인 루프에서 모델은 화면·목표·단계별 한 문장 이력·접근성 요소를 보고 생각, 할 일을 사람의 언어로 말하는 한 문장(라벨), 제스처 하나를 낸다. 휴대폰은 MemGUI-Bench의 mobile_use 오퍼레이터 형식, 컴퓨터는 UI-TARS-desktop 이식이다. 저장소상 Android 손은 자체 접근성 서비스로 돌아 Android 11 이상이 필요하고, 7절에 따르면 Linux에서는 X11 세션만 된다.\n\nSentinel. 논문에서 에이전트는 도구를 직접 실행하지 않고, 모든 호출이 거부 도구 -> 사람의 규칙 -> 항상 허용·질문 목록 -> taint -> 위험도 x 모드 -> 경고의 고정 순서를 지난다. 모델 분류기 없는 규칙 기반이다(저장소 코드 확인). 논문은 비공개 데이터를 읽은 대화에서 허용 목록 밖으로 내보내는 호출이 질문이 되고, 파괴적 명령·즉석 실행 다운로드·확정어 라벨 같은 경고는 어떤 모드와 목록도 통과시키지 못한다고 쓴다. 그러나 논문이 기술한 v0.1.40 코드(nanomuse/sentinel/gate.py)는 auto 모드에서 모든 질문을 허용으로 바꿔 auto 모드에서는 이 두 보장이 성립하지 않았고, 1.0.0과 1.0.2에서 고쳐졌다(기본값인 ask 모드는 해당 없음). 화면 단계는 그림이 아니라 라벨 문장을 판정하며, Android는 손가락 아래 접근성 텍스트와 비교해 더 엄격한 쪽을 따른다. 승인은 한 번·이 대화·대상별 항상의 grant로 Permissions에서 회수할 수 있고, 거부되면 실행하지 않고 같은 호출을 재시도하지 말라는 결과를 모델에 돌린다(저장소). 저자들은 이를 Muse의 권한 경계가 아닌 같은 프로세스 계열의 정책 경계라 부른다. 저장소상 이 결정 순서와 taint는 Python 런타임 구현이고, Android는 별도 Kotlin 규칙, 설치형 데스크톱 앱은 DeepSeek Harness 승인 정책에 손·메일 도구용 게이트를 더한 형태다.\n\n나머지. 휴대폰 메모리는 SOUL.md·USER.md·GLOBAL.md·일기·HEARTBEAT.md 등 Markdown 파일이다. 논문이 말하는 컴퓨터 쪽 저장소(줄 단위, 변경 로그와 되돌리기, 드문 단어 또는 임베딩으로 회상, 사람이 쓴 줄은 지우지 않는 정리 단계)는 저장소상 Python 런타임(웹 앱·셀프호스팅)의 SQLite memory.db이고, 설치형 데스크톱 앱은 rooms.json에 줄 목록을 따로 둔다. 줄마다 모델·날짜·확신도를 남기는 출처는 로드맵이다. 모델은 18개 공급자의 자기 키, ChatGPT 플랜, 자기 기계의 모델 서버, 커뮤니티 릴레이의 모델 중에서 고른다. 먼저 말하기는 숨은 대화로 쓰는 Feed·Ideas·Goals와 사람이 옮기는 끼어들기 문턱이며, 일정 사이의 능동성은 로드맵이다. 책임은 Sentinel 결정 로그, 권한 목록, 릴레이의 호출 장부(모델·토큰·비용), 손의 궤적 기록으로 지며, 외부 보안 감사는 보고하지 않는다.",
+        "experiment_setup": [
+          "정량적 과제 평가는 없다. 7절('The hands are judged by their words, and not yet measured')에서 저자들은 손의 성공률과 사람 개입(take-over) 횟수가 아직 존재하지 않으며 추정하지도 않겠다고 명시한다. 비교 실험, 사용자 연구, 벤치마크 결과도 본문 전체에 없다(evaluat, benchmark, measure, success rate로 전문 검색해 확인).",
+          "데이터셋은 쓰지 않았다(datasets는 빈 목록). AndroidWorld·OSWorld·MemGUI-Bench·OS-Harm은 nanoMuse를 잴 도구로는 6절 Next의 계획으로만 나오고, AndroidWorld·OSWorld는 2절 역사 서술에서 기존 모델의 평가 환경으로도 언급된다.",
+          "보고된 수치는 표 2(5절 'Running it yourself')뿐이다. 캡션에 따르면 크기는 릴리스 파일과 1회 설치, 메모리는 Linux 워크스테이션 1대에서 잰 값이고, 비용은 프로젝트 문서와 공급자 가격표에서 낸 추정이며 누구의 실사용도 측정하지 않았다.",
+          "앱 크기(표 2): Android 38 MB(arm64 다운로드), 데스크톱 256 MB(Linux)~498 MB(macOS) 다운로드, Windows 266 MB, Linux 설치 후 928 MB, 유휴 시 전체 프로세스 합 약 0.5 GB(비례 집합 크기, PSS).",
+          "릴레이(표 2): Python 프로세스 1개와 SQLite 파일 1개, 새 DB 기준 유휴 메모리 약 85 MB(저자 측정), 1 vCPU·1 GB 서버 기준으로 잡음(셀프호스팅 문서 인용).",
+          "비용 추정(표 2): 자체 릴레이용 최소 서버 월 30~60위안(중국 본토) 또는 US$4~6(그 밖) + 모델 사용료. Bailian 2026년 10월 가격표 기준 채팅 모델 혼잡 시간대 백만 토큰당 입력 2위안·출력 8위안, 손 모델 3위안·12위안, 하루 채팅은 몇 펀(fen). 본문은 모델 이름을 밝히지 않는다.",
+          "Muse 분석(3절)은 실험이 아니라 문서 읽기다. Meta 공개 문서 4건(발표문, 안전 아키텍처 에세이, 디자인 에세이, 개인정보 도움말), 출시 클라이언트 관찰, 2026년 10월에 읽은 프로덕션 시스템 프롬프트 사본을 근거로 진술마다 documented·prompt·observed·inferred를 표시하며 정량 비교는 없다.",
+          "평가 계획(6절 Next, 그림 6): 실패한 실행으로 만든 자체 평가 세트를 공개 벤치와 나란히 돌려 릴리스마다 인상 대신 숫자를 내고, 그다음 사람들이 기여한 trace로 손 전용 소형 오픈 모델을 학습한다(MobileForge 방식 참조). 날짜는 없다.",
+          "본문 밖 참고(저장소): MockLLM만 쓰는(실제 모델·네트워크 없음, AGENTS.md) Python 테스트 함수가 v0.1.40 태그에 514개, 2026-10-13 HEAD에 637개 있고(직접 셈), 정성 trace 1건(docs/traces/case-1-train.md, 2026-09-24, 웹 앱, qwen3.8-27b, Sentinel ask 모드)이 있다. 논문은 이를 평가로 보고하지 않으며, 성공률을 내는 평가 스크립트는 찾지 못했다."
+        ],
+        "datasets": [],
+        "limitations": {
+          "by_authors": [
+            "정책 경계일 뿐 권한 경계가 아니다: 단일 기기에서 Sentinel은 에이전트와 같은 신뢰 영역에서 돌고, 실제 자격증명을 쥔 바깥 호스트가 없어 기기 침해가 곧 에이전트 침해다. 결정 순서·taint 규칙·Linux 샌드박스는 완화일 뿐 해결이 아니다. (7절 'A policy boundary is not a privilege boundary')",
+            "손은 말로 판정되고 아직 측정되지 않았다: 아이콘만 있는 버튼은 라벨로도 접근성 텍스트로도 판정되지 않고, 촘촘한 전문가용 화면에서는 찾는 것 자체가 미해결이며, 지켜보는 사람이 마지막 방어선이다. 성공률과 개입 횟수는 없고, Linux는 X11 세션만 된다. (7절 'The hands are judged by their words, and not yet measured')",
+            "메모리는 누가 썼는지 모른다: 약한 모델이 추측한 줄을 강한 모델이 사실로 읽는다. 저장소는 바뀐 시점과 되돌리기를 기록하지만 모델·날짜·확신도는 없고 오래된 줄의 재검증 규칙도 없다. (7절 'Memory does not yet know who wrote it')",
+            "릴레이는 공유되며 텍스트를 보관한다: 동기화하면 자기가 운영하지 않는 서버에 텍스트가 저장되고, 커뮤니티 릴레이는 프로젝트가 운영하는 1대의 단일 프로세스다. 모델 개선 스위치의 기본 켜짐은 가장 확신 없는 선택이다. (7절 'The relay is shared, and it keeps text')",
+            "Muse에 관한 기록이 얇다: 공개 문서 4건, 출시 클라이언트, 출처를 검증할 수 없는 프롬프트 사본에 기대며 프롬프트는 배포마다 바뀐다. prompt·inferred 표시 진술은 그만큼 낮춰 볼 것. (7절 'Where the record is thin')"
+          ],
+          "by_claude": [
+            "논문이 기술한 v0.1.40의 Python 런타임에서는 auto 모드의 방어가 서술보다 약했다. 본문은 taint가 질문을 만들 뿐 그 반대는 없고 경고는 어떤 모드와 목록도 통과시키지 못한다고 쓰지만, v0.1.40의 nanomuse/sentinel/gate.py는 auto 모드에서 모든 질문을 'auto mode: approval skipped'로 허용했다. 그래서 auto 모드(nanomuse daemon은 auto 강제, --auto, 앱의 Hands-off 설정)에서는 비공개 파일을 읽은 뒤 미지의 호스트로 보내는 호출도, rm -rf·sudo 같은 경고 동반 호출도 묻지 않고 돌 수 있었다. 1.0.0(2026-10-09, 커밋 52064468·2ee7502a)이 두 경우를 다시 질문으로 돌렸고, 1.0.2(10-11, PR #291, 커밋 bebdc8f5)는 always-ask 도구(기본값 shell·send_email)에서 taint 검사가 아예 돌지 않아 auto 모드가 넘기던 문제를 고쳤다. 기본값인 ask 모드에는 이 결함이 없었다.",
+            "Sentinel과 메모리는 기기마다 다른 코드다. 결정 순서·taint·감사 로그(audit.jsonl)는 Python 런타임(nanomuse/sentinel)에 있고, Android는 별도 Kotlin 규칙(RiskGate·ShellGuard·TapWords)이라 taint·egress 추적 코드가 없다(git grep 확인). 대신 Android는 데이터를 내보내는 셸 명령(curl -d, POST, 메일 등)을 OUTBOUND로 분류해, 기억해 둔 승인이 없으면 taint와 무관하게 묻는다(ShellGuard.kt). 설치형 데스크톱 앱은 DeepSeek Harness 승인 정책에 손·메일 MCP 도구용 위험 게이트(HMAC 확인 티켓)를 더한 형태이고, harness.md는 Sentinel 이식을 phase 4로 남겨 둔다(harness/ 아래 taint 0건). 메모리도 논문이 그린 변경 로그·되돌리기·임베딩 회상 저장소는 Python 런타임(웹 앱·셀프호스팅)의 것이고, 데스크톱 앱은 rooms.json에 줄 목록을 따로 둔다. Windows 사용자가 설치하는 것은 이 데스크톱 앱이다.",
+            "결제 승인을 '절대 기억하지 않는다'는 서술(4·5절)이 Android 앱과 어긋난다. 논문이 인용한 privacy.md의 v0.1.40판과 CHANGELOG 0.1.18(2026-09-29)은 화면 잠금(생체·PIN) 확인 뒤 한 앱·사이트에 한해 결제를 '기억하고 다음엔 실행'하는 선택지를 두고, Risk.kt·RiskGate.kt(v0.1.40, 현재 HEAD도 같음)도 그 결제를 카드 없이 실행한 뒤 모델이 알리게 한다. 데스크톱 Python 런타임의 '경고 동반 호출은 한 번만' 규칙과 구분해 읽어야 한다.",
+            "릴레이 보관 항목이 본문 요약보다 많다. 5절은 계정을 해시된 식별자·발급 키·기기로 요약하지만, 인용된 privacy.md(v0.1.40)는 운영자가 볼 수 있게 암호화한 이메일·전화번호, 로그인·요청·이벤트마다의 IP 주소와 User-Agent, 첫·마지막 IP를 기록한다고 적고(cloud/nanomuse_cloud/db.py의 first_ip·last_ip·last_ua), docs/cloud.md는 관리 화면이 오프라인 IP 데이터베이스로 국가·성·도시까지 보여 준다고 적는다(privacy.md의 '주소를 조회하지 않는다'와 어긋남). 동기화 텍스트는 privacy.md가 기기만 읽을 수 있다고 하지만 sync.py는 SQLite에 평문으로 저장하고 운영자 화면이 집계만 보여 줄 뿐이며, 종단간 암호화는 문서와 코드에서 찾지 못했다. 모델 개선 스위치로 보관된 대화는 운영자 화면에서 전문으로 보이고, 커뮤니티 릴레이의 대화는 Alibaba Cloud Model Studio로 전달된다.",
+            "Windows에서 손과 셸을 쓸 때의 방어 수준은 낮게 잡는 편이 맞다. 저장소 sentinel.md에 따르면 Python 런타임의 셸·python_execute 샌드박스(bubblewrap)는 Linux 전용이라 Windows·macOS에서는 승인된 명령이 사용자 권한 그대로 돌고 패턴 검사는 우회 가능한 경보선이며, 볼트 키는 기본적으로 볼트 옆 파일에 있다. 설치형 데스크톱 앱의 셸은 DeepSeek Harness의 권한 프리셋(workspace-write 등)을 따르는데, Windows에서 OS 수준 격리가 되는지는 저장소 문서로 확인되지 않는다. 손이 읽은 화면은 모두 손 모델 공급자로 가고, 비밀번호·PIN·카드번호를 치지 말라는 규칙은 프롬프트 수준이다(코드로 막는 것은 Android 실행기의 비밀번호 필드 입력 거부와 FLAG_SECURE 화면이 검게 찍히는 정도). 허브로는 같은 계정의 다른 기기가 PC의 셸·파일·화면과 Claude Code·Codex·Cursor 세션까지 다룰 수 있고, 현재 데스크톱은 기본으로 승인 카드를 띄우지만 '묻지 않고 원격 제어'를 켜면 계정에 로그인한 어느 기기든 카드 없이 PC에서 명령을 실행할 수 있다.",
+            "확정어와 메신저 판정의 기본값이 중국어·영어 중심이라 한국어 화면에서는 결정적 판정이 약해진다. Python 런타임의 [gui] sensitive_words 기본 목록(nanomuse/config.py)과 Android의 TapWords.kt 정규식에는 한국어 단어가 없고, Android가 Enter를 보내기로 보는 메신저 목록에도 카카오톡이 없다. Android 손 프롬프트는 결제·전송·삭제 탭의 target에 버튼 글자를 그대로 쓰게 하므로, 한국어 앱에서는 이런 탭이 확정어 규칙에 걸리지 않고 프롬프트 규칙에만 기댈 수 있다. 데스크톱·런타임은 [gui] sensitive_words에 한국어 단어를 더할 수 있고(docs/gui.md), 데스크톱 손의 Enter 키와 입력 후 제출은 언어와 무관하게 민감 단계로 분류된다(nanomuse/tools/computer.py). Android에서는 단어를 더하는 설정을 찾지 못했다."
+          ]
+        },
+        "reproducibility": {
+          "code": "공개, 확인함. github.com/nano-muse/nanoMuse를 2026-10-13에 부분 클론해 HEAD 9cdba87(v1.0.4 태그 c24dd9a 이후 미배포 커밋 9개)을 읽었다. 한 저장소에 Android(OpenMinis 1.13 수정본, Kotlin), iOS(Swift), 데스크톱(DeepSeek Harness 플러그인 + Electron), Python 런타임, 릴레이(cloud/), 웹 콘솔이 있다. 논문이 기술한 v0.1.40 태그(2026-10-06)도 존재한다. 배포물은 Android APK(8.0 이상, arm64), Windows 10 이상 x64 설치 파일(NSIS, 인증서 없음), macOS 12 이상 dmg(공증 없음), Linux AppImage·deb·tar.gz, Docker 이미지 ghcr.io/nano-muse/nanomuse:1.0.4다. 빌드·설치·실행은 하지 않았다.",
+          "weights": "없음. nanoMuse는 자체 모델 가중치를 내지 않았고, 손 전용 오픈 모델은 로드맵(6절 Next)이다. 커뮤니티 릴레이의 기본 모델은 저장소 문서상 Alibaba Cloud Model Studio의 deepseek-v4.1-flash(채팅)와 qwen3.8-27b(손)다.",
+          "data": "공개 데이터셋·평가 세트 없음. 손 평가 세트는 '실패한 trace 10개가 평가 세트가 된다'는 저장소 로드맵 단계이고, 모델 개선 스위치로 보관된 대화는 커뮤니티 모델 학습용으로 언급될 뿐 공개 여부는 확인되지 않는다. 저장소에는 시뮬레이션 휴대폰 MobileGym 모듈(demo/mobilegym)과 정성 trace 1건만 있다.",
+          "license": "코드는 GPL-3.0-or-later(README, NOTICE, CITATION.cff; LICENSE 파일은 GPLv3 전문)이고 논문 본문은 'GPL-3.0'으로 적는다. Android 부분은 OpenMinis 1.13(GPL-3.0) 수정본이고, 이전 Python 라인은 MIT(태그 pre-openminis)였다. 논문 자체는 arXiv에서 CC BY 4.0이다.",
+          "note": "Windows 실행 조건: 데스크톱 앱 설치 파일 하나에 하네스와 손용 런타임이 들어 있고, 인증서가 없어 SmartScreen에서 'Run anyway'를 한 번 눌러야 한다. 단일 기기는 자기 API 키(18~20개 공급자, 또는 127.0.0.1의 Ollama·LM Studio·vLLM)만으로 계정 없이 돌고, 여러 기기를 묶으려면 릴레이 계정이 필요하다(커뮤니티 cloud.nanomuse.cn은 이메일 가입, 또는 Docker 셀프호스팅이며 TLS에는 도메인과 80·443 포트가 필요). 자체 릴레이는 docker compose와 bash 스크립트(scripts/self-host.sh) 기준이라 Windows PC에서 돌리려면 Docker 환경이 따로 필요하다. 로컬 모델은 채팅용이고, 손에는 이미지 입력 모델(저장소 예: Ollama의 qwen3-vl)이 필요하다. 휴대폰 손은 Android 11 이상과 접근성 서비스 허용이 필요하고(Android 13 이상 사이드로드 앱은 '제한된 설정 허용' 단계 추가), iPhone은 손이 없다. ChatGPT 플랜 로그인은 OpenAI 약관에 기대고, Claude·Kimi 플랜 로그인은 저장소 문서상 휴대폰 앱에서만 된다. 써 볼 때는 Sentinel을 기본 ask 모드, 데스크톱 권한 프리셋을 기본 workspace-write로 두고, auto·Hands-off·full access와 '묻지 않고 원격 제어'는 켜지 않는 편이 안전하다. 논문(v0.1.40)과 현재(v1.0.4)는 이미 다르므로 재현·인용 시 태그를 고정해야 한다."
+        },
+        "my_learning_points": [
+          "Sentinel의 taint 규칙과 '어떤 모드도 못 넘기는 경고'(5절)를 Claude Code 훅으로 옮겨 볼 수 있다. 거부·질문·허용 목록과 권한 모드는 Claude Code가 settings.json의 permissions(deny·ask·allow)로 이미 처리하므로, 훅에는 규칙으로 표현하기 어려운 상태 기반 검사만 둔다. (1) PostToolUse 훅이 비공개 데이터를 읽은 호출(.env·키 파일 Read, 메일 MCP, 개인 메모 폴더)을 보면 세션 ID 이름의 임시 파일에 표시를 남긴다. (2) PreToolUse 훅은 그 표시가 있으면 허용 목록 밖 호스트로 나가는 WebFetch, Bash의 curl·wget, PowerShell의 Invoke-WebRequest·Invoke-RestMethod, 전송형 MCP 도구를 permissionDecision 'ask'로 올린다. (3) 경고 패턴(rm -rf, Remove-Item -Recurse -Force, curl | sh, git push --force)과 한국어 확정어(결제, 송금, 전송, 보내기, 삭제)는 상태와 무관하게 항상 ask로 올린다. nanoMuse v0.1.40은 auto 모드가 taint·경고로 생긴 질문까지 허용으로 바꿨고(1.0.0 수정), always-ask 도구에서는 taint 검사 자체가 돌지 않았다(1.0.2 수정). 그러니 자동 승인 모드에서도 이 ask가 허용으로 바뀌지 않는지 직접 시험하라. 조건: 명령 문자열로 목적지를 판정하므로 우회될 수 있고, 별도 사용자 계정이나 컨테이너 같은 권한 경계를 대신하지 못한다.",
+          "메모리 출처(provenance) 규칙(4절 'What it knows', 7절)을 파일 기반 메모리에 바로 적용할 수 있다. 요구는 줄마다 쓴 주체(모델명 또는 사람)·날짜·확신도를 남기고, 새 질문이 오래된 줄과 겹치면 그날의 에이전트가 재확인해 확인·수정·의심 중 무엇을 했는지 기록하며, 사람이 쓴 줄이 모델의 줄보다 우선한다는 것이다. 저장소의 Python 런타임 SQLite 저장소는 이미 source(agent/user)·created_at과 정리 단계의 변경 로그·되돌리기를 두고, 정리 단계는 사람이 쓴 줄을 지우지 않는다. 적용: 논문 트렌드 시스템의 메모나 Claude Code 메모리 파일에서 줄 끝에 '(by: 모델명 또는 user, 2026-10-13, conf: 중)' 꼬리표를 붙이고, 서브에이전트가 메모를 고칠 때 덮어쓰지 말고 이전 문장을 변경 로그 파일에 남기게 하라. 조건: 꼬리표는 쓰는 쪽이 정직하게 채워야 의미가 있으므로 서브에이전트 프롬프트와 저장 전 PreToolUse 훅 검사(Write·Edit 대상이 메모리 파일이면 꼬리표 형식 확인)로 강제해야 한다.",
+          "되돌릴 수 없는 행동을 하는 도구를 직접 만들 때는 '확인은 모델이 쓴 인자가 아니라 사람 쪽 통로에서 온다'는 원칙(5절 Hands, 저장소 nanomuse/bridge/mcp_server.py)을 옮겨 쓸 수 있다. nanoMuse 데스크톱의 MCP 브리지는 민감 단계를 이유와 함께 거절하고, 사람이 권한 카드에서 승인하면 호스트가 앱을 켤 때마다 새로 만든 비밀키로 정렬된 인자 JSON의 HMAC 티켓을 붙여 다시 부르므로 모델이 스스로 confirmed: true를 써도 통과하지 못한다. Claude Code에서는 MCP 서버가 권한 프롬프트의 승인을 직접 볼 수 없으니 이렇게 옮긴다. (1) 도구에 모델이 채우는 confirm 같은 불리언을 두지 않는다. (2) 파일 삭제·메일 발송·결제성 API는 prepare와 commit 두 도구로 나누고, prepare가 돌려준 요약·인자 해시와 일치할 때만 commit이 실행되게 한다. (3) commit 도구는 settings.json의 permissions.ask에 넣고 allow에는 넣지 않아, 사람이 실제로 실행될 인자를 보고 매번 승인하게 한다. 사다리 원칙대로 API·CLI가 있으면 브라우저·화면 자동화보다 먼저 쓰게 하라. 조건: 라벨이나 요약은 모델 자신의 말이라 거짓 라벨은 못 잡고(7절), 손을 로컬 모델로 돌리려면 이미지 입력 모델과 그에 맞는 GPU 메모리가 필요하며 사양 적합성은 이 논문으로 판단할 수 없다."
+        ],
+        "related_work": {
+          "prior": [
+            {
+              "title": "MemGUI-Bench: Benchmarking Memory of Mobile GUI Agents in Dynamic Environments",
+              "id": "arXiv:2602.06075",
+              "relation": "휴대폰 손의 행동 형식(mobile_use 오퍼레이터)을 이 벤치에서 이식했고, 로드맵 평가에서 앱 간 기억 측정용으로 쓸 계획이다. 같은 저자 그룹의 이전 작업(참고문헌 [14])."
+            },
+            {
+              "title": "MAS-Bench: A Unified Benchmark for Shortcut-Augmented Hybrid Mobile GUI Agents",
+              "id": "arXiv:2509.06477",
+              "relation": "skill·CLI·MCP 같은 지름길과 화면 조작을 섞는 '사다리' 설계가 이 벤치가 측정하는 하이브리드 구조라고 본문이 직접 연결한다(참고문헌 [46])."
+            },
+            {
+              "title": "MobileForge: Annotation-Free Adaptation for Mobile GUI Agents with Hierarchical Feedback-Guided Policy Optimization",
+              "id": "arXiv:2606.19930",
+              "relation": "사람들이 기여한 trace로 손 전용 오픈 모델을 학습하겠다는 로드맵의 방법적 본보기로 인용된다(참고문헌 [15])."
+            },
+            {
+              "title": "OS-Harm: A Benchmark for Measuring Safety of Computer Use Agents",
+              "id": "arXiv:2506.14866",
+              "relation": "손이 무엇을 거부해야 하는지 재는 공개 평가로 로드맵에 들어 있다. 현재 Sentinel의 실효성은 이런 벤치로 측정되지 않았다(참고문헌 [9])."
+            },
+            {
+              "title": "The lethal trifecta for AI agents: private data, untrusted content, and external communication",
+              "id": "Simon Willison 블로그, 2025-06 (참고문헌 [40])",
+              "relation": "본문은 Muse의 주입 방어 단락에서 Meta 안전 에세이와 함께 인용한다. nanoMuse의 taint 규칙도 비공개 데이터를 읽은 뒤의 외부 송신을 질문으로 돌리는 같은 위협 모델을 다룬다(이 연결은 Claude의 해석)."
+            }
+          ],
+          "followup": []
+        },
+        "claude_note": "새로운 것은 모델이 아니라 시스템 조립이다. Android 휴대폰 화면을 조작하는 손, 기기마다 도는 에이전트와 규칙 기반 Sentinel, 셀프호스팅 가능한 릴레이를 한 저장소에서 GPL로 끝까지 이었고, 화면 행동을 그림이 아니라 모델의 라벨 문장으로 판정하게 만든 점과 릴레이가 무엇을 보관하는지 문서로 밝힌 점이 실용적 기여다. 증거는 약하다. 과제 성공률이나 사람 개입 횟수 같은 정량 평가가 없고(저자 명시), 표 2는 릴리스 파일 크기·1회 설치·유휴 메모리 측정값과 가격표 기반 비용 추정뿐이다. Muse 분석의 상당 부분은 입수 경위가 밝혀지지 않고 검증도 안 된 프롬프트 사본(prompt 표시)과 저자 해석(inferred)에 기대며, 재현하지 않고 몇 단어만 인용한다는 자기 제한 말고는 법적·윤리적 논의가 없다. 보안 주장은 같은 프로세스 계열 안의 정책 경계라는 조건 위에 있다. 저장소를 보면 Sentinel과 메모리 구현이 기기마다 달라 taint는 Python 런타임에만 있고, 논문이 기술한 v0.1.40에서는 auto 모드가 taint와 경고로 생긴 질문까지 허용으로 바꿨으며(1.0.0·1.0.2에서 수정, 기본 ask 모드는 해당 없음), 결제 승인을 절대 기억하지 않는다는 서술은 Android 앱의 화면 잠금 기반 기억 옵션과 어긋난다. 한국어 사용자에게는 확정어·메신저 규칙의 기본값이 중국어·영어 중심이라 라벨 판정의 이점이 그대로 오지 않는다는 점도 걸린다. 인용할 때는 성능이 검증된 에이전트가 아니라 'v0.1.40 시점의 오픈소스 개인 에이전트 시스템 보고서이자 설계 입장문'으로 인용하고, Muse에 관해서는 documented 표시 진술만 사실로, prompt·inferred 표시는 저자 주장으로 구분해 옮기는 것이 맞다. 코드가 며칠 단위로 바뀌므로 버전 태그를 함께 적어야 한다.",
+        "analyzed_at": "2026-10-13"
+      },
+      "learning": {
+        "key_terms": [
+          {
+            "term": "Personal Agent",
+            "gloss": "한 사람의 계정과 기기에서 행동하고 몇 주에 걸쳐 기억하며, 필요할 때 먼저 말을 걸고 자기 행동에 책임지는 소프트웨어 에이전트"
+          },
+          {
+            "term": "Sentinel",
+            "gloss": "Muse의 안전 구조에서 이름을 딴 관문. 모든 도구 호출이 규칙 순서에 따라 허용·질문·거부된다. Muse에서는 에이전트 바깥의 권한 경계이고, nanoMuse에서는 저자 표현으로 그보다 약한 정책 경계다"
+          },
+          {
+            "term": "Relay",
+            "gloss": "여러 기기가 하나의 대화를 공유하도록 메시지를 중계하는 서버. nanoMuse에서는 선택 사항이며 누구나 직접 운영할 수 있다"
+          }
+        ],
+        "recall_quiz": {
+          "question": "본문(5절)이 꼽는, nanoMuse가 Muse와 다른 점 네 가지는? 그리고 Sentinel과 파일 메모리는 왜 답이 아닌가?",
+          "answer": "Android 휴대폰 화면을 조작하는 손, VM이 아닌 기기 위에서 휴대폰과 컴퓨터를 조작하는 것, 릴레이까지 포함해 모든 부분이 공개된 것, 사용자가 고르는 모델이다. Sentinel(권한 경계로서는 Muse 쪽이 더 강함)과 사람이 열어 고치는 메모리 파일은 Muse에도 이미 있다."
+        },
+        "spaced_review": {
+          "flag": true,
+          "review_due": "2026-W44"
+        }
+      }
+    }
+  ],
+  "week_summary": {
+    "headline_ko": "에이전트 3편·효율 2편·음악 1편 — 자기개선 루프에 월드모델이 붙고, 개인 에이전트는 '내 모든 기기'로 나왔으며, 악보부터 쓰는 YuE2가 최다 관심을 모았다",
+    "clusters": [
+      {
+        "category": "LLM/Agents",
+        "paper_ranks": [
+          1,
+          2,
+          6
+        ],
+        "theme_ko": "에이전트 3편 — 월드모델로 자기개선을 거르는 RSI-Anything, 모든 기기를 잇는 오픈 개인 에이전트 nanoMuse, 그리고 네 번째로 소환된 AutoDev"
+      },
+      {
+        "category": "Efficiency/Inference",
+        "paper_ranks": [
+          3,
+          4
+        ],
+        "theme_ko": "효율 2편 — SSD에서 MoE를 스트리밍하는 Edge0(2주 연속)와 2020년 PyTorch DDP, 추론과 학습 양쪽의 시스템 효율"
+      }
+    ],
+    "emerging_keywords": [
+      "self-refinement"
+    ],
+    "narrative_ko": "이번 주 6편은 에이전트 3편(50%), 효율·추론최적화 2편, 멀티모달(음악) 1편으로 나뉜다. 최다 관심(▲233)은 W38 YuE의 후속작 YuE2로, 하나의 AR-NAR MoT 모델이 읽을 수 있는 악보를 먼저 쓰고 노래 전체 오디오로 구현하며, 같은 체크포인트 비교에서 전문가 선호 49.3%(계획 없음 34.6%)와 WildSongBench 6.73(best-of-8 6.96)을 보고했다. 에이전트 축의 RSI-Anything은 예측형 월드모델로 외부 피드백을 받을 행동을 고르고 검사를 통과한 갱신만 남기는 자기개선 틀로 코드 수리 26.3% -> 31.2%, 반응 최적화 평균 최고 수율 96.15%(베이지안 최적화 82.16%)를 보고했지만, 심층 분석에서 반응 최적화는 이미 측정된 후보 321개를 재생한 오프라인 평가이고 보고된 GUI 수치(51% -> 99%)는 월드모델을 쓰지 않는 컨트롤러의 결과로 상승이 정책 미세조정에서 왔음이 확인됐다. nanoMuse(▲111)는 저자들이 2026년 9월 Meta가 내놓았다고 소개한 폐쇄형 개인 에이전트 Muse의 오픈 대응물을 표방하며 기기마다 에이전트를 두고 릴레이로 대화를 잇는 시스템을 공개했지만, 과제 성공률 같은 정량 평가는 아직 없다. 효율 축은 2주 연속 오른 Edge0와 2020년 PyTorch DDP다. 수집 15주 중 14주에 올랐던 TradingAgents는 이번 주 빠졌고, 관심도 합계 435는 16회 관측 중 세 번째로 낮다.",
+    "recent_trend_ko": "누적 16회 관측 기준, 효율·추론최적화는 W40·W41·W42 세 주 연속 2편으로 최근 3회 관측 전부에 등장해, 지난주 경계선이던 지속 판정이 굳어졌다(서로 다른 논문은 SPEED-Bench·PagedAttention·Edge0·PyTorch DDP 4편). self-refinement는 W25~W31 SkillOpt(4개 주차) 이후 공백을 거쳐 W40 RRSI와 W42 RSI-Anything으로 다시 나타나 재부상 신호를 보였고(누적 6개 주차, 서로 다른 논문 3편), agent-harness 태그의 W36 Prime Agent까지 더하면 에이전트 하니스·정책을 스스로 고치는 논문이 약 6주 사이 세 번 올라왔다. music-generation도 W38 YuE와 W42 YuE2로 두 주에 걸쳐 나타났지만, 같은 팀·같은 저장소의 한 계열이라 확산 신호로는 약하다. world-model 키워드가 W31 이후 처음 다시 나왔지만 이전의 3D 재구성·월드 시뮬레이터와 달리 이번엔 에이전트가 행동 결과를 예측하는 모델이라는 뜻이며, 1차 카테고리 기준 임바디드·월드모델은 여전히 W31 이후 등장하지 않았다. 반대로 financial-ai는 15회 관측 연속 등장 끝에 처음 빠졌고(TradingAgents 부재), 비전은 W41의 3편에서 0편이 되어 급등이 이어지지 않았다(한 주 결과라 식어감 판정은 이르다). 이번 주 W41과 이어진 논문은 Edge0뿐이라 연속 등장 배지는 Edge0 한 편에만 붙는다.",
+    "caveats_ko": "주 6편의 HuggingFace 트렌딩 표본은 인기·최신성 편향을 강하게 받으며, 업보트와 GitHub 스타는 연구 중요도가 아닌 관심도 지표이고, W37·W39 미수집으로 연속·추세 판정은 수집된 16회 관측끼리의 비교다. 카드의 GitHub 스타 중 두 개는 논문 자체의 수치가 아니다(PyTorch Distributed의 약 10.5만은 PyTorch 저장소 전체, YuE2의 약 1.2만은 W38 YuE와 같은 저장소의 누적). AutoDev에 HF가 자동 연결한 vxcontrol의 pentagi 저장소는 저자가 연결한 것이 아니고 W29 심층 분석에서 논문 본문에 코드 링크가 없음을 확인해 공식 코드로 볼 근거가 없으므로, W38처럼 카드의 코드 링크와 스타에서 뺐다. PyTorch DDP·YuE2의 수치와 비교는 초록 기준 저자 보고이며 원문 확인 전이고, RSI-Anything과 nanoMuse는 심층 분석으로 원문과 저장소를 확인했다. YuE2의 6.96과 Suno v4.5 대비 선호는 8개 후보 중 고른 best-of-8 조건이고, Suno v5와는 거의 비슷한 선호다. nanoMuse가 서술하는 Meta Muse의 공개 시점·폐쇄성·판매 지역은 저자 기술이고, 분석 근거로 쓴 Muse 프로덕션 프롬프트 사본의 입수 경위는 본문에도 없으며(저자들도 출처를 검증할 수 없다고 밝힘), 크기는 측정값이고 비용만 추정치이며, 평가 세트와 오픈 모델은 로드맵이다."
+  }
+}

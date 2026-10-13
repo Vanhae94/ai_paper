@@ -1,0 +1,764 @@
+[
+  {
+    "paper": {
+      "id": "2610.13912",
+      "authors": [
+        {
+          "_id": "6acc3dc90ee6ff34004fddd1",
+          "name": "Taoyong Cui",
+          "hidden": false
+        },
+        {
+          "_id": "6acc3dc90ee6ff34004fddd2",
+          "name": "Pinxian Zeng",
+          "hidden": false
+        },
+        {
+          "_id": "6acc3dc90ee6ff34004fddd3",
+          "user": {
+            "_id": "65f3f43fc9940817ca9a427b",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/65f3f43fc9940817ca9a427b/02NN3XjSsbgWDhjrJWtVL.jpeg",
+            "isPro": false,
+            "fullname": "Wanghan Xu",
+            "user": "black-yt",
+            "type": "user",
+            "name": "black-yt"
+          },
+          "name": "Wanghan Xu",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-10-12T16:15:51.423Z",
+          "hidden": false
+        },
+        {
+          "_id": "6acc3dc90ee6ff34004fddd4",
+          "name": "Hao Xiao",
+          "hidden": false
+        },
+        {
+          "_id": "6acc3dc90ee6ff34004fddd5",
+          "name": "Shuhan Xue",
+          "hidden": false
+        },
+        {
+          "_id": "6acc3dc90ee6ff34004fddd6",
+          "name": "Qiang Gao",
+          "hidden": false
+        },
+        {
+          "_id": "6acc3dc90ee6ff34004fddd7",
+          "name": "Wanli Ouyang",
+          "hidden": false
+        },
+        {
+          "_id": "6acc3dc90ee6ff34004fddd8",
+          "name": "Pheng Ann Heng",
+          "hidden": false
+        },
+        {
+          "_id": "6acc3dc90ee6ff34004fddd9",
+          "name": "Zhenfei Yin",
+          "hidden": false
+        },
+        {
+          "_id": "6acc3dc90ee6ff34004fddda",
+          "name": "Yingcheng Wu",
+          "hidden": false
+        },
+        {
+          "_id": "6acc3dc90ee6ff34004fdddb",
+          "name": "Ling Yang",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2026-10-09T00:00:00.000Z",
+      "submittedOnDailyAt": "2026-10-12T00:00:00.000Z",
+      "title": "RSI-Anything: Unlocking Recursive Self-Improvement with World Models",
+      "submittedOnDailyBy": {
+        "_id": "64fde4e252e82dd432b74ce9",
+        "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/64fde4e252e82dd432b74ce9/-CQZbBP7FsPPyawYrsi4z.jpeg",
+        "isPro": false,
+        "fullname": "Ling Yang",
+        "user": "Lingaaaaaaa",
+        "type": "user",
+        "name": "Lingaaaaaaa"
+      },
+      "summary": "Recursive self-improvement (RSI) aims to transform interaction experience into persistent improvements, yet external feedback is costly and world-model predictions may become unreliable as policies evolve. We introduce RSI-Anything, a domain-general framework built on JEPA-Anything that uses predictive world models to guide action and learning-data selection. Observed feedback drives policy or workflow improvement and conditional world-model adaptation, while component and compatibility checks govern the retention of updated policy-model pairs. Across diverse computational and scientific domains, RSI-Anything demonstrates substantial gains. In code repair, with the coder fixed, success increases from 26.3% with a static verifier to 29.2% through predictive selection and 31.2% after world-model adaptation, at comparable test usage. Graphical user interface (GUI) evaluations showed higher task completion, while average actions decrease by 39.4%. Across five successive policy versions, laboratory-planning scores more than double from 21.80% to 46.01%. In reaction optimization, RSI-Anything achieves 96.15% mean best observed yield versus 82.16% for Bayesian optimization under the same 40-experiment budget. An end-to-end immune-science application further connects workflow evolution and predictive modeling with therapeutic hypothesis generation. These results demonstrate how predictive world models and retained system updates enable recursive improvement across diverse environments.",
+      "upvotes": 30,
+      "discussionId": "6acc3dc90ee6ff34004fdddc",
+      "projectPage": "https://huggingface.co/datasets/Gen-Verse/RSI-Anything",
+      "githubRepo": "https://github.com/Gen-Verse/RSI-Anything",
+      "githubRepoAddedBy": "user",
+      "githubStars": 446,
+      "organization": {
+        "_id": "6aab7c097e5721f5e005ff0a",
+        "name": "PhAILabs",
+        "fullname": "PhAI Labs",
+        "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/64fde4e252e82dd432b74ce9/5-hyYwAMko5JVJz5qWxEj.png"
+      }
+    },
+    "publishedAt": "2026-10-08T20:00:00.000Z",
+    "title": "RSI-Anything: Unlocking Recursive Self-Improvement with World Models",
+    "summary": "Recursive self-improvement (RSI) aims to transform interaction experience into persistent improvements, yet external feedback is costly and world-model predictions may become unreliable as policies evolve. We introduce RSI-Anything, a domain-general framework built on JEPA-Anything that uses predictive world models to guide action and learning-data selection. Observed feedback drives policy or workflow improvement and conditional world-model adaptation, while component and compatibility checks govern the retention of updated policy-model pairs. Across diverse computational and scientific domains, RSI-Anything demonstrates substantial gains. In code repair, with the coder fixed, success increases from 26.3% with a static verifier to 29.2% through predictive selection and 31.2% after world-model adaptation, at comparable test usage. Graphical user interface (GUI) evaluations showed higher task completion, while average actions decrease by 39.4%. Across five successive policy versions, laboratory-planning scores more than double from 21.80% to 46.01%. In reaction optimization, RSI-Anything achieves 96.15% mean best observed yield versus 82.16% for Bayesian optimization under the same 40-experiment budget. An end-to-end immune-science application further connects workflow evolution and predictive modeling with therapeutic hypothesis generation. These results demonstrate how predictive world models and retained system updates enable recursive improvement across diverse environments.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2610.13912.png",
+    "numComments": 2,
+    "submittedBy": {
+      "_id": "64fde4e252e82dd432b74ce9",
+      "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/64fde4e252e82dd432b74ce9/-CQZbBP7FsPPyawYrsi4z.jpeg",
+      "fullname": "Ling Yang",
+      "name": "Lingaaaaaaa",
+      "type": "user",
+      "isPro": false,
+      "isHf": false,
+      "isHfAdmin": false,
+      "isMod": false,
+      "followerCount": 22,
+      "isUserFollowing": false
+    },
+    "organization": {
+      "_id": "6aab7c097e5721f5e005ff0a",
+      "name": "PhAILabs",
+      "fullname": "PhAI Labs",
+      "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/64fde4e252e82dd432b74ce9/5-hyYwAMko5JVJz5qWxEj.png"
+    },
+    "isAuthorParticipating": false
+  },
+  {
+    "paper": {
+      "id": "2403.08299",
+      "authors": [
+        {
+          "_id": "6602aab50356f5be2d3fb892",
+          "name": "Michele Tufano",
+          "hidden": false
+        },
+        {
+          "_id": "6602aab50356f5be2d3fb893",
+          "name": "Anisha Agarwal",
+          "hidden": false
+        },
+        {
+          "_id": "6602aab50356f5be2d3fb894",
+          "name": "Jinu Jang",
+          "hidden": false
+        },
+        {
+          "_id": "6602aab50356f5be2d3fb895",
+          "name": "Roshanak Zilouchian Moghaddam",
+          "hidden": false
+        },
+        {
+          "_id": "6602aab50356f5be2d3fb896",
+          "name": "Neel Sundaresan",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2024-03-13T07:12:03.000Z",
+      "title": "AutoDev: Automated AI-Driven Development",
+      "summary": "The landscape of software development has witnessed a paradigm shift with the\nadvent of AI-powered assistants, exemplified by GitHub Copilot. However,\nexisting solutions are not leveraging all the potential capabilities available\nin an IDE such as building, testing, executing code, git operations, etc.\nTherefore, they are constrained by their limited capabilities, primarily\nfocusing on suggesting code snippets and file manipulation within a chat-based\ninterface. To fill this gap, we present AutoDev, a fully automated AI-driven\nsoftware development framework, designed for autonomous planning and execution\nof intricate software engineering tasks. AutoDev enables users to define\ncomplex software engineering objectives, which are assigned to AutoDev's\nautonomous AI Agents to achieve. These AI agents can perform diverse operations\non a codebase, including file editing, retrieval, build processes, execution,\ntesting, and git operations. They also have access to files, compiler output,\nbuild and testing logs, static analysis tools, and more. This enables the AI\nAgents to execute tasks in a fully automated manner with a comprehensive\nunderstanding of the contextual information required. Furthermore, AutoDev\nestablishes a secure development environment by confining all operations within\nDocker containers. This framework incorporates guardrails to ensure user\nprivacy and file security, allowing users to define specific permitted or\nrestricted commands and operations within AutoDev. In our evaluation, we tested\nAutoDev on the HumanEval dataset, obtaining promising results with 91.5% and\n87.8% of Pass@1 for code generation and test generation respectively,\ndemonstrating its effectiveness in automating software engineering tasks while\nmaintaining a secure and user-controlled development environment.",
+      "upvotes": 22,
+      "discussionId": "6602aab60356f5be2d3fb8b1",
+      "githubRepo": "https://github.com/vxcontrol/pentagi",
+      "githubRepoAddedBy": "auto",
+      "ai_summary": "AutoDev is an AI-driven software development framework that automates complex engineering tasks within a secure Docker environment, achieving high performance in code and test generation.",
+      "ai_keywords": [
+        "autonomous AI Agents",
+        "Docker containers",
+        "HumanEval dataset",
+        "Pass@1",
+        "code generation",
+        "test generation"
+      ],
+      "ai_summary_model": "Qwen/Qwen2.5-Coder-32B-Instruct",
+      "githubStars": 26546
+    },
+    "publishedAt": "2024-03-13T03:12:03.000Z",
+    "title": "AutoDev: Automated AI-Driven Development",
+    "summary": "The landscape of software development has witnessed a paradigm shift with the\nadvent of AI-powered assistants, exemplified by GitHub Copilot. However,\nexisting solutions are not leveraging all the potential capabilities available\nin an IDE such as building, testing, executing code, git operations, etc.\nTherefore, they are constrained by their limited capabilities, primarily\nfocusing on suggesting code snippets and file manipulation within a chat-based\ninterface. To fill this gap, we present AutoDev, a fully automated AI-driven\nsoftware development framework, designed for autonomous planning and execution\nof intricate software engineering tasks. AutoDev enables users to define\ncomplex software engineering objectives, which are assigned to AutoDev's\nautonomous AI Agents to achieve. These AI agents can perform diverse operations\non a codebase, including file editing, retrieval, build processes, execution,\ntesting, and git operations. They also have access to files, compiler output,\nbuild and testing logs, static analysis tools, and more. This enables the AI\nAgents to execute tasks in a fully automated manner with a comprehensive\nunderstanding of the contextual information required. Furthermore, AutoDev\nestablishes a secure development environment by confining all operations within\nDocker containers. This framework incorporates guardrails to ensure user\nprivacy and file security, allowing users to define specific permitted or\nrestricted commands and operations within AutoDev. In our evaluation, we tested\nAutoDev on the HumanEval dataset, obtaining promising results with 91.5% and\n87.8% of Pass@1 for code generation and test generation respectively,\ndemonstrating its effectiveness in automating software engineering tasks while\nmaintaining a secure and user-controlled development environment.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2403.08299.png",
+    "numComments": 2,
+    "isAuthorParticipating": false
+  },
+  {
+    "paper": {
+      "id": "2609.18063",
+      "authors": [
+        {
+          "_id": "6aab6e211d9cc4dec796250c",
+          "user": {
+            "_id": "63ec492b6ef3ce22b88a40e8",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/no-auth/losyEyB6XLMUkXgKs_GFC.png",
+            "isPro": false,
+            "fullname": "yumu",
+            "user": "bupalinyu",
+            "type": "user",
+            "name": "bupalinyu"
+          },
+          "name": "Yu Lin",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-09-17T09:09:45.608Z",
+          "hidden": false
+        },
+        {
+          "_id": "6aab6e211d9cc4dec796250d",
+          "user": {
+            "_id": "64361bcaf81a16e74367d2e2",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/64361bcaf81a16e74367d2e2/N4pdqBd4DqIx71t8IWaWD.png",
+            "isPro": false,
+            "fullname": "wanglamao",
+            "user": "wanglamao",
+            "type": "user",
+            "name": "wanglamao"
+          },
+          "name": "Yiming Wang",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-09-18T14:00:26.917Z",
+          "hidden": false
+        },
+        {
+          "_id": "6aab6e211d9cc4dec796250e",
+          "user": {
+            "_id": "63413355e5071b0c5cc91cda",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/63413355e5071b0c5cc91cda/P5if_w7mXfPGPq8QtALjF.png",
+            "isPro": false,
+            "fullname": "cai",
+            "user": "chua",
+            "type": "user",
+            "name": "chua"
+          },
+          "name": "Runyuan Cai",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-09-18T14:00:24.425Z",
+          "hidden": false
+        },
+        {
+          "_id": "6aab6e211d9cc4dec796250f",
+          "name": "Hanze Liu",
+          "hidden": false
+        },
+        {
+          "_id": "6aab6e211d9cc4dec7962510",
+          "name": "Xiaodong Zeng",
+          "hidden": false
+        }
+      ],
+      "mediaUrls": [
+        "https://cdn-uploads.huggingface.co/production/uploads/63ec492b6ef3ce22b88a40e8/rC6RhuvirSlar0MGZ-qJB.mp4"
+      ],
+      "publishedAt": "2026-09-16T00:00:00.000Z",
+      "submittedOnDailyAt": "2026-09-17T00:00:00.000Z",
+      "title": "The Other Half of the Memory Wall: Serving 35B MoEs from SSD with Trained Routing Prediction",
+      "submittedOnDailyBy": {
+        "_id": "63ec492b6ef3ce22b88a40e8",
+        "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/no-auth/losyEyB6XLMUkXgKs_GFC.png",
+        "isPro": false,
+        "fullname": "yumu",
+        "user": "bupalinyu",
+        "type": "user",
+        "name": "bupalinyu"
+      },
+      "summary": "Mixture-of-experts (MoE) inference on consumer hardware is bounded by weight memory: a 35B-class model is 19.5GB at 4-bit, and sparsity shrinks the compute per token, not the bytes that must be held. Naive offloading to SSD does not help on its own, because layer N+1's experts must be chosen before layer N's output exists, so the reads cannot start early enough to hide behind compute. We present Edge0, a streaming MoE inference engine that closes the gap with a prerouter: a per-layer head predicts the next layer's routing one token ahead, and the prediction is consumed as the routing itself, so the staged expert set equals the routed set and nothing is dropped. An unmerged recovery LoRA, trained on the student path, pays back the quality lost to int4 quantization and routing replacement. On a single 24GB machine, Edge0\n  serves a 35B MoE at 20tok/s inside 3GiB of peak active memory, within a few points of its fp16 teacher on average across five public benchmarks. An 8B tier runs on the same framework, and the framework, checkpoints, and adapters are open source.",
+      "upvotes": 26,
+      "discussionId": "6aab6e211d9cc4dec7962511",
+      "githubRepo": "https://github.com/Edge0-AI/edge0",
+      "githubRepoAddedBy": "user",
+      "githubStars": 4605,
+      "organization": {
+        "_id": "6a9a75862d11e1c1a13dec37",
+        "name": "Edge0",
+        "fullname": "Edge0",
+        "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/64361bcaf81a16e74367d2e2/D5QI700pnaujz5PeWE6MX.jpeg"
+      }
+    },
+    "publishedAt": "2026-09-15T20:00:00.000Z",
+    "title": "The Other Half of the Memory Wall: Serving 35B MoEs from SSD with Trained Routing Prediction",
+    "summary": "Mixture-of-experts (MoE) inference on consumer hardware is bounded by weight memory: a 35B-class model is 19.5GB at 4-bit, and sparsity shrinks the compute per token, not the bytes that must be held. Naive offloading to SSD does not help on its own, because layer N+1's experts must be chosen before layer N's output exists, so the reads cannot start early enough to hide behind compute. We present Edge0, a streaming MoE inference engine that closes the gap with a prerouter: a per-layer head predicts the next layer's routing one token ahead, and the prediction is consumed as the routing itself, so the staged expert set equals the routed set and nothing is dropped. An unmerged recovery LoRA, trained on the student path, pays back the quality lost to int4 quantization and routing replacement. On a single 24GB machine, Edge0\n  serves a 35B MoE at 20tok/s inside 3GiB of peak active memory, within a few points of its fp16 teacher on average across five public benchmarks. An 8B tier runs on the same framework, and the framework, checkpoints, and adapters are open source.",
+    "mediaUrls": [
+      "https://cdn-uploads.huggingface.co/production/uploads/63ec492b6ef3ce22b88a40e8/rC6RhuvirSlar0MGZ-qJB.mp4"
+    ],
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2609.18063.png",
+    "numComments": 4,
+    "submittedBy": {
+      "_id": "63ec492b6ef3ce22b88a40e8",
+      "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/no-auth/losyEyB6XLMUkXgKs_GFC.png",
+      "fullname": "yumu",
+      "name": "bupalinyu",
+      "type": "user",
+      "isPro": false,
+      "isHf": false,
+      "isHfAdmin": false,
+      "isMod": false,
+      "followerCount": 8,
+      "isUserFollowing": false
+    },
+    "organization": {
+      "_id": "6a9a75862d11e1c1a13dec37",
+      "name": "Edge0",
+      "fullname": "Edge0",
+      "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/64361bcaf81a16e74367d2e2/D5QI700pnaujz5PeWE6MX.jpeg"
+    },
+    "isAuthorParticipating": true
+  },
+  {
+    "paper": {
+      "id": "2006.15704",
+      "authors": [
+        {
+          "_id": "66290acc2874f75405ccbfe6",
+          "name": "Shen Li",
+          "hidden": false
+        },
+        {
+          "_id": "66290acc2874f75405ccbfe7",
+          "name": "Yanli Zhao",
+          "hidden": false
+        },
+        {
+          "_id": "66290acc2874f75405ccbfe8",
+          "name": "Rohan Varma",
+          "hidden": false
+        },
+        {
+          "_id": "66290acc2874f75405ccbfe9",
+          "name": "Omkar Salpekar",
+          "hidden": false
+        },
+        {
+          "_id": "66290acc2874f75405ccbfea",
+          "name": "Pieter Noordhuis",
+          "hidden": false
+        },
+        {
+          "_id": "66290acc2874f75405ccbfeb",
+          "name": "Teng Li",
+          "hidden": false
+        },
+        {
+          "_id": "66290acc2874f75405ccbfec",
+          "name": "Adam Paszke",
+          "hidden": false
+        },
+        {
+          "_id": "66290acc2874f75405ccbfed",
+          "user": {
+            "_id": "6634099eef552142ec4182f7",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/noauth/O3NMUbJoAuKM4Kde-pk7c.jpeg",
+            "isPro": false,
+            "fullname": "Jeff Smith",
+            "user": "jeffreysmith",
+            "type": "user",
+            "name": "jeffreysmith"
+          },
+          "name": "Jeff Smith",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-01-02T15:42:15.496Z",
+          "hidden": false
+        },
+        {
+          "_id": "66290acc2874f75405ccbfee",
+          "user": {
+            "_id": "630b8849a20a5367811bbdda",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/630b8849a20a5367811bbdda/WCQndCi_qbr4ailEKyenX.jpeg",
+            "isPro": false,
+            "fullname": "Brian Vaughan",
+            "user": "nairbv",
+            "type": "user",
+            "name": "nairbv"
+          },
+          "name": "Brian Vaughan",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2024-04-24T15:34:34.862Z",
+          "hidden": false
+        },
+        {
+          "_id": "66290acc2874f75405ccbfef",
+          "name": "Pritam Damania",
+          "hidden": false
+        },
+        {
+          "_id": "66290acc2874f75405ccbff0",
+          "user": {
+            "_id": "64b81f399ebb69a79ffec095",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/noauth/2nSfGQk0O72prUr3GfV4V.png",
+            "isPro": false,
+            "fullname": "Soumith Chintala",
+            "user": "soumithchintala",
+            "type": "user",
+            "name": "soumithchintala"
+          },
+          "name": "Soumith Chintala",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2024-06-14T14:57:10.563Z",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2020-06-28T20:39:45.000Z",
+      "title": "PyTorch Distributed: Experiences on Accelerating Data Parallel Training",
+      "summary": "This paper presents the design, implementation, and evaluation of the PyTorch\ndistributed data parallel module. PyTorch is a widely-adopted scientific\ncomputing package used in deep learning research and applications. Recent\nadvances in deep learning argue for the value of large datasets and large\nmodels, which necessitates the ability to scale out model training to more\ncomputational resources. Data parallelism has emerged as a popular solution for\ndistributed training thanks to its straightforward principle and broad\napplicability. In general, the technique of distributed data parallelism\nreplicates the model on every computational resource to generate gradients\nindependently and then communicates those gradients at each iteration to keep\nmodel replicas consistent. Despite the conceptual simplicity of the technique,\nthe subtle dependencies between computation and communication make it\nnon-trivial to optimize the distributed training efficiency. As of v1.5,\nPyTorch natively provides several techniques to accelerate distributed data\nparallel, including bucketing gradients, overlapping computation with\ncommunication, and skipping gradient synchronization. Evaluations show that,\nwhen configured appropriately, the PyTorch distributed data parallel module\nattains near-linear scalability using 256 GPUs.",
+      "upvotes": 13,
+      "discussionId": "66290acd2874f75405ccc00f",
+      "githubRepo": "https://github.com/pytorch/pytorch",
+      "githubRepoAddedBy": "auto",
+      "ai_summary": "The PyTorch distributed data parallel module optimizes large-scale model training using techniques like gradient bucketing, computation-communication overlap, and selective synchronization to achieve near-linear scalability.",
+      "ai_keywords": [
+        "distributed data parallel",
+        "PyTorch",
+        "gradient bucketing",
+        "computation-communication overlap",
+        "selective synchronization"
+      ],
+      "ai_summary_model": "Qwen/Qwen2.5-Coder-32B-Instruct",
+      "githubStars": 104736
+    },
+    "publishedAt": "2020-06-28T16:39:45.000Z",
+    "title": "PyTorch Distributed: Experiences on Accelerating Data Parallel Training",
+    "summary": "This paper presents the design, implementation, and evaluation of the PyTorch\ndistributed data parallel module. PyTorch is a widely-adopted scientific\ncomputing package used in deep learning research and applications. Recent\nadvances in deep learning argue for the value of large datasets and large\nmodels, which necessitates the ability to scale out model training to more\ncomputational resources. Data parallelism has emerged as a popular solution for\ndistributed training thanks to its straightforward principle and broad\napplicability. In general, the technique of distributed data parallelism\nreplicates the model on every computational resource to generate gradients\nindependently and then communicates those gradients at each iteration to keep\nmodel replicas consistent. Despite the conceptual simplicity of the technique,\nthe subtle dependencies between computation and communication make it\nnon-trivial to optimize the distributed training efficiency. As of v1.5,\nPyTorch natively provides several techniques to accelerate distributed data\nparallel, including bucketing gradients, overlapping computation with\ncommunication, and skipping gradient synchronization. Evaluations show that,\nwhen configured appropriately, the PyTorch distributed data parallel module\nattains near-linear scalability using 256 GPUs.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2006.15704.png",
+    "numComments": 0,
+    "isAuthorParticipating": false
+  },
+  {
+    "paper": {
+      "id": "2609.33757",
+      "authors": [
+        {
+          "_id": "6abb1b199e8c2556a102562c",
+          "user": {
+            "_id": "5fd6f670053c8345eddc1b68",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/5fd6f670053c8345eddc1b68/cuTsu2krRYHC6zYGD2dpQ.jpeg",
+            "isPro": false,
+            "fullname": "Ruibin Yuan",
+            "user": "a43992899",
+            "type": "user",
+            "name": "a43992899"
+          },
+          "name": "Ruibin Yuan",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-10-02T00:45:05.063Z",
+          "hidden": false
+        },
+        {
+          "_id": "6abb1b199e8c2556a102562d",
+          "name": "Jiahao Pan",
+          "hidden": false
+        },
+        {
+          "_id": "6abb1b199e8c2556a102562e",
+          "name": "Junyan Jiang",
+          "hidden": false
+        },
+        {
+          "_id": "6abb1b199e8c2556a102562f",
+          "user": {
+            "_id": "64bf871fb9296eef6214ddaa",
+            "avatarUrl": "/avatars/889b675306f5302f8da32ce976ea5629.svg",
+            "isPro": false,
+            "fullname": "Zhiyue Wu",
+            "user": "wzy11",
+            "type": "user",
+            "name": "wzy11"
+          },
+          "name": "Zhiyue Wu",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-09-29T08:45:05.934Z",
+          "hidden": false
+        },
+        {
+          "_id": "6abb1b199e8c2556a1025630",
+          "name": "Ziya Zhou",
+          "hidden": false
+        },
+        {
+          "_id": "6abb1b199e8c2556a1025631",
+          "name": "Jiankai Sun",
+          "hidden": false
+        },
+        {
+          "_id": "6abb1b199e8c2556a1025632",
+          "name": "Yizhi Li",
+          "hidden": false
+        },
+        {
+          "_id": "6abb1b199e8c2556a1025633",
+          "name": "Ge Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "6abb1b199e8c2556a1025634",
+          "name": "Yicheng Gu",
+          "hidden": false
+        },
+        {
+          "_id": "6abb1b199e8c2556a1025635",
+          "name": "Zeyue Tian",
+          "hidden": false
+        },
+        {
+          "_id": "6abb1b199e8c2556a1025636",
+          "name": "Junyu Dai",
+          "hidden": false
+        },
+        {
+          "_id": "6abb1b199e8c2556a1025637",
+          "name": "Hanfeng Lin",
+          "hidden": false
+        },
+        {
+          "_id": "6abb1b199e8c2556a1025638",
+          "name": "Kai Li",
+          "hidden": false
+        },
+        {
+          "_id": "6abb1b199e8c2556a1025639",
+          "name": "Shangda Wu",
+          "hidden": false
+        },
+        {
+          "_id": "6abb1b199e8c2556a102563a",
+          "name": "Xuanjie Liu",
+          "hidden": false
+        },
+        {
+          "_id": "6abb1b199e8c2556a102563b",
+          "name": "Jiaming Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6abb1b199e8c2556a102563c",
+          "name": "Zihan Liu",
+          "hidden": false
+        },
+        {
+          "_id": "6abb1b199e8c2556a102563d",
+          "name": "Yue Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6abb1b199e8c2556a102563e",
+          "name": "Yinghao Ma",
+          "hidden": false
+        },
+        {
+          "_id": "6abb1b199e8c2556a102563f",
+          "name": "Hanzhi Yin",
+          "hidden": false
+        },
+        {
+          "_id": "6abb1b199e8c2556a1025640",
+          "name": "Kangrui Chen",
+          "hidden": false
+        },
+        {
+          "_id": "6abb1b199e8c2556a1025641",
+          "name": "Xinyue Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "6abb1b199e8c2556a1025642",
+          "name": "Ziyang Ma",
+          "hidden": false
+        },
+        {
+          "_id": "6abb1b199e8c2556a1025643",
+          "name": "Mengqi Liao",
+          "hidden": false
+        },
+        {
+          "_id": "6abb1b199e8c2556a1025644",
+          "name": "Hejia Zhao",
+          "hidden": false
+        },
+        {
+          "_id": "6abb1b199e8c2556a1025645",
+          "name": "Guowei Huang",
+          "hidden": false
+        },
+        {
+          "_id": "6abb1b199e8c2556a1025646",
+          "name": "Chao Yan",
+          "hidden": false
+        },
+        {
+          "_id": "6abb1b199e8c2556a1025647",
+          "name": "Lei Ke",
+          "hidden": false
+        },
+        {
+          "_id": "6abb1b199e8c2556a1025648",
+          "name": "Jianwei Yu",
+          "hidden": false
+        },
+        {
+          "_id": "6abb1b199e8c2556a1025649",
+          "name": "Bei Liu",
+          "hidden": false
+        },
+        {
+          "_id": "6abb1b199e8c2556a102564a",
+          "name": "Joe Guo",
+          "hidden": false
+        },
+        {
+          "_id": "6abb1b199e8c2556a102564b",
+          "name": "Liumeng Xue",
+          "hidden": false
+        },
+        {
+          "_id": "6abb1b199e8c2556a102564c",
+          "name": "Gus Xia",
+          "hidden": false
+        },
+        {
+          "_id": "6abb1b199e8c2556a102564d",
+          "name": "Wei Xue",
+          "hidden": false
+        },
+        {
+          "_id": "6abb1b199e8c2556a102564e",
+          "name": "Yike Guo",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2026-09-27T00:00:00.000Z",
+      "submittedOnDailyAt": "2026-09-29T00:00:00.000Z",
+      "title": "YuE2: Unifying Symbolic and Audio Music Generation at Frontier Quality",
+      "submittedOnDailyBy": {
+        "_id": "5fd6f670053c8345eddc1b68",
+        "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/5fd6f670053c8345eddc1b68/cuTsu2krRYHC6zYGD2dpQ.jpeg",
+        "isPro": false,
+        "fullname": "Ruibin Yuan",
+        "user": "a43992899",
+        "type": "user",
+        "name": "a43992899"
+      },
+      "summary": "Symbolic models make melody, harmony, rhythm, and form explicit but typically stop before a finished recording; audio models produce complete songs while leaving composition implicit. We introduce YuE2, which unifies symbolic and audio music generation at frontier quality through symbolic planning. A single AR-NAR Mixture-of-Transformers (MoT) first writes a readable score specifying melody and harmony, expands it into semantic music tokens, and realizes it as full-song audio. In comparisons using the same checkpoint, experts prefer symbolic planning for overall quality and musicality, with 49.3% of overall preferences versus 34.6% without planning. Experts also favor the unified model over a separate language model and diffusion Transformer. On WildSongBench, YuE2 scores 6.73 on SongBench Global Avg, exceeding all evaluated public baselines. Selecting from eight candidates (best-of-8), YuE2 reaches 6.96, the highest observed mean among all evaluated systems. Expert listening further establishes its competitiveness with proprietary song generators, favoring best-of-8 over Suno v4.5 and yielding nearly balanced preferences against Suno v5. To learn this generation process from recordings without aligned scores, we introduce MERT2 and SheetSage2 to supply semantic and symbolic supervision. MERT2 sets a new state of the art in music representation learning, surpassing previous best results on 14 of 15 MARBLE metrics; SheetSage2 leads 12 of 15 benchmark-metric pairs in our lead-sheet transcription comparison. The same checkpoint follows score edits while largely preserving unedited musical content and generates zero-shot covers without cover-specific training. Its readable score also enables agentic music editing, with external language models translating user feedback into revisions of the composition.",
+      "upvotes": 233,
+      "discussionId": "6abb1b199e8c2556a102564f",
+      "projectPage": "https://map-yue2.github.io/",
+      "githubRepo": "https://github.com/multimodal-art-projection/YuE",
+      "githubRepoAddedBy": "user",
+      "githubStars": 11788,
+      "organization": {
+        "_id": "6384ee7fdfffab482400b938",
+        "name": "m-a-p",
+        "fullname": "Multimodal Art Projection",
+        "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/6382252f54421460665ec501/oNH4MDqpSiMWJpxbaSLOv.png"
+      }
+    },
+    "publishedAt": "2026-09-26T20:00:00.000Z",
+    "title": "YuE2: Unifying Symbolic and Audio Music Generation at Frontier Quality",
+    "summary": "Symbolic models make melody, harmony, rhythm, and form explicit but typically stop before a finished recording; audio models produce complete songs while leaving composition implicit. We introduce YuE2, which unifies symbolic and audio music generation at frontier quality through symbolic planning. A single AR-NAR Mixture-of-Transformers (MoT) first writes a readable score specifying melody and harmony, expands it into semantic music tokens, and realizes it as full-song audio. In comparisons using the same checkpoint, experts prefer symbolic planning for overall quality and musicality, with 49.3% of overall preferences versus 34.6% without planning. Experts also favor the unified model over a separate language model and diffusion Transformer. On WildSongBench, YuE2 scores 6.73 on SongBench Global Avg, exceeding all evaluated public baselines. Selecting from eight candidates (best-of-8), YuE2 reaches 6.96, the highest observed mean among all evaluated systems. Expert listening further establishes its competitiveness with proprietary song generators, favoring best-of-8 over Suno v4.5 and yielding nearly balanced preferences against Suno v5. To learn this generation process from recordings without aligned scores, we introduce MERT2 and SheetSage2 to supply semantic and symbolic supervision. MERT2 sets a new state of the art in music representation learning, surpassing previous best results on 14 of 15 MARBLE metrics; SheetSage2 leads 12 of 15 benchmark-metric pairs in our lead-sheet transcription comparison. The same checkpoint follows score edits while largely preserving unedited musical content and generates zero-shot covers without cover-specific training. Its readable score also enables agentic music editing, with external language models translating user feedback into revisions of the composition.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2609.33757.png",
+    "numComments": 3,
+    "submittedBy": {
+      "_id": "5fd6f670053c8345eddc1b68",
+      "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/5fd6f670053c8345eddc1b68/cuTsu2krRYHC6zYGD2dpQ.jpeg",
+      "fullname": "Ruibin Yuan",
+      "name": "a43992899",
+      "type": "user",
+      "isPro": false,
+      "isHf": false,
+      "isHfAdmin": false,
+      "isMod": false,
+      "followerCount": 29,
+      "isUserFollowing": false
+    },
+    "organization": {
+      "_id": "6384ee7fdfffab482400b938",
+      "name": "m-a-p",
+      "fullname": "Multimodal Art Projection",
+      "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/6382252f54421460665ec501/oNH4MDqpSiMWJpxbaSLOv.png"
+    },
+    "isAuthorParticipating": true
+  },
+  {
+    "paper": {
+      "id": "2610.08699",
+      "authors": [
+        {
+          "_id": "6ac6e1244eb8005165aed294",
+          "user": {
+            "_id": "64d761b98ebc40443831f82a",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/64d761b98ebc40443831f82a/DHBOtOstiFp2-lDY6b9gb.png",
+            "isPro": false,
+            "fullname": "Guangyi Liu",
+            "user": "lgy0404",
+            "type": "user",
+            "name": "lgy0404"
+          },
+          "name": "Guangyi Liu",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-10-08T13:56:00.504Z",
+          "hidden": false
+        },
+        {
+          "_id": "6ac6e1244eb8005165aed295",
+          "name": "Yong Liu",
+          "hidden": false
+        },
+        {
+          "_id": "6ac6e1244eb8005165aed296",
+          "name": "Jiangning Zhang",
+          "hidden": false
+        }
+      ],
+      "mediaUrls": [
+        "https://cdn-uploads.huggingface.co/production/uploads/64d761b98ebc40443831f82a/6EEDcp2yMHSgKNeAI6HxO.mp4",
+        "https://cdn-uploads.huggingface.co/production/uploads/64d761b98ebc40443831f82a/MRp8DMVyMd1Y14s83KQpk.png"
+      ],
+      "publishedAt": "2026-10-06T00:00:00.000Z",
+      "submittedOnDailyAt": "2026-10-08T00:00:00.000Z",
+      "title": "nanoMuse: An Open-Source Personal Agent for Every Device You Own",
+      "submittedOnDailyBy": {
+        "_id": "64d761b98ebc40443831f82a",
+        "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/64d761b98ebc40443831f82a/DHBOtOstiFp2-lDY6b9gb.png",
+        "isPro": false,
+        "fullname": "Guangyi Liu",
+        "user": "lgy0404",
+        "type": "user",
+        "name": "lgy0404"
+      },
+      "summary": "Assistants from 2011 answered and waited, and agents from 2023 did a task and stopped. In September 2026 Meta's Muse showed an agent for one person, with accounts, devices, memory and a conversation that lasts, closed, in a vendor's cloud, in one country. Such an agent is expected to act on a person's accounts and devices, remember them across weeks, speak first when it is worth it, and answer for what it did. It is a kind of software, not a model, and until now had no open counterpart. This report defines the personal agent in five questions and three horizons. It reads how Muse is built from Meta's public record and a copy of its production prompt, each statement marked by its source. It then presents nanoMuse, the open-source counterpart under the GPL-3.0, one agent on every device a person owns, with hands on the phone's screen and the computer's. They share one conversation over a relay anyone can run; every action goes through a Sentinel, memory is files the person can read, and the model is their choice. Its size and cost are given as estimates. What is open, memory with provenance, an evaluation suite for the hands and an open model for them, is set out as a roadmap.",
+      "upvotes": 111,
+      "discussionId": "6ac6e1264eb8005165aed297",
+      "projectPage": "https://nanomuse.cn/",
+      "githubRepo": "https://github.com/nano-muse/nanoMuse",
+      "githubRepoAddedBy": "user",
+      "githubStars": 967,
+      "organization": {
+        "_id": "61bac2af530e5c78d7b99667",
+        "name": "zju",
+        "fullname": "Zhejiang University",
+        "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/5e1058e9fcf41d740b69966d/7G1xjlxwCdMEmKcxNR0n5.png"
+      }
+    },
+    "publishedAt": "2026-10-05T20:00:00.000Z",
+    "title": "nanoMuse: An Open-Source Personal Agent for Every Device You Own",
+    "summary": "Assistants from 2011 answered and waited, and agents from 2023 did a task and stopped. In September 2026 Meta's Muse showed an agent for one person, with accounts, devices, memory and a conversation that lasts, closed, in a vendor's cloud, in one country. Such an agent is expected to act on a person's accounts and devices, remember them across weeks, speak first when it is worth it, and answer for what it did. It is a kind of software, not a model, and until now had no open counterpart. This report defines the personal agent in five questions and three horizons. It reads how Muse is built from Meta's public record and a copy of its production prompt, each statement marked by its source. It then presents nanoMuse, the open-source counterpart under the GPL-3.0, one agent on every device a person owns, with hands on the phone's screen and the computer's. They share one conversation over a relay anyone can run; every action goes through a Sentinel, memory is files the person can read, and the model is their choice. Its size and cost are given as estimates. What is open, memory with provenance, an evaluation suite for the hands and an open model for them, is set out as a roadmap.",
+    "mediaUrls": [
+      "https://cdn-uploads.huggingface.co/production/uploads/64d761b98ebc40443831f82a/6EEDcp2yMHSgKNeAI6HxO.mp4",
+      "https://cdn-uploads.huggingface.co/production/uploads/64d761b98ebc40443831f82a/MRp8DMVyMd1Y14s83KQpk.png"
+    ],
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2610.08699.png",
+    "numComments": 2,
+    "submittedBy": {
+      "_id": "64d761b98ebc40443831f82a",
+      "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/64d761b98ebc40443831f82a/DHBOtOstiFp2-lDY6b9gb.png",
+      "fullname": "Guangyi Liu",
+      "name": "lgy0404",
+      "type": "user",
+      "isPro": false,
+      "isHf": false,
+      "isHfAdmin": false,
+      "isMod": false,
+      "followerCount": 4,
+      "isUserFollowing": false
+    },
+    "organization": {
+      "_id": "61bac2af530e5c78d7b99667",
+      "name": "zju",
+      "fullname": "Zhejiang University",
+      "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/5e1058e9fcf41d740b69966d/7G1xjlxwCdMEmKcxNR0n5.png"
+    },
+    "isAuthorParticipating": true
+  }
+]

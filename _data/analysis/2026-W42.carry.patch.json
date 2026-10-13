@@ -1,0 +1,217 @@
+{
+  "week_id": "2026-W42",
+  "papers": {
+    "2403.08299": {
+      "tier2": {
+        "method_detail": "AutoDev은 자율 AI 에이전트가 IDE 전반의 기능(파일 편집·검색·빌드·실행·테스트·git)을 직접 조작하도록 오케스트레이션하는 프레임워크로, 네 개의 핵심 축(Conversation Manager, Tools Library, Agent Scheduler, Evaluation Environment)으로 구성된다. (1) Conversation Manager는 사용자·에이전트 대화를 관리하며 하위 모듈로 에이전트 응답에서 명령·인자를 정해진 포맷으로 파싱하는 Parser, 실행 환경의 출력을 처리·구조화하는 Output Organizer, 종료 시점을 결정하는 Conversation Conclusion을 둔다. (2) Agent Scheduler는 Round Robin / Token-Based / Priority-Based 협업 알고리즘으로 다중 에이전트를 조율한다. (3) Tools Library는 File Editing(write/edit/insert/delete), Retrieval(grep/find/ls/embedding 기반 스니펫 검색), Build & Execution, Testing & Validation(테스트·린터·버그탐지), Git(commit/push/merge에 대한 세분화된 권한 설정), Communication(talk/ask/stop)의 6개 명령 범주를 제공한다. (4) Evaluation Environment는 Docker 컨테이너 안에서 모든 명령을 안전하게 실행하는 샌드박스다. 사용자는 YAML 설정으로 에이전트별 허용/제한 명령(guardrails)과 페르소나·역할(예: Developer, Reviewer)을 선언하며, 기본 설정 또는 세분화 권한을 선택할 수 있다. 평가에서는 gpt-4-1106-preview 단일 에이전트를 사용했고, 에이전트가 명령을 내면 환경이 실행 후 파일 내용·컴파일러 출력·빌드/테스트 로그·정적분석 결과를 다시 대화 이력으로 되돌려 반복(iterative) 개선하는 폐루프 구조다.",
+        "experiment_setup": [
+          "벤치마크: HumanEval(164개 수기 프로그래밍 문제, 각 문제는 함수 시그니처+docstring+본문+평균 7.7개 단위테스트). 테스트 생성 평가에는 인간 솔루션은 사용하고 인간 작성 테스트는 폐기한 뒤 focal method에 대한 테스트를 생성하도록 지시하는 변형본 사용.",
+          "모델: GPT-4(gpt-4-1106-preview) 단일 에이전트. 추가 학습 없음. (완전 자율 평가를 위해 human feedback용 ask 명령은 비활성화)",
+          "비교군: LATS(Language Agent Tree Search), Reflexion, zero-shot GPT-4 베이스라인.",
+          "코드 생성(RQ1): AutoDev 91.5% Pass@1(Extra Training X) vs LATS 94.4%(Extra Training O) vs Reflexion 91.0%(Extra Training O) vs zero-shot GPT-4 67.0%. zero-shot 대비 약 30% 상대 개선. 본문은 'second-best position', 초록은 '추가 학습 데이터 없이 top-3'로 표현(양립).",
+          "테스트 생성(RQ2): AutoDev Pass@1 87.8% vs 베이스라인 75% vs 인간 100%. 전체 커버리지 88.8% vs 74%(베이스라인) vs 99.4%(인간). 단, '통과한 테스트만의 커버리지'는 AutoDev·베이스라인 모두 ~99.3%로 거의 동일. 베이스라인 대비 약 17% 상대 개선.",
+          "효율(RQ3): 태스크당 평균 명령 수 5.5(코드생성)/6.5(테스트생성). 코드생성 명령 분포 write 1.8, test 1.7, stop 0.92, 잘못된 명령 0.25. 토큰 사용 1,656(코드)/1,863(테스트) vs 베이스라인 약 200(코드)~373(테스트) 토큰(다중 추론 호출로 인한 오버헤드)."
+        ],
+        "datasets": [
+          {
+            "name": "HumanEval",
+            "scale": "164개 문제, 문제당 평균 7.7개 단위테스트",
+            "domain": "함수 단위 파이썬 코드 생성 벤치마크"
+          },
+          {
+            "name": "HumanEval (test-generation 변형)",
+            "scale": "동일 164개 기반, 인간 솔루션 사용·인간 작성 테스트 폐기 후 focal method 테스트 생성",
+            "domain": "단위테스트 자동 생성 평가"
+          }
+        ],
+        "limitations": {
+          "by_authors": [
+            "HumanEval이 상대적으로 단순해 본 평가는 단일 GPT-4 에이전트로만 수행함(다중 에이전트 협업은 향후 확장 대상).",
+            "다중 에이전트 협업으로의 확장을 복잡한 태스크용 향후 과제로 명시(완전 검증은 미완).",
+            "더 어렵고 현실적인 데이터셋(예: Copilot Evaluation Harness)으로 평가 확장 필요.",
+            "가장 빈번한(most prevalent) 잘못된 명령은 에이전트가 자연어와 코드/명령을 섞어 출력하는 파싱 문제.",
+            "Docker 기반 평가 환경이 직접 CLI 대비 오버헤드가 커 'major execution cost'(주요 실행 비용) 요인이며, 다중 추론 호출도 단일 호출 방식 대비 비용 증가 요인.",
+            "human-in-the-loop의 더 깊은 통합, IDE 챗봇화, CI/CD·PR 리뷰 플랫폼 통합은 향후 과제."
+          ],
+          "by_claude": [
+            "결과표에서 LATS/Reflexion을 'Extra Training 필요'로 표기(원문 확인됨)했으나, 두 방법은 사실상 추론 시점의 탐색(MCTS)·언어적 피드백 기법에 가까워 '학습'이라는 프레이밍은 논쟁의 여지가 있음(정의 관점에 따라 해석 상이).",
+            "평가가 HumanEval 단일 벤치마크·단일 에이전트에 국한되어, 프레임워크의 핵심 세일즈포인트인 실제 리포지토리 규모의 멀티파일/의존성 태스크·다중 에이전트·git 워크플로 성능은 정량 미검증.",
+            "zero-shot 베이스라인 67.0%는 gpt-4-1106-preview의 통상 HumanEval 성능 대비 낮은 편이라, 베이스라인 프롬프트/설정 조건 확인 필요(본문 상세 부족).",
+            "guardrails(허용/제한 명령·YAML)의 실제 보안·프라이버시 효과나 우회 사례에 대한 정량 평가는 본문에 부재.",
+            "테스트생성에서 '통과 테스트 커버리지'는 베이스라인과 사실상 동일(~99.3%)하므로, 개선의 본질은 커버리지가 아니라 통과율(Pass@1)에 있음을 유의."
+          ]
+        },
+        "reproducibility": {
+          "code": "비공개/불명 — 논문 본문(arXiv HTML v1)에 코드·리포지토리 링크·오픈소스 공개 계획 언급 없음. 공식 레포/스타 수 확인 불가.",
+          "weights": "해당 없음 — 자체 학습 모델 없이 GPT-4 API(gpt-4-1106-preview) 사용.",
+          "data": "부분 공개 — HumanEval은 공개 데이터셋이나, 테스트생성 변형본/스캐폴딩·하니스 스크립트 공개 여부는 불명.",
+          "license": "불명 — 라이선스 명시 없음(저자진은 Microsoft 소속으로 알려진 연구자들이며 사내 프로토타입으로 추정, 본문에 라이선스·공개 조항 없음).",
+          "note": "arXiv HTML 본문(섹션·결과표 인용 포함)까지 대조 확인함(초록 기반 아님). 재현하려면 GPT-4 API 접근, Docker 샌드박스, YAML guardrail 설정, HumanEval 하니스 및 테스트생성 변형을 직접 재구성해야 하며 저자 제공 코드는 확인되지 않음."
+        },
+        "my_learning_points": [
+          "에이전트에 '도구 = 명령 카테고리(편집/검색/빌드/테스트/git/통신)'로 노출하고 실행 로그(파일 내용·컴파일러 출력·테스트/정적분석 결과)를 다시 컨텍스트로 되먹이는 폐루프 설계를 그대로 벤치마킹할 것 — LLM 단독 생성보다 반복 실행·검증이 Pass@1을 67%→91.5%로 끌어올린 핵심.",
+          "YAML 기반 allow/deny guardrail + Docker 샌드박스를 코딩 에이전트의 기본 안전장치로 채택하되, Docker가 본문서 '주요 실행 비용'으로 지목된 만큼 컨테이너 재사용/캐싱 등 오버헤드 절감 전략을 함께 설계할 것.",
+          "'자연어와 명령 혼합'이 최빈 실패 원인이었으므로, 에이전트 출력 포맷을 엄격히 강제(구조화 파서·정규식/함수호출 스키마)하고 잘못된 명령 비율(여기선 태스크당 0.25)을 상시 평가 지표로 추적할 것."
+        ],
+        "related_work": {
+          "prior": [
+            {
+              "name": "Auto-GPT",
+              "relation": "GPT+동반봇으로 목표 자율 수행; AutoDev은 이를 SE 특화 도구로 확장"
+            },
+            {
+              "name": "LATS (Language Agent Tree Search)",
+              "relation": "MCTS 기반 계획·행동·추론; HumanEval 94.4%로 상위 비교군(원문서 Extra Training으로 분류)"
+            },
+            {
+              "name": "Reflexion",
+              "relation": "언어적 피드백을 에피소드 메모리로 강화; 91.0% 비교군(원문서 Extra Training으로 분류)"
+            },
+            {
+              "name": "AutoGen",
+              "relation": "LLM 워크플로·다중 에이전트 대화 오케스트레이션; AutoDev은 직접 리포 조작 능력을 추가"
+            },
+            {
+              "name": "GitHub Copilot",
+              "relation": "기존 AI 코딩 어시스턴트지만 빌드/테스트/실행/git 등 전체 IDE 기능 미활용 — AutoDev의 문제의식 출발점"
+            }
+          ],
+          "followup": [
+            {
+              "name": "Copilot Evaluation Harness",
+              "relation": "저자들이 향후 더 현실적 평가로 확장하겠다고 본문에 명시한 벤치마크(후속 방향)"
+            },
+            {
+              "name": "SWE-bench 계열 리포지토리 레벨 에이전트",
+              "relation": "AutoDev이 목표한 실제 리포 규모 자율 SE의 후속 흐름으로 이어짐(Claude 관점 맥락화, 원문 언급 아님)"
+            }
+          ]
+        },
+        "claude_note": "arXiv HTML 본문(섹션·결과표·한계 인용 포함)까지 대조 검증한 분석이며 초록 기반이 아니다. Microsoft 소속 연구진(Tufano 외 4인)의 이 논문은 '전체 IDE 기능을 명령 도구로 노출 + Docker 샌드박스 + YAML guardrail'이라는 실용적 아키텍처를 제시하고 HumanEval에서 코드생성 91.5%/테스트생성 87.8% Pass@1을 보고하며, 초안의 모든 정량 수치는 원문과 일치함을 확인했다. 다만 기여는 새 모델·알고리즘이 아니라 잘 설계된 에이전트-도구 오케스트레이션 프레임워크에 가깝고, 평가가 HumanEval 단일·단일 에이전트에 국한되어 프레임워크의 핵심 세일즈포인트(다중 에이전트·현실 리포 규모·git 워크플로)는 정작 정량 검증이 얇다는 한계가 뚜렷하다. 코드/데이터 공개나 라이선스 언급이 없어 재현성은 보수적으로 '비공개/불명'으로 보아야 하며, LATS/Reflexion을 'Extra Training'으로 분류한 비교 프레이밍과 zero-shot 67% 베이스라인의 이례적 저점은 재확인 여지가 있다. 학습 자료로는 '실행 로그 되먹임 폐루프'와 'guardrail+샌드박스' 설계 패턴을 벤치마킹하는 용도로 가치가 높다.",
+        "analyzed_at": "2026-07-13"
+      }
+    },
+    "2609.18063": {
+      "tier2": {
+        "method_detail": "Edge0는 MoE의 routed expert 가중치를 RAM이 아니라 SSD에 두고, int4 per-layer stacked safetensors를 mmap으로 열어 필요한 byte range만 읽는 스트리밍 추론 엔진이다(3.1절). 35B 티어(Qwen3.6-35B-A3B 기반, 40층 x 256 experts)는 층당 expert 가중치가 453 MB(expert 1개 1.77 MB), routed expert 전체가 18 GB로 19.5 GB 체크포인트의 대부분을 차지한다. 핫 데이터는 OS page cache가 들고, 피크 메모리는 파라미터 수가 아니라 active set을 따른다.\n\n실행 경로는 네 가지다. exact(on-demand 번들 빌드, 정확성 기준), staged(고정 슬롯 double buffering, decode 주력. 라우팅 인덱스를 slot table로 매핑하고 incr_stack으로 바뀐 expert만 제자리 갱신), hot(층별 LRU 상주 hot expert, miss 시 exact로 fallback), whole-layer(prefill에서 층 전체 expert를 9번의 직접 read로 일괄 로드)다. 모든 경로는 down(silu(gate(x))·up(x))를 같은 quantized gather 커널로 계산하며 dequantized reference 대비 relative L2 1% 미만(측정 잔차 약 0.24%)으로 테스트된다.\n\n핵심은 prerouter다. 층 N+1의 expert 선택은 층 N 출력이 있어야 정해지므로 순진한 스트리밍은 매 층마다 디스크 지연에 막힌다. Edge0는 '이중 shift'를 쓴다. 층 N이 소유한 head가 토큰 t에서 층 N의 post-attention norm 출력을 보고 토큰 t+1의 층 N+1 라우팅을 예측한다. 한 스텝당 한 번의 flush로 모든 staged 층(35B 32개, 8B 16개)을 한꺼번에 예측하므로 SSD read가 한 decode step 전체와 겹친다. 같은 토큰 안에서 미리 고르는 Pre-gated MoE 방식은 이 엔진에서 스텝당 30-100 ms의 동기화 비용이 들어 plain LRU보다도 느렸다고 저자들은 보고한다. head 구조는 fc1 -> erf-gelu -> fc2에 linear residual을 더한 것이며, residual은 다음 층 router 가중치로 warm-start한다. 입력은 hidden state와 두 개의 top-k one-hot(이번 토큰과 이전 토큰에서 이 층이 실제 고른 expert)을 이어 붙인 것으로 35B는 2048+2x256=2560차원, hidden 512, fp16이다. 35B는 head 33개(owner 6-38), 8B는 16개다.\n\nPrediction-as-routing이 가장 중요한 설계다. decode 시 MoE 층은 원래 router 대신 prerouter logits를 같은 softmax-topk 또는 sigmoid-group 수식에 넣어 라우팅한다. 예측 집합이 곧 라우팅 집합이므로 staged 슬롯과 정확히 일치하고 drop이나 fallback load가 없다. 즉 '오예측'이라는 사건 자체가 런타임에 존재하지 않고, 원본 모델과 다른 expert를 쓰는 근사 오차가 그대로 모델 동작에 반영된다. 이 비용은 학습에서 갚는다. head 입력은 학습 때는 실제 라우팅, 추론 때는 자기 예측이라는 feature drift가 있는데 head를 재학습하지 않고 LoRA가 흡수하게 둔다. 예측 정확도(hit rate, top-k overlap)는 본문 전체에서 수치로 보고되지 않으며, 저자들은 router 일치도를 더 쫓는 것은 잘못된 목표이고 학생 라우팅에서 언어모델이 좋은 텍스트를 내는지가 중요하다고 주장한다.\n\nRecovery LoRA(r=16, alpha=32)는 attention, linear-attention, shared-expert projection에만 붙고 routed expert에는 붙지 않는다(스트리밍되며 교체 가능해야 하므로). 서빙은 unmerged로 y = W_int4(x) + (alpha/r)·B·A·x 병렬 delta다. LoRA delta(RMS 약 1e-3)가 4-bit group step보다 작아 병합 후 재양자화하면 효과가 attention projection에서 34%, dense projection에서 2%, logits 수준에서 18%만 남기 때문이다. unmerged 비용은 어댑터 42 MB, decode 시간 차이는 측정되지 않을 정도라고 한다. 양자화는 expert 가중치 int4 affine group-64다.\n\n학습은 3단계이며 모두 4-bit 배포 체크포인트를 dequantize한 bf16 재구성 위에서 base를 고정한 채 진행한다. Phase 1은 head만 다음 층의 실제 router logits를 모방하도록 distill한다. Phase 2는 prerouter 라우팅을 켠 student path 전체 forward로 약 2M행의 teacher 생성 텍스트에 SFT한다(distill만 한 체크포인트는 반복·붕괴된 텍스트를 냈다고 함). Phase 3은 on-policy distillation으로 학생이 생성하고 원래 fp16 base가 teacher로 채점하며, teacher top-k 토큰에 reverse KL과 tail 항을 쓴다. 약 200k행(Phase 2의 1/10)에서 수렴한다. 이 구조 덕에 35B 티어는 base의 K=8 대신 K=4로 재학습해 출시됐다.",
+        "experiment_setup": [
+          "하드웨어(5.1절, Table 1): '단일 24GB 머신'은 Mac mini M4 Pro 24 GB unified memory(Apple Silicon)다. prerouter A/B(5.3절, Table 3-4, Figure 3)는 MacBook M2 16 GB unified memory에서 돌렸다. 18.4 GiB 릴리스 디렉터리(19.5 GB int4 base + 어댑터·head 0.2 GB)가 메모리에 들어가지 않는 조건이다. SSD 종류·용량·대역폭과 macOS 버전은 본문에서 명시되지 않는다. MLX 버전은 0.30.4-0.30.6이다.",
+          "20 tok/s 조건(Table 1 캡션, 6장): 35B 티어 K=4 production profile, 한 번에 1요청(FIFO 직렬, 배치 없음), 각 arm 별도 프로세스, warm 상태, arm 순서 회전, 3라운드 median이다. 메모리는 short context에서 측정했다. 디코드 측정의 정확한 context 길이와 생성 토큰 수는 원문에서 확인되지 않는다. prefill은 별도로 3.1k 토큰 프롬프트에서 측정했다(warm은 한 프로세스 안에서, cold는 프로세스 시작 후 첫 요청).",
+          "핵심 성능(Table 1): 35B는 decode 20.4 tok/s, prefill cold/warm 113/140 tok/s, peak active memory 2.9 GiB다. 8B(Ling 3.0 tiny, MLA+MoE, 24층 x 128 experts, K=8)는 decode 28.0 tok/s, prefill 500/1102 tok/s, 1.5 GiB다. 8B는 shared LRU를 64에서 1024 bundle로 키우면 약 0.9 GiB를 더 쓰고 31.8 tok/s가 된다. 같은 Mac mini에서 35B의 prerouter를 끄면 19.9 tok/s로, 이 머신에서 prerouter 이득은 약 2.5%다. prerouter off arm이 on-demand인지 staged인지 등 구성은 원문에 적혀 있지 않다.",
+          "유일한 외부 시스템 baseline(3.1절, 5.4절)은 같은 Mac mini에서 19.5 GB 4-bit 가중치를 전부 상주시킨 vanilla mlx-lm 서버다. 결과는 3.9 tok/s, 18.2 GiB 점유다. 저자 각주는 같은 머신, 같은 decode protocol, think-mode on이라고 밝힌다. Edge0는 20.4 tok/s, 2.9 GiB로 '5배 빠르고 메모리는 1/6-1/7'이라고 주장한다. 단 resident baseline의 routing K는 명시되지 않았고 Edge0는 K=4 재학습 프로파일이다. 저자들은 resident 쪽이 메모리 부족으로 paging한다고 설명한다. llama.cpp --cpu-moe, PowerInfer, Mixtral-offloading, MoE-Infinity, FlexGen은 관련연구에서 인용만 하고 수치 비교는 없다.",
+          "prerouter A/B(Table 3, MacBook M2 16GB): on-demand 대비 prerouter decode는 K=2 4.8 -> 8.6(+80%), K=4 3.5 -> 6.4(+82%), K=8 1.8 -> 3.3(+84%)이다. 메인 스레드의 expert load 대기 시간(스텝당, 층 합산)은 K=2 154.9 -> 46.5 ms, K=4 244.0 -> 101.9 ms, K=8 575.0 -> 211.6 ms다. K=8 on-demand 합 575.0 ms가 스텝 559.1 ms보다 큰데, 층 간 load가 겹치기 때문이다. 디스크 read는 스텝의 최대 12%, 프로세스는 8코어 중 약 1코어, GPU는 35-41%를 써서 어떤 자원도 포화되지 않았다고 보고한다. 3라운드 median이며 3/3 라운드가 일치했다(Figure 3 캡션).",
+          "routing width A/B(4장, Table 3): 같은 16GB 머신의 같은 세션에서, 같은 가중치로 K=8을 K=4로 줄이면 prerouter arm decode가 3.3 -> 6.4 tok/s로 거의 2배가 되고 peak active memory도 줄어든다. on-demand arm은 1.8 -> 3.5다. 저자들은 재학습한 K=4 티어가 Table 2 품질을 유지한다고 주장한다. 24GB Mac mini에서 35B를 K=8로 측정한 수치는 없다.",
+          "I/O 비용(Table 4): 스텝당 read 바이트(prerouter vs on-demand)는 K=2 29.5 vs 30.4 MiB, K=8 125.1 vs 126.9 MiB로 거의 같다. K=4만 58.9 vs 50.9 MiB로 16% 많다. prerouter는 더 적고 크고 차가운 load를 낸다. K=8 기준 load당 1.40 MiB·90% cold vs 0.32 MiB·20% cold이고, 스텝당 load 수는 89.5 vs 398.6이다. load 비용 모델은 1.17 ms + 1.33 ms x cold 비율로, 측정값을 0.13 ms 이내로 재현한다. 인접 토큰 간 expert 집합 겹침은 약 1/4이다.",
+          "메모리 대가(5.3절): unreclaimable MLX 할당은 on-demand 1.72/1.73/1.79 GiB, prerouter 2.33/2.60/3.22 GiB다(K=2/4/8). Process RSS(파일 기반 expert 페이지 포함)는 on-demand 5.29/6.12/6.18 GiB, prerouter 4.91/5.61/6.39 GiB다. K=8에서 prerouter arm은 1.43 GiB를 더 쥐고 page cache는 1.15 GiB 줄어든다. 저자들이 밝힌 미적용 개선 여지는 두 가지다. bundle과 stacked view 이중 사본을 없애면 K=8에서 약 0.45 GiB를 돌려받고, 메인 스레드 동기 fill(K=8에서 62.5 ms/step)을 다른 스레드로 옮길 수 있다. 둘 다 측정 구성에는 반영되지 않았다.",
+          "품질 평가(5.1-5.2절, Table 2): OpenCompass를 compute server에서 돌려 Edge0(int4 + adapters + prerouter routing)와 원래 fp16 base를 동일 설정으로 평가했다. sampling, temperature, max tokens, AIME 반복 횟수 등 세부 설정은 원문에서 확인되지 않는다. 35B: AIME 2026 86.6 vs 92.7(-6.1), HumanEval 90.9 vs 95.1(-4.2), GPQA-Diamond 79.8 vs 81.8(-2.0), MMLU-Pro 81.0 vs 84.6(-3.6), IFBench 57.9 vs 61.7(-3.8), 평균 79.2 vs 83.2. 8B: AIME 63.3 vs 73.3(-10.0), HumanEval 91.5 vs 92.7(-1.2), GPQA-D 70.7 vs 71.2(-0.5), MMLU-Pro 70.1 vs 65.8(+4.3), IFBench 53.9 vs 60.6(-6.7), 평균 69.9 vs 72.7.",
+          "측정 신뢰성 주의(5.1절): 저자들은 이 하드웨어에서 single-shot 벤치마크가 run 간 +-40%, 16GB 머신에서는 세션 간 최대 2.3배 차이가 난다고 밝힌다. 그래서 같은 세션 교차 A/B만 증거로 쓴다.",
+          "Appendix B: incr_stack(sticky-slot 제자리 갱신)은 별도 A/B에서 decode를 +34% 올렸다. K=8 구성에서 native routing 대비 전체 출시 파이프라인은 6.8 -> 12.5 tok/s였다. 저자 스스로 이전 캠페인의 다른 구성이라 Table 3와 비교할 수 없다고 밝힌다. 6장에 따르면 40층 forward의 CPU측 graph building 44 ms/step이 decode 하한이다.",
+          "저장소 문서와 논문의 구성 불일치: docs/models/edge0-8b.md는 8B 배포 프로파일에서 staged decode를 끈다고 적는다(staged=False). 이유는 deployment verification에서 staged decode가 출력을 저하시켰기 때문이며, 대신 prerouter가 다음 토큰 expert prefetch를 직접 구동한다. 논문 3.2절은 8B가 K=8, 층당 8개 staged slot으로 돈다고 적는다. docs/models/edge0-35b.md는 35B 프로파일이 on-demand prefill(full_layer_prefill=False)이라고 적지만, 논문은 두 티어 모두 prefill에 whole-layer 경로를 쓴다고 적는다. Table 1이 어느 구성으로 측정됐는지는 확인되지 않는다."
+        ],
+        "datasets": [
+          {
+            "name": "Phase 2 SFT 코퍼스 (teacher-generated text)",
+            "domain": "일반 텍스트(teacher가 생성). 프롬프트 출처와 teacher 모델명은 원문에서 확인되지 않음",
+            "scale": "약 2M rows"
+          },
+          {
+            "name": "Phase 3 on-policy distillation 데이터 (student 생성, fp16 base가 채점)",
+            "domain": "student 자체 생성 텍스트",
+            "scale": "약 200k rows (Phase 2의 1/10)"
+          },
+          {
+            "name": "AIME 2026",
+            "domain": "수학 추론 (평가)",
+            "scale": "문항 수 원문에서 확인되지 않음"
+          },
+          {
+            "name": "HumanEval",
+            "domain": "코드 생성 (평가)",
+            "scale": "원문에 명시 없음"
+          },
+          {
+            "name": "GPQA-Diamond",
+            "domain": "대학원 수준 과학 QA (평가)",
+            "scale": "원문에 명시 없음"
+          },
+          {
+            "name": "MMLU-Pro",
+            "domain": "다분야 지식 (평가)",
+            "scale": "원문에 명시 없음"
+          },
+          {
+            "name": "IFBench",
+            "domain": "지시 따르기 (평가)",
+            "scale": "원문에 명시 없음"
+          }
+        ],
+        "limitations": {
+          "by_authors": [
+            "단일 요청 직렬 처리: Edge0는 한 번에 한 요청만 FIFO로 처리하며 배치 서빙을 하지 않는다. 배치는 expert working set을 바꾸는데 이는 per-request 프로파일이 모델링하지 않는다고 저자들이 적는다. 20.4 tok/s를 포함한 모든 처리량 수치가 batch 1 조건이다 (6장, Table 1 캡션).",
+            "CPU측 하한: 40층 forward의 graph building이 스텝당 44 ms이고 이는 스토리지 쪽 최적화로 줄일 수 없는 decode 하한이라고 저자들이 명시한다 (6장).",
+            "prefetch 이득의 조건 의존성과 메모리 대가: prerouter 이득은 제거하는 대기 시간에 비례하므로 hot cache나 빠른 스토리지에서는 줄어들고, 인접 토큰이 한 층의 expert 중 약 1/4만 공유하므로 재사용에 상한이 있다. 대가는 page cache에서 가져오는 unreclaimable residency로, K=8에서 prerouter arm이 MLX 메모리를 1.43 GiB 더 쥐고 page cache는 1.15 GiB 줄었다. 실제로 24GB Mac mini에서는 prerouter off 19.9 vs on 20.4 tok/s다 (6장, 5.3절, Table 1 캡션).",
+            "측정 구성의 미완 최적화: stager가 같은 가중치의 bundle과 stacked view 두 사본을 들고 있어 K=8에서 약 0.45 GiB가 낭비되고, incremental stacking fill이 메인 스레드에서 동기 실행되어 K=8에서 스텝당 62.5 ms가 든다고 저자들이 'Two levers not yet pulled'로 밝힌다. 두 개선 모두 측정 구성에 포함되지 않았다 (5.3절).",
+            "품질 손실이 긴 추론에 집중: 35B 티어 AIME -6.1점(86.6 vs 92.7), 8B 티어 AIME -10.0점, 8B IFBench -6.7점을 저자들이 직접 한계로 적는다. HF 모델 카드 두 개는 별도로 tool use와 multi-step planning 등 agent 능력이 약하고, 성능 수치는 MLX Apple Silicon 측정이며 iOS/Android/Windows 엔진은 아직 성숙 중이라고 경고한다. 35B 카드는 긴 context에서 KV cache로 3 GiB를 넘는다고도 적는다 (6장, Table 2, HF 모델 카드 Limitations).",
+            "구현 범위와 측정 신뢰성: MLX가 유일한 구현 백엔드이고 CUDA는 아키텍처만 있고 코드는 없다(6장, README 로드맵상 2026 Q4). 또 이 하드웨어에서 single-shot 벤치마크는 run 간 +-40%, 16GB 머신은 세션 간 최대 2.3배 편차가 있어 같은 세션 교차 A/B만 증거로 쓴다고 밝힌다 (5.1절)."
+          ],
+          "by_claude": [
+            "헤드라인 성능의 원인 귀속이 흐리다. abstract는 prerouter가 SSD 지연을 숨긴다는 서사를 쓰지만, 20.4 tok/s를 낸 24GB Mac mini에서 prerouter를 끄면 19.9 tok/s로 측정 기여는 약 0.5 tok/s(약 2.5%)다. off arm이 정확히 어떤 구성인지는 원문에 없다. +80-84% 이득(Table 3)은 가중치가 메모리에 들어가지 않는 16GB MacBook M2에서, 절대 속도 3.3-8.6 tok/s 수준으로만 나온다. 같은 16GB 머신에서 K=8을 K=4로 줄이면 decode가 3.3 -> 6.4 tok/s로 거의 2배가 되고(4장, Table 3), incr_stack도 +34%를 보인다(Appendix B, 다른 측정 캠페인). 그래서 출시 티어 속도의 상당 부분은 routing width 축소와 스트리밍 경로 최적화에서 온다고 보는 것이 논문 자체 데이터와 맞는다. 다만 24GB Mac mini에서 각 요소의 기여를 분해한 측정은 없고, 저자들은 정확한 집합을 공급할 prerouter 없이는 staging만으로 배포 가능한 구성이 아니라고 반론한다(5.3절).",
+            "외부 baseline이 사실상 하나다. 비교 대상은 같은 Mac mini에서 19.5 GB를 전부 상주시켜 paging이 일어나는 vanilla mlx-lm(3.9 tok/s, 18.2 GiB)뿐이다. 저자 각주는 같은 머신, 같은 decode protocol이라고만 밝히고 routing K는 명시하지 않아 K=4 Edge0와 동일 조건인지 알 수 없다. llama.cpp --cpu-moe, MoE-Infinity, PowerInfer, Mixtral-offloading은 인용만 있고 수치 비교가 없다. Pre-gated MoE 계열은 자기 엔진 안에서 same-token 변형을 측정해 스텝당 30-100 ms 비용으로 plain LRU보다 느렸다고 서술하지만, 표나 원 시스템 수치는 제시하지 않는다. '5배 빠르다'는 이 단일 비교에 한정해 읽어야 한다. 다만 저자들이 resident baseline이 이 하드웨어에서 빠른 기준이 아닌 이유를 3.1절에서 직접 설명한다는 점은 공정하게 밝혀 둔다.",
+            "Prediction-as-routing의 동작 변화 평가가 부족하다. 35B는 40층 중 32층, 8B는 24층 중 16층이 이전 토큰 시점의 예측으로 라우팅되고, 35B는 K도 8 -> 4로 바뀐다. 그런데 router 일치도, top-k overlap, 출력 분포 KL 같은 지표는 본문 전체에서 수치로 보고되지 않고, 평가는 5개 벤치마크 점수뿐이다. 저자들은 router 일치도를 쫓는 것이 잘못된 목표라고 근거를 들어 주장하지만, 그렇다면 언어모델 출력 수준의 차이를 더 넓게 측정해야 한다. 원본 대비 편차는 벤치마크 밖(장문 생성, 다국어, agent 작업)에서 드러날 수 있으나 이를 측정한 결과는 없고, HF 카드도 agent 능력이 약하다고 인정한다. 벤치마크의 sampling, temperature, max tokens, AIME 반복 횟수도 원문에서 확인되지 않아 -6.1 같은 격차의 분산을 판단할 수 없다.",
+            "재현성 공백. 저장소 전체 파일 트리(1131 경로)를 train, distill, sft, opencompass로 검색한 결과, 추론 엔진, 벤치 스크립트(python/examples/bench.py), 학습된 어댑터와 head만 있고 prerouter head distill, LoRA SFT, on-policy distillation, OpenCompass 평가 코드는 없다. docs/prerouter.md는 heads.py가 별도의 training implementation에서 가져온 것이라고 적어 학습 구현이 비공개임을 시사한다. Phase 2 약 2M행 데이터의 프롬프트 출처, 학습 compute, learning rate와 step 수도 원문에서 확인되지 않는다. 따라서 다른 MoE에 prerouter를 새로 학습시키려면 논문 서술만 보고 재구성해야 한다.",
+            "측정 조건과 공개 자료의 불일치. SSD 모델·대역폭과 macOS 버전이 명시되지 않아, SSD에 의존하는 시스템인데도 하드웨어 일반화가 어렵다. README와 HF 카드는 다른 프로토콜(약 3.3k 토큰 프롬프트 후 200 decode 토큰, 2 runs)로 35B 14.9-17.7 tok/s, 8B 23.9-25.3 tok/s, 8B peak 1.0 GiB를 적어 논문의 20.4, 28.0 tok/s, 1.5 GiB와 다르다. 차이의 일부는 조건 차이로 보이지만 두 수치를 조정하는 설명은 없다. README의 35B 체크포인트 약 23 GB 표기도 논문 19.5 GB, HF 파일 합계 약 19.7 GB(어댑터와 head 포함)와 다르다. 또 저장소 문서는 8B에서 staged decode가 출력을 저하시켜 끈다고 적고(docs/models/edge0-8b.md) 35B는 on-demand prefill이라고 적어(docs/models/edge0-35b.md), 논문 3.2절의 배포 구성 서술과 충돌한다. '3 GiB peak active memory'는 MLX allocator peak로 page cache와 mmap 파일 페이지를 빼고 잰 값이며, 16GB 실험의 Process RSS는 4.91-6.39 GiB였다."
+          ]
+        },
+        "reproducibility": {
+          "code": "공개. https://github.com/Edge0-AI/edge0 에 Python 프레임워크(MLX, Apple Silicon 전용 참조 구현), macOS(Rust), iOS(Swift + MLX Swift), Android(Kotlin), Windows(C++ + Vulkan, pinned llama.cpp + 8개 패치: 공통 6개, Windows 전용 2개) 엔진이 있다. 저장소 전체 파일 트리(1131 경로)를 train, distill, sft, opencompass로 검색한 결과 prerouter head 학습, LoRA SFT, on-policy distillation, OpenCompass 평가 스크립트는 없다. python/scripts에는 e2e_smoke, fetch_models, generate_example, strip_vision_weights, upload_hf, verify_alignment가 있고, python/examples/bench.py로 tok/s를 측정할 수 있다. Windows 엔진의 prerouter는 windows/serve/prefetch.h 기준 실제 gate를 바꾸지 않는 advisory prefetch이고 기본은 비활성(E0_PREROUTER 환경변수)이다. CUDA 백엔드는 README 로드맵상 2026 Q4 예정이다.",
+          "weights": "공개. Hugging Face Edge0/Edge0-35B-A3B-preview (base Qwen/Qwen3.6-35B-A3B, HF API 파일 합계 약 19.74 GB, lora_edge0_35b.safetensors 42.4 MB, prerouter_edge0_35b.safetensors 138.4 MB 포함)와 Edge0/Edge0-8B-A1B-preview (base inclusionAI/Ling-3.0-tiny-base, 파일 합계 약 4.60 GB, lora 16.4 MB, prerouter 38.8 MB). 둘 다 preview 릴리스이고 ModelScope 미러도 있다. README는 35B 디스크 사용량을 약 23 GB, 8B를 약 4.2 GB로 적어 논문(19.5/4.5 GB)과 수치가 다르다.",
+          "data": "미공개로 판단. repo 전체 검색, README, HF 모델 카드 두 개, 논문 전문에서 학습 데이터(Phase 2 약 2M행 teacher 생성 텍스트, Phase 3 약 200k행 on-policy 데이터) 공개 언급을 찾지 못했다. 평가 벤치마크(AIME 2026, HumanEval, GPQA-Diamond, MMLU-Pro, IFBench)는 공개 벤치마크지만 OpenCompass 설정은 원문에서 확인되지 않는다.",
+          "license": "Apache-2.0. 저장소 LICENSE 파일이 Apache License 2.0 원문이고 논문 7장 Artifacts도 Apache-2.0을 명시한다. 하위 디렉터리별 NOTICE 파일에 third-party 코드가 표기된다. HF 모델 카드 두 개도 메타데이터상 apache-2.0이다. base 모델(Qwen3.6-35B-A3B, Ling 3.0 tiny)의 자체 라이선스 조건은 이번에 확인하지 않았다.",
+          "note": "추론 재현(공개 체크포인트와 bench.py로 Mac에서 tok/s 측정)은 가능하다. 다만 결과가 SSD와 메모리 조건에 크게 의존하고, 저자들도 run 간 +-40% 편차를 경고한다. README의 측정 프로토콜도 논문과 달라 수치가 일치하지 않는다(35B 14.9-17.7 vs 20.4 tok/s). 방법 재현(다른 MoE에 prerouter와 recovery LoRA를 학습)은 학습 코드, 데이터, 하이퍼파라미터가 공개되지 않아 어렵다. Windows에서는 Python/MLX 엔진이 동작하지 않는다. 별도 Windows 앱(Vulkan, GGUF Q4_1, expert CPU mmap -cmoe)은 LoRA를 별도 GGUF adapter로 런타임 적용하지만, prerouter는 routing gate를 바꾸지 않는 advisory prefetch이자 기본 비활성 기능이라 논문의 prediction-as-routing을 구현하지 않는다. 이 앱의 참고 수치(35B decode 약 27.7 tok/s)는 48GB RAM 기준 머신의 warm-RAM 측정이라 SSD 스트리밍 조건이 아니며, 같은 조건의 vanilla llama.cpp와 속도가 거의 같다고 저자 문서가 밝힌다. 설치 파일 미서명, 엔진 미번들 등 미성숙 상태도 README에 명시돼 있다."
+        },
+        "my_learning_points": [
+          "로컬 모델 속도는 single-shot으로 측정하지 말 것. 저자들은 같은 하드웨어에서 single-shot 벤치마크가 run 간 +-40%, 16GB 머신에서 세션 간 최대 2.3배 차이가 난다고 보고한다. 그래서 각 arm을 별도 프로세스로 띄우고, arm 순서를 회전하고, 두 arm이 같은 토큰 시퀀스를 재생하게 한 뒤 warm 상태 3라운드 median을 내는 같은 세션 교차 A/B만 증거로 쓴다. 같은 저자들의 README 수치(3.3k 프롬프트 후 200 토큰, 2 runs)가 논문 수치보다 2.7-5.5 tok/s 낮은 것 자체가 프로토콜 차이의 영향을 보여 준다. Windows PC에서 llama.cpp 옵션(예: -cmoe, -ngl)이나 양자화 포맷을 비교할 때 이 절차를 작은 PowerShell 스크립트로 만들어 두면, 트렌드 시스템이 논문의 tok/s 주장을 검증할 때도 같은 기준을 쓸 수 있다.",
+          "offloading·prefetch 기법의 효과는 먼저 '모델이 메모리에 들어가느냐'로 갈린다. 같은 prerouter가 가중치를 다 담지 못하는 16GB MacBook M2에서는 decode +80-84%(K=4 기준 3.5 -> 6.4 tok/s)지만, 24GB Mac mini에서는 19.9 -> 20.4 tok/s로 약 2.5%다. 반면 같은 16GB 머신에서 routing width를 K=8에서 K=4로 줄이자 decode가 거의 2배가 됐다. 활성 expert 수가 토큰마다 옮겨야 할 바이트 양을 직접 정하기 때문이다. 따라서 35B급 MoE를 로컬에서 돌리려면 먼저 RAM(또는 unified memory) 용량과 int4 체크포인트 크기(35B 약 19.5 GB)를 비교하고, 모자랄 때만 SSD 스트리밍류 기법을 고려하는 것이 순서다. repo의 Windows 참고 수치(35B decode 약 27.7 tok/s)도 48GB RAM에 모델이 다 올라간 warm-RAM 조건이며, README는 16GB 이하에서 35B가 paging-bound라고 적는다. GPU 유무와 SSD 속도는 본인 환경에서 직접 측정해야 하며, 논문은 SSD 사양을 명시하지 않았다.",
+          "양자화 모델에 LoRA를 붙일 때 병합 후 재양자화를 기본값으로 쓰지 말 것. 저자들은 LoRA delta(RMS 약 1e-3)가 int4 group-64 step보다 작아서, 병합·재양자화하면 효과가 attention projection 34%, dense projection 2%, logits 18%만 남는다고 측정했다. unmerged 병렬 delta(어댑터 42 MB)는 decode 시간 차가 측정되지 않을 정도라고 보고한다. repo의 Windows 앱도 MLX LoRA를 별도 GGUF adapter로 변환해 llama.cpp에 런타임 adapter로 넘기므로(windows/tools/lora_mlx_to_gguf.py) 같은 원칙을 따른다. 로컬에서 GGUF 등 4-bit 모델에 자체 LoRA를 쓸 때는 런타임 어댑터 로딩(llama.cpp의 --lora 인자)을 먼저 시도하고, 병합본과 품질을 같은 프롬프트 세트로 비교하는 습관을 들이면 된다. 단 Windows 앱은 prerouter를 advisory prefetch로만 쓰므로(기본 비활성) student routing 경로에서 학습한 LoRA가 원래 gate 위에서 돌게 되고, 이때 Table 2 품질이 유지되는지는 확인되지 않았다(코드 주석과 논문 서술을 비교한 추론). HF 카드도 agent 능력(tool use, multi-step planning)이 약하다고 경고하므로, Claude Code 서브에이전트의 로컬 대체 모델로 쓰기 전에 별도 검증이 필요하다."
+        ],
+        "related_work": {
+          "prior": [
+            {
+              "title": "Pre-gated MoE: An Algorithm-System Co-Design for Fast and Scalable Mixture-of-Expert Inference",
+              "id": "arXiv:2308.12066 (ISCA 2024)",
+              "relation": "같은 토큰 안에서 다음 층 expert를 미리 고르는 pre-gating 방식이다. Edge0는 이런 same-token 변형이 자기 엔진에서 스텝당 30-100 ms의 동기화 비용 때문에 plain LRU보다 느렸다고 보고하고, 다음 토큰을 예측하는 이중 shift로 대체한다."
+            },
+            {
+              "title": "Post-Trained MoE Can Skip Half Experts via Self-Distillation",
+              "id": "arXiv:2605.18643",
+              "relation": "저자들이 접근법상 가장 가깝다고 꼽은 연구다. 사후 학습한 MoE가 그에 맞춰 학습되면 expert 수를 절반으로 줄여도 견딘다는 관찰이며, Edge0의 routing 대체 학습과 K=8 -> 4 재학습이 같은 관찰을 prediction-as-routing에 적용한 것이라고 저자들은 설명한다."
+            },
+            {
+              "title": "Fast Inference of Mixture-of-Experts Language Models with Offloading (Eliseev, Mazur)",
+              "id": "arXiv:2312.17238",
+              "relation": "Mixtral expert를 LRU 캐시와 speculative expert loading으로 offload하는 선행 시스템이다. Edge0는 자기 hot 경로가 같은 popularity 캐시 계열이라며 인용만 하고 수치 비교는 하지 않는다."
+            },
+            {
+              "title": "MoE-Infinity: Efficient MoE Inference on Personal Machines with Sparsity-Aware Expert Cache",
+              "id": "arXiv:2401.14361",
+              "relation": "개인 기기용 expert 캐시·prefetch 시스템으로 문제 설정이 같다. Edge0와의 수치 비교는 없다."
+            },
+            {
+              "title": "PowerInfer: Fast Large Language Model Serving with a Consumer-grade GPU",
+              "id": "arXiv:2312.12456",
+              "relation": "hot/cold neuron 분리로 소비자 GPU와 CPU에 가중치를 나누는 접근이다. Edge0의 hot expert 경로가 같은 hot/cold 분리라고 저자들이 직접 적는다. 인용만 있고 수치 비교는 없다."
+            },
+            {
+              "title": "FlexGen: High-Throughput Generative Inference of Large Language Models with a Single GPU",
+              "id": "arXiv:2303.06865",
+              "relation": "GPU/CPU/디스크 계층으로 가중치와 KV를 offload하는 처리량 지향 배치 서빙의 대표 선행 연구다. Edge0는 배치 1 지연 지향이라 목표가 다르다."
+            }
+          ],
+          "followup": []
+        },
+        "claude_note": "이 논문의 진짜 새로운 점은 prerouter 예측을 prefetch 힌트가 아니라 실제 라우팅으로 쓰는 prediction-as-routing이다. 예측 집합이 곧 사용 집합이므로 오예측 fallback 경로가 사라지고, 그 대가인 원본 모델과의 동작 차이는 recovery LoRA와 on-policy distillation으로 학습 단계에서 갚는다. 4-bit 위에 LoRA를 병합하지 않는 이유를 잔존율(34%, 2%, 18%)로 측정해 보인 점도 실용적이다. 반면 증거의 강도는 헤드라인보다 약하다. '단일 24GB 머신'은 GPU VRAM이 아니라 Mac mini M4 Pro의 unified memory다. 20.4 tok/s는 batch 1, short context, warm, 3라운드 median이고, base의 K=8이 아닌 K=4 재학습 프로파일 조건이다. 이 머신에서 prerouter의 측정 기여는 약 2.5%뿐이고, +80% 이상은 16GB 기기에서만 나온다. 같은 16GB 기기에서는 K=8을 K=4로 줄이는 것만으로 decode가 약 2배가 됐다. '3 GiB'는 MLX allocator peak로 page cache를 뺀 값이다. 외부 비교는 paging이 일어나는 vanilla mlx-lm 하나뿐이고, router 일치도나 출력 분포 차이는 보고되지 않는다. 품질 격차는 평균 3.9/2.8점이지만 AIME에서는 -6.1/-10.0점으로 크다. 그밖에 SSD 사양 미공개, 학습 코드 부재(저장소 전체 트리 확인), README·HF 카드·저장소 문서와의 수치·구성 불일치(8B staged decode 비활성 등)가 남는다. Windows 앱은 prerouter를 advisory prefetch로만 쓰므로 논문 방법을 Windows에서 재현한 것으로 볼 수 없다. 인용할 때는 'Apple Silicon 24GB unified memory Mac mini에서 Qwen3.6-35B-A3B를 K=4로 재학습한 int4 변형이 배치 1 decode 약 20 tok/s를 냈고, 다섯 벤치마크 평균 약 4점 하락(AIME는 6점 이상)'처럼 조건과 손실을 함께 적는 것이 정확하다.",
+        "analyzed_at": "2026-10-06"
+      }
+    }
+  }
+}
