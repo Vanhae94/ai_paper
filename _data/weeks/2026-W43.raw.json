@@ -1,0 +1,707 @@
+[
+  {
+    "paper": {
+      "id": "2610.14224",
+      "authors": [
+        {
+          "_id": "6acee61fabe004a210f25904",
+          "name": "Ruiyao Xu",
+          "hidden": false
+        },
+        {
+          "_id": "6acee61fabe004a210f25905",
+          "name": "Yanfei Chen",
+          "hidden": false
+        },
+        {
+          "_id": "6acee61fabe004a210f25906",
+          "name": "Zhongying CuiZhu",
+          "hidden": false
+        },
+        {
+          "_id": "6acee61fabe004a210f25907",
+          "name": "Bhavana Dalvi Mishra",
+          "hidden": false
+        },
+        {
+          "_id": "6acee61fabe004a210f25908",
+          "name": "Yifei Ming",
+          "hidden": false
+        },
+        {
+          "_id": "6acee61fabe004a210f25909",
+          "name": "Han Yu",
+          "hidden": false
+        },
+        {
+          "_id": "6acee61fabe004a210f2590a",
+          "name": "Rujun Han",
+          "hidden": false
+        },
+        {
+          "_id": "6acee61fabe004a210f2590b",
+          "name": "Chen-Yu Lee",
+          "hidden": false
+        },
+        {
+          "_id": "6acee61fabe004a210f2590c",
+          "name": "Tomas Pfister",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2026-10-09T00:00:00.000Z",
+      "submittedOnDailyAt": "2026-10-14T00:00:00.000Z",
+      "title": "Harness^2: Recursive Agent Harnessing for an Open World",
+      "submittedOnDailyBy": {
+        "_id": "66e477a352356419c4712065",
+        "avatarUrl": "/avatars/cd2969ce88e44735c3fe70312c0e64b3.svg",
+        "isPro": true,
+        "fullname": "Ruiyao Xu",
+        "user": "ruiyaox",
+        "type": "user",
+        "name": "ruiyaox"
+      },
+      "summary": "LLM agents' capabilities depend not only on their underlying models but also on their execution harnesses. Recursive self-improvement (RSI) offers a promising approach to automatically evolve these harnesses. However, deploying RSI in open-world settings still faces two critical challenges. First, open-world tasks are typically unseen during the harness design phase and novel at test time, leaving no ground-truth verifiers to reliably guide online harness edits. Second, the RSI process remains highly task-specific and fails to generalize to novel scenarios. We introduce Harness^2, a plug-and-play, recursive agent harnessing framework that addresses these challenges through two connected levels of recursion. Task-level recursion refines the current task's harness using a contrastive Propose-Probe-Compose step that reliably guides edits without ground-truth verifiers, and can be scaled further via parallel or sequential recursion. Harnessing-level recursion then extracts experience from these edits to update a continual improvement harness, enabling the agent to better adapt to future tasks. Across three professional benchmarks and four model-harness configurations, a single step consistently improves GLM-5 and Gemini 3.5 Flash over their base harnesses, yielding gains of up to 11.5 points on WorkBuddy-Bench, 4.5 points on JobBench, and 11.8 percentage points on LAB, with further gains as the task-level recursion budget increases.",
+      "upvotes": 115,
+      "discussionId": "6acee61fabe004a210f2590d",
+      "projectPage": "https://harness2.github.io/",
+      "githubRepo": "https://github.com/google-research/harness2",
+      "githubRepoAddedBy": "user",
+      "ai_summary": "Harness² improves agent execution harnesses through recursive task-level refinement and continual harness-level learning, boosting performance across benchmarks without ground-truth verifiers.",
+      "ai_keywords": [
+        "recursive self-improvement",
+        "LLM agents",
+        "execution harnesses",
+        "Harness²",
+        "Propose-Probe-Compose",
+        "task-level recursion",
+        "harnessing-level recursion",
+        "continual improvement harness"
+      ],
+      "ai_summary_model": "thinkingmachines/Inkling-Small",
+      "githubStars": 6479,
+      "organization": {
+        "_id": "5e6aca39878b8b2bf9806447",
+        "name": "google",
+        "fullname": "Google",
+        "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/5dd96eb166059660ed1ee413/WtA3YYitedOr9n02eHfJe.png"
+      }
+    },
+    "publishedAt": "2026-10-08T20:00:00.000Z",
+    "title": "Harness^2: Recursive Agent Harnessing for an Open World",
+    "summary": "LLM agents' capabilities depend not only on their underlying models but also on their execution harnesses. Recursive self-improvement (RSI) offers a promising approach to automatically evolve these harnesses. However, deploying RSI in open-world settings still faces two critical challenges. First, open-world tasks are typically unseen during the harness design phase and novel at test time, leaving no ground-truth verifiers to reliably guide online harness edits. Second, the RSI process remains highly task-specific and fails to generalize to novel scenarios. We introduce Harness^2, a plug-and-play, recursive agent harnessing framework that addresses these challenges through two connected levels of recursion. Task-level recursion refines the current task's harness using a contrastive Propose-Probe-Compose step that reliably guides edits without ground-truth verifiers, and can be scaled further via parallel or sequential recursion. Harnessing-level recursion then extracts experience from these edits to update a continual improvement harness, enabling the agent to better adapt to future tasks. Across three professional benchmarks and four model-harness configurations, a single step consistently improves GLM-5 and Gemini 3.5 Flash over their base harnesses, yielding gains of up to 11.5 points on WorkBuddy-Bench, 4.5 points on JobBench, and 11.8 percentage points on LAB, with further gains as the task-level recursion budget increases.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2610.14224.png",
+    "numComments": 1,
+    "submittedBy": {
+      "_id": "66e477a352356419c4712065",
+      "avatarUrl": "/avatars/cd2969ce88e44735c3fe70312c0e64b3.svg",
+      "fullname": "Ruiyao Xu",
+      "name": "ruiyaox",
+      "type": "user",
+      "isPro": true,
+      "isHf": false,
+      "isHfAdmin": false,
+      "isMod": false,
+      "followerCount": 1,
+      "isUserFollowing": false
+    },
+    "organization": {
+      "_id": "5e6aca39878b8b2bf9806447",
+      "name": "google",
+      "fullname": "Google",
+      "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/5dd96eb166059660ed1ee413/WtA3YYitedOr9n02eHfJe.png"
+    },
+    "isAuthorParticipating": false
+  },
+  {
+    "paper": {
+      "id": "2609.18063",
+      "authors": [
+        {
+          "_id": "6aab6e211d9cc4dec796250c",
+          "user": {
+            "_id": "63ec492b6ef3ce22b88a40e8",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/no-auth/losyEyB6XLMUkXgKs_GFC.png",
+            "isPro": false,
+            "fullname": "yumu",
+            "user": "bupalinyu",
+            "type": "user",
+            "name": "bupalinyu"
+          },
+          "name": "Yu Lin",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-09-17T09:09:45.608Z",
+          "hidden": false
+        },
+        {
+          "_id": "6aab6e211d9cc4dec796250d",
+          "user": {
+            "_id": "64361bcaf81a16e74367d2e2",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/64361bcaf81a16e74367d2e2/N4pdqBd4DqIx71t8IWaWD.png",
+            "isPro": false,
+            "fullname": "wanglamao",
+            "user": "wanglamao",
+            "type": "user",
+            "name": "wanglamao"
+          },
+          "name": "Yiming Wang",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-09-18T14:00:26.917Z",
+          "hidden": false
+        },
+        {
+          "_id": "6aab6e211d9cc4dec796250e",
+          "user": {
+            "_id": "63413355e5071b0c5cc91cda",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/63413355e5071b0c5cc91cda/P5if_w7mXfPGPq8QtALjF.png",
+            "isPro": false,
+            "fullname": "cai",
+            "user": "chua",
+            "type": "user",
+            "name": "chua"
+          },
+          "name": "Runyuan Cai",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-09-18T14:00:24.425Z",
+          "hidden": false
+        },
+        {
+          "_id": "6aab6e211d9cc4dec796250f",
+          "name": "Hanze Liu",
+          "hidden": false
+        },
+        {
+          "_id": "6aab6e211d9cc4dec7962510",
+          "name": "Xiaodong Zeng",
+          "hidden": false
+        }
+      ],
+      "mediaUrls": [
+        "https://cdn-uploads.huggingface.co/production/uploads/63ec492b6ef3ce22b88a40e8/rC6RhuvirSlar0MGZ-qJB.mp4"
+      ],
+      "publishedAt": "2026-09-16T00:00:00.000Z",
+      "submittedOnDailyAt": "2026-09-17T00:00:00.000Z",
+      "title": "The Other Half of the Memory Wall: Serving 35B MoEs from SSD with Trained Routing Prediction",
+      "submittedOnDailyBy": {
+        "_id": "63ec492b6ef3ce22b88a40e8",
+        "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/no-auth/losyEyB6XLMUkXgKs_GFC.png",
+        "isPro": false,
+        "fullname": "yumu",
+        "user": "bupalinyu",
+        "type": "user",
+        "name": "bupalinyu"
+      },
+      "summary": "Mixture-of-experts (MoE) inference on consumer hardware is bounded by weight memory: a 35B-class model is 19.5GB at 4-bit, and sparsity shrinks the compute per token, not the bytes that must be held. Naive offloading to SSD does not help on its own, because layer N+1's experts must be chosen before layer N's output exists, so the reads cannot start early enough to hide behind compute. We present Edge0, a streaming MoE inference engine that closes the gap with a prerouter: a per-layer head predicts the next layer's routing one token ahead, and the prediction is consumed as the routing itself, so the staged expert set equals the routed set and nothing is dropped. An unmerged recovery LoRA, trained on the student path, pays back the quality lost to int4 quantization and routing replacement. On a single 24GB machine, Edge0\n  serves a 35B MoE at 20tok/s inside 3GiB of peak active memory, within a few points of its fp16 teacher on average across five public benchmarks. An 8B tier runs on the same framework, and the framework, checkpoints, and adapters are open source.",
+      "upvotes": 28,
+      "discussionId": "6aab6e211d9cc4dec7962511",
+      "githubRepo": "https://github.com/Edge0-AI/edge0",
+      "githubRepoAddedBy": "user",
+      "ai_summary": "Edge0 enables efficient mixture-of-experts inference on consumer hardware by predicting expert routing ahead of time and using recovery adapters to maintain quality with minimal active memory.",
+      "ai_keywords": [
+        "mixture-of-experts",
+        "MoE",
+        "offloading",
+        "prerouter",
+        "recovery LoRA",
+        "int4 quantization",
+        "routing replacement",
+        "streaming inference"
+      ],
+      "ai_summary_model": "thinkingmachines/Inkling-Small",
+      "githubStars": 5722,
+      "organization": {
+        "_id": "6a9a75862d11e1c1a13dec37",
+        "name": "Edge0",
+        "fullname": "Edge0",
+        "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/64361bcaf81a16e74367d2e2/D5QI700pnaujz5PeWE6MX.jpeg"
+      }
+    },
+    "publishedAt": "2026-09-15T20:00:00.000Z",
+    "title": "The Other Half of the Memory Wall: Serving 35B MoEs from SSD with Trained Routing Prediction",
+    "summary": "Mixture-of-experts (MoE) inference on consumer hardware is bounded by weight memory: a 35B-class model is 19.5GB at 4-bit, and sparsity shrinks the compute per token, not the bytes that must be held. Naive offloading to SSD does not help on its own, because layer N+1's experts must be chosen before layer N's output exists, so the reads cannot start early enough to hide behind compute. We present Edge0, a streaming MoE inference engine that closes the gap with a prerouter: a per-layer head predicts the next layer's routing one token ahead, and the prediction is consumed as the routing itself, so the staged expert set equals the routed set and nothing is dropped. An unmerged recovery LoRA, trained on the student path, pays back the quality lost to int4 quantization and routing replacement. On a single 24GB machine, Edge0\n  serves a 35B MoE at 20tok/s inside 3GiB of peak active memory, within a few points of its fp16 teacher on average across five public benchmarks. An 8B tier runs on the same framework, and the framework, checkpoints, and adapters are open source.",
+    "mediaUrls": [
+      "https://cdn-uploads.huggingface.co/production/uploads/63ec492b6ef3ce22b88a40e8/rC6RhuvirSlar0MGZ-qJB.mp4"
+    ],
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2609.18063.png",
+    "numComments": 5,
+    "submittedBy": {
+      "_id": "63ec492b6ef3ce22b88a40e8",
+      "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/no-auth/losyEyB6XLMUkXgKs_GFC.png",
+      "fullname": "yumu",
+      "name": "bupalinyu",
+      "type": "user",
+      "isPro": false,
+      "isHf": false,
+      "isHfAdmin": false,
+      "isMod": false,
+      "followerCount": 8,
+      "isUserFollowing": false
+    },
+    "organization": {
+      "_id": "6a9a75862d11e1c1a13dec37",
+      "name": "Edge0",
+      "fullname": "Edge0",
+      "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/64361bcaf81a16e74367d2e2/D5QI700pnaujz5PeWE6MX.jpeg"
+    },
+    "isAuthorParticipating": true
+  },
+  {
+    "paper": {
+      "id": "2412.20138",
+      "authors": [
+        {
+          "_id": "6847673b3ec10bdd8ab4dd5e",
+          "user": {
+            "_id": "619b6a24030b707ff1f05dee",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/619b6a24030b707ff1f05dee/8FZjePfOuTtN3uvTmaEg5.jpeg",
+            "isPro": false,
+            "fullname": "Yijia Xiao",
+            "user": "Yijia-Xiao",
+            "type": "user",
+            "name": "Yijia-Xiao"
+          },
+          "name": "Yijia Xiao",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-08-08T16:45:04.607Z",
+          "hidden": false
+        },
+        {
+          "_id": "6847673b3ec10bdd8ab4dd5f",
+          "name": "Edward Sun",
+          "hidden": false
+        },
+        {
+          "_id": "6847673b3ec10bdd8ab4dd60",
+          "name": "Di Luo",
+          "hidden": false
+        },
+        {
+          "_id": "6847673b3ec10bdd8ab4dd61",
+          "name": "Wei Wang",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2024-12-28T12:54:06.000Z",
+      "title": "TradingAgents: Multi-Agents LLM Financial Trading Framework",
+      "summary": "Significant progress has been made in automated problem-solving using\nsocieties of agents powered by large language models (LLMs). In finance,\nefforts have largely focused on single-agent systems handling specific tasks or\nmulti-agent frameworks independently gathering data. However, the multi-agent\nsystems' potential to replicate real-world trading firms' collaborative\ndynamics remains underexplored. TradingAgents proposes a novel stock trading\nframework inspired by trading firms, featuring LLM-powered agents in\nspecialized roles such as fundamental analysts, sentiment analysts, technical\nanalysts, and traders with varied risk profiles. The framework includes Bull\nand Bear researcher agents assessing market conditions, a risk management team\nmonitoring exposure, and traders synthesizing insights from debates and\nhistorical data to make informed decisions. By simulating a dynamic,\ncollaborative trading environment, this framework aims to improve trading\nperformance. Detailed architecture and extensive experiments reveal its\nsuperiority over baseline models, with notable improvements in cumulative\nreturns, Sharpe ratio, and maximum drawdown, highlighting the potential of\nmulti-agent LLM frameworks in financial trading. TradingAgents is available at\nhttps://github.com/TauricResearch/TradingAgents.",
+      "upvotes": 153,
+      "discussionId": "6847673c3ec10bdd8ab4dd62",
+      "githubRepo": "https://github.com/tauricresearch/tradingagents",
+      "githubRepoAddedBy": "auto",
+      "ai_summary": "A multi-agent framework using large language models for stock trading simulates real-world trading firms, improving performance metrics like cumulative returns and Sharpe ratio.",
+      "ai_keywords": [
+        "large language models",
+        "LLM",
+        "multi-agent systems",
+        "fundamental analysts",
+        "sentiment analysts",
+        "technical analysts",
+        "traders",
+        "risk management",
+        "cumulative returns",
+        "Sharpe ratio",
+        "maximum drawdown"
+      ],
+      "ai_summary_model": "Qwen/Qwen2.5-Coder-32B-Instruct",
+      "githubStars": 111866
+    },
+    "publishedAt": "2024-12-28T07:54:06.000Z",
+    "title": "TradingAgents: Multi-Agents LLM Financial Trading Framework",
+    "summary": "Significant progress has been made in automated problem-solving using\nsocieties of agents powered by large language models (LLMs). In finance,\nefforts have largely focused on single-agent systems handling specific tasks or\nmulti-agent frameworks independently gathering data. However, the multi-agent\nsystems' potential to replicate real-world trading firms' collaborative\ndynamics remains underexplored. TradingAgents proposes a novel stock trading\nframework inspired by trading firms, featuring LLM-powered agents in\nspecialized roles such as fundamental analysts, sentiment analysts, technical\nanalysts, and traders with varied risk profiles. The framework includes Bull\nand Bear researcher agents assessing market conditions, a risk management team\nmonitoring exposure, and traders synthesizing insights from debates and\nhistorical data to make informed decisions. By simulating a dynamic,\ncollaborative trading environment, this framework aims to improve trading\nperformance. Detailed architecture and extensive experiments reveal its\nsuperiority over baseline models, with notable improvements in cumulative\nreturns, Sharpe ratio, and maximum drawdown, highlighting the potential of\nmulti-agent LLM frameworks in financial trading. TradingAgents is available at\nhttps://github.com/TauricResearch/TradingAgents.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2412.20138.png",
+    "numComments": 6,
+    "isAuthorParticipating": true
+  },
+  {
+    "paper": {
+      "id": "2508.02739",
+      "authors": [
+        {
+          "_id": "68940073741a16f544fbce2f",
+          "name": "Yu Shi",
+          "hidden": false
+        },
+        {
+          "_id": "68940073741a16f544fbce30",
+          "name": "Zongliang Fu",
+          "hidden": false
+        },
+        {
+          "_id": "68940073741a16f544fbce31",
+          "name": "Shuo Chen",
+          "hidden": false
+        },
+        {
+          "_id": "68940073741a16f544fbce32",
+          "name": "Bohan Zhao",
+          "hidden": false
+        },
+        {
+          "_id": "68940073741a16f544fbce33",
+          "name": "Wei Xu",
+          "hidden": false
+        },
+        {
+          "_id": "68940073741a16f544fbce34",
+          "name": "Changshui Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "68940073741a16f544fbce35",
+          "name": "Jian Li",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2025-08-02T13:15:59.000Z",
+      "title": "Kronos: A Foundation Model for the Language of Financial Markets",
+      "summary": "The success of large-scale pre-training paradigm, exemplified by Large\nLanguage Models (LLMs), has inspired the development of Time Series Foundation\nModels (TSFMs). However, their application to financial candlestick (K-line)\ndata remains limited, often underperforming non-pre-trained architectures.\nMoreover, existing TSFMs often overlook crucial downstream tasks such as\nvolatility prediction and synthetic data generation. To address these\nlimitations, we propose Kronos, a unified, scalable pre-training framework\ntailored to financial K-line modeling. Kronos introduces a specialized\ntokenizer that discretizes continuous market information into token sequences,\npreserving both price dynamics and trade activity patterns. We pre-train Kronos\nusing an autoregressive objective on a massive, multi-market corpus of over 12\nbillion K-line records from 45 global exchanges, enabling it to learn nuanced\ntemporal and cross-asset representations. Kronos excels in a zero-shot setting\nacross a diverse set of financial tasks. On benchmark datasets, Kronos boosts\nprice series forecasting RankIC by 93% over the leading TSFM and 87% over the\nbest non-pre-trained baseline. It also achieves a 9% lower MAE in volatility\nforecasting and a 22% improvement in generative fidelity for synthetic K-line\nsequences. These results establish Kronos as a robust, versatile foundation\nmodel for end-to-end financial time series analysis. Our pre-trained model is\npublicly available at https://github.com/shiyu-coder/Kronos.",
+      "upvotes": 60,
+      "discussionId": "68940073741a16f544fbce36",
+      "githubRepo": "https://github.com/shiyu-coder/Kronos",
+      "githubRepoAddedBy": "auto",
+      "ai_summary": "Kronos, a specialized pre-training framework for financial K-line data, outperforms existing models in forecasting and synthetic data generation through a unique tokenizer and autoregressive pre-training on a large dataset.",
+      "ai_keywords": [
+        "Large Language Models",
+        "Time Series Foundation Models",
+        "financial candlestick",
+        "volatility prediction",
+        "synthetic data generation",
+        "autoregressive objective",
+        "token sequences",
+        "price dynamics",
+        "trade activity patterns",
+        "zero-shot setting",
+        "price series forecasting",
+        "RankIC",
+        "MAE",
+        "generative fidelity"
+      ],
+      "ai_summary_model": "Qwen/Qwen2.5-Coder-32B-Instruct",
+      "githubStars": 41147
+    },
+    "publishedAt": "2025-08-02T09:15:59.000Z",
+    "title": "Kronos: A Foundation Model for the Language of Financial Markets",
+    "summary": "The success of large-scale pre-training paradigm, exemplified by Large\nLanguage Models (LLMs), has inspired the development of Time Series Foundation\nModels (TSFMs). However, their application to financial candlestick (K-line)\ndata remains limited, often underperforming non-pre-trained architectures.\nMoreover, existing TSFMs often overlook crucial downstream tasks such as\nvolatility prediction and synthetic data generation. To address these\nlimitations, we propose Kronos, a unified, scalable pre-training framework\ntailored to financial K-line modeling. Kronos introduces a specialized\ntokenizer that discretizes continuous market information into token sequences,\npreserving both price dynamics and trade activity patterns. We pre-train Kronos\nusing an autoregressive objective on a massive, multi-market corpus of over 12\nbillion K-line records from 45 global exchanges, enabling it to learn nuanced\ntemporal and cross-asset representations. Kronos excels in a zero-shot setting\nacross a diverse set of financial tasks. On benchmark datasets, Kronos boosts\nprice series forecasting RankIC by 93% over the leading TSFM and 87% over the\nbest non-pre-trained baseline. It also achieves a 9% lower MAE in volatility\nforecasting and a 22% improvement in generative fidelity for synthetic K-line\nsequences. These results establish Kronos as a robust, versatile foundation\nmodel for end-to-end financial time series analysis. Our pre-trained model is\npublicly available at https://github.com/shiyu-coder/Kronos.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2508.02739.png",
+    "numComments": 4,
+    "isAuthorParticipating": false
+  },
+  {
+    "paper": {
+      "id": "2610.20571",
+      "authors": [
+        {
+          "_id": "6ad0370daab7978cb679de82",
+          "user": {
+            "_id": "66699aa8a33847217b5a49c7",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/noauth/u8Z-6U8U7ARXOpdBDI7Qm.png",
+            "isPro": false,
+            "fullname": "Weijie Wang",
+            "user": "lhmd",
+            "type": "user",
+            "name": "lhmd"
+          },
+          "name": "Weijie Wang",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-10-15T08:45:06.844Z",
+          "hidden": false
+        },
+        {
+          "_id": "6ad0370daab7978cb679de83",
+          "name": "Haomin Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "6ad0370daab7978cb679de84",
+          "name": "Ye Li",
+          "hidden": false
+        },
+        {
+          "_id": "6ad0370daab7978cb679de85",
+          "name": "Akide Liu",
+          "hidden": false
+        },
+        {
+          "_id": "6ad0370daab7978cb679de86",
+          "user": {
+            "_id": "64ec877bb93654d4ca5c92e9",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/64ec877bb93654d4ca5c92e9/Tj6F58adBU7n1uUC8qwQH.jpeg",
+            "isPro": true,
+            "fullname": "Zeyu Zhang",
+            "user": "SteveZeyuZhang",
+            "type": "user",
+            "name": "SteveZeyuZhang"
+          },
+          "name": "Zeyu Zhang",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-10-15T09:39:24.883Z",
+          "hidden": false
+        },
+        {
+          "_id": "6ad0370daab7978cb679de87",
+          "name": "Haoyu Zhao",
+          "hidden": false
+        },
+        {
+          "_id": "6ad0370daab7978cb679de88",
+          "name": "Yefei He",
+          "hidden": false
+        },
+        {
+          "_id": "6ad0370daab7978cb679de89",
+          "user": {
+            "_id": "653862bdbe39573b3b247b44",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/653862bdbe39573b3b247b44/oMqOC4USbQlPX5HFLDXt6.jpeg",
+            "isPro": false,
+            "fullname": "Donny Chen",
+            "user": "donydchen",
+            "type": "user",
+            "name": "donydchen"
+          },
+          "name": "Donny Y. Chen",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-10-15T08:45:06.862Z",
+          "hidden": false
+        },
+        {
+          "_id": "6ad0370daab7978cb679de8a",
+          "user": {
+            "_id": "64574380f3ef144c0e69d484",
+            "avatarUrl": "/avatars/a0a84757cb0bf09c24291803e1389b49.svg",
+            "isPro": false,
+            "fullname": "Feng Chen",
+            "user": "chenfeng1271",
+            "type": "user",
+            "name": "chenfeng1271"
+          },
+          "name": "Feng Chen",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-10-15T08:45:06.853Z",
+          "hidden": false
+        },
+        {
+          "_id": "6ad0370daab7978cb679de8b",
+          "user": {
+            "_id": "65a8a828ef14f9e6037dfad2",
+            "avatarUrl": "/avatars/55fdc0393b2e37ac998ddbdb1e1ff636.svg",
+            "isPro": false,
+            "fullname": "Bohan Zhuang",
+            "user": "BohanZ",
+            "type": "user",
+            "name": "BohanZ"
+          },
+          "name": "Bohan Zhuang",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-10-15T16:45:05.530Z",
+          "hidden": false
+        }
+      ],
+      "mediaUrls": [
+        "https://cdn-uploads.huggingface.co/production/uploads/66699aa8a33847217b5a49c7/YgsTMXs-dTVwLakJbrZfc.mp4"
+      ],
+      "publishedAt": "2026-10-14T00:00:00.000Z",
+      "submittedOnDailyAt": "2026-10-15T00:00:00.000Z",
+      "title": "Any Time, Any Space: A World-State-Centric Framework for Agentic Video Generation",
+      "submittedOnDailyBy": {
+        "_id": "66699aa8a33847217b5a49c7",
+        "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/noauth/u8Z-6U8U7ARXOpdBDI7Qm.png",
+        "isPro": false,
+        "fullname": "Weijie Wang",
+        "user": "lhmd",
+        "type": "user",
+        "name": "lhmd"
+      },
+      "summary": "Long-form agentic video generation must turn a screenplay into shots that remain spatially and temporally consistent across nonconsecutive requests. Passing prompts or recent frames between shots does not provide a shared spatial frame for revisiting a scene or a time-indexed record for replaying an earlier event. We present Any Time, Any Space (ATAS), which compiles a screenplay into shot requests with explicit location, camera, and event-time references. Before generation, it retrieves relevant evidence from a scene memory of registered static geometry and an event memory of dynamic observations indexed by scene, event, and time. After generation, ATAS reconstructs and registers the clip. It updates memory only when review and state checks accept the observation, while film delivery remains independent of memory admission. Across four video generators, ATAS improves all reported cross-shot consistency measures and achieves the highest aggregate benchmark score for each backbone. It also outperforms the compared agents and 3D-guided methods on target-image spatial revisit, leads three event-recapture criteria, and receives the highest human ratings on all six criteria. The video results and code are available on our project page: https://lhmd.top/atas/.",
+      "upvotes": 344,
+      "discussionId": "6ad0370daab7978cb679de8c",
+      "projectPage": "https://lhmd.top/atas/",
+      "githubRepo": "https://github.com/ziplab/ATAS",
+      "githubRepoAddedBy": "user",
+      "ai_summary": "ATAS improves long-form video consistency by compiling screenplays into referenced shot requests, retrieving spatial and temporal evidence from scene and event memories, and conditionally updating memory after generation.",
+      "ai_keywords": [
+        "agentic video generation",
+        "screenplay",
+        "spatial consistency",
+        "temporal consistency",
+        "scene memory",
+        "event memory",
+        "static geometry",
+        "dynamic observations",
+        "cross-shot consistency"
+      ],
+      "ai_summary_model": "thinkingmachines/Inkling-Small",
+      "githubStars": 280,
+      "organization": {
+        "_id": "61bac2af530e5c78d7b99667",
+        "name": "zju",
+        "fullname": "Zhejiang University",
+        "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/5e1058e9fcf41d740b69966d/7G1xjlxwCdMEmKcxNR0n5.png"
+      }
+    },
+    "publishedAt": "2026-10-13T20:00:00.000Z",
+    "title": "Any Time, Any Space: A World-State-Centric Framework for Agentic Video Generation",
+    "summary": "Long-form agentic video generation must turn a screenplay into shots that remain spatially and temporally consistent across nonconsecutive requests. Passing prompts or recent frames between shots does not provide a shared spatial frame for revisiting a scene or a time-indexed record for replaying an earlier event. We present Any Time, Any Space (ATAS), which compiles a screenplay into shot requests with explicit location, camera, and event-time references. Before generation, it retrieves relevant evidence from a scene memory of registered static geometry and an event memory of dynamic observations indexed by scene, event, and time. After generation, ATAS reconstructs and registers the clip. It updates memory only when review and state checks accept the observation, while film delivery remains independent of memory admission. Across four video generators, ATAS improves all reported cross-shot consistency measures and achieves the highest aggregate benchmark score for each backbone. It also outperforms the compared agents and 3D-guided methods on target-image spatial revisit, leads three event-recapture criteria, and receives the highest human ratings on all six criteria. The video results and code are available on our project page: https://lhmd.top/atas/.",
+    "mediaUrls": [
+      "https://cdn-uploads.huggingface.co/production/uploads/66699aa8a33847217b5a49c7/YgsTMXs-dTVwLakJbrZfc.mp4"
+    ],
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2610.20571.png",
+    "numComments": 3,
+    "submittedBy": {
+      "_id": "66699aa8a33847217b5a49c7",
+      "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/noauth/u8Z-6U8U7ARXOpdBDI7Qm.png",
+      "fullname": "Weijie Wang",
+      "name": "lhmd",
+      "type": "user",
+      "isPro": false,
+      "isHf": false,
+      "isHfAdmin": false,
+      "isMod": false,
+      "followerCount": 17,
+      "isUserFollowing": false
+    },
+    "organization": {
+      "_id": "61bac2af530e5c78d7b99667",
+      "name": "zju",
+      "fullname": "Zhejiang University",
+      "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/5e1058e9fcf41d740b69966d/7G1xjlxwCdMEmKcxNR0n5.png"
+    },
+    "isAuthorParticipating": true
+  },
+  {
+    "paper": {
+      "id": "2610.13912",
+      "authors": [
+        {
+          "_id": "6acc3dc90ee6ff34004fddd1",
+          "name": "Taoyong Cui",
+          "hidden": false
+        },
+        {
+          "_id": "6acc3dc90ee6ff34004fddd2",
+          "name": "Pinxian Zeng",
+          "hidden": false
+        },
+        {
+          "_id": "6acc3dc90ee6ff34004fddd3",
+          "user": {
+            "_id": "65f3f43fc9940817ca9a427b",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/65f3f43fc9940817ca9a427b/02NN3XjSsbgWDhjrJWtVL.jpeg",
+            "isPro": false,
+            "fullname": "Wanghan Xu",
+            "user": "black-yt",
+            "type": "user",
+            "name": "black-yt"
+          },
+          "name": "Wanghan Xu",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-10-12T16:15:51.423Z",
+          "hidden": false
+        },
+        {
+          "_id": "6acc3dc90ee6ff34004fddd4",
+          "name": "Hao Xiao",
+          "hidden": false
+        },
+        {
+          "_id": "6acc3dc90ee6ff34004fddd5",
+          "name": "Shuhan Xue",
+          "hidden": false
+        },
+        {
+          "_id": "6acc3dc90ee6ff34004fddd6",
+          "name": "Qiang Gao",
+          "hidden": false
+        },
+        {
+          "_id": "6acc3dc90ee6ff34004fddd7",
+          "name": "Wanli Ouyang",
+          "hidden": false
+        },
+        {
+          "_id": "6acc3dc90ee6ff34004fddd8",
+          "name": "Pheng Ann Heng",
+          "hidden": false
+        },
+        {
+          "_id": "6acc3dc90ee6ff34004fddd9",
+          "name": "Zhenfei Yin",
+          "hidden": false
+        },
+        {
+          "_id": "6acc3dc90ee6ff34004fddda",
+          "name": "Yingcheng Wu",
+          "hidden": false
+        },
+        {
+          "_id": "6acc3dc90ee6ff34004fdddb",
+          "name": "Ling Yang",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2026-10-09T00:00:00.000Z",
+      "submittedOnDailyAt": "2026-10-12T00:00:00.000Z",
+      "title": "RSI-Anything: Unlocking Recursive Self-Improvement with World Models",
+      "submittedOnDailyBy": {
+        "_id": "64fde4e252e82dd432b74ce9",
+        "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/64fde4e252e82dd432b74ce9/-CQZbBP7FsPPyawYrsi4z.jpeg",
+        "isPro": false,
+        "fullname": "Ling Yang",
+        "user": "Lingaaaaaaa",
+        "type": "user",
+        "name": "Lingaaaaaaa"
+      },
+      "summary": "Recursive self-improvement (RSI) aims to transform interaction experience into persistent improvements, yet external feedback is costly and world-model predictions may become unreliable as policies evolve. We introduce RSI-Anything, a domain-general framework built on JEPA-Anything that uses predictive world models to guide action and learning-data selection. Observed feedback drives policy or workflow improvement and conditional world-model adaptation, while component and compatibility checks govern the retention of updated policy-model pairs. Across diverse computational and scientific domains, RSI-Anything demonstrates substantial gains. In code repair, with the coder fixed, success increases from 26.3% with a static verifier to 29.2% through predictive selection and 31.2% after world-model adaptation, at comparable test usage. Graphical user interface (GUI) evaluations showed higher task completion, while average actions decrease by 39.4%. Across five successive policy versions, laboratory-planning scores more than double from 21.80% to 46.01%. In reaction optimization, RSI-Anything achieves 96.15% mean best observed yield versus 82.16% for Bayesian optimization under the same 40-experiment budget. An end-to-end immune-science application further connects workflow evolution and predictive modeling with therapeutic hypothesis generation. These results demonstrate how predictive world models and retained system updates enable recursive improvement across diverse environments.",
+      "upvotes": 50,
+      "discussionId": "6acc3dc90ee6ff34004fdddc",
+      "projectPage": "https://huggingface.co/datasets/Gen-Verse/RSI-Anything",
+      "githubRepo": "https://github.com/Gen-Verse/RSI-Anything",
+      "githubRepoAddedBy": "user",
+      "ai_summary": "RSI-Anything leverages predictive world models to guide action selection and adaptive learning, enabling recursive self-improvement across coding, interface navigation, laboratory planning, and scientific optimization tasks.",
+      "ai_keywords": [
+        "recursive self-improvement",
+        "predictive world models",
+        "JEPA-Anything",
+        "conditional world-model adaptation",
+        "policy-model pairs",
+        "code repair",
+        "GUI evaluation",
+        "laboratory planning",
+        "reaction optimization",
+        "Bayesian optimization"
+      ],
+      "ai_summary_model": "thinkingmachines/Inkling-Small",
+      "githubStars": 785,
+      "organization": {
+        "_id": "6aab7c097e5721f5e005ff0a",
+        "name": "PhAILabs",
+        "fullname": "PhAI Labs",
+        "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/64fde4e252e82dd432b74ce9/5-hyYwAMko5JVJz5qWxEj.png"
+      }
+    },
+    "publishedAt": "2026-10-08T20:00:00.000Z",
+    "title": "RSI-Anything: Unlocking Recursive Self-Improvement with World Models",
+    "summary": "Recursive self-improvement (RSI) aims to transform interaction experience into persistent improvements, yet external feedback is costly and world-model predictions may become unreliable as policies evolve. We introduce RSI-Anything, a domain-general framework built on JEPA-Anything that uses predictive world models to guide action and learning-data selection. Observed feedback drives policy or workflow improvement and conditional world-model adaptation, while component and compatibility checks govern the retention of updated policy-model pairs. Across diverse computational and scientific domains, RSI-Anything demonstrates substantial gains. In code repair, with the coder fixed, success increases from 26.3% with a static verifier to 29.2% through predictive selection and 31.2% after world-model adaptation, at comparable test usage. Graphical user interface (GUI) evaluations showed higher task completion, while average actions decrease by 39.4%. Across five successive policy versions, laboratory-planning scores more than double from 21.80% to 46.01%. In reaction optimization, RSI-Anything achieves 96.15% mean best observed yield versus 82.16% for Bayesian optimization under the same 40-experiment budget. An end-to-end immune-science application further connects workflow evolution and predictive modeling with therapeutic hypothesis generation. These results demonstrate how predictive world models and retained system updates enable recursive improvement across diverse environments.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2610.13912.png",
+    "numComments": 2,
+    "submittedBy": {
+      "_id": "64fde4e252e82dd432b74ce9",
+      "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/64fde4e252e82dd432b74ce9/-CQZbBP7FsPPyawYrsi4z.jpeg",
+      "fullname": "Ling Yang",
+      "name": "Lingaaaaaaa",
+      "type": "user",
+      "isPro": false,
+      "isHf": false,
+      "isHfAdmin": false,
+      "isMod": false,
+      "followerCount": 22,
+      "isUserFollowing": false
+    },
+    "organization": {
+      "_id": "6aab7c097e5721f5e005ff0a",
+      "name": "PhAILabs",
+      "fullname": "PhAI Labs",
+      "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/64fde4e252e82dd432b74ce9/5-hyYwAMko5JVJz5qWxEj.png"
+    },
+    "isAuthorParticipating": false
+  }
+]

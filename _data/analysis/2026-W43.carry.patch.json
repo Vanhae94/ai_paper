@@ -1,0 +1,620 @@
+{
+  "week_id": "2026-W43",
+  "papers": {
+    "2609.18063": {
+      "tier2": {
+        "method_detail": "Edge0는 MoE의 routed expert 가중치를 RAM이 아니라 SSD에 두고, int4 per-layer stacked safetensors를 mmap으로 열어 필요한 byte range만 읽는 스트리밍 추론 엔진이다(3.1절). 35B 티어(Qwen3.6-35B-A3B 기반, 40층 x 256 experts)는 층당 expert 가중치가 453 MB(expert 1개 1.77 MB), routed expert 전체가 18 GB로 19.5 GB 체크포인트의 대부분을 차지한다. 핫 데이터는 OS page cache가 들고, 피크 메모리는 파라미터 수가 아니라 active set을 따른다.\n\n실행 경로는 네 가지다. exact(on-demand 번들 빌드, 정확성 기준), staged(고정 슬롯 double buffering, decode 주력. 라우팅 인덱스를 slot table로 매핑하고 incr_stack으로 바뀐 expert만 제자리 갱신), hot(층별 LRU 상주 hot expert, miss 시 exact로 fallback), whole-layer(prefill에서 층 전체 expert를 9번의 직접 read로 일괄 로드)다. 모든 경로는 down(silu(gate(x))·up(x))를 같은 quantized gather 커널로 계산하며 dequantized reference 대비 relative L2 1% 미만(측정 잔차 약 0.24%)으로 테스트된다.\n\n핵심은 prerouter다. 층 N+1의 expert 선택은 층 N 출력이 있어야 정해지므로 순진한 스트리밍은 매 층마다 디스크 지연에 막힌다. Edge0는 '이중 shift'를 쓴다. 층 N이 소유한 head가 토큰 t에서 층 N의 post-attention norm 출력을 보고 토큰 t+1의 층 N+1 라우팅을 예측한다. 한 스텝당 한 번의 flush로 모든 staged 층(35B 32개, 8B 16개)을 한꺼번에 예측하므로 SSD read가 한 decode step 전체와 겹친다. 같은 토큰 안에서 미리 고르는 Pre-gated MoE 방식은 이 엔진에서 스텝당 30-100 ms의 동기화 비용이 들어 plain LRU보다도 느렸다고 저자들은 보고한다. head 구조는 fc1 -> erf-gelu -> fc2에 linear residual을 더한 것이며, residual은 다음 층 router 가중치로 warm-start한다. 입력은 hidden state와 두 개의 top-k one-hot(이번 토큰과 이전 토큰에서 이 층이 실제 고른 expert)을 이어 붙인 것으로 35B는 2048+2x256=2560차원, hidden 512, fp16이다. 35B는 head 33개(owner 6-38), 8B는 16개다.\n\nPrediction-as-routing이 가장 중요한 설계다. decode 시 MoE 층은 원래 router 대신 prerouter logits를 같은 softmax-topk 또는 sigmoid-group 수식에 넣어 라우팅한다. 예측 집합이 곧 라우팅 집합이므로 staged 슬롯과 정확히 일치하고 drop이나 fallback load가 없다. 즉 '오예측'이라는 사건 자체가 런타임에 존재하지 않고, 원본 모델과 다른 expert를 쓰는 근사 오차가 그대로 모델 동작에 반영된다. 이 비용은 학습에서 갚는다. head 입력은 학습 때는 실제 라우팅, 추론 때는 자기 예측이라는 feature drift가 있는데 head를 재학습하지 않고 LoRA가 흡수하게 둔다. 예측 정확도(hit rate, top-k overlap)는 본문 전체에서 수치로 보고되지 않으며, 저자들은 router 일치도를 더 쫓는 것은 잘못된 목표이고 학생 라우팅에서 언어모델이 좋은 텍스트를 내는지가 중요하다고 주장한다.\n\nRecovery LoRA(r=16, alpha=32)는 attention, linear-attention, shared-expert projection에만 붙고 routed expert에는 붙지 않는다(스트리밍되며 교체 가능해야 하므로). 서빙은 unmerged로 y = W_int4(x) + (alpha/r)·B·A·x 병렬 delta다. LoRA delta(RMS 약 1e-3)가 4-bit group step보다 작아 병합 후 재양자화하면 효과가 attention projection에서 34%, dense projection에서 2%, logits 수준에서 18%만 남기 때문이다. unmerged 비용은 어댑터 42 MB, decode 시간 차이는 측정되지 않을 정도라고 한다. 양자화는 expert 가중치 int4 affine group-64다.\n\n학습은 3단계이며 모두 4-bit 배포 체크포인트를 dequantize한 bf16 재구성 위에서 base를 고정한 채 진행한다. Phase 1은 head만 다음 층의 실제 router logits를 모방하도록 distill한다. Phase 2는 prerouter 라우팅을 켠 student path 전체 forward로 약 2M행의 teacher 생성 텍스트에 SFT한다(distill만 한 체크포인트는 반복·붕괴된 텍스트를 냈다고 함). Phase 3은 on-policy distillation으로 학생이 생성하고 원래 fp16 base가 teacher로 채점하며, teacher top-k 토큰에 reverse KL과 tail 항을 쓴다. 약 200k행(Phase 2의 1/10)에서 수렴한다. 이 구조 덕에 35B 티어는 base의 K=8 대신 K=4로 재학습해 출시됐다.",
+        "experiment_setup": [
+          "하드웨어(5.1절, Table 1): '단일 24GB 머신'은 Mac mini M4 Pro 24 GB unified memory(Apple Silicon)다. prerouter A/B(5.3절, Table 3-4, Figure 3)는 MacBook M2 16 GB unified memory에서 돌렸다. 18.4 GiB 릴리스 디렉터리(19.5 GB int4 base + 어댑터·head 0.2 GB)가 메모리에 들어가지 않는 조건이다. SSD 종류·용량·대역폭과 macOS 버전은 본문에서 명시되지 않는다. MLX 버전은 0.30.4-0.30.6이다.",
+          "20 tok/s 조건(Table 1 캡션, 6장): 35B 티어 K=4 production profile, 한 번에 1요청(FIFO 직렬, 배치 없음), 각 arm 별도 프로세스, warm 상태, arm 순서 회전, 3라운드 median이다. 메모리는 short context에서 측정했다. 디코드 측정의 정확한 context 길이와 생성 토큰 수는 원문에서 확인되지 않는다. prefill은 별도로 3.1k 토큰 프롬프트에서 측정했다(warm은 한 프로세스 안에서, cold는 프로세스 시작 후 첫 요청).",
+          "핵심 성능(Table 1): 35B는 decode 20.4 tok/s, prefill cold/warm 113/140 tok/s, peak active memory 2.9 GiB다. 8B(Ling 3.0 tiny, MLA+MoE, 24층 x 128 experts, K=8)는 decode 28.0 tok/s, prefill 500/1102 tok/s, 1.5 GiB다. 8B는 shared LRU를 64에서 1024 bundle로 키우면 약 0.9 GiB를 더 쓰고 31.8 tok/s가 된다. 같은 Mac mini에서 35B의 prerouter를 끄면 19.9 tok/s로, 이 머신에서 prerouter 이득은 약 2.5%다. prerouter off arm이 on-demand인지 staged인지 등 구성은 원문에 적혀 있지 않다.",
+          "유일한 외부 시스템 baseline(3.1절, 5.4절)은 같은 Mac mini에서 19.5 GB 4-bit 가중치를 전부 상주시킨 vanilla mlx-lm 서버다. 결과는 3.9 tok/s, 18.2 GiB 점유다. 저자 각주는 같은 머신, 같은 decode protocol, think-mode on이라고 밝힌다. Edge0는 20.4 tok/s, 2.9 GiB로 '5배 빠르고 메모리는 1/6-1/7'이라고 주장한다. 단 resident baseline의 routing K는 명시되지 않았고 Edge0는 K=4 재학습 프로파일이다. 저자들은 resident 쪽이 메모리 부족으로 paging한다고 설명한다. llama.cpp --cpu-moe, PowerInfer, Mixtral-offloading, MoE-Infinity, FlexGen은 관련연구에서 인용만 하고 수치 비교는 없다.",
+          "prerouter A/B(Table 3, MacBook M2 16GB): on-demand 대비 prerouter decode는 K=2 4.8 -> 8.6(+80%), K=4 3.5 -> 6.4(+82%), K=8 1.8 -> 3.3(+84%)이다. 메인 스레드의 expert load 대기 시간(스텝당, 층 합산)은 K=2 154.9 -> 46.5 ms, K=4 244.0 -> 101.9 ms, K=8 575.0 -> 211.6 ms다. K=8 on-demand 합 575.0 ms가 스텝 559.1 ms보다 큰데, 층 간 load가 겹치기 때문이다. 디스크 read는 스텝의 최대 12%, 프로세스는 8코어 중 약 1코어, GPU는 35-41%를 써서 어떤 자원도 포화되지 않았다고 보고한다. 3라운드 median이며 3/3 라운드가 일치했다(Figure 3 캡션).",
+          "routing width A/B(4장, Table 3): 같은 16GB 머신의 같은 세션에서, 같은 가중치로 K=8을 K=4로 줄이면 prerouter arm decode가 3.3 -> 6.4 tok/s로 거의 2배가 되고 peak active memory도 줄어든다. on-demand arm은 1.8 -> 3.5다. 저자들은 재학습한 K=4 티어가 Table 2 품질을 유지한다고 주장한다. 24GB Mac mini에서 35B를 K=8로 측정한 수치는 없다.",
+          "I/O 비용(Table 4): 스텝당 read 바이트(prerouter vs on-demand)는 K=2 29.5 vs 30.4 MiB, K=8 125.1 vs 126.9 MiB로 거의 같다. K=4만 58.9 vs 50.9 MiB로 16% 많다. prerouter는 더 적고 크고 차가운 load를 낸다. K=8 기준 load당 1.40 MiB·90% cold vs 0.32 MiB·20% cold이고, 스텝당 load 수는 89.5 vs 398.6이다. load 비용 모델은 1.17 ms + 1.33 ms x cold 비율로, 측정값을 0.13 ms 이내로 재현한다. 인접 토큰 간 expert 집합 겹침은 약 1/4이다.",
+          "메모리 대가(5.3절): unreclaimable MLX 할당은 on-demand 1.72/1.73/1.79 GiB, prerouter 2.33/2.60/3.22 GiB다(K=2/4/8). Process RSS(파일 기반 expert 페이지 포함)는 on-demand 5.29/6.12/6.18 GiB, prerouter 4.91/5.61/6.39 GiB다. K=8에서 prerouter arm은 1.43 GiB를 더 쥐고 page cache는 1.15 GiB 줄어든다. 저자들이 밝힌 미적용 개선 여지는 두 가지다. bundle과 stacked view 이중 사본을 없애면 K=8에서 약 0.45 GiB를 돌려받고, 메인 스레드 동기 fill(K=8에서 62.5 ms/step)을 다른 스레드로 옮길 수 있다. 둘 다 측정 구성에는 반영되지 않았다.",
+          "품질 평가(5.1-5.2절, Table 2): OpenCompass를 compute server에서 돌려 Edge0(int4 + adapters + prerouter routing)와 원래 fp16 base를 동일 설정으로 평가했다. sampling, temperature, max tokens, AIME 반복 횟수 등 세부 설정은 원문에서 확인되지 않는다. 35B: AIME 2026 86.6 vs 92.7(-6.1), HumanEval 90.9 vs 95.1(-4.2), GPQA-Diamond 79.8 vs 81.8(-2.0), MMLU-Pro 81.0 vs 84.6(-3.6), IFBench 57.9 vs 61.7(-3.8), 평균 79.2 vs 83.2. 8B: AIME 63.3 vs 73.3(-10.0), HumanEval 91.5 vs 92.7(-1.2), GPQA-D 70.7 vs 71.2(-0.5), MMLU-Pro 70.1 vs 65.8(+4.3), IFBench 53.9 vs 60.6(-6.7), 평균 69.9 vs 72.7.",
+          "측정 신뢰성 주의(5.1절): 저자들은 이 하드웨어에서 single-shot 벤치마크가 run 간 +-40%, 16GB 머신에서는 세션 간 최대 2.3배 차이가 난다고 밝힌다. 그래서 같은 세션 교차 A/B만 증거로 쓴다.",
+          "Appendix B: incr_stack(sticky-slot 제자리 갱신)은 별도 A/B에서 decode를 +34% 올렸다. K=8 구성에서 native routing 대비 전체 출시 파이프라인은 6.8 -> 12.5 tok/s였다. 저자 스스로 이전 캠페인의 다른 구성이라 Table 3와 비교할 수 없다고 밝힌다. 6장에 따르면 40층 forward의 CPU측 graph building 44 ms/step이 decode 하한이다.",
+          "저장소 문서와 논문의 구성 불일치: docs/models/edge0-8b.md는 8B 배포 프로파일에서 staged decode를 끈다고 적는다(staged=False). 이유는 deployment verification에서 staged decode가 출력을 저하시켰기 때문이며, 대신 prerouter가 다음 토큰 expert prefetch를 직접 구동한다. 논문 3.2절은 8B가 K=8, 층당 8개 staged slot으로 돈다고 적는다. docs/models/edge0-35b.md는 35B 프로파일이 on-demand prefill(full_layer_prefill=False)이라고 적지만, 논문은 두 티어 모두 prefill에 whole-layer 경로를 쓴다고 적는다. Table 1이 어느 구성으로 측정됐는지는 확인되지 않는다."
+        ],
+        "datasets": [
+          {
+            "name": "Phase 2 SFT 코퍼스 (teacher-generated text)",
+            "domain": "일반 텍스트(teacher가 생성). 프롬프트 출처와 teacher 모델명은 원문에서 확인되지 않음",
+            "scale": "약 2M rows"
+          },
+          {
+            "name": "Phase 3 on-policy distillation 데이터 (student 생성, fp16 base가 채점)",
+            "domain": "student 자체 생성 텍스트",
+            "scale": "약 200k rows (Phase 2의 1/10)"
+          },
+          {
+            "name": "AIME 2026",
+            "domain": "수학 추론 (평가)",
+            "scale": "문항 수 원문에서 확인되지 않음"
+          },
+          {
+            "name": "HumanEval",
+            "domain": "코드 생성 (평가)",
+            "scale": "원문에 명시 없음"
+          },
+          {
+            "name": "GPQA-Diamond",
+            "domain": "대학원 수준 과학 QA (평가)",
+            "scale": "원문에 명시 없음"
+          },
+          {
+            "name": "MMLU-Pro",
+            "domain": "다분야 지식 (평가)",
+            "scale": "원문에 명시 없음"
+          },
+          {
+            "name": "IFBench",
+            "domain": "지시 따르기 (평가)",
+            "scale": "원문에 명시 없음"
+          }
+        ],
+        "limitations": {
+          "by_authors": [
+            "단일 요청 직렬 처리: Edge0는 한 번에 한 요청만 FIFO로 처리하며 배치 서빙을 하지 않는다. 배치는 expert working set을 바꾸는데 이는 per-request 프로파일이 모델링하지 않는다고 저자들이 적는다. 20.4 tok/s를 포함한 모든 처리량 수치가 batch 1 조건이다 (6장, Table 1 캡션).",
+            "CPU측 하한: 40층 forward의 graph building이 스텝당 44 ms이고 이는 스토리지 쪽 최적화로 줄일 수 없는 decode 하한이라고 저자들이 명시한다 (6장).",
+            "prefetch 이득의 조건 의존성과 메모리 대가: prerouter 이득은 제거하는 대기 시간에 비례하므로 hot cache나 빠른 스토리지에서는 줄어들고, 인접 토큰이 한 층의 expert 중 약 1/4만 공유하므로 재사용에 상한이 있다. 대가는 page cache에서 가져오는 unreclaimable residency로, K=8에서 prerouter arm이 MLX 메모리를 1.43 GiB 더 쥐고 page cache는 1.15 GiB 줄었다. 실제로 24GB Mac mini에서는 prerouter off 19.9 vs on 20.4 tok/s다 (6장, 5.3절, Table 1 캡션).",
+            "측정 구성의 미완 최적화: stager가 같은 가중치의 bundle과 stacked view 두 사본을 들고 있어 K=8에서 약 0.45 GiB가 낭비되고, incremental stacking fill이 메인 스레드에서 동기 실행되어 K=8에서 스텝당 62.5 ms가 든다고 저자들이 'Two levers not yet pulled'로 밝힌다. 두 개선 모두 측정 구성에 포함되지 않았다 (5.3절).",
+            "품질 손실이 긴 추론에 집중: 35B 티어 AIME -6.1점(86.6 vs 92.7), 8B 티어 AIME -10.0점, 8B IFBench -6.7점을 저자들이 직접 한계로 적는다. HF 모델 카드 두 개는 별도로 tool use와 multi-step planning 등 agent 능력이 약하고, 성능 수치는 MLX Apple Silicon 측정이며 iOS/Android/Windows 엔진은 아직 성숙 중이라고 경고한다. 35B 카드는 긴 context에서 KV cache로 3 GiB를 넘는다고도 적는다 (6장, Table 2, HF 모델 카드 Limitations).",
+            "구현 범위와 측정 신뢰성: MLX가 유일한 구현 백엔드이고 CUDA는 아키텍처만 있고 코드는 없다(6장, README 로드맵상 2026 Q4). 또 이 하드웨어에서 single-shot 벤치마크는 run 간 +-40%, 16GB 머신은 세션 간 최대 2.3배 편차가 있어 같은 세션 교차 A/B만 증거로 쓴다고 밝힌다 (5.1절)."
+          ],
+          "by_claude": [
+            "헤드라인 성능의 원인 귀속이 흐리다. abstract는 prerouter가 SSD 지연을 숨긴다는 서사를 쓰지만, 20.4 tok/s를 낸 24GB Mac mini에서 prerouter를 끄면 19.9 tok/s로 측정 기여는 약 0.5 tok/s(약 2.5%)다. off arm이 정확히 어떤 구성인지는 원문에 없다. +80-84% 이득(Table 3)은 가중치가 메모리에 들어가지 않는 16GB MacBook M2에서, 절대 속도 3.3-8.6 tok/s 수준으로만 나온다. 같은 16GB 머신에서 K=8을 K=4로 줄이면 decode가 3.3 -> 6.4 tok/s로 거의 2배가 되고(4장, Table 3), incr_stack도 +34%를 보인다(Appendix B, 다른 측정 캠페인). 그래서 출시 티어 속도의 상당 부분은 routing width 축소와 스트리밍 경로 최적화에서 온다고 보는 것이 논문 자체 데이터와 맞는다. 다만 24GB Mac mini에서 각 요소의 기여를 분해한 측정은 없고, 저자들은 정확한 집합을 공급할 prerouter 없이는 staging만으로 배포 가능한 구성이 아니라고 반론한다(5.3절).",
+            "외부 baseline이 사실상 하나다. 비교 대상은 같은 Mac mini에서 19.5 GB를 전부 상주시켜 paging이 일어나는 vanilla mlx-lm(3.9 tok/s, 18.2 GiB)뿐이다. 저자 각주는 같은 머신, 같은 decode protocol이라고만 밝히고 routing K는 명시하지 않아 K=4 Edge0와 동일 조건인지 알 수 없다. llama.cpp --cpu-moe, MoE-Infinity, PowerInfer, Mixtral-offloading은 인용만 있고 수치 비교가 없다. Pre-gated MoE 계열은 자기 엔진 안에서 same-token 변형을 측정해 스텝당 30-100 ms 비용으로 plain LRU보다 느렸다고 서술하지만, 표나 원 시스템 수치는 제시하지 않는다. '5배 빠르다'는 이 단일 비교에 한정해 읽어야 한다. 다만 저자들이 resident baseline이 이 하드웨어에서 빠른 기준이 아닌 이유를 3.1절에서 직접 설명한다는 점은 공정하게 밝혀 둔다.",
+            "Prediction-as-routing의 동작 변화 평가가 부족하다. 35B는 40층 중 32층, 8B는 24층 중 16층이 이전 토큰 시점의 예측으로 라우팅되고, 35B는 K도 8 -> 4로 바뀐다. 그런데 router 일치도, top-k overlap, 출력 분포 KL 같은 지표는 본문 전체에서 수치로 보고되지 않고, 평가는 5개 벤치마크 점수뿐이다. 저자들은 router 일치도를 쫓는 것이 잘못된 목표라고 근거를 들어 주장하지만, 그렇다면 언어모델 출력 수준의 차이를 더 넓게 측정해야 한다. 원본 대비 편차는 벤치마크 밖(장문 생성, 다국어, agent 작업)에서 드러날 수 있으나 이를 측정한 결과는 없고, HF 카드도 agent 능력이 약하다고 인정한다. 벤치마크의 sampling, temperature, max tokens, AIME 반복 횟수도 원문에서 확인되지 않아 -6.1 같은 격차의 분산을 판단할 수 없다.",
+            "재현성 공백. 저장소 전체 파일 트리(1131 경로)를 train, distill, sft, opencompass로 검색한 결과, 추론 엔진, 벤치 스크립트(python/examples/bench.py), 학습된 어댑터와 head만 있고 prerouter head distill, LoRA SFT, on-policy distillation, OpenCompass 평가 코드는 없다. docs/prerouter.md는 heads.py가 별도의 training implementation에서 가져온 것이라고 적어 학습 구현이 비공개임을 시사한다. Phase 2 약 2M행 데이터의 프롬프트 출처, 학습 compute, learning rate와 step 수도 원문에서 확인되지 않는다. 따라서 다른 MoE에 prerouter를 새로 학습시키려면 논문 서술만 보고 재구성해야 한다.",
+            "측정 조건과 공개 자료의 불일치. SSD 모델·대역폭과 macOS 버전이 명시되지 않아, SSD에 의존하는 시스템인데도 하드웨어 일반화가 어렵다. README와 HF 카드는 다른 프로토콜(약 3.3k 토큰 프롬프트 후 200 decode 토큰, 2 runs)로 35B 14.9-17.7 tok/s, 8B 23.9-25.3 tok/s, 8B peak 1.0 GiB를 적어 논문의 20.4, 28.0 tok/s, 1.5 GiB와 다르다. 차이의 일부는 조건 차이로 보이지만 두 수치를 조정하는 설명은 없다. README의 35B 체크포인트 약 23 GB 표기도 논문 19.5 GB, HF 파일 합계 약 19.7 GB(어댑터와 head 포함)와 다르다. 또 저장소 문서는 8B에서 staged decode가 출력을 저하시켜 끈다고 적고(docs/models/edge0-8b.md) 35B는 on-demand prefill이라고 적어(docs/models/edge0-35b.md), 논문 3.2절의 배포 구성 서술과 충돌한다. '3 GiB peak active memory'는 MLX allocator peak로 page cache와 mmap 파일 페이지를 빼고 잰 값이며, 16GB 실험의 Process RSS는 4.91-6.39 GiB였다."
+          ]
+        },
+        "reproducibility": {
+          "code": "공개. https://github.com/Edge0-AI/edge0 에 Python 프레임워크(MLX, Apple Silicon 전용 참조 구현), macOS(Rust), iOS(Swift + MLX Swift), Android(Kotlin), Windows(C++ + Vulkan, pinned llama.cpp + 8개 패치: 공통 6개, Windows 전용 2개) 엔진이 있다. 저장소 전체 파일 트리(1131 경로)를 train, distill, sft, opencompass로 검색한 결과 prerouter head 학습, LoRA SFT, on-policy distillation, OpenCompass 평가 스크립트는 없다. python/scripts에는 e2e_smoke, fetch_models, generate_example, strip_vision_weights, upload_hf, verify_alignment가 있고, python/examples/bench.py로 tok/s를 측정할 수 있다. Windows 엔진의 prerouter는 windows/serve/prefetch.h 기준 실제 gate를 바꾸지 않는 advisory prefetch이고 기본은 비활성(E0_PREROUTER 환경변수)이다. CUDA 백엔드는 README 로드맵상 2026 Q4 예정이다.",
+          "weights": "공개. Hugging Face Edge0/Edge0-35B-A3B-preview (base Qwen/Qwen3.6-35B-A3B, HF API 파일 합계 약 19.74 GB, lora_edge0_35b.safetensors 42.4 MB, prerouter_edge0_35b.safetensors 138.4 MB 포함)와 Edge0/Edge0-8B-A1B-preview (base inclusionAI/Ling-3.0-tiny-base, 파일 합계 약 4.60 GB, lora 16.4 MB, prerouter 38.8 MB). 둘 다 preview 릴리스이고 ModelScope 미러도 있다. README는 35B 디스크 사용량을 약 23 GB, 8B를 약 4.2 GB로 적어 논문(19.5/4.5 GB)과 수치가 다르다.",
+          "data": "미공개로 판단. repo 전체 검색, README, HF 모델 카드 두 개, 논문 전문에서 학습 데이터(Phase 2 약 2M행 teacher 생성 텍스트, Phase 3 약 200k행 on-policy 데이터) 공개 언급을 찾지 못했다. 평가 벤치마크(AIME 2026, HumanEval, GPQA-Diamond, MMLU-Pro, IFBench)는 공개 벤치마크지만 OpenCompass 설정은 원문에서 확인되지 않는다.",
+          "license": "Apache-2.0. 저장소 LICENSE 파일이 Apache License 2.0 원문이고 논문 7장 Artifacts도 Apache-2.0을 명시한다. 하위 디렉터리별 NOTICE 파일에 third-party 코드가 표기된다. HF 모델 카드 두 개도 메타데이터상 apache-2.0이다. base 모델(Qwen3.6-35B-A3B, Ling 3.0 tiny)의 자체 라이선스 조건은 이번에 확인하지 않았다.",
+          "note": "추론 재현(공개 체크포인트와 bench.py로 Mac에서 tok/s 측정)은 가능하다. 다만 결과가 SSD와 메모리 조건에 크게 의존하고, 저자들도 run 간 +-40% 편차를 경고한다. README의 측정 프로토콜도 논문과 달라 수치가 일치하지 않는다(35B 14.9-17.7 vs 20.4 tok/s). 방법 재현(다른 MoE에 prerouter와 recovery LoRA를 학습)은 학습 코드, 데이터, 하이퍼파라미터가 공개되지 않아 어렵다. Windows에서는 Python/MLX 엔진이 동작하지 않는다. 별도 Windows 앱(Vulkan, GGUF Q4_1, expert CPU mmap -cmoe)은 LoRA를 별도 GGUF adapter로 런타임 적용하지만, prerouter는 routing gate를 바꾸지 않는 advisory prefetch이자 기본 비활성 기능이라 논문의 prediction-as-routing을 구현하지 않는다. 이 앱의 참고 수치(35B decode 약 27.7 tok/s)는 48GB RAM 기준 머신의 warm-RAM 측정이라 SSD 스트리밍 조건이 아니며, 같은 조건의 vanilla llama.cpp와 속도가 거의 같다고 저자 문서가 밝힌다. 설치 파일 미서명, 엔진 미번들 등 미성숙 상태도 README에 명시돼 있다."
+        },
+        "my_learning_points": [
+          "로컬 모델 속도는 single-shot으로 측정하지 말 것. 저자들은 같은 하드웨어에서 single-shot 벤치마크가 run 간 +-40%, 16GB 머신에서 세션 간 최대 2.3배 차이가 난다고 보고한다. 그래서 각 arm을 별도 프로세스로 띄우고, arm 순서를 회전하고, 두 arm이 같은 토큰 시퀀스를 재생하게 한 뒤 warm 상태 3라운드 median을 내는 같은 세션 교차 A/B만 증거로 쓴다. 같은 저자들의 README 수치(3.3k 프롬프트 후 200 토큰, 2 runs)가 논문 수치보다 2.7-5.5 tok/s 낮은 것 자체가 프로토콜 차이의 영향을 보여 준다. Windows PC에서 llama.cpp 옵션(예: -cmoe, -ngl)이나 양자화 포맷을 비교할 때 이 절차를 작은 PowerShell 스크립트로 만들어 두면, 트렌드 시스템이 논문의 tok/s 주장을 검증할 때도 같은 기준을 쓸 수 있다.",
+          "offloading·prefetch 기법의 효과는 먼저 '모델이 메모리에 들어가느냐'로 갈린다. 같은 prerouter가 가중치를 다 담지 못하는 16GB MacBook M2에서는 decode +80-84%(K=4 기준 3.5 -> 6.4 tok/s)지만, 24GB Mac mini에서는 19.9 -> 20.4 tok/s로 약 2.5%다. 반면 같은 16GB 머신에서 routing width를 K=8에서 K=4로 줄이자 decode가 거의 2배가 됐다. 활성 expert 수가 토큰마다 옮겨야 할 바이트 양을 직접 정하기 때문이다. 따라서 35B급 MoE를 로컬에서 돌리려면 먼저 RAM(또는 unified memory) 용량과 int4 체크포인트 크기(35B 약 19.5 GB)를 비교하고, 모자랄 때만 SSD 스트리밍류 기법을 고려하는 것이 순서다. repo의 Windows 참고 수치(35B decode 약 27.7 tok/s)도 48GB RAM에 모델이 다 올라간 warm-RAM 조건이며, README는 16GB 이하에서 35B가 paging-bound라고 적는다. GPU 유무와 SSD 속도는 본인 환경에서 직접 측정해야 하며, 논문은 SSD 사양을 명시하지 않았다.",
+          "양자화 모델에 LoRA를 붙일 때 병합 후 재양자화를 기본값으로 쓰지 말 것. 저자들은 LoRA delta(RMS 약 1e-3)가 int4 group-64 step보다 작아서, 병합·재양자화하면 효과가 attention projection 34%, dense projection 2%, logits 18%만 남는다고 측정했다. unmerged 병렬 delta(어댑터 42 MB)는 decode 시간 차가 측정되지 않을 정도라고 보고한다. repo의 Windows 앱도 MLX LoRA를 별도 GGUF adapter로 변환해 llama.cpp에 런타임 adapter로 넘기므로(windows/tools/lora_mlx_to_gguf.py) 같은 원칙을 따른다. 로컬에서 GGUF 등 4-bit 모델에 자체 LoRA를 쓸 때는 런타임 어댑터 로딩(llama.cpp의 --lora 인자)을 먼저 시도하고, 병합본과 품질을 같은 프롬프트 세트로 비교하는 습관을 들이면 된다. 단 Windows 앱은 prerouter를 advisory prefetch로만 쓰므로(기본 비활성) student routing 경로에서 학습한 LoRA가 원래 gate 위에서 돌게 되고, 이때 Table 2 품질이 유지되는지는 확인되지 않았다(코드 주석과 논문 서술을 비교한 추론). HF 카드도 agent 능력(tool use, multi-step planning)이 약하다고 경고하므로, Claude Code 서브에이전트의 로컬 대체 모델로 쓰기 전에 별도 검증이 필요하다."
+        ],
+        "related_work": {
+          "prior": [
+            {
+              "title": "Pre-gated MoE: An Algorithm-System Co-Design for Fast and Scalable Mixture-of-Expert Inference",
+              "id": "arXiv:2308.12066 (ISCA 2024)",
+              "relation": "같은 토큰 안에서 다음 층 expert를 미리 고르는 pre-gating 방식이다. Edge0는 이런 same-token 변형이 자기 엔진에서 스텝당 30-100 ms의 동기화 비용 때문에 plain LRU보다 느렸다고 보고하고, 다음 토큰을 예측하는 이중 shift로 대체한다."
+            },
+            {
+              "title": "Post-Trained MoE Can Skip Half Experts via Self-Distillation",
+              "id": "arXiv:2605.18643",
+              "relation": "저자들이 접근법상 가장 가깝다고 꼽은 연구다. 사후 학습한 MoE가 그에 맞춰 학습되면 expert 수를 절반으로 줄여도 견딘다는 관찰이며, Edge0의 routing 대체 학습과 K=8 -> 4 재학습이 같은 관찰을 prediction-as-routing에 적용한 것이라고 저자들은 설명한다."
+            },
+            {
+              "title": "Fast Inference of Mixture-of-Experts Language Models with Offloading (Eliseev, Mazur)",
+              "id": "arXiv:2312.17238",
+              "relation": "Mixtral expert를 LRU 캐시와 speculative expert loading으로 offload하는 선행 시스템이다. Edge0는 자기 hot 경로가 같은 popularity 캐시 계열이라며 인용만 하고 수치 비교는 하지 않는다."
+            },
+            {
+              "title": "MoE-Infinity: Efficient MoE Inference on Personal Machines with Sparsity-Aware Expert Cache",
+              "id": "arXiv:2401.14361",
+              "relation": "개인 기기용 expert 캐시·prefetch 시스템으로 문제 설정이 같다. Edge0와의 수치 비교는 없다."
+            },
+            {
+              "title": "PowerInfer: Fast Large Language Model Serving with a Consumer-grade GPU",
+              "id": "arXiv:2312.12456",
+              "relation": "hot/cold neuron 분리로 소비자 GPU와 CPU에 가중치를 나누는 접근이다. Edge0의 hot expert 경로가 같은 hot/cold 분리라고 저자들이 직접 적는다. 인용만 있고 수치 비교는 없다."
+            },
+            {
+              "title": "FlexGen: High-Throughput Generative Inference of Large Language Models with a Single GPU",
+              "id": "arXiv:2303.06865",
+              "relation": "GPU/CPU/디스크 계층으로 가중치와 KV를 offload하는 처리량 지향 배치 서빙의 대표 선행 연구다. Edge0는 배치 1 지연 지향이라 목표가 다르다."
+            }
+          ],
+          "followup": []
+        },
+        "claude_note": "이 논문의 진짜 새로운 점은 prerouter 예측을 prefetch 힌트가 아니라 실제 라우팅으로 쓰는 prediction-as-routing이다. 예측 집합이 곧 사용 집합이므로 오예측 fallback 경로가 사라지고, 그 대가인 원본 모델과의 동작 차이는 recovery LoRA와 on-policy distillation으로 학습 단계에서 갚는다. 4-bit 위에 LoRA를 병합하지 않는 이유를 잔존율(34%, 2%, 18%)로 측정해 보인 점도 실용적이다. 반면 증거의 강도는 헤드라인보다 약하다. '단일 24GB 머신'은 GPU VRAM이 아니라 Mac mini M4 Pro의 unified memory다. 20.4 tok/s는 batch 1, short context, warm, 3라운드 median이고, base의 K=8이 아닌 K=4 재학습 프로파일 조건이다. 이 머신에서 prerouter의 측정 기여는 약 2.5%뿐이고, +80% 이상은 16GB 기기에서만 나온다. 같은 16GB 기기에서는 K=8을 K=4로 줄이는 것만으로 decode가 약 2배가 됐다. '3 GiB'는 MLX allocator peak로 page cache를 뺀 값이다. 외부 비교는 paging이 일어나는 vanilla mlx-lm 하나뿐이고, router 일치도나 출력 분포 차이는 보고되지 않는다. 품질 격차는 평균 3.9/2.8점이지만 AIME에서는 -6.1/-10.0점으로 크다. 그밖에 SSD 사양 미공개, 학습 코드 부재(저장소 전체 트리 확인), README·HF 카드·저장소 문서와의 수치·구성 불일치(8B staged decode 비활성 등)가 남는다. Windows 앱은 prerouter를 advisory prefetch로만 쓰므로 논문 방법을 Windows에서 재현한 것으로 볼 수 없다. 인용할 때는 'Apple Silicon 24GB unified memory Mac mini에서 Qwen3.6-35B-A3B를 K=4로 재학습한 int4 변형이 배치 1 decode 약 20 tok/s를 냈고, 다섯 벤치마크 평균 약 4점 하락(AIME는 6점 이상)'처럼 조건과 손실을 함께 적는 것이 정확하다.",
+        "analyzed_at": "2026-10-06"
+      }
+    },
+    "2412.20138": {
+      "tier2": {
+        "method_detail": "TradingAgents는 실제 트레이딩 회사를 모사한 LLM 멀티에이전트 프레임워크로, 7개 역할을 5개 팀으로 조직한다. (1) 애널리스트 팀(Analyst Team)은 펀더멘털(fundamental)·감성(sentiment)·뉴스(news)·기술적(technical) 분석가가 각자 구조화 리포트를 생성한다. (2) 리서처 팀(Researcher Team)은 강세(bull)/약세(bear) 연구자가 자연어 토론(natural language debate)을 n라운드 진행하고, 진행자(facilitator) 에이전트가 토론 이력을 검토해 우세 관점을 선택·기록한다(원문 표현 'facilitator ... selects the prevailing perspective'). (3) 트레이더(Trader)가 이를 종합해 매매 신호를 도출한다. (4) 리스크 관리 팀(Risk Management Team)은 공격적(aggressive)·중립(neutral)·보수(conservative) 세 관점이 토론해 노출을 조정한다. (5) 펀드 매니저(Fund Manager)가 최종 승인·집행한다. 에이전트 간 통신은 '구조화 리포트'를 1차 채널로, '자연어 대화'를 2차 채널로 쓰는 하이브리드 방식이며, 공유 글로벌 에이전트 상태(global agent state)와 메모리로 과거 결정 맥락을 유지한다(명시적 reflection 모듈 여부는 본문 확인 필요). 모델은 2계층(two-tier) 전략으로, 추론 집약 노드(분석·연구·트레이딩)에는 심층사고(deep-thinking) o1-preview를, 요약·데이터 변환·검색 등에는 신속사고(quick-thinking) gpt-4o/gpt-4o-mini를 배정하고, 전 에이전트는 ReAct 프롬프팅 프레임워크를 따른다(논문 명시). LangGraph는 논문 본문이 아니라 공식 오픈소스 레포/문서에서 구현 스택으로 명시된다('built with LangGraph').",
+        "experiment_setup": [
+          "대상 종목: AAPL, GOOGL, AMZN (3종목 소규모 표본)",
+          "백테스트 기간: 2024-06-19 ~ 2024-11-19 (약 5개월) — 원문(arXiv v1) 확인. 초안의 '2024년 1~3월/88거래일'은 오류로 정정",
+          "비교군(baselines): Buy & Hold(B&H), MACD, KDJ&RSI, ZMR, SMA 등 규칙기반 전략 (강한 ML/RL 트레이딩 비교군은 없음)",
+          "평가지표: 누적수익률(CR), 연환산수익률(ARR), 샤프비율(SR), 최대낙폭(MDD)",
+          "핵심 결과(Table 1, 원문 대조 일치): AAPL CR 26.62% / ARR 30.5% / SR 8.21 / MDD 0.91%",
+          "GOOGL CR 24.36% / ARR 27.58% / SR 6.39 / MDD 1.69%; AMZN CR 23.21% / ARR 24.90% / SR 5.60 / MDD 2.11%",
+          "원문 명시 개선폭(최고 베이스라인 대비): AAPL 누적 +24.57%·연환산 +28.43%, GOOGL +16.58%/+19.49%, AMZN +6.10%/+7.30% (SR 개선폭은 원문 미제시)",
+          "거래비용·슬리피지·세금 가정은 본문에서 언급 확인 안 됨"
+        ],
+        "datasets": [
+          {
+            "name": "과거 주가 시계열(OHLCV)",
+            "scale": "3종목 × 약 5개월(2024-06-19~11-19), Yahoo Finance/EODHD 등",
+            "domain": "시장 가격 데이터"
+          },
+          {
+            "name": "뉴스 기사",
+            "scale": "Bloomberg, Yahoo, EODHD, FinnHub 등 다중 소스",
+            "domain": "금융 뉴스/거시 지표"
+          },
+          {
+            "name": "소셜미디어 감성",
+            "scale": "Reddit, X/Twitter 게시물 + 보조 LM 감성 점수",
+            "domain": "시장 심리"
+          },
+          {
+            "name": "내부자·재무 데이터",
+            "scale": "SEDI 인사이더 거래, 기업 공시·재무제표",
+            "domain": "펀더멘털"
+          },
+          {
+            "name": "기술적 지표",
+            "scale": "60개 표준 기술분석 지표(MACD, RSI, Bollinger Bands 등) — 원문 'sixty ... indicators'",
+            "domain": "기술적 분석"
+          }
+        ],
+        "limitations": {
+          "by_authors": [
+            "과거 데이터 백테스트에 한정되며 실거래(live trading) 배포는 미검증 — 향후 과제로 명시",
+            "데이터 가용성 의존: 데이터 부재가 실제 거래 부재를 의미할 수 있어 신호 누락 가능",
+            "테스트 종목 수가 3개(AAPL/GOOGL/AMZN)로 소규모",
+            "다라운드 토론에 따른 지연·API 크레딧 비용 등 운영 오버헤드 존재"
+          ],
+          "by_claude": [
+            "보고된 샤프비율(AAPL SR 8.21 등)이 실무 기준으로 비현실적으로 높음 — 약 5개월의 짧고 대체로 우호적이었던 대형 기술주 구간과 3종목 소표본에 기인한 과대추정 가능성",
+            "거래비용·슬리피지·세금 반영 여부가 본문에서 확인되지 않음 — 미반영 시 실현 성과는 크게 하락 가능",
+            "베이스라인이 B&H·규칙기반 위주라 강한 ML/RL 트레이딩 비교군이 부재해 우위 주장의 상대적 강도가 제한적",
+            "데이터 누출 통제 서술이 불명확 — 백테스트 구간(2024 하반기)은 사용 모델(gpt-4o/o1-preview, 학습 컷오프 ~2023) 이후라 단순 암기형 누출 위험은 낮은 편이나, 뉴스·검색 파이프라인의 시점정합(point-in-time) 통제(미래 기사·미래 지표 유입 차단) 여부는 본문 확인 필요",
+            "원문이 제시한 개선폭은 CR/ARR 기준이며 SR 개선폭은 없음 — 초안의 'SR +6.57 우위'는 원문 근거 없어 삭제함"
+          ]
+        },
+        "reproducibility": {
+          "code": "공개 (github.com/TauricResearch/TradingAgents, Python, CLI+패키지, 조회 시점 약 94.6k 스타 — 변동값)",
+          "weights": "해당 없음 — 자체 학습 가중치 없이 OpenAI/Anthropic/Google/xAI/DeepSeek/Qwen/Ollama 등 상용·로컬 LLM API를 호출하는 구조",
+          "data": "부분 공개 — Yahoo/FinnHub/EODHD/Reddit 등 공개 API로 수집(API 키 필요), 정제·전처리 세부는 재현 시 재구성 필요",
+          "license": "Apache-2.0 (레포 확인)",
+          "note": "코드는 완전 공개이며 레포/문서에 LangGraph 기반 구현, 다중 LLM 프로바이더·Ollama 로컬 모델, CLI가 명시됨. 상용 LLM API 키가 필요해 비용·모델 버전에 따라 결과 재현이 달라질 수 있고, 레포에 '연구 목적이며 금융/투자/트레이딩 조언 아님' 면책이 명시됨. 논문 성과 수치(Table 1)는 원문과 1:1 대조해 일치 확인함."
+        },
+        "my_learning_points": [
+          "역할 분리 + 하이브리드 통신 패턴을 직접 모사해볼 것: 구조화 리포트(1차)와 자연어 토론(2차)을 상태 그래프(예: LangGraph)로 분리하면 '데이터 수집 → 관점 토론 → 리스크 조정 → 승인/집행' 파이프라인을 재사용 가능한 템플릿으로 만들 수 있다.",
+          "2계층 모델 라우팅(deep-thinking o1-preview vs quick-thinking gpt-4o/mini)을 벤치마크할 것: 추론 노드에만 고비용 모델을 쓰고 요약·검색은 저비용 모델로 돌려 비용/성능 트레이드오프를 직접 측정하면 실전 에이전트 설계 감각을 얻는다.",
+          "화려한 수익률(SR 8.21)을 액면 그대로 믿지 말고 재현 실험을 설계할 것: 종목·기간을 넓히고 거래비용을 넣은 뒤, 특히 뉴스/지표 검색을 시점정합(point-in-time)으로 잠근 out-of-sample 백테스트를 돌려 미래정보 유입을 통제하는 검증 습관을 기른다."
+        ],
+        "related_work": {
+          "prior": [
+            {
+              "name": "ReAct (Yao et al., 2022)",
+              "relation": "전 에이전트의 추론-행동 결합 프롬프팅 기반으로 채택(논문 명시)"
+            },
+            {
+              "name": "Generative Agents (Park et al., 2023)",
+              "relation": "LLM 에이전트 사회/역할 시뮬레이션이라는 설계 철학의 선행"
+            },
+            {
+              "name": "MetaGPT / ChatDev",
+              "relation": "역할 기반 멀티에이전트 협업(SOP·구조화 통신) 프레임워크 계보의 선행"
+            },
+            {
+              "name": "FinMem / FinAgent / FinGPT",
+              "relation": "단일 에이전트 중심 금융 LLM 선행 연구(FinMem·FinAgent는 본문에서 비교/언급), 본 논문이 협업형으로 확장"
+            }
+          ],
+          "followup": [
+            {
+              "name": "TauricResearch 오픈소스 생태계 확산",
+              "relation": "레포가 조회 시점 약 94.6k 스타로 확산되며 다중 프로바이더·로컬 모델·백테스트 기능 등 후속 개발이 이어짐(후속 '논문'은 본문 밖, 확인 필요)"
+            }
+          ]
+        },
+        "claude_note": "이 분석은 초록만이 아니라 arXiv v1 HTML 전문과 GitHub 레포를 실제 조회해 작성했고, 성과 표(Table 1)의 CR/ARR/SR/MDD를 원문과 1:1 대조해 모두 일치함을 확인했다. 다만 초안에는 백테스트 기간 오류(실제 2024-06-19~11-19, 약 5개월)와 원문에 없는 'SR +6.57 우위' 계산치가 있어 정정·삭제했고, LangGraph는 논문이 아니라 레포/문서 근거로 재귀속했다. 프레임워크 자체는 역할 분리·하이브리드 통신·2계층 모델 라우팅이라는 엔지니어링 설계가 탄탄하고 Apache-2.0로 완전 공개(조회 시점 약 94.6k 스타)되어 재현·학습 가치가 높다. 반면 SR 8.21과 초저 MDD는 3종목·약 5개월의 짧고 우호적인 대형 기술주 구간, 규칙기반 위주의 약한 베이스라인, 거래비용 미명시를 고려하면 실전 성능으로 액면 수용하기 어렵다(단, 테스트 구간이 모델 학습 컷오프 이후라 단순 암기형 누출 우려는 상대적으로 작다). 요컨대 '수익률 주장'보다 '멀티에이전트 트레이딩 아키텍처의 오픈소스 레퍼런스'로서의 기여가 이 논문의 진짜 가치다.",
+        "analyzed_at": "2026-07-27"
+      }
+    },
+    "2508.02739": {
+      "tier2": {
+        "method_detail": "Kronos는 금융 K-line(캔들스틱) 데이터를 위한 2단계 파운데이션 모델로, 연속형 시장 정보를 이산 토큰으로 바꾸는 전용 토크나이저와 그 위에 얹은 자기회귀(autoregressive) 디코더 트랜스포머로 구성된다. 토크나이저는 3층 트랜스포머 오토인코더(d_model 256, d_ff 512, head 4)에 BSQ(Binary Spherical Quantization)를 결합해, 연속 잠재벡터를 학습 가능한 초평면에 사영하여 k비트 이진코드로 양자화한다(k=20, 총 어휘 2^20 = 1,048,576). 2^20을 그대로 예측하면 비용이 크므로 k비트를 동일 길이의 coarse/fine 두 서브토큰(k_c = k_f = k/2 = 10비트, 각 2^10)으로 인수분해하고, coarse 서브토큰만으로 복원하는 coarse loss, coarse+fine 전체 토큰으로 복원하는 fine loss, BSQ 정칙화용 양자화 loss(commitment weight beta = 0.05)를 합친 복합 목적함수로 학습해 coarse가 주요 구조를, fine이 잔차를 담도록 강제한다. 입력은 시점당 OHLCVA 6차원(Open, High, Low, Close, Volume, Amount)이며 차원별 z-score 정규화 후 [-5, 5]로 클리핑하고, 패치가 아니라 K-line 레코드 단위로 시점당 2개 서브토큰을 생성한다. 백본은 causal self-attention 기반 디코더로 RoPE 위치인코딩, Pre-LayerNorm + RMSNorm을 쓰고 최대 컨텍스트는 512 토큰이며, minute-of-day / hour-of-day / day-of-week / day-of-month / month-of-year 다섯 개 시간 특징을 각각 임베딩해 합산 후 입력 표현에 더한다. 예측은 dual-head 순차 방식으로, coarse head가 먼저 로짓을 내고 예측된 coarse 토큰 임베딩을 쿼리로 하는 cross-attention을 거쳐 fine head가 조건부 분포를 내며, 손실은 L_ar = -E[sum_t (log p(b_t^c | b_<t) + log p(b_t^f | b_<t, b_t^c))] 형태의 두 항 합이다. 모델 크기는 Kronos_small(8층, d_model 512, d_ff 1024, head 8, 24.7M), Kronos_base(12층, 832, 2048, head 16, 102.3M), Kronos_large(18층, 1664, 3072, head 32, 499.2M) 세 가지이며, AdamW + cosine 스케줄, peak LR 1e-3 / 5e-4 / 2e-4, weight decay 0.01-0.10으로 사전학습했다(총 학습 토큰 수, 스텝 수, 사용 하드웨어는 원문에 명시되지 않아 본문 확인 필요). 추론 시에는 temperature와 top-p를 둔 Monte Carlo 샘플링으로 복수 미래 경로를 뽑아 평균내는 앙상블을 쓴다(가격/수익률/투자시뮬레이션은 temp 0.6, top-p 0.90, 10 샘플; 변동성은 temp 0.9, top-p 0.90, 1 샘플; K-line 생성은 temp 1.0, top-p 0.95, 1 샘플).",
+        "experiment_setup": [
+          "평가 과제 5종: (1) 가격 시계열 예측(IC, RankIC), (2) 수익률 예측(IC, RankIC), (3) 실현변동성 예측(MAE, R2), (4) 합성 K-line 생성(다양성은 t-SNE 및 KDE 비교, 충실도는 LSTM 판별기 기반 discriminative score, 유용성은 TSTR(Train-on-Synthetic, Test-on-Real)의 IC/RankIC), (5) 투자 시뮬레이션(연율화 초과수익 AER, 정보비율 IR).",
+          "핵심 헤드라인 수치(초록 기준): zero-shot 가격 예측 RankIC가 최강 TSFM 대비 +93%, 최강 비사전학습 베이스라인 대비 +87%; 변동성 예측 MAE 약 9% 감소; 합성 K-line 생성 충실도 22% 개선. 개별 모델별 IC/RankIC 절대값 표는 부록 F(Full Experiment Results)로 넘겨져 있어 본문 확인 필요.",
+          "비교군 총 25개: 비사전학습 8종(iTransformer, TimesNet, PatchTST, NSTransformer, DLinear, FEDformer, TimeMixer, TimeXer), zero-shot TSFM 5종(TimeMOE, Moirai, TimesFM, Moment, Chronos), 계량경제 2종(ARCH, GARCH), 생성모형 3종(DiffusionTS, TimeVAE, TimeGAN), 그리고 ablation 변형 3종(Direct-AR, Prob-AR, Kronos-Parallel).",
+          "Ablation(Table 2, Kronos_small 기준) - 가격예측 IC 0.0431 / RankIC 0.0254, 수익률예측 IC 0.0665 / RankIC 0.0622, 변동성 MAE 0.0384 / R2 0.2490. 비교: Kronos-Parallel IC 0.0345 / RankIC 0.0226, Prob-AR IC 0.0179 / RankIC 0.0102. Direct-AR(연속공간 MSE 회귀) 수치는 본문 확인 필요.",
+          "Ablation 결론 3가지: (a) 이산 토큰 모델링이 연속형(Direct-AR의 MSE 회귀, Prob-AR의 Student-t 혼합분포)보다 뚜렷하게 우수, (b) coarse -> fine 순차 예측이 동시(parallel) 인수분해 예측보다 우수, (c) 어휘 크기를 키운 k=20 설정이 복원 품질과 다운스트림 예측 모두 개선.",
+          "스케일링: 24.7M -> 102.3M -> 499.2M로 모델을 키울수록 가격 예측, 변동성 예측, 생성 품질 전반에서 성능이 일관되게 개선되어 시계열 파운데이션 모델에서도 scaling law가 경험적으로 성립한다고 주장.",
+          "시간적 분리 프로토콜: 사전학습 데이터는 2024년 6월까지, 평가 구간은 2024년 7월 이후로 잘라 leakage를 차단. 다운스트림은 태스크별 파인튜닝 없이 zero-shot으로 평가.",
+          "룩백/예측 구간은 주기별로 다르게 설정(Table 8) - 예: 5분봉은 lookback 480 / horizon 96, 일봉은 lookback 40 / horizon 12.",
+          "투자 시뮬레이션: 중국 A주 대상 롱온리 전략, CSI 300에서 top-k=50 / n=5, CSI 800에서 top-k=200 / n=10, 일별 리밸런싱 제한과 거래당 0.15%의 보수적 거래비용 적용. Kronos가 AER과 IR 모두에서 최고라고 서술되나 구체 수치는 본문 확인 필요.",
+          "데이터 정제 파이프라인: 주기별 임계값(점프 0.10-0.50)으로 이상 가격 급등락 구간 제거, 거래량 0 또는 near-zero가 지속되는 저유동성 구간 제거, 종가가 장기간 고정된 정체 구간 제거. 가격 필드의 결측은 시퀀스 하드 경계로 처리하고 거래량/거래대금 결측은 0으로 대치."
+        ],
+        "datasets": [
+          {
+            "name": "Kronos 사전학습 코퍼스 (다중시장 K-line)",
+            "domain": "주식, 암호화폐, 선물, 외환 (금융 캔들스틱)",
+            "scale": "120억(12B) 개 이상 K-line 레코드, 45개 글로벌 거래소, 30개국 이상, 1분봉부터 주봉까지 7개 주기, 2024년 6월까지"
+          },
+          {
+            "name": "주식 평가 세트 (9개 거래소)",
+            "domain": "글로벌 주식",
+            "scale": "in-distribution 6곳(상하이, 나스닥, 일본, 인도, 한국, 홍콩) + out-of-distribution 3곳(인도네시아, 말레이시아, 대만). 거래소별 종목 수는 본문 확인 필요"
+          },
+          {
+            "name": "암호화폐 평가 세트 (Binance)",
+            "domain": "암호화폐 현물",
+            "scale": "Binance에서 거래 가능한 전체 현물 페어. Volume/Amount 제외, OHLC만 사용"
+          },
+          {
+            "name": "외환 평가 세트",
+            "domain": "FX",
+            "scale": "1,000개 이상 통화쌍, OHLC만 사용"
+          },
+          {
+            "name": "투자 시뮬레이션 유니버스",
+            "domain": "중국 A주",
+            "scale": "CSI 300(top-50 포트폴리오), CSI 800(top-200 포트폴리오), 거래비용 0.15%/거래"
+          },
+          {
+            "name": "평가 기간",
+            "domain": "공통 테스트 구간",
+            "scale": "2024년 7월 이후 (사전학습 컷오프 2024년 6월과 시간적으로 분리)"
+          }
+        ],
+        "limitations": {
+          "by_authors": [
+            "논문에 독립된 Limitations 섹션이 없다. 5장 Conclusion도 성과 요약만 하고 한계나 Future Work를 서술하지 않는다. 저자가 인정한 제약은 부록 곳곳에 흩어져 있다.",
+            "컨텍스트 길이 512 토큰 제한을 저자가 명시적으로 인정한다. 본문에 '자원 제약과 실제 배포 시나리오를 고려해' 최대 컨텍스트를 512로 제한했다고 적었고, 대신 주기(frequency)를 바꿔 임의 예측 지평을 커버할 수 있다고 주장한다(단기는 1분봉, 주간/월간은 일봉). 즉 긴 룩백은 아키텍처가 아니라 데이터 샘플링으로 우회한다.",
+            "서브토큰 분해 개수 n=2는 최적 탐색 결과가 아니라 파라미터 절감 대 추론 지연의 트레이드오프로 고른 값이다(Appendix H Q3, Table 12). n=4, n=5도 표에 있고 오히려 총 파라미터가 더 적지만(각각 100.5M, 101.1M 대 n=2의 102.3M), 성능 비교 없이 토큰당 추론 스텝 4배/5배라는 지연 비용만으로 배제했다.",
+            "Q1(K-line만으로 단기 가격 변동을 설명할 정보가 충분한가)에 대해 저자는 선행 문헌 인용에 그치고 '위 실증 증거에 대한 상세 논의는 본 논문의 범위를 벗어난다'고 명시적으로 회피한다. 모델의 근본 전제가 논증되지 않은 채로 남는다.",
+            "크립토와 외환 평가에서는 volume/amount를 의도적으로 제외하고 OHLC만 사용한다고 밝힌다. 다만 이를 단순한 설계 결함 자인으로 읽으면 과하다. 원문 Appendix C는 학습 중 volume과 amount를 전체 샘플의 5%에서 무작위로 0으로 만드는 정규화를 두어 '가격 정보만으로도 예측하도록' 명시적으로 훈련시킨다고 밝힌다. 따라서 OHLC 전용 평가는 신뢰할 volume 데이터가 없는 상황을 겨냥해 의도적으로 학습시킨 능력의 검증에 가깝다. 남는 한계는 6차원 OHLCVA 입력 설계가 모든 자산군에 동일하게 적용되지는 않는다는 점 자체다.",
+            "계층적(coarse/fine) 복원 손실은 표준 손실 대비 복원 품질을 개선하지 않는다. Table 9에서 MAE 0.0785 대 0.0781, MSE 0.0203 대 0.0202로 오히려 미세하게 나쁘다. 저자도 '거의 동일'(nearly identical)하다고 서술하며, 계층 구조의 목적은 정확도가 아니라 후속 자기회귀 모델의 편의라고 인정한다.",
+            "코드북 사용률이 coarse 97.66%, fine 85.25%로 fine 레벨은 14.75%가 미사용이다(Table 11, 각 서브코드북 크기 2^10). 어휘가 완전히 활용되지 않는다는 점을 저자가 표로 공개했다. 다만 저자는 이를 한계가 아니라 코드북 붕괴가 없다는 근거로 제시한다.",
+            "추론 하이퍼파라미터(temperature, top-p, 샘플 수 N)의 최적값이 태스크마다 달라(예측 T=0.6/N=10, 변동성 T=0.9/N=1, 생성 T=1.0/top-p 0.95) 별도 튜닝이 필요하다는 점을 Appendix E와 Table 6에서 인정한다.",
+            "GitHub README 면책: 제공된 파인튜닝 및 백테스트 파이프라인은 '데모이며 프로덕션 수준의 퀀트 트레이딩 시스템이 아니다'. 실전 전략에는 포트폴리오 최적화와 리스크 팩터 중립화가 추가로 필요하고, 모델이 내는 것은 원시 시그널이지 pure alpha가 아니라고 명시한다.",
+            "GitHub README 면책: finetune 디렉터리의 코드 주석 상당수가 AI 어시스턴트(Gemini 2.5 Pro)로 생성되어 부정확할 수 있으며 코드 자체를 정본으로 보라고 안내한다.",
+            "고성능 변종인 Kronos-large(499.2M)는 저장소 Model Zoo 표에서 미공개로 표시되어 있다. 논문의 최고 성능 수치를 그대로 재현할 수 있는 공개 가중치가 없다는 점을 저장소가 드러낸다.",
+            "고품질 금융 데이터가 일반 시계열과 달리 공개 풀링이 어렵다고 본문에서 밝히며, 그래서 자체 코퍼스를 처음부터 구축했다고 서술한다. 이는 곧 코퍼스 비공개의 사유이자 재현 장벽이다."
+          ],
+          "by_claude": [
+            "헤드라인 '+93% RankIC'는 절대값이 극히 작은 지표 위의 상대 개선이다. 원문 부록 실측치로 확정된다. Table 15(제로샷 TSFM) 평균 RankIC 최고값이 0.0138이고 같은 표에 0.0000, -0.0001, -0.0014, -0.0033 같은 값이 즐비하다. Table 14의 Kronos_large 평균 RankIC는 0.0267이다. 0.0138 x 1.93 = 0.0266으로 헤드라인 93%가 정확히 재현되고, 87%도 최고 full-shot 베이스라인 0.0143 x 1.87 = 0.0267로 재현된다. 즉 0.0138 -> 0.0267이라는 절대 0.013%p 수준의 이동을 93%로 표기한 것이다. 분모가 0에 가까운 상대 비율은 불안정하며 실무 의사결정에서의 의미는 완전히 별개다.",
+            "가격 시계열 IC/RankIC의 정의 자체가 퀀트 실무의 IC와 다르다. 원문 Appendix D는 '각 샘플에 대해 예측 시계열과 실제 시계열 사이의 IC/RankIC를 OHLC 4개 가격 채널 각각에 대해 계산하고 4채널 평균을 최종 지표로 보고한다'고 명시한다. 가격 레벨은 자기상관이 매우 높아 추세가 지속되기만 해도 높은 상관이 나온다. 실무의 횡단면 IC(같은 시점 종목 간 랭킹 상관)와 혼동될 여지가 큰데, 하필 헤드라인 93%가 붙은 지표가 이것이다. 반면 return forecasting 쪽은 예측 수익률 벡터와 실제 수익률 벡터 사이로 계산해 실무 IC에 훨씬 가까운데도 헤드라인에서 빠져 있다. 다만 이쪽도 '자산군-주기 내 전체 샘플 풀링'이라 엄밀한 시점별 횡단면 IC는 아니다.",
+            "실현변동성 예측이 전용 헤드가 아니라 예측된 종가 경로의 로그수익 제곱합으로 유도된다(원문 식 12). 게다가 Table 6에 따르면 이 태스크는 샘플 수 N=1, T=0.9로 단일 경로를 쓴다. 즉 변동성 추정치가 한 번의 확률적 샘플링 노이즈에 그대로 노출되고, 생성 경로의 변동성이 실제 변동성을 대리한다는 가정이 검증되지 않았다.",
+            "변동성 베이스라인이 ARCH와 GARCH뿐이다(둘 다 p,q in {1,2,3} 그리드에서 BIC로 선택). 원문 전체를 검색해도 HAR, HAR-RV, Log-HAR, EWMA는 단 한 번도 등장하지 않는다. 실현변동성 예측의 사실상 표준 벤치마크가 통째로 빠진 것이다. HAR은 GARCH보다 실현변동성에서 훨씬 강한 것으로 알려져 있어 '9% 낮은 MAE'는 약한 상대에게 얻은 우위일 수 있다. 독립 연구(arXiv 2607.05291)가 9개 TSFM을 8개 계량 벤치마크와 비교해 TTM만이 Log-HAR을 일관되게 이겼다고 보고한 점이 이 우려를 뒷받침한다(단 이 연구는 Kronos 자체를 다룬 후속 연구가 아니라 일반 TSFM 연구다).",
+            "통계적 유의성 검정과 신뢰구간이 사실상 없다. 메인 결과 표는 전부 단일 실행 점추정이다. 시드 5개와 표준편차가 등장하는 곳은 Figure 7(추론 샘플 수 절제)뿐이며 캡션에 '5회 실행 평균, 음영은 표준편차'라고 명시된다. 신호 대 잡음비가 낮다고 저자 스스로 강조한 도메인에서 이는 치명적이다. Diebold-Mariano 같은 예측 비교 검정도 없다.",
+            "백테스트 창이 짧고 단일 시장이다. 원문은 'Kronos의 사전학습 데이터가 2024년 6월까지이므로 모든 태스크의 테스트 기간은 2024년 7월에 시작한다'고만 적고 백테스트 종료일을 어디에도 명시하지 않는다(원문 확인 완료). 11개월이라는 기간은 오직 저장소 finetune/config.py의 backtest_time_range = 2024-07-01 ~ 2025-06-05에서만 나온다. 이 구간에는 중국 A주의 2024년 9-10월 급등 국면이 포함된다. 단일 시장(CSI300/CSI800), 단일 경로, 11개월로 산출한 연율화 초과수익과 IR은 레짐 의존성이 크다.",
+            "백테스트 현실성 가정이 얕다. 롱온리 top-k/drop-n에 최소 보유기간 5일과 일일 최대 n종목 매매 제한을 두고(CSI300은 k=50/n=5, CSI800은 k=200/n=10), 단일 거래비용 0.15%만 적용한다. 회전율 통제 장치는 있으나 슬리피지, 마켓 임팩트, 거래정지, A주 상하한가(+-10%) 제약은 모델링하지 않는다. 원문 전체 검색에서 slippage, market impact, price limit 관련 서술은 0건이다. 상한가 종목은 실제로 살 수 없는데 시그널 상위에 몰리기 쉬워 성과가 과대평가될 구조다. 참고로 README 면책은 포트폴리오 최적화와 리스크 팩터 중립화 부재만 인정할 뿐 이 미시구조 제약들은 언급하지 않는다.",
+            "예측 지표의 격차와 실제 포트폴리오 성과의 격차가 크게 어긋난다. Table 10에서 Kronos_large 평균 AER 0.2084 / IR 1.6491인데 Moment_large는 0.1681 / 1.3677, Moirai_large는 0.1577 / 1.2481이다. AER 기준 최고 베이스라인 대비 약 24% 우위로, 예측 단계의 93%가 투자 단계에서는 20-30% 수준으로 줄어든다. 이는 '예측 정확도가 투자 성과로 직결된다'는 본문 주장의 강도를 스스로 약화시킨다. 한편 Chronos_large는 평균 AER -0.0302 / IR -0.3384로 손실을 낸다.",
+            "이산화의 인과 기여가 분리되지 않았다. Table 2의 Kronos 대 Direct-AR/Prob-AR 비교에서 Kronos만 앙상블 샘플링(N=10)과 태스크별 T/top-p 튜닝의 혜택을 받는다. 연속형 베이스라인에 동등한 추론 예산을 준 통제 실험이 없어, 이득 중 얼마가 이산 토큰화 자체이고 얼마가 테스트타임 앙상블인지 알 수 없다. 실제로 독립 연구 VAIOM(arXiv 2607.13929)은 동일한 카테고리형 출력 목적함수 아래에서 연속 입력이 이산 토큰 입력보다 낫다고 보고한다.",
+            "Kronos 사전학습의 컴퓨트 예산이 보고되지 않는다. Table 5는 드롭아웃/LR/weight decay만 주고, 본문은 워밍업 15,000스텝과 AdamW + 코사인 스케줄, 하드웨어(3 pod x 8장 = RTX 4090D 24장)만 밝힌다. 주의할 점은 Appendix D에 'batch size 256'과 '최대 12 에폭'이 등장하지만 이는 베이스라인 모델 학습 설정이지 Kronos 사전학습 설정이 아니라는 것이다(원문 확인 완료). Kronos 자체의 총 학습 스텝, 총 학습 토큰, 배치 크기, 에폭 수, 학습 소요 시간은 전부 누락됐다. 코퍼스 규모 120억 봉만으로는 컴퓨트 대비 성능을 계산할 수 없고, 세 크기 점 3개만으로 '스케일링 법칙을 실증했다'(empirically validating the scaling laws)고 말하기에는 근거가 얇다. 각 크기가 동일 토큰 예산으로 학습됐는지도 불명이다.",
+            "누출과 생존 편향 통제가 2024년 6월 시점 컷오프 하나에 전적으로 의존한다. 원문은 이 시간 분리만 서술할 뿐 상장폐지 종목 포함 여부, 수정주가 처리 방식, 지수 구성종목의 point-in-time 반영 여부를 전혀 언급하지 않는다(원문 확인 완료, 누락 확정). 사전학습 코퍼스에 CSI300/CSI800 종목의 과거 일봉이 들어 있었을 가능성이 매우 높은데(상하이 XSHG가 in-distribution 거래소로 명시됨), 이 경우 백테스트 유니버스는 새롭지 않다.",
+            "정규화 통계의 산출 범위가 논문에 없다. 원문 Appendix C는 'D개 특징 차원 각각에 독립적으로 z-score 정규화를 적용한 뒤 [-5,5]로 클리핑한다'고만 적고, 평균/표준편차를 룩백 윈도우 내부에서 계산하는지 시계열 전체에서 계산하는지 명시하지 않는다(원문 확인 완료, 누락 확정). 전자면 문제없고 후자면 미래 정보 누출이다. 논문만으로는 판별 불가이며 코드 확인이 필요하다.",
+            "어휘 크기 결론과 실제 실험 설정이 어긋난다. 배포 토크나이저는 k=20(2^20)인데 Table 9의 토크나이저 아키텍처 절제는 명시적으로 2^18 어휘에서 수행됐다. Figure 6의 어휘-성능 곡선도 '어휘를 키우면 복원과 예측이 모두 개선된다'는 단조 개선만 서술할 뿐 포화점을 보여주지 않아 2^20이 최적이라는 근거가 되지 못한다.",
+            "저장소와 논문이 어긋난다. 논문에 없는 Kronos-mini(4.1M, 컨텍스트 2048, Kronos-Tokenizer-2k)가 저장소에 있고(원문 전체 검색에서 mini 변종 언급 0건), 논문 최고 성능인 large는 미공개다. 논문 표를 그대로 재현하려면 base까지만 가능하다.",
+            "실패 사례 분석이 전무하다. 어떤 자산군, 어떤 변동성 레짐, 어떤 유동성 구간에서 모델이 무너지는지에 대한 서술이 없다. Appendix H는 왜 잘 되는지의 사후 정당화(노이즈 억제, 이산 상태공간, 초구 기하)에 집중하고, 레짐 전환이나 극단 이벤트에서의 성능 저하는 다루지 않는다.",
+            "라이선스는 MIT지만 사전학습 데이터의 출처와 라이선스가 전혀 명시되지 않는다. 45개 거래소, 120억 봉 규모라면 유료 벤더 데이터가 섞였을 개연성이 높다. 코드/가중치가 MIT라는 사실이 데이터 유래 리스크까지 정리해주지는 않는다."
+          ]
+        },
+        "reproducibility": {
+          "code": "부분 공개. github.com/shiyu-coder/Kronos (MIT). 공개 범위는 추론 코드(model/kronos.py, KronosPredictor), 파인튜닝 파이프라인(finetune/config.py, train_tokenizer.py, train_predictor.py, qlib_data_preprocess.py, qlib_test.py), 예제 스크립트, Web UI, Qlib 기반 A주 백테스트 스크립트다. torchrun 다중 GPU 파인튜닝을 지원한다. 반면 사전학습 코드는 공개되지 않았다(저장소 최상위 디렉터리는 examples, figures, finetune, finetune_csv, model, tests, webui로 pretrain 계열 경로가 없음). 즉 파인튜닝은 재현 가능하지만 사전학습은 재현 불가.",
+          "data": "핵심 데이터 비공개. 45개 거래소, 7개 주기, 120억+ K-line 사전학습 코퍼스는 공개되지 않았고 출처 벤더도 명시되지 않는다. 저자 스스로 본문에서 '일반 시계열 파운데이션 모델 연구와 달리 잘 정제된 공개 금융 데이터가 제한적이어서 처음부터 구축했다'고 밝힌다. 평가용 데이터셋(9개 주식 거래소 = in-distribution XSHG/XNAS/XJPX/XNSE/XKRX/XHKG + OOD XIDX/XKLS/XTAI, Binance 전 현물 페어, 1000+ 외환 페어)도 비공개다. 재현 가능한 부분은 투자 시뮬레이션뿐으로, 이는 오픈소스 Qlib의 중국 A주 일봉 데이터를 사용하며 백테스트도 Qlib 엔진 안에서 수행한다. 저장소 config.py 기준 학습 2011-01-01~2022-12-31, 검증 2022-09-01~2024-06-30, 테스트 2024-04-01~2025-06-05, 백테스트 2024-07-01~2025-06-05, instrument=csi300, lookback_window=90. 주의: 논문 본문은 '테스트 기간이 2024년 7월에 시작한다'고만 적고 종료일을 명시하지 않으므로, 11개월이라는 백테스트 길이는 논문이 아니라 저장소에서만 확인된다.",
+          "weights": "부분 공개. Hugging Face NeoQuasar 조직에서 Kronos-mini(4.1M, 컨텍스트 2048, Kronos-Tokenizer-2k), Kronos-small(24.7M, 512, Kronos-Tokenizer-base), Kronos-base(102.3M, 512, Kronos-Tokenizer-base)와 각 토크나이저가 공개되어 있다. 논문 최고 성능 모델인 Kronos-large(499.2M)는 저장소 Model Zoo에 미공개로 표시되어 있어 논문 상단 수치(예: 가격 시계열 평균 RankIC 0.0267, 투자 시뮬레이션 평균 AER 0.2084 / IR 1.6491)를 그대로 재현할 수 없다. 참고로 Kronos-mini는 논문 본문에 전혀 등장하지 않는 저장소 전용 변종이다.",
+          "license": "코드 및 저장소: MIT License. 공개 체크포인트도 HF 모델 카드 기준 MIT. 사전학습 데이터의 라이선스와 출처는 논문/저장소 어디에도 명시되지 않음 -> 상업적 활용 시 데이터 유래 리스크는 별도 검토 필요.",
+          "note": "실험 환경은 이례적으로 상세하다. Kubernetes 클러스터, 동일 사양 pod 3개, pod당 CPU 96코어(Intel Xeon Gold 6330 @ 2.00GHz), RAM 200GB, NVIDIA GeForce RTX 4090D 8장 -> 총 24 GPU. Ubuntu 24.04.1 LTS, Python 3.13.2, PyTorch 2.7.0, NumPy 1.26.2, Pandas 2.2.2, Matplotlib 3.9.3, huggingface_hub 1.57.4. 하이퍼파라미터는 Table 5(드롭아웃, LR, weight decay: small 1e-3/0.01, base 5e-4/0.05, large 2e-4/0.10)와 Table 6(추론 T/top-p/N)에 공개. 옵티마이저는 AdamW + 코사인 스케줄, 워밍업은 피크의 10%에서 시작해 15,000스텝. 그러나 Kronos 사전학습의 총 스텝 수, 총 토큰 수, 배치 크기, 에폭 수, 학습 소요 시간이 모두 누락되어 컴퓨트 예산을 역산할 수 없다(원문 확인 완료). 주의: Appendix D에 나오는 'batch size 256'과 '최대 12 에폭, patience 3 조기종료'는 베이스라인 모델 학습 설정이지 Kronos 사전학습 설정이 아니다. 논문은 AAAI 2026에 채택되었고(저장소 뉴스 2025.11.10), arXiv v1은 2025.08.02 게재, 파인튜닝 스크립트는 2025.08.17 공개. 저장소는 별 약 37.5k, 포크 약 6.2k 규모다(수치는 조회 시점 의존)."
+        },
+        "my_learning_points": [
+          "비전 도메인의 양자화 기법(BSQ)을 금융 시계열로 이식한 것이 이 논문의 실질 기여다. 이산화가 회귀보다 나은 이유로 저자가 든 논거 - BSQ는 임베딩을 단위 초구에 사영한 뒤 이진화하므로 기대 왜곡이 상한으로 묶이고, 따라서 플래시 크래시 같은 이상치가 무한대 근사 오차를 만들지 못한다 - 는 노이즈가 큰 어떤 도메인에도 재사용 가능한 사고틀이다. 회귀 문제를 분류 문제로 바꾸면 이상치의 영향력에 천장이 생긴다.",
+          "대어휘 실용화 트릭: 2^20 어휘를 2^10 두 개로 인수분해하면 어휘 의존 파라미터가 1744.8M -> 3.4M로 99.8% 줄고 총 모델 크기가 1842.3M -> 102.3M으로 약 95% 감소한다(Table 12). 대가는 토큰당 추론 스텝 2배. 큰 어휘를 쓰고 싶은데 임베딩/출력 행렬이 감당 안 될 때 바로 꺼내 쓸 카드다.",
+          "서브토큰을 병렬로 예측하면 손해다. Kronos-Parallel의 RankIC 0.0226 대 순차 coarse->fine의 0.0254. 인수분해로 나눈 조각들은 조건부 의존성을 유지해야 하고, 이를 위해 예측된 coarse 토큰 임베딩을 쿼리로 하는 cross-attention을 끼워 넣었다. 인수분해는 공짜가 아니라 의존성 복원 장치를 요구한다.",
+          "계층적 손실이 복원 정확도를 올리지 않는다는 사실(Table 9: 0.0785 대 0.0781)이 오히려 교훈이다. 손실 설계의 목적이 항상 성능일 필요는 없다. 여기서는 'coarse만으로도 대략 복원되는' 표현 구조를 강제하기 위한 장치이고, 그 이득은 토크나이저가 아니라 후속 자기회귀 모델에서 회수된다. 손실 함수로 표현의 구조를 조각하는 사례로 기억해둘 만하다.",
+          "Test-time scaling이 시계열에도 통한다. 샘플 경로 N을 늘려 평균내면 IC/RankIC가 단조 개선된다(Figure 7). 생성형 예측기는 재학습 없이 추론 예산과 정확도를 맞바꿀 수 있다. 실서비스에서 지연 예산 대비 정확도 곡선을 그릴 수 있다는 뜻이라 실무적으로 가치가 크다.",
+          "샘플링 파라미터가 사실상 태스크 헤드 역할을 한다. 예측은 T=0.6/top-p 0.9/N=10, 변동성은 T=0.9/N=1, 생성은 T=1.0/top-p 0.95. 정밀도가 필요하면 분포를 날카롭게, 다양성이 필요하면 무디게. 하나의 사전학습 모델로 다목적을 커버하려면 이 축을 반드시 태스크별로 잡아야 한다. 저자는 top-p의 하드 절단보다 temperature의 전역 재조정이 더 효과적이라고 관찰했다.",
+          "사전학습 코퍼스의 도메인 혼합비를 명시적으로 조정했다. 원 코퍼스가 주식에 쏠려 있어 크립토/선물/외환의 샘플링 가중치를 올렸다. 파운데이션 모델에서 데이터 혼합비는 아키텍처만큼 중요한 하이퍼파라미터라는 점을 다시 확인.",
+          "데이터 클리닝 파이프라인이 논문의 숨은 자산이다. 주기별로 임계값을 다르게 둔다: 가격 점프 임계는 1분봉 0.10에서 주봉 0.50까지, 비유동/정체 연속 봉 허용치는 1분봉 15/45에서 주봉 0/2까지. 구조적 단절(전일 종가 대비 당일 시가 점프)로 시계열을 분할해 액면분할, 배당, 선물 롤오버 아티팩트를 격리한다. 금융 시계열 전처리 설계 시 그대로 참고할 수 있는 표다.",
+          "결측치 처리 철학이 인상적이다. 가격 필드의 결측을 채우지 않고 '경계'로 간주해 시계열을 유효 부분수열들로 쪼갠다. 부당한 보간으로 없는 패턴을 만들지 않겠다는 선택이며, 사전학습처럼 데이터가 남아도는 상황에서는 채우기보다 버리기가 옳다는 판단이다.",
+          "RoPE로 상대 위치를 주면서도, 캘린더 정보(minute/hour/weekday/day/month 다섯 개)는 별도 임베딩으로 합산해 주입한다. 금융처럼 절대 시각의 계절성(개장/폐장 효과, 월말 효과)이 실재하는 도메인에서는 상대 위치만으로 부족하다는 설계 판단.",
+          "평가 설계에서 배울 점과 반면교사가 함께 있다. 배울 점: in-distribution 거래소 6개와 OOD 거래소 3개(인도네시아, 말레이시아, 대만)를 나눠 일반화를 측정하고, 크립토/외환에서는 volume을 일부러 빼 OHLC만으로 테스트한 점. 반면교사: 메인 표 전부가 단일 실행 점추정이고 유의성 검정이 없다는 점.",
+          "헤드라인 퍼센트는 항상 절대값과 함께 읽어야 한다. RankIC 0.0254 같은 수준에서의 +93%와, 투자 시뮬레이션에서 AER 0.2084 대 0.1681(약 +24%)의 격차가 같은 모델에서 나온다. 예측 지표의 상대 개선은 포트폴리오 단계로 갈수록 급격히 희석된다는 사실 자체가 중요한 실무 지식이다.",
+          "실전 적용 시 컨텍스트 512가 첫 번째 제약이다. K-line 레코드 하나당 서브토큰 2개를 만들므로 유효 룩백은 대략 256봉 수준으로 봐야 한다(정확한 카운팅 방식은 코드 확인 필요). 5분봉 480봉 룩백 설정은 이 한계에 부딪히고, 저장소의 KronosPredictor는 초과분을 자동 절단한다. 긴 룩백이 필요하면 더 낮은 주기를 쓰거나 컨텍스트 2048인 Kronos-mini를 고려해야 한다.",
+          "재현성 실무 교훈: 코드와 가중치를 MIT로 풀어도 사전학습 코퍼스와 사전학습 코드가 없으면 '오픈'의 범위는 파인튜닝과 추론까지다. 오픈소스 파운데이션 모델을 평가할 때 확인할 체크리스트는 (1) 사전학습 코드, (2) 코퍼스, (3) 최상위 체크포인트, (4) 학습 예산 보고 네 가지이며 Kronos는 이 중 어느 것도 완전히 충족하지 않는다."
+        ],
+        "related_work": {
+          "prior": [
+            {
+              "title": "Image and Video Tokenization with Binary Spherical Quantization (BSQ)",
+              "authors": "Zhao, Xiong, Krahenbuhl (2024)",
+              "arxiv_id": "2406.07548",
+              "relation": "Kronos 토크나이저의 핵심 부품. 잠재벡터를 단위 초구에 사영 후 이진화해 암묵적 코드북을 만들고 기대 왜곡의 상한을 보장한다. Kronos는 저자 공식 구현의 하이퍼파라미터(commitment 0.05, entropy weight 1.0/1.1, entropy scale 0.05, group size 5)를 거의 그대로 가져왔다. 어휘가 커질수록 좋아진다는 관찰도 이 계열에서 물려받은 것."
+            },
+            {
+              "title": "Language Model Beats Diffusion: Tokenizer is Key to Visual Generation (LFQ / MAGVIT-v2)",
+              "authors": "Yu et al. (2023)",
+              "arxiv_id": "2310.05737",
+              "relation": "룩업 없는 양자화(LFQ)의 원류. BSQ의 직전 세대이며, Kronos는 LFQ가 정규화 없이 부호 기반 양자화를 해 이상치에 대한 오차 상한이 없다는 점을 BSQ 채택 근거로 든다. 어휘 인수분해 아이디어의 출처이기도 하다."
+            },
+            {
+              "title": "Neural Discrete Representation Learning (VQ-VAE)",
+              "authors": "van den Oord, Vinyals, Kavukcuoglu (2017)",
+              "arxiv_id": "1711.00937",
+              "relation": "이산 잠재 표현 학습의 원점. Kronos 관련연구 절이 시계열 토큰화 계보를 여기서 시작한다."
+            },
+            {
+              "title": "Chronos: Learning the Language of Time Series",
+              "authors": "Ansari et al. (2024)",
+              "arxiv_id": "2403.07815",
+              "relation": "시계열을 스케일링 + 균등 양자화로 토큰화한 TSFM. Kronos의 직접 선행이자 베이스라인. 흥미롭게도 Kronos의 투자 시뮬레이션에서 Chronos_large는 평균 AER -0.0302로 유일하게 음수를 기록해, 일반 시계열 토큰화가 금융에 그대로 이식되지 않음을 보여주는 대조군 역할을 한다."
+            },
+            {
+              "title": "Time-MoE: Billion-Scale Time Series Foundation Models with Mixture of Experts",
+              "authors": "Xiaoming et al. (2025)",
+              "arxiv_id": "2409.16040",
+              "relation": "논문이 '가장 강한 TSFM 베이스라인'으로 지목한 모델. 헤드라인 +93% RankIC의 비교 기준점이 바로 이 모델이다. 결측 가격 처리 시 시계열을 유효 부분수열로 분할하는 아이디어도 Time-MoE에서 차용했다고 밝힌다."
+            },
+            {
+              "title": "Unified Training of Universal Time Series Forecasting Transformers (Moirai)",
+              "authors": "Woo et al. (2024)",
+              "arxiv_id": "2402.02592",
+              "relation": "제로샷 TSFM 베이스라인. 투자 시뮬레이션에서 Moirai_large가 평균 AER 0.1577 / IR 1.2481로 상위권에 들어, Kronos와의 실제 포트폴리오 성과 격차가 예측 지표 격차보다 훨씬 작다는 사실을 드러낸다."
+            },
+            {
+              "title": "A decoder-only foundation model for time-series forecasting (TimesFM)",
+              "authors": "Das et al. (2024)",
+              "arxiv_id": "2310.10688",
+              "relation": "디코더 온리 TSFM 베이스라인. Kronos가 Table 3에서 지적하는 '기존 TSFM 사전학습 코퍼스 중 금융 데이터 비중이 1% 미만'이라는 논거의 대상 중 하나."
+            },
+            {
+              "title": "MOMENT: A Family of Open Time-series Foundation Models",
+              "authors": "Goswami et al. (2024)",
+              "arxiv_id": "2402.03885",
+              "relation": "제로샷 TSFM 베이스라인. 투자 시뮬레이션에서 Moment_large가 평균 AER 0.1681 / IR 1.3677로 제로샷 baseline 중 최고 성능을 냈다."
+            },
+            {
+              "title": "iTransformer: Inverted Transformers Are Effective for Time Series Forecasting",
+              "authors": "Liu et al. (2023)",
+              "arxiv_id": "2310.06625",
+              "relation": "논문이 '가장 강한 비사전학습 모델'로 지목한 풀샷 베이스라인. 헤드라인 +87%의 비교 기준점."
+            },
+            {
+              "title": "A Time Series is Worth 64 Words: Long-term Forecasting with Transformers (PatchTST)",
+              "authors": "Nie et al. (2022)",
+              "arxiv_id": "2211.14730",
+              "relation": "패치 기반 시계열 트랜스포머. Kronos는 의도적으로 패치가 아니라 K-line 레코드 단위 토큰화를 택했으므로, 설계상 대조점이 되는 선행 연구다."
+            },
+            {
+              "title": "TOTEM: TOkenized Time series EMbeddings for General Time Series Analysis",
+              "authors": "Talukder, Yue, Gkioxari (2024)",
+              "arxiv_id": "확인 필요",
+              "relation": "VQ-VAE 기반 시계열 토큰화. Kronos 관련연구에서 코드북 기반 접근의 대표로 인용되며, Kronos가 명시적 코드북 대신 암묵적 코드북(BSQ)을 택한 이유의 비교 대상이다."
+            },
+            {
+              "title": "Qlib: An AI-oriented Quantitative Investment Platform",
+              "authors": "Yang et al. (2020)",
+              "arxiv_id": "2009.11189",
+              "relation": "투자 시뮬레이션의 데이터 소스이자 백테스트 엔진. 저장소의 파인튜닝 데모 파이프라인도 전적으로 Qlib에 의존한다. 표준화된 평가라는 장점과 동시에 슬리피지/마켓임팩트 미모델링이라는 한계를 함께 물려받는다."
+            },
+            {
+              "title": "RoFormer: Enhanced Transformer with Rotary Position Embedding (RoPE)",
+              "authors": "Su et al. (2021/2024)",
+              "arxiv_id": "2104.09864",
+              "relation": "백본의 위치 인코딩. Pre-LN + RMSNorm과 함께 현대 LLM 표준 구성을 그대로 이식한 부분."
+            },
+            {
+              "title": "Time-series Generative Adversarial Networks (TimeGAN)",
+              "authors": "Yoon, Jarrett, van der Schaar (2019)",
+              "arxiv_id": "확인 필요",
+              "relation": "생성 태스크 베이스라인이자 평가 프로토콜(diversity/fidelity/usefulness, discriminative score, TSTR)의 출처. Kronos의 '생성 충실도 22% 개선' 주장이 이 프로토콜 위에서 계산된다."
+            },
+            {
+              "title": "Diffusion-TS: Interpretable Diffusion for General Time Series Generation",
+              "authors": "Yuan, Qiao (2024)",
+              "arxiv_id": "확인 필요",
+              "relation": "확산 기반 생성 베이스라인. TimeVAE(Desai et al. 2021)와 함께 생성 비교군을 이룬다."
+            }
+          ],
+          "followup": [
+            {
+              "title": "VAIOM: Continuous-Input, Discrete-Output Decoder-Only Financial Sequence Modeling",
+              "arxiv_id": "2607.13929",
+              "year": 2026,
+              "relation": "Kronos의 핵심 전제에 대한 가장 직접적인 반례. 입력 표현과 출력 우도를 분리해, 연속 다변량 금융 이벤트 벡터를 입력으로 쓰되 출력은 변동성 정규화 수익률 버킷에 대한 범주형 분포로 둔다. 검증 실험에서 '동일한 범주형 출력 목적함수 아래에서 연속 입력이 이산 토큰 입력보다 낫다'고 보고한다. 즉 Kronos의 이득이 이산 출력에서 오는지 이산 입력에서 오는지를 분리해 답한 셈이고, 결론은 입력까지 이산화할 필요는 없다는 쪽이다. 1시간 FX 봉, 0.9M 파라미터, 3시드, 2025년 두 구간 아웃오브샘플로 LightGBM 대비 이벤트당 0.029~0.043비트 개선."
+            },
+            {
+              "title": "Forecasting Realized Volatility with Time Series Foundation Models: A Comparison with Econometric Benchmarks",
+              "arxiv_id": "2607.05291",
+              "year": 2026,
+              "relation": "Kronos의 '변동성 예측 MAE 9% 개선' 주장을 재평가하게 만드는 연구. 9개 제로샷 TSFM 대 8개 계량경제 모델(HAR 계열 포함)을 주식/외환/선물 50자산, 3개 지평에서 형식적 예측 비교 검정과 함께 비교했다. 결론은 TSFM의 우위가 균일하지 않고 소수 아웃라이어 자산에 집중되며, 자산별 손실비를 평균하면 Tiny Time Mixers 하나만 근소하게 Log-HAR을 이긴다는 것. 게다가 단기 지평 우위의 상당 부분이 실제 동역학 예측이 아니라 스케일 보정 효과였다고 지적한다. Kronos가 HAR 계열을 베이스라인에서 뺀 것이 왜 문제인지를 보여준다."
+            },
+            {
+              "title": "RAVEN: A Regime-Aware Variable-context Expert Network for Financial Time Series Forecasting",
+              "arxiv_id": "2606.24062",
+              "year": 2026,
+              "relation": "Kronos의 고정 컨텍스트 512 제약을 정면으로 문제 삼는 후속 방향. 비정상 가격 프로세스에서는 최적 룩백이 시변하므로 고정 컨텍스트 윈도우가 구조적으로 부적합하다고 지적하고, 중첩 가변 길이 윈도우를 전문가에게 라우팅하는 MoE를 제안한다. Kronos가 '주기를 바꿔 우회하면 된다'고 넘어간 지점을 아키텍처로 푸는 시도."
+            },
+            {
+              "title": "Financial Numerical Prediction and Allocation as Token Generation (FinATOM)",
+              "arxiv_id": "2608.09880",
+              "year": 2026,
+              "relation": "Kronos의 '금융을 토큰 생성으로 본다'는 관점을 예측을 넘어 자산배분까지 확장. 별도 회귀/랭킹/정책 헤드 없이 인과 언어모델의 제약된 토큰 생성만으로 3스텝 수익률 예측과 5개 ETF 동적 배분을 수행한다. 2023-2025 테스트에서 5bp 거래비용 반영 순 샤프를 1.394 -> 1.494로 개선했다고 보고. Kronos가 예측에서 멈춘 지점을 의사결정까지 밀고 간 계열."
+            },
+            {
+              "title": "Time Series as Language: A Universal Tokenizer for General-Purpose Time Series Foundation Models",
+              "arxiv_id": "2606.09861",
+              "year": 2026,
+              "relation": "Kronos가 금융 전용으로 만든 토크나이저를 범용 시계열로 일반화하려는 방향. Kronos의 도메인 특화 전략과 범용 토크나이저 전략 중 어느 쪽이 옳은지에 대한 후속 논쟁의 한 축."
+            },
+            {
+              "title": "WindFM: An Open-Source Foundation Model for Zero-Shot Wind Power Forecasting",
+              "arxiv_id": "2509.06311",
+              "year": 2025,
+              "relation": "Kronos의 레시피(도메인 전용 토크나이저 + 자기회귀 사전학습 + 제로샷 다태스크)를 풍력 발전 예측으로 이식한 사례. 'K-line 전용'이라는 형식을 벗기면 이 방법론이 특정 도메인 시계열 일반에 적용 가능한 템플릿임을 보여준다."
+            },
+            {
+              "title": "Advancing Financial Engineering with Foundation Models: Progress, Applications, and Challenges",
+              "arxiv_id": "2507.18577",
+              "year": 2025,
+              "relation": "금융 파운데이션 모델 서베이. Kronos를 K-line 전용 FM의 대표 사례로 위치시키며, 이 분야의 공통 난점(데이터 비공개, 백테스트 신뢰성, 레짐 의존성)을 정리한다. Kronos를 큰 지형도 안에서 볼 때 참고할 문헌."
+            },
+            {
+              "title": "Are Foundation Models Useful for Bankruptcy Prediction?",
+              "arxiv_id": "2511.16375",
+              "year": 2025,
+              "relation": "금융 파운데이션 모델의 실효성을 회의적으로 검증하는 계열. Kronos류의 낙관적 주장에 대한 균형추 역할."
+            },
+            {
+              "title": "MEME: Modeling the Evolutionary Modes of Financial Markets",
+              "arxiv_id": "2602.11918",
+              "year": 2026,
+              "relation": "시장 레짐/모드 변화를 명시적으로 모델링하는 방향. Kronos가 다루지 않은 레짐 전환 하 성능 저하 문제에 대응하는 후속 흐름."
+            },
+            {
+              "title": "Unicorn: Scaling High-Dimensional Time Series Forecasting via Universal Correlation Modeling",
+              "arxiv_id": "2605.30376",
+              "year": 2026,
+              "relation": "Kronos가 단일 종목 시계열만 보고 종목 간 상관(횡단면 구조)을 모델링하지 않는다는 공백을 겨냥한 계열. 실제 퀀트 시그널은 횡단면 랭킹이므로 이 방향이 실무적으로 중요하다."
+            }
+          ]
+        },
+        "claude_note": "Kronos는 '금융 K-line 전용 파운데이션 모델'이라는 빈칸을 처음으로 제대로 채운 논문이고, 그 점에서 가치가 분명하다. 비전 양자화(BSQ)를 금융 시계열로 옮긴 선택, 2^20 어휘를 2^10 두 개로 인수분해해 파라미터를 99.8% 줄인 엔지니어링, coarse->fine 순차 예측으로 서브토큰 의존성을 유지한 설계, 그리고 추론 샘플 수로 정확도를 사는 test-time scaling은 모두 재사용 가치가 높다. 데이터 클리닝 파이프라인(주기별 임계값 표)과 결측을 보간하지 않고 시계열을 분할하는 처리 철학도 실무에서 그대로 가져다 쓸 만하다. 다만 검증한 결과, 이 논문의 신뢰도는 헤드라인 수치보다 상당히 낮게 잡아야 한다. 첫째, 독립된 Limitations 섹션이 아예 없고 Conclusion도 성과 요약만 한다. 저자가 인정한 한계는 컨텍스트 512 제약, n=2 인수분해가 비용 기반 선택이라는 점, 계층적 손실이 복원 품질을 개선하지 않는다는 점(Table 9), 크립토/외환에서는 volume을 빼야 한다는 점 정도로, 대부분 부록에 흩어져 있다. 오히려 GitHub README의 면책 문구가 논문보다 정직하다. 둘째, 헤드라인 '+93% RankIC'는 절대값이 0.02~0.05 수준인 지표 위의 상대 개선이고, 해당 지표(가격 시계열의 시간축 IC)는 가격 레벨의 자기상관 때문에 추세 지속만으로도 높게 나올 수 있어 퀀트 실무의 횡단면 IC와 성격이 다르다. 같은 모델의 투자 시뮬레이션에서는 Kronos_large 평균 AER 0.2084 대 Moment_large 0.1681로 격차가 20%대로 축소되는데, 이 대비가 헤드라인의 실질을 잘 보여준다. 셋째, 메인 결과가 전부 단일 실행 점추정이고 유의성 검정이 없다. 시드 5개는 Figure 7 한 곳뿐이다. 저자 스스로 신호 대 잡음비가 낮다고 강조한 도메인에서 이건 방법론적 결함에 가깝다. 넷째, 변동성 태스크는 실현변동성의 사실상 표준인 HAR 계열을 베이스라인에서 통째로 빼고 ARCH/GARCH만 썼다. 후속 연구 2607.05291이 9개 TSFM을 Log-HAR과 비교해 대부분 이기지 못한다고 보고한 것을 보면, '9% 낮은 MAE'는 약한 상대에게 얻은 우위일 개연성이 있다. 다섯째, 이산화의 인과 기여가 분리되지 않았다. Kronos만 N=10 앙상블과 태스크별 T/top-p 튜닝의 혜택을 받고 연속형 베이스라인에는 동등한 추론 예산이 주어지지 않았다. 후속 연구 VAIOM(2607.13929)이 동일한 범주형 출력 목적함수 아래에서 연속 입력이 이산 토큰 입력보다 낫다고 보고한 것은 이 의심에 실증을 붙인다. 여섯째, 백테스트가 단일 시장(중국 A주), 롱온리, 약 11개월(저장소 config 기준 2024-07-01~2025-06-05, 논문 본문에는 기간 명시 없음 -> 본문 확인 필요)이며 그 구간에 2024년 9-10월 급등이 포함된다. 상하한가와 거래정지를 모델링하지 않은 점은 A주에서 특히 성과를 부풀릴 수 있다. 재현성은 '부분 오픈'이 정확한 표현이다. MIT 라이선스로 추론과 파인튜닝 코드, mini/small/base 가중치가 풀렸고 Qlib 기반 A주 실험은 재현 가능하다. 반면 사전학습 코드는 저장소에 존재하지 않고(pretrain 경로 404 확인), 120억 봉 코퍼스와 9개 거래소 평가셋은 비공개이며, 논문 최고 성능인 large(499.2M)는 미공개다. 총 학습 스텝/토큰/배치/에폭이 전부 누락되어 컴퓨트 대비 성능도 역산할 수 없다(하드웨어는 RTX 4090D 24장으로 명시). 결국 세 크기 점 3개로 '스케일링 법칙 실증'을 주장하는 것은 과하다. 개인 학습 목적이라면 이 논문은 두 가지로 쓰는 게 좋다. 하나는 도메인 특화 토크나이저 설계의 교과서적 사례로 - BSQ 채택 논거, 어휘 인수분해 트릭, 손실로 표현 구조를 조각하는 발상 - 읽는 것. 다른 하나는 금융 ML 논문을 읽을 때의 체크리스트를 벼리는 반면교사로 읽는 것이다. 상대 % 뒤의 절대값, IC의 정확한 정의(시간축인가 횡단면인가), 베이스라인에 도메인 표준(HAR)이 들어 있는가, 시드와 신뢰구간이 있는가, 백테스트 기간과 시장이 몇 개인가, 거래 제약이 모델링되었는가. 이 여섯 개만 물어도 이 논문의 주장 강도는 상당히 조정된다. AAAI 2026 채택과 GitHub 별 37.5k는 이 모델의 실용적 수요를 보여주지만, 그것이 위 방법론적 공백을 메워주지는 않는다.",
+        "analyzed_at": "2026-08-17"
+      }
+    },
+    "2610.13912": {
+      "tier2": {
+        "method_detail": "JEPA-Anything은 같은 그룹의 직전 연구다(arXiv 2609.20800, 2026-09-17, 제1저자 Taoyong Cui 포함 저자 7명 중복). JEPA를 확장해 잠재 목표를 상보적 요인으로 나누는 직교 예측 분해(OPF)를 쓰고, 요인별 예측기를 따로 학습한 뒤 완전한 잠재 상태로 다시 합성한다. 학습 목표는 요인 예측에 직교성·표현 정규화를 더한 형태다(2.2절). 본 논문은 이를 z_t=E(s_t,c), z_hat=F(z_t,a_t,c)와 점 예측 또는 분포를 내는 판독 R로 일반화하고 도메인마다 어댑터를 붙인다. 코드 수리의 W1은 Qwen2.5-Coder-3B-Instruct에 LoRA를 달아 후보-테스트 쌍마다 실행 결과 5개 클래스 확률을 낸다. 저장소 기준 GUI 월드모델은 같은 3B 인코더(LoRA rank 16), EMA 타깃(0.996), OPF(폭 256, 64x4 그룹), 판독 헤드로 이뤄지고 실제 다음 상태와 전문가 후속 궤적으로 학습된다.\n\n행동 선택은 이렇게 돈다. 정책이 후보를 제안하면 각 후보에 결과 예측(지원 시 제한된 롤아웃)을 붙이고, 검증기가 유효성·효용 성분·출처·불확실성을 기록한다. 무효 후보를 빼고 R=sum(w*r)-lambda*U(불확실성 벌점은 선택)로 순위를 매겨 남은 피드백 예산에 맞는 후보만 실제로 실행하며, 실행된 후보만 예측-관측 쌍을 남긴다. 저장소 구현을 보면 코드 수리는 'P(전체 테스트 통과)+0.25x예측 통과 비율'로 수정안 4개와 현재 프로그램을 비교해 엄격히 높을 때만 교체하고, 실험실 계획은 4B 정책이 낸 후보 4개(탐욕 1개, 샘플 3개)를 월드모델이 예측 품질·개선·위험·불확실성으로 고른다. GUI는 정책 점수에 월드모델 값을 alpha 비율로 섞는데, 보고된 컨트롤러는 개발 집합에서 alpha=0이 골라져 월드모델을 아예 호출하지 않는다. 학습 데이터 선택은 증거를 E0(규칙 검사)·E1(모델 예측)·E2(시뮬레이터)·E3(외부 측정)로 표시하고, 상상 궤적은 유효성·최소 효용·불확실성 상한·허용 증거 조건을 모두 통과해야 학습에 들어간다(식 8). 다만 이 경로를 쓴 실험은 보고되지 않는다.\n\n조건부 월드모델 적응은 현재 버전이 낸 예측(저장본 또는 재계산)만으로 오차·보정·드리프트·커버리지를 평가해 reliable, unreliable, insufficient 중 하나로 판정한다. 적응은 unreliable이고 적응 데이터가 충분하며 남은 예산이 예상 비용 이상일 때만 시도하고, 커버리지가 부족하면 insufficient로 보고 적응하지 않는다(식 10-12). 어느 실험도 이 판정 결과를 보고하지 않고, 저장소 코드에도 이 트리거는 없다. GUI는 제안마다 월드모델을 늘 재학습하고, 코드 수리는 4단계를 판정 없이 차례로 학습한다.\n\n유지 단계에서 구성요소 검사는 후보 정책의 과제 효용·제약 또는 후보 예측기의 예측 품질을 현재 버전과 게이트 데이터로 비교하고, 쌍 검사는 조립된 새 쌍의 의사결정과 새 정책 후보에서의 예측기 적합성을 현재 쌍과 같은 조건에서 비교한다. 구성요소 검사에 실패하면 그 구성요소만, 쌍 검사에 실패하면 쌍 전체를 현재 버전으로 유지한다(식 13-18). 논문에는 수치 임계값이 없고, GUI 저장소 프로토콜에만 '개발 집합 50개에서 성공률 +0.04 이상이고 비용 1.2배 이하면 승격, 월드모델 혼합 제어는 +0.04 이상이고 비용 4배 이하일 때만 켜고 아니면 alpha=0으로 후퇴'라는 값이 있다. 코드상 GUI 승격은 새 정책·새 월드모델·선택 컨트롤러를 한 묶음으로 개발 집합에서 비교하는 단일 판정이며, 월드모델만 따로 보는 구성요소 검사는 없다(rsi.py).\n\n개선 방식은 도메인마다 다르다. 코드 수리는 코더를 고정하고 W1만 학습 과제의 실행 기록으로 4단계 오프라인 학습(초기 32,920건 뒤 7,872, 41,088, 22,192건으로 순차 갱신)하며 평가 중 최적화 갱신은 없다(저장소). GUI는 ReasonFlux-Coder-7B LoRA를 성공 에피소드 행동만으로 SFT(신규 최대 256개 행동과 같은 수의 재생, 1 epoch)하고 월드모델을 재학습한 제안 2개를 차례로 승격했다. 실험실 계획의 4B 정책 갱신 방법은 논문에도 저장소에도 없다. 반응 최적화는 저장소 기준 같은 스크린의 다른 반응군 4,709행으로 판독기를 미리 맞춘 뒤 예측을 고정하고 기대 개선(EI)으로 다음 조건을 고른다. 면역학은 선행 연구의 Agent Genesis 워크플로 탐색을 재정리한 것이다.",
+        "experiment_setup": [
+          "구성(3장, 표 4, 6장 서두): 코드 수리·GUI·실험실 계획·반응 최적화 4개 도메인과 면역학 응용 1건. 저자 스스로 각 실험이 전체 프로토콜의 서로 다른 부분만 구현한다고 밝힌다. 논문에는 GPU·시간·비용 보고가 없고, 저장소에 기록된 환경은 NVIDIA A800 80GB(코드 수리 8장, GUI 기본 3장)다.",
+          "코드 수리 설정(3.1절, 6.1절): CodeContests 200과제 x 시드 3개=600회, 정책 ReasonFlux-Coder-7B 고정(CURE 논문 산출물), 라운드당 수정안 4개 중 1개만 실행, 최대 3라운드, 온라인 테스트가 피드백을 주고 숨김 테스트가 최종 성공을 판정. 비교군은 Random-K, capacity-matched 정적 검증기(구조·학습 데이터는 논문 전문과 저장소 문서·코드에서 정의나 구현을 찾지 못함), 고정 월드모델(CURE-WM-Lite), 적응 월드모델.",
+          "코드 수리 결과(표 2, 그림 3b-d): 숨김 테스트 전체 통과율 Random-K 26.0%, 정적 검증기 26.3%, 고정 월드모델 29.2%(175/600), 적응 월드모델 31.2%. 과제당 온라인 테스트 호출 3.72/3.72/3.71/3.72회가 '비슷한 테스트 사용량'의 실체다. 고정 월드모델 대 정적 검증기의 짝지은 차이는 +2.83%p(95% 구간 [+0.17, +5.50], 과제 단위 군집 재표집), 순위 정확도 66.5% -> 72.8%, 5클래스 Brier 0.488 -> 0.358. 적응 대 고정 +2.0%p에는 구간이 없다.",
+          "코드 전이(그림 3e,f, 6.1절): APPS Introductory 1,000문제와 LiveCodeBench v6 1,055문제, 시드 0-2, 공개 테스트를 모두 통과하면 수리 중단. 최종 성공률은 초기 프로그램 37.90%/25.24%, 무작위 선택 44.07%/31.18%, 정적 검증기 44.00%/30.74%, RSI-Anything 46.37%/33.05%. 두 벤치마크 모두 정적 검증기가 무작위보다 낮다. 논문은 이 구성을 JEPA-Anything 기반 후보 선택이라고만 쓰고 고정·적응 중 어느 것인지 밝히지 않으며, HF에는 CodeContests용과 어댑터·판독 헤드가 다른 전이용 체크포인트(transfer_final)가 따로 있다.",
+          "GUI MiniWoB++(3.2절, 그림 4c,e-g, 저장소 RESULTS.md): click-checkboxes 단일 과제, 시험 인스턴스 100개(시드 270000-270099), 120초·최대 8행동 안에 모든 체크박스가 맞고 제출돼야 성공. 기준 -> 1차 갱신 -> 2차 갱신 성공률 51% -> 79% -> 99%, 평균 행동 5.30 -> 2.93 -> 3.21(기준 대비 39.4% 감소), 반복 클릭 237 -> 2 -> 0, 오제출 에피소드 9 -> 21 -> 1. 월드모델 값으로만 순위를 매기는 World-based control은 49% -> 96% -> 98%.",
+          "GUI 저장소 세부(RESULTS.md, PROTOCOL.md, 소스): RSI-Anything로 보고된 컨트롤러는 개발 집합에서 고른 alpha=0, 즉 정책 순위만 따르며, 코드상 alpha=0이면 월드모델 예측을 아예 호출하지 않는다(experiment.py). 갱신용 경험 수집도 같은 컨트롤러로 했다(rsi.py). 정책·월드모델 신구 4조합 교차 평가에서 이 컨트롤러의 월드모델 교체 효과는 0.00%p, 정책 단독 갱신 효과는 +28%p([18, 38])와 +20%p([13, 28])다. 반대로 월드모델 값으로 고르는 제어에서는 월드모델 교체가 이득을 냈다(1차 갱신, 구 정책 고정 시 49% -> 95%). 기본 정책 후보 풀을 쓰는 세 고정 OPF 월드모델을 각각 한 번 갱신하면 순수 월드모델 제어가 630개 확인 집합에서 평균 43.81% -> 97.04%(+53.23%p, [50.26, 56.30])로 오른다. 같은 과제 템플릿의 다른 100개 코호트에서 손으로 짠 규칙 컨트롤러는 100%, 평균 2.87행동. 정책 학습 시드는 1개이고 월드모델 학습에는 전문가 시연과 전문가 후속 궤적이 쓰인다.",
+          "OSWorld(3.2절, 그림 4d): 초기 에이전트 대비 상대 성공률 향상 RSI-Anything +18.4%, RLAnything +12.3%, RSI-Anything의 RLAnything 대비 +5.5%(상대 향상=100x(s_method/s_ref-1)%). 절대 성공률, 기반 모델, 과제 부분집합, 반복 수는 논문과 저장소 docs/benchmarks.md 어디에도 없고, 저장소 전체 파일 트리에도 OSWorld 코드가 없다.",
+          "실험실 계획(3.3절, 표 3, 6.1절): LabHorizon F200 Level-2 200과제. Final Score는 벤치마크 정의상 AST 파서로 계산한 행동 순서 유사도와 파라미터 정확도의 평균이며 자동 채점이다(LabHorizon README). 한 개선 과정의 4B 정책 5개 버전이 21.80% -> 38.03% -> 41.99% -> 44.56% -> 46.01%(+24.21%p). 학습된 Qwen3.6-35B-A3B Actor와 Gemini 3.1 Pro Simulator/Selector로 된 참조 시스템 45.32%보다 +0.69%p, Level-1 정확도 0.700 대 0.665. 직접 프롬프팅 기준선(GPT-5.5 0.2276, Gemini 3.1 Pro 0.3263, Grok 4.3 0.3244 등)과 참조 시스템 값은 벤치마크 리더보드에서 옮긴 것이다. 저장소 기준 이 시스템은 Qwen3.5-4B-Base에 PEFT 어댑터(P4)를 단 정책이 후보 4개를 내고 JEPA 월드모델이 하나를 고르는 구조이며, 어댑터·월드모델은 시드 1401-1403 세 벌이 있으나 논문 수치가 어느 시드의 값인지 평균인지는 밝혀져 있지 않다.",
+          "반응 최적화(3.4절, 그림 6, 6.1절): Suzuki-Miyaura 두 스크린, 기준선은 베이지안 최적화(Shields et al. 2021). GC 스크린(Pd-NHC-DMS 전촉매, 4-chloroanisole 커플링) 20회 후 최고 수율 93.0% 대 87.5%(+5.5%p), flow LC-MS 스크린(Pd(OAc)2, 기질 1c와 2b) 40회 후 평균 최고 수율 96.15% 대 82.16%(+13.99%p). 수율 예측기는 ReactionT5 백본에 JEPA-Anything 설계를 결합한 어댑터다.",
+          "반응 최적화 저장소 세부(results/evaluation.json, README): 평가 유형은 '측정된 스크리닝 수율의 오프라인 순차 재생', 후보 321개, 100회 실행(시드 4001-4100), 초기 관측 8개 포함 총 40개. 후보 풀 최고 수율이 96.15%이고 100회 모두 10번째 관측까지 찾았다(96회는 정확히 10번째, 평균 9.94번째). 판독기는 같은 스크린의 다른 14개 반응군 4,709행으로 학습한 ExtraTrees(목표 321행은 학습·보정 선택에 미사용), 예측은 탐색 중 고정, 획득 함수는 EI. 관측 9 시점 평균은 80.14%로 논문 그림 6e의 라벨 95.06%와 달라, 저장소 평가가 논문 그림과 같은 실행은 아닌 것으로 보인다.",
+          "면역학 응용(3.5절, 6.1절, 6.2절): Agent Genesis가 과학 에이전트 워크플로를 탐색해 행동 조건부 면역 월드모델을 만들고, 분석 에이전트가 고정 파라미터로 시뮬레이션과 자기수정을 수행해 SIRP-alpha 억제와 IL-36-gamma 축 조절 병용을 전향적 가설로 지명했다. 이 논문에는 정량 평가가 없고 평가 설정은 Cui et al. 2026a(arXiv 2609.14709)로 넘기며, 가설은 실험 검증 전이다(5장).",
+          "통계와 절제(6.2절): 구간 추정은 코드 수리의 고정 월드모델 대 정적 검증기 1건뿐이고, APPS/LCB는 3시드 평균(3,000/3,165회), LabHorizon은 200과제 평균, 화학은 실행별 누적 최고값을 보고한다. 전문을 ablat, variance, GPU, hour로 검색한 결과 별도 절제 절과 계산 비용 보고는 없었다. 코드 수리의 4개 비교가 예측 선택과 적응의 부분 절제 역할을 할 뿐, 유지 검사(구성요소·쌍)를 끈 비교는 어느 도메인에도 없다."
+        ],
+        "datasets": [
+          {
+            "name": "CodeContests (200과제 부분집합)",
+            "domain": "코드 수리",
+            "scale": "200과제 x 시드 3개 = 600회 평가, 온라인 테스트(피드백)와 숨김 테스트(최종 판정) 분리"
+          },
+          {
+            "name": "APPS Introductory",
+            "domain": "코드 수리 전이 평가",
+            "scale": "1,000문제 x 시드 3개 = 3,000회"
+          },
+          {
+            "name": "LiveCodeBench v6",
+            "domain": "코드 수리 전이 평가",
+            "scale": "1,055문제 x 시드 3개 = 3,165회"
+          },
+          {
+            "name": "코드 수리 월드모델 학습 전이 기록(저장소 자산)",
+            "domain": "W1 예측기 학습",
+            "scale": "4단계 32,920 / 7,872 / 41,088 / 22,192건, 평가 자산 약 64MB와 학습 보충 약 236MB"
+          },
+          {
+            "name": "MiniWoB++ click-checkboxes",
+            "domain": "GUI 상호작용",
+            "scale": "단일 과제 템플릿, RSI 시험 100개, 월드 시험 100개, 확인 630개, 개발 50개 등 시드로 분리된 코호트(저장소 PROTOCOL.md)"
+          },
+          {
+            "name": "OSWorld",
+            "domain": "데스크톱 GUI",
+            "scale": "과제 수와 부분집합 미보고, 상대 향상만 제시"
+          },
+          {
+            "name": "LabHorizon F200 Level-2",
+            "domain": "실험실 프로토콜 계획",
+            "scale": "200과제(LabHorizon 리더보드의 200개 시험 분할로 README상 현재 버전은 v20260510-repaired이나 논문은 버전을 밝히지 않음), Level-1 다음 행동 정확도 병기. HF에는 Level-1 3D Asset Perception 사본(학습 3,000, 시험 200) 포함"
+          },
+          {
+            "name": "Suzuki-Miyaura flow LC-MS 스크린(Pd(OAc)2, 기질 1c 6-OTf-Q와 2b boronic ester)",
+            "domain": "반응 조건 최적화(오프라인 재생)",
+            "scale": "후보 321개(5,030행 필터링 스크리닝 표의 한 반응군), 보조 학습 4,709행(14개 반응군), 100회 실행, 예산 40회. 측정 수율은 공개 자산에 없음"
+          },
+          {
+            "name": "Suzuki-Miyaura GC 스크린(Pd-NHC-DMS, 4-chloroanisole와 4-(trifluoromethyl)phenylboronic acid)",
+            "domain": "반응 조건 최적화",
+            "scale": "20회 실험 비교, 후보 풀 크기와 실행 수 미보고, 저장소 자산 없음"
+          },
+          {
+            "name": "면역 섭동·환자 데이터(Cui et al. 2026a)",
+            "domain": "면역학 응용",
+            "scale": "이 논문에는 미보고(선행 논문으로 위임), 공개 자원 없음"
+          }
+        ],
+        "limitations": {
+          "by_authors": [
+            "정책과 월드모델이 한 과제 안에서 지속적으로 서로를 개선한다는 점을 입증하려면 합동 다회차 평가가 더 필요하다고 명시한다. 즉 저자도 지속적 상호 개선은 아직 입증되지 않았다고 본다(5장 Discussion).",
+            "실험들이 전체 프로토콜의 서로 다른 부분만 구현한다고 밝힌다. 코드 수리는 코더 고정 상태에서 예측 선택과 예측기 적응만, 실험실 계획은 정책 버전 추적만, GUI는 정책과 월드모델을 함께 갱신하며 완료율과 행동 지표를, 화학은 피드백 유도 탐색만, 면역학은 하류 분석에서 예측기를 고정한 채 다룬다(6장 서두, 표 4).",
+            "실험실 결과는 프로토콜 정합 계획만 평가하며, 신뢰할 만한 물리적 실행은 해당 장비와 워크플로에서 따로 평가해야 한다고 적는다(5장).",
+            "화학 결과는 보고된 실험 예산 아래 Suzuki-Miyaura 두 스크린에 한정되고, 면역학 응용의 치료 가설은 실험 검증을 기다린다고 명시한다(5장).",
+            "피드백이 선택된 후보에서만 나오므로 신뢰도 결론은 관측·커버된 후보 범위로 제한되고, 커버리지가 부족하면 신뢰 근거가 아니라 insufficient로 처리한다고 적는다(2.4절). GUI 1차 갱신 구성이 행동 수는 2.93으로 가장 적었지만 오제출 에피소드가 21개로 늘었다는 불리한 결과도 함께 보고한다(3.2절, 그림 4g).",
+            "저장소 문서도 한계를 스스로 밝힌다. 반응 최적화 README는 96.15%가 한 반응 맥락과 그 스크린 후보 풀에 한정된 평가라고 쓰고, 코드 수리 재현 문서는 전체 에폭 재학습을 패키징 중 돌리지 않았으며 기준 체크포인트가 엄격한 직교성·요인 독립성 검사를 통과하지 못했다고 적는다. GUI VERIFICATION.md도 공개 패키지로 전체 GPU 재학습은 하지 않았다고 쓴다."
+          ],
+          "by_claude": [
+            "GUI 헤드라인은 월드모델이 행동을 고른 결과가 아니다. 저장소 RESULTS.md에 따르면 보고된 51% -> 79% -> 99%는 개발 집합에서 고른 alpha=0 컨트롤러(정책 순위만 사용)의 값이고, 코드상 alpha=0이면 월드모델을 호출하지 않으며 갱신용 경험 수집도 같은 컨트롤러로 했다(experiment.py, rsi.py). 신구 월드모델을 바꿔 끼운 교차 평가에서 이 컨트롤러의 변화는 0.00%p이고 상승은 성공 에피소드 SFT(+28%p, +20%p)에서 왔다. 같은 과제 템플릿의 다른 100개 인스턴스에서 규칙 컨트롤러가 100%(평균 2.87행동)를 내므로 과제 자체도 쉽다. OSWorld는 절대 성공률·기반 모델·과제 수·코드가 없어 검증할 수 없다. 공정하게 보면 월드모델 갱신 자체는 효과가 컸고(세 고정 OPF 모델의 순수 월드모델 제어가 630개 확인 집합에서 43.81% -> 97.04%, +53.23%p [50.26, 56.30]), 월드모델 혼합 여부를 개발 집합 이득과 비용으로 정하는 절차가 alpha=0을 고른 것은 유지 규칙이 작동한 사례로도 읽힌다. 개발 집합 50개로 고르고 두 제안을 시험 전에 고정한 설계도 시험 집합 선택 편향을 막는다.",
+            "화학의 96.15% 대 82.16%는 RSI 루프보다 사전 정보(보조 데이터로 학습해 고정한 예측)의 효과가 크다고 읽는 것이 타당하다. 저장소 evaluation.json상 이는 측정된 스크린의 오프라인 재생이고, 판독기는 같은 스크린의 다른 14개 반응군 4,709행으로 학습됐으며, 예측은 탐색 중 고정이고, 100회 모두 10번째 관측까지(96회는 정확히 10번째) 후보 풀 최댓값을 찾았다. 즉 대부분 모델이 고른 두 번째 조건이 최적이었다. 베이지안 최적화가 같은 보조 데이터를 받았는지는 논문과 저장소 어디에도 없고(reaction_optimization 폴더에 BO 코드도 없음) 정보량이 다른 비교일 수 있으며, JEPA 특징을 뺀 one-hot 조건 ExtraTrees 같은 단순 기준선과의 절제도 없다. 목표 반응군 321행을 학습과 보정 선택에서 뺀 점과 100회 재생을 봉인 기록으로 다시 계산해 검증한 점은 인정할 만하다.",
+            "코드 수리 이득은 작고 기준선이 약하다. 정적 검증기는 CodeContests에서 무작위보다 0.3%p 높을 뿐이고 APPS와 LCB에서는 오히려 낮다. 고정 월드모델의 +2.83%p는 구간 하한이 +0.17%p로 0에 가깝고, 적응의 +2.0%p는 구간이 없다. 저장소상 최종 체크포인트는 초기 단계 뒤 3단계(7,872 + 41,088 + 22,192 = 71,152건)를 더 학습한 것이고 고정 월드모델(CURE-WM-Lite)이 어느 체크포인트인지는 문서에 없어, 예측기에 들인 데이터·계산 증가와 '조건부 적응' 효과가 분리되지 않는다. '비슷한 테스트 사용량'도 온라인 테스트 호출만 세며 라운드마다 3B 모델로 5개 예측을 내는 비용은 빠져 있다. 반면 예측 품질 개선(순위 정확도 66.5% -> 72.8%, Brier 0.488 -> 0.358)은 이득의 경로를 뒷받침하고, 저장소는 숨김 테스트 판정 전에 600개 결정을 봉인했으며 학습 메타데이터에 최종 200과제 라벨 미사용을 기록한다.",
+            "논문의 핵심 기여인 유지 메커니즘(신뢰도 기반 조건부 적응, 구성요소·쌍 검사, 식 10-18)은 논문 실험으로는 거의 검증되지 않는다. 논문에는 수치 임계값도 판정 결과 보고도 없고, 검사나 신뢰도 트리거를 끈 비교가 어느 도메인에도 없다. 구현에서 확인되는 판정은 GUI의 '개발 50개에서 +0.04(2과제) 이상, 비용 1.2배 이하' 승격과 혼합 제어 선택뿐인데, 승격은 새 정책·새 월드모델·컨트롤러를 한 묶음으로 비교하는 단일 판정이라 월드모델만 따로 보는 구성요소 검사가 없고 기준도 잡음에 민감하다. GUI는 제안마다 월드모델을 늘 재학습하고 조건부 실행은 확인 평가(파일럿 이득 0.05 이상)에만 쓴다. 코드 수리는 소스(training.py)에서도 reliable/unreliable 판정 없이 고정 순서로 4단계를 학습하며 개발 집합 평가는 보고서로만 남는다. 저장소 문서는 기준 체크포인트가 엄격한 직교성·요인 독립성 검사를 통과하지 못했다고 적어, OPF가 의도한 요인 분리도 엄격 기준으로는 이 체크포인트에서 확인되지 않았다. 계산 비용 보고도 없다.",
+            "실험실 계획의 5개 버전 상승은 갱신 방법·데이터가 공개되지 않아 해석이 어렵다. 논문은 4B 정책의 기반 모델과 학습 방식, 'development feedback'이 F200과 분리되는지, 수치가 어느 시드의 값인지를 밝히지 않는다. 유지된 버전만 보고하므로 게이트가 같은 벤치마크를 봤다면 단조 증가는 선택의 결과일 수 있다. 참조 대비 +0.69%p에는 구간이 없고, 참조 수치는 벤치마크 리더보드에서 옮겨 왔다. 다만 4B 정책과 작은 월드모델 선택기로 학습된 35B-A3B Actor와 Gemini 3.1 Pro를 쓰는 참조 시스템과 비슷한 점수를 낸 것은 의미가 있다. GitHub에는 추론 코드만, HF에는 월드모델 체크포인트(시드 1401-1403)만 있고 4B 정책 어댑터와 학습 코드는 둘 다 없다."
+          ]
+        },
+        "reproducibility": {
+          "code": "공개, 단 도메인마다 범위가 다르다. GitHub Gen-Verse/RSI-Anything의 tasks/ 아래 code_repair(4단계 학습, 기록 입력 평가, 자산 검증), gui(MiniWoB++ 수집·학습·교차 평가·통계 재계산 전체 파이프라인), laboratory_planning(추론 전용), reaction_optimization(고정 예측표 기반 EI 추천과 검증 스크립트), immune_science_v2(README만, 'Coming soon')가 있다. 전체 파일 트리를 확인한 결과 OSWorld 코드, 베이지안 최적화 기준선 코드, 정적 검증기·Random-K 기준선 구현, GC 스크린 자산, 4B 계획 정책 학습 코드는 없다. 공용 CLI(rsi plan/run/report)는 code_repair와 gui만 지원하고, 코드 수리 실행기는 Linux namespace(runuser, unshare, nobody 계정)를 요구한다.",
+          "weights": "Hugging Face Gen-Verse/RSI-Anything에 공개되지만 모델 저장소가 아니라 dataset 저장소다(논문 머리말 'Models' 링크가 이곳). 코드 수리 codecontests_final과 transfer_final(3B 인코더용 LoRA 약 29.5MB와 판독 헤드), GUI 정책 LoRA(약 40.4MB)와 월드모델 LoRA, 실험실 계획 월드모델 앙상블 3개(seed 1401-1403, 각 약 1.6MB, CPU 실행), ReactionT5-JEPA 체크포인트(약 807MB)가 있다. 실험실 계획 4B 정책 어댑터(P4)는 없고, 반응 체크포인트는 HF 설명상 C-N coupling용이며, 면역학은 MODEL_INDEX에서 'planned'다. 기반 모델 ReasonFlux-Coder-7B와 Qwen2.5-Coder-3B-Instruct는 고정 리비전으로 따로 내려받는다(GUI 전체 약 22GB).",
+          "data": "코드 수리 자산(평가용 약 64MB, 학습 보충 약 236MB; CodeContests 200과제 판정 자료, 기록된 후보·실행 기록, 학습 전이 기록, 월드모델 체크포인트 4개 포함), GUI 보고 통계 재계산용 엔드포인트 롤아웃 기록 7,980개, Suzuki 후보 321개 예측표(측정 수율 라벨 미포함), LabHorizon Level-1 사본(학습 3,000, 시험 200)이 공개된다. Suzuki 스크리닝 원자료의 출처는 읽은 문서에서 확인되지 않았고 면역학 데이터는 공개되지 않았다.",
+          "license": "프로젝트 코드 Apache-2.0(LICENSE, LICENSE_STATUS.md, HF LICENSE). 월드모델 백본 Qwen2.5-Coder-3B-Instruct와 그 적응 가중치는 Qwen Research License로 비상업 연구·평가용이다(docs/ASSET_CARD.md). ReasonFlux-Coder-7B는 모델 카드상 MIT, CodeContests 비코드 자료와 파생 전이 기록은 CC BY 4.0, MiniWoB++와 ReactionT5는 MIT, LabHorizon Level-1 사본은 원 카드상 MIT. 논문은 arXiv perpetual non-exclusive license. HF 카드 YAML에는 license 필드가 없다.",
+          "note": "재현 수준이 도메인별로 갈린다. GUI는 코호트 시드, 임계값, 교차 평가, 부트스트랩 구간과 엔드포인트 기록 7,980개가 공개돼 보고 통계를 CPU로 재계산할 수 있지만, 공개 패키지로 전체 GPU 재학습은 하지 않았다고 VERIFICATION.md가 밝힌다. 코드 수리는 기록 입력으로 600개 결정을 재현해 188/600(31.33%)을 얻는데 논문의 31.2%와 1건 다르고, 전체 에폭 재학습은 패키징 중 실행되지 않았으며, 기준 체크포인트가 엄격 직교성·요인 독립성 검사를 통과하지 못했다고 적혀 있다. 반응 최적화는 고정 예측표로 다음 조건 추천은 돌릴 수 있지만 측정 수율이 공개 자산에 없어 96.15% 재생 평가 자체는 다시 돌릴 수 없다. 기록 환경은 A800 80GB GPU(코드 수리 8장, GUI 3-6장)다. GPU 없이 CPU로 바로 돌릴 수 있는 것은 실험실 계획 후보 선택, Suzuki EI 추천, GUI 보고 통계 재계산과 브라우저 스모크 검사, HF 반응 수율 예측기 추론 정도이고, 코드 수리와 GUI 전체 파이프라인은 Linux와 CUDA GPU가 필요하며 Windows 네이티브 지원은 문서에 없다. OSWorld, 실험실 정책 학습, GC 스크린, 면역학은 공개 자산으로 재현할 수 없다."
+        },
+        "my_learning_points": [
+          "스킬·프롬프트 개정에 GUI 구현식 승격 게이트를 본떠 걸어라. 이 규칙은 논문 본문이 아니라 저장소 tasks/gui/docs/PROTOCOL.md에 있다. 개발 집합 50개에서 성공률이 +0.04 이상 오르고 비용이 현 버전의 1.2배 이하일 때만 새 버전을 승격하고, 탈락 후보도 교차 평가해 기록하며, 두 제안을 시험 집합을 열기 전에 고정했다. 실행: ai-paper-trends 스킬을 고칠 때마다 과거 주차 논문으로 고정 개발 묶음과 별도 보류 묶음을 정하고, 같은 논문을 구·신 버전으로 돌려 체크리스트 통과율과 세션 토큰을 짝지어 비교한 뒤 통과율이 오르고 토큰이 1.2배 이하일 때만 SKILL.md를 교체하며, 탈락안은 git 브랜치로 남겨라. 50개 중 0.04는 2건 차이라 잡음에 약하고, 스킬 전체를 수십 번 다시 돌리는 것은 비용이 크다. 그러니 스키마 검증·금지 문자 검사·수치 출처 대조처럼 싼 결정적 검사를 개발 묶음 판정에 먼저 쓰고, 차이가 애매하면 현 버전을 유지하라.",
+          "개선 원인을 2x2 교차 평가로 분리하고, 자동화 루프보다 규칙 기준선을 먼저 재라. GUI 저장소(RESULTS.md)는 구·신 정책 x 구·신 월드모델 4조합을 같은 100개 인스턴스에서 돌려, 보고 컨트롤러(alpha=0)의 상승은 전부 정책 SFT(+28%p, +20%p)에서 왔고 월드모델 교체 효과는 0.00%p임을 보였다. 같은 표에서 월드모델 값으로 고르는 컨트롤러는 반대로 월드모델 교체가 이득을 냈다(1차 갱신에서 구 정책 고정 시 49% -> 95%). 어느 구성요소의 공인지는 그 구성요소를 실제로 쓰는 경로가 정한다는 뜻이다. 같은 과제 템플릿의 다른 100개 인스턴스에서 규칙 컨트롤러는 100%였다. 실행: 메인 프롬프트(정책 역할)와 검토 서브에이전트(검증기 역할)를 함께 바꿨다면 4조합을 같은 입력으로 돌려 이득의 출처를 확인하고, 이득이 없는 쪽은 되돌려라. 새 자동화 루프를 평가하기 전에는 grep·정규식·스키마 검사 같은 결정적 기준선 점수를 먼저 기록해 루프가 그 선을 넘는지부터 보라.",
+          "예측과 관측을 분리하고 출처와 버전을 기록하라. 이 논문은 증거를 E0(규칙 검사)·E1(모델 예측)·E2(시뮬레이터)·E3(외부 측정)로 구분하고, 신뢰도 추정에는 현재 버전이 낸 예측만 쓰며 이전 버전 예측을 섞지 않는다(2.3-2.4절). 이번 분석에서도 초록의 96.15%가 측정 수율의 오프라인 재생이고 GUI 99%가 월드모델 값을 쓰지 않은 컨트롤러 값이라는 사실은 저장소 기록을 봐야 드러났다. 실행: 논문 정리 JSON의 각 수치에 출처 유형(초록/본문/그림 판독/저장소 기록/Claude 추론)과 그 수치를 만든 스킬 버전 필드를 붙이고, 스킬을 고친 뒤에는 고정 표본 논문을 새 버전으로 다시 돌려 출처 유형별 오류율을 비교하라. 검증 서브에이전트처럼 후보를 미리 거르는 단계를 더했다면 표 2처럼 항목당 실제 검증 호출 수를 성공률과 함께 기록해 이득이 검증을 더 쓴 결과인지 가려라. W1 같은 학습형 예측기(3B 인코더와 LoRA, 원 실험은 A800 80GB)를 로컬에서 만드는 일은 GPU 사양을 확인한 뒤로 미루고, 먼저 규칙 검사 결과와 Claude 판정을 구분해 쌓는 기록부터 시작하라."
+        ],
+        "related_work": {
+          "prior": [
+            {
+              "title": "JEPA-Anything: Learning Predictive Models across Different Worlds",
+              "id": "arXiv:2609.20800",
+              "relation": "같은 그룹(제1저자 Taoyong Cui, 저자 7명 중복)의 직전 연구로 본 논문 월드모델의 기반인 OPF를 제안했다. 초록에 나열된 평가 도메인은 비전, 생물학, 임상 궤적, 제어, 분자동역학, 물리장, 기상 7개로 코드·GUI·실험실 계획·반응 수율은 없으며, 이 어댑터들은 RSI-Anything 저장소에 JEPA 코어를 내장한 형태로 구현돼 있다."
+            },
+            {
+              "title": "An immune world model for multiscale forecasting and therapeutic hypothesis generation",
+              "id": "arXiv:2609.14709",
+              "relation": "면역학 응용의 원 출처. 진화형 AI Scientist가 면역 월드모델을 구축하고 IL-36-gamma와 SIRP-alpha 억제 병용 가설을 지명했다. 본 논문 3.5절과 그림 7은 이를 재정리한 것이며 평가 설정도 이 논문으로 위임된다."
+            },
+            {
+              "title": "Co-evolving LLM Coder and Unit Tester via Reinforcement Learning (CURE)",
+              "id": "arXiv:2506.03136",
+              "relation": "코드 수리에서 고정 정책으로 쓴 ReasonFlux-Coder-7B의 출처다(4.2절). 고정 월드모델 구성의 이름 CURE-WM-Lite도 CURE를 가리키는 것으로 보이나 논문은 유래를 설명하지 않는다. 저자 Ling Yang이 겹치는 같은 계열 연구다."
+            },
+            {
+              "title": "RLAnything: Forge Environment, Policy, and Reward Model in Completely Dynamic RL System",
+              "id": "arXiv:2602.02488",
+              "relation": "정책·보상모델·환경을 함께 최적화하는 선행 연구로 OSWorld 비교 기준선이다. 본 논문은 여기에 월드모델 신뢰도와 정책-모델 호환성을 유지 결정에 명시적으로 넣은 점을 차별점으로 든다(4.2절)."
+            },
+            {
+              "title": "Darwin Godel Machine: Open-Ended Evolution of Self-Improving Agents",
+              "id": "arXiv:2505.22954",
+              "relation": "에이전트 구현을 반복 수정하고 경험적으로 검증된 개선만 남기는 RSI 선행 사례(4.1절). RSI-Anything의 유지 검사는 이 '검증 후 보존'에 예측기 신뢰도와 쌍 호환성 조건을 더한 형태로 읽을 수 있다."
+            }
+          ],
+          "followup": []
+        },
+        "claude_note": "새로운 점은 자기개선의 단위를 정책 하나가 아니라 정책-월드모델 쌍으로 잡고, 현재 버전 예측만으로 신뢰도를 평가해 예측기를 조건부로 적응시키며, 구성요소·쌍 호환성 검사로 유지 여부를 정하는 절차를 도메인 공통 형식으로 정리했다는 것이다. 그러나 이 형식 전체가 한 실험에서 돈 증거는 없고, 저자도 각 실험이 프로토콜의 일부만 구현하며 정책과 월드모델의 지속적 상호 개선에는 합동 다회차 평가가 더 필요하다고 쓴다. 증거 강도는 도메인별로 다르다. 코드 수리는 코더 고정과 온라인 테스트 호출 3.71-3.72회 조건에서 26.3% -> 29.2% -> 31.2%로 일관되고 예측 품질도 좋아졌지만(순위 정확도 66.5% -> 72.8%) 이득이 작고 구간은 한 비교에만 있다. GUI 99%와 39.4%는 월드모델 값을 쓰지 않는 alpha=0 컨트롤러가 규칙으로도 100% 풀리는 단일 과제에서 낸 값이고 상승은 정책 SFT에서 왔다. 다만 같은 저장소에서 월드모델 갱신 자체는 월드모델 값으로 고르는 제어의 성공률을 크게 올렸다(세 고정 OPF 모델, 630개 확인 집합 평균 43.81% -> 97.04%). 화학 96.15%는 보조 4,709행으로 학습해 고정한 예측이 측정 스크린 재생에서 후보 풀 최댓값을 찾은 결과다. 실험실 계획은 4B 정책이 학습된 35B-A3B Actor와 Gemini 3.1 Pro로 된 참조 시스템과 비슷한 수준(+0.69%p)에 이르렀고, 면역학은 선행 논문의 미검증 가설을 다시 소개한 것이다. 저장소는 프로토콜, 교차 평가, 부트스트랩 구간, 통과하지 못한 직교성 검사까지 공개해 논문보다 훨씬 자세하며, 초록만으로는 알 수 없는 조건이 그 기록에서 드러난다. 인용할 때는 'RSI 프레임워크 제안과 도메인별 부분 실증'으로 소개하고 수치는 조건과 함께 쓴다. 예: CodeContests 200과제 x 3시드, ReasonFlux-Coder-7B 고정, 후보 4개와 최대 3라운드에서 29.2%(정적 검증기 대비 +2.83%p, 95% 구간 [+0.17, +5.50]). 화학 수치는 '오프라인 재생, 후보 풀 최댓값'으로 명시한다.",
+        "analyzed_at": "2026-10-13"
+      }
+    }
+  }
+}

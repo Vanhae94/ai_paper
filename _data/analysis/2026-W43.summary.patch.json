@@ -1,0 +1,24 @@
+{
+  "week_id": "2026-W43",
+  "papers": {},
+  "week_summary": {
+    "headline_ko": "자기개선이 '지속'으로 굳다 — Harness²와 RSI-Anything이 나란히 오르고, 샷을 '기억하는' 비디오 생성 ATAS가 W36 이후 최다 관심(▲344), 금융 축은 한 주 만에 복귀",
+    "clusters": [
+      {
+        "category": "LLM/Agents",
+        "paper_ranks": [
+          1,
+          3,
+          6
+        ],
+        "theme_ko": "에이전트 3편 — 정답 검증기 없이 하니스를 고치는 Harness², 2주 연속 오른 RSI-Anything, 한 주 쉬고 돌아온 TradingAgents"
+      }
+    ],
+    "emerging_keywords": [
+      "agent-harness"
+    ],
+    "narrative_ko": "이번 주 6편은 에이전트 3편(50%)과 비전·데이터·효율 각 1편으로 나뉜다. 최다 관심(▲344)은 각본을 장소·카메라·사건 시간이 명시된 샷으로 바꾸고 장면·사건 기억으로 샷 사이의 일관성을 지키는 ATAS로, W36 BDH-CQ(▲765) 이후 가장 높은 주간 최고 업보트이며 4개 비디오 생성기 모두에서 샷 간 일관성 지표를 개선했다고 보고한다(심층 분석상 사건 재포착은 5개 기준 중 3개만 선두이고 인간 평가 평가자 수는 미보고). 에이전트 축에서는 W40 RRSI에 이어 Google Research의 Harness²가 정답 검증기 없이 대조적 Propose-Probe-Compose로 하니스를 고치고 그 경험을 지속 개선 하니스에 쌓는 구조를 내놓았고, 한 번의 단계만으로 기본 하니스 대비 WorkBuddy-Bench 최대 +11.5점을 보고했다(그 한 단계에도 과제당 실행 4회와 Opus 4.8 편집 세션 3회가 든다). 2주 연속 오른 RSI-Anything(▲30 -> 50)과 W42에 빠졌던 TradingAgents(▲153)도 함께 올랐다. 금융 시계열 모델 Kronos가 W34 이후 처음 돌아와 financial-ai 키워드가 한 주 만에 다시 채워졌고, Edge0는 3주 연속 등장했다. 관심도 합계 750도 W36 이후 가장 높다.",
+    "recent_trend_ko": "누적 17회 관측 기준, self-refinement는 W40 RRSI·W42 RSI-Anything·W43 Harness²로 최근 4회 관측(W40·W41·W42·W43) 중 3회 등장해 처음으로 지속 기준을 충족했고(서로 다른 논문 3편, W43에는 RSI-Anything도 같은 태그로 함께 올랐다), agent-harness도 W36·W40·W43 서로 다른 세 주에 등장해 하니스 자기개선이 한 계열로 굳어지고 있다. 효율·추론최적화는 W40부터 이어진 주당 2편이 Edge0 1편으로 줄었지만 최근 4회 관측 모두 등장해 지속 흐름은 유지된다. financial-ai는 W42의 첫 공백 뒤 TradingAgents·Kronos 2편으로 돌아와 17회 중 16회 등장이 됐고, 1차 카테고리 기준 데이터(Data)도 Kronos로 W34 이후 처음 나타났다(같은 논문의 재등장이라 카테고리 부활로 보기는 이르다). 3d-reconstruction 키워드도 W31 이후 처음 ATAS로 다시 나왔지만, 이번엔 비디오 생성의 일관성을 지키는 수단이라는 뜻이다. 연속 등장 배지는 Edge0(3주)와 RSI-Anything(2주)에 붙는다.",
+    "caveats_ko": "주 6편의 HuggingFace 트렌딩 표본은 인기·최신성 편향을 강하게 받으며, 업보트와 GitHub 스타는 연구 중요도가 아닌 관심도 지표이고, W37·W39 미수집으로 추세 판정은 수집된 17회 관측끼리의 비교다. Harness²와 ATAS는 심층 분석으로 원문과 저장소를 확인했다. Harness²의 이득은 더 강한 Claude Opus 4.8 편집기와 추가 실행을 쓰는 test-time 계산의 대가이고(토큰은 기본 대비 k=1에서 약 6-8배, 그림 판독), 세 벤치마크 모두 LLM 심사가 들어가며 JobBench는 편집기와 같은 Opus 4.8이 심사한다. ATAS는 Wan 2.7에서 단일 클립 품질이 ReCA보다 낮고, 최강 베이스라인 ReCA가 같은 연구 그룹의 작업이며, 4개 생성기 중 2개는 인용도 코드도 없어 일반화 주장을 검증하기 어렵다. 재등장한 4편은 기존 심층 분석의 조건을 따른다. Edge0의 '24GB 기기'는 Apple Silicon 통합 메모리이고(W41), RSI-Anything의 GUI 수치는 저장소 기준 월드모델을 쓰지 않는 컨트롤러의 결과, 반응 최적화는 저장소 기록상 오프라인 재생 평가이며(W42), Kronos의 RankIC +93%는 절대값 0.02~0.05 위의 상대 개선이자 단일 실행 결과이고(W34), TradingAgents의 수익 지표는 3종목·약 5개월 백테스트 결과다(W31). 이번 주 데이터 카테고리와 financial-ai의 복귀는 이전에 오른 논문(Kronos·TradingAgents)의 재등장에서 나온 것이다."
+  }
+}

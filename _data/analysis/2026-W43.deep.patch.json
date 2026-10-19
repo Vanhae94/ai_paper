@@ -1,0 +1,208 @@
+{
+  "week_id": "2026-W43",
+  "papers": {
+    "2610.14224": {
+      "tier2": {
+        "method_detail": "하니스 편집(harness edit)은 고정된 모델을 둘러싼 8개 파일 구성요소의 diff다(Table 5). AHE의 파일 분해에 1개를 더해 다음 8개로 이뤄진다.\n- 매 호출 상시 주입: systemprompt.md, guardrails.md, LongTermMEMORY.md, tool_guidance.md\n- 호출 시 로드: skills/<n>/SKILL.md\n- bash로 실행: scripts/*.py\n- 별도 컨텍스트: sub_agents/<n>/AGENT.md\n- 도구 루프 안의 훅: plugin/*.ts\n즉 프롬프트·도구·제어 흐름·메모리를 모두 포함한다. Codex 기반에서는 상시 텍스트가 AGENTS.md 하나로 합쳐지고, 훅은 Claude Code 훅 스키마를 따르는 .codex/hooks.json으로 바뀐다(저장소 prompts.py).\n\nPropose: 먼저 현재 하니스로 참조 실행을 돌린다. 편집기(Claude Opus 4.8, OpenCode 위 에이전트 세션)는 과제·하니스·궤적·산출물·라이브러리를 파일로 받아 후보 2개를 만든다. INV 후보는 도구 오류·반복 작업·완료 확인 같은 도메인 무관 절차 결함을 맡고, DOM 후보는 산출물 구조·결정 규칙 같은 실무 지식을 맡는다. 프롬프트의 지시는 네 가지다. 모든 편집은 궤적의 특정 순간에 근거해야 한다. 우선순위는 실행 간 불일치, 반복 실패, 잠재 위험 순이다. 상시 텍스트보다 skill·script·plugin을 먼저 쓴다. 기본 실행이 발견한 이 작업공간의 검증된 사실(파일 간 키 매핑 등)은 하니스에 직접 적는다.\n\nProbe: 각 후보를 같은 과제·모델·환경에서 1회 실행해 참조 실행과 궤적·산출물을 비교한다. 이때 쓰는 신호는 정답이 아니라 행동 대조(behavioral contrast)이고, 이를 판단하는 것은 실행 기록을 읽는 LLM 편집기다. 저자도 이 대조가 정답을 검증하지 않는다고 적는다(2.2.1). 구성기 프롬프트는 후보 간 일치를 독립 증거가 아니라 지지로만 보라고 하고, 불일치가 나오면 투표하지 말고 궤적을 다시 보라고 지시한다. 채점 결과는 guard가 컨텍스트에 들어오지 못하게 막는다.\n\nCompose: 구성기는 참조·후보·diff·실행 기록을 보고 병합, 한 후보 채택, 수정, KEEP_BASE 중 하나를 고른다. 결정은 kept|revised|dropped -> 편집 -> 근거 형식으로 기록한다. 기본 실행에서 반복된 실패는 강한 근거로, 후보의 1회 실행 결과는 약한 근거로 본다. 산출물을 못 낸 실행과 엮인 편집은 위험(UNSAFE)으로 표시한다. 구성된 하니스를 다시 실행한 결과가 제출물이 된다.\n\n예산 k: 병렬 재귀는 기본 실행 k개, INV·DOM 후보 각 k개, 전체 풀을 보는 독립 구성 k개를 만든다. 폭을 넓히는 방식이며 집단 갱신은 1회다. 순차 재귀는 PPC를 k번 이어 이전 체크포인트와 누적 증거를 넘긴다. 깊이를 늘리는 방식이다. 두 방식 모두 과제당 실행 4k회와 개선 세션 3k회를 쓴다(저장소 ledger.py). k>1이면 선택기가 익명화된 최종 산출물 k개 중 하나를 고르고, k=1은 선택 없이 실행 4회와 세션 3회다.\n\n하니스 수준 재귀: 제출 후 Reflector가 전체 기록을 읽고, 변경된 구성요소마다 편집 효과를 helped/hurt/no observed effect/confounded로 판정한다. 그다음 cue·lesson·evidence·confidence로 된 교훈을 1개 쓰거나 NO_ENTRY를 낸다. 도메인별 라이브러리에는 채택된 하니스의 전체 트리, EXPERIENCE.md, INDEX.md가 쌓인다. 코드에서는 교훈이 없으면 항목 자체를 추가하지 않는다(library.py has_experience). 다음 과제는 다시 H0에서 시작하고, 편집기는 라이브러리 구성요소를 복사해 수정할 수 있지만 이전 과제의 사실은 다시 검증해야 한다. 모델 가중치와 단계 프롬프트는 고정되고 라이브러리만 바뀐다.",
+        "experiment_setup": [
+          "구성은 4개로, 실행기(executor) 2개(Gemini 3.5 Flash, GLM-5, 가중치 고정)와 기본 하니스 2개(OpenCode, Codex CLI)의 조합이다. 편집기와 선택기는 Claude Opus 4.8이고 OpenCode 안에서 high reasoning effort로 돈다(D.2). 메인 표(Table 1, 2)의 Harness²는 k=1이다. '+ Recursion' 행은 병렬 재귀 k=5에서 평균이 얼마나 바뀌었는지를 적은 것이다(3.1).",
+          "반복 실행: 독립 스트림 3회의 평균과 SD를 보고하며, 스트림마다 과제 순서를 섞는다. 라이브러리는 벤치마크 도메인마다 빈 상태에서 시작해 과제가 끝날 때마다 갱신된다(3.1, 부록 B, D.2). 저장소 문서에 따르면 --seed는 과제 순서만 섞고 모델 샘플링은 통제하지 않는다(docs/EXPERIMENTS.md). 본문과 부록에서 'significan', 'p-value', 'confidence interval'을 검색했지만 유의성 검정은 없었다.",
+          "실행 상한: 롤아웃 1회는 200 model turns, 3,600초까지다. WorkBuddy는 컨테이너 타임아웃을 기본값의 2배로 쓴다. 롤아웃은 다른 과제의 기억 없이 돈다(D.1). 편집 세션 상한은 논문에서 확인되지 않는다. 코드 기본값은 steps=120, timeout=3600이다(core/spec.py ChannelSpec).",
+          "베이스라인(부록 C)은 모두 같은 실행기, 초기 하니스, 테스트 스트림, 심사기를 쓰고, 수정과 반성에는 Opus 4.8을 쓴다. 비교 대상은 다섯 가지다.\n- Base harness.\n- ReasoningBank: gemini-embedding-001로 같은 도메인에서 가장 비슷한 과거 과제의 기억 항목을 최대 3개 꺼내 쓰고, 정답 없는 self-judge를 둔다.\n- Meta-Harness: 오프라인 방식이다. WB/JB에서는 train half로 10 iterations x 2 candidates x 3 replicates, margin 0.01을 쓰고, LAB에서는 24-task dev set을 쓴다.\n- Harness Scaling: 과제별로 수정 루프를 돌리고 상태를 다음 과제로 넘기지 않는다. k=1에서는 기본 롤아웃 1회, 수정 세션 1회, 배포 롤아웃 1회다.\n- Best-of-k: 기본 하니스를 k회 실행하고 같은 선택기로 하나를 고르며, 그림 5에만 나온다.",
+          "비용 측정: 그림 6은 Gemini/OpenCode 구성의 JobBench와 WB에서 최종 제출 전까지 쓴 전체 토큰(실행 + 개선)을 로그축으로 그린다. ReasoningBank, Harness Scaling, Harness²는 k=1과 k=5 두 점씩, Meta-Harness는 한 점이 표시된다. 본문에는 방법별 토큰 절대값, 과제당 시간, USD가 없다. 'hour', 'minute', 'latency', 'cost', 'USD'로 검색했을 때 찾은 것은 지연에 대한 정성 문장뿐이다. 코드 ledger는 세션별 usd를 기록하지만 논문은 이 값을 보고하지 않는다. 모델 호출 수는 저장소 기준으로 과제당 롤아웃 4k회와 에이전트 개선 세션 3k회이고, 여기에 선택 1회(k>1일 때)와 반성 1회가 더해진다. 세션 안의 턴 수는 보고되지 않는다.",
+          "Ablation(Table 3)은 Gemini 3.5 Flash/OpenCode, k=1 조건에서 WB 3개 도메인 평균과 JobBench로 세 가지를 비교한다.\n- w/o library\n- w/o scoping: INV/DOM 대신 일반 편집기 2개를 쓴다.\n- w/o composition: 구성 없이 근거가 더 나은 후보 하나만 반환한다.\n구성요소 제거(Table 6)는 k=5로 개선한 하니스에서 prompt*, skills, scripts를 빼고, 개선 과정을 다시 돌리지 않은 채 재평가한다.",
+          "추가 분석은 다음과 같다.\n- 그림 5: k=1..5에서 병렬 재귀와 순차 재귀를 ReasoningBank, Harness Scaling, Best-of-k와 비교한다. WB-code와 WB-office만 다루며, 수치로 보아 Gemini/OpenCode 구성이다.\n- 그림 7: 실행 없는 직접 편집에서 라이브러리 없음, k=1 라이브러리, k=5 라이브러리를 비교하고, JB -> WB 라이브러리 전이도 다룬다.\n- 그림 8: 같은 모델을 실행기이자 편집기로 쓴 5개 모델 결과다(k=2).\n- 그림 11: leave-one-out 재실행.\n- 그림 12: 다른 실행기로의 전이.\n- 그림 13: 상용 하니스(CodeBuddy, OpenCode, Codex, Claude Code) 비교.\n- Table 7: 도구 호출 수와 오류율.\n- 그림 14: 실패 사례 9건.",
+          "누출 방지(D.2, 부록 H, 저장소 core/context.py): 채점 판정, rubric, 점수가 든 작업 디렉터리는 넘기지 않도록 guard가 막는다. 모든 프롬프트에는 rubric이 없다는 문장이 들어간다. WB-code subset에서만 편집기에게 산출물 파일 본문을 숨기고 파일 목록만 보여 준다(workbuddy.py proposer_deliverables). 편집기에게 주는 안내 문자열은 이 경로로 예전에 채점기의 pass rate가 노출된 적이 있다고 적고 있다. 릴리스에서 실행기의 네트워크 접근은 제한되지 않는다. 논문 실험의 네트워크 정책은 본문과 부록에서 'network', 'internet', 'egress'로 검색했지만 기술이 없었다.",
+          "저장소 공개 범위: Apache-2.0, v0.1.0이고 Python 3.12-3.13과 POSIX 환경을 요구하며 README는 Linux를 명시한다. 실행기는 OpenCode와 Codex만 지원하고, 모델 경로는 Vertex AI(ADC 인증)가 기본이다. 편집기 채널은 코드에 opencode와 claude_cli 두 가지가 있다. claude_cli는 'claude --dangerously-skip-permissions -p'를 Vertex 환경변수로 부르고 ANTHROPIC_API_KEY 등을 환경에서 지운다. 기본 채널은 opencode다(config.py DEFAULT_PROPOSER_CHANNEL). 자격 증명이 필요 없는 결정론적 데모(harness2-demo)가 있다. WorkBuddy setup은 실행기가 google-vertex/gemini 계열일 때만 진행된다(install.py). 'glm'을 grep했을 때 README의 결과 문장 말고는 GLM-5 실행 경로나 설정을 저장소 텍스트 파일에서 찾지 못했다."
+        ],
+        "datasets": [
+          {
+            "name": "WorkBuddy-Bench (Tencent, Team et al. 2026, arXiv 2607.20911)",
+            "domain": "사무형 산출물: Code(개발자·알고리즘·제품·운영·QA 5개 역할), Web(페이지 상호작용·시각화·문서 변환 등 7개 범주), Office(데이터 파일·문서·워크스페이스 자동화)",
+            "scale": "Code 80, Web 70, Office 50 과제를 범주별로 반으로 나누고, 테스트 절반 40/35/25 = 100과제만 보고한다. 채점은 벤치마크의 복합 verifier로, 결정론적 검사(숨겨진 테스트, 파일·구조 검사)에 LLM/VLM 심사 항목을 섞는다. 심사 모델은 Gemini 3.5 Flash이고 과제 점수는 통과한 검사의 비율이다. 저자가 만든 벤치마크가 아니며, 업스트림 라이선스는 EU 지역 제한이 있는 Tencent 자체 라이선스다(부록 B, 저장소 BENCHMARKS.md)."
+          },
+          {
+            "name": "JobBench (Li et al. 2026, arXiv 2605.26329, Job-Bench/job-bench-eval)",
+            "domain": "입력 문서를 받아 요청된 산출물을 만드는 7개 직업군의 전문 업무",
+            "scale": "65과제를 31/34로 고정 분할하고 테스트 34과제를 보고한다. 산출물은 가중치가 있는 rubric으로 Claude Opus 4.8이 LLM 심사한다(편집기·선택기와 같은 모델). 점수는 가중 합계를 최대 점수로 나눈 값이다. 저자가 만든 벤치마크가 아니며, RUBRICS.json은 Hugging Face에 공개돼 있다(부록 B, 저장소 EXPERIMENTS.md)."
+          },
+          {
+            "name": "LAB, Harvey Legal Agent Benchmark (Harvey AI 2026, harveyai/harvey-labs)",
+            "domain": "법률 업무: 24개 실무 분야, 4개 작업 유형(analyse, draft, review, research)",
+            "scale": "논문 기준 1,251과제다(저장소 EXPERIMENTS.md는 전체 스트림을 1,143과제로 적어 수치가 다르며 이유는 확인되지 않음). Niklaus(2026)의 분할을 따라 100과제 held-out test만 보고하고, 24과제 dev set은 Meta-Harness 탐색에만 쓴다. 실행 가능한 검사 없이 Claude Sonnet 4.6이 과제별 기준으로 LLM 심사하고, 지표는 기준별 통과율인 Partial이다. 저자가 만든 벤치마크가 아니다(부록 B)."
+          }
+        ],
+        "limitations": {
+          "by_authors": [
+            "재귀 정제 비용(부록 F 'Cost of recursive refinement'): 후보를 제안·탐침·구성하려면 실행과 편집 세션이 추가로 필요하고, 재귀 예산을 늘리면 추론 비용도 커진다. 병렬 세션으로 지연은 줄일 수 있지만 계산량 자체는 줄지 않는다. 실험은 제한된 예산 범위에서 trade-off를 보여 줄 뿐이고, 보편적인 최적 배분을 확립하지는 않았다고 저자가 적는다.",
+            "실행 기반 피드백의 한계(부록 F 'Execution-based feedback', 2.2.1): 정답 감독이 없어서 정제는 행동 대조와 모델 판단에 기댄다. 이 신호는 실행 간 변동성과 모델들이 공유하는 편향에 민감하다. 또 채택한 변경이 옳다는 것도, 다른 과제로 전이된다는 것도 보장하지 않는다.",
+            "Leave-one-out 재실행(E.2, 그림 11)의 WB 77.5 -> 79.4, JB 36.0 -> 37.7에 대해 저자는 두 가지 단서를 단다. 재실행은 이후 과제의 항목까지 볼 수 있으므로 온라인 이득의 추정치가 아니라 오프라인 재사용 분석이다. 반복 실행 자체가 차이에 기여했을 수도 있다.",
+            "구성요소 제거(E.1, Table 6)에서 skills -5.3, scripts -3.7, prompt* -1.5가 나왔다. 저자는 이 결과가 여러 구성요소 그룹의 기여를 지지할 뿐 효과가 합산된다는 근거는 아니라고 적는다. 상용 하니스 비교(E.5, 그림 13)의 +4.6/+5.8/+4.9에도 정제가 추가 test-time compute를 쓴다는 단서를 붙인다.",
+            "실패 분석(E.6, 그림 14): 저자는 참조 실행보다 점수가 낮아진 9건을 세 유형으로 나눈다. 첫째, 선택기가 약한 후보를 고른 경우다(WB-code에서 95점 후보 대신 55점 후보, LAB에서 coverage가 좁아져 54 -> 26). 둘째, 잘못된 전제가 모든 후보로 퍼진 경우로 2-11점을 잃었다. 셋째, 결과 변동, 심사기 판정 누락, 평가 기준과 무관한 편집 때문에 원인을 가리기 어려운 경우다. 저자는 coverage와 정밀도의 균형을 맞춘 선택, 공유된 가정을 흔드는 probe, 편집 효과와 결과 변동을 구분하기 위한 반복 실행이 필요하다고 적는다. 다른 실행기로의 전이(E.3)에서도 이득이 실행기와 도메인에 따라 크게 다르다고 밝힌다.",
+            "릴리스 단서와 향후 과제(README 'Web access', docs/EXPERIMENTS.md, 부록 G): 실행기 네트워크는 제한되지 않고 Codex는 sandbox를 끈 채 돈다. 릴리스 검증 실행에서는 Codex 롤아웃이 지시 없이 JobBench rubric을 내려받았다고 문서에 적혀 있다. 부록 G는 라이브러리가 단순한 색인 구조라 커지면 통합·갱신이 필요하다고 쓰고, 재귀 형태와 예산을 미리 고정한다는 점도 앞으로 풀 과제로 든다."
+          ],
+          "by_claude": [
+            "test-time compute와 하니스 개선 효과가 섞여 있다. k=1이어도 같은 과제를 기본 실행 1회와 후보 실행 2회로 미리 돌린 뒤 최종 실행 결과를 제출한다(롤아웃 4회, Opus 4.8 세션 3회). 편집기 프롬프트는 기본 실행에서 알아낸 작업공간 사실을 하니스에 적으라고 요구한다. 그런데 메인 표의 Base는 실행 1회이고, 표 안의 test-time 대조군인 Harness Scaling k=1도 롤아웃 2회와 세션 1회로 Harness²보다 적게 쓴다. 계산량 비교 근거는 두 가지다. 첫째, 그림 6(Gemini/OpenCode, JB·WB)은 실행과 개선을 모두 센 토큰 기준 비교다. 저자는 Harness² k=1과 k=5가 모두 경험적 Pareto frontier 위에 있다고 적는다. 그림을 읽으면 k=1은 토큰 규모가 비슷하거나 더 큰 ReasoningBank k=5, Harness Scaling k=5보다 이득이 크고, Meta-Harness보다 훨씬 적은 토큰으로 이득이 더 크다. 이는 저자에게 유리한 근거다. 둘째, 그림 5의 Best-of-k는 같은 k에서 롤아웃을 k회만 쓰므로 계산량을 맞춘 대조가 아니다. 저자는 k=2의 두 재귀 형태가 두 도메인 모두에서 k=5의 모든 베이스라인보다 높다고 적는다(4장, Best-of-5 포함). 다만 롤아웃 수를 4회로 맞추면 WB-code에서 Best-of-4(판독 약 77.0)가 Harness² k=1(76.5)과 비슷하거나 약간 높다. WB-office에서는 Best-of-4(약 78.3)가 k=1(79.5)보다 낮다. Best-of-k 막대는 Code에서 k=4에서 k=5로 가며 약 77.0 -> 74.9로 떨어질 만큼 자체 변동도 크다. k=5 병렬(80.8/83.4)은 Best-of-5(판독 약 75/80)보다 분명히 높다. LAB과 GLM-5·Codex 구성에서는 계산량 비교가 없다.",
+            "심사기가 개선기나 실행기와 같은 계열인 경우가 많다. JobBench 심사기 Claude Opus 4.8은 편집기·구성기·선택기와 같은 모델이다. LAB 심사기 Claude Sonnet 4.6도 편집기와 같은 Claude 계열이다. WB 심사기 Gemini 3.5 Flash는 Gemini 구성의 실행기와 같은 모델이다. 예외는 GLM-5 실행기의 WB 결과다. 이 구성에서는 심사기(Gemini)가 실행기(GLM-5)와도 편집기(Opus)와도 계열이 다르고, WB 채점에는 숨겨진 테스트 같은 결정론적 검사도 섞여 있다(부록 B). 그런데도 이 구성의 향상이 가장 크다(+11.5/+10.9). 따라서 같은 계열 심사기 문제는 JB·LAB 전체와 Gemini 구성의 WB에 해당한다. 저장소의 JobBench 선택기 블록(harness2/benchmarks/jobbench.py)에는 'material beyond what was asked costs nothing here'라는 coverage 우선 지시가 있다. 다만 선택은 k>1에서만 실행되므로, 이 지시가 영향을 줄 수 있는 것은 + Recursion(k=5) 같은 결과이고 k=1 메인 수치는 아니다. 논문은 이 겹침을 따로 분석하지 않으며, 이것만으로 편향을 입증할 수는 없다.",
+            "통계 근거가 약하다. 독립 스트림은 3개이고, seed는 과제 순서만 섞는다(docs/EXPERIMENTS.md). 유의성 검정은 없다. Gemini/Codex JB의 +1.4(SD 2.6/3.5)와 GLM-5/Codex JB의 +1.2(SD 2.3/0.2)는 SD 안에 든다. Gemini/OpenCode에서 Meta-Harness와의 차이도 WB 1.1, JB 0.2에 그친다. Ablation(Table 3)과 하니스 수준 재귀 분석(그림 7, 11)은 모두 Gemini 3.5 Flash/OpenCode 단일 구성이고 SD도 없다. 따라서 '일관된 향상'은 평균 기준으로만 성립한다.",
+            "논문 실험의 누출 통제가 보고되지 않았다. 본문과 부록에서 'network'를 검색하면 Figure 17 사례 설명의 1건만 나오고, 'internet', 'sandbox', 'firewall'은 0건이다. 실험 네트워크 정책은 기술되지 않는다. 릴리스 문서는 rubric을 내려받은 사례를 인정하고 사용자에게 egress 차단을 권한다. 저장소 core/context.py의 안내 문자열에는 과거 WB-code 산출물 경로로 채점기 pass rate가 노출된 적이 있다는 기록이 있다. 논문 수치가 이런 경로를 막은 뒤에 나온 것인지는 원문만으로 확인할 수 없다.",
+            "메인 결과의 편집기는 실행기보다 강한 Opus 4.8이다. 따라서 이득의 일부는 강한 모델의 지식이 하니스 파일로 증류된 결과일 수 있다. 그런데 같은 모델이 스스로 편집한 그림 8(k=2)의 근거는 엇갈린다. Gemini 3.5 Flash는 JB +0.9로 Opus가 편집한 k=1의 +4.5보다 작지만, WB에서는 +5.9로 +5.1보다 크고 LAB에서는 +1.7 대 +2.0이다. GLM-5는 WB +4.1로 Opus 편집 +11.5보다 훨씬 작지만 LAB에서는 +13.7로 +11.8보다 크다. k가 2와 1로 달라 직접 비교도 아니다. 이 밖에 논문과 코드가 어긋나는 점이 세 가지 있다. 첫째, 선택 풀이 논문 프롬프트에서는 수정하지 않은 실행을 포함하지만 selection.py에서는 최종 k개뿐이다. 둘째, LAB 과제 수가 논문 1,251개, 문서 1,143개로 다르다. 셋째, 논문의 정확한 test split 파일을 저장소에서 찾지 못했다(scripts/split_tasks.py만 있고, 문서는 생성된 분할이 release asset이 아니라고 밝힌다). 그래서 수치를 정확히 재현하려면 split을 다시 만들어야 한다."
+          ]
+        },
+        "reproducibility": {
+          "code": "공개. https://github.com/google-research/harness2 main 브랜치(확인한 커밋 1cfe254)이고, 버전은 pyproject 기준 v0.1.0이다. GitHub Releases 페이지에는 릴리스가 없다(2026-10-19 확인). PPC 재귀(core/recursion.py), 선택(selection.py), 라이브러리(library.py), 누출 guard(context.py), 단계별 프롬프트(prompts.py), WorkBuddy·JobBench·LAB 어댑터, 자격 증명 없이 도는 결정론적 데모(harness2-demo)가 들어 있다. 논문의 test split 파일은 저장소에서 찾지 못했다(파일 트리에서 split·EXPERIENCE·INDEX 이름 검색). scripts/split_tasks.py로 직접 만들어야 하고, 문서도 생성된 분할이 release asset이 아니라고 밝힌다.",
+          "weights": "해당 없음. 이 방법은 모델 가중치를 고정한 채 하니스 파일만 바꾸며, 학습된 가중치나 체크포인트를 배포하지 않는다. 실행기(Gemini 3.5 Flash, GLM-5)와 개선기(Claude Opus 4.8)는 외부 모델을 API로 부르고, 기본 경로는 Vertex AI(ADC 인증)다. 저장소(커밋 1cfe254)에서 'glm'을 grep하면 텍스트 파일 중 README의 결과 문장만 걸린다. 그래서 GLM-5 실행 설정은 저장소에서 찾지 못했다. 논문 실험에서 채택된 하니스나 라이브러리 산출물이 공개 자산으로 올라와 있는지도 확인되지 않았다. assets 폴더에는 이미지와 영상만 있다.",
+          "data": "세 벤치마크 모두 외부에서 만든 것이고 setup 스크립트가 받아 온다. WorkBuddy-Bench(Tencent)는 업스트림 자체 라이선스로 EU 지역 제한이 있다. JobBench는 Hugging Face에 공개돼 있고 RUBRICS.json도 공개라서 다운로드 시점 revision이 기록된다. LAB은 harveyai/harvey-labs다.",
+          "license": "Apache License 2.0 (LICENSE 파일에서 직접 확인). 논문 HTML의 라이선스 표기는 CC BY 4.0이다. 벤치마크 데이터는 각 업스트림 라이선스를 따른다.",
+          "note": "Linux와 Python 3.12-3.13만 지원한다(README 'Use Linux, Python 3.12', pyproject 'Operating System :: POSIX'). 그래서 Windows에서는 WSL2 같은 Linux 환경이 필요할 것으로 추정한다. WorkBuddy-Bench는 Docker Engine도 요구한다(docs/BENCHMARKS.md, docs/SETUP.md). 실행기 하니스는 OpenCode와 Codex만 지원하고, Claude Code는 실행기로 지원하지 않는다. 편집기 채널은 opencode(기본)와 claude_cli 두 가지다. claude_cli는 'claude --dangerously-skip-permissions'를 Vertex를 거쳐 부르고 ANTHROPIC_API_KEY는 환경에서 지운다(core/proposer.py). 실행기 네트워크가 제한되지 않으므로, 문서(docs/EXPERIMENTS.md 'Web access')는 평가 전에 huggingface.co, github.com 등으로 나가는 egress를 도구 설정이 아니라 네트워크 수준에서 차단하라고 권고한다. 비용 기록은 코드 ledger에 남지만, 논문에는 USD와 시간이 보고되지 않는다."
+        },
+        "my_learning_points": [
+          "스킬 개선 루프의 제안 단계를 '범위가 다른 서브에이전트 2개와 구성 서브에이전트 1개'로 나눠 볼 수 있다. 첫 번째 서브에이전트는 도구 오류·반복 작업·완료 확인 같은 절차 결함(INV)만 고친다. 두 번째는 산출물 구조·도메인 규칙(DOM)만 고친다. 두 서브에이전트에는 '편집마다 실행 로그의 특정 순간을 근거로 적어라'라는 조건을 단다. 세 번째 서브에이전트는 두 diff와 실행 기록을 보고 병합, 한쪽 채택, 수정, KEEP_BASE 중 하나를 고르고, 결정을 kept|revised|dropped -> 편집 -> 근거 형식으로 남긴다. 근거: Table 3에서 scoping을 빼면 -2.9/-3.7, composition을 빼면 -1.6/-1.9다(Gemini/OpenCode 단일 구성, SD 없음). 적용 조건: k=1이어도 실행 4회와 세션 3회가 들고, 토큰은 Base의 약 6-8배다(그림 6 판독). 따라서 매주 돌리는 핵심 스킬처럼 반복 가치가 큰 것에만 쓰는 편이 현실적이다.",
+          "스킬이나 프롬프트를 자동으로 고칠 때는 두 가지를 지킨다. 편집에 실행 근거나 축적된 경험을 붙이고, 채점 기준이 새지 않게 막는다. 근거: 실행·후보·라이브러리 없이 직접 편집하면 WB-code가 73.4 -> 63.2, Web이 69.9 -> 65.0으로 떨어졌다(그림 7). 다만 같은 조건에서 Office는 74.0 -> 77.1로 올랐다. 실행 없이 편집해도 k=5 라이브러리를 주면 세 도메인 모두 기본보다 높았다(그림 7 막대 수치). 그러니 '실행 없는 편집은 항상 해롭다'가 아니라 '근거도 경험도 없는 편집은 위험할 수 있다'로 읽는 것이 정확하다. 누출 쪽으로는, 릴리스 검증에서 Codex 롤아웃이 지시 없이 JobBench rubric을 내려받은 사례가 있다(docs/EXPERIMENTS.md). Claude Code에서는 두 가지를 설정할 수 있다. 첫째, settings.json permissions의 deny에 정답·평가 파일 경로의 Read와 huggingface.co·github.com 대상 WebFetch를 넣는다. 둘째, PreToolUse hook으로 평가용 디렉터리 접근과 Bash의 curl·wget 호출을 차단한다. 다만 WebFetch deny만으로는 Bash를 통한 우회를 막지 못한다. 저장소 문서도 도구 설정보다 네트워크 수준(egress 방화벽, DNS 정책)에서 막으라고 권한다. 심사 모델은 편집 모델과 다른 회사 계열로 두는 편이 낫다. 논문에서는 JobBench(Opus 4.8)와 LAB(Sonnet 4.6) 심사기가 모두 편집기와 같은 Claude 계열이다. 적용 조건: hook과 permissions는 Windows에서도 동작하지만, 완전한 네트워크 차단에는 Windows 방화벽 규칙 같은 별도 설정이 필요할 수 있다.",
+          "파일 메모리에 교훈을 쌓을 때 Reflector 형식을 빌려 쓸 수 있다. 먼저 편집 효과를 helped/hurt/no observed effect/confounded로 판정하게 한다. 근거가 있을 때만 cue·lesson·evidence·confidence 4필드로 된 항목을 1개 쓰게 하고, 근거가 없으면 NO_ENTRY를 내게 해서 메모리가 부풀지 않게 한다(core/prompts.py, library.py). 다음 작업에서는 이전 항목을 '재검증이 필요한 힌트'로만 주입한다. 근거: 라이브러리를 빼면 -3.1/-1.8이다(Table 3, 실행 포함 k=1). 실행 없이 직접 편집하는 조건(그림 7 왼쪽)에서 k=5 라이브러리는 기본 대비 +0.9/+4.4/+5.1을 준다. k=1 라이브러리는 저자 표현으로 기본 수준을 회복하는 정도다(그림 막대 수치 Code 73.8, Web 72.6, Office 77.5). 또 라인의 절반 이상을 라이브러리 항목에서 가져온 파일은 2-10%뿐이다(그림 10). 그러니 통째로 복사하기보다 참고해서 고쳐 쓰는 방식이 맞다. 적용 조건: 대규모 계산 없이 텍스트 파일과 서브에이전트 1회 호출로 구현할 수 있다."
+        ],
+        "related_work": {
+          "prior": [
+            {
+              "title": "Meta-Harness: End-to-End Optimization of Model Harnesses",
+              "id": "COLM 2026, OpenReview tmbOUyFx3R (Lee et al. 2026b, 논문 참고문헌에 arXiv id 표기 없음)",
+              "relation": "오프라인 하니스 최적화 베이스라인으로, train half에서 점수 신호로 하니스를 탐색한다. LAB Gemini/Codex에서는 Harness²보다 높다(76.5 대 75.6). 그림 6(Gemini/OpenCode, JB·WB)에서는 Harness² k=5보다 토큰을 더 쓰고도 이득이 작다."
+            },
+            {
+              "title": "ReasoningBank: Scaling Agent Self-Evolving with Reasoning Memory",
+              "id": "arXiv 2509.25140, ICLR 2026 (Ouyang et al. 2026b, Chen·Han·Lee·Pfister 등 저자 일부가 겹침)",
+              "relation": "정답 없는 self-judge와 기억 검색으로 스트리밍 자기진화를 하는 베이스라인이다. GLM-5/OpenCode LAB에서 71.3을 기록해 Harness²의 71.4와 사실상 같다."
+            },
+            {
+              "title": "Rethinking the Evaluation of Harness Evolution for Agents (Harness Scaling)",
+              "id": "arXiv 2607.12227 (Wang et al. 2026a)",
+              "relation": "과제별로 하니스 수정에 계산을 할당하는 베이스라인이다. 상태를 다음 과제로 넘기지 않는다는 점에서 Harness²의 하니스 수준 재귀와 대비된다. 메인 표에서는 12개 비교 중 7개에서 기본 하니스보다 낮다."
+            },
+            {
+              "title": "Agentic Harness Engineering: Observability-Driven Automatic Evolution of Coding-Agent Harnesses (AHE)",
+              "id": "arXiv 2604.25850 (Lin et al. 2026)",
+              "relation": "하니스를 파일 구성요소로 나누는 분해 방식의 출처다. Harness²는 여기에 구성요소 1개를 더해 8개로 만든다(2.1, Table 5)."
+            },
+            {
+              "title": "Recursive Harness Self-Improvement (RHI)",
+              "id": "arXiv 2607.15524 (Lee et al. 2026a)",
+              "relation": "pairwise output judgment를 쓰는 온라인 하니스 RSI 선행 연구로 인용된다(1장, 2.1, 5장, A.1, Table 4). 실험 비교 대상은 아니다. 이름이 비슷한 RRSI(2609.24972)는 본문과 참고문헌에서 'RRSI', '2609.24972'로 검색했지만 인용되지 않았다."
+            }
+          ],
+          "followup": []
+        },
+        "claude_note": "새로운 점은 세 가지다. 첫째, 하니스 편집을 고를 때 정답 검증기 대신 행동 대조를 쓴다. 같은 과제의 기본 실행과, 범위가 다른 후보 2개의 실행을 비교한다. 둘째, 제안을 INV와 DOM으로 범위를 나눠 받고, 구성기가 병합, 채택, 수정, KEEP_BASE 중 하나로 정리한다. 셋째, 채택된 하니스 트리와 근거 있는 교훈만 도메인 라이브러리에 쌓아 다음 과제로 넘긴다. 하니스를 8개 파일 구성요소로 다루는 방식은 Claude Code의 skills, subagents, hooks, 상시 메모리 구조와 거의 그대로 대응해서 실무에 옮기기 쉽다.\n\n증거는 평균 기준으로 일관되지만 강하지 않다. 독립 스트림은 3개이고 유의성 검정이 없으며, 일부 JB 이득은 SD 안에 든다. Ablation과 라이브러리 분석은 단일 구성에서만 했다. LAB의 일부 구성에서는 Meta-Harness나 ReasoningBank와 비슷하거나 더 낮다.\n\n제출물은 같은 과제를 미리 3회 돌려 본 뒤 다시 실행한 결과다. 그래서 이득에는 재시도에 따른 test-time compute 효과와 더 강한 Opus 4.8 편집기의 기여가 섞여 있을 수 있다. 계산량 측면의 근거는 대체로 저자에게 유리하지만 완전하지 않다. 토큰 기준 비교(그림 6, Gemini/OpenCode의 JB·WB)에서 Harness²의 두 점은 Pareto frontier 위에 있고, k=1이 ReasoningBank k=5, Harness Scaling k=5, Meta-Harness보다 효율적이다. 저자는 k=2가 k=5의 모든 베이스라인(Best-of-5 포함)보다 높다고도 적는다. 반면 롤아웃 수를 맞춘 Best-of-4와 비교하면 WB-code에서 k=1의 뚜렷한 우위가 보이지 않는다(그림 5 판독). LAB과 GLM-5·Codex 구성에는 이런 비교가 없다. 같은 모델이 스스로 편집한 결과(그림 8)도 벤치마크마다 Opus 편집보다 크거나 작아서, 증류 효과의 크기는 판단하기 어렵다.\n\n'검증기 없이'라는 주장은 파이프라인 안에 rubric과 점수를 들이지 않는다는 뜻으로는 대체로 맞다. 다만 심사기가 개선기나 실행기와 같은 계열인 경우가 많다(JB Opus 4.8, LAB Sonnet 4.6, Gemini 구성의 WB Gemini 3.5 Flash). 예외인 GLM-5 구성의 WB는 심사기가 실행기·편집기와 계열이 다르고 결정론적 검사도 섞여 있는데, 여기서 향상이 가장 크다(+11.5/+10.9). 이는 같은 계열 심사기의 편향만으로 결과를 설명하기 어렵다는 근거가 된다. 그 밖에 JobBench 선택 프롬프트에 coverage 우선 지시가 있고(k>1에만 해당), 논문 실험의 네트워크 정책은 보고되지 않았다. 그래서 신호가 완전히 독립적이라고 보기는 어렵다.\n\n인용할 때는 이렇게 적는 것이 정확하다. 'Opus 4.8 편집기를 쓰고 과제당 롤아웃 4k회를 들이는 test-time 하니스 정제로, 고정 실행기 2종과 하니스 2종 조합에서 기본 하니스 대비 WB +3.0~11.5점, JB +1.2~4.5점, LAB +2.0~11.8%p(k=1)를 보고함.' 토큰 비용이 Base 대비 k=1에서 약 6-8배, k=5에서 약 30-40배(그림 6 판독)라는 점도 함께 밝혀야 한다.",
+        "analyzed_at": "2026-10-19"
+      }
+    },
+    "2610.20571": {
+      "tier2": {
+        "method_detail": "ATAS의 중심 객체는 월드 상태 W_t=(S_t, E_t)다. 화면각본 u는 Compile(u, W_t)를 거쳐 bounded shot request q=(d, s, xi, c, tau, e)로 바뀐다. 각 필드는 로컬 설명, 장면 ID, 장면 좌표계 안의 공간 앵커, 목표 카메라, 요청 시간 구간, 선택적 사건 ID다(3.2절, 부록 B). 컴파일러는 장면 전환, 시간 관계, 과거 사건 참조, 카메라 요구를 하나씩 풀어 내면서 각 요청이 짧은 영상 예산에 들어갈 때까지 재귀적으로 분해한다. 요청은 순서대로 처리되고, 검증된 W_{t+1}이 다음 요청의 조건이 된다. 저장소 구현은 LLM 2단계다(기본값 gpt-5.1). 먼저 skeleton 단계가 캐스트, 장면, 내러티브 샷, 전환을 한 번에 계획한다. 이어 segment 단계가 실행이 도달한 샷만 4-15초 요청으로 확장하고, 이때 현재 월드 상태 요약을 입력으로 받는다.\n\n장면 기억은 동적 영역을 뺀 정적 point cloud다. 장면의 첫 관측이 좌표계를 정한다. 본문은 재구성 모델 이름을 밝히지 않고, 판정 근거로 Umeyama, VGGT, CUT3R, Vista4D만 인용한다. 저장소(docs/design.md)를 보면 Vista4D에서 가져온 Pi3X로 RGB-D와 카메라를 복원하고, SAM3로 동적 마스크를 만든다. 첫 관측은 클립 전체에서 13개 프레임을 샘플해 만든 프레임 쌍의 일관성을 검사한다(허용치 t는 median depth의 2%). 이후 클립은 신뢰된 과거 프레임 최대 6장을 Pi3X 창에 주입해 재구성한다. 그중 4장은 depth/pose를 제공하고, 2장은 검증용으로 held-out 해 둔다. 그다음 잔차 similarity transform을 맞춘다. held-out 프레임, chunk-overlap 정적 점, SIFT 대응점 30개 이상의 세 조건이 모두 맞으면 등록 성공(r=1)이다. 신뢰 참조는 최대 2개까지 시도한다. 새 점은 기존 점과 겹치지 않는 곳에만 append하고, 기존 점은 수정하지 않는다. 버전은 장면 단위로 관리한다.\n\n사건 기억은 레코드 (s, e, b, tau, D)의 집합이다. D는 프레임별 RGB-D, 마스크, 동적 point cloud다. 검색은 (장면, 사건 ID, 시간 구간)으로 바로 찾는 키 조회다. 저장소에서 embedding, faiss 같은 유사도 검색 코드는 찾지 못했다. 사건 기억은 정적 기억에 융합하지 않는다. 재포착 때는 원본 클립에서 요청 시각의 동적 점을 꺼내, 정적 점과 하나의 depth buffer로 합성 렌더한다.\n\n조건 주입에 대해 논문은 장면·사건 참조가 context-dependent prompt를 이룬다고만 쓴다. 저장소에서는 기억을 목표 카메라 궤적으로 렌더한 point-splat 영상을 Wan의 reference video로 넣는다(include_geometry_reference=True). 여기에 gpt-image-2로 만든 첫 프레임 또는 인물 참조 이미지와 텍스트가 더해진다. 카메라 제어는 생성기 파라미터가 아니라 이 렌더 영상으로 전달된다. VGGT dense condition 경로는 기본값에서 꺼져 있다(use_dense_vggt_condition=False). 렌더 coverage의 역할은 이렇다. 설정 파일에 min_dense_target_coverage=0.45가 정의되어 있지만, repo 전체 grep에서 이 값을 읽는 코드는 찾지 못했다. 설계 문서는 coverage를 카메라 경로의 soft ranking 신호로만 쓰고 거부 기준으로는 쓰지 않는다고 적는다.\n\n생성 후에는 세 가지 판정을 차례로 거친다. f(film review)는 VLM이 원 각본을 기준으로 subject, framing, motion, action, event, world_consistency 6개 항목을 본다. confidence 0.75 이상의 critical fail이 나오면 재생성한다(기본 최대 2회). r은 위의 등록 판정이다. a는 provenance, 장면 범위, parent 버전을 검사한다. f, r, a가 모두 1일 때만 W가 갱신된다. f=1이면 r이나 a가 실패해도 클립은 영화에 남지만, 이후 요청의 증거로는 쓰이지 않는다. 저장소에서는 수리 횟수를 다 써도 best-available 클립을 납품하고, 그 클립은 기억에 넣지 않는다. 납품과 기억 반영을 분리한 이유는 두 가지다. 영화 진행을 막지 않으면서, 정렬이 안 된 관측이 다음 샷을 오염시키지 않게 하려는 것이다.",
+        "experiment_setup": [
+          "표준 벤치마크(4.1절, Tab. 1): VBench, ST-Bench, ViStory-Self, ViStory-Cross를 공식 입력과 평가기로 측정한다. Avg.는 네 점수의 평균이다(예: Wan 3.0 ATAS는 (0.877+0.719+0.756+0.584)/4=0.734). 블록 안의 방법들은 생성기, prompt package, duration budget, 집계 프로토콜을 공유한다. 열 값의 출처는 부록 표와 맞춰 보면 이렇다. VBench 열은 Tab. A의 6개 차원 평균과 일치한다(Wan 3.0: 0.8767). ViStory 열은 Tab. C/D의 aggregate와 같다. ST-Bench 열은 네 백본 모두에서 Tab. B의 C-Top10과 같다(0.6253/0.7187/0.6908/0.6684). 따라서 ST-Bench 열은 aesthetic이나 PF를 포함한 종합 점수가 아니라 C-Top10으로 보인다(분석자 대조, 논문에 명시 없음). 표의 +- 값이 무엇의 산포인지(시드, 스토리, 반복 실행)는 캡션과 본문을 확인했지만 정의되어 있지 않다.",
+          "생성기 4종(Tab. 1): MiniMax-H3는 논문이 Open-Source로 분류하고, Wan 2.7, HappyHorse 1.0, Wan 3.0 셋은 Proprietary로 분류한다. 네 모델 모두 참고문헌 64개에 인용이 없고, 버전·해상도·실행 방식도 본문에 없다. 저장소 코드에는 Alibaba DashScope API의 Wan 어댑터만 있다(wan2.7-r2v/i2v/t2v, 기본값 wan3.0-video, 1080P, 2-15초). MiniMax와 HappyHorse 문자열을 repo 전체에서 grep했지만 나오지 않았다.",
+          "에이전트 베이스라인 5종(4.2절): I2V Extension, VGoT [24], Mora [63], MovieAgent [25], ReCA [64]. 3D-guided 비교 2종(Tab. 2): FlexWorld(참고문헌에 없음), ViewCrafter [46]. ReCA는 같은 그룹(Liu, Zhuang)의 선행 논문이고, 인간평가 프로토콜도 ReCA를 따른다.",
+          "공간 재방문(Tab. 2): 생성한 귀환 뷰를 목표 이미지와 common-visibility mask 아래에서 PSNR_C/SSIM_C/LPIPS_C로 비교한다. 재방문 요청 수, 장면 수, 사용한 백본은 표기되지 않았다. ATAS의 LPIPS_C 0.284가 Tab. 4/5의 Wan 3.0 full state 값과 같아서 Wan 3.0으로 보인다(추정).",
+          "사건 재포착(Tab. 3, 부록 A.1): 고정 VLM judge 하나와 버전 관리되는 rubric을 쓴다. judge 입력은 샘플된 원본 사건 프레임, 사건 설명과 구간, 목표 카메라 요청, 선택적 memory render, 생성 클립 프레임이다. 5개 축(event identity, action/state, temporal order, char/object, viewpoint)을 쓰며, binary 판정은 0/1로, 5점 척도는 (r-1)/4로 정규화한다. 요청 안에서 먼저 평균을 내고, 그다음 요청 간 평균을 낸다. 생성 클립이 없는 요청은 해당 축에서 0점을 받는다. 동기화된 정답 영상은 없다. judge 모델 이름과 요청 수는 원문에서 확인되지 않는다.",
+          "Ablation(4.3절): Tab. 4는 Wan 3.0으로 고정하고, 같은 요청, 카메라, candidate budget, retry policy에서 구성요소를 누적 추가한다. Tab. 5는 저장 증거를 바꾼다(없음, frame history, static scene, updated scene, scene+event, full state). Tab. 5 캡션과 4.1절은 'ATAS와 Wan 3.0 고정'만 적고, candidate budget과 retry policy 고정은 명시하지 않는다. 부록 Tab. F/G/H는 용량, 갱신 간격, 신선도, 상태 검사 엄격도에 대한 민감도 분석이다. 부록 D는 이 분석들에서 prompt package, 카메라, 생성기, candidate budget, retry policy를 고정한다고 적는다.",
+          "효율(Fig. 6): 6개 메모리 설정에서 다음을 측정한다. 스토리당 wall-clock, real-time factor, candidate lifecycle, 샷당 재시도, retry-adjusted delivery, throughput, 메모리 오버헤드다. GPU 종류와 개수, API 비용(달러)은 본문과 부록 어디에도 없다. README는 geometry 서비스에 NVIDIA GPU 약 20GB가 필요하다고 적는다.",
+          "인간평가(Fig. 5, 부록 E, Fig. F/G/H): 6개 방법의 익명화된 전체 영상을 6개 기준(visual appeal, script faithfulness, character consistency, background consistency, physical law, narrative coherence)에 대해 1-5점으로 평가한다. 평가자 수는 본문, 부록, 인터페이스 그림을 모두 확인했지만 보고되지 않았다. 인터페이스 스크린샷(Fig. F)에는 '1 / 240' 페이지 표시, Framework A-F 탭, 'Videos are grouped by framework' 안내가 보인다. 부록 E는 'randomized order'라고만 쓰고 무엇을 무작위화했는지(프레임워크 순서, 묶음 안의 영상 순서)는 설명하지 않는다.",
+          "자동 지표와 인간 평가의 일치도(Fig. H): matched clip에서 Spearman rho를 구해 human-human ceiling과 비교한다. 평가자 간 일치 계수 alpha는 0.58-0.72다(Fig. G)."
+        ],
+        "datasets": [
+          {
+            "name": "VBench (official prompt suite/evaluator)",
+            "domain": "single-clip video quality: aesthetic, subject/background consistency, flicker, smoothness, dynamic degree",
+            "scale": "공개 벤치마크. 이 논문에서 사용한 prompt 수는 원문에서 확인되지 않음"
+          },
+          {
+            "name": "ST-Bench (from StoryMem [61])",
+            "domain": "multi-shot storytelling: aesthetic, PF-G, PF-S, cross-shot C-All, C-Top10",
+            "scale": "공개 벤치마크. 사용 스토리 수는 원문에서 확인되지 않음"
+          },
+          {
+            "name": "ViStoryBench (ViStory-Self / ViStory-Cross) [62]",
+            "domain": "story visualization: within-story identity/appearance/temporal, cross-shot identity/appearance/scene consistency",
+            "scale": "공개 벤치마크. 사용 규모는 원문에서 확인되지 않음"
+          },
+          {
+            "name": "Spatial revisit set (자체 구성)",
+            "domain": "target-image return view comparison under common-visibility mask",
+            "scale": "요청 수 미보고. 본문, 부록, 표 캡션을 확인함"
+          },
+          {
+            "name": "Source-grounded event recapture set (자체 구성)",
+            "domain": "historical event replay from a new camera, VLM-judged",
+            "scale": "요청 수 미보고. Tab. 3 값이 1/60, 1/56, 1/16 단위로 떨어져 요청 수가 수십 개 이하로 작을 가능성이 있다(분석자 추정, 저자 미확인)"
+          },
+          {
+            "name": "Human study stimuli (자체)",
+            "domain": "whole long videos (about 2 min, e.g. 1:50 laundry film) from 6 methods",
+            "scale": "인터페이스 표시 기준 240개 영상 페이지(Fig. F 스크린샷). 평가자 수 미보고"
+          }
+        ],
+        "limitations": {
+          "by_authors": [
+            "사건 재포착 평가는 source-grounded 판정이다. 생성 클립이 공급된 사건 증거와 카메라 요청에 맞는지는 판단하지만, 관측되지 않은 목표 영상과 pixel 수준에서 일치하는지는 확인할 수 없다. 저자는 동기화된 목표 영상이 있을 때의 재구성 평가를 이 점수로 대신할 수 없다고 명시한다(부록 A.1, Tab. 3 캡션 'No synchronized target video is used').",
+            "정확한 action-state 재현이 남은 과제다. 사건 재포착에서 action/state 점수가 ReCA보다 약간 낮다(0.688 vs 0.700). 저자는 남은 어려움이 요청한 사건이나 뷰를 찾는 일이 아니라 동작·상태를 그대로 재현하는 일이라고 쓴다(4.2절, Tab. 3). 3.3절은 사건 기억이 identity-resolved motion model이 아니라 frame-local dynamic evidence만 보관한다고 밝힌다.",
+            "인간평가에서 ATAS 안에서도 background consistency(3.62)와 narrative coherence(3.77)가 낮다. 저자는 환경 전체의 일관성과 이야기 전체의 일관성이 덜 해결되었다고 쓴다. 부록 E는 narrative coherence와 physical law 판정이 script faithfulness보다 어렵다고 덧붙인다(4.2절, Fig. 5, 부록 E, Fig. G).",
+            "메모리는 총 compute를 줄이지 않는다. full state는 no memory 대비 스토리당 시간이 51.9분에서 64.9분으로 늘고, 메모리 오버헤드가 샷당 98초 붙으며, throughput은 7.28에서 6.21 shots/h로 떨어진다. 저자는 이득이 재시도 감소(1.00 -> 0.54)와 retry-adjusted delivery 단축(359 -> 339초/샷)이지 총 compute 절감이 아니라고 명시한다(4.2절, Fig. 6).",
+            "기본 상태 검사 threshold가 보편적으로 최적인 것은 아니다. permissive(반영률 90.0%)와 strict(반영률 36.0%) 둘 다 품질이 떨어진다. 저자는 이 검사가 통제된 admission 장치일 뿐 재구성이나 검색 품질 개선을 대신하지 못한다고 쓴다(부록 D, Tab. H). Tab. G는 마지막 반영 이후 샷이 0에서 5+로 늘면 C-Top10이 0.736에서 0.651로 떨어지는 신선도 저하도 보고한다. 저자는 이 구간 분석이 저하 원인(장면 변화, 사건 밀도, 누적 등록 오차)을 식별하지 못한다고 적는다(부록 D).",
+            "결과의 해석 범위에 대한 저자 단서도 있다. 자동 진단 지표와 인간 평가의 상관(0.41-0.61)이 human-human ceiling(0.67-0.80)보다 낮다. 그래서 저자는 자동 지표를 인간 판정의 완전한 대체가 아니라 구조화된 진단으로 써야 한다고 쓴다(부록 E, Fig. H). 메모리 통계(Tab. E)는 보고 설정의 operating profile이지 일반 scaling law가 아니라고 적는다(부록 C). ViStory-Self에서는 identity preservation에 개선 여지가 남았다고 쓴다(부록 Tab. C 설명)."
+          ],
+          "by_claude": [
+            "통계적 근거가 얇다. 공간 재방문(Tab. 2)과 사건 재포착(Tab. 3)은 요청 수, 장면 수, 백본을 표기하지 않는다. 사건 judge VLM의 모델명도 원문에서 확인되지 않는다. Tab. 1의 +- 값은 그 정의(시드, 스토리, 반복)가 캡션과 4.1절에 없고, Tab. 2-5에는 산포 표시 자체가 없다. 인간평가는 Fig. 5에 standard-error whisker가 있지만 평가자 수가 보고되지 않았다(HTML 전문을 rater, participant, annotator로 grep했고, 감사의 글에 'participants'만 나온다). 이런 상태에서 일부 우위는 매우 작다. Tab. 2 LPIPS_C는 0.284 vs Mora 0.288이고, Tab. 5에서 scene+event로부터 full state로 가는 이득은 C-Top10 +0.016이다. 이 차이들은 유의성을 판단할 수 없다. 설명되지 않은 수치 일치도 있다. Tab. A의 VBench aesthetic과 Tab. B의 ST-Bench aesthetic이 네 백본 모두에서 소수 넷째 자리까지 같다(0.6387/0.6731/0.6945/0.6792). 두 벤치마크는 공식 입력이 다르다고 서술되어 있어서, 같은 클립에서 계산했는지 원문으로는 확인할 수 없다.",
+            "베이스라인 대비 우위가 어디서 오는지 분리가 불완전하다. Tab. 1-3의 블록 안에서 통제한 항목은 생성기, prompt package, duration budget, 평가(집계) 프로토콜뿐이다(Tab. 1 캡션, 4.1절). 베이스라인에도 같은 VLM film review와 재시도 예산을 주었는지는 명시되지 않았다. ATAS 내부 비교를 보면, Tab. 4는 candidate budget과 retry policy 고정을 캡션에 적지만 Tab. 5 캡션과 4.1절은 Wan 3.0 고정만 적는다. 단 Fig. 6의 샷당 재시도 차이(1.00 vs 0.54)는 같은 policy 아래의 결과일 수 있으므로, 그 자체를 예산 불일치의 증거로 볼 수는 없다. 메모리를 뺀 ATAS의 C-Top10은 0.536이고 frame history 조건은 0.598이다(Tab. 5). 이는 Tab. 1 Wan 3.0 블록 ReCA의 ST-Bench 0.602보다 낮거나 비슷하다. Tab. B-D의 ReCA reference 값(C-Top10 0.6015, ViStory-Self 0.6609, ViStory-Cross 0.4810)이 Tab. 1 Wan 3.0 블록의 ReCA 값(0.602, 0.661, 0.481)과 일치하므로, reference는 같은 Wan 3.0 비교로 보인다(분석자 대조). 따라서 ATAS가 베이스라인을 앞서는 폭의 대부분은 3D 정합 기억(렌더된 기억 영상이라는 추가 시각 조건)과 재귀 컴파일을 함께 쓸 때 나온다고 읽어야 한다. frame history(0.598)와 full state(0.719)의 차이 +0.121은 여러 요소의 합이다. 장면 기억(updated scene 0.658까지 +0.060), 사건 기억(scene+event 0.703, +0.045), 상태 검사(+0.016)가 모두 들어 있다. 부록 Tab. B-D는 비교 열로 ReCA reference 하나만 두므로, 블록별 베이스라인의 세부 지표는 없다. Wan 2.7 ATAS는 이 reference보다 몇몇 세부 지표에서 낮다. Tab. C identity(0.5494 vs 0.5608)와 appearance(0.6836 vs 0.7034), Tab. D cross-shot appearance(0.4871 vs 0.5013), Tab. B PF-G(0.2174 vs 0.2216)다. reference가 Wan 3.0이라면 백본이 달라 직접 비교는 아니다. 그래도 초록의 'all reported cross-shot consistency measures'는 블록별 aggregate 수준의 주장으로 읽는 것이 정확하다.",
+            "평가 설계에 독립성 문제가 있다. ReCA [64](arXiv 2605.26525)는 Tab. 1, Tab. 3, 인간평가에서 가장 강한 베이스라인이다. 이 논문은 같은 그룹의 선행 연구로, 저자 목록(A. Liu, Y. Li, Z. Zhang, Y. He, W. Wang, B. Zhuang 등)이 ATAS 저자와 이니셜 기준으로 상당 부분 겹친다. 인간평가 프로토콜도 ReCA를 따른다. 인간평가 인터페이스 그림(Fig. F)에는 'Videos are grouped by framework' 안내, Framework A-F 탭, '1 / 240' 페이지 표시가 보인다(이미지를 직접 확인함). 부록 E는 'randomized order'라고만 적고 무엇을 무작위화했는지 밝히지 않는다. 방법별로 묶어 보여 주면, 이름을 가려도 평가자는 같은 방법의 영상을 연달아 보게 된다. 따라서 두 서술이 어떻게 양립하는지 설명이 필요하다. 또 사건 재포착은 VLM judge가 채점하는데, 파이프라인 자체도 VLM(저장소 기본 gpt-5.1)으로 film review를 한다. judge가 같은 계열 모델이라면 평가와 최적화가 같은 기준을 공유할 수 있다. judge 이름이 없어 이 점은 확인할 수 없다. Fig. H의 자동 지표-인간 Spearman rho는 0.41-0.61로, human-human ceiling 0.67-0.80보다 낮다.",
+            "4개 생성기 일반화 주장은 검증하기 어렵다. MiniMax-H3, HappyHorse 1.0, Wan 2.7, Wan 3.0은 참고문헌에 인용이 없고, 해상도와 호출 방식도 본문에 없다. 논문은 MiniMax-H3를 open-source로 분류하지만 근거를 제시하지 않는다. 3D-guided 비교 대상인 FlexWorld도 참고문헌에서 찾지 못했다. 저장소에는 DashScope Wan 어댑터(wan2.7-r2v/i2v/t2v 설정, 기본값 wan3.0-video)만 있다. MiniMax와 HappyHorse 문자열은 코드 전체 grep에서 나오지 않았다. 따라서 4개 백본 중 2개 블록은 공개 코드로 재현할 수 없다.",
+            "비용 보고가 불완전하다. 스토리당 wall-clock(64.9분)과 샷당 시간은 있다. 그러나 GPU 종류·개수, DashScope 영상 API 비용, gpt-5.1과 gpt-image 호출 비용(달러)은 본문과 부록 어디에도 없다. 영상 생성 API는 샷마다 과금되고, film-rejected 후보가 36.8%다(Fig. 6b). 이를 생각하면 실사용 비용을 추정할 근거가 부족하다. 별도 failure case 절도 없다(목차와 부록 A-G 확인). 부록 G 갤러리는 성공 사례만 보여 준다."
+          ]
+        },
+        "reproducibility": {
+          "code": "공개(https://github.com/ziplab/ATAS). main 브랜치 tarball로 확인했고, 디렉터리를 빼면 파일 422개다. 구성은 두 부분이다. client는 재귀 컴파일러, DashScope Wan 어댑터, VLM film review, best-available 선택, runner를 담는다. geometry 서비스는 Pi3X·SAM3 기반 재구성·등록 HTTP 서비스이고 run_geometry_service.sh로 실행한다. 예제 screenplay 3개(bookstore, clockshop, record)와 pytest 테스트가 있다. 반면 다음 코드는 찾지 못했다. 벤치마크 평가 코드(VBench, ST-Bench, ViStory, PSNR_C/LPIPS_C, 사건 judge rubric), 베이스라인 재현 코드, MiniMax-H3·HappyHorse 어댑터다. VBench, ViStory, LPIPS, PSNR 문자열은 geometry/backbones를 제외한 repo 전체(README 포함)에서 grep되지 않았다.",
+          "weights": "ATAS 자체는 학습 가중치가 없는 inference-time 에이전트다. 외부 가중치로 Pi3X(yyfz/Pi3)와 SAM3(facebook/sam3, sam3.pt)를 별도로 내려받아 GEOMETRY_MODEL_ROOT에 둬야 한다. repo에는 포함되지 않는다(geometry/backbones/SOURCE_SNAPSHOT.md에 'Weights are not included'). 영상 생성은 DashScope API(Wan, DASHSCOPE_API_KEY), 계획·리뷰·이미지는 OpenAI 호환 API(기본 gpt-5.1, gpt-image)라서 유료 API 키가 필요하다.",
+          "data": "표준 벤치마크(VBench, ST-Bench from StoryMem, ViStoryBench)는 공개되어 있다. 자체 구성한 spatial revisit set, event recapture set, 인간평가 영상(인터페이스 기준 240 페이지)과 점수 데이터는 repo에서 찾지 못했다. 논문에도 공개 링크가 없다(HTML 전문과 프로젝트 페이지 확인).",
+          "license": "MIT License(LICENSE 파일: 'Copyright (c) 2026 The ATAS Authors'). geometry/backbones/는 Vista4D 서브셋으로 Apache-2.0이고, 그 안의 Pi3와 SAM3는 각자의 upstream 라이선스를 따른다(SOURCE_SNAPSHOT.md, README License 절).",
+          "note": "README 기준 client는 GPU가 필요 없다(Python 3.12, ffmpeg). geometry 서비스는 NVIDIA GPU 약 20GB가 필요하다. 저VRAM 기본 설정에서 피크가 약 20GB이고, 재구성 시작에 free 24576 MiB가 권장되며, whole-clip 모드는 80GB 카드 기준이다(geometry/.env.example). geometry는 bash 스크립트와 Linux 경로를 전제하고 torch+CUDA 환경이 필요하다. Windows PC에서는 client만 API로 돌리고 geometry는 원격 Linux GPU나 WSL2에 두는 구성이 현실적으로 보이지만, 직접 실행해 보지는 않았다. client는 --memory none 옵션으로 기억 없는 비교 실행을 지원하고, 재실행 시 유료 생성을 반복하지 않고 resume한다고 README에 적혀 있다. 실행마다 client/atas/film/report.py가 report.md를 쓴다. 여기에는 첫 리뷰 film-rejected 비율, 샷당 재생성, 상태 반영률(f=r=a=1), 스토리당 시간, 메모리 오버헤드, 단계별 GPU peak가 논문 값(Wan 3.0 full state: 0.368, 0.54, 0.674, 64.9분, 98초)과 나란히 표시된다. 따라서 Fig. 6과 Tab. H 계열의 process 지표는 실행 단위로 대조할 수 있다. 코드 주석은 이 값이 단일 스토리의 목표치가 아니라 참고용이라고 적는다. 반면 Tab. 1-3 수치 재현에 필요한 벤치마크 평가 코드는 없다. 생성은 외부 API에 의존하고, gpt-image-2 경로에는 결정적 seed가 없다는 코드 주석이 있다. 따라서 같은 입력으로도 결과가 달라질 수 있다. 공개 코드로 재현 가능한 범위는 Wan 블록의 파이프라인과 그 process 지표까지다. GitHub star 수는 API rate limit 때문에 이번에 확인하지 못했다(로컬 tier1 카드에는 280으로 기록됨)."
+        },
+        "my_learning_points": [
+          "'납품'과 '기억 반영'을 분리하는 admission gate를 논문 트렌드 시스템에 적용한다. ATAS는 film review(f)를 통과한 클립을 영화에 넣는다(수리 횟수를 다 쓰면 best-available을 넣는다). 반면 W에는 등록(r)과 상태 검사(a)까지 통과한 관측만 쓴다. 엄격도 실험(Tab. H, Wan 3.0 한 설정에서 3개 수준)에서 C-Top10은 반영률 90.0%일 때 0.696, 36.0%일 때 0.668, 기본값 67.4%일 때 0.719였다. 너무 느슨해도, 너무 엄격해도 손해였다. 단 저자는 기본 threshold가 보편적으로 최적이라는 뜻은 아니라고 적는다. 적용 방법은 이렇다. 주간 리포트 HTML에는 형식·문자 규칙 검사 같은 1차 검토(f에 해당)를 통과한 카드를 싣는다. 누적 트렌드 기억(_data/index.json이나 월간 종합 입력)에는 검증 subagent가 숫자 출처와 버전 URL까지 확인한 필드만 merge한다(r, a에 해당). 기각된 필드는 candidates 파일에 사유와 함께 남긴다. 매주 반영률과 기각 사유를 기록한다. 적정 반영률 구간은 논문이 정해 주지 않으므로, 몇 주치 기록을 보고 검증 프롬프트가 너무 느슨한지 엄격한지 판단한다. GPU가 필요 없고, Claude Code skill 안에서 subagent를 2단계로 호출하는 것만으로 구현된다.",
+          "기억을 명시적 키로 조회하고, 신선도를 기록한다. ATAS 사건 기억은 (장면, 사건 ID, 시간 구간) 키로 바로 찾고, 저장소에서도 embedding 유사도 검색 코드는 찾지 못했다. 실험에서는 최근 프레임을 넘기는 frame history(C-Top10 0.598)보다 장면 좌표계에 정합한 scene+event 기억(0.703)이 나았다(Tab. 5). 다만 이 비교는 키 조회와 임베딩 검색의 비교가 아니다. 비구조 이력과 구조화·정합된 기억의 비교이므로, 키 조회 자체가 낫다는 근거는 아니다. 또 마지막 반영 이후 샷이 0개에서 5개 이상으로 늘면 C-Top10이 0.736에서 0.651로 떨어졌다(Tab. G). 저자는 이 저하의 원인을 구분하지 못한다고 적는다. 적용 방법은 이렇다. 파일 memory나 _data/analysis 카드를 '최근 N주를 통째로 붙여 넣기' 방식으로 쓰지 않는다. 대신 arxiv_id, 주차, topic_tag 키로 필요한 카드만 꺼내도록 skill 지시문에 조회 규칙을 적는다. 그리고 각 사실(star 수, 코드 공개 여부 등)에 last_verified 날짜를 붙여, 4주 이상 지난 항목은 재확인 대상으로 표시한다. 4주는 임의로 정한 출발값이다. 이번 분석에서는 API rate limit 때문에 star 수를 재확인하지 못했다. 이런 경우를 위해 확인하지 못한 값을 '미확인'으로 남기는 필드도 함께 둔다. 카드 수가 수백 개 수준이면 grep과 JSON 키 조회로 충분하고, 벡터 DB는 필요 없다.",
+          "계획을 2단계 lazy compilation으로 나누고, 리뷰 루프에 상한을 둔다. Tab. 4 누적 ablation에서 재귀 컴파일 단계는 C-Top10(0.568 -> 0.684)과 Event score(0.508 -> 0.711)를 가장 크게 올렸다. 반면 ViStory average는 그 앞 단계인 장면·사건 기억 추가(0.478 -> 0.612)에서 더 크게 올랐다. 누적 추가 방식이라 기여 크기는 추가 순서에 따라 달라질 수 있다. 저장소 구현은 skeleton 단계에서 전체 샷 구조를 한 번 잡는다. 그다음 실행이 도달한 샷만, 현재 월드 상태 요약을 넣어 4-15초 요청으로 펼친다. 리뷰는 6개 항목 중 confidence 0.75 이상의 critical fail이 나올 때만 재생성하고(최대 2회), 그래도 실패하면 best-available을 납품한다. 적용 방법은 이렇다. 주간 리포트 skill을 두 단계로 나눈다. 먼저 skeleton(6편 목록, 섹션 구조, 주제 흐름)을 잡고, 그다음 섹션별로 확장하면서 직전까지 완성된 섹션 요약을 입력으로 넣는다. 검토 subagent에는 다음 규칙을 명시한다. 사실 오류나 규칙 위반 같은 명백한 critical만 fail로 판정하고, 문체 취향으로는 fail을 주지 않는다. 재작성은 최대 2회까지 하고, 그 뒤에는 최선본을 채택하고 사유를 기록한다. 이렇게 하면 무한 수정 루프와 토큰 낭비를 막을 수 있다. 단 ATAS에서 이 효과는 기억과 결합했을 때 컸다(Tab. 4에서 재귀 컴파일은 메모리 다음에 추가됨). 따라서 2단계 계획만으로 같은 이득을 기대하기보다, 앞의 키 기반 기억과 함께 적용하는 것이 근거에 맞다."
+        ],
+        "related_work": {
+          "prior": [
+            {
+              "title": "ReCA: multi-shot long video extrapolation via recursive context allocation",
+              "id": "arXiv:2605.26525",
+              "relation": "같은 그룹(Liu, Zhuang 등)의 선행 연구다. Tab. 1(4개 블록 Avg.), Tab. 3 사건 재포착, 인간평가에서 가장 강한 베이스라인이다. 반면 Tab. 2 공간 재방문에서는 에이전트 5종 중 SSIM_C가 가장 낮다(0.268). 인간평가 프로토콜도 이 논문을 따른다. ATAS의 재귀 컴파일은 ReCA의 recursive context 할당을 world state 쪽으로 확장한 것으로 읽힌다(분석자 해석)."
+            },
+            {
+              "title": "StoryMem: multi-shot long video storytelling with memory",
+              "id": "arXiv:2512.19539",
+              "relation": "ST-Bench(C-All, C-Top10 cross-shot consistency 지표)의 출처다. 기억 기반 다중 샷 스토리텔링 선행 연구다."
+            },
+            {
+              "title": "Vista4D: video reshooting with 4D point clouds",
+              "id": "CVPR 2026 (참고문헌 [48])",
+              "relation": "geometry 서비스가 Vista4D의 Pi3X 재구성과 SAM3 분할 경로를 번들해 쓴다(Apache-2.0, geometry/backbones/SOURCE_SNAPSHOT.md). 정적·동적 point cloud 합성 렌더링 방식의 직접 기반이다."
+            },
+            {
+              "title": "ViewCrafter: taming video diffusion models for high-fidelity novel view synthesis",
+              "id": "arXiv:2409.02048",
+              "relation": "Tab. 2 공간 재방문에서 비교한 3D-guided 방법 중 가장 강한 대상이다(PSNR_C 15.255 vs ATAS 15.968)."
+            },
+            {
+              "title": "Automated movie generation via multi-agent CoT planning (MovieAgent)",
+              "id": "arXiv:2503.07314",
+              "relation": "screenplay를 샷으로 분해하는 다중 에이전트 영화 생성 베이스라인이다. Tab. 2에서는 에이전트 베이스라인 중 PSNR_C(14.543)와 SSIM_C(0.352)가 가장 높다. 같은 계열의 VGoT(arXiv:2412.02259)와 Mora(arXiv:2403.13248)도 함께 비교되었다."
+            }
+          ],
+          "followup": []
+        },
+        "claude_note": "ATAS의 새로운 점은 다중 샷 영상 에이전트의 기억을 프롬프트나 최근 프레임이 아니라 '주소 지정 가능한 월드 상태'로 바꾼 데 있다. 장면 좌표계에 등록된 정적 point cloud와 (장면, 사건, 시간) 키로 찾는 동적 증거를 분리하고, 생성된 클립은 신뢰된 상태가 아니라 후보 관측으로 다룬다. 영화 납품(f)과 기억 반영(r, a)을 분리한 설계는 명확하고, 저장소 코드로도 확인된다. 기억은 목표 카메라로 렌더한 point-splat 영상을 Wan의 reference video로 주입하는 방식이다. 저장소는 MIT로 공개되어 있고, 실행마다 retry·반영률·시간 같은 process 지표를 논문 값과 나란히 보여 주는 report.md를 만든다. 근거의 강도는 중간이다. 메모리 ablation(Tab. 5, Wan 3.0 고정)은 C-Top10이 0.536 -> 0.719로 단조 증가함을 보여 준다. 구성요소 ablation(Tab. 4)은 같은 candidate budget과 retry policy를 캡션에 명시하므로 설득력이 있다. 단 Tab. 5 캡션에는 그 조건이 명시되지 않았다. 베이스라인과의 비교에서는 재시도·리뷰 예산의 동등성이 명시되지 않았다. Tab. 1의 ST-Bench 열은 Tab. B의 C-Top10과 같은 값이어서, Avg.가 cross-shot 지표 쪽에 무게가 실린 점도 감안해야 한다(분석자 대조). 사건 재포착과 공간 재방문은 요청 수, judge 모델, 분산이 없다. 인간평가는 평가자 수가 없다. 인터페이스에는 'grouped by framework'가 표시되는데, randomized order가 무엇을 무작위화했는지는 설명이 없다. 최강 베이스라인 ReCA(Tab. 1, 3, 인간평가 기준)가 같은 그룹의 연구라는 점도 감안해야 한다. 4개 생성기 중 MiniMax-H3와 HappyHorse 1.0은 인용도 코드도 없어 일반화 주장을 검증할 수 없다. 헤드라인 주장에는 다음 단서가 붙는다. Wan 2.7에서는 VBench가 ReCA에 진다. 사건 재포착은 5개 항목 중 3개만 앞서고, action/state는 지며, char/object는 동률이다. 메모리를 쓰면 스토리당 시간이 51.9분에서 64.9분으로 늘어난다. 인용할 때는 'world-state 기억과 admission 분리로 cross-shot 일관성과 재방문 지표를 개선했다고 보고(자체 구성 평가, 통계 검정 없음)'처럼 쓰는 것이 정확하다. 이득은 총 compute 절감이 아니라 재시도 감소(1.00 -> 0.54)라는 저자의 단서도 함께 적어야 한다.",
+        "analyzed_at": "2026-10-19"
+      }
+    }
+  }
+}

@@ -1,0 +1,444 @@
+{
+  "week_id": "2026-W43",
+  "papers": {
+    "2610.14224": {
+      "title_ko": "Harness²: 열린 세계를 위한 재귀적 에이전트 하니스 개선",
+      "classify": {
+        "categories": [
+          "LLM/Agents"
+        ],
+        "primary_category": "LLM/Agents",
+        "topic_tags": [
+          "agent-harness",
+          "self-refinement",
+          "agentic-workflow",
+          "test-time-compute"
+        ],
+        "method_tags": [
+          "inference-time",
+          "prompting"
+        ],
+        "modality": [
+          "text"
+        ],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "정답 검증기 없이 대조적 제안-시험 실행-조합으로 하니스를 고치고, 그 경험을 다음 과제용 개선 하니스에 쌓는다.",
+        "problem": "LLM 에이전트의 능력은 모델뿐 아니라 실행 하니스에도 달려 있고, 재귀적 자기개선(RSI)은 이 하니스를 자동으로 진화시키는 유망한 방법이다. 그러나 열린 세계의 과제는 하니스 설계 단계에서 보지 못한 새 과제라 온라인 수정을 이끌 정답 검증기가 없고, RSI 과정 자체도 과제마다 특화돼 새 상황으로 일반화되지 않는다.",
+        "approach": "Harness²는 서로 연결된 두 단계의 재귀로 이 문제를 다루는 플러그인형 프레임워크다. 과제 수준 재귀(task-level recursion)는 대조적 Propose-Probe-Compose 단계로 정답 검증기 없이 현재 과제의 하니스 수정을 이끌고, 병렬 또는 순차 재귀로 더 늘릴 수 있다. 하니스 수준 재귀(harnessing-level recursion)는 이런 수정에서 경험을 뽑아 지속 개선 하니스(continual improvement harness)를 갱신해, 에이전트가 이후 과제에 더 잘 적응하게 한다.",
+        "contributions": [
+          "정답 검증기가 없는 열린 세계 과제를 위한 2단계 재귀 하니스 개선 프레임워크(과제 수준·하니스 수준)",
+          "3개 전문 벤치마크와 4개 모델-하니스 구성에서 한 번의 단계(k=1)만으로 GLM-5와 Gemini 3.5 Flash를 기본 하니스보다 일관되게 개선했다고 보고. 단 k=1에도 과제당 실행 4회와 Claude Opus 4.8 편집 세션 3회가 들어간다(W43 심층 분석)",
+          "WorkBuddy-Bench 최대 +11.5점, JobBench 최대 +4.5점, LAB 최대 +11.8%p를 보고했고, 과제 수준 재귀 예산을 늘리면 추가로 개선된다고 밝힘",
+          "Google Research 코드 공개(GitHub 약 6.5천 스타)와 프로젝트 페이지"
+        ],
+        "why_now": "W40 RRSI에 이어 Google Research에서 나온 하니스 자기개선 논문으로, W42에 올랐던 RSI-Anything과 이번 주 나란히 올랐다. RRSI가 '고친 하니스가 분포 밖에서도 통하나', RSI-Anything이 '무엇으로 검증하고 무엇을 남기나'를 다뤘다면, Harness²는 '정답 검증기가 없는 새 과제에서 무엇으로 수정을 이끄나'를 묻는다. 세 논문 모두 무엇을 근거로 수정을 고르고 남길지를 쟁점으로 삼는다는 점에서, 자기개선 흐름이 '무엇을 고치나'에서 '무엇을 믿고 고치나'로 옮겨 가는 장면으로 읽힌다.",
+        "difficulty": "고급",
+        "recommended_reader": "에이전트 하니스나 스킬을 반복 개선하는 개발자, 검증기 없는 자기개선에 관심 있는 학습자",
+        "field_tags": [
+          "에이전트하니스",
+          "재귀적자기개선",
+          "검증기없는개선",
+          "지속개선"
+        ],
+        "interest": {
+          "upvotes": 115,
+          "num_comments": 1,
+          "github_stars": 6479
+        }
+      },
+      "learning": {
+        "key_terms": [
+          {
+            "term": "Execution Harness",
+            "gloss": "에이전트를 둘러싼 프롬프트·도구·제어 흐름·메모리 같은 실행 골격. 같은 모델이라도 하니스에 따라 성능이 달라진다"
+          },
+          {
+            "term": "Propose-Probe-Compose",
+            "gloss": "범위가 다른 수정 후보 2개(절차 INV, 도메인 DOM)를 제안하고(Propose), 각 후보를 같은 과제에서 1회 실행해 기본 실행과 행동을 대조한 뒤(Probe), 그 근거로 병합·채택·수정·유지를 정하는(Compose) 단계. 정답을 검증하는 대신 LLM이 실행 기록을 읽고 판단한다"
+          },
+          {
+            "term": "Continual Improvement Harness",
+            "gloss": "과제별 하니스 수정에서 얻은 경험을 모아 이후 과제의 하니스 개선에 쓰는 상위 하니스"
+          }
+        ],
+        "recall_quiz": {
+          "question": "Harness²의 두 단계 재귀는 각각 무엇을 개선하는가?",
+          "answer": "과제 수준 재귀는 대조적 Propose-Probe-Compose로 현재 과제의 하니스를 고치고, 하니스 수준 재귀는 그 수정에서 얻은 경험으로 이후 과제를 위한 지속 개선 하니스를 갱신한다."
+        },
+        "spaced_review": {
+          "flag": true,
+          "review_due": "2026-W45"
+        }
+      }
+    },
+    "2609.18063": {
+      "title_ko": "메모리 벽의 나머지 절반: 학습된 라우팅 예측으로 35B MoE를 SSD에서 서빙하기 (Edge0)",
+      "classify": {
+        "categories": [
+          "Efficiency/Inference"
+        ],
+        "primary_category": "Efficiency/Inference",
+        "topic_tags": [
+          "moe-serving",
+          "edge-inference",
+          "mixture-of-experts",
+          "routing-prediction",
+          "quantization"
+        ],
+        "method_tags": [
+          "inference-time",
+          "distillation"
+        ],
+        "modality": [
+          "text"
+        ],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "SSD 스트리밍과 라우팅 예측을 결합한 엔진으로, 24GB Mac mini에서 35B MoE를 초당 약 20토큰에 돌린다.",
+        "problem": "소비자 하드웨어에서 MoE 추론의 한계는 가중치 메모리다. 35B급 모델은 4비트로도 19.5GB이고, 희소성은 토큰당 연산량을 줄일 뿐 메모리에 올려둬야 할 바이트 수는 줄이지 못한다. 전문가를 SSD로 내리는 단순 오프로딩도 소용이 없는데, N+1층의 전문가는 N층 출력이 나와야 정해지므로 읽기를 연산 뒤에 숨길 만큼 일찍 시작할 수 없기 때문이다.",
+        "approach": "스트리밍 MoE 추론 엔진 Edge0는 층마다 붙인 예측 헤드인 프리라우터(prerouter)가 다음 층의 라우팅을 한 토큰 앞서 예측한다. 핵심은 이 예측을 참고용이 아니라 라우팅 그 자체로 사용한다는 점이다. 그래서 미리 올려둔(staged) 전문가 집합과 실제로 라우팅된 집합이 정확히 같아 빠지는 전문가가 없다. int4 양자화와 라우팅 대체로 잃은 품질은, 학생 경로(student path)에서 학습해 병합하지 않은 채 쓰는 복구 LoRA(recovery LoRA)로 되찾는다.",
+        "contributions": [
+          "다음 층 라우팅을 한 토큰 앞서 예측하고 그 예측을 실제 라우팅으로 쓰는 프리라우터로 SSD 읽기를 연산과 겹침(가중치가 메모리에 안 들어가는 16GB 기기에서 decode +80-84%, 24GB 기기에서는 약 2.5%)",
+          "Mac mini M4 Pro 24GB(Apple Silicon 통합 메모리)에서 K=4로 재학습한 35B MoE를 배치 1 기준 초당 20.4토큰, MLX allocator 기준 최대 활성 메모리 2.9GiB로 서빙",
+          "5개 공개 벤치마크 평균에서 fp16 base 대비 35B 약 4점, 8B 2.8점 하락(복구 LoRA로 int4 양자화와 라우팅 대체 손실 보전). 단 AIME는 35B -6.1점, 8B -10.0점으로 손실이 큼",
+          "같은 프레임워크의 8B 티어 제공, 추론 프레임워크·체크포인트·어댑터 오픈소스(GitHub 약 5.7천 스타). 학습 코드와 데이터는 공개되지 않음"
+        ],
+        "why_now": "W41부터 3주 연속 등장했다(▲22 -> 26 -> 28, GitHub 스타 약 3.1천 -> 4.6천 -> 5.7천). 이번 주 유일한 효율·추론최적화 논문으로, W40부터 이어진 효율 카테고리의 주당 2편 흐름은 1편으로 줄었다. W41 심층 분석대로 '24GB 기기'는 Apple Silicon 통합 메모리이고 예측기의 큰 이득은 메모리가 모자란 16GB 기기에서 나온다는 조건을 함께 읽어야 한다.",
+        "difficulty": "고급",
+        "recommended_reader": "로컬 PC에서 큰 MoE 모델을 돌려보려는 개발자, 추론 엔진의 메모리 계층(VRAM·RAM·SSD) 설계에 관심 있는 학습자",
+        "field_tags": [
+          "MoE서빙",
+          "엣지추론",
+          "SSD오프로딩",
+          "라우팅예측",
+          "양자화"
+        ],
+        "interest": {
+          "upvotes": 28,
+          "num_comments": 5,
+          "github_stars": 5722
+        }
+      },
+      "learning": {
+        "key_terms": [
+          {
+            "term": "Mixture-of-Experts (MoE)",
+            "gloss": "여러 전문가 서브네트워크 중 일부만 토큰마다 골라 쓰는 구조. 연산은 줄지만 전체 가중치는 어딘가에 있어야 한다"
+          },
+          {
+            "term": "Prerouter",
+            "gloss": "다음 층에서 어떤 전문가가 쓰일지 한 토큰 앞서 예측하는 층별 헤드. Edge0에서는 그 예측이 곧 실제 라우팅이 된다"
+          },
+          {
+            "term": "Recovery LoRA",
+            "gloss": "양자화나 구조 변경으로 잃은 품질을 되찾기 위해 덧붙여 학습하는 저랭크 어댑터"
+          }
+        ],
+        "recall_quiz": {
+          "question": "Edge0가 양자화로 잃은 품질을 되찾는 LoRA를 모델에 병합하지 않고 따로 붙여 쓰는 이유는?",
+          "answer": "LoRA 변화량이 int4 양자화 간격보다 작아서, 병합한 뒤 다시 양자화하면 효과가 attention projection 34%, dense projection 2%, logits 18%만 남기 때문이다(W41 심층 분석 기준)."
+        },
+        "spaced_review": {
+          "flag": false,
+          "review_due": null
+        }
+      }
+    },
+    "2412.20138": {
+      "title_ko": "TradingAgents: 멀티에이전트 LLM 금융 트레이딩 프레임워크",
+      "classify": {
+        "categories": [
+          "LLM/Agents"
+        ],
+        "primary_category": "LLM/Agents",
+        "topic_tags": [
+          "agentic-workflow",
+          "multi-agent",
+          "financial-ai",
+          "tool-use"
+        ],
+        "method_tags": [
+          "prompting",
+          "architecture"
+        ],
+        "modality": [
+          "text"
+        ],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "실제 트레이딩 회사처럼 역할을 나눈 LLM 에이전트들이 토론으로 주식 매매를 결정한다.",
+        "problem": "금융 분야의 LLM 활용은 단일 에이전트가 한 가지 작업을 처리하거나 여러 에이전트가 자료를 따로 모으는 수준에 머무는 경우가 많다. 실제 트레이딩 조직처럼 서로 다른 관점이 충돌하고 위험을 통제하는 협업 구조는 충분히 탐구되지 않았다.",
+        "approach": "펀더멘털·감성·기술 분석가와 강세(Bull)·약세(Bear) 리서처, 리스크 관리자, 트레이더를 각각 LLM 에이전트로 구현한다. 강세와 약세 에이전트가 시장 상황을 토론하고, 트레이더가 그 논쟁과 과거 데이터를 종합해 행동을 선택한다. 별도의 리스크 관리 팀이 노출 수준을 점검해 공격적·중립적·보수적 관점을 의사결정에 반영한다.",
+        "contributions": [
+          "실제 트레이딩 회사의 역할 분담과 토론 구조를 재현한 멀티에이전트 프레임워크",
+          "베이스라인보다 높은 누적 수익률과 Sharpe Ratio를 보고",
+          "Maximum Drawdown까지 함께 평가해 수익뿐 아니라 위험 조정 성과를 비교",
+          "코드 공개, GitHub 약 11.2만 스타"
+        ],
+        "why_now": "W42에 한 주 빠졌다가 돌아와, 수집 17주 중 15주에 올랐다(▲149 -> 153). W42 공백 때문에 이번 주에는 연속 등장 배지가 붙지 않는다. 같은 주 Kronos도 함께 돌아와, 지난주 처음 비었던 financial-ai 키워드가 다시 2편으로 채워졌다.",
+        "difficulty": "중급",
+        "recommended_reader": "LLM 에이전트 오케스트레이션과 금융 AI의 구조·평가에 관심 있는 학습자",
+        "field_tags": [
+          "멀티에이전트",
+          "금융AI",
+          "에이전트토론",
+          "리스크관리"
+        ],
+        "interest": {
+          "upvotes": 153,
+          "num_comments": 6,
+          "github_stars": 111866
+        }
+      },
+      "learning": {
+        "key_terms": [
+          {
+            "term": "Bull/Bear Debate",
+            "gloss": "강세와 약세 관점을 맡은 에이전트가 논쟁해 한쪽 편향을 줄이는 의사결정 구조"
+          },
+          {
+            "term": "Sharpe Ratio",
+            "gloss": "변동성이라는 위험을 감수한 만큼 초과수익을 얻었는지 나타내는 지표"
+          },
+          {
+            "term": "Backtest",
+            "gloss": "과거 시장 데이터에 전략을 적용해 성과를 모의 측정하는 평가 방식"
+          }
+        ],
+        "recall_quiz": {
+          "question": "TradingAgents의 리스크 관리 팀이 최종 의사결정에 반영하는 세 가지 관점은?",
+          "answer": "공격적·중립적·보수적 관점이다. 리스크 관리 팀이 노출 수준을 점검하며 이 세 관점을 의사결정에 반영한다."
+        },
+        "spaced_review": {
+          "flag": false,
+          "review_due": null
+        }
+      }
+    },
+    "2508.02739": {
+      "classify": {
+        "categories": [
+          "Data"
+        ],
+        "primary_category": "Data",
+        "topic_tags": [
+          "time-series-foundation-model",
+          "financial-ai",
+          "synthetic-data",
+          "autoregressive-objective"
+        ],
+        "method_tags": [
+          "pretraining",
+          "architecture"
+        ],
+        "modality": [
+          "multi"
+        ],
+        "confidence": "medium"
+      },
+      "tier1": {
+        "one_liner": "45개 거래소의 120억 캔들(K-line)로 사전학습한 금융 시계열 파운데이션 모델.",
+        "problem": "LLM식 사전학습이 시계열 파운데이션 모델(TSFM)로 확장됐지만, 금융 캔들(K-line)에는 적용이 제한적이고 비사전학습 모델보다 못한 경우도 많았다. 변동성 예측·합성데이터 생성 같은 핵심 다운스트림도 간과됐다.",
+        "approach": "연속적인 시장 정보를 토큰 시퀀스로 이산화하는 전용 토크나이저로 가격 동역학과 거래 활동을 보존하고, 45개 거래소의 120억+ K-line으로 자기회귀 목적함수로 사전학습한다. W34 심층 분석 기준으로 토크나이저는 비전 양자화 기법(BSQ)을 옮겨 와 2^20 어휘를 2^10 두 개로 인수분해했고, 거친 토큰에서 세밀한 토큰 순으로 예측해 서브토큰 사이의 의존성을 유지한다. 가격·수익률 예측에서는 여러 샘플 경로를 평균내 정확도를 높이는 방식(test-time scaling)을 쓴다.",
+        "contributions": [
+          "금융 K-line 전용 사전학습 프레임워크와 전용 토크나이저(BSQ 기반, 어휘 인수분해로 어휘 관련 파라미터 99.8% 절감)",
+          "제로샷 가격 예측 RankIC를 선도 TSFM 대비 +93%로 보고. 단 절대값 0.02~0.05 수준 지표 위의 상대 개선이고 주요 결과는 단일 실행 점추정이다(W34 심층 분석)",
+          "변동성 예측 MAE 9% 감소(비교 대상은 ARCH/GARCH 계열이고 HAR 계열은 제외), 합성 K-line 생성 충실도 22% 향상 보고",
+          "추론·파인튜닝 코드와 모델(최대 모델 large 제외) 공개(MIT, GitHub 약 4.1만 스타), 사전학습 코드와 데이터는 비공개"
+        ],
+        "why_now": "W34 이후 처음 다시 올라 수집 17주 중 5주째 등장했다(▲54 -> 60, GitHub 스타 약 3.7만 -> 4.1만). TradingAgents와 함께 돌아와 지난주 처음 비었던 financial-ai 키워드를 다시 채웠고, 1차 카테고리 기준 데이터(Data)도 W34 이후 처음 등장했다. W34 심층 분석대로 헤드라인 수치는 작은 절대값 위의 상대 개선이라, 성능 기록보다 금융 시계열 파운데이션 모델의 기준점으로 읽는 편이 맞다.",
+        "difficulty": "중급",
+        "recommended_reader": "시계열·파운데이션 모델·퀀트 금융에 관심 있는 학습자",
+        "field_tags": [
+          "시계열",
+          "파운데이션모델",
+          "금융AI",
+          "합성데이터"
+        ],
+        "interest": {
+          "upvotes": 60,
+          "num_comments": 4,
+          "github_stars": 41147
+        }
+      },
+      "learning": {
+        "key_terms": [
+          {
+            "term": "Tokenizer",
+            "gloss": "연속 데이터를 모델이 다룰 수 있는 이산 토큰으로 변환하는 모듈"
+          },
+          {
+            "term": "K-line",
+            "gloss": "시가·고가·저가·종가를 담은 캔들 차트 데이터"
+          },
+          {
+            "term": "RankIC",
+            "gloss": "예측 순위와 실제 순위의 상관. 퀀트에서 예측력 지표"
+          }
+        ],
+        "recall_quiz": {
+          "question": "Kronos의 'RankIC +93%'를 인용할 때 함께 밝혀야 할 조건 두 가지는?",
+          "answer": "RankIC의 절대값이 0.02~0.05 수준이라 상대 개선 폭이 크게 보인다는 점과, 주요 결과가 유의성 검정 없는 단일 실행 점추정이라는 점이다(W34 심층 분석 기준)."
+        },
+        "spaced_review": {
+          "flag": false,
+          "review_due": null
+        }
+      },
+      "title_ko": "Kronos: 금융 시장의 언어를 위한 파운데이션 모델"
+    },
+    "2610.20571": {
+      "title_ko": "Any Time, Any Space: 월드 상태 중심의 에이전트형 비디오 생성 프레임워크",
+      "classify": {
+        "categories": [
+          "Vision",
+          "LLM/Agents"
+        ],
+        "primary_category": "Vision",
+        "topic_tags": [
+          "long-video",
+          "text-to-video",
+          "scene-memory",
+          "3d-reconstruction",
+          "cross-shot-consistency"
+        ],
+        "method_tags": [
+          "inference-time"
+        ],
+        "modality": [
+          "video",
+          "3d",
+          "text"
+        ],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "각본을 장소·카메라·사건 시간이 명시된 샷으로 바꾸고, 장면·사건 기억으로 샷 사이의 공간·시간 일관성을 지킨다.",
+        "problem": "긴 에이전트형 비디오 생성은 각본을 여러 샷으로 바꾸되, 연속되지 않은 요청 사이에서도 공간과 시간이 일관돼야 한다. 프롬프트나 최근 프레임을 샷 사이에 넘기는 방식으로는 같은 장면을 다시 찾아갈 공유 공간 좌표도, 앞선 사건을 다시 보여 줄 시간 색인 기록도 얻을 수 없다.",
+        "approach": "ATAS는 각본을 장소·카메라·사건 시간 참조가 명시된 샷 요청으로 컴파일한다. 생성 전에는 등록된 정적 기하를 담은 장면 기억(scene memory)과, 장면·사건·시간으로 색인한 동적 관측을 담은 사건 기억(event memory)에서 관련 근거를 검색한다. 생성 후에는 클립을 재구성해 등록하고 검토와 상태 검사를 통과한 관측만 기억에 반영하며, 영상 납품은 기억 반영 여부와 독립적으로 진행된다.",
+        "contributions": [
+          "각본을 장소·카메라·사건 시간 참조가 있는 샷 요청으로 바꾸고 장면·사건 기억으로 일관성을 유지하는 월드 상태 중심 프레임워크",
+          "4개 생성기 모두에서 블록별 샷 간 일관성 지표와 종합 점수 1위를 보고. 단 Wan 2.7에서는 단일 클립 품질 VBench가 ReCA보다 낮다(0.846 vs 0.854)",
+          "목표 이미지 공간 재방문에서 비교 방법들을 앞서고, 사건 재포착은 5개 기준 중 3개에서 선두라고 보고(action/state는 ReCA에 지고 char/object는 동률)",
+          "인간 평가 6개 기준 모두에서 최고 평균 점수를 보고했지만 평가자 수는 미보고. 코드는 GitHub(MIT), 영상은 프로젝트 페이지에 공개"
+        ],
+        "why_now": "이번 주 최다 ▲344로, W36 BDH-CQ(▲765) 이후 가장 높은 업보트다(W41 VisionHOPE ▲322보다 높음). W32·W41에 오른 LongCat-Video가 영상을 '길게 만드는' 문제였다면, ATAS는 여러 샷에 걸쳐 같은 장소와 사건을 '기억하는' 문제로 옮겨 간다. 검토를 통과한 관측만 기억에 넣는 구조는 이번 주 RSI-Anything이 검사를 통과한 갱신만 남기는 설계와도 닮았다.",
+        "difficulty": "고급",
+        "recommended_reader": "긴 영상 생성, 장면 일관성, 생성 파이프라인의 기억 설계에 관심 있는 학습자",
+        "field_tags": [
+          "비디오생성",
+          "장면기억",
+          "공간일관성",
+          "에이전트형생성"
+        ],
+        "interest": {
+          "upvotes": 344,
+          "num_comments": 3,
+          "github_stars": 280
+        }
+      },
+      "learning": {
+        "key_terms": [
+          {
+            "term": "Scene Memory",
+            "gloss": "등록된 정적 기하(배경과 구조)를 담아, 같은 장소를 다시 찾아갈 때 공간 기준이 되는 기억"
+          },
+          {
+            "term": "Event Memory",
+            "gloss": "장면·사건·시간으로 색인한 동적 관측을 담아, 앞선 사건을 다시 보여 줄 때 쓰는 기억"
+          },
+          {
+            "term": "Cross-shot Consistency",
+            "gloss": "서로 다른 샷 사이에서 장소·인물·사건이 어긋나지 않게 유지되는 정도"
+          }
+        ],
+        "recall_quiz": {
+          "question": "ATAS가 생성한 클립을 기억에 반영하는 조건과, 영상 납품과 기억 반영의 관계는?",
+          "answer": "클립을 재구성해 등록한 뒤 검토와 상태 검사를 통과한 관측만 기억에 반영하며, 영상 납품은 기억 반영 여부와 독립적으로 진행된다."
+        },
+        "spaced_review": {
+          "flag": false,
+          "review_due": null
+        }
+      }
+    },
+    "2610.13912": {
+      "title_ko": "RSI-Anything: 월드모델로 재귀적 자기개선을 여는 범용 프레임워크",
+      "classify": {
+        "categories": [
+          "LLM/Agents",
+          "Embodied/World Models"
+        ],
+        "primary_category": "LLM/Agents",
+        "topic_tags": [
+          "self-refinement",
+          "world-model",
+          "jepa",
+          "agentic-workflow",
+          "ai-for-science"
+        ],
+        "method_tags": [
+          "data-centric",
+          "inference-time"
+        ],
+        "modality": [
+          "multi"
+        ],
+        "confidence": "medium"
+      },
+      "tier1": {
+        "one_liner": "예측형 월드모델로 외부 피드백을 받을 행동을 고르고, 검사를 통과한 갱신만 남기는 자기개선 틀을 여러 분야에 적용한다.",
+        "problem": "재귀적 자기개선(RSI)은 상호작용 경험을 지속적인 개선으로 바꾸려는 목표지만, 외부 피드백은 비싸다. 월드모델의 예측으로 피드백을 아끼려 해도, 정책이 바뀌어 갈수록 그 예측을 믿기 어려워질 수 있다.",
+        "approach": "JEPA-Anything 위에 구축한 범용 프레임워크로, 예측형 월드모델이 행동 선택과 학습 데이터 선택을 이끈다. 실제로 관측한 피드백은 정책이나 워크플로를 개선하는 데 쓰이는 동시에 월드모델을 조건부로 적응시키는 데도 쓰인다. 갱신된 정책-월드모델 쌍을 남길지는 구성요소 검사(component check)와 호환성 검사(compatibility check)가 정한다. 다만 심층 분석 결과 학습 데이터 선택은 정의만 있고 실험에 쓰였다는 보고가 없으며, 검사의 수치 기준과 판정 결과도 논문에 없다.",
+        "contributions": [
+          "코드 수리(CodeContests 200과제, 코더 고정)에서 무작위 26.0%, 정적 검증기 26.3% -> 고정 월드모델 선택 29.2%(정적 검증기 대비 +2.83%p, 95% 구간 [+0.17, +5.50]) -> 적응 월드모델 31.2%. 테스트 호출은 과제당 3.71-3.72회로 비슷하고, '적응'은 평가 중 갱신이 아니라 미리 재학습한 체크포인트다(저장소 기준)",
+          "GUI는 MiniWoB++ 단일 과제 100개 인스턴스에서 성공률 51% -> 99%, 평균 행동 39.4% 감소지만, 저장소상 보고 컨트롤러는 월드모델을 쓰지 않아 상승은 정책 미세조정에서 왔다(월드모델 값으로 고르는 컨트롤러는 49% -> 98%). 실험실 계획은 5개 정책 버전에서 21.80% -> 46.01%로 최고 참조 시스템보다 0.69%p 높다",
+          "반응 최적화의 평균 최고 수율 96.15%(베이지안 최적화 82.16%)는 저장소 기록상 이미 측정된 후보 321개를 40회 예산으로 재생한 오프라인 평가이고, 96.15%는 후보 풀의 최댓값이다(다른 스크린 20회 예산에서는 93.0% 대 87.5%)",
+          "면역학 응용은 같은 그룹의 선행 논문(arXiv 2609.14709) 결과를 다시 제시한 것으로 치료 가설은 실험 검증 전이며, GitHub 코드(Apache-2.0)와 HF 체크포인트 모음은 공개됐지만 면역학 자원과 OSWorld 코드는 없다"
+        ],
+        "why_now": "W42에 이어 2주 연속 등장했고 관심도도 올랐다(▲30 -> 50, GitHub 스타 446 -> 785). 같은 주에 Harness²가 올라와, 자기개선 흐름이 RRSI(W40)·RSI-Anything(W42)·Harness²(W43)로 이어졌다. W42 심층 분석에서 저장소 기준으로 GUI 보고 수치는 월드모델을 쓰지 않는 컨트롤러의 결과이고 반응 최적화는 이미 측정된 후보를 재생한 평가로 확인됐으므로, 헤드라인 수치보다 프레임워크 제안으로 읽는 편이 맞다.",
+        "difficulty": "고급",
+        "recommended_reader": "에이전트 자기개선 루프와 검증 설계에 관심 있는 개발자, AI를 과학 실험에 쓰는 방식에 관심 있는 학습자",
+        "field_tags": [
+          "재귀적자기개선",
+          "월드모델",
+          "JEPA",
+          "AI과학"
+        ],
+        "interest": {
+          "upvotes": 50,
+          "num_comments": 2,
+          "github_stars": 785
+        }
+      },
+      "learning": {
+        "key_terms": [
+          {
+            "term": "Recursive Self-Improvement (RSI)",
+            "gloss": "시스템이 상호작용 경험으로 자기 정책이나 워크플로를 반복해서 고쳐 나가는 과정"
+          },
+          {
+            "term": "JEPA",
+            "gloss": "입력을 그대로 복원하는 대신 표현 공간에서 결과를 예측하도록 학습하는 구조(Joint-Embedding Predictive Architecture)"
+          },
+          {
+            "term": "World Model",
+            "gloss": "행동의 결과를 미리 예측하는 모델. 이 논문에서는 어떤 행동에 비싼 외부 피드백을 쓸지 고르는 데 쓰이고, 그 피드백으로 스스로도 개선된다"
+          }
+        ],
+        "recall_quiz": {
+          "question": "RSI-Anything의 반응 최적화 결과(평균 최고 수율 96.15%)가 새 실험 결과가 아닌 이유는?",
+          "answer": "저장소 기록상 이미 측정된 후보 조건 321개의 수율을 40회 예산으로 순차 재생한 오프라인 평가이고, 96.15%는 그 후보 풀의 최댓값이기 때문이다(W42 심층 분석 기준)."
+        },
+        "spaced_review": {
+          "flag": false,
+          "review_due": null
+        }
+      }
+    }
+  }
+}
