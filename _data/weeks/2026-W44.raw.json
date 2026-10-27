@@ -1,0 +1,554 @@
+[
+  {
+    "paper": {
+      "id": "2610.14224",
+      "authors": [
+        {
+          "_id": "6acee61fabe004a210f25904",
+          "name": "Ruiyao Xu",
+          "hidden": false
+        },
+        {
+          "_id": "6acee61fabe004a210f25905",
+          "name": "Yanfei Chen",
+          "hidden": false
+        },
+        {
+          "_id": "6acee61fabe004a210f25906",
+          "name": "Zhongying CuiZhu",
+          "hidden": false
+        },
+        {
+          "_id": "6acee61fabe004a210f25907",
+          "name": "Bhavana Dalvi Mishra",
+          "hidden": false
+        },
+        {
+          "_id": "6acee61fabe004a210f25908",
+          "name": "Yifei Ming",
+          "hidden": false
+        },
+        {
+          "_id": "6acee61fabe004a210f25909",
+          "name": "Han Yu",
+          "hidden": false
+        },
+        {
+          "_id": "6acee61fabe004a210f2590a",
+          "name": "Rujun Han",
+          "hidden": false
+        },
+        {
+          "_id": "6acee61fabe004a210f2590b",
+          "name": "Chen-Yu Lee",
+          "hidden": false
+        },
+        {
+          "_id": "6acee61fabe004a210f2590c",
+          "name": "Tomas Pfister",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2026-10-09T00:00:00.000Z",
+      "submittedOnDailyAt": "2026-10-14T00:00:00.000Z",
+      "title": "Harness^2: Recursive Agent Harnessing for an Open World",
+      "submittedOnDailyBy": {
+        "_id": "66e477a352356419c4712065",
+        "avatarUrl": "/avatars/cd2969ce88e44735c3fe70312c0e64b3.svg",
+        "isPro": true,
+        "fullname": "Ruiyao Xu",
+        "user": "ruiyaox",
+        "type": "user",
+        "name": "ruiyaox"
+      },
+      "summary": "LLM agents' capabilities depend not only on their underlying models but also on their execution harnesses. Recursive self-improvement (RSI) offers a promising approach to automatically evolve these harnesses. However, deploying RSI in open-world settings still faces two critical challenges. First, open-world tasks are typically unseen during the harness design phase and novel at test time, leaving no ground-truth verifiers to reliably guide online harness edits. Second, the RSI process remains highly task-specific and fails to generalize to novel scenarios. We introduce Harness^2, a plug-and-play, recursive agent harnessing framework that addresses these challenges through two connected levels of recursion. Task-level recursion refines the current task's harness using a contrastive Propose-Probe-Compose step that reliably guides edits without ground-truth verifiers, and can be scaled further via parallel or sequential recursion. Harnessing-level recursion then extracts experience from these edits to update a continual improvement harness, enabling the agent to better adapt to future tasks. Across three professional benchmarks and four model-harness configurations, a single step consistently improves GLM-5 and Gemini 3.5 Flash over their base harnesses, yielding gains of up to 11.5 points on WorkBuddy-Bench, 4.5 points on JobBench, and 11.8 percentage points on LAB, with further gains as the task-level recursion budget increases.",
+      "upvotes": 123,
+      "discussionId": "6acee61fabe004a210f2590d",
+      "projectPage": "https://harness2.github.io/",
+      "githubRepo": "https://github.com/google-research/harness2",
+      "githubRepoAddedBy": "user",
+      "ai_summary": "Harness² improves agent execution harnesses through recursive task-level refinement and continual harness-level learning, boosting performance across benchmarks without ground-truth verifiers.",
+      "ai_keywords": [
+        "recursive self-improvement",
+        "LLM agents",
+        "execution harnesses",
+        "Harness²",
+        "Propose-Probe-Compose",
+        "task-level recursion",
+        "harnessing-level recursion",
+        "continual improvement harness"
+      ],
+      "ai_summary_model": "thinkingmachines/Inkling-Small",
+      "githubStars": 19629,
+      "organization": {
+        "_id": "5e6aca39878b8b2bf9806447",
+        "name": "google",
+        "fullname": "Google",
+        "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/5dd96eb166059660ed1ee413/WtA3YYitedOr9n02eHfJe.png"
+      }
+    },
+    "publishedAt": "2026-10-08T20:00:00.000Z",
+    "title": "Harness^2: Recursive Agent Harnessing for an Open World",
+    "summary": "LLM agents' capabilities depend not only on their underlying models but also on their execution harnesses. Recursive self-improvement (RSI) offers a promising approach to automatically evolve these harnesses. However, deploying RSI in open-world settings still faces two critical challenges. First, open-world tasks are typically unseen during the harness design phase and novel at test time, leaving no ground-truth verifiers to reliably guide online harness edits. Second, the RSI process remains highly task-specific and fails to generalize to novel scenarios. We introduce Harness^2, a plug-and-play, recursive agent harnessing framework that addresses these challenges through two connected levels of recursion. Task-level recursion refines the current task's harness using a contrastive Propose-Probe-Compose step that reliably guides edits without ground-truth verifiers, and can be scaled further via parallel or sequential recursion. Harnessing-level recursion then extracts experience from these edits to update a continual improvement harness, enabling the agent to better adapt to future tasks. Across three professional benchmarks and four model-harness configurations, a single step consistently improves GLM-5 and Gemini 3.5 Flash over their base harnesses, yielding gains of up to 11.5 points on WorkBuddy-Bench, 4.5 points on JobBench, and 11.8 percentage points on LAB, with further gains as the task-level recursion budget increases.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2610.14224.png",
+    "numComments": 2,
+    "submittedBy": {
+      "_id": "66e477a352356419c4712065",
+      "avatarUrl": "/avatars/cd2969ce88e44735c3fe70312c0e64b3.svg",
+      "fullname": "Ruiyao Xu",
+      "name": "ruiyaox",
+      "type": "user",
+      "isPro": true,
+      "isHf": false,
+      "isHfAdmin": false,
+      "isMod": false,
+      "followerCount": 1,
+      "isUserFollowing": false
+    },
+    "organization": {
+      "_id": "5e6aca39878b8b2bf9806447",
+      "name": "google",
+      "fullname": "Google",
+      "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/5dd96eb166059660ed1ee413/WtA3YYitedOr9n02eHfJe.png"
+    },
+    "isAuthorParticipating": false
+  },
+  {
+    "paper": {
+      "id": "2412.20138",
+      "authors": [
+        {
+          "_id": "6847673b3ec10bdd8ab4dd5e",
+          "user": {
+            "_id": "619b6a24030b707ff1f05dee",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/619b6a24030b707ff1f05dee/8FZjePfOuTtN3uvTmaEg5.jpeg",
+            "isPro": false,
+            "fullname": "Yijia Xiao",
+            "user": "Yijia-Xiao",
+            "type": "user",
+            "name": "Yijia-Xiao"
+          },
+          "name": "Yijia Xiao",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-08-08T16:45:04.607Z",
+          "hidden": false
+        },
+        {
+          "_id": "6847673b3ec10bdd8ab4dd5f",
+          "name": "Edward Sun",
+          "hidden": false
+        },
+        {
+          "_id": "6847673b3ec10bdd8ab4dd60",
+          "name": "Di Luo",
+          "hidden": false
+        },
+        {
+          "_id": "6847673b3ec10bdd8ab4dd61",
+          "name": "Wei Wang",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2024-12-28T12:54:06.000Z",
+      "title": "TradingAgents: Multi-Agents LLM Financial Trading Framework",
+      "summary": "Significant progress has been made in automated problem-solving using\nsocieties of agents powered by large language models (LLMs). In finance,\nefforts have largely focused on single-agent systems handling specific tasks or\nmulti-agent frameworks independently gathering data. However, the multi-agent\nsystems' potential to replicate real-world trading firms' collaborative\ndynamics remains underexplored. TradingAgents proposes a novel stock trading\nframework inspired by trading firms, featuring LLM-powered agents in\nspecialized roles such as fundamental analysts, sentiment analysts, technical\nanalysts, and traders with varied risk profiles. The framework includes Bull\nand Bear researcher agents assessing market conditions, a risk management team\nmonitoring exposure, and traders synthesizing insights from debates and\nhistorical data to make informed decisions. By simulating a dynamic,\ncollaborative trading environment, this framework aims to improve trading\nperformance. Detailed architecture and extensive experiments reveal its\nsuperiority over baseline models, with notable improvements in cumulative\nreturns, Sharpe ratio, and maximum drawdown, highlighting the potential of\nmulti-agent LLM frameworks in financial trading. TradingAgents is available at\nhttps://github.com/TauricResearch/TradingAgents.",
+      "upvotes": 154,
+      "discussionId": "6847673c3ec10bdd8ab4dd62",
+      "githubRepo": "https://github.com/tauricresearch/tradingagents",
+      "githubRepoAddedBy": "auto",
+      "ai_summary": "A multi-agent framework using large language models for stock trading simulates real-world trading firms, improving performance metrics like cumulative returns and Sharpe ratio.",
+      "ai_keywords": [
+        "large language models",
+        "LLM",
+        "multi-agent systems",
+        "fundamental analysts",
+        "sentiment analysts",
+        "technical analysts",
+        "traders",
+        "risk management",
+        "cumulative returns",
+        "Sharpe ratio",
+        "maximum drawdown"
+      ],
+      "ai_summary_model": "Qwen/Qwen2.5-Coder-32B-Instruct",
+      "githubStars": 114817
+    },
+    "publishedAt": "2024-12-28T07:54:06.000Z",
+    "title": "TradingAgents: Multi-Agents LLM Financial Trading Framework",
+    "summary": "Significant progress has been made in automated problem-solving using\nsocieties of agents powered by large language models (LLMs). In finance,\nefforts have largely focused on single-agent systems handling specific tasks or\nmulti-agent frameworks independently gathering data. However, the multi-agent\nsystems' potential to replicate real-world trading firms' collaborative\ndynamics remains underexplored. TradingAgents proposes a novel stock trading\nframework inspired by trading firms, featuring LLM-powered agents in\nspecialized roles such as fundamental analysts, sentiment analysts, technical\nanalysts, and traders with varied risk profiles. The framework includes Bull\nand Bear researcher agents assessing market conditions, a risk management team\nmonitoring exposure, and traders synthesizing insights from debates and\nhistorical data to make informed decisions. By simulating a dynamic,\ncollaborative trading environment, this framework aims to improve trading\nperformance. Detailed architecture and extensive experiments reveal its\nsuperiority over baseline models, with notable improvements in cumulative\nreturns, Sharpe ratio, and maximum drawdown, highlighting the potential of\nmulti-agent LLM frameworks in financial trading. TradingAgents is available at\nhttps://github.com/TauricResearch/TradingAgents.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2412.20138.png",
+    "numComments": 6,
+    "isAuthorParticipating": true
+  },
+  {
+    "paper": {
+      "id": "2508.02739",
+      "authors": [
+        {
+          "_id": "68940073741a16f544fbce2f",
+          "name": "Yu Shi",
+          "hidden": false
+        },
+        {
+          "_id": "68940073741a16f544fbce30",
+          "name": "Zongliang Fu",
+          "hidden": false
+        },
+        {
+          "_id": "68940073741a16f544fbce31",
+          "name": "Shuo Chen",
+          "hidden": false
+        },
+        {
+          "_id": "68940073741a16f544fbce32",
+          "name": "Bohan Zhao",
+          "hidden": false
+        },
+        {
+          "_id": "68940073741a16f544fbce33",
+          "name": "Wei Xu",
+          "hidden": false
+        },
+        {
+          "_id": "68940073741a16f544fbce34",
+          "name": "Changshui Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "68940073741a16f544fbce35",
+          "name": "Jian Li",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2025-08-02T13:15:59.000Z",
+      "title": "Kronos: A Foundation Model for the Language of Financial Markets",
+      "summary": "The success of large-scale pre-training paradigm, exemplified by Large\nLanguage Models (LLMs), has inspired the development of Time Series Foundation\nModels (TSFMs). However, their application to financial candlestick (K-line)\ndata remains limited, often underperforming non-pre-trained architectures.\nMoreover, existing TSFMs often overlook crucial downstream tasks such as\nvolatility prediction and synthetic data generation. To address these\nlimitations, we propose Kronos, a unified, scalable pre-training framework\ntailored to financial K-line modeling. Kronos introduces a specialized\ntokenizer that discretizes continuous market information into token sequences,\npreserving both price dynamics and trade activity patterns. We pre-train Kronos\nusing an autoregressive objective on a massive, multi-market corpus of over 12\nbillion K-line records from 45 global exchanges, enabling it to learn nuanced\ntemporal and cross-asset representations. Kronos excels in a zero-shot setting\nacross a diverse set of financial tasks. On benchmark datasets, Kronos boosts\nprice series forecasting RankIC by 93% over the leading TSFM and 87% over the\nbest non-pre-trained baseline. It also achieves a 9% lower MAE in volatility\nforecasting and a 22% improvement in generative fidelity for synthetic K-line\nsequences. These results establish Kronos as a robust, versatile foundation\nmodel for end-to-end financial time series analysis. Our pre-trained model is\npublicly available at https://github.com/shiyu-coder/Kronos.",
+      "upvotes": 62,
+      "discussionId": "68940073741a16f544fbce36",
+      "githubRepo": "https://github.com/shiyu-coder/Kronos",
+      "githubRepoAddedBy": "auto",
+      "ai_summary": "Kronos, a specialized pre-training framework for financial K-line data, outperforms existing models in forecasting and synthetic data generation through a unique tokenizer and autoregressive pre-training on a large dataset.",
+      "ai_keywords": [
+        "Large Language Models",
+        "Time Series Foundation Models",
+        "financial candlestick",
+        "volatility prediction",
+        "synthetic data generation",
+        "autoregressive objective",
+        "token sequences",
+        "price dynamics",
+        "trade activity patterns",
+        "zero-shot setting",
+        "price series forecasting",
+        "RankIC",
+        "MAE",
+        "generative fidelity"
+      ],
+      "ai_summary_model": "Qwen/Qwen2.5-Coder-32B-Instruct",
+      "githubStars": 43751
+    },
+    "publishedAt": "2025-08-02T09:15:59.000Z",
+    "title": "Kronos: A Foundation Model for the Language of Financial Markets",
+    "summary": "The success of large-scale pre-training paradigm, exemplified by Large\nLanguage Models (LLMs), has inspired the development of Time Series Foundation\nModels (TSFMs). However, their application to financial candlestick (K-line)\ndata remains limited, often underperforming non-pre-trained architectures.\nMoreover, existing TSFMs often overlook crucial downstream tasks such as\nvolatility prediction and synthetic data generation. To address these\nlimitations, we propose Kronos, a unified, scalable pre-training framework\ntailored to financial K-line modeling. Kronos introduces a specialized\ntokenizer that discretizes continuous market information into token sequences,\npreserving both price dynamics and trade activity patterns. We pre-train Kronos\nusing an autoregressive objective on a massive, multi-market corpus of over 12\nbillion K-line records from 45 global exchanges, enabling it to learn nuanced\ntemporal and cross-asset representations. Kronos excels in a zero-shot setting\nacross a diverse set of financial tasks. On benchmark datasets, Kronos boosts\nprice series forecasting RankIC by 93% over the leading TSFM and 87% over the\nbest non-pre-trained baseline. It also achieves a 9% lower MAE in volatility\nforecasting and a 22% improvement in generative fidelity for synthetic K-line\nsequences. These results establish Kronos as a robust, versatile foundation\nmodel for end-to-end financial time series analysis. Our pre-trained model is\npublicly available at https://github.com/shiyu-coder/Kronos.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2508.02739.png",
+    "numComments": 4,
+    "isAuthorParticipating": false
+  },
+  {
+    "paper": {
+      "id": "2609.18063",
+      "authors": [
+        {
+          "_id": "6aab6e211d9cc4dec796250c",
+          "user": {
+            "_id": "63ec492b6ef3ce22b88a40e8",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/no-auth/losyEyB6XLMUkXgKs_GFC.png",
+            "isPro": false,
+            "fullname": "yumu",
+            "user": "bupalinyu",
+            "type": "user",
+            "name": "bupalinyu"
+          },
+          "name": "Yu Lin",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-09-17T09:09:45.608Z",
+          "hidden": false
+        },
+        {
+          "_id": "6aab6e211d9cc4dec796250d",
+          "user": {
+            "_id": "64361bcaf81a16e74367d2e2",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/64361bcaf81a16e74367d2e2/N4pdqBd4DqIx71t8IWaWD.png",
+            "isPro": false,
+            "fullname": "wanglamao",
+            "user": "wanglamao",
+            "type": "user",
+            "name": "wanglamao"
+          },
+          "name": "Yiming Wang",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-09-18T14:00:26.917Z",
+          "hidden": false
+        },
+        {
+          "_id": "6aab6e211d9cc4dec796250e",
+          "user": {
+            "_id": "63413355e5071b0c5cc91cda",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/63413355e5071b0c5cc91cda/P5if_w7mXfPGPq8QtALjF.png",
+            "isPro": false,
+            "fullname": "cai",
+            "user": "chua",
+            "type": "user",
+            "name": "chua"
+          },
+          "name": "Runyuan Cai",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-09-18T14:00:24.425Z",
+          "hidden": false
+        },
+        {
+          "_id": "6aab6e211d9cc4dec796250f",
+          "name": "Hanze Liu",
+          "hidden": false
+        },
+        {
+          "_id": "6aab6e211d9cc4dec7962510",
+          "name": "Xiaodong Zeng",
+          "hidden": false
+        }
+      ],
+      "mediaUrls": [
+        "https://cdn-uploads.huggingface.co/production/uploads/63ec492b6ef3ce22b88a40e8/rC6RhuvirSlar0MGZ-qJB.mp4"
+      ],
+      "publishedAt": "2026-09-16T00:00:00.000Z",
+      "submittedOnDailyAt": "2026-09-17T00:00:00.000Z",
+      "title": "The Other Half of the Memory Wall: Serving 35B MoEs from SSD with Trained Routing Prediction",
+      "submittedOnDailyBy": {
+        "_id": "63ec492b6ef3ce22b88a40e8",
+        "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/no-auth/losyEyB6XLMUkXgKs_GFC.png",
+        "isPro": false,
+        "fullname": "yumu",
+        "user": "bupalinyu",
+        "type": "user",
+        "name": "bupalinyu"
+      },
+      "summary": "Mixture-of-experts (MoE) inference on consumer hardware is bounded by weight memory: a 35B-class model is 19.5GB at 4-bit, and sparsity shrinks the compute per token, not the bytes that must be held. Naive offloading to SSD does not help on its own, because layer N+1's experts must be chosen before layer N's output exists, so the reads cannot start early enough to hide behind compute. We present Edge0, a streaming MoE inference engine that closes the gap with a prerouter: a per-layer head predicts the next layer's routing one token ahead, and the prediction is consumed as the routing itself, so the staged expert set equals the routed set and nothing is dropped. An unmerged recovery LoRA, trained on the student path, pays back the quality lost to int4 quantization and routing replacement. On a single 24GB machine, Edge0\n  serves a 35B MoE at 20tok/s inside 3GiB of peak active memory, within a few points of its fp16 teacher on average across five public benchmarks. An 8B tier runs on the same framework, and the framework, checkpoints, and adapters are open source.",
+      "upvotes": 30,
+      "discussionId": "6aab6e211d9cc4dec7962511",
+      "githubRepo": "https://github.com/Edge0-AI/edge0",
+      "githubRepoAddedBy": "user",
+      "ai_summary": "Edge0 enables efficient mixture-of-experts inference on consumer hardware by predicting expert routing ahead of time and using recovery adapters to maintain quality with minimal active memory.",
+      "ai_keywords": [
+        "mixture-of-experts",
+        "MoE",
+        "offloading",
+        "prerouter",
+        "recovery LoRA",
+        "int4 quantization",
+        "routing replacement",
+        "streaming inference"
+      ],
+      "ai_summary_model": "thinkingmachines/Inkling-Small",
+      "githubStars": 7208,
+      "organization": {
+        "_id": "6a9a75862d11e1c1a13dec37",
+        "name": "Edge0",
+        "fullname": "Edge0",
+        "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/64361bcaf81a16e74367d2e2/D5QI700pnaujz5PeWE6MX.jpeg"
+      }
+    },
+    "publishedAt": "2026-09-15T20:00:00.000Z",
+    "title": "The Other Half of the Memory Wall: Serving 35B MoEs from SSD with Trained Routing Prediction",
+    "summary": "Mixture-of-experts (MoE) inference on consumer hardware is bounded by weight memory: a 35B-class model is 19.5GB at 4-bit, and sparsity shrinks the compute per token, not the bytes that must be held. Naive offloading to SSD does not help on its own, because layer N+1's experts must be chosen before layer N's output exists, so the reads cannot start early enough to hide behind compute. We present Edge0, a streaming MoE inference engine that closes the gap with a prerouter: a per-layer head predicts the next layer's routing one token ahead, and the prediction is consumed as the routing itself, so the staged expert set equals the routed set and nothing is dropped. An unmerged recovery LoRA, trained on the student path, pays back the quality lost to int4 quantization and routing replacement. On a single 24GB machine, Edge0\n  serves a 35B MoE at 20tok/s inside 3GiB of peak active memory, within a few points of its fp16 teacher on average across five public benchmarks. An 8B tier runs on the same framework, and the framework, checkpoints, and adapters are open source.",
+    "mediaUrls": [
+      "https://cdn-uploads.huggingface.co/production/uploads/63ec492b6ef3ce22b88a40e8/rC6RhuvirSlar0MGZ-qJB.mp4"
+    ],
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2609.18063.png",
+    "numComments": 9,
+    "submittedBy": {
+      "_id": "63ec492b6ef3ce22b88a40e8",
+      "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/no-auth/losyEyB6XLMUkXgKs_GFC.png",
+      "fullname": "yumu",
+      "name": "bupalinyu",
+      "type": "user",
+      "isPro": false,
+      "isHf": false,
+      "isHfAdmin": false,
+      "isMod": false,
+      "followerCount": 8,
+      "isUserFollowing": false
+    },
+    "organization": {
+      "_id": "6a9a75862d11e1c1a13dec37",
+      "name": "Edge0",
+      "fullname": "Edge0",
+      "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/64361bcaf81a16e74367d2e2/D5QI700pnaujz5PeWE6MX.jpeg"
+    },
+    "isAuthorParticipating": true
+  },
+  {
+    "paper": {
+      "id": "2610.23374",
+      "authors": [
+        {
+          "_id": "6ad5952360556d9547d94f5b",
+          "name": "MOSI. AI",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2026-10-16T00:00:00.000Z",
+      "submittedOnDailyAt": "2026-10-19T00:00:00.000Z",
+      "title": "MOSS-Image Technical Report",
+      "submittedOnDailyBy": {
+        "_id": "6443f7bf1bc692d87b25e234",
+        "avatarUrl": "/avatars/fa9e62d96d0691a9a48e3db499a61557.svg",
+        "isPro": false,
+        "fullname": "Xu Zhe",
+        "user": "Phospheneser",
+        "type": "user",
+        "name": "Phospheneser"
+      },
+      "summary": "Recent closed-source image generation systems can produce diverse visual content from simple compositions to information-dense graphics, yet open-weight text-to-image models still struggle with dense text and intricate layouts. To narrow this gap, we introduce MOSS-Image, an open generation system that combines high-fidelity visual synthesis with intent-aware composition. First, we pretrain a 5B single-stream diffusion transformer (DiT) from scratch with a carefully designed recipe, enabling bilingual long-form text rendering and precise layout control. Second, we develop an intention-aware agentic prompt enhancement (PE) module that translates diverse user requests into detailed content and layout specifications. Together, they enable MOSS-Image to generate text-rich and layout-coherent images. We further introduce LongLongTextBench (LLTB) for evaluating long-form English and Chinese text rendering, and RealLayoutArena (RLA) for end-to-end layout-rich generation. MOSS-Image achieves state-of-the-art performance among open-weight models on LLTB, with an average text coverage of 96.3%. On RLA, MOSS-Image ranks second in the end-to-end system comparison, while its backbone ranks first among generators evaluated with shared enhanced prompts. We will release the model, training recipe, and evaluation framework to support further research and promote the text-to-image community.",
+      "upvotes": 103,
+      "discussionId": "6ad5952360556d9547d94f5c",
+      "projectPage": "https://openmoss.ai/MOSS-Image/",
+      "githubRepo": "https://github.com/OpenMOSS/MOSS-Image",
+      "githubRepoAddedBy": "user",
+      "ai_summary": "MOSS-Image is an open diffusion transformer that combines high-fidelity synthesis with intent-aware prompt enhancement to generate text-rich, layout-coherent images, achieving state-of-the-art open-weight results on long-form text and layout benchmarks.",
+      "ai_keywords": [
+        "diffusion transformer",
+        "DiT",
+        "single-stream diffusion transformer",
+        "bilingual long-form text rendering",
+        "layout control",
+        "intention-aware agentic prompt enhancement",
+        "LongLongTextBench",
+        "RealLayoutArena"
+      ],
+      "ai_summary_model": "thinkingmachines/Inkling-Small",
+      "githubStars": 1855,
+      "organization": {
+        "_id": "613b0dee83ec35d460684607",
+        "name": "OpenMOSS-Team",
+        "fullname": "OpenMOSS",
+        "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/61457b8deff2c9fdb4de4988/N5b9663zQ4uq5_OTNlnmw.png"
+      }
+    },
+    "publishedAt": "2026-10-15T20:00:00.000Z",
+    "title": "MOSS-Image Technical Report",
+    "summary": "Recent closed-source image generation systems can produce diverse visual content from simple compositions to information-dense graphics, yet open-weight text-to-image models still struggle with dense text and intricate layouts. To narrow this gap, we introduce MOSS-Image, an open generation system that combines high-fidelity visual synthesis with intent-aware composition. First, we pretrain a 5B single-stream diffusion transformer (DiT) from scratch with a carefully designed recipe, enabling bilingual long-form text rendering and precise layout control. Second, we develop an intention-aware agentic prompt enhancement (PE) module that translates diverse user requests into detailed content and layout specifications. Together, they enable MOSS-Image to generate text-rich and layout-coherent images. We further introduce LongLongTextBench (LLTB) for evaluating long-form English and Chinese text rendering, and RealLayoutArena (RLA) for end-to-end layout-rich generation. MOSS-Image achieves state-of-the-art performance among open-weight models on LLTB, with an average text coverage of 96.3%. On RLA, MOSS-Image ranks second in the end-to-end system comparison, while its backbone ranks first among generators evaluated with shared enhanced prompts. We will release the model, training recipe, and evaluation framework to support further research and promote the text-to-image community.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2610.23374.png",
+    "numComments": 4,
+    "submittedBy": {
+      "_id": "6443f7bf1bc692d87b25e234",
+      "avatarUrl": "/avatars/fa9e62d96d0691a9a48e3db499a61557.svg",
+      "fullname": "Xu Zhe",
+      "name": "Phospheneser",
+      "type": "user",
+      "isPro": false,
+      "isHf": false,
+      "isHfAdmin": false,
+      "isMod": false,
+      "followerCount": 6,
+      "isUserFollowing": false
+    },
+    "organization": {
+      "_id": "613b0dee83ec35d460684607",
+      "name": "OpenMOSS-Team",
+      "fullname": "OpenMOSS",
+      "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/61457b8deff2c9fdb4de4988/N5b9663zQ4uq5_OTNlnmw.png"
+    },
+    "isAuthorParticipating": false
+  },
+  {
+    "paper": {
+      "id": "2610.08699",
+      "authors": [
+        {
+          "_id": "6ac6e1244eb8005165aed294",
+          "user": {
+            "_id": "64d761b98ebc40443831f82a",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/64d761b98ebc40443831f82a/DHBOtOstiFp2-lDY6b9gb.png",
+            "isPro": false,
+            "fullname": "Guangyi Liu",
+            "user": "lgy0404",
+            "type": "user",
+            "name": "lgy0404"
+          },
+          "name": "Guangyi Liu",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-10-08T13:56:00.504Z",
+          "hidden": false
+        },
+        {
+          "_id": "6ac6e1244eb8005165aed295",
+          "name": "Yong Liu",
+          "hidden": false
+        },
+        {
+          "_id": "6ac6e1244eb8005165aed296",
+          "name": "Jiangning Zhang",
+          "hidden": false
+        }
+      ],
+      "mediaUrls": [
+        "https://cdn-uploads.huggingface.co/production/uploads/64d761b98ebc40443831f82a/6EEDcp2yMHSgKNeAI6HxO.mp4",
+        "https://cdn-uploads.huggingface.co/production/uploads/64d761b98ebc40443831f82a/MRp8DMVyMd1Y14s83KQpk.png"
+      ],
+      "publishedAt": "2026-10-06T00:00:00.000Z",
+      "submittedOnDailyAt": "2026-10-08T00:00:00.000Z",
+      "title": "nanoMuse: An Open-Source Personal Agent for Every Device You Own",
+      "submittedOnDailyBy": {
+        "_id": "64d761b98ebc40443831f82a",
+        "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/64d761b98ebc40443831f82a/DHBOtOstiFp2-lDY6b9gb.png",
+        "isPro": false,
+        "fullname": "Guangyi Liu",
+        "user": "lgy0404",
+        "type": "user",
+        "name": "lgy0404"
+      },
+      "summary": "Assistants from 2011 answered and waited, and agents from 2023 did a task and stopped. In September 2026 Meta's Muse showed an agent for one person, with accounts, devices, memory and a conversation that lasts, closed, in a vendor's cloud, in one country. Such an agent is expected to act on a person's accounts and devices, remember them across weeks, speak first when it is worth it, and answer for what it did. It is a kind of software, not a model, and until now had no open counterpart. This report defines the personal agent in five questions and three horizons. It reads how Muse is built from Meta's public record and a copy of its production prompt, each statement marked by its source. It then presents nanoMuse, the open-source counterpart under the GPL-3.0, one agent on every device a person owns, with hands on the phone's screen and the computer's. They share one conversation over a relay anyone can run; every action goes through a Sentinel, memory is files the person can read, and the model is their choice. Its size and cost are given as estimates. What is open, memory with provenance, an evaluation suite for the hands and an open model for them, is set out as a roadmap.",
+      "upvotes": 120,
+      "discussionId": "6ac6e1264eb8005165aed297",
+      "projectPage": "https://nanomuse.cn/",
+      "githubRepo": "https://github.com/nano-muse/nanoMuse",
+      "githubRepoAddedBy": "user",
+      "githubStars": 2582,
+      "organization": {
+        "_id": "61bac2af530e5c78d7b99667",
+        "name": "zju",
+        "fullname": "Zhejiang University",
+        "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/5e1058e9fcf41d740b69966d/7G1xjlxwCdMEmKcxNR0n5.png"
+      }
+    },
+    "publishedAt": "2026-10-05T20:00:00.000Z",
+    "title": "nanoMuse: An Open-Source Personal Agent for Every Device You Own",
+    "summary": "Assistants from 2011 answered and waited, and agents from 2023 did a task and stopped. In September 2026 Meta's Muse showed an agent for one person, with accounts, devices, memory and a conversation that lasts, closed, in a vendor's cloud, in one country. Such an agent is expected to act on a person's accounts and devices, remember them across weeks, speak first when it is worth it, and answer for what it did. It is a kind of software, not a model, and until now had no open counterpart. This report defines the personal agent in five questions and three horizons. It reads how Muse is built from Meta's public record and a copy of its production prompt, each statement marked by its source. It then presents nanoMuse, the open-source counterpart under the GPL-3.0, one agent on every device a person owns, with hands on the phone's screen and the computer's. They share one conversation over a relay anyone can run; every action goes through a Sentinel, memory is files the person can read, and the model is their choice. Its size and cost are given as estimates. What is open, memory with provenance, an evaluation suite for the hands and an open model for them, is set out as a roadmap.",
+    "mediaUrls": [
+      "https://cdn-uploads.huggingface.co/production/uploads/64d761b98ebc40443831f82a/6EEDcp2yMHSgKNeAI6HxO.mp4",
+      "https://cdn-uploads.huggingface.co/production/uploads/64d761b98ebc40443831f82a/MRp8DMVyMd1Y14s83KQpk.png"
+    ],
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2610.08699.png",
+    "numComments": 3,
+    "submittedBy": {
+      "_id": "64d761b98ebc40443831f82a",
+      "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/64d761b98ebc40443831f82a/DHBOtOstiFp2-lDY6b9gb.png",
+      "fullname": "Guangyi Liu",
+      "name": "lgy0404",
+      "type": "user",
+      "isPro": false,
+      "isHf": false,
+      "isHfAdmin": false,
+      "isMod": false,
+      "followerCount": 4,
+      "isUserFollowing": false
+    },
+    "organization": {
+      "_id": "61bac2af530e5c78d7b99667",
+      "name": "zju",
+      "fullname": "Zhejiang University",
+      "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/5e1058e9fcf41d740b69966d/7G1xjlxwCdMEmKcxNR0n5.png"
+    },
+    "isAuthorParticipating": true
+  }
+]

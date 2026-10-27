@@ -1,0 +1,136 @@
+{
+  "week_id": "2026-W44",
+  "papers": {
+    "2610.23374": {
+      "tier2": {
+        "method_detail": "MOSS-Image는 처음부터 사전학습한 5B single-stream DiT 렌더러와, 추론 시점에만 동작하는 GPT-6 기반 agentic prompt enhancer(논문 명칭 Layout PE)를 하나의 텍스트 조건 경로로 묶은 시스템이다. 5B는 diffusion generator만의 크기이며, frozen 텍스트 인코더 Qwen3.5-9B와 frozen FLUX.2 VAE(FLUX.2-klein-4B에서 로드, 32채널, 공간 8배 축소)는 제외된다(부록 A.1, PDF Table 5).\n\n구조는 다음과 같다. Qwen3.5-9B 마지막 층 hidden state(4096차원)를 선형 투영(4096->3072)하고 텍스트 전용 Transformer 블록 2개를 거친 뒤, 2x2로 패치화한 이미지 latent 토큰(유효 stride 16픽셀, 1024x1024에서 4096토큰)과 한 시퀀스로 이어 붙인다. 42개 joint 블록(hidden 3072, 24 heads x 128, FFN 8192)은 joint self-attention, shared modulation, tanh soft-cap을 넣은 gated FFN인 SiTU-GLU를 쓴다. 이 값은 HF transformer/config.json(num_layers 42, dim 3072, num_heads 24, ffn_dim 8192, text_dim 4096)과도 일치한다. 위치 부호화는 4D RoPE(r 참조 인덱스, t 시퀀스 위치, w, h)이며 헤드 128차원 중 앞 32차원이 r 축이다. 참조 입력이 없으면 r=0이라 회전이 없는 partial RoPE가 되고, 이미지 위치는 텍스트 뒤에 이어지며 공간 좌표는 0 중심이다. 자연어 캡션과 bbox JSON 레이아웃이 별도 제어 모듈 없이 같은 텍스트 경로로 들어간다는 점이 핵심 설계다.\n\n레시피는 ReLAION, OmniCorpus, DataComp 등 16개 공개 소스(PDF Table 8)를 SSCD 중복 제거와 자체 AI 이미지 탐지기로만 줄인다(본문은 약 50억->30억, 그림 3은 5.5B->3.2B로 표기). 그 이후 단계에서 추가 품질 필터는 일부러 쓰지 않는다. 다만 ReLAION의 NSFW, 워터마크 검사처럼 소스 구축 단계의 필터는 그대로 남는다고 저자가 밝힌다. 워터마크나 흐림 같은 결함은 걸러내지 않고 캡션에 적는다. gemma4로 short/medium/long 재캡션을 만들며 보이는 텍스트는 줄바꿈까지 그대로 전사한다. 고품질 부분집합에는 bbox와 타이포그래피를 담은 레이아웃 JSON을 붙이며, 스키마는 scene/element와 summary/items 두 가지다. 필드 dropout과 순서 셔플을 적용한다. 좌표 표현은 scene/element 분기에서 정규화/절대/중심기준 픽셀을 0.4/0.3/0.3으로 무작위 선택하고, 보조 item-level 분기는 0.2/0.4/0.4를 쓴다. summary/items는 [0,1000] 정규화 yxyx로 변환한다. 원 캡션과 재캡션의 비율은 20:80, 세 길이는 1:1:1이다. 합성 렌더링 텍스트 데이터를 따로 만들었다는 기술은 본문과 부록에 없다(PDF 전문에서 'synthetic' 검색 결과 0건). 다만 소스 중 text_atlas(TextAtlas5M)는 자체 초록에서 'generated and collected images'로 구성된다고 밝힌다. 따라서 생성된 텍스트 이미지가 간접적으로 포함되었을 수 있으며, 어떤 부분집합을 썼는지는 원문에서 확인되지 않는다. 저자들은 캡션이 주로 영어이며 중국어 전용 주석은 없다고 밝힌다. 학습은 flow matching 손실, 하이브리드 Muon-AdamW(lr 5e-5), 해상도와 텍스트 길이를 늘려 가는 다단계 진행으로 구성된다.\n\nLayout PE는 학습하지 않은 프롬프트 기반 에이전트다. GPT-6가 요청 매체(포스터, 인포그래픽, UI)에 맞춰 과제 모듈을 고른다. 이어서 필요에 따라 웹과 이미지 검색으로 참고 이미지를 직접 살피고, 낯선 사실은 권위 있는 출처로 확인한다. 일반 지침은 검색어 1-3개와 유용한 이미지 2-4장이며, 경로별로는 포스터 3-5개, UI 최소 3장 확인을 권한다(Table 14). 출력은 scene_type, gen_brief, aspect_ratio, layout, elements, anchors, must_not, palette 8개 루트 필드의 JSON이며, 박스는 [0,1000]으로 정규화한 yxyx 정수 좌표다. 반환 전에 JSON 문법, 필수 필드, 좌표 유효성, 문자열 그대로 보존 여부, 텍스트 맞춤을 스스로 점검하라는 지시가 들어 있다.",
+        "experiment_setup": [
+          "사전학습 단계(PDF Table 1, 그림 3c, 부록 A.2): Stage 1은 256px급, 텍스트 상한 320, 2,100,000 step이다. Stage 2는 512px(이후 256/512 혼합), 텍스트 상한 512->1024->2048, 2,100,000 step이다. Stage 3은 면적 1024^2 이하 혼합 해상도, 텍스트 4096, 370,000 step이다. 그런데 PDF Table 1에는 Stage 4(최대 2x1024^2, 4096, 520,000 step)가 따로 있다. 반면 본문과 부록 A.2는 'three stages'라 쓰고, 그림 3c는 Stage 3을 0.31M step으로, 부록 A.2는 최종 Stage 3 체크포인트를 step 310,000의 EMA 가중치로 적는다. Stage 3 noise 스케줄(Table 6)도 274,001-310,000에서 끝난다. 즉 Table 1의 370,000과 Stage 4가 다른 기술과 맞지 않는다. 논문 평가에 쓴 체크포인트와 공개된 Base 가중치가 같은 것인지도 명시되어 있지 않다.",
+          "연산 자원(부록 A.2 Text formatting and packing): 512 devices, gradient accumulation 2, device당 microbatch 최대 8576 토큰, update당 명목 용량 8,781,824 토큰이다. 최종 모델의 GPU 종류, 총 GPU-hours, 학습 기간은 원문에서 확인되지 않는다. PDF 전문에서 GPU, H100, A100, hours, device를 검색했는데, 'GPU'는 부록 B.2의 소형 필터 실험(32 GPUs)에만 나온다. README는 'Trained on alternative GPU platforms'(Heterogeneous GPU training)라고만 적는다.",
+          "최적화와 노이즈 스케줄(PDF Table 6, 7): AdamW와 Muon 모두 lr 5e-5이고 Muon은 RMS-matched, momentum 0.95, Newton-Schulz 5 step이다. AdamW betas는 (0.9, 0.95), weight decay 0.01, grad clip 1.0, EMA 0.9999, warmup 2000 step이다. Stage 3 timestep 샘플링은 4개 구간으로 바뀐다. 첫 구간은 shift 3에 logit-normal (0,1)이고, 이어서 shift 1에 (-1.45,1.05), 같은 분포에 cutoff 0.95, 마지막으로 (-1.09,0.95)에 cutoff 0.95를 쓴다. 마지막 구간에는 uniform 1%를 섞고, 앞 두 구간은 full-noise 끝점을 확률 0.01로 따로 뽑는다. 텍스트 토큰은 손실에 들어가지 않는다.",
+          "예비 ablation은 최종 5B가 아닌 소형 모델로 수행했다. 1회 실행임이 명시된 것은 그림 5(필터)와 그림 7(Muon)이고, RoPE 비교의 실행 횟수는 적혀 있지 않다. 데이터 필터 비교(부록 B.2)는 24층 multi-stream DiT, Qwen3.5-0.8B, ViViT2-REPAE autoencoder, 256x256, 32 GPU, 배치 1024, 1.6M step으로 돌렸다. 평가는 DPG-Bench, GenEval, OneIG, FDR6-LAION(5만 장, CFG sweep 중 최솟값)이다. 결과는 OneIG text 0.5243 대 0.1180, DPG 82.420 대 82.411(거의 동일)이다. 저자는 학습 데이터가 다르면 FDr6가 공정한 비교가 아닐 수 있으니 경향으로만 읽으라고 단서를 단다. RoPE 비교(부록 D)는 1B 모델로 DPG-Bench, GenEval, OneIG를 봤다. 채택한 sequential text-image r=0 배치는 200K step에서 GenEval이 네 설계 중 가장 낮았다(0.6026, baseline 0.6313). 반면 OneIG는 가장 높았고(0.3605, baseline 0.3483) DPG-Bench는 baseline과 거의 같았다(81.89 대 81.94). 저자는 설계 간 전체 성능이 비슷하고 지표별 trade-off가 있다고 정리한다. 이 배치를 고른 이유로는 성능이 아니라 참조 인덱스 축의 확장성을 든다. 800K-1.25M step 장기 비교에는 baseline과 modality 분리 두 변형만 들어가고 채택안은 빠졌다. Muon 비교(부록 E)는 1.016B 모델, 256x256, 1.6M step에서 학습 denoising loss로만 평가했다.",
+          "LLTB 설정(5.1절, 부록 G.1, PDF Table 2/4/15): 영어와 중국어 각 120개, 총 240 과제를 3개 길이 구간에 나눴다. 각 입력은 'A paper writes:' 접두어, 제목, 저자, 본문으로 구성된다. 본문 줄바꿈은 DejaVuSans 글꼴 기준 1024x1024 캔버스(여백 88픽셀)에서 자동 줄바꿈해 미리 넣는다. 모든 모델이 같은 입력을 받지만, 줄바꿈까지 보존한 전사로 학습한 MOSS와 잘 맞는 형식일 수 있다(분석자 해석, 저자는 논하지 않음). 모델마다 과제당 4장을 생성해 4장 모두 채점하며 best-of-4는 쓰지 않는다. OCR은 Qwen2.5-VL-7B-Instruct(출력 4096 토큰)로 하고 이미지는 1024x1024로 LANCZOS 리사이즈한다. 생성 해상도는 모델별 지원 설정을 따른다. PE 없이 backbone 단독으로 평가하며, MOSS-Image 자신의 CFG와 step 수는 원문에서 확인되지 않는다(PDF에서 CFG를 검색하면 부록 B.2와 Ideogram 관련 문장에만 나온다). Ideogram 4는 CFG 4로 돌렸고 거부 이미지는 0점 처리했다.",
+          "7Bench 설정(부록 G.4, PDF Table 3/19/20): 224개 prompt-layout 쌍, 576개 대상 객체, 모델당 1장을 생성했다. 폐쇄형 모델(GPT Image 2, Nano Banana Pro, Seedream 5.0 Pro, Qwen Image 3.0 Pro)에는 원래 vision JSON 프롬프트를 1024x1024로 넣었다. Ideogram 4는 공개 FP8 체크포인트, CFG 4, 규칙 변환한 JSON으로 돌렸다. MOSS-Image 자신에게 어떤 입력 형식과 좌표 체계를 넣었는지는 원문에서 확인되지 않는다. 채점은 Extended TIFA와 OWL-ViT의 IoU로 하며, 탐지에 실패한 객체와 차단된 출력은 0점이다. GPT Image 2는 224건 중 22건이 안전 차단되었다.",
+          "LongTextBench(부록 G.4, PDF Table 18): 베이스라인 점수는 저자가 직접 돌리지 않고 공개 보고서에서 가져왔다. LLTB, 7Bench, RLA 점수는 모두 저자들이 직접 평가했다(5.1절).",
+          "RLA 설정(5.1절, 부록 G.2, G.3, PDF Table 17): 수작업으로 고른 디자인 레퍼런스에서 61 과제(포스터 20, 인포그래픽 20, UI 21)를 만들었고 각 과제는 짧은 중국어 요청이다. participant(생성기+프롬프트 전략 조합)마다 과제당 1장, 가능하면 고정 seed로 생성하고 재샘플링은 하지 않았다. 해상도는 약 1MP에 31종이다. 평가자는 원래 짧은 요청만 보고 모델명이 가려진 상태에서 A/B/tie/both bad/skip 중 하나를 고른다. tie와 both bad는 0.5승으로 셈한다. 점수는 Bradley-Terry를 Elo 척도(1500 + 400/ln10 x theta)로 변환하고 asymptotic 95% CI를 붙였다. 각 participant에는 0.25 pseudo-win/loss를 더한다. 표는 세 그룹으로 따로 적합했고 투표 수는 1420, 1533, 576이다. 평가자 수, 신원, 소속, 보상은 원문에서 확인되지 않는다(PDF에서 rater, annotator, crowd, volunteer를 검색함).",
+          "RLA 구성 차이(부록 F.1, G.3): 메인 시스템은 최종 Layout PE로 과제마다 독립 세션을 돌렸다. 반면 프롬프트 전략 ablation과 공유 프롬프트 backbone 비교에는 61 과제 전체를 한 컨텍스트에서 계획한 이전 버전 PE를 썼다. 베이스라인 8개 시스템은 원래 짧은 요청을 받아 각자의 PE 파이프라인을 쓰며, Ideogram 4에는 로컬 Qwen3VL-8B PE를 붙였다. 공유 프롬프트 비교는 Layout PE 명세를 자연어로 다시 쓴 같은 프롬프트(좌표, 픽셀 크기, 색을 산문으로 표현)를 생성기들에 넣은 것이다. 그림에는 9개가 나오고 Table 17에는 10 participants로 적혀 있다.",
+          "보조 루브릭 평가(부록 H, PDF Table 21): 61 과제에 대해 GPT-6가 6개 차원(가중치 30/20/15/10/20/5)을 0-5점으로 매기고 이를 0-100점으로 환산한다. 계획을 세운 모델과 채점하는 모델이 같은 GPT-6라는 점은 저자 스스로 밝힌다. 패널 (a)와 (b)의 MOSS JSON layout 항목은 서로 다른 PE 버전으로 만든 것이라 직접 비교할 수 없다는 점도 저자가 명시한다.",
+          "분산과 반복: LLTB는 과제당 4개 샘플이지만 seed 간 분산이나 표준편차는 보고하지 않는다. RLA는 participant당 이미지 1장이다. 예비 ablation 곡선(그림 5, 7)은 'Each curve represents one training run'이다. CI는 같은 과제나 같은 평가자 투표 사이의 상관을 보정하지 않는다고 저자가 명시한다. 추론 시간과 VRAM은 논문에 보고되지 않는다(PDF에서 VRAM, latency 검색 결과 0건)."
+        ],
+        "datasets": [
+          {
+            "name": "사전학습 코퍼스 (16개 공개 소스 혼합, 원 비율 유지)",
+            "domain": "웹 이미지-텍스트, 의료, 원격탐사, 텍스트 이미지, 포스터, 예술 등",
+            "scale": "본문 기준 약 50억 -> 30억 장(그림 3은 5.5B -> 3.2B). PDF Table 8의 retained records: ReLAION 1.19e9, OmniCorpus 1.82e9, DataComp 1.67e8, medtrinity_25m 1.36e7, git_10m 9.72e6, megalith 8.15e6, commoncatalog 7.78e6, optical-rs 7.35e6, marqo 4.21e6, text_atlas 2.87e6, textrecap 1.38e6, google_landmarks 1.21e6, humancaption 1.14e6, wikiart 7.67e4, place365 3.46e4, poster100k 6.37e3"
+          },
+          {
+            "name": "텍스트 관련 소스 (text_atlas = TextAtlas5M, textrecap, poster100k)",
+            "domain": "dense text 이미지, 포스터",
+            "scale": "retained 2.87e6 / 1.38e6 / 6.37e3 records. MOSS 논문에는 합성 렌더링 데이터를 따로 만들었다는 기술이 없다. 다만 TextAtlas5M은 자체 초록(arXiv 2502.07870)에서 'generated and collected images'로 구성된다고 밝히므로, 생성된 텍스트 이미지가 포함되었을 수 있다. 사용한 부분집합과 언어별 비율은 확인되지 않는다."
+          },
+          {
+            "name": "재캡션 및 레이아웃 주석 (gemma4 short/medium/long, Gemma/Qwen 기반 layout JSON)",
+            "domain": "학습 조건 텍스트",
+            "scale": "길이 통계 표본 4,335개 triplet의 평균 토큰 수 20.86/76.61/235.12(PDF Table 11). 레이아웃 주석이 붙은 부분집합의 크기는 원문에서 확인되지 않음"
+          },
+          {
+            "name": "LongLongTextBench (LLTB, 저자 제작)",
+            "domain": "영어와 중국어 장문 문학 텍스트 렌더링",
+            "scale": "240 과제(EN 120 / ZH 120, 3개 길이 구간 x 40), 80개 원문 엔트리. 영어는 Project Gutenberg 40개 작품이다. 중국어 고전은 맹자 17, 중용 2, 대학 1발췌이고, 근대는 루쉰 7개 작품에서 20발췌다. 전체 321,545자, 평균 1,339.8자, 범위 444-2,863자. 공개 여부: HF datasets(author=OpenMOSS-Team 39개 목록과 이름 검색)와 GitHub repo 트리에서 찾지 못함"
+          },
+          {
+            "name": "RealLayoutArena (RLA, 저자 제작)",
+            "domain": "포스터, 인포그래픽, UI 디자인 요청의 end-to-end 인간 선호 평가",
+            "scale": "61 과제(20/20/21), 짧은 중국어 요청. 투표 1420 + 1533 + 576. 공개 여부: HF datasets 검색과 GitHub repo 트리에서 찾지 못함"
+          },
+          {
+            "name": "LongTextBench (X-Omni)",
+            "domain": "중영 텍스트 렌더링",
+            "scale": "320 과제(EN 160 / ZH 160), 38,489자, 평균 120.3자(PDF Table 2)"
+          },
+          {
+            "name": "7Bench",
+            "domain": "레이아웃(bbox) 조건 생성",
+            "scale": "224 prompt-layout 쌍, 7개 범주 x 32, 576개 대상 객체"
+          },
+          {
+            "name": "DPG-Bench, GenEval, OneIG, FDR6-LAION",
+            "domain": "일반 T2I 정렬과 분포 품질 (예비 ablation에만 사용)",
+            "scale": "FDR6-LAION은 체크포인트당 생성 이미지 50,000장. 최종 5B 모델의 GenEval, DPG-Bench, OneIG 점수는 보고되지 않음"
+          }
+        ],
+        "limitations": {
+          "by_authors": [
+            "backbone은 text-to-image만 지원하고 참조 이미지 조건이나 편집은 지원하지 않으며, 현재 연산 예산에서 향후 과제로 남긴다(8장 Limitations). 참고로 Comfy-Org/MOSS-Image 저장소에는 moss_image_edit_lora와 color_depth_control LoRA 파일이 있으나 논문에는 등장하지 않는다. Comfy-Org 모델 카드는 이 파일들의 원 저장소를 제3자 커뮤니티 저장소인 chinoll/Moss-Image-Edit와 darask0/MOSS-Image-color-depth-control로 밝힌다. USERGUIDE도 간단한 SFT로 참조 기반 생성이 가능했다고만 적고 'Stay tuned'로 남긴다.",
+            "prompt enhancer가 외부 언어 모델에 의존하므로, 그 모델의 미적 판단, 참조 해석, 사실 오류가 렌더링이 충실해도 명세 품질을 떨어뜨릴 수 있다(8장 Limitations). 8장 원문은 'external language models'라고만 쓰며, 실제 사용 모델이 GPT-6라는 점은 4장과 부록 F.1에 나온다. 초록에는 이 의존성이 언급되지 않는다.",
+            "결과는 완성된 모델을 특성화할 뿐 개별 사전학습 선택의 인과적 기여를 분리하지 않는다고 명시(5.2절). 학습 캡션은 주로 영어이고 중국어 전용 캡션 주석이 없다(부록 B). 가장 긴 중국어 조건 ZH-L 92.4는 GPT Image 2의 98.2보다 낮다(PDF Table 4).",
+            "LLTB coverage는 OCR multiset recall이라 순서를 확인하지 않고 추가 OCR 단위에 직접 벌점을 주지 않으며 edit distance나 exact string accuracy가 아니다(부록 G.1). Ideogram 4 거부 이미지 처리 규약에 따라 Mean-6이 63.5에서 68.1로 바뀐다(PDF Table 16). 7Bench에서 Ideogram 4 자체 보고 mIoU 약 0.69와 저자 측정 0.2433의 차이는 모델 변형(FP8), 프롬프트 형식, 평가 구현 차이 때문일 수 있다고 인정(부록 G.4).",
+            "RLA의 95% CI는 같은 과제나 같은 평가자 투표 간 상관을 보정하지 않는다(부록 G.2). 보조 루브릭 평가는 GPT-6가 planner와 judge를 겸하고 상위 설정 간 분리력이 낮아(프롬프트 전략 간 0.52pt) 인간 평가를 주 근거로 삼는다고 밝힌다(부록 H)."
+          ],
+          "by_claude": [
+            "새로 만든 두 벤치마크는 아직 외부에서 검증할 수 없다. 초록은 'evaluation framework' 공개를 약속하지만, 2026-10-26 기준으로 LLTB와 RLA의 데이터와 평가 코드를 찾지 못했다. 확인 방법은 세 가지다. (1) GitHub repo 트리(shallow clone)에는 inference_runtime.py, gradio_app.py, gradio_presets.py, scripts/gradio.sh, comfyui, skills, website, paper, assets, 문서 파일만 있다. (2) HF datasets의 author=OpenMOSS-Team 목록 39개에도, LongLongTextBench, LLTB, RealLayoutArena 이름 검색에도 나오지 않는다. (3) 논문에 적힌 HF 컬렉션 링크는 오늘 401을 반환했다. LLTB, 7Bench, RLA의 베이스라인은 모두 저자가 직접 돌렸다. RLA 평가자의 수, 소속, 독립성은 원문에서 확인되지 않는다. RLA 과제 범주(포스터, 인포그래픽, UI)도 PE의 세 라우팅 모듈과 정확히 겹친다.",
+            "RLA 순위는 통계적으로 확정적이지 않다. end-to-end에서 MOSS의 95% CI 1655.96-1741.43 안에 3위 Seedream 5.0 Pro의 점추정치 1661.16이 들어간다. 공유 프롬프트 비교에서도 MOSS의 CI 1727.44-1887.24 안에 2위 ERNIE Image의 1748.51이 들어간다. participant마다 과제당 이미지가 1장뿐이고, 공유 프롬프트 그룹은 576표에 task-pair 커버리지 19.6%다. 저자도 이 CI가 상관을 보정하지 않는다고 인정한다. 다만 같은 방향을 가리키는 보조 근거가 있다. GPT-6 루브릭에서도 MOSS는 end-to-end 2위(94.93, GPT Image 2 97.72, 3위 Qwen Image 3.0 Pro+PE 93.64)이고 공유 프롬프트 1위(87.62 대 SenseNova U1 79.51)다. 원시 전적도 메인에서 293승 100무 64패, 공유 프롬프트에서 98승 18무 12패다. 단, 루브릭 judge는 planner와 같은 GPT-6다. 따라서 '2위'와 '1위'는 여러 신호가 일치하는 점추정 순위로 읽되, 인접 순위와의 차이는 확정되지 않았다고 보는 것이 맞다.",
+            "'agentic' PE가 따로 얼마나 기여하는지는 입증되지 않았다. 인간 평가 결과는 JSON layout 1622.87, Direct expansion(에이전트 없는 확장) 1541.45, Detailed 1509.21, Natural(PE 계획을 산문으로) 1506.20, Short 1081.70이다. 즉 큰 이득은 '짧은 요청 대 상세 명세'에서 나온다. PE 계획을 산문으로 바꾸면 단순 확장보다 오히려 낮다. GPT-6 루브릭에서는 Direct expansion 95.59가 JSON layout 95.07보다 높아 순서가 뒤집힌다. 이 ablation은 메인 시스템과 다른 이전 버전 PE(61 과제를 한 컨텍스트에서 계획)로 돌렸고, 본문에 CI 수치도 없다. '에이전트 없는 JSON' 조건도 없어서 형식 효과와 agentic 계획 효과를 분리할 수 없다.",
+            "레시피 기술이 문서 안에서 서로 맞지 않고, 재현에 필요한 정보가 빠져 있다. 본문(3.3절)과 부록 A.2는 'three stages'라 쓰지만 PDF Table 1에는 Stage 4(최대 2x1024^2, 520,000 step)가 있다. Stage 3도 Table 1은 370,000 step인데, 부록 A.2, Table 6, 그림 3c는 310,000으로 적는다. 최종 모델의 GPU 종류, GPU-hours, 학습 기간은 적혀 있지 않다(512 devices만 기재). 공개된 MOSS-Image-Base가 평가 체크포인트(Stage 3 step 310,000 EMA)와 같은지도 명시되지 않았다. MOSS-Image-SFT는 논문에 나오지 않고, README가 'Fine-tuned from MOSS-Image-Base on curated data'라고만 설명한다. 저자들은 부록 L에서 Ideogram 4가 추론 코드는 냈지만 완전한 사전학습 레시피는 밝히지 않았다고 대비하고, 자신들은 코퍼스, 감독, 학습 스케줄을 문서화했다고 말한다. 이 주장은 논문 텍스트 수준에서는 맞다. 그러나 초록은 'training recipe' 공개를 약속했는데, 실제로 사전학습, 데이터 필터링, 재캡션 파이프라인 코드는 repo에 없다. 레시피는 논문 텍스트(와 USERGUIDE 일부) 수준으로만 공개된 상태다.",
+            "공개 비교에서 진 결과와 비교 조건이 초록에 드러나지 않는다. LongTextBench에서 MOSS는 97.63으로 10개 중 5위다(1위 98.85와 1.22pt 차). 이 벤치마크의 베이스라인 수치는 공개 보고서에서 가져왔다(PDF Table 18). 저자들은 수록 점수가 96.05-98.85에 몰려 포화에 가깝다고 보고 이 결과를 부록의 보조 근거로 돌렸다. 이 판단 자체는 표의 분포와 맞는다. LLTB에서는 GPT Image 2(99.0)와 Nano Banana Pro(96.6)가 MOSS(96.3)보다 높다. 7Bench에서 MOSS는 AUC 0.7031로 크게 앞선다. 차순위 0.2046은 bbox 입력을 지원하는 오픈 웨이트 Ideogram 4.0이며, 공개 FP8판, CFG 4, 규칙 변환 JSON 조건에서 나왔다. 이 모델의 자체 보고 mIoU 약 0.69와 저자 측정 0.2433 사이에 큰 차이가 있다는 점은 저자도 인정한다. 폐쇄형 4개(AUC 0.1554-0.1794)에는 원래 vision JSON 프롬프트를 그대로 넣었고, 이 모델들이 bbox 좌표 입력을 얼마나 지원하는지는 논문에서 다루지 않는다. MOSS 자신의 7Bench 입력 형식도 적혀 있지 않다. 최종 5B 모델의 GenEval, DPG-Bench, OneIG 점수는 보고되지 않았다. '5B'는 DiT만 센 크기이고(저자도 부록 A.1에서 명시), 추론에는 Qwen3.5-9B 인코더가 함께 필요하다. HF 저장소의 bf16 합계는 27.23GB다."
+          ]
+        },
+        "reproducibility": {
+          "code": "추론 코드만 공개되어 있다(Apache-2.0). 2026-10-26에 GitHub OpenMOSS/MOSS-Image 트리를 확인했다. 들어 있는 것은 inference_runtime.py(Diffusers 커스텀 파이프라인), gradio_app.py, gradio_presets.py, scripts/gradio.sh, comfyui/, skills/moss-image-prompt-enhancer/(SKILL.md, 좌표 변환 스크립트), website/, paper/MOSS_Image_Technical_Report.pdf, .github/workflows다. 사전학습 코드, 데이터 필터링(SSCD 중복 제거, AI 이미지 탐지), 재캡션과 레이아웃 주석 파이프라인, LLTB와 RLA 평가 코드는 없다. 논문에서 쓴 GPT-6 Layout PE 프롬프트 원문도 공개되지 않았다. 공개 skill은 summary/items 스키마와 abs_centralized yxyx 좌표를 쓰고, 웹 검색은 선택 사항으로 둔다. 부록 F의 8필드, [0,1000] 정규화 좌표 planner와는 다르다. 다만 6장 case study에서 저자들은 0 중심 절대 좌표가 학습에 없던 해상도에 더 잘 일반화된다고 관찰했고, 공개 skill의 좌표 방식은 이 관찰과 일치한다.",
+          "weights": "HF에 OpenMOSS-Team/MOSS-Image-Base와 OpenMOSS-Team/MOSS-Image-SFT가 공개되어 있다. 생성일은 각각 2026-10-11, gated는 아니며 라이선스는 apache-2.0이다. Base 저장소의 bf16 합계는 27.23GB(transformer 10.16GB, text_encoder 16.79GB, VAE 0.25GB)로 HF API의 blobs 크기로 확인했다. Comfy-Org/MOSS-Image에는 DiT int8 5.41GB, Qwen3.5-9B int8 9.75GB, w4a8 GPTQ 7.34GB 판이 있다. 공개 Base가 논문 평가 체크포인트와 같은지는 명시되어 있지 않다. USERGUIDE는 Base가 'has not undergone any post-training or distillation'이라고 적는다. 사전학습 결과물이라는 점은 이것으로 뒷받침되지만, 특정 step(310,000 EMA)과 같은지는 여전히 확인되지 않는다. SFT 모델은 논문에서 설명되지 않는다.",
+          "data": "사전학습 데이터는 16개 공개 소스(ReLAION, OmniCorpus, DataComp 등, PDF Table 8)에서 왔지만, 필터링 후 목록, gemma4 재캡션, 레이아웃 JSON 주석은 공개되지 않았다. 저자 제작 벤치마크 LLTB(240 과제)와 RLA(61 과제, 투표 기록)는 찾지 못했다. 확인 범위는 GitHub repo 트리, HF datasets author=OpenMOSS-Team 목록 39개(키워드에 걸린 것은 무관한 VehicleArena뿐), 그리고 논문의 HF 컬렉션 링크(오늘 401)다. LongTextBench와 7Bench는 외부 공개 벤치마크다.",
+          "license": "Apache-2.0. repo의 LICENSE 파일(Apache License Version 2.0)과 두 모델 카드(license: apache-2.0, 'model weights and bundled inference code are released under the Apache License, Version 2.0')에서 확인했다. 논문은 arXiv에서 CC BY 4.0이다. 함께 묶인 구성요소도 HF API cardData 기준으로 Apache-2.0이다. Qwen/Qwen3.5-9B는 apache-2.0이고, 논문 Table 5에 적힌 VAE 로드 출처 black-forest-labs/FLUX.2-klein-4B도 apache-2.0이다(2026-10-26 조회).",
+          "note": "초록의 'will release' 가운데 모델은 이미 공개되었다. 반면 학습 레시피는 논문 서술 수준이고 평가 프레임워크는 미공개 상태다(2026-10-26 기준). 공식 런타임은 CUDA 메모리가 40 GiB 미만이면 자동으로 model CPU offload를 켠다(inference_runtime.py configure_pipeline). 권장 설정은 Euler 50 step, CFG 3이다. 추론 시간과 VRAM 실측치는 논문, README, 모델 카드 어디에도 없다. README에는 day-0 서빙 지원(SGLang, vLLM-Omni, ComfyUI)과, 커뮤니티 파생물인 DiffSynth-Studio 기반 full fine-tuning과 LoRA 학습이 링크되어 있다. 이 밖에 8-step DMD 증류판, KohakuMossTrainer, FP16 호환 가중치(KBlueLeaf/MOSS-Image-FP16-fixed)도 있다. KohakuMossTrainer는 최소 6GB VRAM 어댑터 학습과 Windows 지원을 내세우는데, README에 있는 제3자 주장이며 검증하지 않았다. 논문 수준의 end-to-end 결과를 재현하려면 폐쇄형 GPT-6 API가 필요하다."
+        },
+        "my_learning_points": [
+          "plan-first 생성에서 '에이전트를 더 복잡하게 만드는 것'보다 '렌더러가 학습한 명세 형식으로 넘기는 것'이 효과가 컸다는 신호가 있다. 다만 교란이 있다. RLA 인간 평가에서 같은 PE 계획도 JSON layout(1622.87)으로 넣으면 산문 변환(1506.20)보다 높았고, 에이전트 없는 단순 확장(1541.45)은 산문 변환보다 높았다. 하지만 JSON 우위는 같은 JSON 스키마로 학습한 렌더러에서 나온 결과다. 또 '에이전트 없는 JSON' 조건이 없어서 형식과 계획의 기여를 분리할 수 없다. Claude Code에서 '계획 subagent -> 실행 subagent' 구조를 만든다면 두 가지를 해 볼 만하다. 첫째, 실행 측이 실제로 잘 따르는 고정 필드 JSON(must_not, 그대로 보존할 문자열, 좌표 등)으로 계획을 넘기고 hook이나 스크립트로 스키마를 검증한다. 둘째, 비교 기준에 반드시 '에이전트 없이 한 번에 확장' baseline을 넣어 agentic 단계의 추가 이득을 따로 잰다. 이 결론은 이미지 생성 61 과제, 이미지 1장 기준이며 LLM 간 계획 전달로 옮길 때는 직접 확인해야 한다.",
+          "로컬 실행 조건을 '5B'라는 숫자로 판단하면 안 된다. 공식 bf16 가중치는 DiT 10.16GB + Qwen3.5-9B 인코더 16.79GB로 합계 27.23GB다. 메모리 동작은 실행 방식에 따라 다르다. repo의 inference_runtime.configure_pipeline은 offload='auto'일 때 CUDA 메모리가 40 GiB 미만이면 model CPU offload를 켠다. 반면 README의 Python 예시는 pipe.to('cuda')로 전부 GPU에 올리고, Gradio는 메모리 모드(GPU resident, Component, Sequential)를 고르게 한다. NVIDIA GPU가 있는 Windows PC라면 ComfyUI와 Comfy-Org의 int8 DiT(5.41GB) + w4a8 인코더(7.34GB) 조합이 가장 현실적이다. 이 경우 가중치만 약 12.75GB이므로 16GB급 이상을 가정한다(문서 기반 추정). 시간과 VRAM 실측치는 어디에도 없으니 직접 재야 한다. PE는 필수가 아니다. 직접 쓴 JSON layout을 넣을 수 있고, Apache-2.0인 SKILL.md를 Claude Code skill로 옮겨 계획 단계를 대신 맡기는 실험이 가능하다. 다만 공식 대상은 GPT-6 계열이고, 공개 skill은 논문 Layout PE와 스키마가 다르다.",
+          "주간 트렌드 시스템의 카드에 '자체 벤치마크 점검' 필드를 두면 좋다. 이 논문이 좋은 예다. (1) 벤치마크 공개 여부: LLTB와 RLA는 미공개. (2) 지표 정의: coverage는 순서를 무시하는 recall이다. (3) 베이스라인을 누가 돌렸나: 저자 직접, Ideogram은 FP8. (4) 1위 주장의 CI가 2위 점추정을 포함하는가: 포함한다. (5) judge가 생성 측과 같은 모델인가: GPT-6가 planner와 judge를 겸한다. (6) 공개 벤치마크에서 진 결과: LongTextBench 5위. 초록만 보고 tier1 카드를 쓸 때는 'SOTA among open-weight' 같은 한정어를 그대로 옮기고, 폐쇄형 대비 격차(LLTB 96.3 대 99.0)를 함께 적는 규칙을 만들 수 있다."
+        ],
+        "related_work": {
+          "prior": [
+            {
+              "title": "Scaling Rectified Flow Transformers for High-Resolution Image Synthesis (Stable Diffusion 3)",
+              "id": "arXiv:2403.03206",
+              "relation": "텍스트와 이미지 토큰의 joint attention과 rectified flow 학습의 기반이다. MOSS-Image는 여기서 한 걸음 더 가서 두 토큰을 single-stream 블록 하나로 처리하고 flow matching 손실을 쓴다(참고문헌 [38])."
+            },
+            {
+              "title": "Z-Image: An efficient image generation foundation model with single-stream diffusion transformer",
+              "id": "arXiv:2511.22699",
+              "relation": "single-stream DiT와 reasoning 기반 프롬프트 강화를 앞서 제시한 오픈 모델이다. LLTB와 RLA에서 베이스라인으로 쓰였다(LLTB Mean-6 40.8, 참고문헌 [9])."
+            },
+            {
+              "title": "X-Omni: Reinforcement learning makes discrete autoregressive image generative models great again",
+              "id": "arXiv:2507.22058",
+              "relation": "LongTextBench의 출처다. LLTB는 이 벤치마크의 OCR과 단어/글자 매칭 스크립트를 재사용해 텍스트 길이를 약 11.1배로 늘렸다(참고문헌 [20])."
+            },
+            {
+              "title": "7Bench: A comprehensive benchmark for layout-guided text-to-image models",
+              "id": "ICIAP 2025 (Springer), pp. 481-493",
+              "relation": "bbox 레이아웃 제어 평가에 쓴 외부 벤치마크다. MOSS는 mIoU_det 0.8786, AUC 0.7031을 보고했다(참고문헌 [21])."
+            },
+            {
+              "title": "Qwen-Image-Agent: Bridging the context gap in real-world image generation",
+              "id": "arXiv:2606.26907",
+              "relation": "계획, 검색, 메모리, 피드백으로 생성 맥락을 만드는 학습 불필요 이미지 에이전트로, 동시기 연구다. 저자들은 이것이 자연어로만 생성기와 소통하는 반면, 자신들은 구조화된 bbox 명세를 따르도록 학습한 렌더러를 결합했다는 점을 차별점으로 든다(참고문헌 [12])."
+            }
+          ],
+          "followup": [
+            {
+              "title": "KohakuMossTrainer",
+              "id": "https://github.com/KohakuBlueleaf/KohakuMossTrainer",
+              "relation": "MOSS-Image-Base와 SFT용 제3자 full fine-tuning 및 LyCORIS(LoRA) 학습기다. repo README News(2026-10-18)에 소개되어 있고 GitHub 페이지 접근(HTTP 200)으로 존재를 확인했다. 최소 6GB VRAM과 Windows 지원은 README 주장이며 검증하지 않았다."
+            },
+            {
+              "title": "MOSS-Image-SFT-8-steps-dmd (lodestones)",
+              "id": "https://huggingface.co/lodestones/MOSS-Image-SFT-8-steps-dmd",
+              "relation": "MOSS-Image-SFT를 8 step으로 줄인 커뮤니티 DMD 증류판이다. HF API에서 생성일 2026-10-16, apache-2.0을 확인했다. 기본 50 step x forward 2회 비용을 줄이는 경로다. 품질 평가는 확인하지 않았다."
+            }
+          ]
+        },
+        "claude_note": "무엇이 새로운가. 처음부터 사전학습한 5B single-stream DiT 하나가 자연어 캡션과 bbox JSON 레이아웃을 별도 제어 모듈 없이 같은 텍스트 경로(Qwen3.5-9B 인코더)로 받는다. 학습은 공개 데이터를 추가 품질 필터 없이 거의 그대로 쓰고, 다중 길이 재캡션과 줄바꿈까지 그대로 옮긴 전사로 진행한다. 여기에 폐쇄형 GPT-6 기반 Layout PE를 앞단 계획기로 붙인다. 장문 텍스트 렌더링용 LLTB와 end-to-end 디자인 평가용 RLA를 새로 만든 것도 기여다.\n\n증거 강도는 항목마다 다르다. LLTB Mean-6 96.3으로 오픈 웨이트 1위(2위 64.9)라는 결과는 격차가 커서 비교적 단단하다. 하지만 지표가 순서를 무시하는 OCR recall이고, 베이스라인을 모두 저자가 돌렸으며, 벤치마크도 아직 공개되지 않았다. 폐쇄형인 GPT Image 2(99.0)와 Nano Banana Pro(96.6)는 MOSS보다 높다. 7Bench AUC 0.70은 차순위 Ideogram 4(0.20, FP8판)와 폐쇄형(0.16-0.18)을 크게 앞선다. 다만 비교 조건이 모델마다 다르고, Ideogram은 자체 보고치와 크게 어긋난다. RLA 2위와 공유 프롬프트 1위는 95% CI가 바로 아래 순위 시스템의 점추정과 겹치고 participant당 이미지가 1장이다. 그래도 GPT-6 루브릭(planner와 같은 judge라는 한계 있음)과 원시 승률이 같은 순위를 가리킨다. PE의 agentic 요소가 따로 주는 이득은 지표에 따라 뒤집히고, 형식 효과와 분리되지 않는다. 레시피 요소별 기여는 소형 모델 예비 실험뿐이고, 학습 단계와 step 수가 문서 안에서 서로 맞지 않는다.\n\n적용 조건도 있다. 가중치는 Apache-2.0으로 공개되었지만 bf16 기준 27.23GB이고, 속도와 VRAM 실측치는 없다. 공식 runtime의 auto 모드는 40 GiB 미만 GPU에서 offload를 켠다. 논문 수준의 end-to-end 성능을 내려면 외부 GPT-6 API가 필요하다. 사전학습 코드와 평가 코드는 공개되지 않았다(2026-10-26 확인).\n\n인용할 때는 조건을 붙여야 한다. LLTB는 'LLTB에서 오픈 웨이트 모델 중 최고(Mean-6 96.3, PE 없는 backbone, 저자 자체 벤치마크)'로 적는다. RLA는 'GPT Image 2에 이은 2위(1698.70 Elo, CI가 3위 점추정과 겹침)'로 적는다. '5B'는 텍스트 인코더를 뺀 DiT 크기라고 함께 밝히는 것이 정확하다.",
+        "analyzed_at": "2026-10-26"
+      }
+    }
+  }
+}

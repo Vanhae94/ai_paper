@@ -1,0 +1,22 @@
+{
+  "week_id": "2026-W44",
+  "papers": {},
+  "week_summary": {
+    "headline_ko": "재등장 5편·신작 1편 — 4주 연속 Edge0와 스타가 세 배 된 Harness² 등 이미 검증한 논문들이 자리를 지키고, 글자와 배치를 다루는 MOSS-Image가 유일한 신작",
+    "clusters": [
+      {
+        "category": "LLM/Agents",
+        "paper_ranks": [
+          1,
+          2,
+          6
+        ],
+        "theme_ko": "에이전트 3편 — 모두 재등장. 2주 연속 Harness²와 TradingAgents, 한 주 쉬고 돌아온 nanoMuse"
+      }
+    ],
+    "emerging_keywords": [],
+    "narrative_ko": "이번 주 6편 중 5편이 재등장 논문이고 처음 오른 논문은 MOSS-Image 1편뿐으로, W28·W31과 같은 관측 최소다. 최다 업보트(▲154)는 TradingAgents가 차지했고, 관심도 합계 592는 W31과 같은 값으로 18회 관측 중 중간 수준이다. 유일한 신작 MOSS-Image(▲103)는 처음부터 학습한 5B 단일 스트림 DiT에 의도 인식 프롬프트 강화를 붙여, 저자들이 새로 만든 LLTB에서 오픈 가중치 모델 중 최고(평균 텍스트 커버리지 96.3%)를 보고했다. 심층 분석 결과 앞단 프롬프트 강화는 폐쇄형 GPT-6 기반이고, LLTB에서도 폐쇄형 GPT Image 2·Nano Banana Pro가 더 높다. 재등장 쪽에서는 Harness²가 2주 연속 오르며 GitHub 스타가 일주일 새 약 6.5천에서 2.0만으로 세 배가 됐고, Edge0는 4주 연속, TradingAgents·Kronos는 2주 연속 금융 축을 이뤘으며, nanoMuse는 W42 이후 한 주 쉬고 돌아왔다.",
+    "recent_trend_ko": "누적 18회 관측 기준, self-refinement는 W42·W43·W44로 최근 4회 관측(W41~W44) 중 3회 등장해 지속 판정을 유지했지만, 이번 주 등장은 Harness²의 재등장이라 새 논문이 더해진 것은 아니다(최근 4회의 서로 다른 논문은 RSI-Anything·Harness² 2편). agent-harness도 W36·W40·W43·W44로 4개 주차가 됐지만 W43·W44는 모두 Harness²다. 효율·추론최적화는 W40부터 5회 관측 연속 등장했지만 W43·W44는 Edge0 한 편이다. 이미지 생성(image-generation) 키워드는 W31 Mage-Flow 이후 처음 MOSS-Image로 다시 나왔다. financial-ai는 18회 중 17회 등장이 됐다. 이번 주는 새 논문이 1편뿐이라 키워드 등장 주차가 같은 논문의 반복으로 부풀기 쉬운 주다. 연속 등장 배지는 Edge0(4주), Harness²·TradingAgents·Kronos(2주)에 붙고, nanoMuse는 W43 공백으로 붙지 않는다.",
+    "caveats_ko": "주 6편의 HuggingFace 트렌딩 표본은 인기·최신성 편향을 강하게 받으며, 업보트와 GitHub 스타는 연구 중요도가 아닌 관심도 지표이고, W37·W39 미수집으로 추세 판정은 수집된 18회 관측끼리의 비교다. MOSS-Image는 심층 분석으로 원문과 저장소를 확인했다. 성능을 보고한 LLTB와 RLA는 저자들이 새로 만들고 아직 공개하지 않은 벤치마크이며 베이스라인도 저자가 직접 돌렸고, RLA에서는 끝단 2위·공유 프롬프트 백본 1위지만 신뢰구간이 다음 순위와 겹친다. 가중치는 이미 공개됐지만 앞단 프롬프트 강화는 GPT-6 기반이다. 재등장한 5편은 기존 심층 분석의 조건을 따른다. Harness²의 이득은 Opus 4.8 편집기와 추가 실행을 쓰는 test-time 계산의 대가이고(W43), Edge0의 '24GB 기기'는 Apple Silicon 통합 메모리이며(W41), Kronos의 RankIC +93%는 작은 절대값 위의 상대 개선이자 단일 실행 결과이고(W34), TradingAgents의 수익 지표는 3종목·약 5개월 백테스트 결과이며(W31), nanoMuse에는 정량 평가가 없다(W42). Harness²의 스타 급증은 관심도 변화이지 성능 검증이 아니다."
+  }
+}
