@@ -1,0 +1,22 @@
+{
+  "week_id": "2026-W45",
+  "papers": {},
+  "week_summary": {
+    "headline_ko": "신작은 또 1편 — Claude Code까지 다루는 토큰 절감기 TokenEconomizer가 유일한 신작이고, Edge0는 5주 연속, 문서 파싱 OCR은 8회 관측 공백 뒤 복귀",
+    "clusters": [
+      {
+        "category": "LLM/Agents",
+        "paper_ranks": [
+          1,
+          2,
+          4
+        ],
+        "theme_ko": "에이전트 3편 — 코딩 에이전트의 토큰 비용을 줄이는 신작 TokenEconomizer와, 3주 연속 오른 TradingAgents·Harness²"
+      }
+    ],
+    "emerging_keywords": [],
+    "narrative_ko": "이번 주 6편 중 5편이 재등장이고 처음 오른 논문은 TokenEconomizer 1편뿐으로, W44에 이어 2주 연속 관측 최소다. 최다 업보트는 TradingAgents(▲162)이고 관심도 합계 453은 19회 관측 중 15위로 5번째로 낮다. 유일한 신작 TokenEconomizer(▲8)는 Microsoft의 외부 제어기로, 어떤 마이크로 스킬을 주입하고 어떤 도구를 빼고 실패 루프에 언제 개입할지를 연속 과제의 경험으로 정해, SWE-Bench 6개 저장소 연속 스트림에서 Claude Code·Codex·Copilot CLI의 high effort 기본 실행 대비 컨트롤러 비용까지 포함한 가격 가중 평균 비용을 18.4~30.9% 줄였다고 보고한다(Pass@1 변화 -1.0~+2.6점, W45 심층 분석). 재등장 쪽에서는 Edge0가 5주 연속으로 TradingAgents의 7주(W25~W31) 다음으로 긴 연속 기록을 세웠고, TradingAgents·Kronos·Harness²가 3주 연속 올랐으며, Unlimited OCR Works가 W34 이후 수집 8주 동안 빠졌다가 돌아왔다(재등장 직전 같은 저장소에 후속 모델 Unlimited OCR 2가 공개됐다).",
+    "recent_trend_ko": "누적 19회 관측 기준, self-refinement는 최근 4회 관측(W42~W45) 모두 등장해 지속 기준을 유지했지만 W44·W45는 Harness²의 재등장이라 이 구간의 서로 다른 논문은 RSI-Anything·Harness² 2편이고, agent-harness의 W43~W45 등장도 모두 Harness²다. 효율·추론최적화는 1차 카테고리 기준 W40부터 6회 관측 연속 등장했지만 W43~W45는 Edge0 한 편이다. 10월 종합에서 식어간 것으로 본 document-parsing은 W34 이후 8회 관측 동안 빠졌다가 Unlimited OCR Works로 돌아왔고 kv-cache도 이 논문으로 W41 이후 3회 관측 공백 뒤 다시 나왔지만, 같은 논문의 재등장이라 흐름의 부활로 보기는 이르다. agent-skills 키워드는 W34 이후 처음 TokenEconomizer로 다시 나왔다. 비전은 0편이고, financial-ai는 19회 중 18회 등장이다. 신작이 2주 연속 1편뿐이라 키워드 흐름이 같은 논문의 반복으로 부풀기 쉬운 시기다. 연속 등장 배지는 Edge0(5주), TradingAgents·Kronos·Harness²(3주)에 붙는다.",
+    "caveats_ko": "주 6편의 HuggingFace 트렌딩 표본은 인기·최신성 편향을 강하게 받으며, 업보트와 GitHub 스타는 연구 중요도가 아닌 관심도 지표이고, W37·W39 미수집으로 추세 판정은 수집된 19회 관측끼리의 비교다. TokenEconomizer는 심층 분석으로 원문과 저장소를 확인했다. 절감 수치는 원시 토큰 수가 아니라 컨트롤러 호출을 포함한 가격 가중(cache-aware) 비용이고, seed 3개에 표준편차만 보고하며, 하이퍼파라미터를 평가와 같은 6개 SWE-Bench 저장소에서 정했다. 가장 큰 몫인 도구 가지치기에는 사람 없는 headless 실행에서 대화형 도구를 지운 효과가 섞여 있고, 공개된 Claude Code plugin은 논문 실험과 설정이 달라 실사용 절감폭은 따로 확인해야 한다. Unlimited OCR Works는 이번 주 심층 분석으로 W27 초기 분석을 새로 썼다. W27 분석의 '6K 토큰 구간 약 35% 빠름'은 이상적 동시성·프리필 10토큰 조건의 이론적 처리량 상한이었고(실측 OmniDocBench 처리량 이득은 512 동시 요청에서 +12.7%), '+6.22%p'는 점수 차(+6.22점)였으며, 라이선스(코드·가중치는 MIT, CC BY 4.0은 논문 본문)와 저자 한계 항목에도 오류가 있어, 그 분석이 이어진 W27·W28·W31~W34 카드까지 함께 바로잡았다. +6.22점 향상에는 R-SWA 교체와 약 200만 샘플 추가 학습이 섞여 있고 장문 결과는 비교 모델이 없는 사내 셋이며, 스타 증가에는 10월 27일 같은 저장소에 공개된 후속 모델 Unlimited OCR 2(별도 보고서 arXiv 2610.39308)가 섞여 있다. 재등장한 나머지 4편은 기존 심층 분석의 조건을 따른다. Harness²의 이득은 Opus 4.8 편집기와 추가 실행을 쓰는 test-time 계산의 대가이고(W43), Edge0의 '24GB 기기'는 Apple Silicon 통합 메모리이며(W41), Kronos의 RankIC +93%는 작은 절대값 위의 상대 개선이자 단일 실행 결과이고(W34), TradingAgents의 수익 지표는 3종목·약 5개월 백테스트 결과다(W31)."
+  }
+}

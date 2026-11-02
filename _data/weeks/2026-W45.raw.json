@@ -1,0 +1,702 @@
+[
+  {
+    "paper": {
+      "id": "2610.22732",
+      "authors": [
+        {
+          "_id": "6ad6bd90774b2a8cb5c7d724",
+          "name": "Aaron J. Li",
+          "hidden": false
+        },
+        {
+          "_id": "6ad6bd90774b2a8cb5c7d725",
+          "name": "Weijia Xu",
+          "hidden": false
+        },
+        {
+          "_id": "6ad6bd90774b2a8cb5c7d726",
+          "name": "Chandan Singh",
+          "hidden": false
+        },
+        {
+          "_id": "6ad6bd90774b2a8cb5c7d727",
+          "name": "Zixiao Chen",
+          "hidden": false
+        },
+        {
+          "_id": "6ad6bd90774b2a8cb5c7d728",
+          "name": "Jeevana Priya Inala",
+          "hidden": false
+        },
+        {
+          "_id": "6ad6bd90774b2a8cb5c7d729",
+          "name": "Charlotte Siska",
+          "hidden": false
+        },
+        {
+          "_id": "6ad6bd90774b2a8cb5c7d72a",
+          "name": "Acar Tamersoy",
+          "hidden": false
+        },
+        {
+          "_id": "6ad6bd90774b2a8cb5c7d72b",
+          "name": "Bin Yu",
+          "hidden": false
+        },
+        {
+          "_id": "6ad6bd90774b2a8cb5c7d72c",
+          "name": "Ion Stoica",
+          "hidden": false
+        },
+        {
+          "_id": "6ad6bd90774b2a8cb5c7d72d",
+          "name": "Michel Galley",
+          "hidden": false
+        },
+        {
+          "_id": "6ad6bd90774b2a8cb5c7d72e",
+          "name": "Jianfeng Gao",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2026-10-15T00:00:00.000Z",
+      "submittedOnDailyAt": "2026-10-19T00:00:00.000Z",
+      "title": "TokenEconomizer: Experience-Driven Black-Box Cost Control for Coding Agents",
+      "submittedOnDailyBy": {
+        "_id": "64bf84bf1f38bef571e7e3e8",
+        "avatarUrl": "/avatars/0003aea5dd86e05e45add27bd9f28ac6.svg",
+        "isPro": false,
+        "fullname": "Aaron Li",
+        "user": "aaronjli",
+        "type": "user",
+        "name": "aaronjli"
+      },
+      "summary": "Advances in frontier coding agents have sharply increased the token costs of AI-assisted software engineering. Their token efficiency is typically evaluated on isolated tasks, whereas real-world developers use them to continuously build, update, and maintain large-scale projects. This mismatch motivates us to evaluate agents over sequences of realistic coding tasks, where we find that agents exhibit recurring environment-dependent token costs that existing methods struggle to reduce. To minimize these costs, we introduce TokenEconomizer, an external controller that cuts environment-specific token costs over a sequence of tasks. These cuts come from determining (i) which operational micro-skills to inject, (ii) which persistently irrelevant tools to prune, and (iii) when to intervene in unproductive failure loops. Across Claude Code, Codex, and GitHub Copilot CLI paired with frontier models, TokenEconomizer reduces the average token cost by 18.4-30.9% with comparable task success. Savings hold in every repository under every tested agent-model setting and generalize to diverse domains such as sequential web development and security auditing, where costs fall by 6.4-21.2% depending on task structure. Our work establishes adaptive black-box cost control as a promising direction for reducing token costs of coding agents in realistic settings.",
+      "upvotes": 8,
+      "discussionId": "6ad6bd90774b2a8cb5c7d72f",
+      "projectPage": "https://tokeneconomizer.github.io/",
+      "githubRepo": "https://github.com/microsoft/TokenEconomizer",
+      "githubRepoAddedBy": "user",
+      "ai_summary": "TokenEconomizer reduces recurring token costs of coding agents across sequential real-world tasks by pruning irrelevant tools, injecting micro-skills, and interrupting failure loops.",
+      "ai_keywords": [
+        "coding agents",
+        "token efficiency",
+        "TokenEconomizer",
+        "micro-skills",
+        "tool pruning",
+        "failure loops",
+        "black-box cost control"
+      ],
+      "ai_summary_model": "thinkingmachines/Inkling-Small",
+      "githubStars": 3932,
+      "organization": {
+        "_id": "68151d0f51add3813f3f7d1b",
+        "name": "MicrosoftResearch",
+        "fullname": "Microsoft Research",
+        "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/6529a4f2f1205983224fa513/PeuVr7jSuJflmDBBGxoDX.png"
+      }
+    },
+    "publishedAt": "2026-10-14T20:00:00.000Z",
+    "title": "TokenEconomizer: Experience-Driven Black-Box Cost Control for Coding Agents",
+    "summary": "Advances in frontier coding agents have sharply increased the token costs of AI-assisted software engineering. Their token efficiency is typically evaluated on isolated tasks, whereas real-world developers use them to continuously build, update, and maintain large-scale projects. This mismatch motivates us to evaluate agents over sequences of realistic coding tasks, where we find that agents exhibit recurring environment-dependent token costs that existing methods struggle to reduce. To minimize these costs, we introduce TokenEconomizer, an external controller that cuts environment-specific token costs over a sequence of tasks. These cuts come from determining (i) which operational micro-skills to inject, (ii) which persistently irrelevant tools to prune, and (iii) when to intervene in unproductive failure loops. Across Claude Code, Codex, and GitHub Copilot CLI paired with frontier models, TokenEconomizer reduces the average token cost by 18.4-30.9% with comparable task success. Savings hold in every repository under every tested agent-model setting and generalize to diverse domains such as sequential web development and security auditing, where costs fall by 6.4-21.2% depending on task structure. Our work establishes adaptive black-box cost control as a promising direction for reducing token costs of coding agents in realistic settings.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2610.22732.png",
+    "numComments": 2,
+    "submittedBy": {
+      "_id": "64bf84bf1f38bef571e7e3e8",
+      "avatarUrl": "/avatars/0003aea5dd86e05e45add27bd9f28ac6.svg",
+      "fullname": "Aaron Li",
+      "name": "aaronjli",
+      "type": "user",
+      "isPro": false,
+      "isHf": false,
+      "isHfAdmin": false,
+      "isMod": false,
+      "isUserFollowing": false
+    },
+    "organization": {
+      "_id": "68151d0f51add3813f3f7d1b",
+      "name": "MicrosoftResearch",
+      "fullname": "Microsoft Research",
+      "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/6529a4f2f1205983224fa513/PeuVr7jSuJflmDBBGxoDX.png"
+    },
+    "isAuthorParticipating": false
+  },
+  {
+    "paper": {
+      "id": "2412.20138",
+      "authors": [
+        {
+          "_id": "6847673b3ec10bdd8ab4dd5e",
+          "user": {
+            "_id": "619b6a24030b707ff1f05dee",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/619b6a24030b707ff1f05dee/8FZjePfOuTtN3uvTmaEg5.jpeg",
+            "isPro": false,
+            "fullname": "Yijia Xiao",
+            "user": "Yijia-Xiao",
+            "type": "user",
+            "name": "Yijia-Xiao"
+          },
+          "name": "Yijia Xiao",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-08-08T16:45:04.607Z",
+          "hidden": false
+        },
+        {
+          "_id": "6847673b3ec10bdd8ab4dd5f",
+          "name": "Edward Sun",
+          "hidden": false
+        },
+        {
+          "_id": "6847673b3ec10bdd8ab4dd60",
+          "name": "Di Luo",
+          "hidden": false
+        },
+        {
+          "_id": "6847673b3ec10bdd8ab4dd61",
+          "name": "Wei Wang",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2024-12-28T12:54:06.000Z",
+      "title": "TradingAgents: Multi-Agents LLM Financial Trading Framework",
+      "summary": "Significant progress has been made in automated problem-solving using\nsocieties of agents powered by large language models (LLMs). In finance,\nefforts have largely focused on single-agent systems handling specific tasks or\nmulti-agent frameworks independently gathering data. However, the multi-agent\nsystems' potential to replicate real-world trading firms' collaborative\ndynamics remains underexplored. TradingAgents proposes a novel stock trading\nframework inspired by trading firms, featuring LLM-powered agents in\nspecialized roles such as fundamental analysts, sentiment analysts, technical\nanalysts, and traders with varied risk profiles. The framework includes Bull\nand Bear researcher agents assessing market conditions, a risk management team\nmonitoring exposure, and traders synthesizing insights from debates and\nhistorical data to make informed decisions. By simulating a dynamic,\ncollaborative trading environment, this framework aims to improve trading\nperformance. Detailed architecture and extensive experiments reveal its\nsuperiority over baseline models, with notable improvements in cumulative\nreturns, Sharpe ratio, and maximum drawdown, highlighting the potential of\nmulti-agent LLM frameworks in financial trading. TradingAgents is available at\nhttps://github.com/TauricResearch/TradingAgents.",
+      "upvotes": 162,
+      "discussionId": "6847673c3ec10bdd8ab4dd62",
+      "githubRepo": "https://github.com/tauricresearch/tradingagents",
+      "githubRepoAddedBy": "auto",
+      "ai_summary": "A multi-agent framework using large language models for stock trading simulates real-world trading firms, improving performance metrics like cumulative returns and Sharpe ratio.",
+      "ai_keywords": [
+        "large language models",
+        "LLM",
+        "multi-agent systems",
+        "fundamental analysts",
+        "sentiment analysts",
+        "technical analysts",
+        "traders",
+        "risk management",
+        "cumulative returns",
+        "Sharpe ratio",
+        "maximum drawdown"
+      ],
+      "ai_summary_model": "Qwen/Qwen2.5-Coder-32B-Instruct",
+      "githubStars": 119380
+    },
+    "publishedAt": "2024-12-28T07:54:06.000Z",
+    "title": "TradingAgents: Multi-Agents LLM Financial Trading Framework",
+    "summary": "Significant progress has been made in automated problem-solving using\nsocieties of agents powered by large language models (LLMs). In finance,\nefforts have largely focused on single-agent systems handling specific tasks or\nmulti-agent frameworks independently gathering data. However, the multi-agent\nsystems' potential to replicate real-world trading firms' collaborative\ndynamics remains underexplored. TradingAgents proposes a novel stock trading\nframework inspired by trading firms, featuring LLM-powered agents in\nspecialized roles such as fundamental analysts, sentiment analysts, technical\nanalysts, and traders with varied risk profiles. The framework includes Bull\nand Bear researcher agents assessing market conditions, a risk management team\nmonitoring exposure, and traders synthesizing insights from debates and\nhistorical data to make informed decisions. By simulating a dynamic,\ncollaborative trading environment, this framework aims to improve trading\nperformance. Detailed architecture and extensive experiments reveal its\nsuperiority over baseline models, with notable improvements in cumulative\nreturns, Sharpe ratio, and maximum drawdown, highlighting the potential of\nmulti-agent LLM frameworks in financial trading. TradingAgents is available at\nhttps://github.com/TauricResearch/TradingAgents.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2412.20138.png",
+    "numComments": 6,
+    "isAuthorParticipating": true
+  },
+  {
+    "paper": {
+      "id": "2508.02739",
+      "authors": [
+        {
+          "_id": "68940073741a16f544fbce2f",
+          "name": "Yu Shi",
+          "hidden": false
+        },
+        {
+          "_id": "68940073741a16f544fbce30",
+          "name": "Zongliang Fu",
+          "hidden": false
+        },
+        {
+          "_id": "68940073741a16f544fbce31",
+          "name": "Shuo Chen",
+          "hidden": false
+        },
+        {
+          "_id": "68940073741a16f544fbce32",
+          "name": "Bohan Zhao",
+          "hidden": false
+        },
+        {
+          "_id": "68940073741a16f544fbce33",
+          "name": "Wei Xu",
+          "hidden": false
+        },
+        {
+          "_id": "68940073741a16f544fbce34",
+          "name": "Changshui Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "68940073741a16f544fbce35",
+          "name": "Jian Li",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2025-08-02T13:15:59.000Z",
+      "title": "Kronos: A Foundation Model for the Language of Financial Markets",
+      "summary": "The success of large-scale pre-training paradigm, exemplified by Large\nLanguage Models (LLMs), has inspired the development of Time Series Foundation\nModels (TSFMs). However, their application to financial candlestick (K-line)\ndata remains limited, often underperforming non-pre-trained architectures.\nMoreover, existing TSFMs often overlook crucial downstream tasks such as\nvolatility prediction and synthetic data generation. To address these\nlimitations, we propose Kronos, a unified, scalable pre-training framework\ntailored to financial K-line modeling. Kronos introduces a specialized\ntokenizer that discretizes continuous market information into token sequences,\npreserving both price dynamics and trade activity patterns. We pre-train Kronos\nusing an autoregressive objective on a massive, multi-market corpus of over 12\nbillion K-line records from 45 global exchanges, enabling it to learn nuanced\ntemporal and cross-asset representations. Kronos excels in a zero-shot setting\nacross a diverse set of financial tasks. On benchmark datasets, Kronos boosts\nprice series forecasting RankIC by 93% over the leading TSFM and 87% over the\nbest non-pre-trained baseline. It also achieves a 9% lower MAE in volatility\nforecasting and a 22% improvement in generative fidelity for synthetic K-line\nsequences. These results establish Kronos as a robust, versatile foundation\nmodel for end-to-end financial time series analysis. Our pre-trained model is\npublicly available at https://github.com/shiyu-coder/Kronos.",
+      "upvotes": 63,
+      "discussionId": "68940073741a16f544fbce36",
+      "githubRepo": "https://github.com/shiyu-coder/Kronos",
+      "githubRepoAddedBy": "auto",
+      "ai_summary": "Kronos, a specialized pre-training framework for financial K-line data, outperforms existing models in forecasting and synthetic data generation through a unique tokenizer and autoregressive pre-training on a large dataset.",
+      "ai_keywords": [
+        "Large Language Models",
+        "Time Series Foundation Models",
+        "financial candlestick",
+        "volatility prediction",
+        "synthetic data generation",
+        "autoregressive objective",
+        "token sequences",
+        "price dynamics",
+        "trade activity patterns",
+        "zero-shot setting",
+        "price series forecasting",
+        "RankIC",
+        "MAE",
+        "generative fidelity"
+      ],
+      "ai_summary_model": "Qwen/Qwen2.5-Coder-32B-Instruct",
+      "githubStars": 45363
+    },
+    "publishedAt": "2025-08-02T09:15:59.000Z",
+    "title": "Kronos: A Foundation Model for the Language of Financial Markets",
+    "summary": "The success of large-scale pre-training paradigm, exemplified by Large\nLanguage Models (LLMs), has inspired the development of Time Series Foundation\nModels (TSFMs). However, their application to financial candlestick (K-line)\ndata remains limited, often underperforming non-pre-trained architectures.\nMoreover, existing TSFMs often overlook crucial downstream tasks such as\nvolatility prediction and synthetic data generation. To address these\nlimitations, we propose Kronos, a unified, scalable pre-training framework\ntailored to financial K-line modeling. Kronos introduces a specialized\ntokenizer that discretizes continuous market information into token sequences,\npreserving both price dynamics and trade activity patterns. We pre-train Kronos\nusing an autoregressive objective on a massive, multi-market corpus of over 12\nbillion K-line records from 45 global exchanges, enabling it to learn nuanced\ntemporal and cross-asset representations. Kronos excels in a zero-shot setting\nacross a diverse set of financial tasks. On benchmark datasets, Kronos boosts\nprice series forecasting RankIC by 93% over the leading TSFM and 87% over the\nbest non-pre-trained baseline. It also achieves a 9% lower MAE in volatility\nforecasting and a 22% improvement in generative fidelity for synthetic K-line\nsequences. These results establish Kronos as a robust, versatile foundation\nmodel for end-to-end financial time series analysis. Our pre-trained model is\npublicly available at https://github.com/shiyu-coder/Kronos.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2508.02739.png",
+    "numComments": 4,
+    "isAuthorParticipating": false
+  },
+  {
+    "paper": {
+      "id": "2610.14224",
+      "authors": [
+        {
+          "_id": "6acee61fabe004a210f25904",
+          "name": "Ruiyao Xu",
+          "hidden": false
+        },
+        {
+          "_id": "6acee61fabe004a210f25905",
+          "user": {
+            "_id": "64dbe2aa978d1f9fafe978e7",
+            "avatarUrl": "/avatars/34ac30601b20a7d2314afb0308bdbee3.svg",
+            "isPro": false,
+            "fullname": "Yanfei Chen",
+            "user": "anmourchen",
+            "type": "user",
+            "name": "anmourchen"
+          },
+          "name": "Yanfei Chen",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-10-29T20:11:12.710Z",
+          "hidden": false
+        },
+        {
+          "_id": "6acee61fabe004a210f25906",
+          "name": "Zhongying CuiZhu",
+          "hidden": false
+        },
+        {
+          "_id": "6acee61fabe004a210f25907",
+          "name": "Bhavana Dalvi Mishra",
+          "hidden": false
+        },
+        {
+          "_id": "6acee61fabe004a210f25908",
+          "name": "Yifei Ming",
+          "hidden": false
+        },
+        {
+          "_id": "6acee61fabe004a210f25909",
+          "name": "Han Yu",
+          "hidden": false
+        },
+        {
+          "_id": "6acee61fabe004a210f2590a",
+          "name": "Rujun Han",
+          "hidden": false
+        },
+        {
+          "_id": "6acee61fabe004a210f2590b",
+          "name": "Chen-Yu Lee",
+          "hidden": false
+        },
+        {
+          "_id": "6acee61fabe004a210f2590c",
+          "name": "Tomas Pfister",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2026-10-09T00:00:00.000Z",
+      "submittedOnDailyAt": "2026-10-14T00:00:00.000Z",
+      "title": "Harness^2: Recursive Agent Harnessing for an Open World",
+      "submittedOnDailyBy": {
+        "_id": "66e477a352356419c4712065",
+        "avatarUrl": "/avatars/dbde45208c735ffe6febef6802bc1f3d.svg",
+        "isPro": true,
+        "fullname": "Ruiyao Xu",
+        "user": "ruiyaox",
+        "type": "user",
+        "name": "ruiyaox"
+      },
+      "summary": "LLM agents' capabilities depend not only on their underlying models but also on their execution harnesses. Recursive self-improvement (RSI) offers a promising approach to automatically evolve these harnesses. However, deploying RSI in open-world settings still faces two critical challenges. First, open-world tasks are typically unseen during the harness design phase and novel at test time, leaving no ground-truth verifiers to reliably guide online harness edits. Second, the RSI process remains highly task-specific and fails to generalize to novel scenarios. We introduce Harness^2, a plug-and-play, recursive agent harnessing framework that addresses these challenges through two connected levels of recursion. Task-level recursion refines the current task's harness using a contrastive Propose-Probe-Compose step that reliably guides edits without ground-truth verifiers, and can be scaled further via parallel or sequential recursion. Harnessing-level recursion then extracts experience from these edits to update a continual improvement harness, enabling the agent to better adapt to future tasks. Across three professional benchmarks and four model-harness configurations, a single step consistently improves GLM-5 and Gemini 3.5 Flash over their base harnesses, yielding gains of up to 11.5 points on WorkBuddy-Bench, 4.5 points on JobBench, and 11.8 percentage points on LAB, with further gains as the task-level recursion budget increases.",
+      "upvotes": 85,
+      "discussionId": "6acee61fabe004a210f2590d",
+      "projectPage": "https://harness2.github.io/",
+      "githubRepo": "https://github.com/google-research/harness2",
+      "githubRepoAddedBy": "user",
+      "ai_summary": "Harness² improves agent execution harnesses through recursive task-level refinement and continual harness-level learning, boosting performance across benchmarks without ground-truth verifiers.",
+      "ai_keywords": [
+        "recursive self-improvement",
+        "LLM agents",
+        "execution harnesses",
+        "Harness²",
+        "Propose-Probe-Compose",
+        "task-level recursion",
+        "harnessing-level recursion",
+        "continual improvement harness"
+      ],
+      "ai_summary_model": "thinkingmachines/Inkling-Small",
+      "githubStars": 21895,
+      "organization": {
+        "_id": "5e6aca39878b8b2bf9806447",
+        "name": "google",
+        "fullname": "Google",
+        "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/5dd96eb166059660ed1ee413/WtA3YYitedOr9n02eHfJe.png"
+      }
+    },
+    "publishedAt": "2026-10-08T20:00:00.000Z",
+    "title": "Harness^2: Recursive Agent Harnessing for an Open World",
+    "summary": "LLM agents' capabilities depend not only on their underlying models but also on their execution harnesses. Recursive self-improvement (RSI) offers a promising approach to automatically evolve these harnesses. However, deploying RSI in open-world settings still faces two critical challenges. First, open-world tasks are typically unseen during the harness design phase and novel at test time, leaving no ground-truth verifiers to reliably guide online harness edits. Second, the RSI process remains highly task-specific and fails to generalize to novel scenarios. We introduce Harness^2, a plug-and-play, recursive agent harnessing framework that addresses these challenges through two connected levels of recursion. Task-level recursion refines the current task's harness using a contrastive Propose-Probe-Compose step that reliably guides edits without ground-truth verifiers, and can be scaled further via parallel or sequential recursion. Harnessing-level recursion then extracts experience from these edits to update a continual improvement harness, enabling the agent to better adapt to future tasks. Across three professional benchmarks and four model-harness configurations, a single step consistently improves GLM-5 and Gemini 3.5 Flash over their base harnesses, yielding gains of up to 11.5 points on WorkBuddy-Bench, 4.5 points on JobBench, and 11.8 percentage points on LAB, with further gains as the task-level recursion budget increases.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2610.14224.png",
+    "numComments": 4,
+    "submittedBy": {
+      "_id": "66e477a352356419c4712065",
+      "avatarUrl": "/avatars/dbde45208c735ffe6febef6802bc1f3d.svg",
+      "fullname": "Ruiyao Xu",
+      "name": "ruiyaox",
+      "type": "user",
+      "isPro": true,
+      "isHf": false,
+      "isHfAdmin": false,
+      "isMod": false,
+      "followerCount": 2,
+      "isUserFollowing": false
+    },
+    "organization": {
+      "_id": "5e6aca39878b8b2bf9806447",
+      "name": "google",
+      "fullname": "Google",
+      "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/5dd96eb166059660ed1ee413/WtA3YYitedOr9n02eHfJe.png"
+    },
+    "isAuthorParticipating": false
+  },
+  {
+    "paper": {
+      "id": "2606.23050",
+      "authors": [
+        {
+          "_id": "6a3a0c36fdcd3514343bb651",
+          "user": {
+            "_id": "66bc1f9c8543e3883f2082db",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/66bc1f9c8543e3883f2082db/RnmVK90E4VUIkUKcAG3yz.jpeg",
+            "isPro": false,
+            "fullname": "Youyang Yin",
+            "user": "HYPERUU",
+            "type": "user",
+            "name": "HYPERUU"
+          },
+          "name": "Youyang Yin",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-06-23T13:56:12.255Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a3a0c36fdcd3514343bb652",
+          "user": {
+            "_id": "6689f7a1683da3ea29b4cee5",
+            "avatarUrl": "/avatars/d8e56cadcd1c31f32c9cf0eee06e2248.svg",
+            "isPro": false,
+            "fullname": "Fanfan Liu",
+            "user": "liufanfanlff",
+            "type": "user",
+            "name": "liufanfanlff"
+          },
+          "name": "Huanhuan Liu",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-08-21T13:06:52.096Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a3a0c36fdcd3514343bb653",
+          "name": "YY",
+          "hidden": false
+        },
+        {
+          "_id": "6a3a0c36fdcd3514343bb654",
+          "name": "Qunyi Xie",
+          "hidden": false
+        },
+        {
+          "_id": "6a3a0c36fdcd3514343bb655",
+          "name": "Chaorun Liu",
+          "hidden": false
+        },
+        {
+          "_id": "6a3a0c36fdcd3514343bb656",
+          "name": "Shiqi Yang",
+          "hidden": false
+        },
+        {
+          "_id": "6a3a0c36fdcd3514343bb657",
+          "name": "Shaohua Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a3a0c36fdcd3514343bb658",
+          "name": "Zhanlong Liu",
+          "hidden": false
+        },
+        {
+          "_id": "6a3a0c36fdcd3514343bb659",
+          "name": "Hao Zou",
+          "hidden": false
+        },
+        {
+          "_id": "6a3a0c36fdcd3514343bb65a",
+          "name": "Jinyue Chen",
+          "hidden": false
+        },
+        {
+          "_id": "6a3a0c36fdcd3514343bb65b",
+          "name": "Shu Wei",
+          "hidden": false
+        },
+        {
+          "_id": "6a3a0c36fdcd3514343bb65c",
+          "name": "Jingjing Wu",
+          "hidden": false
+        },
+        {
+          "_id": "6a3a0c36fdcd3514343bb65d",
+          "name": "Mingxin Huang",
+          "hidden": false
+        },
+        {
+          "_id": "6a3a0c36fdcd3514343bb65e",
+          "name": "Zhen Wu",
+          "hidden": false
+        },
+        {
+          "_id": "6a3a0c36fdcd3514343bb65f",
+          "name": "Guibin Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a3a0c36fdcd3514343bb660",
+          "name": "Tengyu Du",
+          "hidden": false
+        },
+        {
+          "_id": "6a3a0c36fdcd3514343bb661",
+          "name": "Lei Jia",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2026-06-22T00:00:00.000Z",
+      "submittedOnDailyAt": "2026-06-23T00:00:00.000Z",
+      "title": "Unlimited OCR Works",
+      "submittedOnDailyBy": {
+        "_id": "6039478ab3ecf716b1a5fd4d",
+        "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/6039478ab3ecf716b1a5fd4d/_Thy4E7taiSYBLKxEKJbT.jpeg",
+        "isPro": true,
+        "fullname": "taesiri",
+        "user": "taesiri",
+        "type": "user",
+        "name": "taesiri"
+      },
+      "summary": "Recently, end-to-end OCR models, exemplified by DeepSeek OCR, have once again thrust OCR into the spotlight. A widely held view is that employing a large language model (LLM) as the decoder allows the model to leverage the prior distribution of language, leading to improved OCR performance. However, the downside is equally evident: as the output sequence lengthens, the accumulated KV cache drives up memory consumption and progressively slows down generation. This stands in stark contrast to humans, who exhibit no such decline in efficiency during long-horizon copying tasks. In this technical report, we propose Unlimited OCR, a model designed to emulate human parsing working memory. Taking DeepSeek OCR as the baseline, we replace all attention layers in the decoder with our proposed Reference Sliding Window Attention (R-SWA), which reduces attention computation costs while maintaining a constant KV cache throughout the entire decoding process. By combining the high compression rate of DeepSeek OCR's encoder with our constant KV cache design, Unlimited OCR can transcribe dozens of pages of documents in a single forward pass under a standard maximum length of 32K. More importantly, R-SWA is a general-purpose parsing attention mechanism - beyond OCR, it is equally applicable to tasks such as ASR, translation, etc. Codes and model weights are publicly available at http://github.com/baidu/Unlimited-OCR.",
+      "upvotes": 103,
+      "discussionId": "6a3a0c36fdcd3514343bb662",
+      "githubRepo": "https://github.com/baidu/Unlimited-OCR",
+      "githubRepoAddedBy": "user",
+      "ai_summary": "Unlimited OCR introduces Reference Sliding Window Attention to eliminate growing memory consumption during long-sequence OCR tasks, enabling efficient transcription of multiple pages in a single forward pass.",
+      "ai_keywords": [
+        "end-to-end OCR",
+        "large language model",
+        "decoder",
+        "KV cache",
+        "attention layers",
+        "Reference Sliding Window Attention",
+        "document transcription",
+        "sequence length",
+        "memory consumption",
+        "working memory",
+        "parsing attention mechanism",
+        "ASR",
+        "translation"
+      ],
+      "ai_summary_model": "Qwen/Qwen2.5-Coder-32B-Instruct",
+      "githubStars": 30297,
+      "organization": {
+        "_id": "626a6d6b4909b521e1f59ce5",
+        "name": "baidu",
+        "fullname": "BAIDU",
+        "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/64f187a2cc1c03340ac30498/TYYUxK8xD1AxExFMWqbZD.png"
+      }
+    },
+    "publishedAt": "2026-06-21T20:00:00.000Z",
+    "title": "Unlimited OCR Works",
+    "summary": "Recently, end-to-end OCR models, exemplified by DeepSeek OCR, have once again thrust OCR into the spotlight. A widely held view is that employing a large language model (LLM) as the decoder allows the model to leverage the prior distribution of language, leading to improved OCR performance. However, the downside is equally evident: as the output sequence lengthens, the accumulated KV cache drives up memory consumption and progressively slows down generation. This stands in stark contrast to humans, who exhibit no such decline in efficiency during long-horizon copying tasks. In this technical report, we propose Unlimited OCR, a model designed to emulate human parsing working memory. Taking DeepSeek OCR as the baseline, we replace all attention layers in the decoder with our proposed Reference Sliding Window Attention (R-SWA), which reduces attention computation costs while maintaining a constant KV cache throughout the entire decoding process. By combining the high compression rate of DeepSeek OCR's encoder with our constant KV cache design, Unlimited OCR can transcribe dozens of pages of documents in a single forward pass under a standard maximum length of 32K. More importantly, R-SWA is a general-purpose parsing attention mechanism - beyond OCR, it is equally applicable to tasks such as ASR, translation, etc. Codes and model weights are publicly available at http://github.com/baidu/Unlimited-OCR.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2606.23050.png",
+    "numComments": 7,
+    "submittedBy": {
+      "_id": "6039478ab3ecf716b1a5fd4d",
+      "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/6039478ab3ecf716b1a5fd4d/_Thy4E7taiSYBLKxEKJbT.jpeg",
+      "fullname": "taesiri",
+      "name": "taesiri",
+      "type": "user",
+      "isPro": true,
+      "isHf": false,
+      "isHfAdmin": false,
+      "isMod": false,
+      "followerCount": 405,
+      "isUserFollowing": false
+    },
+    "organization": {
+      "_id": "626a6d6b4909b521e1f59ce5",
+      "name": "baidu",
+      "fullname": "BAIDU",
+      "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/64f187a2cc1c03340ac30498/TYYUxK8xD1AxExFMWqbZD.png"
+    },
+    "isAuthorParticipating": true
+  },
+  {
+    "paper": {
+      "id": "2609.18063",
+      "authors": [
+        {
+          "_id": "6aab6e211d9cc4dec796250c",
+          "user": {
+            "_id": "63ec492b6ef3ce22b88a40e8",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/no-auth/losyEyB6XLMUkXgKs_GFC.png",
+            "isPro": false,
+            "fullname": "yumu",
+            "user": "bupalinyu",
+            "type": "user",
+            "name": "bupalinyu"
+          },
+          "name": "Yu Lin",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-09-17T09:09:45.608Z",
+          "hidden": false
+        },
+        {
+          "_id": "6aab6e211d9cc4dec796250d",
+          "user": {
+            "_id": "64361bcaf81a16e74367d2e2",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/64361bcaf81a16e74367d2e2/N4pdqBd4DqIx71t8IWaWD.png",
+            "isPro": false,
+            "fullname": "wanglamao",
+            "user": "wanglamao",
+            "type": "user",
+            "name": "wanglamao"
+          },
+          "name": "Yiming Wang",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-09-18T14:00:26.917Z",
+          "hidden": false
+        },
+        {
+          "_id": "6aab6e211d9cc4dec796250e",
+          "user": {
+            "_id": "63413355e5071b0c5cc91cda",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/63413355e5071b0c5cc91cda/P5if_w7mXfPGPq8QtALjF.png",
+            "isPro": false,
+            "fullname": "cai",
+            "user": "chua",
+            "type": "user",
+            "name": "chua"
+          },
+          "name": "Runyuan Cai",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-09-18T14:00:24.425Z",
+          "hidden": false
+        },
+        {
+          "_id": "6aab6e211d9cc4dec796250f",
+          "name": "Hanze Liu",
+          "hidden": false
+        },
+        {
+          "_id": "6aab6e211d9cc4dec7962510",
+          "name": "Xiaodong Zeng",
+          "hidden": false
+        }
+      ],
+      "mediaUrls": [
+        "https://cdn-uploads.huggingface.co/production/uploads/63ec492b6ef3ce22b88a40e8/rC6RhuvirSlar0MGZ-qJB.mp4"
+      ],
+      "publishedAt": "2026-09-16T00:00:00.000Z",
+      "submittedOnDailyAt": "2026-09-17T00:00:00.000Z",
+      "title": "The Other Half of the Memory Wall: Serving 35B MoEs from SSD with Trained Routing Prediction",
+      "submittedOnDailyBy": {
+        "_id": "63ec492b6ef3ce22b88a40e8",
+        "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/no-auth/losyEyB6XLMUkXgKs_GFC.png",
+        "isPro": false,
+        "fullname": "yumu",
+        "user": "bupalinyu",
+        "type": "user",
+        "name": "bupalinyu"
+      },
+      "summary": "Mixture-of-experts (MoE) inference on consumer hardware is bounded by weight memory: a 35B-class model is 19.5GB at 4-bit, and sparsity shrinks the compute per token, not the bytes that must be held. Naive offloading to SSD does not help on its own, because layer N+1's experts must be chosen before layer N's output exists, so the reads cannot start early enough to hide behind compute. We present Edge0, a streaming MoE inference engine that closes the gap with a prerouter: a per-layer head predicts the next layer's routing one token ahead, and the prediction is consumed as the routing itself, so the staged expert set equals the routed set and nothing is dropped. An unmerged recovery LoRA, trained on the student path, pays back the quality lost to int4 quantization and routing replacement. On a single 24GB machine, Edge0\n  serves a 35B MoE at 20tok/s inside 3GiB of peak active memory, within a few points of its fp16 teacher on average across five public benchmarks. An 8B tier runs on the same framework, and the framework, checkpoints, and adapters are open source.",
+      "upvotes": 32,
+      "discussionId": "6aab6e211d9cc4dec7962511",
+      "githubRepo": "https://github.com/Edge0-AI/edge0",
+      "githubRepoAddedBy": "user",
+      "ai_summary": "Edge0 enables efficient mixture-of-experts inference on consumer hardware by predicting expert routing ahead of time and using recovery adapters to maintain quality with minimal active memory.",
+      "ai_keywords": [
+        "mixture-of-experts",
+        "MoE",
+        "offloading",
+        "prerouter",
+        "recovery LoRA",
+        "int4 quantization",
+        "routing replacement",
+        "streaming inference"
+      ],
+      "ai_summary_model": "thinkingmachines/Inkling-Small",
+      "githubStars": 8935,
+      "organization": {
+        "_id": "6a9a75862d11e1c1a13dec37",
+        "name": "Edge0",
+        "fullname": "Edge0",
+        "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/64361bcaf81a16e74367d2e2/D5QI700pnaujz5PeWE6MX.jpeg"
+      }
+    },
+    "publishedAt": "2026-09-15T20:00:00.000Z",
+    "title": "The Other Half of the Memory Wall: Serving 35B MoEs from SSD with Trained Routing Prediction",
+    "summary": "Mixture-of-experts (MoE) inference on consumer hardware is bounded by weight memory: a 35B-class model is 19.5GB at 4-bit, and sparsity shrinks the compute per token, not the bytes that must be held. Naive offloading to SSD does not help on its own, because layer N+1's experts must be chosen before layer N's output exists, so the reads cannot start early enough to hide behind compute. We present Edge0, a streaming MoE inference engine that closes the gap with a prerouter: a per-layer head predicts the next layer's routing one token ahead, and the prediction is consumed as the routing itself, so the staged expert set equals the routed set and nothing is dropped. An unmerged recovery LoRA, trained on the student path, pays back the quality lost to int4 quantization and routing replacement. On a single 24GB machine, Edge0\n  serves a 35B MoE at 20tok/s inside 3GiB of peak active memory, within a few points of its fp16 teacher on average across five public benchmarks. An 8B tier runs on the same framework, and the framework, checkpoints, and adapters are open source.",
+    "mediaUrls": [
+      "https://cdn-uploads.huggingface.co/production/uploads/63ec492b6ef3ce22b88a40e8/rC6RhuvirSlar0MGZ-qJB.mp4"
+    ],
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2609.18063.png",
+    "numComments": 9,
+    "submittedBy": {
+      "_id": "63ec492b6ef3ce22b88a40e8",
+      "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/no-auth/losyEyB6XLMUkXgKs_GFC.png",
+      "fullname": "yumu",
+      "name": "bupalinyu",
+      "type": "user",
+      "isPro": false,
+      "isHf": false,
+      "isHfAdmin": false,
+      "isMod": false,
+      "followerCount": 10,
+      "isUserFollowing": false
+    },
+    "organization": {
+      "_id": "6a9a75862d11e1c1a13dec37",
+      "name": "Edge0",
+      "fullname": "Edge0",
+      "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/64361bcaf81a16e74367d2e2/D5QI700pnaujz5PeWE6MX.jpeg"
+    },
+    "isAuthorParticipating": true
+  }
+]

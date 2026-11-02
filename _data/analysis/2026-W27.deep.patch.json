@@ -11,44 +11,56 @@
           "장문 평가: 2~40+ 페이지 문서를 단일 forward로 전사"
         ],
         "datasets": [
-          { "name": "문서 학습 샘플", "scale": "약 200만(단일:다중 페이지 ≈ 9:1)", "domain": "문서 OCR" }
+          {
+            "name": "문서 학습 샘플",
+            "scale": "약 200만(단일:다중 페이지 ≈ 9:1)",
+            "domain": "문서 OCR"
+          }
         ],
         "limitations": {
           "by_authors": [
             "프리필 32K 제한 — 페이지가 매우 많으면 한계(향후 128K 학습 예정)",
-            "다중페이지 모드는 Base 인코더(1024²)라 해상도 손실 → 20페이지 넘으면 edit distance 상승",
-            "학습 샘플 200만으로 제한적"
+            "다중페이지 모드는 Base 인코더(1024²)라 해상도 손실 -> 40+페이지 구간에서 edit distance 상승(0.1069. 15페이지 0.0787, 20페이지 0.0572로 단조 증가는 아님, W45 심층 분석에서 바로잡음)",
+            "출력이 짧으면 속도 이득이 거의 없다(Table 4, 출력 256토큰에서 사실상 동일. W45 심층 분석에서 저자 한계 항목에 없는 '학습 샘플 200만으로 제한적'을 대신함)"
           ],
           "by_claude": [
             "ASR·번역 일반화는 주장만 있고 실험 검증 없음(future work)",
-            "KV캐시 절감이 초장문에서 품질 저하와 트레이드오프"
+            "초장문(40+페이지)에서 품질이 떨어지지만, KV캐시 절감 탓인지 Base 해상도 탓인지는 대조 실험이 없어 판별할 수 없다(W45 심층 분석)"
           ]
         },
         "reproducibility": {
           "code": "공개",
           "weights": "공개",
           "data": "불명",
-          "license": "CC BY 4.0",
+          "license": "MIT(코드·가중치. CC BY 4.0은 arXiv 논문 본문 라이선스로, W45 심층 분석에서 바로잡음)",
           "note": "github.com/baidu/Unlimited-OCR, ★11.5k"
         },
         "my_learning_points": [
           "'reference 토큰을 상태전이에서 제외'가 핵심 트릭 — 시각 충실도를 지키며 KV캐시를 상수화. 멀티모달 장문 디코딩에 일반 적용 가능",
-          "상수 KV캐시 = 장문 추론 비용의 근본 해법. W25 LMCache(캐시 외부 오프로딩)와 다른 각도(캐시 자체를 안 키움)",
-          "DeepSeek OCR 대비 OmniDocBench v1.5 +6.22%p, 6K 토큰 구간에서 ~35% 빠름 — 효율과 정확을 동시 개선"
+          "상수 KV캐시는 출력 길이에 따른 캐시 증가를 막는 해법이지만, 프리필 L_m은 페이지 수에 비례해 남으므로 장문 비용의 근본 해법은 아니다. W25 LMCache(캐시 외부 오프로딩)와 다른 각도(캐시 자체를 안 키움)(W45 심층 분석에서 바로잡음)",
+          "DeepSeek OCR 대비 OmniDocBench v1.5 Overall +6.22점(87.01 -> 93.23). 속도는 이상적 동시성에서 잰 이론적 TPS 상한 비교(Table 4)의 6,144토큰 구간에서 약 35% 높고, 실제 OmniDocBench 처리량 비교는 +12.7%다(W45 검증에서 논문 v1으로 바로잡음)"
         ],
         "related_work": {
           "prior": [
-            { "name": "DeepSeek OCR", "relation": "베이스라인 — 인코더 재사용, 디코더 어텐션만 교체" },
-            { "name": "LMCache (W25)", "relation": "KV캐시 효율화의 다른 접근(외부 오프로딩 vs 상수화)" }
+            {
+              "name": "DeepSeek OCR",
+              "relation": "베이스라인 — 인코더 재사용, 디코더 어텐션만 교체"
+            },
+            {
+              "name": "LMCache (W25)",
+              "relation": "KV캐시 효율화의 다른 접근(외부 오프로딩 vs 상수화)"
+            }
           ],
           "followup": [
-            { "name": "R-SWA → ASR/번역", "relation": "저자가 제시한 향후 확장(미검증)" }
+            {
+              "name": "R-SWA → ASR/번역",
+              "relation": "저자가 제시한 향후 확장(미검증)"
+            }
           ]
         },
         "claude_note": "'인간은 이미 쓴 글을 다시 다 읽지 않는다'는 직관을 reference 토큰 전역 접근 + 출력 슬라이딩 윈도우로 구현해 KV캐시를 상수로 만든 영리한 설계다. 문서 파싱과 추론 효율화가 한 논문에서 만나는 점이 이번 주 '효율화가 분야를 가로지른다'는 흐름의 전형. 다만 초장문 해상도 손실·타도메인 미검증은 숙제."
       }
     },
-
     "2509.22186": {
       "tier2": {
         "analyzed_at": "2026-06-29",
@@ -59,11 +71,21 @@
           "주요 결과: OmniDocBench 종합 90.67(dots.ocr 88.41 대비 우위), 표 TEDS 88.22"
         ],
         "datasets": [
-          { "name": "사전학습(레이아웃/텍스트/수식/표)", "scale": "6.9M 샘플", "domain": "문서(논문·교재·보고서, 중·영 균형)" },
-          { "name": "파인튜닝(IMIC 난이도 채굴)", "scale": "630K 샘플", "domain": "hard case 중심" }
+          {
+            "name": "사전학습(레이아웃/텍스트/수식/표)",
+            "scale": "6.9M 샘플",
+            "domain": "문서(논문·교재·보고서, 중·영 균형)"
+          },
+          {
+            "name": "파인튜닝(IMIC 난이도 채굴)",
+            "scale": "630K 샘플",
+            "domain": "hard case 중심"
+          }
         ],
         "limitations": {
-          "by_authors": ["원문에 명시적 '한계' 절은 두드러지지 않음"],
+          "by_authors": [
+            "원문에 명시적 '한계' 절은 두드러지지 않음"
+          ],
           "by_claude": [
             "1단계 썸네일 품질에 레이아웃 검출이 의존",
             "극단적 종횡비 crop에서 취약 가능",
@@ -84,11 +106,20 @@
         ],
         "related_work": {
           "prior": [
-            { "name": "dots.ocr / MonkeyOCR / olmOCR", "relation": "문서 파싱 전문 경쟁 모델" },
-            { "name": "PaddleOCR-VL (W25)", "relation": "같은 문서 파싱 흐름의 직전 등장 논문" }
+            {
+              "name": "dots.ocr / MonkeyOCR / olmOCR",
+              "relation": "문서 파싱 전문 경쟁 모델"
+            },
+            {
+              "name": "PaddleOCR-VL (W25)",
+              "relation": "같은 문서 파싱 흐름의 직전 등장 논문"
+            }
           ],
           "followup": [
-            { "name": "Unlimited OCR (이번 주)", "relation": "같은 주 문서 파싱 — 추론 효율(상수 KV캐시) 각도" }
+            {
+              "name": "Unlimited OCR (이번 주)",
+              "relation": "같은 주 문서 파싱 — 추론 효율(상수 KV캐시) 각도"
+            }
           ]
         },
         "claude_note": "'전역은 싸게(썸네일), 지역은 정밀하게(원해상도 crop)'라는 단순한 분리로 정확도·효율을 동시에 잡았고, IMIC 데이터 엔진이 뒤를 받친다. PaddleOCR-VL(W25)에 이어 문서 파싱이 다시 강하게 올라온 이번 주의 대표작. 1.2B로 72B 범용을 이기는 점은 '특화 경량 + 좋은 데이터'의 설득력 있는 증거."
