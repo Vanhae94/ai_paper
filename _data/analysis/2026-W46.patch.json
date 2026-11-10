@@ -1,0 +1,440 @@
+{
+  "week_id": "2026-W46",
+  "papers": {
+    "2412.20138": {
+      "title_ko": "TradingAgents: 멀티에이전트 LLM 금융 트레이딩 프레임워크",
+      "classify": {
+        "categories": [
+          "LLM/Agents"
+        ],
+        "primary_category": "LLM/Agents",
+        "topic_tags": [
+          "agentic-workflow",
+          "multi-agent",
+          "financial-ai",
+          "tool-use"
+        ],
+        "method_tags": [
+          "prompting",
+          "architecture"
+        ],
+        "modality": [
+          "text"
+        ],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "실제 트레이딩 회사처럼 역할을 나눈 LLM 에이전트들이 토론으로 주식 매매를 결정한다.",
+        "problem": "금융 분야의 LLM 활용은 단일 에이전트가 한 가지 작업을 처리하거나 여러 에이전트가 자료를 따로 모으는 수준에 머무는 경우가 많다. 실제 트레이딩 조직처럼 서로 다른 관점이 충돌하고 위험을 통제하는 협업 구조는 충분히 탐구되지 않았다.",
+        "approach": "펀더멘털·감성·기술 분석가와 강세(Bull)·약세(Bear) 리서처, 리스크 관리자, 트레이더를 각각 LLM 에이전트로 구현한다. 강세와 약세 에이전트가 시장 상황을 토론하고, 트레이더가 그 논쟁과 과거 데이터를 종합해 행동을 선택한다. 별도의 리스크 관리 팀이 노출 수준을 점검해 공격적·중립적·보수적 관점을 의사결정에 반영한다.",
+        "contributions": [
+          "실제 트레이딩 회사의 역할 분담과 토론 구조를 재현한 멀티에이전트 프레임워크",
+          "베이스라인보다 높은 누적 수익률과 Sharpe Ratio를 보고",
+          "Maximum Drawdown까지 함께 평가해 수익뿐 아니라 위험 조정 성과를 비교",
+          "코드 공개, GitHub 약 12.1만 스타"
+        ],
+        "why_now": "W43부터 4주 연속 올라 수집 20주 중 18주에 등장했다(▲162 -> 163, GitHub 스타 약 11.9만 -> 12.1만). Kronos와 함께 4주 연속 금융 축을 이뤘지만 두 편 모두 예전부터 오르던 논문이다. W31 심층 분석대로 수익률 주장보다 역할 분리·토론·모델 배정을 보여 주는 멀티에이전트 구조의 참조 구현으로 읽는 편이 맞다.",
+        "difficulty": "중급",
+        "recommended_reader": "LLM 에이전트 오케스트레이션과 금융 AI의 구조·평가에 관심 있는 학습자",
+        "field_tags": [
+          "멀티에이전트",
+          "금융AI",
+          "에이전트토론",
+          "리스크관리"
+        ],
+        "interest": {
+          "upvotes": 163,
+          "num_comments": 6,
+          "github_stars": 121414
+        }
+      },
+      "learning": {
+        "key_terms": [
+          {
+            "term": "Bull/Bear Debate",
+            "gloss": "강세와 약세 관점을 맡은 에이전트가 논쟁해 한쪽 편향을 줄이는 의사결정 구조"
+          },
+          {
+            "term": "Sharpe Ratio",
+            "gloss": "변동성이라는 위험을 감수한 만큼 초과수익을 얻었는지 나타내는 지표"
+          },
+          {
+            "term": "Backtest",
+            "gloss": "과거 시장 데이터에 전략을 적용해 성과를 모의 측정하는 평가 방식"
+          }
+        ],
+        "recall_quiz": {
+          "question": "TradingAgents의 2계층 모델 배정에서 추론 집약 노드와 요약·검색 노드에는 각각 어떤 모델을 쓰는가?",
+          "answer": "분석·연구·트레이딩 같은 추론 집약 노드에는 심층사고 모델 o1-preview를, 요약·데이터 변환·검색에는 신속사고 모델 gpt-4o·gpt-4o-mini를 쓴다(W31 심층 분석 기준)."
+        },
+        "spaced_review": {
+          "flag": false,
+          "review_due": null
+        }
+      }
+    },
+    "2508.19205": {
+      "classify": {
+        "categories": [
+          "Multimodal",
+          "Efficiency/Inference"
+        ],
+        "primary_category": "Multimodal",
+        "topic_tags": [
+          "speech-synthesis",
+          "next-token-diffusion",
+          "continuous-tokenizer",
+          "long-form-audio"
+        ],
+        "method_tags": [
+          "architecture",
+          "inference-time"
+        ],
+        "modality": [
+          "audio"
+        ],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "7.5Hz 연속 음성 토크나이저와 next-token diffusion으로 최대 90분·4화자 대화 음성을 합성하는 모델.",
+        "problem": "팟캐스트처럼 여러 화자가 길게 주고받는 음성을 합성하려면 수십 분 분량을 한 번에 다뤄야 한다. 그런데 이산 코덱은 초당 토큰이 많아 긴 대화가 LLM 컨텍스트에 들어가기 어렵고, 압축을 높이면 음질이 떨어지기 쉽다.",
+        "approach": "24kHz 음성을 3200배 다운샘플하는 sigma-VAE 음향 토크나이저(프레임레이트 7.5Hz)와, ASR을 대리 과제로 학습한 의미 토크나이저를 함께 쓴다. Qwen2.5(1.5B·7B) LLM이 화자별 음성 프롬프트와 대본을 읽고, 각 위치에서 4층 확산 헤드가 다음 음향 잠재 벡터를 생성하는 next-token diffusion 구조다. 학습은 두 토크나이저를 동결한 채 시퀀스 길이를 4,096에서 65,536 토큰까지 늘리는 커리큘럼으로 진행해, 64K 컨텍스트에서 최대 90분·4화자 생성을 목표로 한다(W32 심층 분석 기준).",
+        "contributions": [
+          "프레임레이트 7.5Hz의 연속 음향·의미 토크나이저. '80배 압축'의 기준은 논문에 명시되지 않았지만 표3의 Encodec 8코드북 초당 토큰 600개 대비 7.5개와 정확히 맞는다. LibriTTS test-clean 재구성에서 PESQ 3.068·UTMOS 4.181로 Encodec(2.72·3.04)보다 높지만 명료도 STOI는 0.828로 Encodec 0.939보다 낮다",
+          "장문 팟캐스트 주관 평가에서 7B가 평균 MOS 3.76으로 Gemini 2.5 Pro(3.66)보다 높다고 보고. 단 평가는 대본 8개(총 약 1시간)에 평가자 24명이고, 1.5B(3.54)는 Gemini보다 낮다",
+          "초록의 '최대 90분'은 90분 길이 근처에서 평가되지 않았고(평가 대본 평균 약 7.5분), 학습 데이터와 ablation도 공개되지 않았다(W32 심층 분석 기준)",
+          "1.5B 가중치는 HF에 공개(MIT)돼 있지만 7B(VibeVoice-Large)는 배포가 중단됐고, Microsoft가 2025년 9월 의도와 다른 사용 사례를 이유로 저장소에서 TTS 코드를 삭제했다. 저장소(GitHub 약 5.7만 스타)는 현재 ASR 계열과 Realtime-0.5B 스트리밍 TTS 중심이다"
+        ],
+        "why_now": "W32 이후 수집 11주 동안 빠졌다가 다시 올라 이번 주 최다 업보트다(▲177 -> 184, GitHub 스타 약 5.2만 -> 5.7만). 저장소 README 뉴스의 가장 최근 항목은 2026년 9월 3일 VibeVoice-ASR-Streaming 공개이고 TTS 코드는 삭제된 상태라, 스타 수에는 ASR 후속 모델들의 관심이 섞여 있으며 이번 재등장의 직접 계기는 확인되지 않았다. speech-synthesis 키워드는 W38 AuK 이후 처음 다시 나왔지만, 같은 논문의 재등장이라 음성 생성 흐름의 부활로 보기는 이르다.",
+        "difficulty": "고급",
+        "recommended_reader": "음성 합성(TTS)·장문 오디오 생성·연속 토크나이저에 관심 있는 학습자",
+        "field_tags": [
+          "음성합성",
+          "next-token-diffusion",
+          "연속토크나이저",
+          "장문오디오"
+        ],
+        "interest": {
+          "upvotes": 184,
+          "num_comments": 10,
+          "github_stars": 56806
+        }
+      },
+      "learning": {
+        "key_terms": [
+          {
+            "term": "Next-token Diffusion",
+            "gloss": "LLM이 자기회귀로 위치를 진행하고, 각 위치의 연속 잠재 벡터는 작은 확산 헤드가 디노이징으로 생성하는 방식. VibeVoice는 4층 확산 헤드를 쓴다"
+          },
+          {
+            "term": "sigma-VAE",
+            "gloss": "잠재 분포의 분산을 학습하지 않고 미리 정한 분포에서 뽑도록 고정한 VAE 변형(LatentLM 제안). 자기회귀 생성에서 분산 붕괴를 줄이려고 VibeVoice 음향 토크나이저에 썼다"
+          },
+          {
+            "term": "Frame Rate (7.5Hz)",
+            "gloss": "음성 1초를 몇 개의 잠재 벡터로 나타내는가. VibeVoice는 24kHz 음성을 3200배 줄여 초당 7.5개로 만들고, 이 덕분에 90분 분량이 약 4만 프레임으로 64K 컨텍스트에 들어간다"
+          }
+        ],
+        "recall_quiz": {
+          "question": "VibeVoice의 'Encodec 대비 80배 압축'은 무엇과 무엇을 비교한 수치인가?",
+          "answer": "논문이 기준을 명시하진 않았지만, 표3의 Encodec 8코드북 설정 초당 토큰 600개와 VibeVoice 음향 토크나이저의 초당 7.5개(프레임레이트 7.5Hz)를 나누면 정확히 80배가 된다. 이산 토큰 수와 연속 잠재 벡터 수를 같은 축에 놓은 비교라는 점도 함께 기억한다(W32 심층 분석 기준)."
+        },
+        "spaced_review": {
+          "flag": false,
+          "review_due": null
+        }
+      },
+      "title_ko": "VibeVoice: 7.5Hz 연속 토크나이저와 next-token diffusion으로 최대 90분 다화자 음성을 합성하다"
+    },
+    "2610.22732": {
+      "title_ko": "TokenEconomizer: 경험 기반 블랙박스 비용 제어로 코딩 에이전트의 토큰을 줄이다",
+      "classify": {
+        "categories": [
+          "LLM/Agents",
+          "Efficiency/Inference"
+        ],
+        "primary_category": "LLM/Agents",
+        "topic_tags": [
+          "agentic-workflow",
+          "agent-skills",
+          "token-efficiency",
+          "software-engineering",
+          "tool-use"
+        ],
+        "method_tags": [
+          "inference-time",
+          "prompting"
+        ],
+        "modality": [
+          "text"
+        ],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "외부 제어기가 마이크로 스킬 주입·도구 가지치기·실패 루프 개입으로 코딩 에이전트의 반복 토큰 비용을 줄인다.",
+        "problem": "최신 코딩 에이전트는 AI 보조 소프트웨어 개발의 토큰 비용을 크게 늘렸다. 그런데 토큰 효율은 보통 고립된 단일 과제로 평가되는 반면, 실제 개발자는 큰 프로젝트를 계속 만들고 고치고 유지보수하며 에이전트를 쓴다. 저자들은 현실적인 연속 과제로 평가하면 환경에 따라 반복되는 토큰 비용이 나타나고, 기존 방법으로는 잘 줄지 않는다고 보고한다.",
+        "approach": "TokenEconomizer는 에이전트 내부를 고치지 않고 바깥에서 작동하는 외부 제어기(블랙박스 비용 제어)로, 연속된 과제를 거치며 쌓은 경험으로 환경별 토큰 비용을 줄인다. 구체적으로 (1) 어떤 운영용 마이크로 스킬(micro-skill)을 주입할지, (2) 계속 쓸모없는 도구 중 무엇을 가지치기할지, (3) 성과 없는 실패 루프에 언제 개입할지를 결정한다. Claude Code, Codex, GitHub Copilot CLI에 최신 모델을 붙인 설정에서 평가한다. 제어기는 학습된 모델이 아니라 규칙과, 과제 에이전트와 같은 모델로 돌리는 LLM 호출 4종(제안·도구 판정·trace 판정·redirect 작성)으로 이뤄지며, 그 호출 비용도 절감 계산에 포함한다(W45 심층 분석 기준).",
+        "contributions": [
+          "단일 과제가 아니라 현실적인 연속 코딩 과제로 에이전트의 토큰 효율을 평가하는 관점과, 환경에 따라 반복되는 토큰 비용의 발견",
+          "마이크로 스킬 주입·도구 가지치기·실패 루프 개입을 결정하는 외부 제어기 TokenEconomizer",
+          "SWE-Bench 6개 저장소 연속 스트림에서 Claude Code·Codex·GitHub Copilot CLI와 최신 모델 5개 설정 모두, high effort 기본 실행 대비 컨트롤러 비용을 포함한 가격 가중 평균 비용을 18.4~30.9% 절감(Pass@1 변화 -1.0~+2.6점)했고 30개 저장소-설정 셀 모두에서 절감했다고 보고",
+          "연속 웹 개발(16.0~21.2%)·보안 감사(6.4~19.6%, micro-skill 제외)에서도 절감을 보고. Microsoft 공식 코드(Apache 2.0)와 Claude Code·Codex·Copilot CLI 등 하네스용 plugin 공개(GitHub 약 5.3천 스타, plugin 설정은 논문 실험과 다름)"
+        ],
+        "why_now": "2주 연속 올랐다(▲8 -> 14, GitHub 스타 약 3.9천 -> 5.3천). W45 심층 분석에서 절감 수치는 SWE-Bench 연속 스트림에서 잰 가격 가중 비용이고, 단일 기여가 가장 큰 도구 가지치기에는 사람 없는 headless 조건에서 대화형 도구를 뺀 효과가 섞여 있음을 짚었다. Harness²와 함께 2주째 하니스를 '성능' 쪽과 '비용' 쪽에서 고치는 두 논문이 나란히 오른다.",
+        "difficulty": "중급",
+        "recommended_reader": "Claude Code·Codex 같은 코딩 에이전트를 매일 쓰며 토큰 비용을 줄이고 싶은 개발자",
+        "field_tags": [
+          "코딩에이전트",
+          "토큰비용",
+          "마이크로스킬",
+          "도구가지치기"
+        ],
+        "interest": {
+          "upvotes": 14,
+          "num_comments": 2,
+          "github_stars": 5298
+        }
+      },
+      "learning": {
+        "key_terms": [
+          {
+            "term": "Micro-skill",
+            "gloss": "이전 과제 trace에서 LLM이 뽑은 한 줄짜리 저장소 운영 사실(예: 맞는 테스트 명령). 정규식이나 내장 술어로 된 detector로 확인과 반박을 추적해, 수정 파일이 겹치지 않는 과제 3개에서 확인되고 필요할 때만 과제 프롬프트 앞에 주입한다. SKILL.md 같은 실행 스킬이 아니다(W45 심층 분석 기준)"
+          },
+          {
+            "term": "Tool Pruning",
+            "gloss": "한 번도 호출되지 않은 도구를 3과제 연속 미사용이거나 과제별 LLM judge가 무관하다고 볼 때 목록에서 빼, 매 요청에 실리는 도구 스키마 비용을 줄이는 것. 5과제마다 전체 목록으로 재점검한다"
+          },
+          {
+            "term": "Failure Loop",
+            "gloss": "에이전트가 성과 없이 같은 실패를 되풀이하며 토큰을 쓰는 구간. TokenEconomizer는 규칙 트리거가 열리면 LLM judge로 막혔는지 판정해, 방향을 바꾸는 redirect를 한 번 넣고 다시 막히면 과제를 끝낸다"
+          }
+        ],
+        "recall_quiz": {
+          "question": "TokenEconomizer가 보고한 절감 18.4~30.9%는 무엇을 기준으로 잰 어떤 비용인가?",
+          "answer": "SWE-Bench 6개 저장소 연속 스트림에서 high effort 기본 실행 대비, 제어기 자신의 LLM 호출까지 포함한 가격 가중(cache-aware) 비용이다. 원시 토큰 수가 아니다(W45 심층 분석 기준)."
+        },
+        "spaced_review": {
+          "flag": false,
+          "review_due": null
+        }
+      }
+    },
+    "2508.02739": {
+      "classify": {
+        "categories": [
+          "Data"
+        ],
+        "primary_category": "Data",
+        "topic_tags": [
+          "time-series-foundation-model",
+          "financial-ai",
+          "synthetic-data",
+          "autoregressive-objective"
+        ],
+        "method_tags": [
+          "pretraining",
+          "architecture"
+        ],
+        "modality": [
+          "multi"
+        ],
+        "confidence": "medium"
+      },
+      "tier1": {
+        "one_liner": "45개 거래소의 120억 캔들(K-line)로 사전학습한 금융 시계열 파운데이션 모델.",
+        "problem": "LLM식 사전학습이 시계열 파운데이션 모델(TSFM)로 확장됐지만, 금융 캔들(K-line)에는 적용이 제한적이고 비사전학습 모델보다 못한 경우도 많았다. 변동성 예측·합성데이터 생성 같은 핵심 다운스트림도 간과됐다.",
+        "approach": "연속적인 시장 정보를 토큰 시퀀스로 이산화하는 전용 토크나이저로 가격 동역학과 거래 활동을 보존하고, 45개 거래소의 120억+ K-line으로 자기회귀 목적함수로 사전학습한다. W34 심층 분석 기준으로 토크나이저는 비전 양자화 기법(BSQ)을 옮겨 와 2^20 어휘를 2^10 두 개로 인수분해했고, 거친 토큰에서 세밀한 토큰 순으로 예측해 서브토큰 사이의 의존성을 유지한다. 가격·수익률 예측에서는 여러 샘플 경로를 평균내 정확도를 높이는 방식(test-time scaling)을 쓴다.",
+        "contributions": [
+          "금융 K-line 전용 사전학습 프레임워크와 전용 토크나이저(BSQ 기반, 어휘 인수분해로 어휘 관련 파라미터 99.8% 절감)",
+          "제로샷 가격 예측 RankIC를 선도 TSFM 대비 +93%로 보고. 단 절대값 0.02~0.05 수준 지표 위의 상대 개선이고 주요 결과는 단일 실행 점추정이다(W34 심층 분석)",
+          "변동성 예측 MAE 9% 감소(비교 대상은 ARCH/GARCH 계열이고 HAR 계열은 제외), 합성 K-line 생성 충실도 22% 향상 보고",
+          "추론·파인튜닝 코드와 모델(최대 모델 large 제외) 공개(MIT, GitHub 약 4.7만 스타), 사전학습 코드와 데이터는 비공개"
+        ],
+        "why_now": "W43부터 4주 연속 등장했다(▲63 -> 64, GitHub 스타 약 4.5만 -> 4.7만). 1차 카테고리 기준 데이터(Data)는 이 논문 한 편으로 4주째 이어진다. W34 심층 분석대로 헤드라인 수치는 작은 절대값 위의 상대 개선이라, 성능 기록보다 금융 시계열 파운데이션 모델의 기준점으로 읽는 편이 맞다.",
+        "difficulty": "중급",
+        "recommended_reader": "시계열·파운데이션 모델·퀀트 금융에 관심 있는 학습자",
+        "field_tags": [
+          "시계열",
+          "파운데이션모델",
+          "금융AI",
+          "합성데이터"
+        ],
+        "interest": {
+          "upvotes": 64,
+          "num_comments": 5,
+          "github_stars": 47355
+        }
+      },
+      "learning": {
+        "key_terms": [
+          {
+            "term": "Tokenizer",
+            "gloss": "연속 데이터를 모델이 다룰 수 있는 이산 토큰으로 변환하는 모듈"
+          },
+          {
+            "term": "K-line",
+            "gloss": "시가·고가·저가·종가를 담은 캔들 차트 데이터"
+          },
+          {
+            "term": "RankIC",
+            "gloss": "예측 순위와 실제 순위의 상관. 퀀트에서 예측력 지표"
+          }
+        ],
+        "recall_quiz": {
+          "question": "Kronos 토크나이저는 20비트 코드를 어떻게 나눠 예측하는가?",
+          "answer": "BSQ로 만든 20비트 코드를 10비트 coarse와 10비트 fine 두 서브토큰으로 인수분해하고, coarse를 먼저 예측한 뒤 그 임베딩을 조건으로 fine을 예측한다(W34 심층 분석 기준)."
+        },
+        "spaced_review": {
+          "flag": false,
+          "review_due": null
+        }
+      },
+      "title_ko": "Kronos: 금융 시장의 언어를 위한 파운데이션 모델"
+    },
+    "2610.14224": {
+      "title_ko": "Harness²: 열린 세계를 위한 재귀적 에이전트 하니스 개선",
+      "classify": {
+        "categories": [
+          "LLM/Agents"
+        ],
+        "primary_category": "LLM/Agents",
+        "topic_tags": [
+          "agent-harness",
+          "self-refinement",
+          "agentic-workflow",
+          "test-time-compute"
+        ],
+        "method_tags": [
+          "inference-time",
+          "prompting"
+        ],
+        "modality": [
+          "text"
+        ],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "정답 검증기 없이 대조적 제안-시험 실행-조합으로 하니스를 고치고, 그 경험을 다음 과제용 개선 하니스에 쌓는다.",
+        "problem": "LLM 에이전트의 능력은 모델뿐 아니라 실행 하니스에도 달려 있고, 재귀적 자기개선(RSI)은 이 하니스를 자동으로 진화시키는 유망한 방법이다. 그러나 열린 세계의 과제는 하니스 설계 단계에서 보지 못한 새 과제라 온라인 수정을 이끌 정답 검증기가 없고, RSI 과정 자체도 과제마다 특화돼 새 상황으로 일반화되지 않는다.",
+        "approach": "Harness²는 서로 연결된 두 단계의 재귀로 이 문제를 다루는 플러그인형 프레임워크다. 과제 수준 재귀(task-level recursion)는 대조적 Propose-Probe-Compose 단계로 정답 검증기 없이 현재 과제의 하니스 수정을 이끌고, 병렬 또는 순차 재귀로 더 늘릴 수 있다. 하니스 수준 재귀(harnessing-level recursion)는 이런 수정에서 경험을 뽑아 지속 개선 하니스(continual improvement harness)를 갱신해, 에이전트가 이후 과제에 더 잘 적응하게 한다.",
+        "contributions": [
+          "정답 검증기가 없는 열린 세계 과제를 위한 2단계 재귀 하니스 개선 프레임워크(과제 수준·하니스 수준)",
+          "3개 전문 벤치마크와 4개 모델-하니스 구성에서 한 번의 단계(k=1)만으로 GLM-5와 Gemini 3.5 Flash를 기본 하니스보다 일관되게 개선했다고 보고. 단 k=1에도 과제당 실행 4회와 Claude Opus 4.8 편집 세션 3회가 들어간다(W43 심층 분석)",
+          "WorkBuddy-Bench 최대 +11.5점, JobBench 최대 +4.5점, LAB 최대 +11.8%p를 보고했고, 과제 수준 재귀 예산을 늘리면 추가로 개선된다고 밝힘",
+          "Google Research 코드 공개(Apache-2.0, GitHub 약 2.3만 스타)와 프로젝트 페이지"
+        ],
+        "why_now": "W43부터 4주 연속 등장했지만 업보트는 W44 ▲123을 정점으로 85 -> 67로 2주 연속 줄었고, GitHub 스타는 약 2.2만에서 2.3만으로 늘었다. TokenEconomizer도 2주째 함께 올라, 하니스를 '성능을 올리는 수정'과 '비용을 줄이는 수정'으로 다루는 두 논문이 나란히 이어진다. W43 심층 분석대로 그 이득은 더 강한 편집기와 추가 실행을 쓰는 test-time 계산의 대가라는 조건을 함께 읽어야 한다.",
+        "difficulty": "고급",
+        "recommended_reader": "에이전트 하니스나 스킬을 반복 개선하는 개발자, 검증기 없는 자기개선에 관심 있는 학습자",
+        "field_tags": [
+          "에이전트하니스",
+          "재귀적자기개선",
+          "검증기없는개선",
+          "지속개선"
+        ],
+        "interest": {
+          "upvotes": 67,
+          "num_comments": 4,
+          "github_stars": 23151
+        }
+      },
+      "learning": {
+        "key_terms": [
+          {
+            "term": "Execution Harness",
+            "gloss": "에이전트를 둘러싼 프롬프트·도구·제어 흐름·메모리 같은 실행 골격. 같은 모델이라도 하니스에 따라 성능이 달라진다"
+          },
+          {
+            "term": "Propose-Probe-Compose",
+            "gloss": "범위가 다른 수정 후보 2개(절차 INV, 도메인 DOM)를 제안하고(Propose), 각 후보를 같은 과제에서 1회 실행해 기본 실행과 행동을 대조한 뒤(Probe), 그 근거로 병합·채택·수정·유지를 정하는(Compose) 단계. 정답을 검증하는 대신 LLM이 실행 기록을 읽고 판단한다"
+          },
+          {
+            "term": "Continual Improvement Harness",
+            "gloss": "과제별 하니스 수정에서 얻은 경험을 모아 이후 과제의 하니스 개선에 쓰는 상위 하니스"
+          }
+        ],
+        "recall_quiz": {
+          "question": "Harness²가 편집 후보를 만들 때 나누는 두 종류 INV와 DOM은 각각 무엇을 맡는가?",
+          "answer": "INV는 도구 오류·반복 작업·완료 확인 같은 도메인 무관 절차 결함을, DOM은 산출물 구조·결정 규칙 같은 실무 지식을 맡는다(W43 심층 분석 기준)."
+        },
+        "spaced_review": {
+          "flag": false,
+          "review_due": null
+        }
+      }
+    },
+    "2608.16157": {
+      "classify": {
+        "categories": [
+          "Efficiency/Inference"
+        ],
+        "primary_category": "Efficiency/Inference",
+        "topic_tags": [
+          "moe-serving",
+          "edge-inference",
+          "cpu-gpu-offloading",
+          "agentic-state-reuse"
+        ],
+        "method_tags": [
+          "inference-time",
+          "architecture"
+        ],
+        "modality": [
+          "text"
+        ],
+        "confidence": "high"
+      },
+      "tier1": {
+        "one_liner": "개인 PC를 탄력적 추론 플랫폼으로 보고, 노트북 GPU부터 워크스테이션 GPU 1장까지 대형 MoE를 서빙하는 엔진.",
+        "problem": "프런티어급 공개 가중치 MoE가 늘었지만 서빙은 여전히 데이터센터 인프라를 전제한다. 로컬에서는 에이전트 워크로드의 실행 패턴이 계속 바뀌고, 기기마다 GPU·CPU·메모리 대역의 균형이 달라 고정된 오프로딩 전략이 잘 맞지 않는다.",
+        "approach": "routed expert 전체를 CPU 메모리에 두고, 남은 GPU 메모리를 모든 층이 공유하는 expert 캐시(전역 LRU)로 쓴다. prefill은 다음 층 expert 전체를 미리 옮기는 double buffering으로, decode의 캐시 miss는 q* = m x B_P / B_H 규칙으로 GPU 캐시 채우기와 CPU 실행에 나눈다(B_P·B_H는 기기에서 실측한 PCIe 전송 대역과 CPU expert 커널 대역). 에이전트가 thinking 블록이나 도구 출력을 잘라내도 다시 계산할 부분이 적도록, 특수 토큰 경계에 recurrent state와 KV 체크포인트를 둔다(W35 심층 분석 기준).",
+        "contributions": [
+          "RTX 5090에서 Qwen3.6-35B-A3B 77~83 tok/s(각 워크로드 최강 베이스라인의 1.8~2.3배), DeepSeek-V4-Flash 284B 22~25 tok/s(1.5~1.9배)를 보고. 반복 실행이나 오차 막대는 없다",
+          "8GB RTX 4060 노트북에서 Qwen3.6 NVFP4 39.3 tok/s, RTX PRO 6000 한 장에서 GLM-5.2 753B 14.9 tok/s(llama.cpp 7.3의 2.0배)를 보고",
+          "Claude Code·OpenCode·OpenClaw로 돌린 에이전트 워크로드에서 최악 턴 TTFT가 모든 조건에서 44초 미만이었고, 베이스라인은 모두 어딘가에서 150초를 넘겼다고 보고",
+          "코드 공개(Apache-2.0, GitHub 약 1.7만 스타). CLI 설치 문서는 Linux x86_64와 NVIDIA 드라이버 r580+(CUDA 13)를 요구하고 Windows는 데스크톱 앱으로 배포된다. AMD ROCm 설치 가이드는 실험 단계(WIP)로 추가돼 있다"
+        ],
+        "why_now": "W36 이후 수집 7주 동안 빠졌다가 다시 올랐다(▲104 -> 111, GitHub 스타 약 1.1만 -> 1.7만). W41부터 5주 연속 오른 Edge0가 이번 주 빠진 자리에, 같은 '큰 모델을 내 기기에서 돌린다'는 주제의 이 논문이 돌아왔다. Claude Code를 로컬 엔드포인트에 붙인 워크로드를 직접 평가해 이 시스템의 작업 방식과도 맞닿지만, 평가 GPU가 모두 NVIDIA라는 조건을 함께 읽어야 한다.",
+        "difficulty": "고급",
+        "recommended_reader": "LLM 서빙·MoE 추론 최적화·로컬 AI 배포에 관심 있는 학습자",
+        "field_tags": [
+          "MoE서빙",
+          "엣지추론",
+          "오프로딩",
+          "로컬AI"
+        ],
+        "interest": {
+          "upvotes": 111,
+          "num_comments": 2,
+          "github_stars": 16858
+        }
+      },
+      "learning": {
+        "key_terms": [
+          {
+            "term": "Expert Residency",
+            "gloss": "MoE의 어떤 expert를 GPU에 올려 둘지 정하는 문제. FreeToken은 라우터가 실제로 고른 expert를 따라가는 전역 공유 LRU 캐시로 푼다"
+          },
+          {
+            "term": "Bandwidth-adaptive Execution (q*)",
+            "gloss": "GPU 캐시에 없는 expert m개 중 q* = m x B_P / B_H개는 PCIe로 옮겨 GPU에서, 나머지는 CPU에서 계산해 두 경로가 비슷한 시간에 끝나게 나누는 규칙"
+          },
+          {
+            "term": "Semantic-aware State Cache",
+            "gloss": "thinking 블록·도구 호출·대화 턴을 표시하는 특수 토큰 경계에 recurrent state 체크포인트를 둬, 에이전트가 문맥을 잘라내도 살아남은 가장 깊은 지점부터 다시 계산하는 캐시"
+          }
+        ],
+        "recall_quiz": {
+          "question": "FreeToken의 q* 정책은 캐시에 없는 expert를 어떻게 나누며, 그 비율은 무엇으로 정해지는가?",
+          "answer": "m개의 miss 중 q* = m x B_P / B_H개는 GPU 캐시로 채워 계산하고 나머지는 CPU에서 실행한다. B_P는 PCIe expert 전송 대역, B_H는 호스트 측 expert 커널의 실효 대역이며 둘 다 배포 기기에서 실측한다(W35 심층 분석 기준)."
+        },
+        "spaced_review": {
+          "flag": false,
+          "review_due": null
+        }
+      },
+      "title_ko": "FreeToken: 대역폭 적응형 실행으로 개인 PC에서 프런티어급 MoE를 서빙하다"
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "week_id": "2026-W46",
+  "papers": {},
+  "week_summary": {
+    "headline_ko": "수집 20주 만에 처음으로 신작 0편 — 6편 모두 재등장, 음성 합성 VibeVoice(▲184)와 로컬 MoE 서빙 FreeToken이 공백 뒤 복귀하고 TradingAgents·Kronos·Harness²는 4주 연속",
+    "clusters": [
+      {
+        "category": "LLM/Agents",
+        "paper_ranks": [
+          1,
+          3,
+          5
+        ],
+        "theme_ko": "에이전트 3편 모두 재등장 — 4주 연속 TradingAgents·Harness²와 2주째 TokenEconomizer"
+      }
+    ],
+    "emerging_keywords": [],
+    "narrative_ko": "이번 주 6편이 모두 이전에 오른 논문이라, 수집 20주 만에 처음으로 새 논문이 한 편도 없는 주가 됐다(이전 최소는 W28·W31·W44·W45의 1편이다). 그래도 관심도 합계는 603으로 20회 관측 중 9위인데, W32 이후 수집 11주 공백 뒤 돌아온 음성 합성 모델 VibeVoice(▲184)가 최다 업보트였고 W36 이후 수집 7주 공백 뒤 돌아온 로컬 MoE 서빙 엔진 FreeToken(▲111)과 TradingAgents(▲163)가 뒤를 받쳤다. TradingAgents·Kronos·Harness²는 W43부터 4주 연속 올랐고 TokenEconomizer는 2주째이며, W41부터 5주 연속이던 Edge0와 W45에 돌아온 Unlimited OCR Works는 빠졌다. 지금까지 수집한 고유 논문은 52편이다.",
+    "recent_trend_ko": "누적 20회 관측 기준, 신작이 W44 1편, W45 1편, W46 0편으로 줄어 키워드·카테고리 흐름이 같은 논문의 반복으로 이어지는 시기다. 효율·추론최적화는 1차 카테고리 기준 W40부터 7회 관측 연속 등장했고 moe-serving·edge-inference도 W41부터 6회 연속이지만, W41~W45는 W41에 처음 오른 Edge0 한 편이고 W46은 재등장한 FreeToken이라 두 논문이 이어 붙인 기록이다. self-refinement는 W42부터 5회 연속이지만 W44~W46은 Harness² 한 편이고, agent-harness의 W43~W46 등장도 모두 Harness²다. 데이터(Data) 카테고리는 Kronos 한 편으로 4주째이고, financial-ai는 20회 중 19회 등장이다. speech-synthesis 키워드는 W38 AuK 이후 처음 다시 나왔지만 VibeVoice의 재등장이며, 비전은 2주 연속 0편이다. 연속 등장 배지는 TradingAgents·Kronos·Harness²(4주), TokenEconomizer(2주)에 붙는다.",
+    "caveats_ko": "주 6편의 HuggingFace 트렌딩 표본은 인기·최신성 편향을 강하게 받으며, 업보트와 GitHub 스타는 연구 중요도가 아닌 관심도 지표이고, W37·W39 미수집으로 추세 판정은 수집된 20회 관측끼리의 비교다. 이번 주는 6편 모두 재등장이라 '지속' 판정 대부분이 같은 논문의 반복에서 나오므로, 흐름의 강도로 읽으면 과대평가가 된다. VibeVoice와 FreeToken 카드는 이번에 현재 형식으로 다시 썼고 수치는 각각 W32·W35 심층 분석 기준인데, 두 분석은 W41부터 쓰는 순차 2단계 검증 이전의 것이라 W43·W45 분석보다 근거가 약하다. VibeVoice의 '최대 90분'은 90분 근처에서 평가되지 않았고 MOS 우위는 7B 기준·대본 8개 평가이며, TTS 코드는 2025년 9월 저장소에서 삭제됐다. FreeToken의 배수는 반복 실행 없는 단일 측정이고 평가 GPU는 모두 NVIDIA다. 나머지 4편은 기존 심층 분석의 조건을 따른다. TokenEconomizer의 절감은 SWE-Bench 연속 스트림에서 잰 가격 가중 비용이고(W45), Harness²의 이득은 Opus 4.8 편집기와 추가 실행을 쓰는 test-time 계산의 대가이며(W43), Kronos의 RankIC +93%는 작은 절대값 위의 상대 개선이자 단일 실행 결과이고(W34), TradingAgents의 수익 지표는 3종목·약 5개월 백테스트 결과다(W31)."
+  }
+}

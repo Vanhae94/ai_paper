@@ -7,7 +7,7 @@
         "experiment_setup": [
           "평가축 3개: (1) 장문 다화자 팟캐스트 주관/객관 평가, (2) SEED 단문 zero-shot TTS, (3) LibriTTS 토크나이저 재구성 품질.",
           "팟캐스트 평가는 8개 장문 대화 스크립트(총 약 1시간)를 사용하고, 24명의 어노테이터가 Realism/Richness/Preference 3개 축으로 MOS를 매김. 객관 지표는 Whisper-large-v3 WER, NeMo ASR WER, WavLM-large 기반 SIM.",
-          "팟캐스트 MOS 평균: VibeVoice-7B 3.76(+/-0.93) > VibeVoice-1.5B 3.54(+/-0.96) > Gemini 2.5 Pro 3.66(+/-1.16)와 비교 시 Preference 항목에서 7B 3.75 vs Gemini 3.65로 우위. Elevenlabs v3 alpha 3.40, Higgs Audio V2 2.99, SesameAI CSM 2.89.",
+          "팟캐스트 MOS 평균: VibeVoice-7B 3.76(+/-0.93) > Gemini 2.5 Pro 3.66(+/-1.16) > VibeVoice-1.5B 3.54(+/-0.96). Preference 항목에서는 7B 3.75 vs Gemini 3.65로 우위. Elevenlabs v3 alpha 3.40, Higgs Audio V2 2.99, SesameAI CSM 2.89(W46 검증에서 순위 표기를 바로잡음).",
           "팟캐스트 WER(Whisper): VibeVoice-1.5B 1.11이 최저, 7B 1.29, Gemini 2.5 Pro 1.73, Elevenlabs 2.39, CSM 2.66, Higgs Audio V2 5.94. SIM은 7B 0.692, CSM 0.685, Elevenlabs 0.623, 1.5B 0.548.",
           "SEED 단문(1.5B만 보고): test-zh CER 1.16% / SIM 0.744, test-en WER 3.04% / SIM 0.689. 비교군 Seed-TTS(zh CER 1.12, en WER 2.25, SIM 0.796/0.762), MaskGCT, FireRedTTS, CosyVoice 2, Spark TTS. 즉 zh CER은 상위권이지만 en WER과 SIM은 최상위 대비 열위이며, 프레임레이트가 7.5Hz(타 모델 25~50Hz)라는 점이 트레이드오프 근거로 제시됨.",
           "토크나이저 재구성(LibriTTS test-clean): 제안 음향 토크나이저는 양자화기 1개, 토큰레이트 7.5로 PESQ 3.068 / UTMOS 4.181을 기록. Encodec(8 quantizer, 600 토큰레이트)은 PESQ 2.72 / UTMOS 3.04, WavTokenizer(75)는 PESQ 2.373 / UTMOS 4.049. 토큰레이트 600 대 7.5가 곧 '80배 압축' 주장의 근거.",
@@ -56,7 +56,6 @@
             "핵심 하이퍼파라미터가 빠져 있다. 토크나이저는 인코더/디코더 각 약 340M으로 명시했지만, 확산 헤드의 히든 차원과 파라미터 수, 음향 잠재 채널 수, C_sigma 값은 모두 없어 재구현이 불가능하다.",
             "논문의 공개 경로와 실제 상태가 어긋난다. 2025년 9월 Microsoft가 TTS 코드를 저장소에서 삭제했고 microsoft/VibeVoice-Large 공식 페이지도 접근 불가다. 논문 링크만 따라가면 표1의 7B를 재현할 수 없다.",
             "논문 수치는 안전 장치 없는 조건일 가능성이 크다. 워터마크와 가청 고지문은 본문에 언급조차 없고 HF 모델 카드에만 있다. 공개 코드로 WER, SIM을 재측정하면 조건이 달라진다.",
-            "논문 내부 불일치가 있다. 본문은 6개 모델을 평가했다고 적었지만 표1에는 8행이 있다. 본문 확인 필요.",
             "공개된 7B(VibeVoice-Large)는 32K 컨텍스트, 약 45분으로 표기돼 초록의 64K/90분과 어긋난다. 90분은 1.5B 기준으로 보인다.",
             "우위가 7B에만 걸려 있다. 표1에서 1.5B 평균 3.54는 Gemini 3.66보다 낮고 SIM 0.548은 CSM 0.685보다 낮다."
           ]

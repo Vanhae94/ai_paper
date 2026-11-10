@@ -1,0 +1,698 @@
+[
+  {
+    "paper": {
+      "id": "2412.20138",
+      "authors": [
+        {
+          "_id": "6847673b3ec10bdd8ab4dd5e",
+          "user": {
+            "_id": "619b6a24030b707ff1f05dee",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/619b6a24030b707ff1f05dee/8FZjePfOuTtN3uvTmaEg5.jpeg",
+            "isPro": false,
+            "fullname": "Yijia Xiao",
+            "user": "Yijia-Xiao",
+            "type": "user",
+            "name": "Yijia-Xiao"
+          },
+          "name": "Yijia Xiao",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-08-08T16:45:04.607Z",
+          "hidden": false
+        },
+        {
+          "_id": "6847673b3ec10bdd8ab4dd5f",
+          "name": "Edward Sun",
+          "hidden": false
+        },
+        {
+          "_id": "6847673b3ec10bdd8ab4dd60",
+          "name": "Di Luo",
+          "hidden": false
+        },
+        {
+          "_id": "6847673b3ec10bdd8ab4dd61",
+          "name": "Wei Wang",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2024-12-28T12:54:06.000Z",
+      "title": "TradingAgents: Multi-Agents LLM Financial Trading Framework",
+      "summary": "Significant progress has been made in automated problem-solving using\nsocieties of agents powered by large language models (LLMs). In finance,\nefforts have largely focused on single-agent systems handling specific tasks or\nmulti-agent frameworks independently gathering data. However, the multi-agent\nsystems' potential to replicate real-world trading firms' collaborative\ndynamics remains underexplored. TradingAgents proposes a novel stock trading\nframework inspired by trading firms, featuring LLM-powered agents in\nspecialized roles such as fundamental analysts, sentiment analysts, technical\nanalysts, and traders with varied risk profiles. The framework includes Bull\nand Bear researcher agents assessing market conditions, a risk management team\nmonitoring exposure, and traders synthesizing insights from debates and\nhistorical data to make informed decisions. By simulating a dynamic,\ncollaborative trading environment, this framework aims to improve trading\nperformance. Detailed architecture and extensive experiments reveal its\nsuperiority over baseline models, with notable improvements in cumulative\nreturns, Sharpe ratio, and maximum drawdown, highlighting the potential of\nmulti-agent LLM frameworks in financial trading. TradingAgents is available at\nhttps://github.com/TauricResearch/TradingAgents.",
+      "upvotes": 163,
+      "discussionId": "6847673c3ec10bdd8ab4dd62",
+      "githubRepo": "https://github.com/tauricresearch/tradingagents",
+      "githubRepoAddedBy": "auto",
+      "ai_summary": "A multi-agent framework using large language models for stock trading simulates real-world trading firms, improving performance metrics like cumulative returns and Sharpe ratio.",
+      "ai_keywords": [
+        "large language models",
+        "LLM",
+        "multi-agent systems",
+        "fundamental analysts",
+        "sentiment analysts",
+        "technical analysts",
+        "traders",
+        "risk management",
+        "cumulative returns",
+        "Sharpe ratio",
+        "maximum drawdown"
+      ],
+      "ai_summary_model": "Qwen/Qwen2.5-Coder-32B-Instruct",
+      "githubStars": 121414
+    },
+    "publishedAt": "2024-12-28T07:54:06.000Z",
+    "title": "TradingAgents: Multi-Agents LLM Financial Trading Framework",
+    "summary": "Significant progress has been made in automated problem-solving using\nsocieties of agents powered by large language models (LLMs). In finance,\nefforts have largely focused on single-agent systems handling specific tasks or\nmulti-agent frameworks independently gathering data. However, the multi-agent\nsystems' potential to replicate real-world trading firms' collaborative\ndynamics remains underexplored. TradingAgents proposes a novel stock trading\nframework inspired by trading firms, featuring LLM-powered agents in\nspecialized roles such as fundamental analysts, sentiment analysts, technical\nanalysts, and traders with varied risk profiles. The framework includes Bull\nand Bear researcher agents assessing market conditions, a risk management team\nmonitoring exposure, and traders synthesizing insights from debates and\nhistorical data to make informed decisions. By simulating a dynamic,\ncollaborative trading environment, this framework aims to improve trading\nperformance. Detailed architecture and extensive experiments reveal its\nsuperiority over baseline models, with notable improvements in cumulative\nreturns, Sharpe ratio, and maximum drawdown, highlighting the potential of\nmulti-agent LLM frameworks in financial trading. TradingAgents is available at\nhttps://github.com/TauricResearch/TradingAgents.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2412.20138.png",
+    "numComments": 6,
+    "isAuthorParticipating": true
+  },
+  {
+    "paper": {
+      "id": "2508.19205",
+      "authors": [
+        {
+          "_id": "68ae6a0f364411bea07df70f",
+          "user": {
+            "_id": "646c408336505117e22f4b36",
+            "avatarUrl": "/avatars/7cbc8fb311bf3238af0784026cf10bc7.svg",
+            "isPro": false,
+            "fullname": "zhiliang",
+            "user": "zzliang",
+            "type": "user",
+            "name": "zzliang"
+          },
+          "name": "Zhiliang Peng",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2025-09-01T07:54:23.745Z",
+          "hidden": false
+        },
+        {
+          "_id": "68ae6a0f364411bea07df710",
+          "name": "Jianwei Yu",
+          "hidden": false
+        },
+        {
+          "_id": "68ae6a0f364411bea07df711",
+          "name": "Wenhui Wang",
+          "hidden": false
+        },
+        {
+          "_id": "68ae6a0f364411bea07df712",
+          "name": "Yaoyao Chang",
+          "hidden": false
+        },
+        {
+          "_id": "68ae6a0f364411bea07df713",
+          "name": "Yutao Sun",
+          "hidden": false
+        },
+        {
+          "_id": "68ae6a0f364411bea07df714",
+          "user": {
+            "_id": "5df85abada6d0311fd3d5408",
+            "avatarUrl": "/avatars/fc74ac8777e44febc806ca70b07db692.svg",
+            "isPro": false,
+            "fullname": "Li Dong",
+            "user": "unilm",
+            "type": "user",
+            "name": "unilm"
+          },
+          "name": "Li Dong",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2025-08-27T07:10:54.323Z",
+          "hidden": false
+        },
+        {
+          "_id": "68ae6a0f364411bea07df715",
+          "name": "Yi Zhu",
+          "hidden": false
+        },
+        {
+          "_id": "68ae6a0f364411bea07df716",
+          "name": "Weijiang Xu",
+          "hidden": false
+        },
+        {
+          "_id": "68ae6a0f364411bea07df717",
+          "name": "Hangbo Bao",
+          "hidden": false
+        },
+        {
+          "_id": "68ae6a0f364411bea07df718",
+          "name": "Zehua Wang",
+          "hidden": false
+        },
+        {
+          "_id": "68ae6a0f364411bea07df719",
+          "user": {
+            "_id": "632bd2f72d6a805eeb4bc601",
+            "avatarUrl": "/avatars/e6f814c389670b20338067d21ed2aacf.svg",
+            "isPro": false,
+            "fullname": "HUANG SHAOHAN",
+            "user": "buaahsh",
+            "type": "user",
+            "name": "buaahsh"
+          },
+          "name": "Shaohan Huang",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2025-08-28T08:56:32.368Z",
+          "hidden": false
+        },
+        {
+          "_id": "68ae6a0f364411bea07df71a",
+          "name": "Yan Xia",
+          "hidden": false
+        },
+        {
+          "_id": "68ae6a0f364411bea07df71b",
+          "name": "Furu Wei",
+          "hidden": false
+        }
+      ],
+      "mediaUrls": [
+        "https://cdn-uploads.huggingface.co/production/uploads/5df85abada6d0311fd3d5408/6tNh2DlU1e_nu7eznNjy1.png"
+      ],
+      "publishedAt": "2025-08-26T17:09:12.000Z",
+      "submittedOnDailyAt": "2025-08-27T00:00:00.000Z",
+      "title": "VibeVoice Technical Report",
+      "submittedOnDailyBy": {
+        "_id": "5df85abada6d0311fd3d5408",
+        "avatarUrl": "/avatars/fc74ac8777e44febc806ca70b07db692.svg",
+        "isPro": false,
+        "fullname": "Li Dong",
+        "user": "unilm",
+        "type": "user",
+        "name": "unilm"
+      },
+      "summary": "This report presents VibeVoice, a novel model designed to synthesize\nlong-form speech with multiple speakers by employing next-token diffusion,\nwhich is a unified method for modeling continuous data by autoregressively\ngenerating latent vectors via diffusion. To enable this, we introduce a novel\ncontinuous speech tokenizer that, when compared to the popular Encodec model,\nimproves data compression by 80 times while maintaining comparable performance.\nThe tokenizer effectively preserves audio fidelity while significantly boosting\ncomputational efficiency for processing long sequences. Thus, VibeVoice can\nsynthesize long-form speech for up to 90 minutes (in a 64K context window\nlength) with a maximum of 4 speakers, capturing the authentic conversational\n``vibe'' and surpassing open-source and proprietary dialogue models.",
+      "upvotes": 184,
+      "discussionId": "68ae6a0f364411bea07df71c",
+      "projectPage": "https://microsoft.github.io/VibeVoice/",
+      "githubRepo": "https://github.com/microsoft/VibeVoice",
+      "githubRepoAddedBy": "user",
+      "ai_summary": "VibeVoice synthesizes long-form multi-speaker speech using next-token diffusion and a highly efficient continuous speech tokenizer, achieving superior performance and fidelity.",
+      "ai_keywords": [
+        "next-token diffusion",
+        "continuous speech tokenizer",
+        "Encodec",
+        "audio fidelity",
+        "computational efficiency",
+        "long-form speech",
+        "multi-speaker synthesis",
+        "conversational vibe",
+        "dialogue models"
+      ],
+      "ai_summary_model": "Qwen/Qwen2.5-Coder-32B-Instruct",
+      "githubStars": 56806,
+      "organization": {
+        "_id": "68151d0f51add3813f3f7d1b",
+        "name": "MicrosoftResearch",
+        "fullname": "Microsoft Research",
+        "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/6529a4f2f1205983224fa513/PeuVr7jSuJflmDBBGxoDX.png"
+      }
+    },
+    "publishedAt": "2025-08-26T13:09:12.000Z",
+    "title": "VibeVoice Technical Report",
+    "summary": "This report presents VibeVoice, a novel model designed to synthesize\nlong-form speech with multiple speakers by employing next-token diffusion,\nwhich is a unified method for modeling continuous data by autoregressively\ngenerating latent vectors via diffusion. To enable this, we introduce a novel\ncontinuous speech tokenizer that, when compared to the popular Encodec model,\nimproves data compression by 80 times while maintaining comparable performance.\nThe tokenizer effectively preserves audio fidelity while significantly boosting\ncomputational efficiency for processing long sequences. Thus, VibeVoice can\nsynthesize long-form speech for up to 90 minutes (in a 64K context window\nlength) with a maximum of 4 speakers, capturing the authentic conversational\n``vibe'' and surpassing open-source and proprietary dialogue models.",
+    "mediaUrls": [
+      "https://cdn-uploads.huggingface.co/production/uploads/5df85abada6d0311fd3d5408/6tNh2DlU1e_nu7eznNjy1.png"
+    ],
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2508.19205.png",
+    "numComments": 10,
+    "submittedBy": {
+      "_id": "5df85abada6d0311fd3d5408",
+      "avatarUrl": "/avatars/fc74ac8777e44febc806ca70b07db692.svg",
+      "fullname": "Li Dong",
+      "name": "unilm",
+      "type": "user",
+      "isPro": false,
+      "isHf": false,
+      "isHfAdmin": false,
+      "isMod": false,
+      "followerCount": 76,
+      "isUserFollowing": false
+    },
+    "organization": {
+      "_id": "68151d0f51add3813f3f7d1b",
+      "name": "MicrosoftResearch",
+      "fullname": "Microsoft Research",
+      "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/6529a4f2f1205983224fa513/PeuVr7jSuJflmDBBGxoDX.png"
+    },
+    "isAuthorParticipating": true
+  },
+  {
+    "paper": {
+      "id": "2610.22732",
+      "authors": [
+        {
+          "_id": "6ad6bd90774b2a8cb5c7d724",
+          "name": "Aaron J. Li",
+          "hidden": false
+        },
+        {
+          "_id": "6ad6bd90774b2a8cb5c7d725",
+          "name": "Weijia Xu",
+          "hidden": false
+        },
+        {
+          "_id": "6ad6bd90774b2a8cb5c7d726",
+          "name": "Chandan Singh",
+          "hidden": false
+        },
+        {
+          "_id": "6ad6bd90774b2a8cb5c7d727",
+          "name": "Zixiao Chen",
+          "hidden": false
+        },
+        {
+          "_id": "6ad6bd90774b2a8cb5c7d728",
+          "name": "Jeevana Priya Inala",
+          "hidden": false
+        },
+        {
+          "_id": "6ad6bd90774b2a8cb5c7d729",
+          "name": "Charlotte Siska",
+          "hidden": false
+        },
+        {
+          "_id": "6ad6bd90774b2a8cb5c7d72a",
+          "name": "Acar Tamersoy",
+          "hidden": false
+        },
+        {
+          "_id": "6ad6bd90774b2a8cb5c7d72b",
+          "name": "Bin Yu",
+          "hidden": false
+        },
+        {
+          "_id": "6ad6bd90774b2a8cb5c7d72c",
+          "name": "Ion Stoica",
+          "hidden": false
+        },
+        {
+          "_id": "6ad6bd90774b2a8cb5c7d72d",
+          "name": "Michel Galley",
+          "hidden": false
+        },
+        {
+          "_id": "6ad6bd90774b2a8cb5c7d72e",
+          "name": "Jianfeng Gao",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2026-10-15T00:00:00.000Z",
+      "submittedOnDailyAt": "2026-10-19T00:00:00.000Z",
+      "title": "TokenEconomizer: Experience-Driven Black-Box Cost Control for Coding Agents",
+      "submittedOnDailyBy": {
+        "_id": "64bf84bf1f38bef571e7e3e8",
+        "avatarUrl": "/avatars/0003aea5dd86e05e45add27bd9f28ac6.svg",
+        "isPro": false,
+        "fullname": "Aaron Li",
+        "user": "aaronjli",
+        "type": "user",
+        "name": "aaronjli"
+      },
+      "summary": "Advances in frontier coding agents have sharply increased the token costs of AI-assisted software engineering. Their token efficiency is typically evaluated on isolated tasks, whereas real-world developers use them to continuously build, update, and maintain large-scale projects. This mismatch motivates us to evaluate agents over sequences of realistic coding tasks, where we find that agents exhibit recurring environment-dependent token costs that existing methods struggle to reduce. To minimize these costs, we introduce TokenEconomizer, an external controller that cuts environment-specific token costs over a sequence of tasks. These cuts come from determining (i) which operational micro-skills to inject, (ii) which persistently irrelevant tools to prune, and (iii) when to intervene in unproductive failure loops. Across Claude Code, Codex, and GitHub Copilot CLI paired with frontier models, TokenEconomizer reduces the average token cost by 18.4-30.9% with comparable task success. Savings hold in every repository under every tested agent-model setting and generalize to diverse domains such as sequential web development and security auditing, where costs fall by 6.4-21.2% depending on task structure. Our work establishes adaptive black-box cost control as a promising direction for reducing token costs of coding agents in realistic settings.",
+      "upvotes": 14,
+      "discussionId": "6ad6bd90774b2a8cb5c7d72f",
+      "projectPage": "https://tokeneconomizer.github.io/",
+      "githubRepo": "https://github.com/microsoft/TokenEconomizer",
+      "githubRepoAddedBy": "user",
+      "ai_summary": "TokenEconomizer reduces recurring token costs of coding agents across sequential real-world tasks by pruning irrelevant tools, injecting micro-skills, and interrupting failure loops.",
+      "ai_keywords": [
+        "coding agents",
+        "token efficiency",
+        "TokenEconomizer",
+        "micro-skills",
+        "tool pruning",
+        "failure loops",
+        "black-box cost control"
+      ],
+      "ai_summary_model": "thinkingmachines/Inkling-Small",
+      "githubStars": 5298,
+      "organization": {
+        "_id": "68151d0f51add3813f3f7d1b",
+        "name": "MicrosoftResearch",
+        "fullname": "Microsoft Research",
+        "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/6529a4f2f1205983224fa513/PeuVr7jSuJflmDBBGxoDX.png"
+      }
+    },
+    "publishedAt": "2026-10-14T20:00:00.000Z",
+    "title": "TokenEconomizer: Experience-Driven Black-Box Cost Control for Coding Agents",
+    "summary": "Advances in frontier coding agents have sharply increased the token costs of AI-assisted software engineering. Their token efficiency is typically evaluated on isolated tasks, whereas real-world developers use them to continuously build, update, and maintain large-scale projects. This mismatch motivates us to evaluate agents over sequences of realistic coding tasks, where we find that agents exhibit recurring environment-dependent token costs that existing methods struggle to reduce. To minimize these costs, we introduce TokenEconomizer, an external controller that cuts environment-specific token costs over a sequence of tasks. These cuts come from determining (i) which operational micro-skills to inject, (ii) which persistently irrelevant tools to prune, and (iii) when to intervene in unproductive failure loops. Across Claude Code, Codex, and GitHub Copilot CLI paired with frontier models, TokenEconomizer reduces the average token cost by 18.4-30.9% with comparable task success. Savings hold in every repository under every tested agent-model setting and generalize to diverse domains such as sequential web development and security auditing, where costs fall by 6.4-21.2% depending on task structure. Our work establishes adaptive black-box cost control as a promising direction for reducing token costs of coding agents in realistic settings.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2610.22732.png",
+    "numComments": 2,
+    "submittedBy": {
+      "_id": "64bf84bf1f38bef571e7e3e8",
+      "avatarUrl": "/avatars/0003aea5dd86e05e45add27bd9f28ac6.svg",
+      "fullname": "Aaron Li",
+      "name": "aaronjli",
+      "type": "user",
+      "isPro": false,
+      "isHf": false,
+      "isHfAdmin": false,
+      "isMod": false,
+      "isUserFollowing": false
+    },
+    "organization": {
+      "_id": "68151d0f51add3813f3f7d1b",
+      "name": "MicrosoftResearch",
+      "fullname": "Microsoft Research",
+      "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/6529a4f2f1205983224fa513/PeuVr7jSuJflmDBBGxoDX.png"
+    },
+    "isAuthorParticipating": false
+  },
+  {
+    "paper": {
+      "id": "2508.02739",
+      "authors": [
+        {
+          "_id": "68940073741a16f544fbce2f",
+          "name": "Yu Shi",
+          "hidden": false
+        },
+        {
+          "_id": "68940073741a16f544fbce30",
+          "name": "Zongliang Fu",
+          "hidden": false
+        },
+        {
+          "_id": "68940073741a16f544fbce31",
+          "name": "Shuo Chen",
+          "hidden": false
+        },
+        {
+          "_id": "68940073741a16f544fbce32",
+          "name": "Bohan Zhao",
+          "hidden": false
+        },
+        {
+          "_id": "68940073741a16f544fbce33",
+          "name": "Wei Xu",
+          "hidden": false
+        },
+        {
+          "_id": "68940073741a16f544fbce34",
+          "name": "Changshui Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "68940073741a16f544fbce35",
+          "name": "Jian Li",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2025-08-02T13:15:59.000Z",
+      "title": "Kronos: A Foundation Model for the Language of Financial Markets",
+      "summary": "The success of large-scale pre-training paradigm, exemplified by Large\nLanguage Models (LLMs), has inspired the development of Time Series Foundation\nModels (TSFMs). However, their application to financial candlestick (K-line)\ndata remains limited, often underperforming non-pre-trained architectures.\nMoreover, existing TSFMs often overlook crucial downstream tasks such as\nvolatility prediction and synthetic data generation. To address these\nlimitations, we propose Kronos, a unified, scalable pre-training framework\ntailored to financial K-line modeling. Kronos introduces a specialized\ntokenizer that discretizes continuous market information into token sequences,\npreserving both price dynamics and trade activity patterns. We pre-train Kronos\nusing an autoregressive objective on a massive, multi-market corpus of over 12\nbillion K-line records from 45 global exchanges, enabling it to learn nuanced\ntemporal and cross-asset representations. Kronos excels in a zero-shot setting\nacross a diverse set of financial tasks. On benchmark datasets, Kronos boosts\nprice series forecasting RankIC by 93% over the leading TSFM and 87% over the\nbest non-pre-trained baseline. It also achieves a 9% lower MAE in volatility\nforecasting and a 22% improvement in generative fidelity for synthetic K-line\nsequences. These results establish Kronos as a robust, versatile foundation\nmodel for end-to-end financial time series analysis. Our pre-trained model is\npublicly available at https://github.com/shiyu-coder/Kronos.",
+      "upvotes": 64,
+      "discussionId": "68940073741a16f544fbce36",
+      "githubRepo": "https://github.com/shiyu-coder/Kronos",
+      "githubRepoAddedBy": "auto",
+      "ai_summary": "Kronos, a specialized pre-training framework for financial K-line data, outperforms existing models in forecasting and synthetic data generation through a unique tokenizer and autoregressive pre-training on a large dataset.",
+      "ai_keywords": [
+        "Large Language Models",
+        "Time Series Foundation Models",
+        "financial candlestick",
+        "volatility prediction",
+        "synthetic data generation",
+        "autoregressive objective",
+        "token sequences",
+        "price dynamics",
+        "trade activity patterns",
+        "zero-shot setting",
+        "price series forecasting",
+        "RankIC",
+        "MAE",
+        "generative fidelity"
+      ],
+      "ai_summary_model": "Qwen/Qwen2.5-Coder-32B-Instruct",
+      "githubStars": 47355
+    },
+    "publishedAt": "2025-08-02T09:15:59.000Z",
+    "title": "Kronos: A Foundation Model for the Language of Financial Markets",
+    "summary": "The success of large-scale pre-training paradigm, exemplified by Large\nLanguage Models (LLMs), has inspired the development of Time Series Foundation\nModels (TSFMs). However, their application to financial candlestick (K-line)\ndata remains limited, often underperforming non-pre-trained architectures.\nMoreover, existing TSFMs often overlook crucial downstream tasks such as\nvolatility prediction and synthetic data generation. To address these\nlimitations, we propose Kronos, a unified, scalable pre-training framework\ntailored to financial K-line modeling. Kronos introduces a specialized\ntokenizer that discretizes continuous market information into token sequences,\npreserving both price dynamics and trade activity patterns. We pre-train Kronos\nusing an autoregressive objective on a massive, multi-market corpus of over 12\nbillion K-line records from 45 global exchanges, enabling it to learn nuanced\ntemporal and cross-asset representations. Kronos excels in a zero-shot setting\nacross a diverse set of financial tasks. On benchmark datasets, Kronos boosts\nprice series forecasting RankIC by 93% over the leading TSFM and 87% over the\nbest non-pre-trained baseline. It also achieves a 9% lower MAE in volatility\nforecasting and a 22% improvement in generative fidelity for synthetic K-line\nsequences. These results establish Kronos as a robust, versatile foundation\nmodel for end-to-end financial time series analysis. Our pre-trained model is\npublicly available at https://github.com/shiyu-coder/Kronos.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2508.02739.png",
+    "numComments": 5,
+    "isAuthorParticipating": false
+  },
+  {
+    "paper": {
+      "id": "2610.14224",
+      "authors": [
+        {
+          "_id": "6acee61fabe004a210f25904",
+          "name": "Ruiyao Xu",
+          "hidden": false
+        },
+        {
+          "_id": "6acee61fabe004a210f25905",
+          "user": {
+            "_id": "64dbe2aa978d1f9fafe978e7",
+            "avatarUrl": "/avatars/34ac30601b20a7d2314afb0308bdbee3.svg",
+            "isPro": false,
+            "fullname": "Yanfei Chen",
+            "user": "anmourchen",
+            "type": "user",
+            "name": "anmourchen"
+          },
+          "name": "Yanfei Chen",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-10-29T20:11:12.710Z",
+          "hidden": false
+        },
+        {
+          "_id": "6acee61fabe004a210f25906",
+          "name": "Zhongying CuiZhu",
+          "hidden": false
+        },
+        {
+          "_id": "6acee61fabe004a210f25907",
+          "name": "Bhavana Dalvi Mishra",
+          "hidden": false
+        },
+        {
+          "_id": "6acee61fabe004a210f25908",
+          "name": "Yifei Ming",
+          "hidden": false
+        },
+        {
+          "_id": "6acee61fabe004a210f25909",
+          "name": "Han Yu",
+          "hidden": false
+        },
+        {
+          "_id": "6acee61fabe004a210f2590a",
+          "name": "Rujun Han",
+          "hidden": false
+        },
+        {
+          "_id": "6acee61fabe004a210f2590b",
+          "name": "Chen-Yu Lee",
+          "hidden": false
+        },
+        {
+          "_id": "6acee61fabe004a210f2590c",
+          "name": "Tomas Pfister",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2026-10-09T00:00:00.000Z",
+      "submittedOnDailyAt": "2026-10-14T00:00:00.000Z",
+      "title": "Harness^2: Recursive Agent Harnessing for an Open World",
+      "submittedOnDailyBy": {
+        "_id": "66e477a352356419c4712065",
+        "avatarUrl": "/avatars/dbde45208c735ffe6febef6802bc1f3d.svg",
+        "isPro": true,
+        "fullname": "Ruiyao Xu",
+        "user": "ruiyaox",
+        "type": "user",
+        "name": "ruiyaox"
+      },
+      "summary": "LLM agents' capabilities depend not only on their underlying models but also on their execution harnesses. Recursive self-improvement (RSI) offers a promising approach to automatically evolve these harnesses. However, deploying RSI in open-world settings still faces two critical challenges. First, open-world tasks are typically unseen during the harness design phase and novel at test time, leaving no ground-truth verifiers to reliably guide online harness edits. Second, the RSI process remains highly task-specific and fails to generalize to novel scenarios. We introduce Harness^2, a plug-and-play, recursive agent harnessing framework that addresses these challenges through two connected levels of recursion. Task-level recursion refines the current task's harness using a contrastive Propose-Probe-Compose step that reliably guides edits without ground-truth verifiers, and can be scaled further via parallel or sequential recursion. Harnessing-level recursion then extracts experience from these edits to update a continual improvement harness, enabling the agent to better adapt to future tasks. Across three professional benchmarks and four model-harness configurations, a single step consistently improves GLM-5 and Gemini 3.5 Flash over their base harnesses, yielding gains of up to 11.5 points on WorkBuddy-Bench, 4.5 points on JobBench, and 11.8 percentage points on LAB, with further gains as the task-level recursion budget increases.",
+      "upvotes": 67,
+      "discussionId": "6acee61fabe004a210f2590d",
+      "projectPage": "https://harness2.github.io/",
+      "githubRepo": "https://github.com/google-research/harness2",
+      "githubRepoAddedBy": "user",
+      "ai_summary": "Harness² improves agent execution harnesses through recursive task-level refinement and continual harness-level learning, boosting performance across benchmarks without ground-truth verifiers.",
+      "ai_keywords": [
+        "recursive self-improvement",
+        "LLM agents",
+        "execution harnesses",
+        "Harness²",
+        "Propose-Probe-Compose",
+        "task-level recursion",
+        "harnessing-level recursion",
+        "continual improvement harness"
+      ],
+      "ai_summary_model": "thinkingmachines/Inkling-Small",
+      "githubStars": 23151,
+      "organization": {
+        "_id": "5e6aca39878b8b2bf9806447",
+        "name": "google",
+        "fullname": "Google",
+        "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/5dd96eb166059660ed1ee413/WtA3YYitedOr9n02eHfJe.png"
+      }
+    },
+    "publishedAt": "2026-10-08T20:00:00.000Z",
+    "title": "Harness^2: Recursive Agent Harnessing for an Open World",
+    "summary": "LLM agents' capabilities depend not only on their underlying models but also on their execution harnesses. Recursive self-improvement (RSI) offers a promising approach to automatically evolve these harnesses. However, deploying RSI in open-world settings still faces two critical challenges. First, open-world tasks are typically unseen during the harness design phase and novel at test time, leaving no ground-truth verifiers to reliably guide online harness edits. Second, the RSI process remains highly task-specific and fails to generalize to novel scenarios. We introduce Harness^2, a plug-and-play, recursive agent harnessing framework that addresses these challenges through two connected levels of recursion. Task-level recursion refines the current task's harness using a contrastive Propose-Probe-Compose step that reliably guides edits without ground-truth verifiers, and can be scaled further via parallel or sequential recursion. Harnessing-level recursion then extracts experience from these edits to update a continual improvement harness, enabling the agent to better adapt to future tasks. Across three professional benchmarks and four model-harness configurations, a single step consistently improves GLM-5 and Gemini 3.5 Flash over their base harnesses, yielding gains of up to 11.5 points on WorkBuddy-Bench, 4.5 points on JobBench, and 11.8 percentage points on LAB, with further gains as the task-level recursion budget increases.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2610.14224.png",
+    "numComments": 4,
+    "submittedBy": {
+      "_id": "66e477a352356419c4712065",
+      "avatarUrl": "/avatars/dbde45208c735ffe6febef6802bc1f3d.svg",
+      "fullname": "Ruiyao Xu",
+      "name": "ruiyaox",
+      "type": "user",
+      "isPro": true,
+      "isHf": false,
+      "isHfAdmin": false,
+      "isMod": false,
+      "followerCount": 2,
+      "isUserFollowing": false
+    },
+    "organization": {
+      "_id": "5e6aca39878b8b2bf9806447",
+      "name": "google",
+      "fullname": "Google",
+      "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/5dd96eb166059660ed1ee413/WtA3YYitedOr9n02eHfJe.png"
+    },
+    "isAuthorParticipating": false
+  },
+  {
+    "paper": {
+      "id": "2608.16157",
+      "authors": [
+        {
+          "_id": "6a83ccb0675db694db8cd51b",
+          "name": "Shuo Yang",
+          "hidden": false
+        },
+        {
+          "_id": "6a83ccb0675db694db8cd51c",
+          "user": {
+            "_id": "670d34451de84e5d8870570e",
+            "avatarUrl": "/avatars/3dc922f5332e88180f059375923fee88.svg",
+            "isPro": false,
+            "fullname": "jasonfan",
+            "user": "jasonfxz",
+            "type": "user",
+            "name": "jasonfxz"
+          },
+          "name": "Xiaoze Fan",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-08-21T13:18:14.603Z",
+          "hidden": false
+        },
+        {
+          "_id": "6a83ccb0675db694db8cd51d",
+          "name": "Melissa Pan",
+          "hidden": false
+        },
+        {
+          "_id": "6a83ccb0675db694db8cd51e",
+          "name": "Haocheng Xi",
+          "hidden": false
+        },
+        {
+          "_id": "6a83ccb0675db694db8cd51f",
+          "name": "Zhe Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6a83ccb0675db694db8cd520",
+          "name": "Shanlin Sun",
+          "hidden": false
+        },
+        {
+          "_id": "6a83ccb0675db694db8cd521",
+          "name": "Kurt Keutzer",
+          "hidden": false
+        },
+        {
+          "_id": "6a83ccb0675db694db8cd522",
+          "name": "Song Han",
+          "hidden": false
+        },
+        {
+          "_id": "6a83ccb0675db694db8cd523",
+          "name": "Matei Zaharia",
+          "hidden": false
+        },
+        {
+          "_id": "6a83ccb0675db694db8cd524",
+          "name": "Chenfeng Xu",
+          "hidden": false
+        },
+        {
+          "_id": "6a83ccb0675db694db8cd525",
+          "name": "Ion Stoica",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2026-08-17T00:00:00.000Z",
+      "submittedOnDailyAt": "2026-08-19T00:00:00.000Z",
+      "title": "FreeToken: Efficient Edge-Native MoE Serving with Bandwidth-Adaptive Execution",
+      "submittedOnDailyBy": {
+        "_id": "642b970ceb31218a5f204a29",
+        "avatarUrl": "/avatars/ada8828dbed3b49cb202a7945046b85f.svg",
+        "isPro": false,
+        "fullname": "andy-yang",
+        "user": "andy-yang",
+        "type": "user",
+        "name": "andy-yang"
+      },
+      "summary": "Frontier open-weight models are increasingly available, but serving them still largely assumes datacenter infrastructure. We present FreeToken, an edge-native MoE serving system that treats a personal machine not as a small GPU, but as a unified, elastic inference platform. FreeToken co-designs the full serving stack, including model layout and loading, expert residency, CPU--GPU execution, agentic state reuse, and runtime memory management, around two realities of local AI: agent workloads continuously change their execution pattern, and edge hardware exposes heterogeneous resources whose balance differs from machine to machine. Rather than committing to a fixed offloading strategy, FreeToken continuously maps computation and model state onto the resources actually available. FreeToken supports more than 20 MoE models and real coding and tool-using agents across hardware ranging from an 8GB laptop GPU to a single workstation GPU. More importantly, it changes what these machines can practically serve, from a 35B model on a laptop to a 284B model on a gaming desktop and the 753B GLM-5.2 on a single workstation GPU. FreeToken turns open weights into deployable local software, making the machines users already own a practical platform for frontier-scale intelligence. We release the system at flashml.ai.",
+      "upvotes": 111,
+      "discussionId": "6a83ccb0675db694db8cd526",
+      "projectPage": "https://www.flashml.ai/",
+      "githubRepo": "https://github.com/FlashML-org/FreeToken",
+      "githubRepoAddedBy": "user",
+      "ai_summary": "FreeToken is an edge-native Mixture-of-Experts serving system that dynamically maps computation and model state onto heterogeneous local hardware to run large open-weight models on personal machines.",
+      "ai_keywords": [
+        "MoE serving",
+        "expert residency",
+        "CPU-GPU execution",
+        "agentic state reuse",
+        "runtime memory management",
+        "offloading strategy",
+        "open-weight models"
+      ],
+      "ai_summary_model": "thinkingmachines/Inkling-Small",
+      "githubStars": 16858,
+      "organization": {
+        "_id": "66b1baeff10262fc4fa61961",
+        "name": "UCBerkeley",
+        "fullname": "University of California, Berkeley",
+        "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/63f425c3a096536aeab42dea/bxNKEkprdm5JI1wkjmNAL.png"
+      }
+    },
+    "publishedAt": "2026-08-16T20:00:00.000Z",
+    "title": "FreeToken: Efficient Edge-Native MoE Serving with Bandwidth-Adaptive Execution",
+    "summary": "Frontier open-weight models are increasingly available, but serving them still largely assumes datacenter infrastructure. We present FreeToken, an edge-native MoE serving system that treats a personal machine not as a small GPU, but as a unified, elastic inference platform. FreeToken co-designs the full serving stack, including model layout and loading, expert residency, CPU--GPU execution, agentic state reuse, and runtime memory management, around two realities of local AI: agent workloads continuously change their execution pattern, and edge hardware exposes heterogeneous resources whose balance differs from machine to machine. Rather than committing to a fixed offloading strategy, FreeToken continuously maps computation and model state onto the resources actually available. FreeToken supports more than 20 MoE models and real coding and tool-using agents across hardware ranging from an 8GB laptop GPU to a single workstation GPU. More importantly, it changes what these machines can practically serve, from a 35B model on a laptop to a 284B model on a gaming desktop and the 753B GLM-5.2 on a single workstation GPU. FreeToken turns open weights into deployable local software, making the machines users already own a practical platform for frontier-scale intelligence. We release the system at flashml.ai.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2608.16157.png",
+    "numComments": 2,
+    "submittedBy": {
+      "_id": "642b970ceb31218a5f204a29",
+      "avatarUrl": "/avatars/ada8828dbed3b49cb202a7945046b85f.svg",
+      "fullname": "andy-yang",
+      "name": "andy-yang",
+      "type": "user",
+      "isPro": false,
+      "isHf": false,
+      "isHfAdmin": false,
+      "isMod": false,
+      "followerCount": 5,
+      "isUserFollowing": false
+    },
+    "organization": {
+      "_id": "66b1baeff10262fc4fa61961",
+      "name": "UCBerkeley",
+      "fullname": "University of California, Berkeley",
+      "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/63f425c3a096536aeab42dea/bxNKEkprdm5JI1wkjmNAL.png"
+    },
+    "isAuthorParticipating": false
+  }
+]
