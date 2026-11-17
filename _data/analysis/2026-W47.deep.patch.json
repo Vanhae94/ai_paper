@@ -1,0 +1,238 @@
+{
+  "week_id": "2026-W47",
+  "papers": {
+    "2604.05018": {
+      "tier2": {
+        "method_detail": "PaperOrchestra는 입력 5종(아이디어 요약 idea.md, 실험 로그 experimental_log.md, 학회 LaTeX 템플릿, 학회 가이드라인, 선택적 그림 폴더)을 받아 LaTeX 소스와 컴파일된 PDF를 내는 5단계 파이프라인이다(3.1절 Eq.1, 4장). 아이디어 요약과 실험 로그는 마크다운이고, 실험 로그에는 표 수치와 그림 내용을 풀어 쓴 사실 관찰이 들어간다. 템플릿은 .tex/.sty 파일이고 그림은 이미지 파일이다. 그림이 없으면 파이프라인이 직접 만든다.\n\n1단계 Outline Agent는 1회 호출로 JSON 아웃라인을 만든다. 아웃라인은 세 키로 구성된다. plotting_plan은 plot 또는 diagram 구분, 데이터 출처, 종횡비를 담는다. intro_related_work_plan은 서론용 거시 문헌 10-20편과 관련연구용 2-4개 방법론 클러스터 30-50편, 클러스터별 한계 가설과 검색 쿼리를 담는다. section_plan은 절별 bullet과, 데이터셋·지표·옵티마이저마다 붙는 citation_hints를 담는다(F.1 프롬프트).\n\n2단계 Plotting Agent와 3단계 Literature Review Agent는 병렬로 돈다. 플롯은 PaperBanana의 원 프롬프트에 캡션 재생성 단계 하나만 붙여 쓴다(4장, F.1). 공개 코드는 이 프롬프트를 utils/paper_banana_utils.py 안에 재구현했다. 처리 순서는 참조 그림 few-shot 검색(Top 10), 상세 설명 작성, gemini-3-pro-image-preview 이미지 생성 또는 matplotlib 코드 실행, VLM critic 검토 후 재생성(코드 기본 max_critic_rounds=3), 캡션 재생성이다. 문헌 에이전트는 Gemini-3-Flash에 Google Search grounding을 붙여 10개 병렬 워커로 후보를 모은다. 그다음 Semantic Scholar API로 초당 1건씩 순차 검증한다(App. B). 통과 조건은 제목 퍼지 매칭(Levenshtein 비율, 연도 일치 시 가점), 초록 존재, 연구 cutoff 이전 발행이다(D.3). 임계값은 논문에 없고, 코드에서는 S2 검색 상위 3건 중 최고 thefuzz 비율(연도 일치 시 +10)이 70을 넘어야 한다(utils/scholar_utils.py). S2 ID로 중복을 제거한 뒤 BibTeX와 citation_map을 자동 생성한다. 이후 검증된 논문만 인용하되 풀의 90% 이상을 인용하라는 제약 아래 서론과 관련연구를 쓴다(D.3).\n\n4단계 Section Writing Agent는 단일 멀티모달 호출로 나머지 절을 채운다. 실험 로그 수치로 booktabs 표를 만들고, 제공된 그림을 모두 넣고, citation_map의 키만 쓰도록 지시받는다. LaTeX 컴파일은 pdflatex-bibtex-pdflatex-pdflatex 순서의 subprocess 호출이다(utils/pdf_utils.py).\n\n5단계 Content Refinement Agent는 AgentReview의 시뮬레이션 리뷰를 받아 원고를 고친다. 채택 규칙은 다음과 같다. 전체 점수가 오르면 채택한다. 같으면 하위 축 순이득이 0 이상일 때만 채택한다. 코드에서는 Overall과 Confidence를 뺀 축의 상승 합이 하락 합 이상인지 본다. 전체 점수가 내려가거나, 같은데 순이득이 음수이면 이전 버전으로 되돌리고 멈춘다. 반복 상한은 코드 기본 max_reflections=3이다. 에이전트는 새 실험 요청을 무시하고 '한계를 명시적으로 쓰지 말라'는 규칙을 따르도록 지시받는다. 저자들은 초기 실험에서 에이전트가 빠진 베이스라인을 한계로 나열해 자동 리뷰 점수를 올리는 reward hacking을 보였기 때문이라고 설명한다(F.1 말미). 공개 코드에는 논문에 서술되지 않은 VLM 서식 점검 루프(max_formatting_loops=1)가 추가로 있다.\n\n작성 백본은 모든 시스템에서 Gemini-3.1-Pro로 고정된다. 논문 1편당 LLM 호출은 약 60-70회(Outline 1, 문헌 20-30, 플롯 20-30, 작성 1, 정제 5-7)이고 평균 39.6분이 걸린다(App. B). 모든 파이프라인에 같은 Anti-Leakage 프롬프트를 넣어 학습 데이터 기억 사용을 금지한다. 다만 LLM이 부정 제약을 완벽히 지키지 않을 수 있다는 점은 저자들도 인정한다(D.4).",
+        "experiment_setup": [
+          "벤치마크: PaperWritingBench, CVPR 2025와 ICLR 2025 채택 논문 각 100편, 총 200편을 OpenReview(ICLR)와 CVF Open Access(CVPR)에서 무작위 추출했다. MinerU로 PDF를 마크다운으로, PDFFigures 2.0으로 그림·캡션을 추출하고, 파싱 실패 샘플은 버렸다(3.2절).",
+          "원자료 역생성: Gemini-3.1-Pro가 PDF 마크다운과 표·그림 이미지를 멀티모달로 받아 세 자료를 만들었다. Sparse idea는 평균 약 587-591단어, Dense idea는 약 1,057-1,083단어, Experimental Log는 CVPR 1,530단어, ICLR 2,387단어다. 저자·제목, 인용, URL, 그림·표 참조는 제거했다(App. C.2, Table 8).",
+          "기본 설정: Sparse idea, F=F_GT(원 논문 그림 사용, PlotOff). 연구 cutoff는 CVPR 2024-11, ICLR 2024-10이다(5.1절, D.1).",
+          "베이스라인 2종: (1) 모든 원자료를 한 번의 LLM 호출로 처리해 원고와 BibTeX를 함께 쓰는 Single Agent, (2) AI Scientist-v2(인용 수집은 Gemini-3-Flash로 교체). 둘 다 작성 백본은 Gemini-3.1-Pro이고 Anti-Leakage 프롬프트를 똑같이 넣었다. 제외한 시스템과 사유는 다음과 같다(D.2). OmniScientist는 재현 가능한 공개 코드가 없다. PaperRobot과 data-to-paper는 투고용 LaTeX 원고를 끝까지 생성하지 못한다. AI-Researcher는 구조화된 중간 산출물이 필요하다. CycleResearcher는 구조화된 BibTeX 입력이 필요하다. AutoSurvey2와 LiRA(Generic RAG pipelines로 표기)는 서베이 전용이다. AI Scientist-v2를 같은 입력에 맞게 이식한 코드는 공개 저장소 파일 트리에 없다.",
+          "자동 평가기는 네 종류다(5.2절). (a) Citation F1: GT 참고문헌을 LLM이 P0 must-cite와 P1 good-to-cite로 나누고 Semantic Scholar ID로 매칭한다. (b) 문헌 검토 품질 LLM judge: 0-100점, 6개 축, 점수 상한과 감점 규칙을 둔다. (c) AI Scientist-v2 Reviewer와 ScholarPeer: ScholarPeer의 scouting agent는 끈다. (d) SxS 문헌 검토와 SxS 전체 품질: 두 순서로 평가해 위치 편향을 줄인다. judge는 Gemini-3.1-Pro와 GPT-5(gpt-5-2025-08-07)다.",
+          "온도: 리뷰형 평가기 0.75(Gemini-3.1-Pro), SxS 0.0(Gemini-3.1-Pro), GPT-5는 고정값 1.0이다(D.1).",
+          "SxS 집계 규칙: 두 순서 결과가 2승이거나 1승 1무면 win, 1승 1패나 2무면 tie, 그 외는 loss로 친다(5.2절).",
+          "사람 평가: AI 연구자 11명이 40편(학회당 20편)을 맡아 Streamlit UI에서 블라인드 SxS 180건(고유 쌍 120개)을 평가했다. 3점 척도(Win/Tie/Loss)로 답하고, 진단 질문 12개에 먼저 답한 뒤 최종 판단을 내렸다. 평가자 간 일치도(kappa 등)는 보고되지 않았다. 본문·부록에서 kappa, agreement, inter-annotator를 검색했고 inter-autorater 상관만 찾았다(5.4절, D.5).",
+          "절대 승률 차 정의: PaperOrchestra 승률에서 베이스라인 승률을 뺀 값이고 tie는 양쪽 어디에도 넣지 않는다(1장 contributions 괄호). 사람 평가 결과는 두 학회를 합쳐 보고된다(Figure 3a).",
+          "Ablation: Sparse vs Dense idea(Table 5), PlotOff vs PlotOn(Table 6), 정제 전후(Figure 4, Gemini-3.1-Pro와 GPT-5 두 judge의 SxS와 AgentReview 지표). 문헌 에이전트나 아웃라인 에이전트를 하나씩 빼는 ablation은 없다. Single Agent가 시스템 전체 ablation 역할을 한다.",
+          "비용 측정: CVPR 5편과 ICLR 5편, 총 10편을 단일 워커로 실행하고 최댓값·최솟값을 뺀 평균 지연을 냈다. 토큰 수나 달러 비용은 보고되지 않았다. 본문·부록에서 token, $, USD를 검색해 해당 수치가 없음을 확인했다(App. B, Table 7)."
+        ],
+        "datasets": [
+          {
+            "name": "PaperWritingBench (CVPR 2025 분할)",
+            "domain": "컴퓨터 비전 학회 논문 원자료 역생성(2단 레이아웃)",
+            "scale": "100편, 평균 그림 5.20개, 표 4.20개, 참고문헌 58.52개(P0 14.86, P1 43.66)"
+          },
+          {
+            "name": "PaperWritingBench (ICLR 2025 분할)",
+            "domain": "ML 학회 논문 원자료 역생성(1단 레이아웃)",
+            "scale": "100편, 평균 그림 9.19개, 표 8.13개, 참고문헌 59.18개(P0 13.65, P1 45.53)"
+          },
+          {
+            "name": "PaperWritingBench 공개본 (HuggingFace yiwen-song/PaperWritingBench)",
+            "domain": "위 200편의 raw materials와 metadata.json",
+            "scale": "datasets.zip 약 1.14GB와 metadata.json, Apache-2.0, 2026-05-17 갱신, n<1K"
+          },
+          {
+            "name": "PaperBananaBench (외부 데이터, 선택)",
+            "domain": "PaperBanana 플로팅 모듈의 few-shot 참조 그림 풀과 스타일 가이드",
+            "scale": "코드상 diagram은 후보 풀을 앞 200개로 자르고, plot은 ref.json 전체를 후보로 쓴다. 둘 다 그중 Top 10을 고른다. 저장소에는 없고 ../../PaperBanana 경로에서 읽으며, 파일이 없으면 few-shot 없이 진행한다"
+          }
+        ],
+        "limitations": {
+          "by_authors": [
+            "그림 생성을 외부 모듈 PaperBanana에 맡기므로 그림 환각(figure hallucination)을 직접 통제하기 어렵다. 생성된 그림이 사실에 맞는지, LaTeX 레이아웃의 알맞은 위치에 들어갔는지 검증하려면 VLM 점검과 사람 평가가 따로 필요하다고 저자들이 적었다(Appendix A 첫째 항목). 관련 결과로, 자체 생성 그림(PlotOn)은 GT 그림(PlotOff)을 쓴 설정에 단독 승률이 대부분 밀린다(Table 6. PlotOn 승 26-34%, PlotOff 승 34-49%). 저자들은 GT 그림에 실험 로그에 없는 정보가 들어 있다는 점을 이유로 든다(5.5절).",
+            "Content Refinement는 사람이 아니라 LLM이 만든 구조화 리뷰(AgentReview)에 의존한다. 연구자가 자연어 비평으로 초안을 조종하는 human-in-the-loop 시스템으로 옮겨 가는 것을 향후 과제로 둔다. 시스템은 독립 저자가 아니라 보조 도구라는 입장이다(Appendix A 둘째 항목, Ethics Statement).",
+            "PaperWritingBench의 원 논문(CVPR 2025, ICLR 2025)이 사전학습 데이터에 들어 있을 수 있다(pretraining contamination). 대응은 입력 자료의 익명화와 탈맥락화, 그리고 모든 파이프라인에 똑같이 넣은 Anti-Leakage Prompt뿐이다. 저자들은 백본이 같으니 누출이 있어도 모든 시스템에 똑같이 작용하므로 상대 비교는 공정하다고 주장한다. 다만 LLM이 부정 제약을 완벽히 지키지 않을 수 있다는 점은 인정한다. 생성과 기억을 완전히 분리하려면 미발표 연구나 자동 생성 원자료가 필요하다고 적었다(Appendix A 셋째 항목, D.4).",
+            "문헌 검토 품질에서 자동 평가기와 사람 판단의 상관이 낮다. Pearson 기준 Gemini-3.1-Pro 0.0868, GPT-5 0.2764다. 저자들은 LLM의 self-bias를 원인으로 꼽는다. LLM이 'Problem-Gap-Solution' 같은 형식 단서에 점수를 주는 structural grader처럼 행동하고, 사람은 사실 밀도와 서사 흐름을 중시한다는 설명이다(5.4절, Figure 3b).",
+            "초기 실험에서 정제 에이전트가 reward hacking을 했다. 빠진 베이스라인을 한계로 나열해 자동 리뷰어의 채택 점수를 부풀렸다. 그래서 프롬프트에 '한계를 명시적으로 쓰지 말라'와 '새 실험 요청은 무시하라'는 규칙을 넣었다(Appendix F.1 Content Refinement Agent 프롬프트 뒤 설명). 이는 저자들이 직접 보고한 실패 사례다.",
+            "사람이 쓴 원본(GT)과의 품질 격차는 저자들도 인정한다. 5.3절은 전체 품질에서 'Human (GT) remains the upper bound'라고 쓰고, D.5와 Figure 7 캡션도 GT 대비 품질 격차가 남아 있다고 적는다. 동시에 문헌 검토에서 GT 대비 tie+win 43%를 'highly competitive'로 표현한다(5.4절). 이 GT 비교는 초록에는 나오지 않는다."
+          ],
+          "by_claude": [
+            "초록의 사람 평가 수치(문헌 50-68%p, 전체 14-38%p)는 AI 베이스라인 대비 값이다. 같은 사람 평가에서 인간 원본(GT)과 비교하면 결과가 다르다. 전체 품질은 GT 승 81%, tie 14%, PO 승 5%다. 문헌 검토는 GT 승 57%, tie 24%, PO 승 19%다. 이 수치는 Figure 3(a) 그림에서 직접 읽어 확인했다. 저자들도 본문에서 GT를 upper bound로 두고(5.3절) 격차가 남아 있다고 적는다(D.5). 하지만 초록에는 GT 비교가 빠져 있다. 비교별 건수는 논문에 없다. 40편에 비교 3개를 곱하면 고유 쌍 120개이고 평가는 180건이다. 따라서 비교당 약 60건이고 일부 쌍은 중복 평가됐다고 추정되며, 두 학회를 합친 값이다. 그런데도 평가자 간 일치도는 보고되지 않았다. 본문과 부록에서 kappa, agreement, inter-annotator를 검색했고 inter-autorater 상관만 찾았다. 따라서 '제출 가능한 원고'라는 표현은 AI 베이스라인과의 상대 우위로 읽어야 한다. 사람 원고 수준이라는 근거는 없다.",
+            "자동 평가 결과 일부가 사람 판단과 반대 방향으로 간다. Table 4(200편)에서 Gemini judge는 PO의 문헌 검토 점수(78.30 CVPR, 76.23 ICLR)를 GT(71.08, 75.18)보다 높게 줬다. GPT-5 judge도 CVPR에서는 PO 53.99, GT 53.66으로 PO를 약간 높게 줬다(ICLR은 GT 55.53이 PO 54.15보다 높다). 사람 평가(40편 표본)에서는 GT가 57% 대 19%로 이겼다. 표본과 형식이 다르므로 직접 대조에는 한계가 있다. 문헌 검토의 사람-자동 상관은 0.09-0.28이다. 그럼에도 저자들은 'relative rankings remain strictly consistent'라고 쓰는데, 이를 정량으로 보인 표는 찾지 못했다. 따라서 문헌 검토 자동 SxS 승률 차 88-99%p나 Table 4의 +32.87-33.25점 같은 큰 수치는 약한 근거로 다뤄야 한다. ScholarPeer 결과도 같은 신호를 준다. LLM을 한 번만 호출하는 Single Agent도 모의 채택률 71%(CVPR)와 72%(ICLR)를 얻고, PO는 84%와 81%다(Table 2). 이 평가기의 변별력이 제한적이라는 신호다.",
+            "인용 무결성은 측정된 결과가 아니라 구조로 보장한 것이다. Semantic Scholar 검증 단계는 있다. 코드상 thefuzz 비율 70 초과(연도 가점 포함), 초록 필수, cutoff 이전 발행을 확인한다(utils/scholar_utils.py, literature_review_agent.py). 그러나 최종 원고에서 존재하지 않거나 잘못 붙은 인용의 비율(hallucinated citation rate)은 PO와 베이스라인 모두 보고되지 않았다. 본문과 부록에서 hallucinat를 검색하면 관련연구 서술, App. A(그림 환각), D.3·D.4 설명, 프롬프트 지시문, 윤리 문단에서만 나오고 측정값은 없다. 제목 퍼지 매칭은 실존 여부만 확인할 뿐, 인용한 문장이 그 논문 내용을 정확히 대변하는지는 검증하지 않는다. 인용 지표는 엇갈린다. Overall Citation F1은 Single Agent와 CVPR 29.65 대 28.03으로 차이가 작고, ICLR은 27.76 대 23.16이다. 저자들은 베이스라인의 인용 수가 9-14개로 적어 F1이 부풀려진 착시라고 설명한다. 실제로 PO의 P1 Recall은 15.85-17.11%로 베이스라인 2.77-3.36%보다 크게 높다. 반면 P0 Recall은 54.48-65.17%라서 필수 인용의 약 35-46%가 빠진다(Table 3). '풀의 90% 이상 인용' 제약이 인용 수를 늘린 효과와 실제 문헌 이해의 효과는 분리되지 않았다.",
+            "정제 단계의 평가에 부분적인 순환성이 있다. 최적화 대상인 AgentReview가 Figure 4(b)에서 효과 지표로도 쓰인다(채택률 53->72%, 11->33%). 반면 Figure 4(a)의 SxS는 작성 백본과 같은 Gemini-3.1-Pro뿐 아니라 GPT-5로도 평가했고, 두 judge 모두 정제 후 승 79-81%, 패 0%였다. 그래서 같은 모델 judge만의 결과라고 볼 수는 없다. 다만 사람 평가로 정제 효과를 따로 확인한 실험은 없다. 또 '한계를 명시적으로 쓰지 말라'는 규칙은 평가기 해킹을 막는다. 그 대신 리뷰어가 지적한 약점(예: 빠진 베이스라인)을 원고에 한계로 반영하는 길도 막는다. 원고에서 한계 서술이 아예 사라지는 것은 아니다. Section Writing 프롬프트는 결론에서 한계와 향후 과제를 다루라고 권한다(F.1, 저장소 methods/prompts/section_writing_agent.py 54행의 'Nice to have'). 정제 프롬프트에는 'Never explicitly state a limitation' 한 줄만 있다. 저장소 prompts 폴더에서 limitation을 검색해 확인했다. 그래서 정제 과정에서 초안의 한계 문단이 유지되는지는 확인되지 않는다.",
+            "ablation과 비용 보고가 부족하다. 문헌 에이전트나 아웃라인 에이전트를 하나씩 빼 보는 실험이 없고, Single Agent가 시스템 전체 ablation 역할만 한다. 베이스라인은 2종뿐이고, AI Scientist-v2를 같은 입력에 맞게 이식한 코드는 저장소에 없다(파일 트리 확인). 비용은 LLM 호출 수와 평균 지연(10편 측정)만 있다. 토큰과 달러 비용은 없다. 본문과 부록에서 token, USD, dollar를 검색해 확인했다(Table 7, App. B). Single Agent(1회, 3.3분) 대비 우위는 호출 수 차이(약 60-70배)와 분리되지 않는다. 다만 AI Scientist-v2와 비교하면 사정이 다르다. 호출 수는 약 40-45회로 PO의 약 1.3-1.75배 차이이고, 지연도 35.1분 대 39.6분으로 비슷하다. 그런데도 사람 평가에서 PO가 문헌 67% 대 17%, 전체 50% 대 36%로 이겼다(Figure 3a). 따라서 우위가 호출 수만으로 설명되지 않는다는 근거가 일부 있다. 그래도 토큰 기준 비용 대비 효과는 판단할 수 없다."
+          ]
+        },
+        "reproducibility": {
+          "code": "공개. github.com/google-research/paper-orchestra를 git clone --depth 1로 받아 확인했다(최신 커밋 d9bae99, 2026-11-15). methods/agents/ 아래에 파이프라인 모듈 outline_agent, literature_review_agent, plotting_agent, section_writing_agent, content_refinement_agent가 있고 paper_writing_cli.py도 있다. autoraters/ 아래에 agent_review, citation_f1, lit_review_quality, sxs_lit_review_quality, sxs_paper_quality가 있고, Streamlit frontend도 있다. 논문에서 쓴 ScholarPeer 평가 코드, AI Scientist-v2 Reviewer 평가 코드, 베이스라인 이식 코드는 파일 트리에 없다. 플로팅(--use_plotting)의 PaperBanana 프롬프트는 저장소 안 utils/paper_banana_utils.py에 재구현돼 있다. few-shot 참조(PaperBananaBench)와 스타일 가이드는 ../../PaperBanana 경로에서 읽는다. 이 파일이 없으면 경고를 내고 few-shot과 스타일 가이드 없이 진행하므로, 논문 설정을 재현하려면 별도 PaperBanana 저장소가 사실상 필요하다.",
+          "weights": "해당 없음. 학습한 모델이 없고 상용 API를 호출하는 구조다. 기본 모델은 gemini-3.1-pro-preview(작성)와 gemini-3-pro-image-preview(이미지)다. 문헌 후보 수집에는 Gemini-3-Flash와 Google Search grounding을 쓰고, 선택적으로 OpenAI 모델(평가용 GPT-5)을 쓸 수 있다.",
+          "data": "저장소 README의 Dataset 절(50행)은 지금도 데이터셋이 'not included'이고 추후 별도 공개한다고 적고 있다. 그러나 HuggingFace yiwen-song/PaperWritingBench는 이미 공개돼 있고, 프로젝트 페이지(yiwen-song.github.io/paper_orchestra)의 Dataset 링크가 이 저장소를 가리킨다. HF API로 확인한 내용은 다음과 같다. 파일은 README.md, datasets.zip, metadata.json이고, 라이선스 태그는 apache-2.0, gated는 false, lastModified는 2026-05-17이다. 내용은 CVPR 2025와 ICLR 2025 각 100편에서 Gemini-3.1-Pro로 역생성한 idea.md(Sparse/Dense), experimental_log.md, 템플릿, 그림이다(3.2절, C.2).",
+          "license": "코드: Apache License 2.0(저장소 LICENSE 파일을 직접 확인). 데이터셋: HuggingFace 메타데이터의 license 태그가 apache-2.0. 논문: arXiv abs 페이지(2604.05018v1)의 라이선스 링크가 CC BY 4.0임을 확인했다. 원 논문들(CVPR 2025, ICLR 2025)의 저작권과 데이터셋 라이선스가 어떤 관계인지는 확인하지 않았다.",
+          "note": "필요한 키는 Gemini(VERTEX_AI_PROJECT와 LOCATION, 또는 GEMINI_API_KEY)이고, 선택적으로 OPENAI_API_KEY와 SEMANTIC_SCHOLAR_API_KEY를 쓴다(README의 .env 예시). S2를 키 없이 호출하면 금방 막힌다. 이 분석 중 키 없이 citations 엔드포인트를 두 번째로 부르자 429 Too Many Requests가 돌아왔다. 코드에서 주의할 점이 두 가지 있다. utils/paper_banana_utils.py 308행은 LLM이 만든 matplotlib 코드를 exec()로 샌드박스 없이 실행한다. utils/scholar_utils.py 28행과 autoraters/citation_f1.py 41행은 S2 API 키를 stdout에 출력한다. LaTeX 컴파일은 pdflatex와 bibtex를 subprocess로 부른다. Windows에서는 실행해 보지 않았다. CLI는 TeX 배포판이 PATH에 있으면 돌 가능성이 있지만 paper_writing_cli.sh는 bash 전용이다. 프론트엔드는 Part A에 따르면 Linux 전용 호출을 써서 WSL이 현실적이다. 비용(토큰, 달러)은 논문에 없어 추정할 수 없다. 저자들이 보고한 수치는 논문 1편당 LLM 호출 약 60-70회, 평균 39.6분이다."
+        },
+        "my_learning_points": [
+          "[인용 검증을 LLM 없이 스크립트로] PaperOrchestra는 웹 검색으로 후보를 모은 뒤 Semantic Scholar로 순차 검증한다. 통과 조건은 제목 퍼지 매칭 비율 70 초과(연도 일치 시 +10), 초록 존재, cutoff 이전 발행이다. 통과한 목록에 든 키만 인용하게 한다(D.3, utils/scholar_utils.py). 요약 카드 파이프라인에도 이 구조를 옮길 수 있다. 카드 JSON을 쓰는 Write 뒤에 PostToolUse hook으로 Python 스크립트를 건다. 스크립트는 카드에 나온 arXiv ID마다 export.arxiv.org API를 부르고, 반환된 제목과 카드 제목의 퍼지 비율을 계산한다(difflib이면 0.7, thefuzz이면 70 기준). 비율이 기준 이하이면 exit code 2로 끝내고 stderr에 이유를 적는다. 그러면 Claude가 그 메시지를 받아 카드를 고친다. PostToolUse는 이미 끝난 Write를 되돌리지 못한다. 쓰기 자체를 막으려면 PreToolUse hook에서 Write 입력 내용을 검사해야 한다. 날짜 조건을 '주차 범위 안'으로 걸면 안 된다. 주간 트렌딩에는 오래된 논문도 오른다. 이 논문만 해도 arXiv v1은 2026-04-06인데 W47 목록에 들었다. 날짜는 카드 작성일보다 뒤인 ID만 거르는 정도가 맞다. LLM 토큰은 0이고 Windows Python으로 돈다. S2는 키 없이 부르면 금방 429가 난다(이번 분석에서 실제로 발생). 그래서 1초 간격 순차 호출과 재시도가 필요하고, arXiv API도 연속 호출 사이에 간격을 두는 것이 안전하다. 다만 이 방식은 실존과 제목 일치만 확인한다. 카드 본문의 수치가 원문과 맞는지는 별도의 검증 subagent가 맡아야 한다.",
+          "[정제 루프의 채택 규칙과 평가기 해킹 방지 규칙] 정제 루프의 규칙은 다음과 같다. 총점이 오르면 채택한다. 같으면 하위 축 합산 이득이 0 이상일 때만 채택한다. 내려가면 이전 버전으로 되돌리고 멈춘다. 최대 3라운드로 제한한다(content_refinement_agent.py의 max_reflections=3). 이 규칙은 스킬이나 프롬프트를 스스로 개선하는 루프에 그대로 쓸 수 있다. 예를 들어 SKILL.md 수정안마다 적대적 검증 subagent가 고정 카드 샘플에 점수를 매기게 하고, 점수가 떨어지면 수정안을 버린다. 라운드 상한이 3이므로 토큰 상한을 미리 계산할 수 있다. 한 가지 더 배울 점이 있다. 저자들은 정제 에이전트가 한계를 나열해 리뷰어 점수를 올리는 reward hacking을 관찰하고 이를 프롬프트로 금지했다(F.1). 우리 검증기도 '원문에서 확인되지 않음' 같은 신중한 표현에 가점을 준다면, 작성 에이전트가 그 문구를 남발하는 쪽으로 최적화될 수 있다. 그런 행동을 CLAUDE.md나 작성 스킬에 명시적으로 금지해 두는 것이 좋다.",
+          "[LLM judge를 쓰기 전에 사람 판단과의 상관부터 확인] 이 논문에서 전체 품질 judge는 사람과 Pearson 0.57-0.65로 쓸 만했다. 그러나 문헌 검토 judge는 0.09-0.28에 그쳤다. Gemini judge는 Table 4(200편)에서 PO의 문헌 검토 점수를 GT보다 높게 줬지만, 사람 평가(40편 표본)에서는 GT가 57% 대 19%로 이겼다. 표본이 달라 직접 대조에는 한계가 있지만 방향은 반대다. 카드 품질 judge를 도입하려면 먼저 지난 주차 카드 약 20쌍(예를 들어 수정 전과 후)을 직접 승/무/패로 표시한다. 그다음 같은 쌍을 judge subagent에게 A/B, B/A 두 순서로 평가시킨다. 판정은 논문 규칙대로 집계한다. 2승 또는 1승1무는 win, 1승1패 또는 2무는 tie, 나머지는 loss다. 그리고 사람 판정과의 일치율을 본다. 비용은 20쌍 x 2순서 = 40회 호출이다. 일치율이 낮은 축(예: 서술의 자연스러움)은 judge 점수를 채택 기준에서 빼고, 사실 대조형 검증만 자동화한다. 작성자와 judge가 같은 모델 계열이면 자기 선호 편향이 생길 수 있다. 이 논문은 다른 계열 judge(GPT-5)를 함께 쓰고 두 judge 간 상관(문헌 0.57, 전체 0.74)을 보고해 부분적으로 대응했다. 다만 자기 선호 편향 자체를 측정하지는 않았다. 다른 계열 모델을 쓰지 않는 시스템이라면 사람 표본 검수를 주기적으로 유지해야 한다."
+        ],
+        "related_work": {
+          "prior": [
+            {
+              "title": "The AI Scientist-v2: Workshop-Level Automated Scientific Discovery via Agentic Tree Search",
+              "id": "arXiv:2504.08066",
+              "relation": "주 베이스라인이다. 다회 인용 수집, VLM 플롯 피드백, 자기성찰을 갖춘 E2E 시스템이다. 논문은 작성 모듈만 같은 입력에 맞게 이식했고(인용 수집은 Gemini-3-Flash로 교체), 그 Reviewer를 평가기로도 쓴다(Table 2, D.2)."
+            },
+            {
+              "title": "The AI Scientist: Towards Fully Automated Open-Ended Scientific Discovery",
+              "id": "arXiv:2408.06292",
+              "relation": "코드 템플릿 기반 실험과 원고 작성을 자동화한 선행 E2E 시스템이다. 저자들은 이런 시스템의 작성 모듈이 내부 파이프라인 산출물에 묶여 있다고 지적한다(2.1절)."
+            },
+            {
+              "title": "PaperBanana: Automating Academic Illustration for AI Scientists",
+              "id": "arXiv:2601.23265",
+              "relation": "같은 그룹의 선행 작업이다. Plotting Agent의 기본 모듈로 쓰인다(참조 그림 검색, 이미지 생성 또는 matplotlib 코드, VLM critic 루프). 그림 환각을 통제하기 어렵다는 한계가 이 모듈 의존에서 나온다(App. A)."
+            },
+            {
+              "title": "AgentReview: Exploring Peer Review Dynamics with LLM Agents",
+              "id": "arXiv:2406.12708 (EMNLP 2024, pp. 1208-1226)",
+              "relation": "Content Refinement Agent의 피드백원이고, 정제 효과를 재는 지표로도 쓰인다(Figure 4b). 그래서 평가에 순환성이 생긴다."
+            },
+            {
+              "title": "ScholarPeer: A Context-Aware Multi-Agent Framework for Automated Peer Review",
+              "id": "arXiv:2601.22638",
+              "relation": "같은 그룹의 자동 리뷰 시스템이다. 원고 품질과 모의 채택률을 평가하는 데 쓰였다(Table 2, scouting agent는 끔). 다만 이 평가 코드는 paper-orchestra 저장소에 없다."
+            }
+          ],
+          "followup": [
+            {
+              "title": "PatchWrite: One Line, Not One Section - Compile-Gated, Validity-Preserving Editing for AI-Drafted Manuscripts",
+              "id": "arXiv:2608.23001",
+              "relation": "Semantic Scholar 인용 목록에서 PaperOrchestra를 인용한 논문으로 확인했다. 초록을 보면, 자동 원고 파이프라인이 국소 결함을 고치려고 절 전체를 다시 쓰는 문제를 다룬다. 이를 컴파일 게이트와 evidence lock(인용 키와 수치를 레지스트리 또는 실험 로그와 대조)으로 막는다. 본문에서 PaperOrchestra를 어떻게 다루는지는 읽지 않았다."
+            },
+            {
+              "title": "The Emerging AI Paper-Review Arms Race: Adversarial Co-Evolution in Scholarly Publishing",
+              "id": "arXiv:2609.07713",
+              "relation": "Semantic Scholar 인용 목록에서 PaperOrchestra를 인용한 논문으로 확인했다. 초록 기준으로 AI 논문 생산과 AI 심사의 상호 적응(평가기 조작, 방어, 정책)을 230편으로 정리한 서베이다. 이 논문이 다루지 않은 오용 논의를 보완하는 자료다. 본문에서 PaperOrchestra를 어떻게 언급하는지는 확인하지 않았다."
+            }
+          ]
+        },
+        "claude_note": "이 논문에서 새로운 것은 두 가지다. 하나는 특정 실험 파이프라인에 묶이지 않는 작성 전용 멀티에이전트 구성이다. Outline 다음에 Plotting과 문헌 검토가 병렬로 돌고, 이어서 Section Writing과 점수 기반 Refinement가 붙는다. 다른 하나는 출판 논문 200편에서 원자료를 역생성한 PaperWritingBench다. 인용 경로도 쓸 만하다. 웹 검색으로 후보를 모으고 Semantic Scholar로 퍼지 매칭(코드상 비율 70 초과), 초록, cutoff를 검증한 뒤 통과한 목록만 인용하게 한다. 구현이 단순하고 재사용하기 좋다. 반면 개별 아이디어는 기존 부품(PaperBanana, AgentReview, LLM judge)을 조합한 것이 많다. 에이전트별 ablation이 없어서 어느 부품이 성능을 이끄는지는 알 수 없다.\n\n근거의 강도는 비교 대상에 따라 크게 다르다. AI 베이스라인 2종 대비 우위는 사람 평가(11명, 180건)에서도 일관되게 나타난다. 그러나 같은 사람 평가에서 인간 원본과 비교하면 전체 품질은 PO 승 5%, GT 승 81%다. 문헌 검토 judge는 사람과의 상관이 0.09-0.28에 불과하다. 인용 환각률은 측정되지 않았다. 정제 효과는 두 LLM judge(Gemini-3.1-Pro, GPT-5)의 SxS와, 최적화 대상인 AgentReview 지표로만 쟀고 사람 평가는 없다. 토큰과 달러 비용도 보고되지 않았다.\n\n헤드라인 수치는 다음 조건에 의존한다. 입력은 실제 연구 노트가 아니라 Gemini가 출판 논문에서 역생성한 마크다운이다. 그림은 GT 그림을 쓴다(PlotOff). 모든 시스템이 같은 Gemini-3.1-Pro 백본을 쓰고, 오염 위험이 있다.\n\n인용할 때는 다음처럼 쓰는 것이 정확하다. 'AI 베이스라인 대비 사람 SxS 절대 승률 차(승%에서 패%를 빼고 tie는 제외, 두 학회 합산)가 문헌 검토 50-68%p, 전체 품질 14-38%p였다. 단, 인간 원본에는 크게 뒤졌다.' '제출 가능한 원고'라는 표현은 저자 주장으로 남겨 둬야 한다.",
+        "analyzed_at": "2026-11-16"
+      }
+    },
+    "2611.12806": {
+      "tier2": {
+        "method_detail": "저자와 소속: 저자는 19명(Bing Han 외, Project Lead Wei Ning)이다. PDF 본문 텍스트에는 소속 기관 문구가 없고, Website·GitHub·Checkpoints 링크만 robbyant 도메인으로 적혀 있다(pdftotext 추출 기준이며 1쪽 로고 이미지는 확인하지 못함). 프로젝트 페이지 하단은 Robbyant를 Shanghai Ant Robbyant Technology Co., Ltd.로 표기하고 'An embodied AI company under Ant Group'이라고 소개한다.\n\n입력 변환: 모든 센서를 taxel 점 집합으로 다룬다. 먼저 센서·손가락 템플릿별로 오프라인에서 고정한 정렬, 스케일, offset 파라미터로 taxel 좌표를 단위 반지름 기준의 canonical fingertip space로 옮긴다. 신호는 센서 측정 범위로 나눠 법선을 [0,1], 접선을 [-1,1]로 맞춘다. 단일 채널 신호(압저항, visuotactile)는 3채널 중 Z에만 넣고 XY는 0으로 둔다. visuotactile 입력은 RGB가 아니라 240x240 변형맵을 32/96/200개 가상 taxel로 집계한 값이다. 토크나이저는 modality별로 3개이고, 각각 2층 MLP(Linear-GELU-Linear)로 한 taxel의 연속 프레임 묶음(tubelet)을 토큰 1개로 만든다. 논문은 2프레임(숫자 6개)이라 쓰지만 공개 config는 Tiny 2, Small 4다.\n\n공유 백본: Haptic Transformer(HaT)는 12층 인코더다. (시간창, 손가락 ID, xyz) 5D 주소를 RoPE로 q·k에만 넣기 때문에 고정 토큰 수나 센서별 위치 테이블이 필요 없다. 이것이 sensor-agnostic의 실체다. 토크나이저와 predictor 입출력 projection은 여전히 modality별로 나뉜다. 모델은 Tiny 5.46M(dim 192)과 Small 21.76M(dim 384) 두 가지이고 더 큰 모델은 없다. 출력은 2·5·8·11층 특징을 이어 붙인 벡터로, Tiny는 768차원, Small은 1536차원이다. 토큰 수는 (T/tubelet) x 유효 taxel 수다. 따라서 Tiny에서 손가락당 96 taxel, 5손가락, 16프레임 창이면 8 x 480 = 3,840토큰이다(공개 코드 공식으로 계산).\n\n사전학습: 방식은 Tactile-JEPA이며 대조학습이 아니다. context encoder는 가시 토큰만 보고, EMA target encoder는 전체 클립을 본다. predictor는 modality별 입출력 projection이 공유 prediction Transformer(같은 5D RoPE)를 감싸는 구조다. predictor는 target의 4개 층 정규화 특징을 L1으로 예측한다. 손실은 마스크 위치 손실 + 0.5 x 가시 위치 손실이다. 마스크는 taxel 단위로 걸고 클립 전체 시간에 걸쳐 유지한다. 마스크 비율은 처음 300스텝 동안 40%에서 80%로 올린다. 해상도 리샘플링과 좌표 섭동으로 특정 layout을 외우지 못하게 한다. 학습은 총 200,000 update이고 clip은 세 소스에서 같은 확률로 샘플링한다. 데이터는 4,983시간(장갑 2/3, Sharpa Wave 원격조작 1/3)이며 공개되지 않았다. 사전학습 GPU 규모는 원문에서 확인되지 않는다(GPU 키워드 grep 결과 probing의 run당 8 GPU만 나옴).\n\n새 센서와 정책 통합: 같은 modality의 새 센서 모델은 기하 보정과 신호 범위만 정하면 파라미터 갱신 없이 쓸 수 있다(XHand1). 새 sensing principle을 추가하는 절차와 필요 데이터량은 다루지 않는다. 정책에서는 인코더를 동결하고, 학습되는 cross-attention readout이 출력을 손당 40토큰으로 압축한다. 이 토큰을 선형 투영해 vision·proprioception 옆 conditioning 입력으로 넣는다. 파라미터 증가는 0.13~0.16%이고, 지연시간·FLOPs 측정은 없다.",
+        "experiment_setup": [
+          "Probing(Sec. 4.1, Tab. 5-6): 동결된 EMA target encoder 위에 attentive probe만 학습한다. probe는 cross-attention pooling 1블록(width 192, head 3, MLP hidden 768)과 linear head로 구성된다. 설정은 AdamW lr 1e-4, wd 0.01, 100 epoch, run당 GPU 8개다. 과제는 힘 복원, 접촉 중심, 접촉 면적, 미래 힘, 촉각->비디오 검색 5개다. 접촉 중심과 면적은 probe 하나를 공유한다. 검색 과제는 동결된 V-JEPA 2 ViT-L 비디오 특징과 InfoNCE로 맞춘다. 과제별 데이터는 학습 1.798~2.616시간, 테스트 0.237~0.484시간으로 작다.",
+          "Probing 플랫폼(Sec. 4.1): Sharpa Wave는 visuotactile 센서로, 240x240 변형맵을 30Hz로 내고 사전학습에 포함된 센서다. 입력은 96 taxel로 다운샘플했다. XHand1은 magnetic 센서로, 손가락당 120 taxel을 30Hz로 내고 사전학습에 없는 센서 모델이다. 입력은 96으로 다운샘플했고, 저자는 120개 native 입력도 처리 가능하다고 쓴다. 접촉 중심·면적 라벨은 활성 taxel의 가중 중심과 활성 비율로 계산한다(Fig. 5 캡션). 같은 촉각 신호에서 계산한 라벨로 보이지만 어느 해상도 기준인지는 원문에서 확인되지 않는다.",
+          "FTP-1 비교(Sec. 4.2): FTP-1은 공개 공유 backbone을 동결하고, 센서별 input adapter를 probe와 함께 100 epoch 학습했다. Sharpa Wave에서는 FTP-1의 공개 image tokenizer를 빼고 손가락당 변형값 96개를 받는 adapter로 바꿨다. XHand1에서는 adapter가 120개 3채널 taxel을 받는다. LingBot-Touch는 adapter 없이 probe만 학습했다. 다른 촉각 인코더(Sparsh, AnyTouch, UniTouch, T3, HTT)는 관련 연구(Sec. 2)와 참고문헌에만 나오고 실험 비교 대상이 아니다(본문 전체 텍스트 grep으로 확인).",
+          "스케일링·데이터 구성(Sec. 4.3, Fig. 7-8): Tiny와 Small을 1K~5K시간(소스 비율 고정)으로 사전학습했다. Small은 데이터가 늘 때마다 모든 과제에서 개선되거나 유지되었다. Tiny는 약 4K시간에서 포화하고 5K시간에서는 두 손 모두 검색 recall이 하락했다(Fig. 7 캡션). 단일 소스 vs 다중 소스 비교는 Tiny로 두 설정에서 했다. (a) 자기 센서 데이터는 고정(visuotactile 331h, magnetic 228h)하고 압저항 441h를 더해 총 1,000h로 맞춘 설정이다. (b) 총 1,000h를 고정한 설정으로, 혼합 데이터 중 visuotactile이 33%, magnetic이 23%다.",
+          "목적함수 비교(Sec. 4.4, Fig. 9): VAE와 MAE(각 5.46M, MAE 마스크 80%)를 JEPA와 같은 데이터·하이퍼파라미터로 1K/4K시간 사전학습했다. 비교는 probing과 LingBot-VLA 실로봇 5과제로 했다. Ablation(Tab. 1)은 Tiny, 1K시간 부분집합, 100 epoch 조건이다. 저자는 ablation 기본 설정(90% 마스크, 1-frame tubelet, 4-frame clip 등)이 최종 설정이 아니라고 명시했다.",
+          "실로봇(Sec. 5.1-5.2, Tab. 2, Tab. 7): Sharpa Wave와 XHand1을 각각 dual-arm에 장착했다. 정책 4종(Diffusion Policy, pi0.5, LingBot-VLA, T-Rex)을 3가지 구성(촉각 없음, raw 촉각, LingBot-Touch 토큰)으로 비교했다. 시연은 과제당 200 에피소드(양손 과제 500)이고, 평가는 과제당 연속 20회다. 과제는 26개(Sharpa 20, XHand1 6)다. 인코더는 4K시간 사전학습한 HaT-Tiny다(Tab. 2 캡션). 실로봇에서 raw 촉각을 정책에 넣는 구체 방식(정규화, 압축, readout 유무)은 Sec. 5.1과 App. B에서 확인되지 않는다.",
+          "채점 방식(Tab. 7, App. B): 성공률은 이진 성공이 아니라 과제별 부분 점수의 평균이다. 예를 들어 4점 또는 5점 만점에 가산식으로 매기고, 일부 과제는 서열 척도다. Tab. 2를 -raw 텍스트로 다시 계산한 결과, 312개 셀 중 227개가 5의 배수가 아니었다. 20회 이진 성공이라면 모두 5의 배수여야 한다. 26과제 평균은 본문 수치와 일치한다. 실로봇에서는 시드, 신뢰구간, 반복 실험이 보고되지 않는다.",
+          "인코더 교체·데이터 시간(Sec. 5.4, Fig. 13): LingBot-VLA로 Sharpa 5과제(block flipping, SD card ejection, spray trigger, stacked cup, plate wiping)를 과제당 200 에피소드로 학습하고 20회씩 평가했다. 원 정책은 55.9%다. 인코더 사전학습 시간을 1K~5K로 늘리면 69.8/74.3/77.4/81.4/82.2%가 된다. FTP-1 인코더로 바꾸면 67.5%이고, stacked cup(95->85)과 plate wiping(74->67)은 원 정책보다 떨어진다. Fig. 13은 5K시간 Tiny를 쓴다(Tab. 2의 4K와 다름).",
+          "시뮬레이션 RL(Sec. 5.3, App. C, Tab. 3): Isaac Sim에서 TacMap 방식의 penetration-depth로 촉각을 생성했다(Sharpa 96점, XHand1 120점, 8프레임 스택). 과제는 12개(Sharpa 8, XHand1 4)이고 PPO 3 seed로 학습했다. 관측은 5종(없음, binary, raw history, 정책과 함께 학습하는 CNN, LingBot-Touch)이다. LingBot-Touch에는 학습형 readout이 붙고, raw history는 시간 시퀀스를 직접 쓴다. 스칼라 변형값은 3채널 중 세 번째 채널에만 넣는다. 보고 지표는 training success rate와 return이다(Tab. 3 캡션, 프로젝트 페이지 표기). 저자는 nut assembly에서 초반 학습이 느렸다고 적었다.",
+          "시뮬레이션 probing(App. C.1): Sharpa Wave 단일 손 grasp 시뮬레이션 7,200초, 물체 47개로 4개 probing 과제를 실데이터와 같은 하이퍼파라미터로 수행했다. 결과는 Dice 0.708, 면적 MAE 1.089 pp, 힘 MAE 3.264 N, 미래 힘 변화 MAE 0.459 N이다. 저자는 힘의 절대값 편차가 남는다고 적었다.",
+          "잠재공간 시각화(Sec. 4.6): Tiny(전체 데이터)의 동결 특징을 16프레임 창, stride 2로 뽑았다. 손가락별 평균 768차원 x 5 = 3,840차원을 UMAP으로 투영하고 접촉 단계별로 색을 칠했다. 정성 분석이다."
+        ],
+        "datasets": [
+          {
+            "name": "LingBot-Touch 사전학습 코퍼스(비공개)",
+            "domain": "촉각(압저항·자기 장갑 egocentric + Sharpa Wave 원격조작), 24개 작업 범주",
+            "scale": "4,983시간, 464,431 에피소드, 약 1.33B 프레임 (Sec. 3.1, Fig. 2, Tab. 4)"
+          },
+          {
+            "name": "압저항 장갑 소스(Juqiao, Xspark AI, TACHIN)",
+            "domain": "사람 착용 촉각 장갑, egocentric",
+            "scale": "2,197시간, 86,906 에피소드; 손가락당 9 / 16 / 124(엄지)·61 taxel; 100 / 60 / 60Hz (Tab. 4)"
+          },
+          {
+            "name": "자기 장갑 소스(PaXini)",
+            "domain": "사람 착용 촉각 장갑, egocentric",
+            "scale": "1,136시간, 294,871 에피소드; 엄지 116·나머지 96 taxel; 41.7-83.3Hz (Tab. 4)"
+          },
+          {
+            "name": "Sharpa Wave 원격조작 소스",
+            "domain": "dual-arm 로봇 visuotactile fingertip",
+            "scale": "1,650시간, 82,654 에피소드; 240x240 변형맵, 30Hz (Tab. 4)"
+          },
+          {
+            "name": "Probing 데이터(Sharpa Wave, XHand1)",
+            "domain": "접촉 물리 probing 5과제",
+            "scale": "과제별 학습 1.798~2.616시간, 테스트 0.237~0.484시간 (Tab. 5)"
+          },
+          {
+            "name": "실로봇 시연 데이터",
+            "domain": "26개 실제 조작 과제",
+            "scale": "과제당 200 에피소드, 양손 과제 500 에피소드, 평가 과제당 20회 (Sec. 5.1)"
+          },
+          {
+            "name": "시뮬레이션 probing 데이터",
+            "domain": "Isaac Sim Sharpa Wave grasp",
+            "scale": "7,200초, 물체 47개 (App. C.1)"
+          },
+          {
+            "name": "공개 샘플 데이터(repo sample_data)",
+            "domain": "Sharpa(visuotactile)·XHand(magnetic) 16프레임 클립",
+            "scale": "플랫폼당 30쌍, 단일 손 파일 총 120개; 라벨 없음, 저자 표현으로 평가셋이 아닌 인터페이스 예시 (DATA_INTERFACE_GUIDE 8절)"
+          }
+        ],
+        "limitations": {
+          "by_authors": [
+            "손 embodiment가 적다. 저자는 실로봇과 시뮬레이션 실험을 더 다양한 손에서 해야 한다고 직접 적었다. 실제 평가는 Sharpa Wave와 XHand1 두 손뿐이다(Sec. 6 Limitations).",
+            "센서 범위가 제한된다. 정전용량 센서는 확보한 녹화가 품질 기준에 미달해 사전학습에서 빠졌다. 따라서 새 sensing principle로의 확장은 실증되지 않았다(Sec. 6 Limitations).",
+            "canonical geometry와 사전학습 layout이 fingertip 중심이라 손바닥과 손가락 마디의 접촉은 잘 표현되지 않는다. 저자는 손 전체로 넓히는 일을 다음 과제로 적었다(Sec. 6 Limitations).",
+            "다중 소스 전이에는 공간 정밀도 비용이 따른다. 저자는 강도와 동역학은 sensing principle을 넘어 전이되지만, 공간 정밀도는 그 센서의 layout과 해상도를 직접 봐야 얻는다고 썼다. 총 1,000시간 예산을 고정하면 각 단일 소스 모델(visuotactile, magnetic)이 자신의 센서에서 혼합 모델을 8쌍 중 7쌍에서 이긴다. 차이는 공간 과제에서 크고(접촉 중심 0.34 vs 0.68 mm, 0.33 vs 1.12 mm), 시간 예측에서는 작다(Sec. 4.3 본문, Fig. 8, Sec. 6 'at some cost in spatial precision').",
+            "Ablation 기본 설정(1K시간, 100 epoch, 90% 마스크, 1-frame tubelet 등)은 공통 비교 기준일 뿐 최종 최고 설정이 아니라고 Tab. 1 캡션에 명시했다. repo 문서도 테스트가 downstream 정확도, 실시간 지연, 새 하드웨어 보정을 검증하지 않으며, 샘플 120개는 대표 평가셋이 아닌 인터페이스 예시라고 밝힌다(Tab. 1 캡션, DATA_INTERFACE_GUIDE.md 231·233행).",
+            "저자가 본문에 직접 적은 불리한 결과가 있다. 실로봇에서 LingBot-Touch는 104쌍 중 9쌍(그중 5쌍이 Diffusion Policy)에서 raw 촉각 구성보다 낮고, 5쌍에서 원 정책보다 낮다(Sec. 5.2, 'not uniformly better'). Tiny는 5K시간에서 두 손 모두 검색 recall이 떨어지며, 저자는 이를 모델 용량의 한계로 해석한다(Sec. 4.3). RL의 nut assembly는 초반 학습이 느리다(Sec. 5.3). 시뮬레이션 힘 복원에는 절대값 편차가 남아 MAE가 3.264 N이고, 저자는 Isaac Sim 변형 기반 관측과 실제 센서의 응답 차이를 원인으로 든다(App. C.1)."
+          ],
+          "by_claude": [
+            "사전학습 인코더 간 비교 대상은 FTP-1 하나뿐이다. Sparsh, AnyTouch, UniTouch, T3, HTT, 그리고 magnetic 촉각 이력을 다루는 Sparsh-skin(ref [25])은 관련 연구(Sec. 2.2)에만 나온다(전문 grep으로 확인). Sharpa Wave 비교에는 LingBot-Touch에 유리한 조건이 두 가지 겹친다. 첫째, LingBot-Touch는 같은 손의 원격조작 데이터 1,650시간으로 사전학습했다. 둘째, FTP-1은 공개 image tokenizer 대신 새로 학습한 96값 adapter를 썼다(Sec. 4.2). 그래서 seen 설정의 큰 격차(검색 72.6 vs 16.5%)를 그대로 표현 품질 차이로 읽기는 어렵다. 더 공정한 근거는 XHand1(미학습 센서) 비교다. 다만 이 비교에서도 FTP-1 adapter는 downstream 학습 분할에서 probe와 함께 100 epoch만 학습했다.",
+            "실로봇 '성공률'은 이진 성공이 아니라 과제별 부분 점수의 평균이다(Tab. 7, App. B). Tab. 2를 다시 계산하면 312개 셀 중 227개가 5의 배수가 아니다. 실험은 과제당 20회 1 run이고 시드, 반복, 신뢰구간이 없다. 그래서 과제별 차이(예: DP stiffness sorting 48.0->28.75)가 잡음인지 구분할 수 없다. 반면 26과제 평균 이득 13.9~24.8 pp 자체는 크다. 저자 집계로 89/104쌍에서 세 구성 중 최고이고, 99/104쌍에서 원 정책 이상이다. 그래도 개별 과제 수치는 약한 증거다.",
+            "'strong computational efficiency'의 근거는 파라미터 수(Tiny 5.46M, 정책 대비 0.13~0.16%)뿐이다. 본문 설정은 30Hz 16프레임 창이다. Tiny에서 16프레임, 손가락당 96 taxel이면 손 하나당 3,840토큰을 12층 Transformer로 처리해야 한다(공개 코드 공식으로 계산). 그런데도 지연시간, FLOPs, 제어 주기 안에 처리되는지는 측정되지 않았다(본문·부록을 latency, FLOP, throughput, ms로 grep). repo 문서도 테스트가 실시간 지연을 검증하지 않는다고 적는다(DATA_INTERFACE_GUIDE.md 231행).",
+            "실로봇에서 raw 촉각 기준선이 정책에 어떻게 입력되는지(정규화, 압축, readout 유무)는 Sec. 5.1과 App. B에서 확인되지 않는다. raw 쪽에 같은 크기의 학습형 readout이 붙었는지 모르면 '표현 덕분이지 modality 덕분이 아니다'라는 결론의 강도를 판단하기 어렵다. 시뮬레이션 RL은 이 공백을 일부 메운다. App. C.3은 raw history가 시간 시퀀스를 직접 쓰고, LingBot-Touch에만 학습형 readout이 붙는다고 밝힌다. 다만 정책과 함께 학습하는 CNN 기준선(45.6%)이 있고, 3 seed다. 지표는 training success rate다(Tab. 3 캡션).",
+            "내부 수치와 설정 표기가 어긋난다. 서론은 정책 이득을 '14 to 26 pp'라고 쓰지만 26과제 평균 이득은 13.9/21.8/24.8/23.2 pp다(Sec. 5.2, Tab. 2). 손별 평균 행으로 보면 Sharpa Wave 20과제에서 LingBot-VLA는 +26.9, T-Rex는 +26.0 pp이고 Diffusion Policy는 +13.2 pp다. 따라서 '14 to 26'은 26과제 평균과도, 손별 평균과도 정확히 대응하지 않는다(Tab. 2 Mean 행을 -raw 텍스트로 계산). 또 실로봇 표는 4K시간 Tiny를, Fig. 13은 5K시간 Tiny를 쓴다. Tiny는 5K시간에서 probing 검색 recall이 떨어지지만(Fig. 7), Fig. 13(a)의 정책 성공률은 4K의 81.4%에서 5K의 82.2%로 소폭 오른다. 결과를 뒤집는 문제는 아니다. headline 수치를 인용할 때 Sec. 5.2와 표를 기준으로 쓰면 된다."
+          ]
+        },
+        "reproducibility": {
+          "code": "부분 공개. github.com/Robbyant/lingbot-touch(commit dec8025, 2026-11-11 push, 2026-11-16 확인 시 스타 약 640)를 직접 확인했다. README가 스스로 'Inference release'라 부르는 동결 target encoder 추론 코드(infer.py, tactile_jepa_inference), 데이터 인터페이스(기하 정규화, 리샘플링 맵, 기준 geometry JSON), 테스트를 제공한다. 사전학습 코드, predictor, 정책 통합과 cross-attention readout 코드, RL 환경은 포함되지 않는다. repo 트리와 코드 grep(predictor, optimizer, readout, isaac)으로 확인했고, grep에는 'supported' 같은 오탐만 나왔다. GitHub releases API는 2026-11-16 기준 빈 목록이다(태그 release 없음). 이 공개 범위는 논문 Sec. 1 기여 목록의 'An open release'가 약속한 범위(추론 코드, 소량 샘플, Tiny·Small 체크포인트)와 일치하므로, 약속 대비 누락은 아니다.",
+          "weights": "공개. HF robbyant/lingbot-touch-tiny(21,859,018 bytes)와 -small(87,060,996 bytes)을 2026-11-16 HF API로 확인했다. 둘 다 gated false이고 파일은 config.json, encoder.pt, LICENSE, README다. ModelScope에도 같은 이름으로 링크되어 있다. README 62행은 접근 권한이 필요하다고 쓰지만 HF API 상태와 다르다. Small보다 큰 모델은 공개되지 않았고 논문에도 없다.",
+          "data": "사전학습 코퍼스 4,983시간과 probing·실로봇 시연 데이터는 공개되지 않았다. repo sample_data에 플랫폼당 30쌍, 단일 손 파일 총 120개의 16프레임 클립만 있다. 라벨이 없으며 문서는 이를 대표 평가셋이 아니라 인터페이스 예시라고 명시한다(DATA_INTERFACE_GUIDE.md 233행).",
+          "license": "코드는 Apache-2.0이다(repo LICENSE 파일 확인, README License 절). 일부 Meta Platforms 유래 부분은 MIT 고지를 유지한다(THIRD_PARTY_NOTICES.md). HF 모델카드 메타데이터 license도 apache-2.0이다(Tiny, Small 모두 API로 확인).",
+          "note": "검증 환경은 Linux x86_64, Python 3.12.13, PyTorch 2.11.0(CUDA 13.0 빌드), NumPy 2.4.4이다. README는 CPU 추론 명령을 기본으로 제공한다(--device cpu). Windows는 문서에 언급이 없고 예제는 bash 문법이므로 Git Bash나 WSL에서 쓰는 편이 안전하다. 이번 작업에서 가중치를 받아 실행하지는 않았다. 개인 PC에서 현실적으로 할 수 있는 일은 Tiny로 샘플 120개를 CPU에서 인코딩하고 latent:[B,N,C] 토큰과 주소(time_id, finger_id, pos_xyz)를 살펴보는 것, 그리고 UMAP 같은 정성 시각화까지다. 라벨이 없어 probing 수치는 재현할 수 없다. 사전학습과 정책 결과는 코드와 데이터가 없어 재현할 수 없다."
+        },
+        "my_learning_points": [
+          "가공하지 않은 입력을 그냥 붙이면 오히려 손해일 수 있다. 이 논문에서 raw 촉각을 정책에 넣으면 104쌍 중 22쌍이 하락했다(LingBot-VLA mahjong 28.8->5.0). 반면 사전학습된 동결 인코더 출력을 손당 40토큰 readout으로 넣으면 26과제 평균이 13.9~24.8 pp 올랐다(Sec. 5.2). 이 이득은 압축 자체가 아니라 사전학습된 표현에서 나온다고 저자는 해석한다. 따라서 아래 적용은 비유이며 논문이 증명한 효과가 아니다. 내 카드 파이프라인에 옮기면 이렇다. 검증 subagent에게 PDF 전문(수만 토큰)을 통째로 넘기지 않는다. 대신 앞단 subagent가 만든 고정 스키마 JSON(claim, value, location)을 넘기고, 검증 쪽은 location이 가리키는 구간만 grep으로 다시 읽는다. 조건은 두 가지다. (1) location 필드가 비거나 틀리면 이 방식은 무너진다. 그래서 location 누락을 실패로 처리하는 규칙을 SKILL.md에 넣는다. (2) '없다', '미공개' 같은 부재 주장과 빠진 불리한 결과에는 location이 없다. 이 경우만은 로컬에 저장한 전문 텍스트 전체를 키워드로 grep한다. grep은 Bash에서 로컬로 돌기 때문에 모델 토큰을 거의 쓰지 않는다. 효과는 논문 3~5편에서 '전문 투입'과 '스키마+국소 재확인+부재 주장 전문 grep'을 비교해 확인한다. 비교 항목은 토큰 사용량과 검증이 잡아낸 오류 수다.",
+          "로봇 성공률 수치는 스크립트로 기계 검증할 수 있다. 과제당 20회 이진 평가라면 성공률은 5의 배수여야 한다. 이 논문의 Tab. 2는 312개 셀 중 227개가 5의 배수가 아니다. 이를 보면 성공률이 부분 점수 평균임이 드러난다(Tab. 7). 또 서론의 '14 to 26 pp'는 표에서 다시 계산한 26과제 평균 이득 13.9~24.8 pp와도, 손별 평균 이득과도 정확히 맞지 않는다. 그래서 key_numbers에 시행 수 N과 표 셀 값을 함께 기록하게 한다. 그다음 작은 Python 스크립트로 두 가지를 확인한다. (1) 값이 100/N의 배수인가. (2) 셀 평균을 다시 계산하면 본문 평균과 맞는가. 이 스크립트는 검증 subagent가 Bash로 실행하게 하거나, 분석 JSON을 쓴 뒤 PostToolUse hook에서 돌려 불일치만 출력하게 한다. 모델 토큰 대신 로컬 연산으로 검산하므로 비용이 거의 들지 않는다. 다만 PDF 표는 pdftotext -layout에서 열이 밀릴 수 있다(이 논문 Tab. 1도 -layout에서 행과 값이 어긋났다). 그러니 -raw 추출과 함께 쓴다.",
+          "이질적 소스는 '소스별 얇은 입력 변환 + 공통 주소 + 공유 본체'로 나누는 것이 낫다는 근거가 수치로 있다. Ablation에서 modality별 grouped 토크나이저(group-routed predictor 포함)가 공유 인터페이스보다 5개 지표 모두에서 좋았다(접촉 중심 0.70 vs 2.32 mm, Tab. 1). 단 이 결과는 1K시간, 100 epoch의 ablation 기본 설정 기준이다. 이 논문은 공통성을 입력층이 아니라 5D RoPE 주소와 공유 HaT에서 확보했다. 내 시스템에 옮기면, arXiv PDF, GitHub README·LICENSE, HF 모델카드 API를 하나의 범용 프롬프트로 읽히지 않는다. 대신 소스별로 짧은 추출 skill(또는 SKILL.md 안의 소스별 절)을 둔다. 출력은 공통 주소 필드(source, 위치, 확인 날짜)를 가진 같은 스키마로 맞추고, 검증 subagent는 하나만 둔다. 이 논문에서는 예산을 고정하면 다중 소스가 공간 정밀도를 잃었다. 마찬가지로 소스를 섞으면 세부 정확도가 떨어질 수 있다. 그러니 소스별 추출 결과를 합치기 전에 각각 따로 검증하는 순서를 지킨다."
+        ],
+        "related_work": {
+          "prior": [
+            {
+              "title": "FTP-1: A generalist foundation tactile policy across tactile sensors for contact-rich manipulation",
+              "id": "arXiv:2606.13102",
+              "relation": "유일한 사전학습 촉각 인코더 비교 대상이다(ref [34]). 센서별 encoder로 이질 센서를 morphology-aware 토큰 공간에 넣는다. 본 논문은 이를 동결하고 센서별 adapter를 학습시켜 비교한다."
+            },
+            {
+              "title": "V-JEPA 2.1: Unlocking dense features in video self-supervised learning",
+              "id": "arXiv:2603.14482",
+              "relation": "Tactile-JEPA의 다중 층 target 감독 방식을 따른 출처다(ref [20], Sec. 3.2). probing 프로토콜은 V-JEPA(arXiv:2404.08471, ref [4])를 따랐다."
+            },
+            {
+              "title": "Self-Supervised Learning From Images With a Joint-Embedding Predictive Architecture (I-JEPA)",
+              "id": "CVPR 2023 (ref [1])",
+              "relation": "잠재공간에서 마스크 영역을 예측하는 JEPA 목적함수의 원형이다. 본 논문은 이를 taxel 점 집합에 적용했다."
+            },
+            {
+              "title": "Transferable Tactile Transformers for Representation Learning Across Diverse Sensors and Tasks (T3)",
+              "id": "CoRL 2024, PMLR 270 (ref [37])",
+              "relation": "센서별 encoder + 공유 Transformer 구조의 선행 연구다. 다만 광학 촉각 센서 간 전이에 한정되며 실험 비교에는 포함되지 않았다."
+            },
+            {
+              "title": "Sparsh: Self-supervised touch representations for vision-based tactile sensing",
+              "id": "CoRL 2024, PMLR 270 (ref [14])",
+              "relation": "광학 촉각에서 재구성, self-distillation, JEPA를 비교한 선행 연구다. 관련 연구에만 언급되고 실험 비교 대상은 아니다."
+            }
+          ],
+          "followup": []
+        },
+        "claude_note": "진짜 새로운 점은 규모와 설계다. 압저항 장갑, 자기 장갑, visuotactile 로봇 손이라는 서로 다른 sensing principle의 촉각 데이터 4,983시간을 하나의 JEPA 인코더로 사전학습했다. 설계는 세 가지다. taxel을 canonical fingertip 좌표로 옮기고, (시간, 손가락, xyz) 5D RoPE 주소를 쓰고, modality별 얇은 토크나이저 위에 공유 HaT를 둔다. 가장 설득력 있는 증거는 같은 magnetic modality의 미학습 센서(XHand1) 결과다. 파라미터 갱신 없이 적용해 FTP-1+전용 adapter보다 5개 probing 과제 모두에서 나았다. JEPA와 VAE·MAE 비교, 데이터 시간 스케일링도 같은 조건에서 수행되었다. 다만 Tiny는 5K시간에서 검색 recall이 떨어졌다. 실로봇 26과제 평균 이득(13.9~24.8 pp)과 시뮬레이션 RL 12과제(69.0 vs CNN 45.6%, 3 seed)도 방향이 일관된다. 실로봇 결과에는 단서가 붙는다. 수치는 부분 점수 평균이고, 과제당 20회 1 run이며, 신뢰구간이 없다. 104쌍 중 5쌍은 원 정책보다 낮다. 인코더 비교 대상은 FTP-1 하나뿐이다. seen 센서 비교에는 사전학습 데이터 노출 차이와 FTP-1 image tokenizer 교체가 섞여 있다. '계산 효율'은 파라미터 수로만 뒷받침되고 지연시간 측정은 없다. '새 센서 종류로 확장'은 같은 modality 안의 새 센서 모델까지만 실증되었고, 정전용량 센서는 제외되었다. 인용할 때는 이렇게 쓰는 것이 정확하다. 'Robbyant(프로젝트 페이지 기준 Ant Group 산하)의 촉각 인코더로, 같은 modality의 미학습 센서에 무학습 전이되고, 동결 토큰이 정책 성능을 평균적으로 높였다고 보고했다.' 공개 범위는 추론용 인코더와 Tiny·Small 가중치(Apache-2.0)뿐이다. 개인 PC에서는 샘플 특징 추출 정도만 할 수 있다.",
+        "analyzed_at": "2026-11-16"
+      }
+    }
+  }
+}

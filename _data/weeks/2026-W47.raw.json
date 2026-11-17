@@ -1,0 +1,717 @@
+[
+  {
+    "paper": {
+      "id": "2609.18063",
+      "authors": [
+        {
+          "_id": "6aab6e211d9cc4dec796250c",
+          "user": {
+            "_id": "63ec492b6ef3ce22b88a40e8",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/no-auth/losyEyB6XLMUkXgKs_GFC.png",
+            "isPro": false,
+            "fullname": "yumu",
+            "user": "bupalinyu",
+            "type": "user",
+            "name": "bupalinyu"
+          },
+          "name": "Yu Lin",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-09-17T09:09:45.608Z",
+          "hidden": false
+        },
+        {
+          "_id": "6aab6e211d9cc4dec796250d",
+          "user": {
+            "_id": "64361bcaf81a16e74367d2e2",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/64361bcaf81a16e74367d2e2/N4pdqBd4DqIx71t8IWaWD.png",
+            "isPro": false,
+            "fullname": "wanglamao",
+            "user": "wanglamao",
+            "type": "user",
+            "name": "wanglamao"
+          },
+          "name": "Yiming Wang",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-09-18T14:00:26.917Z",
+          "hidden": false
+        },
+        {
+          "_id": "6aab6e211d9cc4dec796250e",
+          "user": {
+            "_id": "63413355e5071b0c5cc91cda",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/63413355e5071b0c5cc91cda/P5if_w7mXfPGPq8QtALjF.png",
+            "isPro": false,
+            "fullname": "cai",
+            "user": "chua",
+            "type": "user",
+            "name": "chua"
+          },
+          "name": "Runyuan Cai",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-09-18T14:00:24.425Z",
+          "hidden": false
+        },
+        {
+          "_id": "6aab6e211d9cc4dec796250f",
+          "name": "Hanze Liu",
+          "hidden": false
+        },
+        {
+          "_id": "6aab6e211d9cc4dec7962510",
+          "name": "Xiaodong Zeng",
+          "hidden": false
+        }
+      ],
+      "mediaUrls": [
+        "https://cdn-uploads.huggingface.co/production/uploads/63ec492b6ef3ce22b88a40e8/rC6RhuvirSlar0MGZ-qJB.mp4"
+      ],
+      "publishedAt": "2026-09-16T00:00:00.000Z",
+      "submittedOnDailyAt": "2026-09-17T00:00:00.000Z",
+      "title": "The Other Half of the Memory Wall: Serving 35B MoEs from SSD with Trained Routing Prediction",
+      "submittedOnDailyBy": {
+        "_id": "63ec492b6ef3ce22b88a40e8",
+        "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/no-auth/losyEyB6XLMUkXgKs_GFC.png",
+        "isPro": false,
+        "fullname": "yumu",
+        "user": "bupalinyu",
+        "type": "user",
+        "name": "bupalinyu"
+      },
+      "summary": "Mixture-of-experts (MoE) inference on consumer hardware is bounded by weight memory: a 35B-class model is 19.5GB at 4-bit, and sparsity shrinks the compute per token, not the bytes that must be held. Naive offloading to SSD does not help on its own, because layer N+1's experts must be chosen before layer N's output exists, so the reads cannot start early enough to hide behind compute. We present Edge0, a streaming MoE inference engine that closes the gap with a prerouter: a per-layer head predicts the next layer's routing one token ahead, and the prediction is consumed as the routing itself, so the staged expert set equals the routed set and nothing is dropped. An unmerged recovery LoRA, trained on the student path, pays back the quality lost to int4 quantization and routing replacement. On a single 24GB machine, Edge0\n  serves a 35B MoE at 20tok/s inside 3GiB of peak active memory, within a few points of its fp16 teacher on average across five public benchmarks. An 8B tier runs on the same framework, and the framework, checkpoints, and adapters are open source.",
+      "upvotes": 31,
+      "discussionId": "6aab6e211d9cc4dec7962511",
+      "githubRepo": "https://github.com/Edge0-AI/edge0",
+      "githubRepoAddedBy": "user",
+      "ai_summary": "Edge0 enables efficient mixture-of-experts inference on consumer hardware by predicting expert routing ahead of time and using recovery adapters to maintain quality with minimal active memory.",
+      "ai_keywords": [
+        "mixture-of-experts",
+        "MoE",
+        "offloading",
+        "prerouter",
+        "recovery LoRA",
+        "int4 quantization",
+        "routing replacement",
+        "streaming inference"
+      ],
+      "ai_summary_model": "thinkingmachines/Inkling-Small",
+      "githubStars": 11735,
+      "organization": {
+        "_id": "6a9a75862d11e1c1a13dec37",
+        "name": "Edge0",
+        "fullname": "Edge0",
+        "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/64361bcaf81a16e74367d2e2/D5QI700pnaujz5PeWE6MX.jpeg"
+      }
+    },
+    "publishedAt": "2026-09-15T20:00:00.000Z",
+    "title": "The Other Half of the Memory Wall: Serving 35B MoEs from SSD with Trained Routing Prediction",
+    "summary": "Mixture-of-experts (MoE) inference on consumer hardware is bounded by weight memory: a 35B-class model is 19.5GB at 4-bit, and sparsity shrinks the compute per token, not the bytes that must be held. Naive offloading to SSD does not help on its own, because layer N+1's experts must be chosen before layer N's output exists, so the reads cannot start early enough to hide behind compute. We present Edge0, a streaming MoE inference engine that closes the gap with a prerouter: a per-layer head predicts the next layer's routing one token ahead, and the prediction is consumed as the routing itself, so the staged expert set equals the routed set and nothing is dropped. An unmerged recovery LoRA, trained on the student path, pays back the quality lost to int4 quantization and routing replacement. On a single 24GB machine, Edge0\n  serves a 35B MoE at 20tok/s inside 3GiB of peak active memory, within a few points of its fp16 teacher on average across five public benchmarks. An 8B tier runs on the same framework, and the framework, checkpoints, and adapters are open source.",
+    "mediaUrls": [
+      "https://cdn-uploads.huggingface.co/production/uploads/63ec492b6ef3ce22b88a40e8/rC6RhuvirSlar0MGZ-qJB.mp4"
+    ],
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2609.18063.png",
+    "numComments": 9,
+    "submittedBy": {
+      "_id": "63ec492b6ef3ce22b88a40e8",
+      "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/no-auth/losyEyB6XLMUkXgKs_GFC.png",
+      "fullname": "yumu",
+      "name": "bupalinyu",
+      "type": "user",
+      "isPro": false,
+      "isHf": false,
+      "isHfAdmin": false,
+      "isMod": false,
+      "followerCount": 11,
+      "isUserFollowing": false
+    },
+    "organization": {
+      "_id": "6a9a75862d11e1c1a13dec37",
+      "name": "Edge0",
+      "fullname": "Edge0",
+      "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/64361bcaf81a16e74367d2e2/D5QI700pnaujz5PeWE6MX.jpeg"
+    },
+    "isAuthorParticipating": true
+  },
+  {
+    "paper": {
+      "id": "2610.22732",
+      "authors": [
+        {
+          "_id": "6ad6bd90774b2a8cb5c7d724",
+          "name": "Aaron J. Li",
+          "hidden": false
+        },
+        {
+          "_id": "6ad6bd90774b2a8cb5c7d725",
+          "name": "Weijia Xu",
+          "hidden": false
+        },
+        {
+          "_id": "6ad6bd90774b2a8cb5c7d726",
+          "name": "Chandan Singh",
+          "hidden": false
+        },
+        {
+          "_id": "6ad6bd90774b2a8cb5c7d727",
+          "name": "Zixiao Chen",
+          "hidden": false
+        },
+        {
+          "_id": "6ad6bd90774b2a8cb5c7d728",
+          "name": "Jeevana Priya Inala",
+          "hidden": false
+        },
+        {
+          "_id": "6ad6bd90774b2a8cb5c7d729",
+          "name": "Charlotte Siska",
+          "hidden": false
+        },
+        {
+          "_id": "6ad6bd90774b2a8cb5c7d72a",
+          "name": "Acar Tamersoy",
+          "hidden": false
+        },
+        {
+          "_id": "6ad6bd90774b2a8cb5c7d72b",
+          "name": "Bin Yu",
+          "hidden": false
+        },
+        {
+          "_id": "6ad6bd90774b2a8cb5c7d72c",
+          "name": "Ion Stoica",
+          "hidden": false
+        },
+        {
+          "_id": "6ad6bd90774b2a8cb5c7d72d",
+          "name": "Michel Galley",
+          "hidden": false
+        },
+        {
+          "_id": "6ad6bd90774b2a8cb5c7d72e",
+          "name": "Jianfeng Gao",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2026-10-15T00:00:00.000Z",
+      "submittedOnDailyAt": "2026-10-19T00:00:00.000Z",
+      "title": "TokenEconomizer: Experience-Driven Black-Box Cost Control for Coding Agents",
+      "submittedOnDailyBy": {
+        "_id": "64bf84bf1f38bef571e7e3e8",
+        "avatarUrl": "/avatars/0003aea5dd86e05e45add27bd9f28ac6.svg",
+        "isPro": false,
+        "fullname": "Aaron Li",
+        "user": "aaronjli",
+        "type": "user",
+        "name": "aaronjli"
+      },
+      "summary": "Advances in frontier coding agents have sharply increased the token costs of AI-assisted software engineering. Their token efficiency is typically evaluated on isolated tasks, whereas real-world developers use them to continuously build, update, and maintain large-scale projects. This mismatch motivates us to evaluate agents over sequences of realistic coding tasks, where we find that agents exhibit recurring environment-dependent token costs that existing methods struggle to reduce. To minimize these costs, we introduce TokenEconomizer, an external controller that cuts environment-specific token costs over a sequence of tasks. These cuts come from determining (i) which operational micro-skills to inject, (ii) which persistently irrelevant tools to prune, and (iii) when to intervene in unproductive failure loops. Across Claude Code, Codex, and GitHub Copilot CLI paired with frontier models, TokenEconomizer reduces the average token cost by 18.4-30.9% with comparable task success. Savings hold in every repository under every tested agent-model setting and generalize to diverse domains such as sequential web development and security auditing, where costs fall by 6.4-21.2% depending on task structure. Our work establishes adaptive black-box cost control as a promising direction for reducing token costs of coding agents in realistic settings.",
+      "upvotes": 16,
+      "discussionId": "6ad6bd90774b2a8cb5c7d72f",
+      "projectPage": "https://tokeneconomizer.github.io/",
+      "githubRepo": "https://github.com/microsoft/TokenEconomizer",
+      "githubRepoAddedBy": "user",
+      "ai_summary": "TokenEconomizer reduces recurring token costs of coding agents across sequential real-world tasks by pruning irrelevant tools, injecting micro-skills, and interrupting failure loops.",
+      "ai_keywords": [
+        "coding agents",
+        "token efficiency",
+        "TokenEconomizer",
+        "micro-skills",
+        "tool pruning",
+        "failure loops",
+        "black-box cost control"
+      ],
+      "ai_summary_model": "thinkingmachines/Inkling-Small",
+      "githubStars": 6648,
+      "organization": {
+        "_id": "68151d0f51add3813f3f7d1b",
+        "name": "MicrosoftResearch",
+        "fullname": "Microsoft Research",
+        "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/6529a4f2f1205983224fa513/PeuVr7jSuJflmDBBGxoDX.png"
+      }
+    },
+    "publishedAt": "2026-10-14T20:00:00.000Z",
+    "title": "TokenEconomizer: Experience-Driven Black-Box Cost Control for Coding Agents",
+    "summary": "Advances in frontier coding agents have sharply increased the token costs of AI-assisted software engineering. Their token efficiency is typically evaluated on isolated tasks, whereas real-world developers use them to continuously build, update, and maintain large-scale projects. This mismatch motivates us to evaluate agents over sequences of realistic coding tasks, where we find that agents exhibit recurring environment-dependent token costs that existing methods struggle to reduce. To minimize these costs, we introduce TokenEconomizer, an external controller that cuts environment-specific token costs over a sequence of tasks. These cuts come from determining (i) which operational micro-skills to inject, (ii) which persistently irrelevant tools to prune, and (iii) when to intervene in unproductive failure loops. Across Claude Code, Codex, and GitHub Copilot CLI paired with frontier models, TokenEconomizer reduces the average token cost by 18.4-30.9% with comparable task success. Savings hold in every repository under every tested agent-model setting and generalize to diverse domains such as sequential web development and security auditing, where costs fall by 6.4-21.2% depending on task structure. Our work establishes adaptive black-box cost control as a promising direction for reducing token costs of coding agents in realistic settings.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2610.22732.png",
+    "numComments": 2,
+    "submittedBy": {
+      "_id": "64bf84bf1f38bef571e7e3e8",
+      "avatarUrl": "/avatars/0003aea5dd86e05e45add27bd9f28ac6.svg",
+      "fullname": "Aaron Li",
+      "name": "aaronjli",
+      "type": "user",
+      "isPro": false,
+      "isHf": false,
+      "isHfAdmin": false,
+      "isMod": false,
+      "isUserFollowing": false
+    },
+    "organization": {
+      "_id": "68151d0f51add3813f3f7d1b",
+      "name": "MicrosoftResearch",
+      "fullname": "Microsoft Research",
+      "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/6529a4f2f1205983224fa513/PeuVr7jSuJflmDBBGxoDX.png"
+    },
+    "isAuthorParticipating": false
+  },
+  {
+    "paper": {
+      "id": "2604.05018",
+      "authors": [
+        {
+          "_id": "69dff3d25b704445ba50b49f",
+          "user": {
+            "_id": "6517326e335b4c728b3406a4",
+            "avatarUrl": "/avatars/2c371936981ac48e97e59f04d610e42e.svg",
+            "isPro": false,
+            "fullname": "Yiwen Song",
+            "user": "yiwen-song",
+            "type": "user",
+            "name": "yiwen-song"
+          },
+          "name": "Yiwen Song",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-05-19T08:35:02.190Z",
+          "hidden": false
+        },
+        {
+          "_id": "69dff3d25b704445ba50b4a0",
+          "user": {
+            "_id": "62c901d3069cb0a83ef4c4e9",
+            "avatarUrl": "/avatars/931b7af1a5300599bff6d797aad469e5.svg",
+            "isPro": false,
+            "fullname": "Yale Song",
+            "user": "yalesong",
+            "type": "user",
+            "name": "yalesong"
+          },
+          "name": "Yale Song",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-05-04T10:16:37.868Z",
+          "hidden": false
+        },
+        {
+          "_id": "69dff3d25b704445ba50b4a1",
+          "name": "Tomas Pfister",
+          "hidden": false
+        },
+        {
+          "_id": "69dff3d25b704445ba50b4a2",
+          "name": "Jinsung Yoon",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2026-04-06T00:00:00.000Z",
+      "title": "PaperOrchestra: A Multi-Agent Framework for Automated AI Research Paper Writing",
+      "summary": "Synthesizing unstructured research materials into manuscripts is an essential yet under-explored challenge in AI-driven scientific discovery. Existing autonomous writers are rigidly coupled to specific experimental pipelines, and produce superficial literature reviews. We introduce PaperOrchestra, a multi-agent framework for automated AI research paper writing. It flexibly transforms unconstrained pre-writing materials into submission-ready LaTeX manuscripts, including comprehensive literature synthesis and generated visuals, such as plots and conceptual diagrams. To evaluate performance, we present PaperWritingBench, the first standardized benchmark of reverse-engineered raw materials from 200 top-tier AI conference papers, alongside a comprehensive suite of automated evaluators. In side-by-side human evaluations, PaperOrchestra significantly outperforms autonomous baselines, achieving an absolute win rate margin of 50%-68% in literature review quality, and 14%-38% in overall manuscript quality.",
+      "upvotes": 3,
+      "discussionId": "69dff3d25b704445ba50b4a3",
+      "projectPage": "https://yiwen-song.github.io/paper_orchestra/",
+      "githubRepo": "https://github.com/google-research/paper-orchestra",
+      "githubRepoAddedBy": "user",
+      "ai_summary": "PaperOrchestra is a multi-agent framework that converts unstructured research materials into complete LaTeX manuscripts with literature synthesis and visual elements, outperforming existing autonomous writing systems in human evaluations.",
+      "ai_keywords": [
+        "multi-agent framework",
+        "automated AI research paper writing",
+        "literature synthesis",
+        "visual elements",
+        "LaTeX manuscripts",
+        "reverse-engineered raw materials",
+        "standardized benchmark",
+        "automated evaluators",
+        "human evaluations"
+      ],
+      "ai_summary_model": "Qwen/Qwen2.5-Coder-32B-Instruct",
+      "githubStars": 924
+    },
+    "publishedAt": "2026-04-05T20:00:00.000Z",
+    "title": "PaperOrchestra: A Multi-Agent Framework for Automated AI Research Paper Writing",
+    "summary": "Synthesizing unstructured research materials into manuscripts is an essential yet under-explored challenge in AI-driven scientific discovery. Existing autonomous writers are rigidly coupled to specific experimental pipelines, and produce superficial literature reviews. We introduce PaperOrchestra, a multi-agent framework for automated AI research paper writing. It flexibly transforms unconstrained pre-writing materials into submission-ready LaTeX manuscripts, including comprehensive literature synthesis and generated visuals, such as plots and conceptual diagrams. To evaluate performance, we present PaperWritingBench, the first standardized benchmark of reverse-engineered raw materials from 200 top-tier AI conference papers, alongside a comprehensive suite of automated evaluators. In side-by-side human evaluations, PaperOrchestra significantly outperforms autonomous baselines, achieving an absolute win rate margin of 50%-68% in literature review quality, and 14%-38% in overall manuscript quality.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2604.05018.png",
+    "numComments": 0,
+    "isAuthorParticipating": false
+  },
+  {
+    "paper": {
+      "id": "2412.20138",
+      "authors": [
+        {
+          "_id": "6847673b3ec10bdd8ab4dd5e",
+          "user": {
+            "_id": "619b6a24030b707ff1f05dee",
+            "avatarUrl": "https://cdn-avatars.huggingface.co/v1/production/uploads/619b6a24030b707ff1f05dee/8FZjePfOuTtN3uvTmaEg5.jpeg",
+            "isPro": false,
+            "fullname": "Yijia Xiao",
+            "user": "Yijia-Xiao",
+            "type": "user",
+            "name": "Yijia-Xiao"
+          },
+          "name": "Yijia Xiao",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-08-08T16:45:04.607Z",
+          "hidden": false
+        },
+        {
+          "_id": "6847673b3ec10bdd8ab4dd5f",
+          "name": "Edward Sun",
+          "hidden": false
+        },
+        {
+          "_id": "6847673b3ec10bdd8ab4dd60",
+          "name": "Di Luo",
+          "hidden": false
+        },
+        {
+          "_id": "6847673b3ec10bdd8ab4dd61",
+          "name": "Wei Wang",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2024-12-28T12:54:06.000Z",
+      "title": "TradingAgents: Multi-Agents LLM Financial Trading Framework",
+      "summary": "Significant progress has been made in automated problem-solving using\nsocieties of agents powered by large language models (LLMs). In finance,\nefforts have largely focused on single-agent systems handling specific tasks or\nmulti-agent frameworks independently gathering data. However, the multi-agent\nsystems' potential to replicate real-world trading firms' collaborative\ndynamics remains underexplored. TradingAgents proposes a novel stock trading\nframework inspired by trading firms, featuring LLM-powered agents in\nspecialized roles such as fundamental analysts, sentiment analysts, technical\nanalysts, and traders with varied risk profiles. The framework includes Bull\nand Bear researcher agents assessing market conditions, a risk management team\nmonitoring exposure, and traders synthesizing insights from debates and\nhistorical data to make informed decisions. By simulating a dynamic,\ncollaborative trading environment, this framework aims to improve trading\nperformance. Detailed architecture and extensive experiments reveal its\nsuperiority over baseline models, with notable improvements in cumulative\nreturns, Sharpe ratio, and maximum drawdown, highlighting the potential of\nmulti-agent LLM frameworks in financial trading. TradingAgents is available at\nhttps://github.com/TauricResearch/TradingAgents.",
+      "upvotes": 166,
+      "discussionId": "6847673c3ec10bdd8ab4dd62",
+      "githubRepo": "https://github.com/tauricresearch/tradingagents",
+      "githubRepoAddedBy": "auto",
+      "ai_summary": "A multi-agent framework using large language models for stock trading simulates real-world trading firms, improving performance metrics like cumulative returns and Sharpe ratio.",
+      "ai_keywords": [
+        "large language models",
+        "LLM",
+        "multi-agent systems",
+        "fundamental analysts",
+        "sentiment analysts",
+        "technical analysts",
+        "traders",
+        "risk management",
+        "cumulative returns",
+        "Sharpe ratio",
+        "maximum drawdown"
+      ],
+      "ai_summary_model": "Qwen/Qwen2.5-Coder-32B-Instruct",
+      "githubStars": 122766
+    },
+    "publishedAt": "2024-12-28T07:54:06.000Z",
+    "title": "TradingAgents: Multi-Agents LLM Financial Trading Framework",
+    "summary": "Significant progress has been made in automated problem-solving using\nsocieties of agents powered by large language models (LLMs). In finance,\nefforts have largely focused on single-agent systems handling specific tasks or\nmulti-agent frameworks independently gathering data. However, the multi-agent\nsystems' potential to replicate real-world trading firms' collaborative\ndynamics remains underexplored. TradingAgents proposes a novel stock trading\nframework inspired by trading firms, featuring LLM-powered agents in\nspecialized roles such as fundamental analysts, sentiment analysts, technical\nanalysts, and traders with varied risk profiles. The framework includes Bull\nand Bear researcher agents assessing market conditions, a risk management team\nmonitoring exposure, and traders synthesizing insights from debates and\nhistorical data to make informed decisions. By simulating a dynamic,\ncollaborative trading environment, this framework aims to improve trading\nperformance. Detailed architecture and extensive experiments reveal its\nsuperiority over baseline models, with notable improvements in cumulative\nreturns, Sharpe ratio, and maximum drawdown, highlighting the potential of\nmulti-agent LLM frameworks in financial trading. TradingAgents is available at\nhttps://github.com/TauricResearch/TradingAgents.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2412.20138.png",
+    "numComments": 6,
+    "isAuthorParticipating": true
+  },
+  {
+    "paper": {
+      "id": "2610.14224",
+      "authors": [
+        {
+          "_id": "6acee61fabe004a210f25904",
+          "name": "Ruiyao Xu",
+          "hidden": false
+        },
+        {
+          "_id": "6acee61fabe004a210f25905",
+          "user": {
+            "_id": "64dbe2aa978d1f9fafe978e7",
+            "avatarUrl": "/avatars/34ac30601b20a7d2314afb0308bdbee3.svg",
+            "isPro": false,
+            "fullname": "Yanfei Chen",
+            "user": "anmourchen",
+            "type": "user",
+            "name": "anmourchen"
+          },
+          "name": "Yanfei Chen",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-10-29T20:11:12.710Z",
+          "hidden": false
+        },
+        {
+          "_id": "6acee61fabe004a210f25906",
+          "name": "Zhongying CuiZhu",
+          "hidden": false
+        },
+        {
+          "_id": "6acee61fabe004a210f25907",
+          "name": "Bhavana Dalvi Mishra",
+          "hidden": false
+        },
+        {
+          "_id": "6acee61fabe004a210f25908",
+          "name": "Yifei Ming",
+          "hidden": false
+        },
+        {
+          "_id": "6acee61fabe004a210f25909",
+          "name": "Han Yu",
+          "hidden": false
+        },
+        {
+          "_id": "6acee61fabe004a210f2590a",
+          "name": "Rujun Han",
+          "hidden": false
+        },
+        {
+          "_id": "6acee61fabe004a210f2590b",
+          "name": "Chen-Yu Lee",
+          "hidden": false
+        },
+        {
+          "_id": "6acee61fabe004a210f2590c",
+          "name": "Tomas Pfister",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2026-10-09T00:00:00.000Z",
+      "submittedOnDailyAt": "2026-10-14T00:00:00.000Z",
+      "title": "Harness^2: Recursive Agent Harnessing for an Open World",
+      "submittedOnDailyBy": {
+        "_id": "66e477a352356419c4712065",
+        "avatarUrl": "/avatars/dbde45208c735ffe6febef6802bc1f3d.svg",
+        "isPro": true,
+        "fullname": "Ruiyao Xu",
+        "user": "ruiyaox",
+        "type": "user",
+        "name": "ruiyaox"
+      },
+      "summary": "LLM agents' capabilities depend not only on their underlying models but also on their execution harnesses. Recursive self-improvement (RSI) offers a promising approach to automatically evolve these harnesses. However, deploying RSI in open-world settings still faces two critical challenges. First, open-world tasks are typically unseen during the harness design phase and novel at test time, leaving no ground-truth verifiers to reliably guide online harness edits. Second, the RSI process remains highly task-specific and fails to generalize to novel scenarios. We introduce Harness^2, a plug-and-play, recursive agent harnessing framework that addresses these challenges through two connected levels of recursion. Task-level recursion refines the current task's harness using a contrastive Propose-Probe-Compose step that reliably guides edits without ground-truth verifiers, and can be scaled further via parallel or sequential recursion. Harnessing-level recursion then extracts experience from these edits to update a continual improvement harness, enabling the agent to better adapt to future tasks. Across three professional benchmarks and four model-harness configurations, a single step consistently improves GLM-5 and Gemini 3.5 Flash over their base harnesses, yielding gains of up to 11.5 points on WorkBuddy-Bench, 4.5 points on JobBench, and 11.8 percentage points on LAB, with further gains as the task-level recursion budget increases.",
+      "upvotes": 70,
+      "discussionId": "6acee61fabe004a210f2590d",
+      "projectPage": "https://harness2.github.io/",
+      "githubRepo": "https://github.com/google-research/harness2",
+      "githubRepoAddedBy": "user",
+      "ai_summary": "Harness² improves agent execution harnesses through recursive task-level refinement and continual harness-level learning, boosting performance across benchmarks without ground-truth verifiers.",
+      "ai_keywords": [
+        "recursive self-improvement",
+        "LLM agents",
+        "execution harnesses",
+        "Harness²",
+        "Propose-Probe-Compose",
+        "task-level recursion",
+        "harnessing-level recursion",
+        "continual improvement harness"
+      ],
+      "ai_summary_model": "thinkingmachines/Inkling-Small",
+      "githubStars": 24008,
+      "organization": {
+        "_id": "5e6aca39878b8b2bf9806447",
+        "name": "google",
+        "fullname": "Google",
+        "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/5dd96eb166059660ed1ee413/WtA3YYitedOr9n02eHfJe.png"
+      }
+    },
+    "publishedAt": "2026-10-08T20:00:00.000Z",
+    "title": "Harness^2: Recursive Agent Harnessing for an Open World",
+    "summary": "LLM agents' capabilities depend not only on their underlying models but also on their execution harnesses. Recursive self-improvement (RSI) offers a promising approach to automatically evolve these harnesses. However, deploying RSI in open-world settings still faces two critical challenges. First, open-world tasks are typically unseen during the harness design phase and novel at test time, leaving no ground-truth verifiers to reliably guide online harness edits. Second, the RSI process remains highly task-specific and fails to generalize to novel scenarios. We introduce Harness^2, a plug-and-play, recursive agent harnessing framework that addresses these challenges through two connected levels of recursion. Task-level recursion refines the current task's harness using a contrastive Propose-Probe-Compose step that reliably guides edits without ground-truth verifiers, and can be scaled further via parallel or sequential recursion. Harnessing-level recursion then extracts experience from these edits to update a continual improvement harness, enabling the agent to better adapt to future tasks. Across three professional benchmarks and four model-harness configurations, a single step consistently improves GLM-5 and Gemini 3.5 Flash over their base harnesses, yielding gains of up to 11.5 points on WorkBuddy-Bench, 4.5 points on JobBench, and 11.8 percentage points on LAB, with further gains as the task-level recursion budget increases.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2610.14224.png",
+    "numComments": 4,
+    "submittedBy": {
+      "_id": "66e477a352356419c4712065",
+      "avatarUrl": "/avatars/dbde45208c735ffe6febef6802bc1f3d.svg",
+      "fullname": "Ruiyao Xu",
+      "name": "ruiyaox",
+      "type": "user",
+      "isPro": true,
+      "isHf": false,
+      "isHfAdmin": false,
+      "isMod": false,
+      "followerCount": 2,
+      "isUserFollowing": false
+    },
+    "organization": {
+      "_id": "5e6aca39878b8b2bf9806447",
+      "name": "google",
+      "fullname": "Google",
+      "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/5dd96eb166059660ed1ee413/WtA3YYitedOr9n02eHfJe.png"
+    },
+    "isAuthorParticipating": false
+  },
+  {
+    "paper": {
+      "id": "2611.12806",
+      "authors": [
+        {
+          "_id": "6af2cf2405af6789c06329f2",
+          "name": "Bing Han",
+          "hidden": false
+        },
+        {
+          "_id": "6af2cf2405af6789c06329f3",
+          "name": "Yichuan Peng",
+          "hidden": false
+        },
+        {
+          "_id": "6af2cf2405af6789c06329f4",
+          "name": "Haoyu Dong",
+          "hidden": false
+        },
+        {
+          "_id": "6af2cf2405af6789c06329f5",
+          "name": "Yuanmeng Hu",
+          "hidden": false
+        },
+        {
+          "_id": "6af2cf2405af6789c06329f6",
+          "name": "Yongyi Jia",
+          "hidden": false
+        },
+        {
+          "_id": "6af2cf2405af6789c06329f7",
+          "name": "Fangjing Wang",
+          "hidden": false
+        },
+        {
+          "_id": "6af2cf2405af6789c06329f8",
+          "name": "Kecheng Zheng",
+          "hidden": false
+        },
+        {
+          "_id": "6af2cf2405af6789c06329f9",
+          "user": {
+            "_id": "64ccaa4687ec96aa4752e754",
+            "avatarUrl": "/avatars/c133dcba407872cd05f4a03387128c16.svg",
+            "isPro": false,
+            "fullname": "Yiming Zhang",
+            "user": "ymzhang319",
+            "type": "user",
+            "name": "ymzhang319"
+          },
+          "name": "Yiming Zhang",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-11-10T14:10:52.015Z",
+          "hidden": false
+        },
+        {
+          "_id": "6af2cf2405af6789c06329fa",
+          "name": "Yanhong Zeng",
+          "hidden": false
+        },
+        {
+          "_id": "6af2cf2405af6789c06329fb",
+          "name": "Xiaoqing Zhang",
+          "hidden": false
+        },
+        {
+          "_id": "6af2cf2405af6789c06329fc",
+          "name": "Chen Song",
+          "hidden": false
+        },
+        {
+          "_id": "6af2cf2405af6789c06329fd",
+          "name": "Rundong Zou",
+          "hidden": false
+        },
+        {
+          "_id": "6af2cf2405af6789c06329fe",
+          "name": "Anqi Dong",
+          "hidden": false
+        },
+        {
+          "_id": "6af2cf2405af6789c06329ff",
+          "name": "Yuan Guan",
+          "hidden": false
+        },
+        {
+          "_id": "6af2cf2405af6789c0632a00",
+          "name": "Ka Leong Cheng",
+          "hidden": false
+        },
+        {
+          "_id": "6af2cf2405af6789c0632a01",
+          "name": "Xing Zhu",
+          "hidden": false
+        },
+        {
+          "_id": "6af2cf2405af6789c0632a02",
+          "name": "Yujun Shen",
+          "hidden": false
+        },
+        {
+          "_id": "6af2cf2405af6789c0632a03",
+          "name": "Nan Xue",
+          "hidden": false
+        },
+        {
+          "_id": "6af2cf2405af6789c0632a04",
+          "user": {
+            "_id": "6aef19bdd39f8eadf001c944",
+            "avatarUrl": "/avatars/e77ac8d7e43eb04593e74edc81cc7c39.svg",
+            "isPro": false,
+            "fullname": "NING Wei",
+            "user": "tttNing",
+            "type": "user",
+            "name": "tttNing"
+          },
+          "name": "Wei Ning",
+          "status": "claimed_verified",
+          "statusLastChangedAt": "2026-11-10T14:10:53.894Z",
+          "hidden": false
+        }
+      ],
+      "publishedAt": "2026-11-09T00:00:00.000Z",
+      "submittedOnDailyAt": "2026-11-10T00:00:00.000Z",
+      "title": "Learning Heterogeneous Tactile Representation for General Dexterous Manipulation",
+      "submittedOnDailyBy": {
+        "_id": "6485ce5ec7f19728a49df17a",
+        "avatarUrl": "/avatars/79301b8575e399aba805348946e523d9.svg",
+        "isPro": true,
+        "fullname": "Nan",
+        "user": "cherubicxn",
+        "type": "user",
+        "name": "cherubicxn"
+      },
+      "summary": "Tactile sensing is an indispensable modality for contact-rich dexterous manipulation, a capability that hints at the ultimate frontiers of embodied intelligence. However, commercially available tactile sensors are still at a relatively early stage of development, with each type of sensor offering irreplaceable strengths alongside its own drawbacks. A key challenge is thus to free tactile understanding from sensor-specific physics, so that embodied models can effectively leverage heterogeneous tactile data. To this end, we develop LingBot-Touch, a tactile foundation model characterized by the following properties. (i) Our model yields a unified representation across different tactile sensors (i.e., piezoresistive, magnetic, and visuotactile sensors), and is easily extensible to new sensor types. (ii) The resulting tactile tokens are plug-and-play: they can be seamlessly integrated into policy models across paradigms, from diffusion policy to vision-language-action (VLA) models such as π_{0.5} and LingBot-VLA, consistently enhancing manipulation dexterity. (iii) Extensive experiments, spanning simulation and real-robot deployments across multiple hardware platforms, demonstrate that our tactile representation substantially benefits complex manipulation tasks while maintaining strong computational efficiency. We believe the findings in this work demonstrate the potential of leveraging cross-sensor data to scale tactile learning, and offer encouraging insights for the design of future hardware and embodied models.",
+      "upvotes": 104,
+      "discussionId": "6af2cf2505af6789c0632a05",
+      "projectPage": "https://technology.robbyant.com/lingbot-touch",
+      "githubRepo": "https://github.com/Robbyant/lingbot-touch",
+      "githubRepoAddedBy": "user",
+      "ai_summary": "LingBot-Touch is a tactile foundation model that learns a unified, extensible representation across heterogeneous tactile sensors, yielding plug-and-play tactile tokens that consistently enhance manipulation policies such as diffusion policy and VLA models.",
+      "ai_keywords": [
+        "tactile foundation model",
+        "unified representation",
+        "heterogeneous tactile data",
+        "tactile tokens",
+        "plug-and-play",
+        "policy models",
+        "diffusion policy",
+        "vision-language-action (VLA) models",
+        "π0.5",
+        "LingBot-VLA",
+        "embodied models",
+        "cross-sensor data",
+        "tactile learning",
+        "manipulation dexterity"
+      ],
+      "ai_summary_model": "deepseek-ai/DeepSeek-V4.1-Flash",
+      "githubStars": 605,
+      "organization": {
+        "_id": "69709f892cd08371c1011a2e",
+        "name": "robbyant",
+        "fullname": "Robbyant",
+        "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/67aeffda7330db26f93cd62f/ZTuImney4XzRmBHyUL47F.png"
+      }
+    },
+    "publishedAt": "2026-11-08T19:00:00.000Z",
+    "title": "Learning Heterogeneous Tactile Representation for General Dexterous Manipulation",
+    "summary": "Tactile sensing is an indispensable modality for contact-rich dexterous manipulation, a capability that hints at the ultimate frontiers of embodied intelligence. However, commercially available tactile sensors are still at a relatively early stage of development, with each type of sensor offering irreplaceable strengths alongside its own drawbacks. A key challenge is thus to free tactile understanding from sensor-specific physics, so that embodied models can effectively leverage heterogeneous tactile data. To this end, we develop LingBot-Touch, a tactile foundation model characterized by the following properties. (i) Our model yields a unified representation across different tactile sensors (i.e., piezoresistive, magnetic, and visuotactile sensors), and is easily extensible to new sensor types. (ii) The resulting tactile tokens are plug-and-play: they can be seamlessly integrated into policy models across paradigms, from diffusion policy to vision-language-action (VLA) models such as π_{0.5} and LingBot-VLA, consistently enhancing manipulation dexterity. (iii) Extensive experiments, spanning simulation and real-robot deployments across multiple hardware platforms, demonstrate that our tactile representation substantially benefits complex manipulation tasks while maintaining strong computational efficiency. We believe the findings in this work demonstrate the potential of leveraging cross-sensor data to scale tactile learning, and offer encouraging insights for the design of future hardware and embodied models.",
+    "thumbnail": "https://cdn-thumbnails.huggingface.co/social-thumbnails/papers/2611.12806.png",
+    "numComments": 2,
+    "submittedBy": {
+      "_id": "6485ce5ec7f19728a49df17a",
+      "avatarUrl": "/avatars/79301b8575e399aba805348946e523d9.svg",
+      "fullname": "Nan",
+      "name": "cherubicxn",
+      "type": "user",
+      "isPro": true,
+      "isHf": false,
+      "isHfAdmin": false,
+      "isMod": false,
+      "followerCount": 3,
+      "isUserFollowing": false
+    },
+    "organization": {
+      "_id": "69709f892cd08371c1011a2e",
+      "name": "robbyant",
+      "fullname": "Robbyant",
+      "avatar": "https://cdn-avatars.huggingface.co/v1/production/uploads/67aeffda7330db26f93cd62f/ZTuImney4XzRmBHyUL47F.png"
+    },
+    "isAuthorParticipating": false
+  }
+]

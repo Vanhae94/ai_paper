@@ -1,0 +1,23 @@
+{
+  "week_id": "2026-W47",
+  "papers": {},
+  "week_summary": {
+    "headline_ko": "신작 2편 — 촉각 로봇 모델 LingBot-Touch로 W31 이후 첫 1차 카테고리 임바디드 논문, 논문 원고를 쓰는 멀티에이전트 PaperOrchestra 등장. Edge0는 한 주 만에 복귀, TradingAgents·Harness²는 5주 연속",
+    "clusters": [
+      {
+        "category": "LLM/Agents",
+        "paper_ranks": [
+          2,
+          3,
+          4,
+          5
+        ],
+        "theme_ko": "에이전트 4편 — 신작 PaperOrchestra(논문 원고 자동 작성)와 재등장한 TokenEconomizer·TradingAgents·Harness²"
+      }
+    ],
+    "emerging_keywords": [],
+    "narrative_ko": "이번 주 6편 중 신작은 2편으로, W44·W45 1편과 W46 0편 뒤 W43 이후 처음으로 2편이 나왔다. 신작 LingBot-Touch(▲104)는 압저항·자기·시각촉각 센서를 하나의 촉각 표현으로 묶고, 동결한 인코더의 토큰을 학습형 readout으로 압축해 VLA 같은 로봇 정책의 추가 입력으로 넣은 뒤 정책을 post-training하는 모델로, 1차 카테고리가 임바디드·월드모델인 논문은 W31 이후 처음이다. 다른 신작 PaperOrchestra(▲3)는 정리되지 않은 연구 자료를 LaTeX 원고로 바꾸는 멀티에이전트로, W38 AutoResearch에 이어 연구 과정을 자동화하는 쪽의 논문이다(심층 분석상 사람 평가에서 AI 베이스라인은 앞섰지만 인간 원본에는 전체 품질 5% 대 81%로 뒤졌다). 재등장 쪽에서는 TradingAgents(▲166, 이번 주 최다)와 Harness²가 W43부터 5주 연속, TokenEconomizer가 3주 연속 올랐고, Edge0는 W46에 한 주 빠졌다가 저장소에 11월 13일 145B·120B 모델이 공개된 뒤 돌아왔다. 관심도 합계 390은 21회 관측 중 아래에서 세 번째다.",
+    "recent_trend_ko": "누적 21회 관측 기준, LLM·에이전트는 이번 주 6편 중 4편이고 21회 관측 내내 빠진 적이 없다. self-refinement는 W42부터 6회 연속이지만 W44~W47은 Harness² 한 편이고, agent-harness의 W43~W47 등장도 모두 Harness²다. 효율·추론최적화는 1차 카테고리 기준 W40부터 8회 관측 연속이고 moe-serving·edge-inference도 W41부터 7회 연속이지만, W46의 FreeToken을 빼면 모두 Edge0다. 반대로 데이터(Data)는 Kronos가 빠지며 4주 만에 0편이 됐고, financial-ai는 TradingAgents 덕에 21회 중 20회 등장이다. autonomous-research는 W38 AutoResearch 이후 수집 7주 공백 뒤 서로 다른 논문으로 두 번째 등장했지만 간격이 커 부상으로 보기는 이르고, tactile-sensing·vision-language-action은 단발 등장이다. 비전은 3주 연속 0편이다. 연속 등장 배지는 TradingAgents·Harness²(5주), TokenEconomizer(3주)에 붙는다.",
+    "caveats_ko": "주 6편의 HuggingFace 트렌딩 표본은 인기·최신성 편향을 강하게 받으며, 업보트와 GitHub 스타는 연구 중요도가 아닌 관심도 지표이고, W37·W39 미수집으로 추세 판정은 수집된 21회 관측끼리의 비교다. 신작 두 편은 심층 분석으로 원문과 저장소를 확인했다. PaperOrchestra의 승률 차는 AI 베이스라인 대비이고 같은 사람 평가에서 인간 원본에는 전체 품질 5% 대 81%로 뒤졌으며, 문헌 검토의 자동 평가는 사람 판단과 상관이 낮고(Pearson 0.09~0.28), 4월 논문이 ▲3으로 순위에 든 것이라 관심도 신호도 약하다. LingBot-Touch의 정책 이득(실로봇 26과제 평균 13.9~24.8 pp)은 부분 점수 평균이고 시드·신뢰구간이 없으며, 사전학습 촉각 인코더 비교는 FTP-1 하나이고 '계산 효율'의 근거는 파라미터 수뿐이다. Edge0의 스타 증가에는 11월에 공개된 새 추론 엔진과 145B·120B 모델의 영향이 섞여 있을 수 있지만, 스타는 그 공개 전부터 늘고 있었으므로 복귀와 스타 증가의 원인은 가를 수 없다. 카드의 수치는 논문의 35B·8B 기준이며 '24GB 기기'는 Apple Silicon 통합 메모리다(W41). 재등장한 나머지 3편은 기존 심층 분석의 조건을 따른다. TokenEconomizer의 절감은 SWE-Bench 연속 스트림에서 잰 가격 가중 비용이고(W45), Harness²의 이득은 Opus 4.8 편집기와 추가 실행을 쓰는 test-time 계산의 대가이며(W43), TradingAgents의 수익 지표는 3종목·약 5개월 백테스트 결과다(W31)."
+  }
+}
