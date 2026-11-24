@@ -1,0 +1,260 @@
+{
+  "week_id": "2026-W48",
+  "papers": {
+    "2611.18397": {
+      "tier2": {
+        "method_detail": "저자는 miHoYo Honkai AI R&D Team이 주도하고 NUS, Tsinghua, UCAS, USTC, Xi'an Jiaotong 소속이 함께한다(일부 저자는 miHoYo 인턴). HSR 실험의 Gamer는 Qwen3-VL-8B에서 출발하고, 공개 벤치마크에는 Qwen3.5-35B-A3B MoE CPT 모델도 보고한다. 화면은 1280x720으로 캡처해 854x480으로 줄이고 5 Hz로 넣으며 최근 20개 관측 턴을 본다. 행동은 200 ms마다 누적 마우스 이동(X, Y, 스크롤 Z)과 33 ms 블록 6개의 눌린 키 집합으로 이루어진다. 이를 언어 모델 어휘로 직렬화하며(약 30 Hz) 별도 행동 헤드는 없다. GitHub README 기준으로 X, Y는 화면 너비와 높이의 1/1000 단위이고 키 어휘는 74개 토큰이다.\n\nCPT는 게임별 키 명세를 입력에 넣고, 궤적마다 재바인딩 가능한 키를 무작위로 일대일 재매핑한다. 행동 스텝의 85% 넘게가 직전 행동 반복이라 n번째 반복 토큰에 gamma^(n-1)(gamma=0.9) 가중을 준다(Game-TARS의 감쇠 손실을 따름). 토큰 비율은 게임 85%, 일반 VL 15%다.\n\nSFT 출력은 <think>r</think> 뒤 행동이며 r은 빈칸, 현재 판단, 메모리 요약 중 하나다. 별도 분류기나 라우터 없이 같은 정책이 언제 생각할지 배운다. GPT-5.6-Luna가 10초 창(관측 25장, 행동 50구간)에서 결정 지점만 골라 약 1.2M개의 Think 주석을 만들었다. 장기 메모리는 512 토큰, 단기 이력은 20턴이다. 요약은 단계 전환, 서브골 완료, 이력 퇴출 직전에 쓰고, 예산을 넘으면 오래된 요약부터 지운다. 초록의 unbounded-context 실행은 이 압축 구조를 말한다. 희소 사고가 계산을 얼마나 줄이는지는 본문에 수치가 없다.\n\nTA-GRPO는 긴 롤아웃을 요약으로 이어진 최대 20턴 세그먼트로 자른다. 같은 과제 조건에서 롤아웃을 샘플하고(그룹 크기 G=8), 세그먼트 단계마다 그 단계에 도달한 롤아웃끼리 비교 그룹을 만든다. 따라서 그룹 크기는 G보다 작을 수 있다. 세그먼트가 같은 게임 상태에서 시작할 필요는 없다. 엔진 검증 이진 보상을 그룹 정규화해 advantage를 얻고, 이를 세그먼트 끝에 가까운 스텝일수록 크게(beta=0.9, 평균 1 유지) 나눠 준다. 갱신은 토큰 단위 clip 0.2로 한다. 게임 상태 복원, value critic, 학습된 PRM은 모두 쓰지 않는다.\n\nStreaming-vLLM은 환경별 KV 캐시를 유지한다. 압축 시에는 퇴출된 페이지를 해제하고 남은 키의 RoPE 위상만 보정하며, Qwen3.5의 GDN 층은 고정 크기 상태를 그대로 이어 쓴다. 디코딩에서는 FSM이 구분자와 빈 키 그룹 같은 구조 토큰 초안을 내고 문법상 유효한 전이만 허용한다. BF16 본 모델이 이 초안을 검증하며, 첫 키 블록이 준비되면 먼저 클라이언트로 보낸다. RL에서는 32개 Windows VM을 H200 64장 풀로 서빙한다. Table 9는 H200과 Qwen3.5-35B-A3B로 고정된 짧은 상호작용 시퀀스를 처리한 결과다. TP1 기준선 1306 ms가 TP4, megakernel, 부분 W8A8 양자화, FSM 유도 디코딩을 누적한 뒤 65.12 ms가 된다. 반면 다중 턴 측정(App C.3, H200 TP4)에서는 35B-A3B가 BF16 110.08 ms, W8A8 92.19 ms이고, HSR 백본인 Qwen3-VL-8B는 BF16 75.66 ms다. 이 엔진 코드는 아직 공개되지 않았다(README TODO 미체크).\n\n독자에게 옮길 만한 아이디어는 세 가지다. 첫째는 희소 사고다. 평소에는 정해진 형식만 내고 상황이 바뀔 때만 생각한다. Claude Code에서는 SKILL.md에 '기본은 짧은 구조화 출력, 검증 실패나 목표 변경 때만 상세 추론' 규칙을 두는 식으로 옮길 수 있다. 둘째는 메모리 압축이다. 단계 경계마다 완료 목표, 실패 시도, 남은 계획을 짧은 요약 파일에 쓰고, Stop hook이나 서브에이전트 종료 시점에 갱신한다. 셋째는 같은 과제의 여러 시도를 검증 가능한 점수로 상대 비교하는 그룹 평가다. 다만 뒤쪽 스텝 가중은 저자 스스로 인과 기여가 아닌 시간 prior라고 밝힌다. 직접 돌릴 수 있는 것은 GameScaling CPT 체크포인트 8종(Qwen3.5 0.8B-27B, Apache-2.0, 2.2-54.7 GB)뿐이다. 이 체크포인트는 vLLM 서빙을 전제로 하므로, Windows PC에서는 Linux 환경(WSL2 등)과 GPU 메모리(9B는 가중치만 18.8 GB)를 먼저 확인해야 한다.",
+        "experiment_setup": [
+          "공개 게임 벤치마크(Sec 8.1, Table 5): MCU, ViZDoom, OmniGameArena, GameWorld를 쓴다. 각 벤치마크의 원래 지표로 평가하며, 실시간(RT) 점수를 주값으로 두고 시간 정지(TP) 대비 차이(RT-TP)를 괄호로 보고한다. 저자는 MCU와 ViZDoom을 CPT에 포함된 도메인, OmniGameArena를 미지 3D 게임, GameWorld를 원거리 전이로 구분한다. 비교 대상은 GPT-5.6-Sol, GPT-5.6-Luna, Claude-Opus-5.0, GLM-5.3-Flash, DeepSeek-V4-Flash-Vision, Qwen3.5 0.8B/2B/9B/27B다. Gamer 쪽은 SFT/RL 모델 없이 CPT 체크포인트 두 개(Qwen3-VL-8B Dense, Qwen3.5-35B-A3B MoE)만 들어간다. GPT-6.1-Sol과 Gemini-3.8-Flash는 Table 5에 없다. MCU 기본 프로토콜은 600 step 상한이다(App B.6, Fig 17 캡션). 본문은 어느 벤치마크가 2D인지 밝히지 않는다. 다만 Gamer README가 링크한 GameScaling 평가 코드(github.com/THUSI-Lab/GameScaling, evaluation/README.md)는 GameWorld를 headless Chromium에서 도는 브라우저 게임 34종으로 설명한다. 카탈로그에는 2048, Tetris, Flappy Bird, Pacman 같은 2D 게임과 Temple Run 2, Wolf3D 같은 3D풍 게임이 함께 있다. 그래서 초록의 '2D 게임 벤치마크'는 GameWorld를 가리킬 가능성이 높다(우리 추정).",
+          "HSR 사이드 퀘스트(Sec 8.1, 8.3, Table 6, App D.3)는 두 개다. Opportunity Makes the Thief (Part I)는 마일스톤 30개, 부모 단계 22개이고, 마일스톤 유형별로는 항법 14, 대화 14, 전투 1, UI 1이다. 시간 예산은 30분이다. Bestial Ferocity는 마일스톤 55개, 부모 단계 40개이고, 유형별로는 항법 32, 대화 16, 전투 2, UI 2, 퍼즐 3이다. 시간 예산은 Sec 8.1에서 100분, App D.3 Table 14에서 6,040 s로 서로 조금 다르다. 과제마다 3회 평가한다. Acc는 검증된 마일스톤 통과 수를 (필요 마일스톤 수 x 시도 수)로 나눈 마일스톤 단위 통과율이다. 예를 들어 Gamer-RL의 퀘스트 1 값 80.0은 90개 중 72개 통과와 맞는다(우리 역산). 따라서 이 값은 중단 없는 end-to-end 완주율이 아니며, 본문도 'rather than uninterrupted end-to-end quest completion'이라고 밝힌다. 부록에 따르면 스크립트 전환으로 재개된 실행의 마일스톤 통과도 인정되고, 누락된 평가는 실패로 세지 않는다. 'The published report should state the exact number of valid attempts' 같은 미완성 문장이 남아 있고, 모델별 유효 시도 수는 보고되지 않았다.",
+          "HSR 미니게임(Sec 8.4, Table 7, Fig 10, App D.4)은 7개 유형 40개 과제다. PDF Figure 10 기준 개수는 Magflow Link 5, Navigation Compass 8, Abacus Circuitry 3, Hexanexus 3, Janus's Hidden Passage 7, Golden Scapegoat 7, Janus's Maze 7이다. 이 개수는 Table 7 값과 맞는다(예: NC 95.8 = 23/24, ML 53.3 = 8/15, 우리 역산). 그러나 Sec 8.1 본문은 'between one and sixteen evaluated instances'라고 적어 서로 충돌한다. 과제마다 3회 평가하며, 과제 점수는 유효 시도의 평균이다. 유형 안에서 평균한 뒤 7개 유형의 비가중 평균을 Acc로 쓴다. 평가 과제는 학습에서 제외했지만 같은 게임의 다른 플레이는 학습했다. 그래서 저자 스스로 미지 게임 zero-shot이 아니라고 밝힌다.",
+          "HSR 메인 스토리(App D.4 Extended Main-Story Evaluation): 스토리 아크 5개, 퀘스트 체인 19개, 메인 미션 항목 160개를 약 50시간 평가했고, 전체 시간의 95% 넘게 자율 동작했다고 보고한다. '자율 시간'의 정의, 개입 기준, 개입 횟수는 본문과 부록에서 찾지 못했다('intervention' 검색 0건).",
+          "온라인 RL 설정(Sec 7.1, 7.3, Table 15, App F.2-F.3): Windows VM 32대를 H200 64장 기반 sharded Streaming-vLLM 풀로 서빙한다. 반복마다 rollout 128개를 모은다. 과제 수는 항법 8개, 퍼즐 16개이고, 과제당 rollout은 항법 16개, 퍼즐 8개다. 그룹 크기는 8이고, 배치당 2회 업데이트한다(서로 겹치지 않는 반쪽 배치). 옵티마이저는 Adam(MCore, beta 0.9/0.999)이고, LR 1e-6 상수, clip 0.2, beta 0.9, 세그먼트 20턴, 메모리 512 토큰, 최대 컨텍스트 23K를 쓴다. 학습 규모는 항법 61 iteration(약 7.8K rollout, 3.1e7 토큰), 퍼즐 53 iteration(약 6.8K rollout, 2.8e7 토큰)이다. 보상은 검증 가능한 이진 과제 보상이고, 추론 설정은 temperature 0.9, 최대 생성 512 토큰이다.",
+          "실시간 대 저속 롤아웃 RL 비교(Sec 8.5, Fig 11): 항법 과제 8개에서 Streaming-vLLM 실시간 롤아웃과, 표준 vLLM 속도를 나타내는 0.6 FPS 대조군을 처음 50 iteration 동안 비교한다. 두 설정 모두 게임은 계속 진행된다. 수치는 그림에만 있고 본문 표는 없다.",
+          "GameScaling 통제 연구(Sec 2.3, 8.2, Table 3, App B, F.2): Qwen3.5 0.8B/2B/9B/27B, 게임플레이 50-1,600시간 6단계, 혼합 S1-S5(Minecraft 비율 100/51.4/27.1/2.8/0%)로 4x6x5=120개 구성을 학습했다. 비용은 약 45K H200 GPU-hours다. WSD 트렁크 20개를 두고, 짧은 예산 체크포인트는 여기서 분기해 각각 decay를 마친다. 검증 분포는 Minecraft, 학습에 포함된 게임, 제목이 겹치지 않는 미지 게임 28종 x 160 클립(4,480개)이다. 벤치마크 그림(Fig 14, 16)은 시간 정지 평가 기준이다.",
+          "학습 하이퍼파라미터(Table 15, App F.2): CPT(GameScaling 기준 행)는 AdamW (0.9, 0.95), weight decay 0.01을 쓴다. LR은 LLM 1e-5, 비전 인코더 7e-6이고, WSD 비율은 3/87.3/9.7%다. 업데이트당 2.3e5 토큰, 6,839 iteration, 총 5.45e10 토큰, 최대 컨텍스트 45K이며, key remapping과 gamma 0.9를 쓴다. SFT는 CPT 체크포인트에서 시작한다. LR 1e-5(LLM과 비전 모두), weight decay 0.1, warmup-decay 5/95%로 1,696 iteration, 3.9e8 토큰을 학습한다. CPT는 H200 클러스터, SFT는 A800 클러스터에서 학습하고, RL은 Megatron/MCore BF16을 쓴다. HSR 보강 Gamer-CPT(Qwen3-VL-8B) 자체의 iteration 수와 GPU 시간은 따로 보고되지 않았다.",
+          "Streaming-vLLM 평가(Sec 8.6, Table 8, Table 9, App C.3-C.4): StreamingBench Real-Time 하위셋과 OVO-Bench(Real/Backward/Forward)로 정확도, 질의 지연, 최대 메모리를 H200에서 잰다. Streaming-vLLM 자체는 Qwen3-VL-8B와 Qwen3.5-9B에서만 돌렸다. 그래서 같은 백본으로 직접 비교한 상대는 DSCache뿐이다. ReKV, StreamingVLM, InfiniPot-V는 LLaVA-OV-7B와 Qwen2.5-VL-7B 백본 행에만 있다. 피크 메모리는 Streaming-vLLM 22 GB로 DSCache 21 GB보다 약간 크다. Table 9는 H200과 Qwen3.5-35B-A3B로 고정된 짧은 상호작용 시퀀스에 최적화를 하나씩 누적한 결과이고, 마지막 두 단계에는 부분 W8A8 양자화와 FSM 유도 디코딩이 들어간다. 저자는 일부 구성이 프로파일링 경계를 바꾸므로 단일 요인 효과가 아니라 누적 개선이라고 밝힌다. App C.3은 A800/H200, TP, BF16/W8A8를 바꿔 가며 다중 턴 지연을 측정한다.",
+          "시드와 분산: HSR 과제는 3회 평균만 보고하고 표준편차는 없다. 스케일링 적합의 불확실성은 혼합 내 층화 bootstrap 300회로 추정했다. 저자는 이것이 학습 시드 간 분산이 아니라고 명시한다(App B.3-B.4). 부록 E 정성 사례는 체크포인트당 16회 시도다. 구성 요소 ablation(key remapping, repeat decay, 희소 사고 대 매 스텝 추론, 메모리 유무, 시간 가중 beta)은 없다. v3 HTML 전문에서 'ablat', 'w/o', 'without memory'를 검색해 확인했다. 'ablation'이라는 단어는 Table 9 시스템 누적 실험을 가리키는 곳(Sec 5.3, 8.6.1, App C.4)에만 나온다."
+        ],
+        "datasets": [
+          {
+            "name": "VPT, D2E, OpenP2P 게임플레이 궤적 (CPT 교차 게임 데이터)",
+            "domain": "공개 게임/데스크톱 키보드·마우스 궤적(Minecraft와 다수 게임, 정규화 게임 라벨 80개)",
+            "scale": "HSR과 합친 CPT 게임플레이가 약 2.4K시간, 토큰 85%(Table 2). GameScaling 구성당 최대 1,600시간(Table 3)"
+          },
+          {
+            "name": "Honkai: Star Rail 녹화 트랙 (비공개)",
+            "domain": "상용 3D 게임 화면과 키보드·마우스 이벤트",
+            "scale": "원시 약 68K 세션, 11K시간(Sec 6.1). CPT용 필터링 결과 약 149K 클립, 약 332시간(Sec 7.2). SFT 원천은 약 3.2K 세션, 약 1K시간"
+          },
+          {
+            "name": "HSR 다층 지시 SFT 데이터 (비공개, GPT-5.6-Luna 주석)",
+            "domain": "작업·서브골·과제 3단계 지시, 희소 Think, 메모리 요약",
+            "scale": "작업 단위 약 261K(37.0%), 서브골 약 211K(29.8%), 과제 약 234K(33.1%) 샘플. Think 주석 약 1.2M, 과제 세그먼트 약 63K(중앙값 약 40초), 메모리 주석 약 223K(Table 2, Sec 6.2-6.3)"
+          },
+          {
+            "name": "일반 VL 데이터: LLaVA-OneVision, Zebra-CoT, GameQA, Embodied-Reasoner, Cambrian-S",
+            "domain": "일반 비전-언어, 임바디드와 1인칭 추론(키보드·마우스 궤적 아님)",
+            "scale": "약 6.3B 토큰, CPT 토큰의 15%(Table 2)"
+          },
+          {
+            "name": "온라인 검증 rollout",
+            "domain": "HSR 엔진 계측 샌드박스의 항법과 퍼즐 과제",
+            "scale": "약 14.6K rollout(항법 약 7.8K, 퍼즐 약 6.8K)(Table 2, Table 15)"
+          },
+          {
+            "name": "MCU, ViZDoom, OmniGameArena, GameWorld",
+            "domain": "공개 게임 에이전트 평가(Minecraft, Doom, UE5 미지 3D 게임, 원거리 전이 게임)",
+            "scale": "각 벤치마크의 원래 과제 정의를 따른다. 과제 수는 본문에 없다"
+          },
+          {
+            "name": "HSR 평가 세트",
+            "domain": "학습에서 제외한 사이드 퀘스트, 미니게임, 메인 스토리",
+            "scale": "퀘스트 2개(마일스톤 30/55), 미니게임 7유형 40과제, 메인 스토리 미션 항목 160개 약 50시간"
+          },
+          {
+            "name": "GameScaling 검증 분포",
+            "domain": "Minecraft, 학습 포함 게임, 미지 게임",
+            "scale": "미지 게임 28종 x 160 클립 = 4,480 클립(App B.1)"
+          },
+          {
+            "name": "StreamingBench (Real-Time), OVO-Bench",
+            "domain": "스트리밍 비디오 이해(엔진 정확도 검증용)",
+            "scale": "규모는 본문에 없다"
+          }
+        ],
+        "limitations": {
+          "by_authors": [
+            "평가 범위가 선택된 일부 환경과 과제 구조에 한정된다. 더 넓은 환경으로 확장했을 때의 이득은 학습 데이터의 커버리지와 구성에 달려 있다고 저자가 밝힌다(Sec 10 Limitations and Future Work, 첫째 항목).",
+            "Streaming-vLLM의 실시간성은 평가한 GPU 플랫폼(A800, H200)에서만 확인되었다. 저자는 서빙 비용을 더 줄여야 하고 자원 제약 환경에는 모델 압축과 추가 런타임 최적화가 필요하다고 적는다(Sec 10, 둘째 항목).",
+            "빠르고 연속적인 상호작용만으로 복잡한 전략 문제를 풀 수 있는 것은 아니며, 깊은 숙고가 필요한 환경에서는 추론 능력이 병목으로 남을 수 있다고 인정한다. 대안으로 큰 System 2 모델과 빠른 System 1 모델을 결합하는 계층형 에이전트를 제안한다(Sec 10, 셋째 항목).",
+            "HSR 평가는 같은 게임의 다른 플레이를 이미 학습한 상태에서 보류한 과제를 푸는 설정이라 미지 게임 zero-shot 전이가 아니라고 명시한다(Sec 8.1 평가 세트 설명). 또 스크립트 전환으로 재개된 실행의 마일스톤 통과는 무중단 자율 진행을 뜻하지 않고, 누락된 평가는 실패로 세지 않으며, 모델별 유효 시도 수는 최종 결과에서 밝혀야 한다는 미완성 문장이 남아 있다(App D.3, Table 13 직전 문단).",
+            "TA-GRPO의 뒤쪽 스텝 가중은 시간 prior일 뿐 후반 행동이 결과에 더 기여한다는 뜻이 아니라고 밝힌다(Sec 4.2, Eq. 아래 문단). 스케일링 적합의 bootstrap 불확실성은 학습 시드 간 분산이 아니며(App B.3-B.4), 미지 원거리 게임에서는 데이터 지수 b가 0에 가깝고 within-mixture R^2가 0.079에 불과해 높은 nominal R^2(0.855)가 데이터 추가 시 지속 향상을 뜻하지 않는다고 적는다(Sec 8.2.3)."
+          ],
+          "by_claude": [
+            "초록의 핵심 주장 일부는 본문 실험으로 뒷받침되지 않거나 약하게만 뒷받침된다. 먼저 'skilled'는 v3 HTML 전문에서 3회(초록, 서론, 기여 목록)만 나온다. 인간 플레이어와 비교한 실험(인원, 숙련도, 지표)은 찾지 못했다. '2D'도 초록과 서론, 기여 목록에만 나오고, 본문은 어느 벤치마크가 2D인지 밝히지 않는다. 다만 저자들이 링크한 GameScaling 평가 코드는 GameWorld를 브라우저 게임 34종(2048, Tetris, Flappy Bird 등 포함)으로 설명한다. 그래서 '2D 게임 벤치마크 경쟁력'은 GameWorld 결과를 가리킨다고 읽을 수 있다. 그렇게 읽으면 근거는 약하다. GameWorld RT에서 Gamer는 34.0/30.2로 Qwen3.5, GLM-5.3-Flash, DeepSeek-V4-Flash-Vision보다 높지만 GPT-5.6-Sol 44.3, Claude-Opus-5.0 42.0, GPT-5.6-Luna 41.6보다 낮다. 2D GUI(웹·데스크톱 앱) 평가는 없다. 데이터 규모는 사정이 다르다. 초록(v1-v3 동일)의 'a dataset constructed from tens of thousands of hours'는 원시 수집량을 가리키는 표현으로 읽을 수 있고, Sec 6의 '수만 시간 원시 게임플레이에서 필터링' 서술과 일관된다. 다만 실제 CPT 게임플레이는 Table 2 기준 약 2.4K시간이므로 '수만 시간으로 학습'이라고 줄여 쓰면 틀린다. 또 키보드·마우스 궤적은 모두 게임이나 데스크톱 데이터이고, 'embodied' 성분은 토큰 15%를 차지하는 일반 VL 데이터다.",
+            "공개 벤치마크 우위는 실시간(RT) 평가 조건에 크게 의존한다. Table 5의 RT 평균은 Gamer-8B-CPT 29.5, Gamer-35B-A3B-CPT 31.5로 GPT-5.6-Sol 17.6보다 높다. 그러나 괄호의 RT-TP 값으로 시간 정지 평균을 역산하면 순위가 달라진다. GPT-5.6-Sol 52.1, Claude-Opus-5.0 43.7, GPT-5.6-Luna 37.4가 Gamer-8B 33.9보다 높고, Gamer-35B 28.1은 GLM-5.3-Flash 30.9와 DeepSeek-V4-Flash-Vision 29.5보다도 낮다. GameWorld에서는 RT에서도 GPT-5.6-Sol 44.3이 Gamer 34.0을 앞선다. Gamer-35B의 평균 RT-TP는 +3.4이고, MCU에서는 +18.6이다. 저자는 이를 추론이 빨라 제때 상호작용할 수 있었고 그 결과 제어 오류 누적이 줄었기 때문이라고 설명한다. 그러나 TP에는 지연 페널티가 없으므로, RT 점수가 TP보다 높게 나온 이유는 이 설명으로 해명되지 않는다. Game-TARS, Lumine, NitroGen 같은 게임 에이전트와의 비교는 Table 1의 정성 비교뿐이고 수치 비교는 없다. Table 5에는 SFT/RL 모델 없이 CPT 체크포인트만 들어간다. HSR 평가에서 범용 베이스라인을 RT로 돌렸는지 TP로 돌렸는지는 Sec 8.1, App D, App F에서 확인되지 않았다.",
+            "HSR 결과의 통계적 근거는 약하다. 과제당 3회 평가에 표준편차가 없다. 퀘스트 1의 Combat과 UI는 마일스톤이 1개, 퀘스트 2의 Combat과 UI는 2개, Puzzle은 3개뿐이어서 100%나 0%가 소수 실행으로 정해진다. 보고된 Acc도 퀘스트 완주율이 아니라 마일스톤 통과율이다. 퀘스트 2에서 Gamer-CPT 47.9는 Gemini-3.8-Flash 45.5와 거의 같다. 미니게임에서는 Gamer-CPT 15.0이 GPT-6.1-Sol 17.1보다 낮다. 큰 격차는 사내 데이터로 만든 SFT(69.1, 39.2)와 RL(83.6, 49.7)에서 나온다. RL은 항법 61, 퍼즐 53 iteration으로 짧다. 일부 항목은 RL 후 SFT보다 떨어졌다: Janus's Maze(52.4 -> 23.8), 퀘스트 2 Puzzle(22.2 -> 11.1), 퀘스트 1 Dialogue(92.9 -> 88.1). Table 7의 유형 값으로 다시 계산한 RL 매크로 평균은 49.6으로, 보고값 49.7과 반올림 차이가 있다.",
+            "구성 요소 ablation이 없다. key remapping, 반복 행동 감쇠(gamma 0.9), 희소 사고 대 매 스텝 추론, 메모리 유무, 시간 가중 beta 가운데 어느 것도 따로 끈 실험이 본문과 부록에 없다. v3 전문을 검색하면 'ablation'은 Table 9 시스템 누적 실험을 가리키는 곳에만 나오고, 'w/o'는 0건이다. 따라서 초록의 '희소 사고가 중복 계산을 크게 줄인다'는 주장은 정량 근거가 없다. Fig 11의 실시간 대 0.6 FPS 비교는 RL 알고리즘끼리의 비교가 아니다. 롤아웃 중 환경 동역학 자체를 바꾼 비교다. 그래서 저속 조건에서 나타난 reward collapse가 TA-GRPO의 안정성을 직접 보여 주지는 않는다.",
+            "재현성과 출처 구분에 문제가 있다. Sec 8.2의 스케일링 결과(120개 구성, 약 45K H200 GPU-hours)는 같은 팀의 별도 논문 GameScaling(arXiv 2610.28698)을 요약한 것이라고 본문이 밝힌다('We summarize ... reported in GameScaling'). 공개 가중치도 이 GameScaling 체크포인트다. Table 5의 Gamer-CPT나 HSR의 Gamer-SFT/RL은 공개되지 않았다. 공개 코드는 별도 저장소 THUSI-Lab/GameScaling에 있는 추론 클라이언트와 4개 벤치마크 평가 코드뿐이고, 학습 코드는 없다고 그 README가 밝힌다. v3 Table 1 각주는 추론 엔진을 공개한다고 적는다. 그러나 2026-11-24에 clone한 Gamer 저장소(커밋 69a4f98)에는 코드가 없고, README TODO의 Streaming-vLLM 항목도 미체크다. HSR 데이터의 녹화 주체와 동의 절차, 게임 봇과 이용약관 문제는 논문에서 다루지 않는다('ethic', 'terms of service', 'misuse', 'cheat', 'consent' 검색 0건). 책임 있는 사용 문구는 프로젝트 페이지에만 있다."
+          ]
+        },
+        "reproducibility": {
+          "code": "Gamer 저장소 RainBowLuoCS/Gamer는 2026-11-24에 git clone --depth 1로 받았다(커밋 69a4f98, 2026-11-16). 파일은 readme.md, LICENSE, streaming-vllm/readme.md, 로고·배지 이미지, mp4 영상 2개를 합쳐 18개이고, 학습·추론 코드는 없다. README TODO에서 Streaming-vLLM만 미체크이고 'Coming soon'으로 적혀 있다. 이는 v3 Table 1 각주의 'we release our inference engine' 문장과 충돌한다. 실행 가능한 코드는 Gamer README 말미가 링크한 별도 저장소 THUSI-Lab/GameScaling에 있다(2026-11-24 clone, 커밋 b9c856b, 2026-11-19, 파일 1,420개). 이 저장소에는 다음이 들어 있다. 추론 클라이언트(gamescaling/prompt.py, policy.py, action.py, keymaps.py), 시스템 프롬프트 템플릿, README 기준 GPU 없이 도는 오프라인 테스트(tests/test_core.py), vLLM 서빙 스크립트(scripts/serve_vllm.sh), 4개 벤치마크 평가 코드(evaluation/, evaluation.zip)다. 평가 대상은 README 기준 MCU(OpenHA), ViZDoom, OmniGameArena, GameWorld다. README는 학습 코드가 없다고 명시한다. 코드는 읽기만 했고 실행하지 않았다.",
+          "weights": "HF 컬렉션 THUSI-Lab/gamescaling-model에 GameScaling-0.8B/2B/9B/27B의 S1(Minecraft 전용)과 S3(혼합) 8종이 있다. 모델 카드 기준 bf16, 1,600시간 학습, 가중치 0.8B 2.2 GB, 2B 5.4 GB, 9B 18.8 GB(API 합계 18.84 GB로 확인), 27B 54.7 GB(GPU 2장 TP 권장)다. HSR 실험의 Gamer-CPT/SFT/RL(Qwen3-VL-8B)과 Table 5의 Gamer-8B-CPT, Gamer-35B-A3B-CPT는 컬렉션에 없다.",
+          "data": "Honkai: Star Rail 녹화 데이터, GPT-5.6-Luna 주석 SFT 데이터, RL 환경(GM 명령 기반 샌드박스)은 공개되지 않았다(v3 Table 1 각주: 데이터 보안을 이유로 HSR 데이터와 이를 학습한 체크포인트 비공개). 공개 출처인 VPT, D2E, OpenP2P와 일반 VL 데이터는 각 원 저자가 배포하는 외부 데이터다. HF 컬렉션 항목은 모델 9개와 논문 1개뿐이라 가공된 CPT 혼합 데이터셋은 올라와 있지 않다.",
+          "license": "Gamer와 GameScaling GitHub 저장소의 LICENSE는 모두 Apache License 2.0이다. HF GameScaling 카드와 GameScaling-9B-S3 API의 license도 apache-2.0이다. GameScaling README는 백본 Qwen3.5도 Apache 2.0이라고 적는다(저자 서술이며 Qwen 측 원문은 확인하지 않았다). 두 README 모두 게임 화면, 영상, 이름, 로고 같은 게임 자산의 권리는 각 퍼블리셔에 있고 Apache-2.0이 그 권리를 주지 않는다고 밝힌다. GameScaling README는 순수 연구 목적이며 상업 활동을 하지 않는다고 적는다. HSR 게임 클라이언트는 상용 소프트웨어다.",
+          "note": "이 논문의 헤드라인 결과(HSR 퀘스트·미니게임, Table 5의 Gamer-CPT, Streaming-vLLM 지연)는 지금 공개된 자료로 재현할 수 없다. 재현할 수 있는 것은 선행 논문 GameScaling 체크포인트로 4개 공개 벤치마크를 평가하는 정도다. 이 결과는 Gamer Table 5가 아니라 GameScaling 쪽 결과(Fig 14, 16, 시간 정지 평가)와 대응한다. Windows PC에 적용할 때의 조건은 다음과 같다. 추론 클라이언트의 의존성은 requests와 Pillow뿐이고, README에 따르면 tests/test_core.py는 GPU와 서버 없이 돈다. 따라서 프롬프트 형식과 행동 파서를 익히는 용도라면 Windows에서도 바로 시도할 수 있다(직접 실행하지는 않았다). 모델 서빙은 bash 스크립트로 vllm serve를 띄우는 방식이라 Linux 환경(WSL2 등)이 필요할 가능성이 높다. OmniGameArena 평가는 UE 5.5.4 Linux 빌드를 따로 받아야 하고, GameWorld 평가는 headless Chromium과 브라우저 게임 자산이 필요하다. 가중치 크기는 bf16 기준 0.8B 2.2 GB, 2B 5.4 GB여서 소비자 GPU에서 시도할 만하다. 9B는 18.8 GB라 24 GB급 이상이 필요하고, 27B는 GPU 2장(TP)이 필요하다. 서빙 스크립트는 최대 컨텍스트 32,768과 이미지 8장(이력 5프레임과 현재 프레임, 여유분 포함)을 쓰므로 Gamer의 20턴 이력 설정과 다르다. 또 이 체크포인트는 HSR 데이터나 SFT/RL을 거치지 않은 CPT 모델이어서 희소 사고나 메모리 요약 동작은 기대하기 어렵다."
+        },
+        "my_learning_points": [
+          "희소 사고를 카드 작성 skill의 출력 규칙으로 옮긴다. Gamer는 행동 스텝 85% 넘게가 직전 행동 반복이라는 점에 착안해, SFT에서 평소에는 빈 <think> 뒤 행동만 내고 결정 지점에만 추론을 붙인다. 결정 지점은 GPT-5.6-Luna가 10초 창(관측 25장, 행동 50구간)에서 골랐고, Think 주석은 약 1.2M개다. 독자의 SKILL.md에도 같은 원칙을 적을 수 있다. 기본은 정해진 JSON 필드만 채우고, 상세 추론 문단은 숫자 대조 실패, 초록과 본문 불일치, 이전 카드와 다른 판정 같은 사건이 있을 때만 쓰게 한다. 다만 Gamer는 학습된 정책이고 이쪽은 프롬프트 규칙이라 둘의 관계는 유비일 뿐이다. 논문도 계산 절감량을 수치로 보이지 않았다. 그러니 같은 논문 3-5편으로 규칙 적용 전후의 출력 길이와 검증 통과율을 직접 비교해 효과를 확인해야 한다.",
+          "장기 세션에는 예산을 둔 단계 경계 메모리를 쓴다. Gamer는 원본 단기 이력 20턴과 512 토큰 장기 메모리를 둔다. 요약은 단계 전환, 서브골 완료, 이력 퇴출 직전에만 쓰고, 예산을 넘으면 가장 오래된 요약부터 지운다. 독자의 멀티 에이전트 워크플로에서는 단계 사이에 넘기는 상태 파일을 '완료 항목, 실패한 시도, 남은 할 일' 세 필드로 고정한다. 크기는 수백 토큰 수준의 상한으로 묶고, 갱신은 서브에이전트 종료나 Stop hook 같은 경계 시점에만 한다. 상한을 넘으면 오래된 항목부터 버린다. 이렇게 하면 전체 대화 기록을 넘길 때보다 입력 토큰이 줄어든다. Gamer가 최근 20턴을 원본으로 남기듯, 숫자 검증처럼 세부 근거가 필요한 단계는 요약 대신 원문 파일을 다시 읽게 한다. Gamer에는 메모리 ablation이 없으므로 이 설계의 이득은 논문이 아니라 독자 자신의 측정으로 확인해야 한다.",
+          "skill과 프롬프트 개선에 '같은 조건끼리 비교하는 검증 가능한 이진 점수'를 쓴다. TA-GRPO는 critic이나 학습된 PRM 없이, 같은 과제에서 같은 단계에 도달한 롤아웃 G=8개를 엔진이 검증한 이진 보상으로 그룹 정규화한다. RL을 돌리지 않는 독자도 이 구조를 개선 루프에 옮길 수 있다. 같은 논문에 기존 skill과 수정 skill을 각각 돌린다(토큰 비용을 고려해 G는 2-3). 점수는 기계적으로 확인 가능한 항목으로 매긴다. 예를 들어 카드의 숫자가 원문 텍스트에 있는지, 금지 문자가 있는지, 필수 필드가 있는지를 PostToolUse hook이나 스크립트로 통과/실패 채점한다. 그리고 비교는 같은 논문 안에서만 한다. 서로 다른 논문의 점수를 섞지 않는 것이 '같은 단계끼리 그룹' 원칙에 해당한다. 주의할 점이 두 가지 있다. 뒤쪽 스텝 가중(beta 0.9)은 저자 스스로 인과 기여가 아닌 시간 prior라고 밝혔으므로, 실패를 마지막 단계 탓으로 돌리는 근거가 되지 않는다. 또 Gamer RL에서 Janus's Maze가 52.4에서 23.8로 떨어졌듯 한 지표를 최적화하면 다른 항목이 나빠질 수 있으므로, 고정된 회귀 점검용 논문 세트를 함께 유지한다."
+        ],
+        "related_work": {
+          "prior": [
+            {
+              "title": "Scaling in games: continued pre-training for embodied agents in diverse virtual worlds (GameScaling)",
+              "id": "arXiv 2610.28698",
+              "relation": "같은 팀(저자 다수 중복)의 CPT 스케일링 연구다. Gamer Sec 8.2와 App B의 120개 구성 스케일링 결과는 이 논문을 요약한 것이고, 공개된 8종 체크포인트도 이 연구의 것이다."
+            },
+            {
+              "title": "Game-TARS: Pretrained Foundation Models for Scalable Generalist Multimodal Game Agents",
+              "id": "arXiv 2510.23691",
+              "relation": "키보드·마우스 네이티브 행동에 CPT+SFT를 하는 범용 게임 에이전트다. Gamer는 반복 행동 감쇠 손실을 Game-TARS의 정식화에서 가져왔다고 밝힌다(Sec 2.2). 메모리 측면에서도 최근 상호작용과 압축 텍스트 이력을 결합하는 선행 사례로 인용된다."
+            },
+            {
+              "title": "Lumine: An Open Recipe for Building Generalist Agents in 3D Open Worlds",
+              "id": "arXiv 2511.08892",
+              "relation": "Qwen2-VL 기반 CPT+SFT로 Genshin Impact(같은 miHoYo 계열 3D 오픈월드)를 플레이하는 에이전트다. 추론, 메모리, 키보드·마우스 제어를 통합한 직접 비교 대상이지만, Gamer는 Table 1에서 정성 비교만 하고 수치 비교는 하지 않는다."
+            },
+            {
+              "title": "Video PreTraining (VPT): Learning to Act by Watching Unlabeled Online Videos",
+              "id": "NeurIPS 2022",
+              "relation": "Minecraft 키보드·마우스 행동 사전학습의 원형이다. VPT 데이터는 Gamer CPT의 공개 게임플레이 출처 중 하나다(Sec 7.2)."
+            },
+            {
+              "title": "DeepSeekMath: Pushing the Limits of Mathematical Reasoning in Open Language Models (GRPO)",
+              "id": "arXiv 2402.03300",
+              "relation": "critic 없는 그룹 상대 advantage를 쓰는 GRPO의 원출처다. TA-GRPO는 이를 메모리로 이어진 세그먼트, 단계별 그룹, 시간 가중으로 확장했다(Sec 4.2)."
+            }
+          ],
+          "followup": []
+        },
+        "claude_note": "Gamer의 새로움은 개별 기법보다 통합과 실증에 있다. 하나의 자기회귀 정책이 평소에는 빈 <think> 뒤에 행동만 내고, 결정 지점에서만 추론하며, 512 토큰 메모리 요약을 쓴다. TA-GRPO는 이 요약으로 이어진 20턴 세그먼트를 같은 단계끼리 묶어 그룹 정규화한다. 이 RL은 상용 3D 게임 클라이언트 32대를 실시간으로 서빙하는 Streaming-vLLM 위에서 돌았다. 다만 GRPO, 반복 행동 감쇠, 압축 메모리, 투기적 디코딩은 모두 선행 연구에 있는 기법이다. 저자 구성은 miHoYo Honkai AI R&D Team이 주도하고 NUS, Tsinghua, UCAS, USTC, Xi'an Jiaotong이 참여했으며, 일부 저자는 miHoYo 인턴이다.\n\n증거의 강도는 고르지 않다. HSR 사이드 퀘스트 80.0/83.6%와 미니게임 49.7%는 범용 모델과 차이가 크다. 그러나 앞의 두 값은 퀘스트 완주율이 아니라 마일스톤 통과율이다. 과제당 3회 평가에 표준편차가 없고, 마일스톤이 1-3개뿐인 범주가 있으며, 스크립트 재개도 허용한다. 평가 환경은 개발사 내부 데이터와 GM 명령에 의존하고, 일부 항목은 RL 후 오히려 떨어졌다. 공개 벤치마크에서 상위 프런티어 모델을 앞서는 것도 실시간 평가에서만이다. 시간 정지 평가로 역산하면 GPT-5.6-Sol(52.1)이 Gamer-8B-CPT(33.9)보다 높다. 구성 요소 ablation이 없어서 희소 사고의 계산 절감, key remapping, 메모리의 효과는 검증되지 않았다. 초록의 '숙련 플레이어 수준'은 본문 실험으로 확인되지 않는다. '2D 벤치마크 경쟁력'은 브라우저 게임 34종으로 된 GameWorld를 가리키는 것으로 보이는데, 이 벤치마크에서는 프런티어 모델이 RT에서도 앞선다. 초록의 'tens of thousands of hours'는 원시 수집량으로 읽어야 하며, 실제 CPT 게임플레이는 약 2.4K시간이다.\n\n정확하게 인용하려면 이렇게 쓰는 것이 좋다. '사내 HSR 보류 과제에서 CPT, SFT, RL 단계별 향상을 보이고, H200 35B-A3B 고정 짧은 시퀀스 기준 누적 최적화로 지연을 1306 ms에서 65.12 ms로 줄인 시스템 논문(다중 턴 측정에서는 같은 모델 TP4 BF16 110.08 ms)'. 스케일링 결과는 원출처인 GameScaling(2610.28698)으로 인용한다. 지금 재현할 수 있는 것은 GameScaling 체크포인트와 그 GitHub 저장소의 추론 클라이언트, 평가 코드뿐이다.",
+        "analyzed_at": "2026-11-24"
+      }
+    },
+    "2611.26603": {
+      "tier2": {
+        "method_detail": "Depth Pro와의 관계: 논문은 Depth Pro(Bochkovskii et al., ICLR 2025, arXiv 2410.02073)를 '전작'이나 '후속'이라는 단어로 부르지 않는다. 대신 \"Depth Pro 접근을 기반으로 한다\"(2장)와 \"Depth Pro를 따라 초점거리로 정규화한 역깊이를 예측한다\"(3.1절)고 쓴다. 이어받은 것은 이 역깊이 표현, 별도 화각(FoV) 추정기로 미터 깊이를 되찾는 방식, DPT 디코더의 transposed conv 업샘플링, 다중 스케일 gradient 손실, 경계 F1 지표와 평가셋이다. 바뀐 것은 세 가지다. 다중 스케일 타일과 1536x1536 고정 입력을 버리고 ViT 한 번 통과로 원 해상도를 처리한다. 이미지 전용에서 이미지와 비디오 공용이 됐다. FoV 헤드는 독립 경량 추정기로 바뀌었다.\n\n구조: DINOv3 ViT-S/B/L/H+(patch 16)로 초기화한 multi-view transformer와 DPT 디코더로 이뤄진다. 앞 1/3 블록은 프레임 내부 self-attention만 쓰고, 나머지 블록은 프레임 내부와 프레임 간 attention을 번갈아 쓴다. 공개 코드를 보면 프레임 간 블록은 모든 프레임의 패치 토큰을 한 시퀀스로 이어 사전학습 attention 가중치를 그대로 쓰고, cls와 register 토큰은 프레임 평균 하나만 문맥으로 넣는다. 그래서 새 파라미터가 없다. 프레임 순서 위치 인코딩도 없어 프레임 순서를 바꿔도 결과가 같고(permutation equivariant) 프레임 수가 자유롭다. 2D RoPE 좌표는 두 축 모두 긴 변으로 나눠 종횡비 정보를 남긴다. 입력은 리사이즈 없이 32의 배수로 replicate 패딩만 한다(코드 기준).\n\n비디오 추론: buffered 모드는 N프레임 클립을 K프레임 겹쳐 처리하고 겹친 구간은 선형 가중으로 섞는다. 클립 안에서는 앞뒤 프레임을 모두 본다. unbuffered 모드는 causal이다. 현재 프레임과 직전 C-1프레임의 key/value를 FIFO 캐시에 두며, 이 캐시는 프레임 간 블록에서만 쓴다. 기본값은 N=16, K=4, C=16이다. 학습 클립은 최대 32프레임이지만 추론 길이에는 제한이 없다.\n\n초점거리: DINOv3 ViT-S/16 기반의 23.5M 추정기를 따로 둔다. EXIF가 있는 Flickr 사진 약 9200만 장으로 학습했고, 짧은 변 512px 입력에서 짧은 변 FoV를 예측한다. 다중 프레임 입력에는 초점거리가 일정하다고 보고 프레임별 추정의 중앙값을 쓴다(3.1절). 공개 코드 기준으로 영상 파일은 첫 창 프레임들의 중앙값을 모든 프레임에 쓴다. 실시간 stream은 첫 창이 찰 때까지 그때까지의 중앙값을 쓰고, 그 뒤에는 값을 고정한다. EXIF 초점거리나 f_px가 주어지면 추정기를 건너뛴다.\n\n학습: 19개 데이터셋에서 1~32프레임 클립을 섞는다. 데이터셋은 크기 n의 1/2 제곱에 비례해 뽑고, 작은 데이터셋에는 가중치 상한을 둔다. GPU당 토큰 예산은 73,728개다. GT 깊이는 보간하지 않고 크롭과 stride 2 서브샘플링만 한다. 손실은 네 항을 가중치 없이 더한다. mae는 metric GT 소스에만, ssi는 전 데이터에, mge(3 스케일)는 합성 데이터에만, mvc는 포즈가 있는 다중 프레임 소스에만 건다. mvc는 예측 깊이로 픽셀을 3D로 올린 뒤 GT 포즈로 다른 프레임에 재투영하고, 그 프레임의 예측과 역깊이 L1 차이를 벌한다. GT 깊이로 확인해 2% 넘게 어긋나는 가림과 움직이는 픽셀은 뺀다. 다단계 커리큘럼 없이 128개 B200에서 100K step을 학습한다(AdamW, 최대 lr 5e-5).",
+        "experiment_setup": [
+          "평가 틀(4장, F.2): 모두 zero-shot이다. metric 정확도는 11개 데이터셋(iBims, Middlebury, Booster, HAMMER, ETH3D, DIODE 전체 split, KITTI, nuScenes, Sintel, Spring, DyDToF)에서 delta1을 쟀다. 단일 이미지 설정은 시퀀스 첫 50프레임을 한 장씩 따로 채점했다. 비디오 설정은 KITTI, Sintel, Spring, DyDToF의 50프레임 클립을 한 번에 넣었다. GT intrinsics와 예측 intrinsics 두 조건으로 나눴다. 평가 데이터로 학습한 baseline 결과는 회색으로 칠하고 순위에서 뺐다. HTML을 확인하면 Spring에서 MapAnything, FoundationGeo, DA3-NGL, DAGE가 회색이고, 경계와 jitter 표에서는 FlashDepth-L도 회색이다. baseline과의 비교에는 H+만 썼다. metric 표(표 2, 3)의 baseline은 10-11개다",
+          "경계 선명도(표 4, F.3): Depth Pro v1이 쓴 boundary F1을 그대로 썼다. 대상은 iBims, Middlebury, Sintel, Spring, DyDToF다. 프레임마다 scale과 shift를 맞춘 뒤 잰다. 출력 해상도가 GT와 다르면 nearest-neighbor로 맞춰 경계가 흐려지지 않게 했다",
+          "시간적 일관성(표 5, F.1, B.3): jitter를 쟀다. GT point track을 따라 log-depth 잔차가 프레임마다 얼마나 변하는지의 평균 절대값이고, log 공간의 TEPE와 같다. Sintel과 Spring에서 영상마다 affine 정렬을 한 번만 하고 잰다. 보조 지표 TAE는 Sintel, Spring, ScanNet, Bonn, KITTI에서 쟀다. 저자들은 TAE가 정적 장면을 가정해 GT에도 0이 아닌 오차를 주고 흐린 예측을 유리하게 본다고 스스로 단서를 단다",
+          "baseline(표 2-5): 표 5 기준으로 24개 방법과 비교했다. 단일 이미지 계열은 Depth Pro, MoGe-2-L, MoGe-3-G, UniDepthV2-L, UniK3D-L, MetricAnything, FoundationGeo, InfiniDepth, Lotus-2, Marigold V2, Pixel-Perfect Depth, Lapis다. 다중 프레임 계열은 VGGT-1B, VGGT-Omega-1B, pi3, MapAnything, DA3-NGL, DAGE, VDA-L(Video Depth Anything), DepthCrafter, ChronoDepth, DVD, FlashDepth-L, VeloDepth다. 모두 공개 체크포인트를 공식 해상도로 돌렸다. 그래서 각 논문이 직접 보고한 수치와 다를 수 있다고 저자들이 밝힌다",
+          "속도 측정(B.4 표 13, F.5 그림 12): 모두 B200 1장, bf16 autocast, eager 모드, torch.compile 없이 쟀다. 표 13은 같은 Spring 32프레임 클립을 VGA, 720p, 1080p, 4K로 넣었다. 비디오 방법은 32프레임을 한 번에, 단일 이미지 방법은 8프레임을 한 장씩 처리했다. 측정값은 warm-up 3회 뒤 11회의 중앙값이고, Depth Pro 2는 FoV 추정기 시간을 포함한다. 단일 이미지 방법의 peak 메모리는 1프레임 기준이라 32프레임을 한 번에 넣은 비디오 방법과 메모리를 바로 비교할 수 없다. VeloDepth 처리량에는 CPU에서 도는 optical flow가 들어가고, InfiniDepth 처리량은 MoGe-2 참조 계산을 빼서 상한값이다(B.4). 그림 12와 서론의 53 fps, 8 fps는 unbuffered C=16에서 초점거리를 주어 FoV 추정기를 뺀 조건이다",
+          "통제 실험(E.1 표 19, F.4): 기준 A1은 ViT-L, 8 GPU, 100K step이다. held-out 시퀀스로 평가했다. Waymo 42개와 ARKitScenes 92개는 깊이 정확도, DynamicReplica 44개는 경계와 jitter를 본다. ARKitScenes는 D1 조건에서만 학습에 넣었으므로 나머지 조건에서는 처음 보는 데이터다. A1만 seed 3개로 평균과 표준편차를 냈고, 나머지 조건은 한 번씩만 돌렸다. 1 sigma보다 큰 차이에만 색을 칠했다",
+          "추론 시점 분석(E.2, E.3): H+를 다시 학습하지 않고 두 가지를 봤다. 하나는 프레임 간 attention 연결을 무작위로 0-100% 끊는 실험이고 3회 반복했다. 다른 하나는 입력 짧은 변을 360, 540, 720, 원본으로 바꾸는 실험이다. 긴 영상은 DynamicReplica 300프레임, 720p, GT intrinsics로 buffered의 N, K와 unbuffered의 C를 훑었다",
+          "응용(D장): RealBokeh 테스트 220장면에서 bokeh를 렌더링했다. BokehMe 렌더러는 고정했고, 전역 disparity 배율은 따로 떼어 둔 60장면 검증셋에서 골랐다. 2000x1500에서 PSNR, SSIM, LPIPS, Boundary LPIPS, DISTS를 쟀다. 비디오 bokeh(197프레임)와 novel-view synthesis(DIS5K 4장면, Tiled MPI 렌더러)는 정성 비교만 있다",
+          "학습 자원(A.1, A.2): 깊이 모델 4종은 모두 128개 B200에서 100K step, AdamW 최대 lr 5e-5, warmup 5% 뒤 cosine으로 학습했다. FoV 추정기는 32개 B200에서 120k step, step당 약 3,050장, lr 1e-4다. 총 GPU 시간이나 학습 일수는 본문 전체에서 'hours', 'days', 'weeks', 'wall-clock'을 검색했지만 나오지 않았다",
+          "한계 서술: 본문과 부록 전체에서 'limitation', 'fail', 'future work'를 검색했지만 별도 Limitations 절은 없다. 'limitation'은 TAE 지표의 한계(B.3)를 말할 때 한 번만 나온다. 저자가 직접 밝힌 약점은 표 8의 DIODE AbsRel 2.418이다. 레이저 GT가 맨 나뭇가지 깊이로 표시한 곳을 모델이 하늘로 예측했기 때문이라고 설명한다. README에는 운용상 주의가 있다. 작은 모델은 하늘을 수 km로 예측할 수 있고, stream 첫 프레임들은 덜 안정적이며, 입력을 크게 줄이면 깊이 스케일이 바뀔 수 있다",
+          "공개 범위와 실행 조건(README, LICENSE, pyproject): 추론 코드만 공개했고 학습, 평가 코드는 없다. 코드는 Apple 샘플 코드 스타일 라이선스(LICENSE)라 재배포를 허용한다. 가중치는 LICENSE_MODEL로, 비상업 'Research Purposes' 전용이다. 실행에는 Python 3.11 이상(.python-version은 3.12), torch 2.7 이상, timm 1.0.27 이상 1.1 미만, av, pillow-heif, huggingface-hub가 필요하다. 장치는 CUDA, MPS, CPU 순으로 자동 선택한다. CPU는 fp32로 돌고, bf16을 지원하지 않는 GPU에서는 --precision fp16을 쓰라고 안내한다. README와 AGENTS.md는 Linux와 Apple silicon Mac만 명시하고, 저장소 전체를 'windows'로 grep해도 결과가 없다. 코드를 grep한 결과 triton, flash-attn, xformers 같은 Linux 전용 의존성은 없다. 그래서 Windows에서 CUDA나 CPU로 돌아갈 가능성은 있지만, 저자들이 검증하지 않았고 이번 분석에서도 실행해 보지 않았다",
+          "이 독자(Windows PC, GPU 미상)에게 현실적인 범위: S(97MB)와 FoV(94MB)로 사진 몇 장과 짧은 영상을 처리하는 것이 출발점이다. 소비자용 NVIDIA GPU의 속도와 메모리 수치는 논문과 저장소에 없다. 참고 수치는 모두 B200이나 M4 Max에서 잰 것이다. 표 13(32프레임 일괄 처리, FoV 포함, B200)에서 S의 peak reserved 메모리는 VGA 1.9 GiB, 720p 3.8 GiB, 1080p 8.0 GiB이고, B는 720p 6.6 GiB다. H+는 1080p에서 29.5 GiB다. 저장소 기본값에 가까운 조건의 수치도 있다. E.3에서 H+를 720p로 돌리면 buffered N=16, K=4는 10.0 GiB, unbuffered C=16은 10.6 GiB다(초점거리 제공, B200). 그래서 VRAM 8GB급이라면 720p 이하에서 S나 B를 --window를 줄여 써 보는 것이 무난하고, H+는 720p 기본 창에서도 10 GiB 넘게 필요할 것으로 추정한다. 이는 B200 측정값을 옮긴 추정이며 검증하지 않았다. M4 Max Core ML 수치는 demo README에 있다(S 1280x720 w4 88 ms)"
+        ],
+        "datasets": [
+          {
+            "name": "Internal (Synthetic), Apple 내부 렌더링 데이터",
+            "domain": "합성. 사람, 반려동물, 물체가 있는 실내외 장면, 정적과 동적, 다시점과 이동 카메라. 깊이, intrinsics, extrinsics 포함",
+            "scale": "964,332 장면, 24,150,620 프레임, 최대 4096x3072 (표 7). 공개되지 않는다"
+          },
+          {
+            "name": "Internal (Real), Apple 내부 실측 데이터",
+            "domain": "실제. 스마트폰 손떨림 영상, time-of-flight 깊이와 카메라 포즈 포함",
+            "scale": "2,001 장면, 3,046,117 프레임, 최대 1920x1440 (표 7). 공개되지 않는다"
+          },
+          {
+            "name": "Waymo Open Dataset",
+            "domain": "실제, 실외 주행. 학습용 외부 실측 데이터는 이것 하나다",
+            "scale": "958 장면, 922,894 프레임, 최대 1920x1280 (표 7). held-out 5% shard 중 42개 시퀀스를 검증에 썼다"
+          },
+          {
+            "name": "외부 합성 데이터 16종: BEDLAM, Dynamic Replica, EDEN, Hypersim, IRS, MatrixCity, MegaSynth, PointOdyssey, SceneFlow(FlyingThings3D, Monkaa, Driving), TartanAir V2, TartanAir, TartanGround, UrbanSyn, Virtual KITTI 2",
+            "domain": "합성. 사람, 실내, 도시, 주행, 정원, 로봇 지형 등",
+            "scale": "프레임 수는 TartanGround 10,604,597, TartanAir V2 10,551,809, MegaSynth 3,081,600, BEDLAM 1,452,165 순이다(표 7). 학습 데이터 19종의 합계는 약 5,519만 프레임이고(표 7을 합산한 값), 실제 데이터 2종은 약 397만 프레임(약 7.2%)이다"
+          },
+          {
+            "name": "Flickr (YFCC100M), FoV 추정기 학습용",
+            "domain": "실제 사진, EXIF 초점거리",
+            "scale": "약 92M장, EXIF가 없거나 잘못된 사진은 뺐다 (A.2)"
+          },
+          {
+            "name": "zero-shot metric 평가셋: iBims, Middlebury, Booster, HAMMER, ETH3D, DIODE, KITTI, nuScenes, Sintel, Spring, DyDToF",
+            "domain": "실내, 실내외, 실외 실측과 합성 비디오. 10개는 Depth Pro와 MoGe-3의 평가셋을 가져왔고, DyDToF를 새로 넣었다. Kinect 데이터는 GT 품질 문제로 뺐다",
+            "scale": "단일 이미지: 시퀀스마다 첫 50프레임. 비디오: KITTI, Sintel, Spring, DyDToF의 50프레임 클립 (표 2, 3)"
+          },
+          {
+            "name": "상대 깊이와 TAE 추가 평가셋: ScanNet, Bonn, TUM-D",
+            "domain": "실내 RGB-D 실측",
+            "scale": "표 10은 14개 데이터셋을 쓴다. ScanNet TAE는 170프레임 클립이고, H+는 buffered N=64, K=32로 처리했다 (표 10, 12)"
+          },
+          {
+            "name": "FoV 평가: DDDP, FiveK, PPR10K, RAISE, SPAQ, ZOOM",
+            "domain": "사진 초점거리 추정",
+            "scale": "6개 데이터셋, Depth Pro v1의 zero-shot 벤치마크 (표 6)"
+          },
+          {
+            "name": "held-out 검증: Waymo, ARKitScenes, DynamicReplica",
+            "domain": "실외 실측, 실내 실측, 합성",
+            "scale": "42개, 92개, 44개 시퀀스. 각각 seed로 정한 위치에서 최대 32프레임 창 하나를 쓴다. 긴 영상 평가는 첫 300프레임 (F.4)"
+          },
+          {
+            "name": "RealBokeh, DIS5K",
+            "domain": "응용 평가(bokeh 렌더링), 고해상도 얇은 구조 사진(novel-view synthesis)",
+            "scale": "RealBokeh 테스트 220장면과 검증 60장면. DIS5K는 정성 비교 4장면 (D장)"
+          }
+        ],
+        "limitations": {
+          "by_authors": [
+            "TAE 지표의 한계(B.3, 표 12 설명). 저자들은 깊이 GT가 희소하거나 품질이 낮은 데이터셋에서 TAE를 믿기 어렵다고 쓴다. TAE는 흐린 예측을 유리하게 보고, GT 깊이에도 0이 아닌 오차를 준다. 그래서 TAE는 보조 지표로만 쓰고, 주 지표는 point track 기반 jitter(표 5)로 잡았다. 이 TAE 기준으로 H+는 평균 순위 3.8로 3위다(VeloDepth 3.5, VDA-L 3.6).",
+            "DIODE AbsRel 2.418(표 8 각주). 저자 설명에 따르면 DIODE 오차 대부분은 맨 나뭇가지 주변의 몇몇 실외 픽셀에서 생긴다. 레이저 GT는 이 픽셀을 나뭇가지 깊이로 표시하지만 모델은 하늘로 예측하고, 평가는 이를 최대 깊이로 둔다. AbsRel은 이런 과대 추정에 상한이 없다는 점도 저자가 직접 밝힌다.",
+            "실측 데이터와 경계 선명도의 충돌(E.1, 표 19 D1-D4). 실측 데이터를 더하면(D1) ARKitScenes metric delta1이 +14.3 오르지만 경계 F1은 -1.2 떨어진다. 저자들은 깊이 센서 GT가 가림 경계에서 부정확하기 때문이라고 본다. 내부 데이터를 빼면(D4) Waymo, 경계, jitter는 오히려 좋아지지만 ARKitScenes metric delta1이 45.2포인트 떨어진다고 스스로 보고한다.",
+            "baseline 수치가 원 논문과 다를 수 있음(F.2). 모든 baseline을 공개 체크포인트로 저자들이 직접 돌렸다. 저자들은 intrinsics, 정렬 방식, 샘플링한 프레임이나 시퀀스, 평가 해상도가 연구마다 달라 published 결과와 다를 수 있다고 명시한다.",
+            "운용상 한계(README 'Interpreting the depth', 'Choosing settings'와 E.3). 작은 모델은 하늘을 수 km 거리로 예측할 수 있다. 초점거리가 10% 길면 모든 깊이가 10% 멀어진다. stream의 첫 프레임들은 참조할 이전 프레임이 적어 덜 안정적이다. 입력을 많이 줄이면 디테일을 잃고 깊이 스케일이 바뀔 수 있다. E.3에서는 jitter가 N=64, C=32에서 더 줄지 않고, overlap을 늘리면 jitter는 조금 줄지만 처리량이 떨어진다."
+          ],
+          "by_claude": [
+            "'모든 차원에서 앞선다'는 초록 주장은 평균 순위 기준일 때만 맞다. 표 2를 HTML 셀 단위로 뽑고 PDF로 교차 확인했다. 회색(비 zero-shot)은 Spring 열의 MapAnything, FoundationGeo, DA3-NGL, DAGE뿐이었다. GT intrinsics 조건에서 H+가 단독 1위인 데이터셋은 11개 중 5개(HAMMER, ETH3D, DIODE, KITTI, Sintel)다. Middlebury는 DA3-NGL과 73.9로 같다. 나머지 5개에서는 진다. iBims 94.4는 DA3-NGL 96.1, UniK3D-L 95.3, UniDepthV2-L 94.5보다 낮다. Booster 65.7 대 DAGE 76.4, nuScenes 90.9 대 UniK3D-L 92.4, Spring 20.5 대 MoGe-2-L 27.2, DyDToF 80.5 대 DAGE 82.3이다. 예측 intrinsics 조건에서는 11개 중 7개에서 이긴다. iBims(86.6 대 UniDepthV2-L 94.6), Booster(43.1 대 DAGE 74.8), KITTI(87.9 대 UniDepthV2-L 97.6), nuScenes(87.7 대 UniK3D-L 92.1)에서는 진다. 경계 F1에서도 Sintel은 단일 이미지(40.2 대 InfiniDepth 44.8)와 비디오(43.4 대 44.8) 모두에서 지고, iBims는 MoGe-3-G(22.2)와 MoGe-2-L(20.6)보다 낮다(표 4). 평균 순위 2.4가 1위라는 사실은 그대로지만, 개별 데이터셋에서는 우세가 고르지 않다.",
+            "속도와 품질의 헤드라인이 서로 다른 모델에서 나온다. 53 fps는 S 모델(B200, unbuffered C=16, 초점거리 제공)이고, SOTA 품질은 8 fps인 H+다. S의 품질은 H+보다 크게 낮다. 비디오 Sintel metric delta1(GT)은 29.9 대 51.2(표 15)다. 단일 이미지 경계 F1은 Depth Pro v1보다도 5개 중 4개에서 낮다. S와 Depth Pro를 비교하면 iBims 12.6 대 19.5, Sintel 24.3 대 36.3, Spring 10.3 대 12.7, DyDToF 18.1 대 24.8이고, Middlebury만 14.9 대 7.9로 앞선다(표 16a, 표 4a). 반면 S의 jitter(Sintel 2.43)는 VDA-L(2.55)과 비슷하다. 'Pareto frontier'라는 말은 HTML과 PDF 전문에서 초록에만 나오고, baseline과 함께 속도와 품질을 그린 그림은 없다. 다만 결론 절은 S와 H+를 나눠서 서술한다.",
+            "데이터 기여와 구조 기여를 떼어 보기 어렵다. 표 7 데이터 풀의 프레임 수로 보면 약 49%(55,185,184프레임 중 27,196,737프레임)가 공개되지 않은 Apple 내부 데이터다. 실제 학습 샘플링은 데이터셋 크기의 제곱근에 비례하고 작은 데이터셋에 상한을 두므로, 학습에 실제로 뽑힌 비율은 이와 다르다(정확한 값은 원문에서 확인되지 않음). 저자들도 E.1에서 직접 밝힌다. 내부 데이터는 학습 혼합 밖의 유일한 검증셋인 ARKitScenes의 일반화를 높이지만(D4에서 빼면 -45.2), 경계 선명도와 jitter에는 비용이 따른다. 내부 데이터만 쓰면(D3) 모든 지표가 나빠지므로 외부 데이터도 필요하다. 문제는 이 일반화 근거가 검증셋 하나뿐이라는 점이다. 게다가 이 지표는 기준 A1에서도 seed 3개 표준편차가 3.8로 가장 흔들린다. A1을 뺀 모든 조건은 한 번씩만 돌렸고, 통제 실험은 최종 규모(H+, 128 GPU)가 아니라 ViT-L, 8 GPU에서 했다. D 조건들을 11개 zero-shot 벤치마크에서 평가한 결과는 본문과 부록에서 찾지 못했다. E.1은 모든 조건을 held-out 검증셋에서만 평가한다고 쓴다. 그래서 헤드라인 성능 중 어느 몫이 데이터에서 오는지 외부에서 확인할 수 없다.",
+            "단안 metric 깊이는 어려운 도메인에서 아직 절대 수준이 낮고, 초점거리 추정이 큰 오차원이 될 수 있다. H+조차 Spring GT 20.5, Booster 예측 43.1, Sintel 예측 43.4다(표 2). 예측 intrinsics로 바꾸면 크게 떨어지는 데이터셋이 있다. Booster는 65.7에서 43.1, KITTI는 98.2에서 87.9, Sintel은 60.2에서 43.4로 내려간다. 다만 방향이 고르지는 않다. Middlebury(73.9 -> 79.1)와 Spring(20.5 -> 37.0)은 예측 intrinsics에서 오히려 높다. FoV 추정기가 delta25 88.6%로 1위(표 6)여도, 데이터셋에 따라 metric 정확도가 초점거리 정보에 크게 좌우된다는 뜻이다. README의 '초점거리 10% 오차면 깊이도 10% 오차'와도 맞는다.",
+            "속도 비교는 측정 조건과 모델 크기를 함께 봐야 한다. 표 13은 모든 방법을 B200, bf16, eager 모드(torch.compile 없음)로 쟀다. 비디오 방법은 32프레임을 한 번에, 단일 이미지 방법은 8프레임을 한 장씩 처리했고, 단일 이미지 방법의 메모리는 1프레임 기준이다. 1080p에서 H+(5.3 fps)는 1536 고정 입력인 Depth Pro(23.4 fps)보다 느리다. FlashDepth-L(15.2), VeloDepth(16.8), MoGe-2-L(12.4)보다도 느리다. 반면 같은 1080p에서 H+는 다중 프레임 방법인 VGGT-1B(0.9), DA3-NGL(1.0), pi3(1.2), DepthCrafter(1.4), MapAnything(1.7)보다 빠르다. peak 메모리도 29.5 GiB로 DA3-NGL(114.6), VGGT-1B(68.0)보다 작다. S는 1080p에서 44.8 fps로 표 13의 원 해상도 방법 중 가장 빠르다. 그러나 4K에서는 VeloDepth(3.9)가 S(3.6)보다 빠르다. 소비자 GPU나 Windows 측정값은 논문과 저장소 어디에도 없다. 저장소에서 확인한 범위는 README, demo/README.md 전체, 'windows' grep이다."
+          ]
+        },
+        "reproducibility": {
+          "code": "추론 코드만 공개한다. github.com/apple-aiml-research/ml-depth-pro-2, 2026-11-24 clone 기준 최신 커밋은 aa389cbb(2026-11-19)이다. 들어 있는 것은 CLI(depth-pro-2 predict), Python API(create_model_and_transforms, infer_video), buffered와 unbuffered 스트리밍(streaming.py), Core ML 내보내기와 Mac 데모 앱(demo/)이다. README 13행에 'It does not include training or evaluation code'라고 적혀 있다. 학습, 평가 코드와 손실 구현은 없다. 프레임 간 attention이 사전학습 블록을 그대로 쓰는 점은 encoder.py의 cross_frame_attention에서 확인했다.",
+          "weights": "공개됐다. Apple CDN에서 받을 수 있고, 2026-11-24 HTTP HEAD로 확인한 크기는 S 97,312,859 B, B 386,124,571 B, L 1,335,953,363 B, H+ 3,488,607,459 B, FoV 93,884,773 B다. 파라미터 수 24M, 97M, 334M, 872M은 README 표와 논문 표 1(24.3M, 96.5M, 334.0M, 872.1M)이 서로 맞는다. Hugging Face에도 크기별 저장소 apple/DepthPro2-S, -B, -L, -H(safetensors 태그)가 있다. 카드 저장소 apple/DepthPro2에는 가중치 없이 README, LICENSE, asset만 있다(license: other, apple-amlr, LICENSE_MODEL 링크). Core ML 모델은 apple/DepthPro2-coreml에 있다. HF API의 spaces 필드에는 데모 Space(akhaliq/DepthPro2)가 나오지만, 동작은 확인하지 않았다.",
+          "data": "학습 데이터 중 Apple 내부 합성 데이터(964,332 장면, 24,150,620 프레임)와 내부 실측 데이터(2,001 장면, 3,046,117 프레임)는 공개되지 않는다(표 7). 외부 학습 데이터 17종(합성 16종과 Waymo)과 평가셋은 각자의 라이선스로 공개된 데이터다. FoV 추정기 학습에 쓴 Flickr(YFCC100M) 약 92M장의 필터링 목록은 저장소에 없다. 저장소 tree를 보고 확인했다.",
+          "license": "코드는 LICENSE 파일의 Apple 샘플 코드 스타일 라이선스다. 사용, 복제, 수정, 재배포를 허용하고, 수정 없이 통째로 재배포할 때 고지문을 유지해야 한다. 가중치는 LICENSE_MODEL을 따르며 'exclusively for Research Purposes', 곧 비상업 과학 연구와 학술 개발에만 쓸 수 있다. 상업적 이용, 제품 개발, 상업 서비스 사용은 제외되고, 파생 모델에도 같은 제한이 붙는다. HF 모델 카드도 license_name apple-amlr로 LICENSE_MODEL을 가리킨다. 이와 별개로 ACKNOWLEDGEMENTS에 DINOv3 License(Meta)와 TIMM(Apache 2.0)이 함께 실려 있다.",
+          "note": "실행 조건(pyproject, README): Python 3.11 이상, torch 2.7 이상, timm 1.0.27 이상 1.1 미만, av, pillow-heif, huggingface-hub가 필요하다. 장치는 CUDA, MPS, CPU 순으로 자동 선택한다. GPU에서는 기본 bf16 autocast로 돌고, bf16을 지원하지 않는 GPU에서는 --precision fp16을 쓰라고 안내한다. CPU에서는 fp32로 돈다. README는 'On Linux or an Apple silicon Mac'만 명시하고, 저장소 전체를 'windows'로 grep해도 결과가 없다. pyproject에는 CUDA용 torch 인덱스 지정이 없다. 그래서 Windows에서 uv run으로 설치하면 CPU용 torch가 깔릴 수 있고, CUDA를 쓰려면 torch를 따로 설치해야 할 수 있다. 이는 이번에 실행해서 검증하지 않은 추정이다. 학습 재현은 내부 데이터와 학습 코드가 없고 128개 B200이 필요해 사실상 불가능하다. 추론 활용은 가능하다."
+        },
+        "my_learning_points": [
+          "Windows PC에서 S 모델로 직접 돌려 보기. 이 독자에게 가장 현실적인 범위이고, GPU가 무엇인지에 따라 결과가 다르다. 절차는 다음과 같다. 저장소를 clone하고 README대로 uv를 설치한 뒤 'uv run depth-pro-2 predict -m depthpro2-s -i 사진폴더 -o out/'을 실행한다. -m을 빼면 기본값 H+(3.5 GB)를 받으므로 꼭 붙인다. S 가중치는 97 MB이고, FoV 가중치(94 MB)는 모델을 만들 때 자동으로 받는다. 실행 전에 python -c로 torch.cuda.is_available()과 torch.cuda.is_bf16_supported()를 출력해 본다. 앞의 값이 False면 CPU torch가 깔린 것이다. 뒤의 값이 False면 --precision fp16을 붙인다. 사진에 35mm 환산 초점거리 EXIF 태그(FocalLengthIn35mmFilm)가 있으면 그 값을 쓰고 FoV 추정을 건너뛴다. 이 태그가 없으면 FoV를 추정한다. 어느 쪽이었는지는 CLI가 출력하는 'from EXIF' 또는 'estimated'로 확인한다. 표 2에서 H+의 Booster 정확도가 GT intrinsics 65.7에서 예측 intrinsics 43.1로 떨어지는 것을 보면 초점거리가 얼마나 중요한지 알 수 있다. 영상은 메모리가 부족하면 README 권고대로 --window를 먼저 줄인다. 참고할 메모리 수치는 모두 B200 기준이다. S는 32프레임 일괄 처리 시 720p 3.8 GiB, 1080p 8.0 GiB이고(표 13), H+는 720p 기본 창(N=16, K=4)에서 10.0 GiB다(E.3). 소비자 GPU 수치는 없으므로 720p 짧은 영상부터 시작한다. 결과 npz에서 하늘 픽셀은 수 km가 나올 수 있으니 범위를 잘라서 본다. Claude Code에는 이 명령을 감싸는 작은 스크립트 작성만 맡긴다. 그러면 추론 자체에는 토큰이 들지 않는다. 가중치는 비상업 연구 전용이라 개인 학습 용도로만 쓴다.",
+          "카드 검증 skill에 '평균 순위 대 개별 데이터셋' 확인 단계를 넣는다. 이번 논문은 표 2에서 평균 순위 2.4로 1위다. 하지만 GT intrinsics 기준 단독 1위는 11개 데이터셋 중 5개, 예측 intrinsics 기준 1위는 7개뿐이다. 'Pareto'라는 말은 전문에서 초록에만 한 번 나온다. 적대적 검증 subagent에게 전문을 통째로 읽히면 토큰이 많이 든다. 대신 arXiv HTML 표를 셀 단위로 뽑는 짧은 Python 스크립트를 skill 폴더에 둔다. 이 스크립트는 회색(#808080) 셀을 비 zero-shot으로 표시하고, 제안 방법 행과 열별 최고 baseline만 출력한다. SKILL.md 체크리스트에는 세 가지 규칙을 적는다. 첫째, 초록의 최상급 표현('all', 'Pareto', 'state of the art')은 전문에서 grep으로 등장 횟수를 센다. 둘째, '평균 순위 기준'과 '진 데이터셋 수'를 카드에 함께 쓴다. 셋째, 승패 개수는 눈으로 세지 말고 스크립트 출력으로 다시 센다. 표 2처럼 22개 열에 baseline이 10개면, 동점(Middlebury 73.9)과 회색 셀 제외를 손으로 처리하다 틀리기 쉽다.",
+          "prompt나 skill을 개선할 때는 기준선의 분산부터 잰다. 논문은 기준 A1만 seed 3개로 돌렸고, ARKitScenes metric delta1의 표준편차가 3.8이었다. 그리고 1 sigma를 넘는 차이에만 색을 칠했다. 그래서 I1(consistency 손실 제거)의 ARKitScenes +1.2는 잡음 범위다. 반면 jitter +0.05는 sigma 0.01보다 훨씬 커서 의미가 있다. 이 독자의 자기 개선 루프에 옮기면 이렇다. 새 prompt를 비교하기 전에 기존 prompt로 같은 논문 2-3편의 카드를 3번 생성한다. 그리고 검증 subagent의 점수(예: 오류 지적 개수)가 얼마나 흔들리는지 기록한다. 변경은 그 흔들림을 넘는 개선일 때만 채택하고, 결과를 파일 메모리에 남긴다. 다만 LLM 샘플링의 무작위성과 학습 seed의 무작위성은 같은 현상이 아니므로 이것은 비유다. 토큰 비용을 아끼려면 표본을 2-3편으로 작게 잡고, 판단이 애매한 변경에만 이 절차를 쓴다."
+        ],
+        "related_work": {
+          "prior": [
+            {
+              "title": "Depth Pro: Sharp Monocular Metric Depth in Less Than a Second",
+              "id": "arXiv 2410.02073 (ICLR 2025)",
+              "relation": "직접 계승하는 전작이다. 논문은 'We build on the Depth Pro approach'(2장), 'Following Depth Pro'(3.1절)라고 쓴다. 초점거리로 정규화한 역깊이, 별도 FoV 추정기, 경계 F1 지표와 평가셋을 이어받았다. E.1에서는 Depth Pro의 경계 손실(I2, I3)과 1536 리사이즈(E3)를 직접 ablation했고, 둘 다 경계 F1을 낮췄다. '후속'이라는 단어는 쓰지 않는다."
+            },
+            {
+              "title": "DINOv3",
+              "id": "arXiv 2508.10104",
+              "relation": "S, B, L, H+ 백본과 FoV 추정기(ViT-S/16)를 초기화한 사전학습 모델이다. 백본을 freeze하면(H2) 모든 지표가 나빠지고, DINOv2 ViT-L/14로 바꾸면(H1) ARKitScenes metric delta1이 -12.8 떨어진다(표 19)."
+            },
+            {
+              "title": "Depth Anything 3: Recovering the Visual Space from Any Views",
+              "id": "arXiv 2511.10647 (참고문헌 표기 ICLR 2026)",
+              "relation": "저자들이 'Most closely related'라고 부른 연구다. 토큰을 재배치해 사전학습 DINOv2 attention이 여러 시점을 가로지르게 한다. Depth Pro 2는 같은 발상에 원 해상도 metric 깊이 예측을 더했다. DA3-NGL은 주요 baseline이고, Spring에서는 학습 데이터 중복으로 회색 처리됐다."
+            },
+            {
+              "title": "VGGT: Visual Geometry Grounded Transformer",
+              "id": "arXiv 2503.11651 (CVPR 2025)",
+              "relation": "프레임 내부 self-attention과 프레임 간 attention을 번갈아 쓰는 구조의 출처 중 하나로 인용된다(3.1절, Wang et al. 2025a). VGGT-1B는 다중 프레임 baseline이다. 표 5 jitter는 Sintel 2.61, Spring 1.02다."
+            },
+            {
+              "title": "Video Depth Anything: Consistent Depth Estimation for Super-Long Videos",
+              "id": "arXiv 2501.12375 (CVPR 2025)",
+              "relation": "비디오 깊이 baseline VDA-L이다. 시간적 일관성이 강하다. 표 5 jitter는 Sintel 2.55, Spring 0.88로 H+(1.39, 0.86)와 Spring에서 비슷하다. TAE 평균 순위는 3.6으로 H+(3.8)보다 앞선다(표 12). 단일 이미지는 처리하지 못해 표 4(a)에서 빠졌다."
+            }
+          ],
+          "followup": []
+        },
+        "claude_note": "Depth Pro 2는 Depth Pro(2410.02073)의 초점거리 정규화 역깊이와 별도 FoV 추정기 방식을 이어받는다. 그 위에 DINOv3 기반 multi-view transformer를 얹어 이미지와 비디오를 한 네트워크로, 원 해상도에서 처리한다. 새로운 점은 세 가지다. 첫째, 프레임 간 attention이 사전학습 블록을 그대로 써서 새 파라미터가 없다. 이는 VGGT와 Depth Anything 3의 교차 attention 발상을 따른 것이다. 둘째, 포즈가 있는 데이터에만 거는 multi-view consistency 손실을 쓴다. 셋째, 리사이즈나 타일 없이 토큰 예산으로 원 해상도 학습을 한다. 평가 범위는 넓다. metric 정확도는 11개 zero-shot 데이터셋에서 10-11개 baseline과 비교했고, jitter는 Sintel과 Spring에서 24개 baseline과 비교했다. 그러나 증거의 강도는 고르지 않다. 평균 순위로는 표 2-5에서 H+가 1위다. 하지만 단일 이미지 단독 1위는 GT intrinsics 조건에서 11개 중 5개, 예측 intrinsics 조건에서 7개이고, TAE는 3위다. 통제 실험은 기준 A1만 seed 3개를 썼고, 나머지는 1회씩만 돌렸다. ARKitScenes 표준편차는 3.8이다. 학습 데이터 풀 프레임 수의 약 49%는 공개되지 않은 내부 데이터다. 실제 샘플링은 크기의 제곱근에 비례하므로 학습 비중은 이와 다르다. 내부 데이터를 빼면 ARKitScenes 점수가 45.2포인트 떨어진다. 헤드라인 수치는 조건에 묶여 있다. 53 fps는 S 모델을 B200에서 unbuffered로 돌리고 초점거리를 준 조건이다. 최고 품질은 8 fps인 H+에서 나온다. 'Pareto frontier'는 초록에만 있고, 이를 그린 그림은 없다. 인용할 때는 기준을 함께 적는다. 예를 들면 'H+가 저자 측정 zero-shot 평균 순위에서 metric 정확도, 경계 F1, jitter 1위'라고 쓰고, 속도에는 모델 크기와 GPU를 붙인다. 가중치는 비상업 연구 전용이고 학습 코드가 없다. 그래서 재현 대상이 아니라 추론 도구로 보는 것이 맞다. 공개 5일째라 후속 연구는 확인하지 못했다.",
+        "analyzed_at": "2026-11-24"
+      }
+    }
+  }
+}

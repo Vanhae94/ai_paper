@@ -1,0 +1,25 @@
+{
+  "week_id": "2026-W48",
+  "papers": {},
+  "week_summary": {
+    "headline_ko": "신작은 게임 VLA 에이전트 Gamer(▲157)와 깊이 추정 Depth Pro 2 — VLA 키워드는 2주 연속 서로 다른 논문으로 등장, 효율 카테고리 8주 연속은 끊기고 TradingAgents·Harness²는 6주 연속",
+    "clusters": [
+      {
+        "category": "LLM/Agents",
+        "paper_ranks": [
+          1,
+          4,
+          5,
+          6
+        ],
+        "theme_ko": "에이전트 4편 — 신작 게임 에이전트 Gamer와 재등장한 PaperOrchestra·Harness²·TradingAgents"
+      }
+    ],
+    "emerging_keywords": [
+      "vision-language-action"
+    ],
+    "narrative_ko": "이번 주 6편 중 신작은 W47에 이어 2편이다. 신작 Gamer(▲157)는 miHoYo 연구진이 주도해 키보드·마우스 궤적 사전학습과 다중 턴 RL로 만든 게임 VLA 에이전트이고(심층 분석상 사전학습 궤적은 수만 시간 원시 녹화에서 고른 약 2.4K시간이다), Depth Pro 2(▲37)는 이미지와 영상을 한 네트워크로 처리하는 단안 미터 깊이 추정 모델로 1차 카테고리가 비전인 논문은 W44 이후 처음이다. 재등장 쪽에서는 TradingAgents(▲169, 이번 주 최다)와 Harness²가 W43부터 6주 연속 올랐고, PaperOrchestra가 2주째(GitHub 스타 약 900 -> 6.2천), Unlimited OCR Works가 W45 이후 수집 2주 공백 뒤 돌아왔다. 반면 1차 카테고리가 효율·추론최적화인 Edge0가 빠지며 이 카테고리는 W40부터 이어진 8회 관측 연속이 끊겼고, 효율을 2차 카테고리로 단 TokenEconomizer도 빠졌다. 관심도 합계 560은 22회 관측 중 13위다.",
+    "recent_trend_ko": "누적 22회 관측 기준, vision-language-action 키워드가 W47 LingBot-Touch와 W48 Gamer로 2주 연속 서로 다른 논문에서 나와 부상 기준을 채웠지만, 하나는 로봇 손의 촉각이고 하나는 게임 속 키보드·마우스 조작이라 같은 흐름으로 묶기에는 이르다. LLM·에이전트는 2주 연속 6편 중 4편이고 22회 관측 내내 빠진 적이 없다. self-refinement는 W42부터 7회 연속이지만 W44~W48은 Harness² 한 편이고, agent-harness의 W43~W48 등장도 모두 Harness²다. 효율·추론최적화는 1차 카테고리 기준 W40~W47의 8회 연속 뒤 이번 주 0편이 됐고, moe-serving·edge-inference의 W41~W47 연속도 끊겼다. document-parsing·kv-cache는 Unlimited OCR Works의 재등장으로만 다시 나왔고, 데이터(Data)는 2주 연속 0편, financial-ai는 22회 중 21회 등장이다. 연속 등장 배지는 TradingAgents·Harness²(6주), PaperOrchestra(2주)에 붙는다.",
+    "caveats_ko": "주 6편의 HuggingFace 트렌딩 표본은 인기·최신성 편향을 강하게 받으며, 업보트와 GitHub 스타는 연구 중요도가 아닌 관심도 지표이고, W37·W39 미수집으로 추세 판정은 수집된 22회 관측끼리의 비교다. 신작 두 편은 심층 분석으로 원문과 저장소를 확인했다. Gamer는 공개 게임 벤치마크의 실시간 평균에서 1위지만(CPT 체크포인트 기준) GameWorld에서는 실시간에서도, 시간 정지 평가에서는 평균에서도 프런티어 모델이 앞서고, 초록의 '숙련 플레이어 수준'을 뒷받침하는 인간 비교 실험과 희소 사고의 절감량 수치가 없으며, Honkai Star Rail 데이터와 이를 학습한 체크포인트는 비공개다. Depth Pro 2의 우위는 최대 모델 H+의 저자 측정 zero-shot 데이터셋 평균 순위 기준이고 '파레토 경계' 주장은 초록에만 있으며, 가중치는 비상업 연구 전용이고 학습 데이터 풀의 상당 부분이 공개되지 않은 Apple 내부 데이터다. PaperOrchestra의 스타 급증 계기는 저장소에서 확인되지 않았다. 재등장한 4편은 기존 심층 분석의 조건을 따른다. PaperOrchestra는 사람 평가에서 AI 베이스라인은 앞섰지만 인간 원본에는 전체 품질 5% 대 81%로 뒤졌고(W47), Unlimited OCR Works의 '약 35% 빠름'은 이론 상한이며 실측 처리량 이득은 +12.7%이고(W45), Harness²의 이득은 Opus 4.8 편집기와 추가 실행을 쓰는 test-time 계산의 대가이며(W43), TradingAgents의 수익 지표는 3종목·약 5개월 백테스트 결과다(W31)."
+  }
+}
